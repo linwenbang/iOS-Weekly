@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Learn useful Xcode features with short videos.">
+    <meta name="keywords" content="hacking with swift, apple, developer, news, tutorials, swift, ios, macos, watchos, tvos, api, swift 4, swift 3, swift, tutorial, ios, ios 10, ios 11, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, watchkit">
+    <meta name="author" content="Paul Hudson @twostraws">
+    <title>Xcode tips and tricks – part one – Hacking with Swift</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Swift Developer News RSS feed" href="https://www.hackingwithswift.com/articles/rss" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /* NOTE: This was added October 12th 2018; can be removed safely in 60 days */
+        div.speaking h4 { 
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        /* NOTE: This was added January 21st 2019; can be removed safely in 60 days */
+        div.hws-sponsor {
+            border: 3px solid firebrick;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        div.hws-sponsor p {
+            margin: 0;
+        }
+
+        div.hws-sponsor a {
+            text-decoration: underline;
+        }
+    </style>
+
+    <meta property="og:image" content="https://www.hackingwithswift.com/uploads/xcode.jpg" />
+    <meta property="og:title" content="Xcode tips and tricks – part one" />
+    <meta property="og:description" content="Learn useful Xcode features with short videos." />
+    <meta property="og:url" content="https://www.hackingwithswift.com/articles/166/xcode-tips-and-tricks-part-one" />
+    <meta property="og:site_name" content="Hacking with Swift" />
+    <meta property="og:type" content="article" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twostraws" />
+    <meta name="twitter:title" content="Xcode tips and tricks – part one" />
+    <meta name="twitter:description" content="Learn useful Xcode features with short videos." />
+    <meta name="twitter:creator" content="@twostraws" />
+    <meta name="twitter:image" content="https://www.hackingwithswift.com/uploads/xcode.jpg" />
+    <meta name="twitter:domain" content="hackingwithswift.com" />
+    <meta name="twitter:dnt" content="on">
+
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Retina.js - Load first for faster HQ mobile images. -->
+    <script src="/js/plugins/retina/retina.min.js"></script>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/fontawesome-stars.css" />
+
+    <link href="/css/vitality-red.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/hws.css">
+    <!-- IE8 support for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="https://www.hackingwithswift.com/articles/166/xcode-tips-and-tricks-part-one" />
+</head>
+<!-- Alternate Body Classes: .modern and .vintage -->
+
+<body id="page-top">
+    <!-- Navigation -->
+    <!-- Note: navbar-default and navbar-inverse are both supported with this theme. -->
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+    
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <img src="/img/logo.png" class="img-responsive" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/articles">Articles</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Learn <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/career-guide">Swift Career Guide</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/sixty">Swift in Sixty Seconds</a></li>
+                        <li><a href="/read">Hacking with Swift</a></li>
+                        <li><a href="/example-code">Swift Example Code</a></li>
+                        <li><a href="/store">Buy Books and Videos</a></li>
+                        <li><a href="/playgrounds">Swift Playgrounds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/review">Interactive Review</a></li>
+                        <li><a href="/interview-questions">Interview Questions</a></li>
+                        <li><a href="/test">Test your Swift</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/awards">Swift Community Awards</a></li>
+                        <li><a href="/articles">Latest News</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/glossary">Glossary of terms</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/store">See the range</a></li>
+                        <li><a href="/reviews">Reviews</a></li>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/frequent-flyer">Frequent Flyer Club</a></li>
+                        <li><a href="/update-policy">Update Policy</a></li>
+                        <li><a href="/ibooks">Buy on iBooks</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/about">About Hacking with Swift</a></li>
+                        <li><a href="/speaking">Conference Talks</a></li>
+                      </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+        <skybar id="latestTutorial">
+    <div class="container" style="background-color: firebrick; margin: 0; width: 100%;">
+         <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="/100" style="color: white;" target="_blank"><span class="pure-evil">FREE:</span> <strong>Follow my new 100 Days of Swift challenge!</strong> &gt;&gt;</a></p>
+
+<!--
+        <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="http://anchor.fm/swiftovercoffee" target="_blank" style="color: white;"><span class="pure-evil">NEW:</span> <strong>Check out my podcast with Sean Allen, Swift over Coffee!</strong> &gt;&gt;</a></p>
+-->
+    </div>
+</skybar>
+
+    
+
+    
+    <section class="read">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-top">
+	
+<a href="/store/?source=buy-2"><img src="/assets/notice-buy-2.png" style="border: 1px solid black;" class="img-responsive center-block" /></a>
+
+
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="9393216522"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style="margin: 10px 0 0 0;">Xcode tips and tricks – part one</h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="margin: 0;"><a href="/about">Paul Hudson</a> &nbsp;&nbsp; <time itemprop="dateModified" datetime="2019-02-09T21:11:31+00:00">February 9th 2019</time>
+<meta itemprop="datePublished" content="2019-01-10T17:29:22+00:00"> &nbsp;&nbsp; <i class="fa fa-twitter" aria-hidden="true" style="color: #4099ff"></i> <a href="https://twitter.com/twostraws" target="_blank">@twostraws</a></p>
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <img src="/uploads/xcode.jpg" class="img-responsive" style="width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #dcdcdc;" />
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <p>This is part one of a series on Xcode tips and tricks, this time covering faster testing, generating, interfaces, identifying constraints, and more!</p>
+<ol>
+<li>Xcode tips and tricks – part one</li>
+<li><a href="/articles/168/xcode-tips-and-tricks-part-two">Xcode tips and tricks – part two</a></li>
+<li><a href="/articles/171/xcode-tips-and-tricks-part-three">Xcode tips and tricks – part three</a></li>
+<li><a href="/articles/176/xcode-tips-and-tricks-part-four">Xcode tips and tricks – part four</a></li>
+</ol>
+<hr />
+<p>Xcode is a fantastic tool, but it’s so big it can be hard to keep track of all the things it can do. To help resolve that situation, below you can find a selection of Xcode tips and tricks that you might find useful. If you have some favorite Xcode tips of your own, <a rel="nofollow" target="_blank" href="https://twitter.com/twostraws">let me know on Twitter</a>!</p>
+<h3 style="font-weight: normal; margin-top: 60px;">1. Regex searching</h3>
+<p>Xcode lets you search through your project using regular expressions. To try it out, go to the Find navigator, click Text, then choose Regular Expression. Now you can search and replace code using whatever regex you like.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/CvVkR5z65XU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">2. Faster Testing</h3>
+<p>When using TDD you can work more quickly by running a subset of tests – press ⌃⌥⌘G to re-run only your last test, or ⌘-click several tests to run only them.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/qy59rzwVccU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">3. Layout stress testing</h3>
+<p>When using IB in the assistant editor, change Automatic to Preview then change the language from English to Double-Length Pseudolanguage. This will cause every word in your UI to be repeated, letting you make sure it all fits.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/y5jmVmXvodQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">4. Opening Xcode</h3>
+<p>If you’re in a folder that has both a workspace and a project, use “xed .” to open the workspace in Xcode. If there were only a project, that would have been opened instead.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/Nc75e41p44Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">5. Generated interfaces</h3>
+<p>If you're looking at a Swift data type and just want a summary of what it does, press ⌃⌘↑ to have Xcode generate an interface showing only its external properties and methods.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/7lPjJAwcfR4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">6. Filtering the jump bar</h3>
+<p>If you find Xcode's jump bar a little long, try filtering it. After pressing ⌃6 to bring up the jump bar, you can start typing a few letters to filter all your properties and methods using a fuzzy search.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/wTkEnSkn--Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">7. Clearing up space</h3>
+<p>If you’ve been using Xcode for a few years, you should run “xcrun simctl delete unavailable” to remove any old simulators that are no longer supported. It's common to save 20-60GB with that one command!</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/UarowoOQ5-c" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">8. Watchpoints</h3>
+<p>When your program is paused, right-click on a variable and choose Watch. The next time that variable changes, you can step back one frame to see where it happened.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/6OlaxHdJn3o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">9. Identifying constraints</h3>
+<p>It’s common to see lots of output in Xcode’s log when you have an Auto Layout problem, but if you add identifiers to your constraint you’ll get more helpful messages – easy to do in both Interface Builder and code!</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/ThXyz8YnBCs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<h3 style="font-weight: normal; margin-top: 60px;">10. Measuring build time</h3>
+<p>If you've ever wondered how long it takes for Xcode to build your project, you can find out with one Terminal command.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/m2DqvdrG8dI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><!-- <div class="hws-sponsor"><p><strong class="label label-danger">Sponsored</strong> You’re already busy updating your app for Swift 4.2 and iOS 12, so why not let Instabug help you find and fix bugs? <strong>Add just two lines of code</strong> to your project and receive comprehensive reports with all the feedback you need to ship a world-class app – <a href="https://try.instabug.com/ios/?utm_source=hackingwithswift&utm_medium=native_ads&utm_campaign=hackingwithswiftv3">click here to learn more</a>!</div> --><p align="center" style="margin: 30px;"><a href="https://twitter.com/share" data-dnt="true" class="twitter-share-button" data-url="https://www.hackingwithswift.com/articles/166/xcode-tips-and-tricks-part-one" data-text="Xcode tips and tricks – part one – Learn useful Xcode features with short videos." data-via="twostraws" data-size="large" data-hashtags="swiftlang" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p><p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                                <style>
+                    div.books-sidebar {
+                        text-align: center;
+                        padding-top: 5px
+                    }
+
+                    div.books-sidebar img {
+                        border: 1px solid #cccccc;
+                        margin-bottom: 5px;
+                    }
+
+                    @media (max-width: 991px) {
+                        div.books-sidebar {
+                            display: none;
+                        }
+                    }
+                </style>
+
+                <div class="col-md-3" style="padding: 0; padding-top: 20px;">
+                    <div class="books-sidebar" style="text-align: center;">
+                        <strong>MASTER SWIFT NOW</strong>
+                    </div>
+                    <div class="books-sidebar">
+                        <a href="/store/testing-swift"><img src="/img/covers-flat/testing.png" alt="Buy Testing Swift" width="95" /></a>
+                        <a href="/store/practical-ios12"><img src="/img/covers-flat/ios12.png" alt="Buy Practical iOS 12" width="95" /></a>
+                        <a href="/store/pro-swift"><img src="/img/covers-flat/pro-swift.png" alt="Buy Pro Swift" width="95" /></a>
+                        <a href="/store/swift-design-patterns"><img src="/img/covers-flat/patterns.png" alt="Buy Swift Design Patterns" width="95" /></a>
+                        <a href="/store/swift-coding-challenges"><img src="/img/covers-flat/swiftcc.png" alt="Buy Swift Coding Challenges" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/vapor.png" alt="Buy Server-Side Swift (Vapor Edition)" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/kitura.png" alt="Buy Server-Side Swift (Kitura Edition)" width="95" /></a>
+                        <a href="/store/hacking-with-macos"><img src="/img/covers-flat/macos.png" alt="Buy Hacking with macOS" width="95" /></a>
+                        <a href="/store/advanced-ios-1"><img src="/img/covers-flat/advanced-ios-1.png" alt="Buy Advanced iOS Volume One" width="95" /></a>
+                        <a href="/store/advanced-ios-2"><img src="/img/covers-flat/advanced-ios-2.png" alt="Buy Advanced iOS Volume Two" width="95" /></a>                        
+                        <a href="/store/hacking-with-watchos"><img src="/img/covers-flat/watchos.png" alt="Buy Hacking with watchOS" width="95" /></a>
+                        <a href="/store/hacking-with-tvos"><img src="/img/covers-flat/tvos.png" alt="Buy Hacking with tvOS" width="95" /></a>
+                        <a href="/store/hacking-with-swift"><img src="/img/covers-flat/hws.png" alt="Buy Hacking with Swift" width="95" /></a>
+                        <a href="/store/dive-into-spritekit"><img src="/img/covers-flat/spritekit.png" alt="Buy Dive Into SpriteKit" width="95" /></a>
+                        <a href="/sixty"><img src="/img/covers-flat/sixty.png" alt="Buy Swift in Sixty Seconds" width="95" /></a>
+                        <a href="/store/objective-c-for-swift-developers"><img src="/img/covers-flat/objc.png" alt="Buy Objective-C for Swift Developers" width="95" /></a>
+                        <a href="/store/beyond-code"><img src="/img/covers-flat/beyond-code.png" alt="Buy Beyond Code" width="95" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+            <div class="row">
+    <div class="col-sm-1" style="text-align: left;"></div>
+    <div class="col-sm-2">
+        <p style="text-align: center;"><img src="/img/paul.png" class="img-responsive" style="border-radius: 64px; border: 1px solid black; margin: auto;" /></p>
+        <p style="text-align: center;"><a href="https://twitter.com/twostraws">@twostraws</a></p>
+    </div>
+    <div class="col-sm-8" style="text-align: left;"><h3 style="margin: 0">About the author</h3><p>Paul Hudson is the creator of Hacking with Swift, the <a href="/store">most comprehensive series of Swift books</a> in the world. He's also the editor of <a href="/articles">Swift Developer News</a>, the maintainer of the <a href="/example-code">Swift Knowledge Base</a>, and Mario Kart world champion. OK, so that last part isn't true. If you're curious you can <a href="/about">learn more here</a>.</p></div>
+    <div class="col-sm-1" style="text-align: left;"></div>
+</div>            </div>
+
+            <div class="row" style="margin-top: 40px">            
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="margin-bottom: 10px;"><a href="/articles">More articles</a></p>
+                </div>
+
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="text-align: right; margin-bottom: 10px;"><img src="/img/feed.png" style="height: 22px; vertical-align: middle; margin-bottom: 4px;" /> <a href="/articles/rss">
+                    RSS feed</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/183/apple-announces-swift-enterprise-edition">
+                            <img src="/uploads/enterprise.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Apple announces Swift Enterprise Edition</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/182/whats-new-in-swift-5-1">
+                            <img src="/uploads/swift-evolution-1.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>What’s new in Swift 5.1</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/181/why-using-isempty-is-faster-than-checking-count-0">
+                            <img src="/uploads/typography.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Why using isEmpty is faster than checking count == 0</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/180/interview-antoine-van-der-lee">
+                            <img src="/uploads/zz-antoine-van-der-lee.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Interview: Antoine van der Lee</h4>
+                            </div>
+                        </a>
+                    </div>
+                            </div>
+
+            <div class="row" style="margin-bottom: 80px;">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-bottom">
+	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="1869949723"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </section>
+
+
+            <section class="page-rating-container bg-gray">
+        <div class="container text-center">
+            <div class="row">
+                <div id="page-rating-start">
+                  <p>Was this page useful? Let me know!</p>
+                	<select id="page-rating">
+                      <option value=""></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                </div>
+
+                                <p><small>Average rating: 5.0/5</small></p>
+                
+                <div id="page-rating-end" style="display: none">
+                    <p>Thank you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="application/ld+json">{
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "Paul Hudson",
+      "datePublished": "2019-01-10",
+      "dateModified": "2019-02-09",
+      "headline": "Xcode tips and tricks – part one",
+      "image": {
+        "@type": "imageObject",
+        "url": "https://www.hackingwithswift.com/uploads/xcode.jpg"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "worstRating": "1.0",
+            "bestRating": "5.0",
+            "reviewCount": "11"
+        },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hacking with Swift",
+        "logo": {
+          "@type": "imageObject",
+            "url": "https://www.hackingwithswift.com/files/logo-large.png"
+          }
+        }
+      }
+    </script>
+    
+    
+        <a href="/store" class="btn btn-block btn-full-width" style="white-space: normal;">Click here to visit the Hacking with Swift store &gt;&gt;</a>
+    
+    <footer class="footer" style="background-image: url('/img/bg-footer.jpg')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 contact-details">
+                    <a href="https://twitter.com/twostraws">
+                        <h4><i class="fa fa-twitter fa-4x"></i></h4>
+                        <p>@twostraws</p>
+                    </a>
+                </div>
+                <div class="col-md-6 contact-details">
+                    <a href="mailto:paul@hackingwithswift.com">
+                        <h4><i class="fa fa-envelope-o fa-4x"></i></h4>
+                        <p>paul@hackingwithswift.com
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-lg-12">
+                    <p class="small">Swift, the Swift logo, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright &copy; 1994 Miramax Films. Hacking with Swift &copy;2019 Paul Hudson.</p>
+
+                    <p class="small"><a href="/privacy">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Scripts -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui-custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Plugin Scripts -->
+    <script src="/js/plugins/jquery.easing.min.js"></script>
+    <script src="/js/plugins/classie.js"></script>
+
+    
+    <script src="/js/plugins/jquery.mixitup.js"></script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/vitality.js"></script>
+
+    <script src="/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript">
+       $(function() {
+            $('#page-rating').barrating('show', {
+              theme: 'fontawesome-stars',
+              onSelect: function(value, text, event) {
+                if (typeof(event) !== 'undefined') {
+                  // rating was selected by a user
+                  var rating = $(event.target).data("rating-value");
+
+                    $.ajax({
+                      type: "POST",
+                      url: "/rating",
+                      data: { "url": window.location.pathname, "rating": rating },
+                    });
+
+                  $("#page-rating-start").hide();
+                  $("#page-rating-end").show();
+                } else {
+                  // rating was selected programmatically
+                  // by calling `set` method
+                }
+              }
+            });
+       });
+    </script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58275818-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!--     { { include('house-ads.html') } }
+
+    <script src="/js/ads.js"></script>
+    <script>
+    if(window.areAdsDisplayed === undefined) {
+        var houseAd = createHouseAd();
+        $('.hws-notices-top').html(houseAd);
+        $('.hws-notices-bottom').html(houseAd);
+    }
+    </script> -->
+
+    </body>
+
+</html>

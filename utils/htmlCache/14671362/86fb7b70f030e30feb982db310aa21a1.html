@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang=zh-CN data-vue-meta-server-rendered><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"><meta name=google-site-verification content=cCHsgG9ktuCTgWgYfqCJql8AeR4gAne4DTZqztPoirE><meta name=apple-itunes-app content="app-id=987739104"><meta name=baidu-site-verification content=qiK2a1kcFc><meta name=360-site-verification content=4c3c7d57d59f0e1a308462fbc7fd7e51><meta name=sogou_site_verification content=c49WUDZczQ><style>body {
+        font-size: 16px;
+        line-height: 2;
+      }
+      a, button, input {
+        margin: 1rem 1.5rem;
+      }
+      img {
+        width: 0;
+        height: 0;
+      }
+      #juejin {
+        overflow-x: hidden;
+      }</style><meta data-vue-meta="true" data-vmid="keywords" name="keywords" content="GitHub,Apple,Xcode"/><meta data-vue-meta="true" data-vmid="description" name="description" content="直接看拍照聚焦和曝光 上手就用 AVKit 搞音视频。灵活的控制，就要用到 AVFoundation 要点： 使用资源（一般指照片库里面的视频，图片，live photo）， 播放， 编辑， 捕捉（拍照和录视频） 导出资源（把处理编辑过的资源，拍的照片，编"/><title data-vue-meta="true">拍照聚焦和曝光，AVFoundation 简明教程 - 掘金</title><link rel=apple-touch-icon sizes=180x180 href=https://b-gold-cdn.xitu.io/favicons/v2/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-16x16.png><link rel=manifest href=https://b-gold-cdn.xitu.io/favicons/v2/manifest.json><link rel=mask-icon href=https://b-gold-cdn.xitu.io/favicons/v2/safari-pinned-tab.svg color=#5bbad5><link rel="shortcut icon" href=https://b-gold-cdn.xitu.io/favicons/v2/favicon.ico><meta name=msapplication-config content=https://b-gold-cdn.xitu.io/favicons/v2/browserconfig.xml><meta name=theme-color content=#ffffff><link rel=search title=掘金 href=https://b-gold-cdn.xitu.io/conf/search.xml type=application/opensearchdescription+xml><link rel=stylesheet href=https://b-gold-cdn.xitu.io/ionicons/2.0.1/css/ionicons.min.css><link rel=stylesheet href=https://b-gold-cdn.xitu.io/asset/fw-icon/1.0.9/iconfont.css><link href=https://b-gold-cdn.xitu.io/v3/static/css/0.e5e86c9ed32911840313.css rel=stylesheet></head><body><div id="juejin" data-server-rendered="true" data-v-514f306c><div class="global-component-box" data-v-514f306c><!----><!----><!----><!----><!----><div class="emoji-barrage" data-v-82f90922 data-v-514f306c><!----></div><div class="book-new-user-award-popup" style="display:none;" data-v-13de706c data-v-514f306c><div class="content-box" style="display:;" data-v-13de706c><div class="close ion-close-round" data-v-13de706c></div><div class="header" data-v-13de706c><div class="icon" data-v-13de706c><img src="https://b-gold-cdn.xitu.io/v3/static/img/icon.a87e5ae.svg" data-v-13de706c></div><div class="txt" data-v-13de706c>新人专享好礼</div></div><div class="desc" data-v-13de706c>凡未购买过小册的用户，均可领取三张 5 折新人专享券，购买小册时自动使用专享券，最高可节省 45 元。</div><div class="tickets" data-v-13de706c><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div></div><div class="remark" data-v-13de706c>注：专享券的使用期限在领券的七天内。</div><div class="submit-btn" data-v-13de706c>一键领取</div></div><div class="model success" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取成功</div><div class="content-text" data-v-13de706c>购买小册时自动使用专享券</div><div class="btn-success-footer" data-v-13de706c><div class="btn-ok" data-v-13de706c>知道了</div><div class="btn-ok btn-link" data-v-13de706c>前往小册首页</div></div></div><div class="model fail" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取失败</div><div class="content-text" data-v-13de706c>本活动仅适用于小册新用户</div><div class="btn-ok" data-v-13de706c>知道了</div></div></div><!----></div><!----><div class="view-container" data-v-d4ff273a data-v-49e91c4b data-v-514f306c><div class="main-header-box" data-v-d4ff273a><header class="main-header main-header unauthorized visible" data-v-f41b678e data-v-d4ff273a><div class="container" data-v-f41b678e><a href="/" class="logo" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg" alt="掘金" class="logo-img" data-v-f41b678e></a><nav role="navigation" class="main-nav" data-v-f41b678e><ul class="nav-list" data-v-f41b678e><li class="main-nav-list" data-v-f41b678e><div class="phone-show-menu" data-v-f41b678e><span data-v-f41b678e>首页</span><div class="icon ion-arrow-down-b" data-v-f41b678e></div></div><ul class="phone-hide" data-v-f41b678e><li class="nav-item link-item route-active" data-v-f41b678e><a href="/" data-v-f41b678e>首页</a></li><li class="nav-item link-item activities" data-v-f41b678e><a href="/activities" data-v-f41b678e>动态</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/topics" data-v-f41b678e>话题</a></li><li class="nav-item link-item book" data-v-f41b678e><a href="/books" data-v-f41b678e>小册</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/events/all" data-v-f41b678e>活动</a></li></ul></li><li class="nav-item search" data-v-f41b678e><form role="search" class="search-form" data-v-f41b678e><input maxlength="32" placeholder="搜索更新啦" value="" class="search-input" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/juejin-search-icon.6f8ba1b.svg" alt="搜索" class="search-icon" data-v-f41b678e></form></li><!----><!----><!----><li class="nav-item submit" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/submit-icon.53f4253.svg" class="icon" data-v-f41b678e><span data-v-f41b678e>写文章</span><!----></li><li class="nav-item auth" data-v-f41b678e><span class="login" data-v-f41b678e>登录</span><span class="register" data-v-f41b678e>注册</span></li></ul></nav></div></header></div><main class="container main-container" style="max-width:;" data-v-d4ff273a><div class="view column-view" data-v-d4ff273a data-v-49e91c4b><div class="main-area article-area shadow" data-v-d4ff273a data-v-49e91c4b><article itemscope="itemscope" itemtype="http://schema.org/Article" class="article" data-v-49e91c4b><meta itemprop="url" content="https://juejin.im/post/5bc2123ee51d450e6c75157d"><meta itemprop="headline" content="拍照聚焦和曝光，AVFoundation 简明教程"><meta itemprop="keywords" content="GitHub,Apple,Xcode"><meta itemprop="datePublished" content="2018-10-13T15:58:02.912Z"><meta itemprop="image" content="https://b-gold-cdn.xitu.io/icon/icon-128.png"><div itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="name" content="邓轻舟"><meta itemprop="url" content="https://juejin.im/user/599fe9216fb9a0249d616ba8"></div><div itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="掘金"><div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://b-gold-cdn.xitu.io/icon/icon-white-180.png"><meta itemprop="width" content="180"><meta itemprop="height" content="180"></div></div><div class="author-info-block" data-v-49e91c4b><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" class="avatar-link" data-v-49e91c4b><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-49e91c4b></div></a><div class="author-info-box" data-v-49e91c4b><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" class="username ellipsis" data-v-49e91c4b></a><div class="meta-box" data-v-49e91c4b><time datetime="2018-10-13T15:58:02.912Z" title="Sat Oct 13 2018 23:58:02 GMT+0800 (China Standard Time)" class="time" data-v-49e91c4b>2018年10月13日</time><span class="views-count" data-v-49e91c4b>阅读 984</span><!----></div></div><!----></div><!----><h1 class="article-title" data-v-49e91c4b>拍照聚焦和曝光，AVFoundation 简明教程</h1><div data-id="5bc2160a5188255c81391a37" itemprop="articleBody" class="article-content" data-v-49e91c4b><p></p><figure><img alt="拍照流程图" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/11/1/166cce66a9d390cd?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1280" data-height="828"><figcaption></figcaption></figure><p></p>
+<p>直接看<a target="_blank" href="https://juejin.im/post/5bc2123ee51d450e6c75157d/#heading-13" rel="">拍照聚焦和曝光</a></p>
+<p>上手就用 AVKit 搞音视频。灵活的控制，就要用到 AVFoundation</p>
+<hr>
+<h2 class="heading" data-id="heading-0">要点：</h2>
+<ul>
+<li>使用资源（一般指照片库里面的视频，图片，live photo），</li>
+<li>播放，</li>
+<li>编辑，</li>
+<li>捕捉（拍照和录视频）</li>
+<li>导出资源（把处理编辑过的资源，拍的照片，编辑的视频，导出到相册）</li>
+</ul>
+<hr>
+<p>AVFoundation , 视频的加载与导出，大量使用异步。
+简单的发消息， 肯定是不行的。阻塞当前线程, 造成卡顿。
+AVFoundation 就是为了充分利用64位的硬件和多线程设计的。</p>
+<hr>
+<h4 class="heading" data-id="heading-1">首先是播放，</h4>
+<p>播放本地的视频文件， 和远程的视频与流媒体。</p>
+<h2 class="heading" data-id="heading-2">本地文件，单个播放</h2>
+<p>先讲 AVKit 里面的 AVPlayerViewController.
+AVPlayerViewController 是 ViewController 的子类，</p>
+<p></p><figure><img alt="AVPlayerViewController" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/10/13/1666e177a23fe019?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1240" data-height="561"><figcaption></figcaption></figure><p></p>
+<p>AVPlayerViewController 在 TV OS 上，非常强大。（本文仅介绍 iOS 平台下）</p>
+<p>苹果自带的 AVPlayerViewController 里面有很多播放的控件。
+回播中，就是播放本地文件中，可以播放、暂停、快进、快退，调整视频的长宽比例（ 即画面在屏幕中适中，或者铺满屏幕）。</p>
+<p>播放视频，苹果设计的很简单，代码如下:</p>
+<pre><code class="copyable">    //  拿一个 url , 建立一个 AVPlayer 实例
+    let player = AVPlayer(url: "你的 url")
+    //  再建立一个 AVPlayerViewController 实例
+    let playerViewController = AVPlayerViewController()
+    playerViewController.player = queuePlayer
+    present(playerViewController, animated: true) {
+        playerViewController.player!.play()
+    }// 这里有一个闭包， 界面出现了，再播放。
+<span class="copy-code-btn">复制代码</span></code></pre>
+<h4 class="heading" data-id="heading-3">本地文件，多个连续播放</h4>
+<p>连着放，使用 AVQueuePlayer，把多个视频放在一个视频队列中，依次连续播放
+AVQueuePlayer 是 AVPlayer 的子类。
+按顺序，播放多个资源。
+</p><figure><img alt="AVQueuePlayer" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/10/13/1666e177a2296dc0?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1240" data-height="523"><figcaption></figcaption></figure><p></p>
+<p>AVPlayerItem 包含很多视频资源信息，除了资源定位 URI , 还有轨迹信息，视频的持续时长等。</p>
+<p>苹果文档上说， AVPlayerItem 用于管理播放器播放的资源的计时和呈现状态。他有一个 AVAsset 播放资源的属性。</p>
+<pre><code class="copyable">   var queue = [AVPlayerItem]()   
+   let videoClip = AVPlayerItem(url: url)
+   queue.append(videoClip)
+    //   queue 队列可以继续添加 AVPlayerItem 实例
+    let queuePlayer = AVQueuePlayer(items: queue)
+
+    let playerViewController = AVPlayerViewController()
+    playerViewController.player = queuePlayer
+    
+    present(playerViewController, animated: true) {
+        playerViewController.player!.play()
+    }
+<span class="copy-code-btn">复制代码</span></code></pre>
+<h4 class="heading" data-id="heading-4">iPad 中的画中画功能</h4>
+<p>iPad 中的画中画功能，通过给 AVAudioSession 支持后台音效，
+在 <code>Appdelegate</code> 的 <code>didFinishLaunchingWithOptions</code> 中添加下面的这段代码，使用后台模式，
+首先在Xcode 的 target 的 Capability 中勾选相关的后台功能。</p>
+<pre><code class="copyable">    let session = AVAudioSession.sharedInstance()
+    do {
+        try session.setCategory(AVAudioSessionCategoryPlayback)
+        try session.setActive(true)
+    } catch let error {
+        print("AVFoundation configuration error: \(error.localizedDescription) \n\n AV 配置 有问题")
+    }
+    // 很有必要这样，因为画中画的视频功能，apple 是当后台任务处理的。
+<span class="copy-code-btn">复制代码</span></code></pre>
+<h4 class="heading" data-id="heading-5">流媒体播放和网络视频播放</h4>
+<p>本地的资源路径 URL ，替换为网络的 URL, 就可以了。</p>
+<h3 class="heading" data-id="heading-6">优化，播放完成后，退出播放界面</h3>
+<pre><code class="hljs bash copyable" lang="bash">   override func <span class="hljs-function"><span class="hljs-title">viewDidLoad</span></span>() {
+        super.viewDidLoad()
+        // 添加播放完成的监听
+        NotificationCenter.default.addObserver(self, selector: <span class="hljs-comment">#selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)</span>
+    }
+
+  //  执行退出的界面控制
+   @objc func <span class="hljs-function"><span class="hljs-title">playerItemDidReachEnd</span></span>(){
+        self.presentedViewController?.dismiss(animated: <span class="hljs-literal">true</span>, completion: {})
+    }
+<span class="copy-code-btn">复制代码</span></code></pre><h2 class="heading" data-id="heading-7">接着来， 拍照， 设置捕捉的 session ，并实时预览。</h2>
+<p>设置前后摄像头，聚焦与曝光，拍照（静态图片）</p>
+<p>摄像用到的核心类是 AVCaptureSession ，应用和 iOS 建立一个视频流的会话。
+AVCaptureSession 作为调度中心， 控制设备的输入/输出流， 具体就是相机和麦克风。</p>
+<p>AVCaptureDeviceInput 类是视频流的输入源，预览界面呈现的就是他的数据，导出的视频文件也是他负责的。
+视频流 session 对象生成后，可以重新配置。这就可以动态修改视频流 session 的配置信息。视频流 session 的输入输出的路由，也可以动态改。例如，只需要一个 session. 可以通过 AVCapturePhotoOutput 导出照片，可以导出视频文件 AVCaptureMovieFileOutput.</p>
+<h4 class="heading" data-id="heading-8">开启视频会话</h4>
+<p>captureSession.startRunning() 之前，先要添加输入 AVCaptureDeviceInput 和输出 AVCapturePhotoOutput/AVCaptureMovieFileOutput，准备预览界面 AVCaptureVideoPreviewLayer</p>
+<pre><code class="hljs bash copyable" lang="bash">// 有一个 captureSession 对象
+<span class="hljs-built_in">let</span> captureSession = AVCaptureSession()
+// 两个输出，输出照片， 和输出视频
+<span class="hljs-built_in">let</span> imageOutput = AVCapturePhotoOutput()
+<span class="hljs-built_in">let</span> movieOutput = AVCaptureMovieFileOutput()
+
+func setupSession() -&gt; Bool{
+        captureSession.sessionPreset = AVCaptureSession.Preset.high
+        // 首先设置 session 的分辨率 。sessionPreset 属性，设置了输出的视频的质量   
+        <span class="hljs-built_in">let</span> camera = AVCaptureDevice.default(<span class="hljs-keyword">for</span>: .video)
+        // 默认的相机是 back-facing camera 朝前方拍摄， 不是自拍的。
+
+        <span class="hljs-keyword">do</span> {
+            <span class="hljs-built_in">let</span> input = try AVCaptureDeviceInput(device: camera!)
+            <span class="hljs-keyword">if</span> captureSession.canAddInput(input){
+                captureSession.addInput(input)
+                activeInput = input
+                // 添加拍照， 录像的输入
+            }
+        } catch {
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error settings device input: \(error)"</span>)
+            <span class="hljs-built_in">return</span> <span class="hljs-literal">false</span>
+        }
+        
+        // 设置麦克风
+        <span class="hljs-built_in">let</span> microphone = AVCaptureDevice.default(<span class="hljs-keyword">for</span>: .audio)
+        <span class="hljs-keyword">do</span>{
+            <span class="hljs-built_in">let</span> micInput = try AVCaptureDeviceInput(device: microphone!)
+            <span class="hljs-keyword">if</span> captureSession.canAddInput(micInput){
+                captureSession.addInput(micInput)
+                //   添加麦克风的输入
+            }
+        }catch{
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error setting device audio input: \(String(describing: error.localizedDescription))"</span>)
+            fatalError(<span class="hljs-string">"Mic"</span>)
+        }
+        
+        //  添加两个输出，输出照片， 和输出视频
+        <span class="hljs-keyword">if</span> captureSession.canAddOutput(imageOutput){
+            captureSession.addOutput(imageOutput)
+        }
+        <span class="hljs-keyword">if</span> captureSession.canAddOutput(movieOutput){
+            captureSession.addOutput(movieOutput)
+        }
+        <span class="hljs-built_in">return</span> <span class="hljs-literal">true</span>
+    }
+<span class="copy-code-btn">复制代码</span></code></pre><h5 class="heading" data-id="heading-9">设置视频会话的预览界面</h5>
+<p>AVCaptureVideoPreviewLayer 是 CALayer 的子类，用于展示相机拍的界面。</p>
+<pre><code class="hljs bash copyable" lang="bash">    func <span class="hljs-function"><span class="hljs-title">setupPreview</span></span>() {
+        // 配置预览界面 previewLayer
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        // previewLayeris 通过 captureSession 初始化  
+        // 再设置相关属性， 尺寸和视频播放时的拉伸方式 videoGravity
+        previewLayer.frame = camPreview.bounds
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        camPreview.layer.addSublayer(previewLayer)
+       //  camPreview 是一个 UIView ,铺在 self.view 上面
+}
+<span class="copy-code-btn">复制代码</span></code></pre><h5 class="heading" data-id="heading-10">拍， startSession</h5>
+<p>启动视频流的方法，启动了，就不用管。没启动，就处理。
+启动视频流是耗时操作，为不阻塞主线程，一般用系统默认线程队列作异步。</p>
+<pre><code class="hljs bash copyable" lang="bash"><span class="hljs-built_in">let</span> videoQueue = DispatchQueue.global(qos: .default)
+
+func <span class="hljs-function"><span class="hljs-title">startSession</span></span>(){
+        <span class="hljs-keyword">if</span> !captureSession.isRunning{
+            videoQueue.async {
+                self.captureSession.startRunning()
+            }
+        }
+    }
+<span class="copy-code-btn">复制代码</span></code></pre><h3 class="heading" data-id="heading-11">拍照片，下面的代码是拍摄静态照片 JPEG，不是 Live Photo.</h3>
+<pre><code class="hljs bash copyable" lang="bash">var outputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+    //  静态图的配置
+
+   func <span class="hljs-function"><span class="hljs-title">capturePhoto</span></span>() {
+        guard PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized <span class="hljs-keyword">else</span>{
+            PHPhotoLibrary.requestAuthorization(requestAuthorizationHander)
+            <span class="hljs-built_in">return</span>
+        }
+        <span class="hljs-built_in">let</span> settings = AVCapturePhotoSettings(from: outputSetting)
+        imageOutput.capturePhoto(with: settings, delegate: self)
+    //  imageOutput 输出流里面的采样缓冲中，捕获出静态图
+    }
+
+extension ViewController: AVCapturePhotoCaptureDelegate{
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+//  如果视频流的采样缓冲里面有数据，就拆包
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">let</span> imageData = photo.<span class="hljs-function"><span class="hljs-title">fileDataRepresentation</span></span>(){
+            <span class="hljs-built_in">let</span> image = UIImage(data: imageData)
+            <span class="hljs-built_in">let</span> photoBomb = image?.penguinPhotoBomb(image: image!)
+            self.savePhotoToLibrary(image: photoBomb!)
+            //  最后，合成照片保存到系统相册
+            //  这里有一个照片合成，具体见下面的 Github Repo.
+        }
+        <span class="hljs-keyword">else</span>{
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error capturing photo: \(String(describing: error?.localizedDescription))"</span>)
+        }
+    }
+}
+<span class="copy-code-btn">复制代码</span></code></pre><h3 class="heading" data-id="heading-12">到自拍了，就是支持前置摄像头，front-facing camera.</h3>
+<p>首先，要确认手机要有多个摄像头。有多个，才可以切换摄像头输入。
+具体套路就是开始配置，修改，与提交修改。</p>
+<p>captureSession.beginConfiguration() ，接着写修改，直到 captureSession.commitConfiguration() 提交了，才生效。</p>
+<p>类似的还有 UIView 渲染机制。 CATransaction, 开始，设置，提交，就可以在屏幕上看到刷新的界面了。</p>
+<pre><code class="hljs bash copyable" lang="bash">    // 配置拍摄前面（自拍），拍后面
+    @IBAction func switchCameras(_ sender: UIButton) {
+        guard movieOutput.isRecording == <span class="hljs-literal">false</span> <span class="hljs-keyword">else</span>{
+            <span class="hljs-built_in">return</span>
+        }
+  //  确认手机要有多个摄像头
+        guard <span class="hljs-built_in">let</span> frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, <span class="hljs-keyword">for</span>: .video, position: .front), <span class="hljs-built_in">let</span> backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, <span class="hljs-keyword">for</span>: .video, position: .back) <span class="hljs-keyword">else</span>{
+            <span class="hljs-built_in">return</span>;
+        }
+        // 创建新的 AVCaptureDeviceInput ，来切换。更新 captureSession 的配置。
+        <span class="hljs-keyword">do</span>{
+            var input: AVCaptureDeviceInput?
+            //  通过识别当前的摄像头，找出另一个（我们需要的）
+            <span class="hljs-keyword">if</span> activeInput.device == frontCamera{
+                input = try AVCaptureDeviceInput(device: backCamera)
+            }
+            <span class="hljs-keyword">else</span>{
+                input = try AVCaptureDeviceInput(device: frontCamera)
+            }
+           // 得到了新的输入源，就可以开始配置了
+            captureSession.beginConfiguration()
+            // 去掉旧的输入源，即不让当前的摄像头输入
+            captureSession.removeInput(activeInput)
+            // 增加新的输入源，即让其他的摄像头输入
+            <span class="hljs-keyword">if</span> captureSession.canAddInput(input!){
+                captureSession.addInput(input!)
+                activeInput = input
+            }
+            // captureSession.beginConfiguration() 之后，就开始修改，直到下一句提交了，才生效。
+            captureSession.commitConfiguration()
+        }catch{
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error , switching cameras: \(String(describing: error))"</span>)
+        }
+
+    }
+
+<span class="copy-code-btn">复制代码</span></code></pre><h3 class="heading" data-id="heading-13">聚焦功能 POI :  点击屏幕，拍照聚焦到兴趣点</h3>
+<p>具体实现是把屏幕 UI 坐标，也就是预览图层的坐标，转换到相机的坐标系中，
+再用预览图层的坐标点，设置聚焦的 point 和 mode 。</p>
+<p>配置聚焦，属于用户输入，并要用到手机的摄像头硬件。配置 POI 的时候，可能有干扰 （ 比如后台进程的影响 ），这样就要用设备锁定了。
+<code>device.lockForConfiguration()</code></p>
+<p>注意: 自拍是不可以聚焦的。前置摄像头，没有 POI 功能。</p>
+<pre><code class="hljs bash copyable" lang="bash">    @objc
+    func tapToFocus(recognizer: UIGestureRecognizer){
+        <span class="hljs-keyword">if</span> activeInput.device.isFocusPointOfInterestSupported{
+            // 得到屏幕中点击的坐标,转化为预览图层里的坐标点
+            <span class="hljs-built_in">let</span> point = recognizer.location(<span class="hljs-keyword">in</span>: camPreview)
+            //  将预览图层中的坐标点，转换到相机的坐标系中
+            <span class="hljs-built_in">let</span> pointOfInterest = previewLayer.captureDevicePointConverted(fromLayerPoint: point)
+            //  自由设置相关 UI
+            showMarkerAtPoint(point: point, marker: focusMarker)
+            focusAtPoint(pointOfInterest)
+        }
+    }
+    
+    //   用预览图层的坐标点，配置聚焦。
+    func focusAtPoint(_ point: CGPoint){
+        <span class="hljs-built_in">let</span> device = activeInput.device
+      // 首先判断手机能不能聚焦
+        <span class="hljs-keyword">if</span> device.isFocusPointOfInterestSupported , device.isFocusModeSupported(.autoFocus){
+            <span class="hljs-keyword">do</span>{
+                // 锁定设备来配置
+                try device.lockForConfiguration()
+                device.focusPointOfInterest = point
+                device.focusMode = .autoFocus
+                device.unlockForConfiguration()
+                // 配置完成，解除锁定
+            }
+            catch{
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error focusing on POI: \(String(describing: error.localizedDescription))"</span>)
+            }
+        }
+    }
+<span class="copy-code-btn">复制代码</span></code></pre><h3 class="heading" data-id="heading-14">拍照曝光功能，双击设置曝光坐标</h3>
+<p>类似聚焦，具体实现是把屏幕 UI 坐标，也就是预览图层的坐标，转换到相机的坐标系中，
+再用预览图层的坐标点，设置曝光的 point 和 mode 。
+同聚焦不一样，曝光要改两次 mode.</p>
+<p>mode 从默认锁定的 .locked 到选定坐标点的连续自动曝光 .continuousAutoExposure， 最后系统调好了，再切换回默认的锁定 .locked 。
+因为不知道系统什么时候连续自动曝光处理好，所以要用到 KVO. 监听 activeInput.device 的 adjustingExposure 属性。
+当曝光调节结束了，就锁定曝光模式。</p>
+<p>（ 调用时机挺好的， 双击屏幕，手机摄像头自动曝光的时候，就防止干扰。曝光完成后，马上改曝光模式为锁定 。这样就不会老是处在曝光中。）</p>
+<p>(这个有点像监听键盘，那里一般用系统通知。)</p>
+<p>配置曝光，属于用户输入，并要用到手机的摄像头硬件。配置曝光的时候，可能有干扰 （ 比如后台进程的影响 ），这样就要用锁了。
+<code>device.lockForConfiguration()</code></p>
+<p>其他: 自拍是有曝光效果的</p>
+<pre><code class="hljs bash copyable" lang="bash">// 单指双击，设置曝光， 更多见下面的 github repo
+    @objc
+    func tapToExpose(recognizer: UIGestureRecognizer){
+        <span class="hljs-keyword">if</span> activeInput.device.isExposurePointOfInterestSupported{
+            //  与聚焦一样，得到屏幕中点击的坐标,转化为预览图层里的坐标点
+            <span class="hljs-built_in">let</span> point = recognizer.location(<span class="hljs-keyword">in</span>: camPreview)
+            //  将预览图层中的坐标点，转换到相机的坐标系中
+            <span class="hljs-built_in">let</span> pointOfInterest = previewLayer.captureDevicePointConverted(fromLayerPoint: point)
+            showMarkerAtPoint(point: point, marker: exposureMarker)
+            exposeAtPoint(pointOfInterest)
+        }
+    }
+    
+    private var adjustingExposureContext: String = <span class="hljs-string">"Exposure"</span>
+    private <span class="hljs-built_in">let</span> kExposure = <span class="hljs-string">"adjustingExposure"</span>
+
+    func exposeAtPoint(_ point: CGPoint){
+        <span class="hljs-built_in">let</span> device = activeInput.device
+        <span class="hljs-keyword">if</span> device.isExposurePointOfInterestSupported, device.isFocusModeSupported(.continuousAutoFocus){
+            <span class="hljs-keyword">do</span>{
+                try device.lockForConfiguration()
+                device.exposurePointOfInterest = point
+                device.exposureMode = .continuousAutoExposure
+                //  先判断手机，能不能锁定曝光。可以就监听手机摄像头的调整曝光属性
+                <span class="hljs-keyword">if</span> device.isFocusModeSupported(.locked){
+                   //   同聚焦不一样，曝光要改两次 mode.
+                    //  这里有一个不受控制的耗时操作( 不清楚什么时候系统处理好)，需要用到 KVO
+                    device.addObserver(self, <span class="hljs-keyword">for</span>KeyPath: kExposure, options: .new, context: &amp;adjustingExposureContext)
+                    // 变化好了， 操作结束
+                    device.unlockForConfiguration()
+                }
+            }
+            catch{
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error Exposing on POI: \(String(describing: error.localizedDescription))"</span>)
+            }
+        }
+    }
+    
+    // 使用 KVO
+    override func observeValue(<span class="hljs-keyword">for</span>KeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        //  先确认，监听到的是指定的上下文
+        <span class="hljs-keyword">if</span> context == &amp;adjustingExposureContext {
+            <span class="hljs-built_in">let</span> device = object as! AVCaptureDevice
+            //    如果手机摄像头不处于曝光调整中，也就是完成曝光了，就可以处理了
+            <span class="hljs-keyword">if</span> !device.isAdjustingExposure , device.isExposureModeSupported(.locked){
+                // 观察属性，变化了， 一次性注入调用， 就销毁 KVO
+                // 然后到主队列中异步配置
+                device.removeObserver(self, <span class="hljs-keyword">for</span>KeyPath: kExposure, context: &amp;adjustingExposureContext)
+                DispatchQueue.main.async {
+                    <span class="hljs-keyword">do</span>{
+                        //  完成后，将曝光状态复原
+                        try device.lockForConfiguration()
+                        device.exposureMode = .locked
+                        device.unlockForConfiguration()
+                    }
+                    catch{
+                        <span class="hljs-built_in">print</span>(<span class="hljs-string">"Error exposing on POI: \(String(describing: error.localizedDescription))"</span>)
+                    }   
+                }
+            }
+        }
+        <span class="hljs-keyword">else</span>{
+            super.observeValue(<span class="hljs-keyword">for</span>KeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+
+<span class="copy-code-btn">复制代码</span></code></pre><h1 class="heading" data-id="heading-15">全部代码见: <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2FBoxDengJZ%2FAVFoundation_ray" rel="nofollow noopener noreferrer">github.com/BoxDengJZ/A…</a></h1>
+<h3 class="heading" data-id="heading-16">More:</h3>
+<hr>
+<h2 class="heading" data-id="heading-17">其次是拍视频，还有视频文件导出到相册。</h2>
+<h2 class="heading" data-id="heading-18">还有视频的合成，将多个视频片段合成为一个视频文件。</h2>
+<p><a target="_blank" href="https://juejin.im/post/5bdad8746fb9a022852a764c" rel="">AVFoundation 视频常用套路: 视频合成与导出，拍视频手电筒，拍照闪光灯</a></p>
+<hr>
+<h1 class="heading" data-id="heading-19">最后是，关于给视频添加图形覆盖和动画。</h1>
+<hr>
+<p>推荐资源:</p>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fdeveloper.apple.com%2Fvideos%2Fplay%2Fwwdc2016%2F501%2F" rel="nofollow noopener noreferrer">WWDC 2016: Advances in iOS Photography</a></p>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fdeveloper.apple.com%2Flibrary%2Farchive%2Fdocumentation%2FAudioVideo%2FConceptual%2FAVFoundationPG%2FArticles%2F00_Introduction.html%23%2F%2Fapple_ref%2Fdoc%2Fuid%2FTP40010188-CH1-SW3" rel="nofollow noopener noreferrer">AVFoundation Programming Guide 苹果文档</a></p>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fwww.raywenderlich.com%2F4033-beginning-video-with-avfoundation" rel="nofollow noopener noreferrer">视频教程</a></p>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fde418c21d33c" rel="nofollow noopener noreferrer">大佬博客， AVPlayer 本地、网络视频播放相关</a></p>
+</div></article><div class="tag-list-box" data-v-d4ff273a data-v-49e91c4b><div class="tag-list-title" data-v-d4ff273a data-v-49e91c4b>关注下面的标签，发现更多相似文章</div><div st:block="tagList" class="tag-list" data-v-d4ff273a data-v-49e91c4b><a href="/tag/GitHub" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://lc-gold-cdn.xitu.io/0d614af263aa63aa6a77.png?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>GitHub</div></a><a href="/tag/Apple" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://lc-gold-cdn.xitu.io/9bc1c26409d193494211.png?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>Apple</div></a><a href="/tag/Xcode" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://lc-gold-cdn.xitu.io/a177fa3d60a1d0062129.png?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>Xcode</div></a></div></div><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" data-v-49e91c4b><div class="footer-author-block" data-v-49e91c4b><div itemscope="itemscope" itemtype="http://schema.org/Person" class="author" data-v-5a8982d2 data-v-49e91c4b><!----><div class="author-info-block" data-v-5a8982d2><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" class="avatar-link" data-v-5a8982d2><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5a8982d2></div></a><div class="author-info-box" data-v-5a8982d2><div class="profile-box" data-v-5a8982d2><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" class="username ellipsis" data-v-5a8982d2></a><span class="position ellipsis" data-v-5a8982d2></span></div><div class="meta-box" data-v-5a8982d2><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" class="posts" data-v-5a8982d2><span class="count post-count" data-v-5a8982d2>发布了  篇专栏 · </span></a><span class="count" data-v-5a8982d2>获得点赞  次 · </span><span class="count" data-v-5a8982d2>文章被阅读  次</span></div></div><!----></div></div></div></a><div st:block="banner" class="article-banner" data-v-d4ff273a data-v-49e91c4b><a st:name="link" st:state="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" href="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" target="_blank" class="banner-title" data-v-d4ff273a data-v-49e91c4b>安装掘金浏览器插件</a><div class="banner-content" data-v-d4ff273a data-v-49e91c4b>打开新标签页发现好内容，掘金、GitHub、Dribbble、ProductHunt 等站点内容轻松获取。快来安装掘金浏览器插件获取高质量内容吧！</div></div><!----><!----><div id="comment-box" class="comment-list-box" data-v-3a057265 data-v-49e91c4b><div class="title" data-v-3a057265>评论</div><div class="comment-form comment-form" data-v-5812a629 data-v-3a057265><div class="avatar-box" data-v-5812a629><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5812a629></div></div><div class="form-box" data-v-5812a629><div class="input-box" data-v-5812a629><div contenteditable="true" spellcheck="false" placeholder="输入评论..." class="rich-input empty" data-v-5812a629><br data-v-5812a629></div><!----></div><!----></div><input type="file" class="hidden" data-v-5812a629></div><!----><!----></div></div><!----><!----><div st:block="sidebar" class="sidebar sidebar" data-v-e8bd85a0 data-v-49e91c4b><div class="sidebar-block author-block shadow" data-v-3614612a data-v-8726068e data-v-e8bd85a0><div class="block-title" data-v-3614612a>关于作者</div><div class="block-body" data-v-3614612a><a href="/post/5bc2123ee51d450e6c75157d" target="_blank" rel="" class="user-item item" data-v-8726068e><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-8726068e></div><div class="info-box" data-v-8726068e><div class="username" data-v-8726068e></div><!----></div></a><!----><!----><!----><!----></div></div><!----><!----><!----><!----><!----><div class="sticky-block-box" data-v-e8bd85a0><div class="sidebar-block catalog-block pure" data-v-3614612a data-v-0227ba49 data-v-e8bd85a0><nav class="article-catalog" style="display:none;" data-v-471a2118 data-v-0227ba49><div class="catalog-title" data-v-471a2118>目录</div><div class="catalog-body" data-v-471a2118><ul class="catalog-list" style="margin-top:0px;" data-v-471a2118></ul></div></nav></div></div></div><div class="article-suspended-panel article-suspended-panel" data-v-46f1d695 data-v-49e91c4b><div badge="21" class="like-btn panel-btn like-adjust with-badge" data-v-46f1d695></div><div badge="2" class="comment-btn panel-btn comment-adjust with-badge" data-v-46f1d695></div><div class="collect-btn panel-btn" data-v-46f1d695><!----></div><div class="share-title" data-v-46f1d695>分享</div><div class="weibo-btn share-btn panel-btn" data-v-46f1d695></div><div class="qq-btn share-btn panel-btn" data-v-46f1d695></div><div class="wechat-btn share-btn panel-btn" data-v-46f1d695><img src="" class="wechat-qr-code-img shadow" style="display:none;" data-v-46f1d695></div></div><div class="image-viewer-box" data-v-3cf863bc data-v-49e91c4b><!----></div></div></main></div><!----></div>
+      <div id="jjis" style="display:none;" data-state="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="></div>
+      
+      <script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/runtime.013d3571732a45acc62c.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/0.e83a72128cbe53a747b7.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/1.b6ab58c8b1c5ee2c6ad4.js></script></body></html>
+    

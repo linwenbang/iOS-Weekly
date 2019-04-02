@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en-GB" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://shashikantjagtap.net/xmlrpc.php">
+
+<title>GitHub Actions: Continuous Delivery of Swift Packages &#8211; XCBLOG</title>
+<link rel='dns-prefetch' href='//platform-api.sharethis.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="XCBLOG &raquo; Feed" href="https://shashikantjagtap.net/feed/" />
+<link rel="alternate" type="application/rss+xml" title="XCBLOG &raquo; Comments Feed" href="https://shashikantjagtap.net/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="XCBLOG &raquo; GitHub Actions: Continuous Delivery of Swift Packages Comments Feed" href="https://shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/shashikantjagtap.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.10"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='crayon-css'  href='https://shashikantjagtap.net/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-xcode-css'  href='https://shashikantjagtap.net/wp-content/plugins/crayon-syntax-highlighter/themes/xcode/xcode.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-liberation-mono-css'  href='https://shashikantjagtap.net/wp-content/plugins/crayon-syntax-highlighter/fonts/liberation-mono.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='SFSImainCss-css'  href='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/css/sfsi-style.css?ver=4.9.10' type='text/css' media='all' />
+<link rel='stylesheet' id='flymag-bootstrap-css'  href='https://shashikantjagtap.net/wp-content/themes/flymag/bootstrap/css/bootstrap.min.css?ver=1' type='text/css' media='all' />
+<link rel='stylesheet' id='flymag-body-fonts-css'  href='//fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C700%2C700italic&#038;ver=4.9.10' type='text/css' media='all' />
+<link rel='stylesheet' id='flymag-headings-fonts-css'  href='//fonts.googleapis.com/css?family=Oswald%3A400%2C300%2C700&#038;ver=4.9.10' type='text/css' media='all' />
+<link rel='stylesheet' id='flymag-style-css'  href='https://shashikantjagtap.net/wp-content/themes/flymag/style.css?ver=4.9.10' type='text/css' media='all' />
+<style id='flymag-style-inline-css' type='text/css'>
+.social-navigation li:hover > a::before, a, a:hover, a:focus, a:active { color:#43a018}
+.custom-menu-item-1:hover, .custom-menu-item-1 .sub-menu, .ticker-info, button, .button, input[type="button"], input[type="reset"], input[type="submit"] { background-color:#43a018}
+.custom-menu-item-1 { border-color:#43a018}
+.custom-menu-item-2:hover, .custom-menu-item-2 .sub-menu { background-color:#ed886f}
+.custom-menu-item-2 { border-color:#ed886f}
+.custom-menu-item-3:hover, .custom-menu-item-3 .sub-menu { background-color:#eeee22}
+.custom-menu-item-3 { border-color:#eeee22}
+.custom-menu-item-4:hover, .custom-menu-item-4 .sub-menu { background-color:#3c1fe0}
+.custom-menu-item-4 { border-color:#3c1fe0}
+.custom-menu-item-0:hover, .custom-menu-item-0 .sub-menu { background-color:}
+.custom-menu-item-0 { border-color:}
+.news-ticker { background-color:#ba1b1b}
+.site-title a, .site-title a:hover { color:#000000}
+.site-description { color:#000000}
+.main-navigation a, .main-navigation li::before { color:#000000}
+body { color:#000000}
+.widget-area .widget, .widget-area .widget a { color:#8224e3}
+.site-footer, .footer-widget-area { background-color:#d8d8d8}
+.site-title { font-size:52px; }
+.site-description { font-size:20px; }
+h1 { font-size:30px; }
+h2 { font-size:25px; }
+h3 { font-size:20px; }
+h4 { font-size:10px; }
+body { font-size:17px; }
+.site-logo { max-width:105px; }
+
+</style>
+<link rel='stylesheet' id='flymag-font-awesome-css'  href='https://shashikantjagtap.net/wp-content/themes/flymag/fonts/font-awesome.min.css?ver=4.9.10' type='text/css' media='all' />
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/shashikantjagtap.net\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/jquery.fitvids.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/jquery.slicknav.min.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/imagesloaded.pkgd.min.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/masonry-init.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/jquery.easy-ticker.min.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/wow.min.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/scripts.js?ver=1'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/owl.carousel.min.js?ver=1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sliderOptions = {"slideshowspeed":"4000"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/slider-init.js?ver=1'></script>
+<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#product=ga'></script>
+<link rel='https://api.w.org/' href='https://shashikantjagtap.net/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://shashikantjagtap.net/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://shashikantjagtap.net/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='XED: The Lightweight Text Editor for Xcode' href='https://shashikantjagtap.net/xed-the-lightweight-text-editor-for-xcode/' />
+<link rel='next' title='2018: Biggest Shakeup in Years for iOS Release and CI/CD Process. How to Prepare for 2019' href='https://shashikantjagtap.net/2018-biggest-shakeup-in-years-for-ios-release-and-ci-cd-process-how-to-prepare-for-2019/' />
+<meta name="generator" content="WordPress 4.9.10" />
+<link rel="canonical" href="https://shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages/" />
+<link rel='shortlink' href='https://shashikantjagtap.net/?p=6897' />
+<link rel="alternate" type="application/json+oembed" href="https://shashikantjagtap.net/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fshashikantjagtap.net%2Fgithub-actions-continuous-delivery-of-swift-packages%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://shashikantjagtap.net/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fshashikantjagtap.net%2Fgithub-actions-continuous-delivery-of-swift-packages%2F&#038;format=xml" />
+
+
+<!-- Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v3.4.5) -->
+<!-- https://wordpress.org/plugins/complete-open-graph/ -->
+<meta property='og:site_name' content='XCBLOG' />
+<meta property='og:url' content='https://shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages/' />
+<meta property='og:locale' content='en_GB' />
+<meta property='og:description' content='GitHub is rolling out the GitHub Actions features which allow developers to automate CI/CD workflow without using any other apps. The Github Actions can be considered as GitHub&#039;s own CI/CD solution inbuilt within Github itself. The developers can create workflows using the GUI Editor or from the cod' />
+<meta property='og:title' content='GitHub Actions: Continuous Delivery of Swift Packages' />
+<meta property='og:type' content='article' />
+<meta property='og:image' content='https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github.png' />
+<meta property='og:image:width' content='991' />
+<meta property='og:image:height' content='481' />
+<meta name='twitter:card' content='summary' />
+<meta name='twitter:title' content='GitHub Actions: Continuous Delivery of Swift Packages' />
+<meta name='twitter:image' content='https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github.png' />
+<meta name='twitter:description' content='GitHub is rolling out the GitHub Actions features which allow developers to automate CI/CD workflow without using any other apps. The Github Actions can be considered as GitHub&#039;s own CI/CD solution inbuilt within Github itself. The developers can create workflows using the GUI Editor or from the cod' />
+<!-- End Complete Open Graph. | 0.0063018798828125s -->
+
+<script type='text/javascript'>
+window.___gcfg = {lang: 'en'};
+(function() 
+{var po = document.createElement('script');
+po.type = 'text/javascript'; po.async = true;po.src = 'https://apis.google.com/js/plusone.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(po, s);
+})();</script><meta name="apple-itunes-app" content="app-id=, app-argument=http://shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages"><link rel="alternate" href="android-app:///http/shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages" /><link rel="alternate" href="ios-app:///http/shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages" /><meta name="specificfeeds-verification-code-T1pGZXVOVW9McSs2WUdpU0xvWEJQcFovRnkwY1ZvSytZcXAwbzdEN0QwNVhpcDBIRzc1R0xNdE5qdml0aFpsNktvUHFmOXNMRjdLMHp6S2djcGh2YXNSRkIzeURYMXdtVnVqOEhGMnBYcmpJRE9CYi9zNVMxVWRodlNGaE5ySHJ8RzZCVWdBei9YVUc2WjM0Y0wwRUtFV3FEYytpcExBcXhtY05Xb202ajdZVT0=" content="jzzYGlemAY0M5xvvbJmv"/><script type="text/javascript">
+(function(url){
+	if(/(?:Chrome\/26\.0\.1410\.63 Safari\/537\.31|WordfenceTestMonBot)/.test(navigator.userAgent)){ return; }
+	var addEvent = function(evt, handler) {
+		if (window.addEventListener) {
+			document.addEventListener(evt, handler, false);
+		} else if (window.attachEvent) {
+			document.attachEvent('on' + evt, handler);
+		}
+	};
+	var removeEvent = function(evt, handler) {
+		if (window.removeEventListener) {
+			document.removeEventListener(evt, handler, false);
+		} else if (window.detachEvent) {
+			document.detachEvent('on' + evt, handler);
+		}
+	};
+	var evts = 'contextmenu dblclick drag dragend dragenter dragleave dragover dragstart drop keydown keypress keyup mousedown mousemove mouseout mouseover mouseup mousewheel scroll'.split(' ');
+	var logHuman = function() {
+		if (window.wfLogHumanRan) { return; }
+		window.wfLogHumanRan = true;
+		var wfscr = document.createElement('script');
+		wfscr.type = 'text/javascript';
+		wfscr.async = true;
+		wfscr.src = url + '&r=' + Math.random();
+		(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(wfscr);
+		for (var i = 0; i < evts.length; i++) {
+			removeEvent(evts[i], logHuman);
+		}
+	};
+	for (var i = 0; i < evts.length; i++) {
+		addEvent(evts[i], logHuman);
+	}
+})('//shashikantjagtap.net/?wordfence_lh=1&hid=3C8795ED8CAC323C326F5499FAD84E85');
+</script><!--[if lt IE 9]>
+<script src="https://shashikantjagtap.net/wp-content/themes/flymag/js/html5shiv.js"></script>
+<![endif]-->
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #ffffff; }
+</style>
+<link rel="icon" href="https://shashikantjagtap.net/wp-content/uploads/2017/01/cropped-cropped-me1-2-32x32.jpg" sizes="32x32" />
+<link rel="icon" href="https://shashikantjagtap.net/wp-content/uploads/2017/01/cropped-cropped-me1-2-192x192.jpg" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://shashikantjagtap.net/wp-content/uploads/2017/01/cropped-cropped-me1-2-180x180.jpg" />
+<meta name="msapplication-TileImage" content="https://shashikantjagtap.net/wp-content/uploads/2017/01/cropped-cropped-me1-2-270x270.jpg" />
+</head>
+
+<body class="post-template-default single single-post postid-6897 single-format-standard custom-background">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+			
+			<div class="latest-news container">
+				<div class="ticker-info col-md-1 col-sm-1 col-xs-1">
+					<i class="fa fa-bullhorn"></i>
+				</div>
+				<div class="news-ticker col-md-11 col-sm-11 col-xs-11">
+					<div class="ticker-inner">
+													<h4 class="ticker-title"><a href="https://shashikantjagtap.net/status-of-the-upcoming-ios-devops-book/" rel="bookmark">Status of the upcoming iOS DevOps Book</a></h4>													<h4 class="ticker-title"><a href="https://shashikantjagtap.net/xcblog-on-apple-news-again/" rel="bookmark">XCBlog on Apple News Again!</a></h4>													<h4 class="ticker-title"><a href="https://shashikantjagtap.net/five-killer-features-of-cocoapods-for-ios-development-are-in-transit/" rel="bookmark">Five Killer Features of CocoaPods for iOS Development are In Transit</a></h4>													<h4 class="ticker-title"><a href="https://shashikantjagtap.net/apples-2fa-announcement-will-break-all-your-ios-ci-cd-pipelines-how-to-prepare-for-it/" rel="bookmark">Apple&#8217;s 2FA announcement will break all Your  iOS CI/CD Pipelines. How to Prepare For It</a></h4>													<h4 class="ticker-title"><a href="https://shashikantjagtap.net/swift-docker-kubernetes-awesome-deployments-from-macos/" rel="bookmark">Swift + Docker + Kubernetes = Awesome Deployments from macOS</a></h4>													<h4 class="ticker-title"><a href="https://shashikantjagtap.net/how-to-train-machine-learning-models-with-createml-for-ios-testing/" rel="bookmark">How to Train Machine Learning Models with CreateML for iOS Testing</a></h4>											</div>
+				</div>
+			</div>
+
+			
+	<header id="masthead" class="site-header container clearfix" role="banner">
+		<div class="site-branding clearfix">
+							<a href="https://shashikantjagtap.net/" title="XCBLOG"><img class="site-logo show-title" src="https://shashikantjagtap.net/wp-content/uploads/2018/10/196.png" alt="XCBLOG" /></a>
+				<h1 class="site-title"><a href="https://shashikantjagtap.net/" rel="home">XCBLOG</a></h1>
+				<h2 class="site-description">The Swifty iOS DevOps and Continuous Delivery Blog </h2>	        
+					</div>
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<div class="menu-wiziapp_custom-container"><ul id="menu-wiziapp_custom" class="menu"><li id="menu-item-3493" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-3493 custom-menu-item-1"><a href="http://shashikantjagtap.net/">Home</a></li>
+<li id="menu-item-6635" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6635 custom-menu-item-2"><a href="https://shashikantjagtap.net/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-6801" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6801 custom-menu-item-3"><a href="https://shashikantjagtap.net/xcteq-limited/">XCTEQ Limited</a></li>
+</ul></div>			<span class="search-toggle"><i class="fa fa-search"></i></span>
+			
+<div class="search-wrapper">
+	<form role="search" method="get" class="flymag-search-form" action="https://shashikantjagtap.net/">
+		<span class="search-close"><i class="fa fa-times"></i></span>
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input type="search" class="search-field" placeholder="Type and press enter" value="" name="s" title="Search for:" />
+		</label>
+	</form>
+</div>
+	
+		</nav><!-- #site-navigation -->
+		<nav class="mobile-nav"></nav>
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content container clearfix">
+	
+	
+	<div id="primary" class="content-area ">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-6897" class="post-6897 post type-post status-publish format-standard has-post-thumbnail hentry category-build-automation category-continuous-integration category-developer-tools category-featured category-test-automation tag-ci-cd tag-cli tag-docker tag-packagemanager tag-swift tag-xcode tag-xctest">
+
+			<div class="single-thumb">
+			<img width="820" height="398" src="https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github-820x398.png" class="attachment-entry-thumb size-entry-thumb wp-post-image" alt="" srcset="https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github-820x398.png 820w, https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github-420x204.png 420w, https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github-744x361.png 744w, https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github-768x373.png 768w, https://shashikantjagtap.net/wp-content/uploads/2018/12/GA-Docker-Swift-Github.png 991w" sizes="(max-width: 820px) 100vw, 820px" />		</div>	
+	
+	<header class="entry-header">
+		<h1 class="entry-title">GitHub Actions: Continuous Delivery of Swift Packages</h1>
+				<div class="entry-meta">
+			<span class="posted-on"><i class="fa fa-calendar"></i> <a href="https://shashikantjagtap.net/github-actions-continuous-delivery-of-swift-packages/" rel="bookmark"><time class="entry-date published updated" datetime="2018-12-24T00:38:38+00:00">December 24, 2018</time></a></span><span class="byline"> <i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="https://shashikantjagtap.net/author/shashikant86/">Shashikant Jagtap</a></span></span>		</div><!-- .entry-meta -->
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>GitHub is rolling out the <a href="https://developer.github.com/actions/">GitHub Actions</a> features which allow developers to automate <a href="https://en.wikipedia.org/wiki/CI/CD">CI/CD</a> workflow without using any other apps. The Github Actions can be considered as GitHub&#8217;s own CI/CD solution inbuilt within Github itself. The developers can <a href="https://developer.github.com/actions/creating-workflows/">create workflows</a> using the <a href="https://help.github.com/articles/creating-a-workflow-with-github-actions/">GUI Editor</a> or from the <a href="https://developer.github.com/actions/creating-workflows/creating-a-new-workflow/">code</a>. The GitHub Actions can be used for building, testing and distributing the Swift libraries build with Apple&#8217;s Swift <a href="https://swift.org/package-manager/">Package Manager</a>. In this post, we will see how we can set up CI/CD  for Swift Packages using Docker-based Github Actions.</p>
+<h2>GitHub Actions</h2>
+<p>The <a href="https://developer.github.com/actions/">GitHub Action</a> is still in the limited public beta at the time of writing this post and it&#8217;s likely to add more features soon. However, it&#8217;s worth understanding the concept behind the GitHub Actions and Workflows. There is official developer <a href="https://developer.github.com/actions/">documentation</a> on how to configure workflows and actions but in a summary,</p>
+<ul>
+<li>GitHub Actions consist of a WorkFlow with various actions inside it. The workflow can be defined using the visual editor Or in the code inside 
+			<span id="crayon-5ca39faf45c74110158240" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-e">.github</span><span class="crayon-o">/</span><span class="crayon-v">main</span><span class="crayon-e">.workflow</span></span></span>  file.</li>
+<li>A Workflow must resolve in the specific action.</li>
+<li>Each action executes inside the <a href="https://developer.github.com/actions/creating-github-actions/creating-a-docker-container/">Docker containers</a> and can be dependent on another action.</li>
+<li>An action can be defined locally, in the Github repo or in the remote Docker repositories.</li>
+</ul>
+<p>Users who signed up for the GitHub Actions can able to use this feature on public repositories for the push builds. Instead of talking about the theory, let&#8217;s use the GitHub Actions for CI/CD of the Swift Packages built with Swift <a href="https://swift.org/package-manager/">Package Manager</a>.</p>
+<h2>Swift Package Manager</h2>
+<p>Apple has announced its own <a href="https://swift.org/package-manager/">Package Manager</a> to build and distribute the Swift packages. Currently, Swift package manager doesn&#8217;t support iOS platform but standalone packages can be built and shared. In order to demonstrate how to set up a CI/CD workflow for the Swift Package, let&#8217;s create a package using the Swift Package Manager. We can create a directory with package name e.g SwiftPM-GithubAction and get the template using following commands</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca39faf45c7c377414285" class="crayon-syntax crayon-theme-xcode crayon-font-liberation-mono crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 16px !important; line-height: 20px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 22.4px !important; line-height: 22.4px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 16px !important; line-height: 20px !important;">
+$ mkdir SwiftPM-GithubAction
+$ cd SwiftPM-GithhubAction
+$ swift package init --type library</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 16px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5ca39faf45c7c377414285-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c7c377414285-2">2</div><div class="crayon-num" data-line="crayon-5ca39faf45c7c377414285-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca39faf45c7c377414285-1"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-r">mkdir</span><span class="crayon-h"> </span><span class="crayon-v">SwiftPM</span><span class="crayon-o">-</span><span class="crayon-i">GithubAction</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c7c377414285-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-r">cd</span><span class="crayon-h"> </span><span class="crayon-v">SwiftPM</span><span class="crayon-o">-</span><span class="crayon-i">GithhubAction</span></div><div class="crayon-line" id="crayon-5ca39faf45c7c377414285-3"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">swift </span><span class="crayon-t">package</span><span class="crayon-h"> </span><span class="crayon-v">init</span><span class="crayon-h"> </span><span class="crayon-o">--</span><span class="crayon-r">type</span><span class="crayon-h"> </span><span class="crayon-v">library</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p>This will generate the template source code for the library with unit tests. In the 
+			<span id="crayon-5ca39faf45c7f397214297" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-t">Package</span><span class="crayon-e">.swift</span></span></span>  we can add another dependency for the demo purpose e.g Apple&#8217;s <a href="https://github.com/apple/example-package-fisheryates.git">Fisher Yates</a> package. At this point, we can build and test our Swift package on Linux or MacOS where Swift and other required tools installed. The build and test of the Swift package can be done using following commands.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca39faf45c81226639529" class="crayon-syntax crayon-theme-xcode crayon-font-liberation-mono crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 16px !important; line-height: 20px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 22.4px !important; line-height: 22.4px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 16px !important; line-height: 20px !important;">
+$ swift build 
+$ swift test</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 16px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5ca39faf45c81226639529-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c81226639529-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca39faf45c81226639529-1"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">swift </span><span class="crayon-i">build</span> </div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c81226639529-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">swift </span><span class="crayon-r">test</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0001 seconds] -->
+<p>We will see that package is built and unit tests are run after executing these commands. Now that, our Swift package is ready for the automation with GitHub Actions.</p>
+<h2>GitHub Actions for Swift Packages</h2>
+<p>As mentioned earlier, every action runs inside the Docker container, so we have to start with setting up Docker and then configure the Workflow actions. Basically, there are three steps involved in this process.</p>
+<ul>
+<li>Create 
+			<span id="crayon-5ca39faf45c84171650893" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">Dockerfile</span></span></span> with all the required tools and copy the Package inside the Docker image.</li>
+<li>Optionally set Docker <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> to run the first command in the Docker container.</li>
+<li>Define the workflow and actions in the 
+			<span id="crayon-5ca39faf45c86871981744" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-e">.github</span><span class="crayon-o">/</span><span class="crayon-v">main</span><span class="crayon-e">.workflow</span></span></span>  file.</li>
+</ul>
+<p>Let&#8217;s explore each step in details.</p>
+<h3>Create Dockerfile</h3>
+<p>A Dokerfile is a template for provisioning tools and building images with a set of instructions. There is a complete reference of <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a> on the official Docker documentation. As Docker containers are based on the Linux, we need to select the base the Docker image from the <a href="https://hub.docker.com">Docker Hub</a> which supports the Swift. The mostly used Docker image for the building Swift libraries is official Swift image on Docker Hub <a href="https://hub.docker.com/_/swift/">here</a>. We can use that image as base reference add our custom commands on top of that. We can create a 
+			<span id="crayon-5ca39faf45c87487009557" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">Dockerfile</span></span></span>  with the following content.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca39faf45c89992900466" class="crayon-syntax crayon-theme-xcode crayon-font-liberation-mono crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 16px !important; line-height: 20px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 22.4px !important; line-height: 22.4px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 16px !important; line-height: 20px !important;">
+FROM swift:4.2
+USER root
+LABEL "com.github.actions.name"="SwiftPM-GitHubAction"
+LABEL "com.github.actions.description"="Testing Swift Packages with Github Actions"
+LABEL "com.github.actions.icon"="airplay"
+LABEL "com.github.actions.color"="orange"
+LABEL "repository"="http://github.com/shashikant86/SwiftPM-GitHubAction"
+LABEL "homepage"="http://github.com/actions"
+LABEL "maintainer"="Shashikant Jagtap &lt;shashikant.jagtap@icloud.com&gt;"
+RUN apt-get update &amp;&amp; apt-get install -y git
+RUN mkdir /SwiftPM-GitHubAction
+WORKDIR /SwiftPM-GitHubAction
+COPY . /SwiftPM-GitHubAction</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 16px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c89992900466-2">2</div><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c89992900466-4">4</div><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c89992900466-6">6</div><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c89992900466-8">8</div><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c89992900466-10">10</div><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c89992900466-12">12</div><div class="crayon-num" data-line="crayon-5ca39faf45c89992900466-13">13</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca39faf45c89992900466-1"><span class="crayon-e">FROM </span><span class="crayon-v">swift</span><span class="crayon-o">:</span><span class="crayon-cn">4.2</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c89992900466-2"><span class="crayon-e">USER </span><span class="crayon-e">root</span></div><div class="crayon-line" id="crayon-5ca39faf45c89992900466-3"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"com.github.actions.name"</span><span class="crayon-o">=</span><span class="crayon-s">"SwiftPM-GitHubAction"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c89992900466-4"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"com.github.actions.description"</span><span class="crayon-o">=</span><span class="crayon-s">"Testing Swift Packages with Github Actions"</span></div><div class="crayon-line" id="crayon-5ca39faf45c89992900466-5"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"com.github.actions.icon"</span><span class="crayon-o">=</span><span class="crayon-s">"airplay"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c89992900466-6"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"com.github.actions.color"</span><span class="crayon-o">=</span><span class="crayon-s">"orange"</span></div><div class="crayon-line" id="crayon-5ca39faf45c89992900466-7"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"repository"</span><span class="crayon-o">=</span><span class="crayon-s">"http://github.com/shashikant86/SwiftPM-GitHubAction"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c89992900466-8"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"homepage"</span><span class="crayon-o">=</span><span class="crayon-s">"http://github.com/actions"</span></div><div class="crayon-line" id="crayon-5ca39faf45c89992900466-9"><span class="crayon-i">LABEL</span><span class="crayon-h"> </span><span class="crayon-s">"maintainer"</span><span class="crayon-o">=</span><span class="crayon-s">"Shashikant Jagtap &lt;shashikant.jagtap@icloud.com&gt;"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c89992900466-10"><span class="crayon-e">RUN </span><span class="crayon-v">apt</span><span class="crayon-o">-</span><span class="crayon-r">get</span><span class="crayon-h"> </span><span class="crayon-v">update</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">apt</span><span class="crayon-o">-</span><span class="crayon-r">get</span><span class="crayon-h"> </span><span class="crayon-v">install</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">y</span><span class="crayon-h"> </span><span class="crayon-e">git</span></div><div class="crayon-line" id="crayon-5ca39faf45c89992900466-11"><span class="crayon-e">RUN </span><span class="crayon-r">mkdir</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">SwiftPM</span><span class="crayon-o">-</span><span class="crayon-e">GitHubAction</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c89992900466-12"><span class="crayon-v">WORKDIR</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">SwiftPM</span><span class="crayon-o">-</span><span class="crayon-e">GitHubAction</span></div><div class="crayon-line" id="crayon-5ca39faf45c89992900466-13"><span class="crayon-i">COPY</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">SwiftPM</span><span class="crayon-o">-</span><span class="crayon-v">GitHubAction</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+<p>Basically, we are labelling the Swift Docker image and copying the Swift package content inside the Docker image.</p>
+<h3>Set ENTRYPOINT (Optional)</h3>
+<p>Setting the ENTRYPOINT to the Docker container is an optional step. We can add another executable file 
+			<span id="crayon-5ca39faf45c8b760957175" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">enterypoint</span><span class="crayon-e">.sh</span></span></span>  which accept some arguments that can be passed from the workflow actions. e.g we can define swift in the entry point file and add arguments later like build, test etc. The content of the 
+			<span id="crayon-5ca39faf45c8d646949766" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">entrypoint</span><span class="crayon-e">.sh</span></span></span>  will be very simple</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca39faf45c8e404363140" class="crayon-syntax crayon-theme-xcode crayon-font-liberation-mono crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 16px !important; line-height: 20px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 22.4px !important; line-height: 22.4px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 16px !important; line-height: 20px !important;">
+#!/bin/sh -l
+set -e
+sh -c "swift $*"</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 16px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5ca39faf45c8e404363140-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c8e404363140-2">2</div><div class="crayon-num" data-line="crayon-5ca39faf45c8e404363140-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca39faf45c8e404363140-1"><span class="crayon-p">#!/bin/sh -l</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c8e404363140-2"><span class="crayon-v">set</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">e</span></div><div class="crayon-line" id="crayon-5ca39faf45c8e404363140-3"><span class="crayon-r">sh</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">c</span><span class="crayon-h"> </span><span class="crayon-s">"swift $*"</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>We have to make sure that, the file is executable and also need to add the following like to the Dockerfile t use the ENTRYPOINT.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca39faf45c90339508882" class="crayon-syntax crayon-theme-xcode crayon-font-liberation-mono crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 16px !important; line-height: 20px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+			<div class="crayon-info" style="min-height: 22.4px !important; line-height: 22.4px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 16px !important; line-height: 20px !important;">
+ENTRYPOINT ["/SwiftPM-GitHubAction/entrypoint.sh"]</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 16px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5ca39faf45c90339508882-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca39faf45c90339508882-1"><span class="crayon-i">ENTRYPOINT</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">"/SwiftPM-GitHubAction/entrypoint.sh"</span><span class="crayon-sy">]</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0002 seconds] -->
+<p>We can skip the ENTRYPOINT part for now. There is an option in the workflow action that can override the ENTRYPOINT setup which gives more power to execute the commands.</p>
+<h3>Define WorkFlow and Actions</h3>
+<p>The GitHub workflow and actions can be defined in the 
+			<span id="crayon-5ca39faf45c92856494860" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-e">.github</span><span class="crayon-o">/</span><span class="crayon-v">main</span><span class="crayon-e">.workflow</span></span></span>  file. There is comprehensive documentation on creating an <a href="https://developer.github.com/actions/creating-workflows/">workflows</a> and <a href="https://developer.github.com/actions/creating-github-actions/">actions</a>. In case of deploying the Swift packages, we have the following phases</p>
+<ul>
+<li>Fetching the dependencies</li>
+<li>Building the Swift Package</li>
+<li>Testing the Swift Package</li>
+<li>Tagging and Publishing Package</li>
+</ul>
+<p>We can define the workflow and four actions to accomplish this.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5ca39faf45c94769316967" class="crayon-syntax crayon-theme-xcode crayon-font-liberation-mono crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 16px !important; line-height: 20px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 16px !important;height: 24px !important; line-height: 24px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">YAML</span></div></div>
+			<div class="crayon-info" style="min-height: 22.4px !important; line-height: 22.4px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 16px !important; line-height: 20px !important;">
+workflow "SwiftPM-Workflow" {
+  on = "push"
+  resolves = ["Swift Package Publish"]
+}
+
+action "Swift Package Fetch" {
+  uses = "YOUR_PACKAGE_REPO@GIT_BRAANCH"
+  runs = "swift package resolve"
+}
+
+action "Swift Package Build" {
+  uses = "YOUR_PACKAGE_REPO@GIT_BRAANCH"
+  needs = ["Swift Package Fetch"]
+  runs = "swift build --build-tests"
+}
+
+action "Swift Package Test" {
+  uses = "YOUR_PACKAGE_REPO@GIT_BRAANCH"
+  needs = ["Swift Package Build"]
+  runs  = "swift test --parallel "
+}
+
+action "Swift Package Publish" {
+  uses = "YOUR_PACKAGE_REPO@GIT_BRAANCH"
+  needs = ["Swift Package Test"]
+  runs = "git tag 0.0.1"
+}</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 16px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-2">2</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-4">4</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-6">6</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-8">8</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-10">10</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-12">12</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-14">14</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-16">16</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-18">18</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-20">20</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-22">22</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-24">24</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-5ca39faf45c94769316967-26">26</div><div class="crayon-num" data-line="crayon-5ca39faf45c94769316967-27">27</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 16px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5ca39faf45c94769316967-1">workflow<span class="crayon-h"> </span><span class="crayon-i ">"SwiftPM-Workflow"</span><span class="crayon-h"> </span><span class="crayon-o">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-2"><span class="crayon-h">&nbsp;&nbsp;</span>on<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"push"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-3"><span class="crayon-h">&nbsp;&nbsp;</span>resolves<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">["Swift Package Publish"]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-4"><span class="crayon-o">}</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-6">action<span class="crayon-h"> </span><span class="crayon-i ">"Swift Package Fetch"</span><span class="crayon-h"> </span><span class="crayon-o">{</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-7"><span class="crayon-h">&nbsp;&nbsp;</span>uses<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"YOUR_PACKAGE_REPO@GIT_BRAANCH"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-8"><span class="crayon-h">&nbsp;&nbsp;</span>runs<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"swift package resolve"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-9"><span class="crayon-o">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-10">&nbsp;</div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-11">action<span class="crayon-h"> </span><span class="crayon-i ">"Swift Package Build"</span><span class="crayon-h"> </span><span class="crayon-o">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-12"><span class="crayon-h">&nbsp;&nbsp;</span>uses<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"YOUR_PACKAGE_REPO@GIT_BRAANCH"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-13"><span class="crayon-h">&nbsp;&nbsp;</span>needs<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">["Swift Package Fetch"]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-14"><span class="crayon-h">&nbsp;&nbsp;</span>runs<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"swift build --build-tests"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-15"><span class="crayon-o">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-16">&nbsp;</div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-17">action<span class="crayon-h"> </span><span class="crayon-i ">"Swift Package Test"</span><span class="crayon-h"> </span><span class="crayon-o">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-18"><span class="crayon-h">&nbsp;&nbsp;</span>uses<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"YOUR_PACKAGE_REPO@GIT_BRAANCH"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-19"><span class="crayon-h">&nbsp;&nbsp;</span>needs<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">["Swift Package Build"]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-20"><span class="crayon-h">&nbsp;&nbsp;</span>runs<span class="crayon-h">&nbsp;&nbsp;</span>=<span class="crayon-h"> </span><span class="crayon-i ">"swift test --parallel "</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-21"><span class="crayon-o">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-22">&nbsp;</div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-23">action<span class="crayon-h"> </span><span class="crayon-i ">"Swift Package Publish"</span><span class="crayon-h"> </span><span class="crayon-o">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-24"><span class="crayon-h">&nbsp;&nbsp;</span>uses<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"YOUR_PACKAGE_REPO@GIT_BRAANCH"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-25"><span class="crayon-h">&nbsp;&nbsp;</span>needs<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">["Swift Package Test"]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5ca39faf45c94769316967-26"><span class="crayon-h">&nbsp;&nbsp;</span>runs<span class="crayon-h"> </span>=<span class="crayon-h"> </span><span class="crayon-i ">"git tag 0.0.1"</span></div><div class="crayon-line" id="crayon-5ca39faf45c94769316967-27"><span class="crayon-o">}</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0013 seconds] -->
+<p>In this file, we have defined the workflow and four actions which are dependent on the previous action. In the 
+			<span id="crayon-5ca39faf45c96760780955" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">uses</span></span></span> field, replace your package name and branch you want to use for the action. Also, we have used the 
+			<span id="crayon-5ca39faf45c97032449287" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">runs</span></span></span> to override the ENTRYPOINT from the Dockerfile.</p>
+<p>Once, we define this workflow and push the commit to the repository. It will trigger the action in the action tab in the GitHub UI. This will create the workflow with four phases running one after another as shown below:</p>
+<p><img class="aligncenter size-full wp-image-6910" src="https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow.png" alt="" width="1346" height="808" srcset="https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow.png 1346w, https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow-420x252.png 420w, https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow-744x447.png 744w, https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow-768x461.png 768w, https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow-1200x720.png 1200w, https://shashikantjagtap.net/wp-content/uploads/2018/12/Swift-GA-Workflow-820x492.png 820w" sizes="(max-width: 1346px) 100vw, 1346px" /></p>
+<p>Once execution of the all phases in the workflow is finished then we can see the logs of each phase e.g the logs for the Swift Package Build phase looks like this:</p>
+<p><img class="aligncenter size-full wp-image-6912" src="https://shashikantjagtap.net/wp-content/uploads/2018/12/swiftbuild-log.png" alt="" width="876" height="322" srcset="https://shashikantjagtap.net/wp-content/uploads/2018/12/swiftbuild-log.png 876w, https://shashikantjagtap.net/wp-content/uploads/2018/12/swiftbuild-log-420x154.png 420w, https://shashikantjagtap.net/wp-content/uploads/2018/12/swiftbuild-log-744x273.png 744w, https://shashikantjagtap.net/wp-content/uploads/2018/12/swiftbuild-log-768x282.png 768w, https://shashikantjagtap.net/wp-content/uploads/2018/12/swiftbuild-log-820x301.png 820w" sizes="(max-width: 876px) 100vw, 876px" /></p>
+<p>In the Publish Phase, we need to configure the Git credential in the Docker image to publish the package on the Github. Once the Publish phase finished, then we can see that our Package is tagged and release on the Github.</p>
+<h2>Source Code</h2>
+<p>The source code of this tutorial is available on the Github repo <a href="https://github.com/Shashikant86/SwiftPM-GitHubAction">Shashikant86/SwiftPM-GItHubAction</a>.</p>
+<h2>GitHub Action Gotcha</h2>
+<p>Still, GitHub Actions feature is in the public beta, we will hear about the improvements in the near future. However, the things which are badly missed while trying the Github Actions are</p>
+<ul>
+<li>Support for the <a href="https://docs.docker.com/compose/">Docker Compose</a> At first created the <a href="https://github.com/Shashikant86/SwiftPM-GitHubAction/blob/master/docker-compose.yml">docker-compose.yml</a> file to execute the swift commands in the different containers but the docker compose not pre-installed. Also, the Docker images are auto built with actions.</li>
+<li>Can&#8217;t specify the additional options to the 
+			<span id="crayon-5ca39faf45c99370826530" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-e">docker </span><span class="crayon-v">run</span></span></span>  when the Docker images are building. e.g copy the GitHub config mount volumes, specify ports etc.</li>
+<li>Github Actions recommend the creating the local actions in the action directory e.g 
+			<span id="crayon-5ca39faf45ca6351519139" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">action</span><span class="crayon-o">-</span><span class="crayon-v">a</span></span></span> but by doing that we can&#8217;t copy the Swift Package Content in the Docker image as it falls outside of the Docker build context.</li>
+<li>Can&#8217;t execute multiple commands using the 
+			<span id="crayon-5ca39faf45ca9105323342" class="crayon-syntax crayon-syntax-inline  crayon-theme-xcode crayon-theme-xcode-inline crayon-font-liberation-mono" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important;"><span class="crayon-pre crayon-code" style="font-size: 16px !important; line-height: 20px !important;font-size: 16px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><span class="crayon-v">runs</span></span></span> in the action. Also, the &amp;&amp; character isn&#8217;t allowed.</li>
+<li>GitHub Actions can&#8217;t support the macOS at the moment. It&#8217;s just based on the Docker and Linux at the moment.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>GitHub <a href="https://github.com/features/actions">Actions</a> feature claimed that this is the future of workflow automation where developers can create and maintain workflows and actions from GitHub itself. The CI/CD will be painless and right in the fingertips. We have just seen that how to deploy Swift Packages using Github Actions but it can be applied for any technology that can be built inside Docker. This is just the start of GitHub Action. Let&#8217;s wait and watch what it bing in the future.</p>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<i class="fa fa-folder"></i>&nbsp;<span class="cat-links"><a href="https://shashikantjagtap.net/category/build-automation/" rel="category tag">Build Automation</a>, <a href="https://shashikantjagtap.net/category/continuous-integration/" rel="category tag">Continuous Integration</a>, <a href="https://shashikantjagtap.net/category/developer-tools/" rel="category tag">Developer Tools</a>, <a href="https://shashikantjagtap.net/category/featured/" rel="category tag">Featured</a>, <a href="https://shashikantjagtap.net/category/test-automation/" rel="category tag">Test Automation</a></span><i class="fa fa-tags"></i>&nbsp;<span class="tags-links"><a href="https://shashikantjagtap.net/tag/ci-cd/" rel="tag">CI/CD</a>, <a href="https://shashikantjagtap.net/tag/cli/" rel="tag">CLI</a>, <a href="https://shashikantjagtap.net/tag/docker/" rel="tag">Docker</a>, <a href="https://shashikantjagtap.net/tag/packagemanager/" rel="tag">PackageManager</a>, <a href="https://shashikantjagtap.net/tag/swift/" rel="tag">Swift</a>, <a href="https://shashikantjagtap.net/tag/xcode/" rel="tag">Xcode</a>, <a href="https://shashikantjagtap.net/tag/xctest/" rel="tag">XCTest</a></span>	</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+					<nav class="navigation post-navigation clearfix" role="navigation">
+			<h1 class="screen-reader-text">Post navigation</h1>
+			<div class="nav-links">
+				<div class="nav-previous button"><a href="https://shashikantjagtap.net/xed-the-lightweight-text-editor-for-xcode/" rel="prev"><span class="meta-nav">&larr;</span>&nbsp;XED: The Lightweight Text Editor for Xcode</a></div><div class="nav-next button"><a href="https://shashikantjagtap.net/2018-biggest-shakeup-in-years-for-ios-release-and-ci-cd-process-how-to-prepare-for-2019/" rel="next">2018: Biggest Shakeup in Years for iOS Release and CI/CD Process. How to Prepare for 2019&nbsp;<span class="meta-nav">&rarr;</span></a></div>			</div><!-- .nav-links -->
+		</nav><!-- .navigation -->
+		
+			
+<div id="disqus_thread"></div>
+
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+<div id="secondary" class="widget-area" role="complementary">
+	<aside id="media_image-5" class="widget widget_media_image"><h3 class="widget-title"><span>TOP TECHNOLOGY INFLUENCERS OF 2018</span></h3><a href="https://fitsmallbusiness.com/reviews/app-development-software-reviews/#influencers"><img width="350" height="303" src="https://shashikantjagtap.net/wp-content/uploads/2018/11/Technology-Influencer.png" class="image wp-image-6803  attachment-full size-full" alt="" style="max-width: 100%; height: auto;" /></a></aside><aside id="custom_html-2" class="widget_text widget widget_custom_html"><h3 class="widget-title"><span>Checkout My Upcoming Book</span></h3><div class="textwidget custom-html-widget"><iframe width='200' height='400' src='https://leanpub.com/iosdevops/embed' frameborder='0' allowtransparency='true'></iframe>
+  </div></aside><aside id="media_image-4" class="widget widget_media_image"><h3 class="widget-title"><span>Download XCBlog App</span></h3><a href="https://itunes.apple.com/us/app/xcblog/id1222318890?mt=8"><img width="300" height="105" src="https://shashikantjagtap.net/wp-content/uploads/2018/09/AppStore.jpg" class="image wp-image-6629  attachment-full size-full" alt="" style="max-width: 100%; height: auto;" /></a></aside><aside id="categories-12" class="widget widget_categories"><h3 class="widget-title"><span>Categories</span></h3>		<ul>
+	<li class="cat-item cat-item-3"><a href="https://shashikantjagtap.net/category/bdd/" title="The post related to Behaviour Driven Development are catogorised into it. It may be regading behat, mink, Cucumber, Selenium. BDD">BDD</a> (52)
+</li>
+	<li class="cat-item cat-item-230"><a href="https://shashikantjagtap.net/category/build-automation/" >Build Automation</a> (64)
+</li>
+	<li class="cat-item cat-item-233"><a href="https://shashikantjagtap.net/category/continuous-integration/" >Continuous Integration</a> (32)
+</li>
+	<li class="cat-item cat-item-232"><a href="https://shashikantjagtap.net/category/developer-tools/" >Developer Tools</a> (59)
+</li>
+	<li class="cat-item cat-item-164"><a href="https://shashikantjagtap.net/category/featured/" >Featured</a> (28)
+</li>
+	<li class="cat-item cat-item-133"><a href="https://shashikantjagtap.net/category/devops/" >iOS DevOps</a> (99)
+</li>
+	<li class="cat-item cat-item-237"><a href="https://shashikantjagtap.net/category/machine-learning/" >Machine Learning</a> (1)
+</li>
+	<li class="cat-item cat-item-1"><a href="https://shashikantjagtap.net/category/test-automation/" title="Mix posts about Test Automation">Test Automation</a> (124)
+</li>
+		</ul>
+</aside><aside id="media_image-6" class="widget widget_media_image"><h3 class="widget-title"><span>ABOUT ME</span></h3><a href="https://about.me/shashikantjagtap"><img width="300" height="300" src="https://shashikantjagtap.net/wp-content/uploads/2019/01/profile-pic-400x400.jpg" class="image wp-image-6958  attachment-300x300 size-300x300" alt="" style="max-width: 100%; height: auto;" /></a></aside><aside id="sfsi-widget-2" class="widget sfsi">            <div class="sfsi_widget" data-position="widget">   
+				<div id='sfsi_wDiv'></div>
+                    <div class="norm_row sfsi_wDiv"  style="width:225px;text-align:left;position:absolute;"><div style='width:40px; height:40px;margin-left:5px;margin-bottom:5px;' class='sfsi_wicons shuffeldiv '><div class='inerCnt'><a class=' sficn' effect='' target='_blank'  href='https://shashikantjagtap.net/feed/' id='sfsiid_rss' alt='RSS' style='opacity:1' ><img alt='RSS' title='RSS' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/images/icons_theme/default/default_rss.png' width='40' height='40' style='' class='sfcm sfsi_wicon' effect=''   /></a></div></div><div style='width:40px; height:40px;margin-left:5px;margin-bottom:5px;' class='sfsi_wicons shuffeldiv '><div class='inerCnt'><a class=' sficn' effect='' target='_blank'  href='http://www.specificfeeds.com/widgets/emailSubscribeEncFeed/T1pGZXVOVW9McSs2WUdpU0xvWEJQcFovRnkwY1ZvSytZcXAwbzdEN0QwNVhpcDBIRzc1R0xNdE5qdml0aFpsNktvUHFmOXNMRjdLMHp6S2djcGh2YXNSRkIzeURYMXdtVnVqOEhGMnBYcmpJRE9CYi9zNVMxVWRodlNGaE5ySHJ8RzZCVWdBei9YVUc2WjM0Y0wwRUtFV3FEYytpcExBcXhtY05Xb202ajdZVT0=/OA==/' id='sfsiid_email' alt='Follow by Email' style='opacity:1' ><img alt='Follow by Email' title='Follow by Email' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/images/icons_theme/default/default_email.png' width='40' height='40' style='' class='sfcm sfsi_wicon' effect=''   /></a></div></div><div style='width:40px; height:40px;margin-left:5px;margin-bottom:5px;' class='sfsi_wicons shuffeldiv '><div class='inerCnt'><a class=' sficn' effect='' target='_blank'  href='https://en-gb.facebook.com/shashikantjagtaplondon/' id='sfsiid_facebook' alt='Facebook' style='opacity:1' ><img alt='Facebook' title='Facebook' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/images/icons_theme/default/default_facebook.png' width='40' height='40' style='' class='sfcm sfsi_wicon' effect=''   /></a></div></div><div style='width:40px; height:40px;margin-left:5px;margin-bottom:5px;' class='sfsi_wicons shuffeldiv '><div class='inerCnt'><a class=' sficn' effect='' target='_blank'  href='https://twitter.com/Shashikant86' id='sfsiid_twitter' alt='Twitter' style='opacity:1' ><img alt='Twitter' title='Twitter' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/images/icons_theme/default/default_twitter.png' width='40' height='40' style='' class='sfcm sfsi_wicon' effect=''   /></a></div></div><div style='width:40px; height:40px;margin-left:5px;margin-bottom:5px;' class='sfsi_wicons shuffeldiv '><div class='inerCnt'><a class=' sficn' effect='' target='_blank'  href='https://www.linkedin.com/in/shashikantjagtap' id='sfsiid_linkedin' alt='LinkedIn' style='opacity:1' ><img alt='LinkedIn' title='LinkedIn' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/images/icons_theme/default/default_linkedin.png' width='40' height='40' style='' class='sfcm sfsi_wicon' effect=''   /></a></div></div></div ><div id="sfsi_holder" class="sfsi_holders" style="position: relative; float: left;width:100%;z-index:-1;"></div ><script>jQuery(".sfsi_widget").each(function( index ) {
+					if(jQuery(this).attr("data-position") == "widget")
+					{
+						var wdgt_hght = jQuery(this).children(".norm_row.sfsi_wDiv").height();
+						var title_hght = jQuery(this).parent(".widget.sfsi").children(".widget-title").height();
+						var totl_hght = parseInt( title_hght ) + parseInt( wdgt_hght );
+						jQuery(this).parent(".widget.sfsi").css("min-height", totl_hght+"px");
+					}
+				});</script>	      		<div style="clear: both;"></div>
+            </div>
+            </aside><aside id="text-7" class="widget widget_text"><h3 class="widget-title"><span>Privacy &#038; Cookie Policy</span></h3>			<div class="textwidget"><p>XCBlog uses cookies to improve your experience. Find out more about XCBlog Privacy and Cookie Policy <a href="https://shashikantjagtap.net/privacy-policy/">Here </a></p>
+</div>
+		</aside><aside id="tag_cloud-2" class="widget widget_tag_cloud"><h3 class="widget-title"><span>Tags</span></h3><div class="tagcloud"><a href="https://shashikantjagtap.net/tag/accessibility/" class="tag-cloud-link tag-link-212 tag-link-position-1" style="font-size: 10.625pt;" aria-label="Accessibility (3 items)">Accessibility</a>
+<a href="https://shashikantjagtap.net/tag/ai-ml/" class="tag-cloud-link tag-link-238 tag-link-position-2" style="font-size: 8pt;" aria-label="AI/ML (1 item)">AI/ML</a>
+<a href="https://shashikantjagtap.net/tag/ansible/" class="tag-cloud-link tag-link-214 tag-link-position-3" style="font-size: 11.5pt;" aria-label="Ansible (4 items)">Ansible</a>
+<a href="https://shashikantjagtap.net/tag/appium/" class="tag-cloud-link tag-link-223 tag-link-position-4" style="font-size: 11.5pt;" aria-label="Appium (4 items)">Appium</a>
+<a href="https://shashikantjagtap.net/tag/app-store-connet-api/" class="tag-cloud-link tag-link-235 tag-link-position-5" style="font-size: 8pt;" aria-label="App Store Connet API (1 item)">App Store Connet API</a>
+<a href="https://shashikantjagtap.net/tag/behat/" class="tag-cloud-link tag-link-225 tag-link-position-6" style="font-size: 13.6875pt;" aria-label="Behat (8 items)">Behat</a>
+<a href="https://shashikantjagtap.net/tag/carthage/" class="tag-cloud-link tag-link-207 tag-link-position-7" style="font-size: 12.8125pt;" aria-label="Carthage (6 items)">Carthage</a>
+<a href="https://shashikantjagtap.net/tag/ci-olympics/" class="tag-cloud-link tag-link-215 tag-link-position-8" style="font-size: 13.25pt;" aria-label="CI-Olympics (7 items)">CI-Olympics</a>
+<a href="https://shashikantjagtap.net/tag/ci-cd/" class="tag-cloud-link tag-link-203 tag-link-position-9" style="font-size: 21.9125pt;" aria-label="CI/CD (76 items)">CI/CD</a>
+<a href="https://shashikantjagtap.net/tag/cli/" class="tag-cloud-link tag-link-199 tag-link-position-10" style="font-size: 16.75pt;" aria-label="CLI (19 items)">CLI</a>
+<a href="https://shashikantjagtap.net/tag/cocoapods/" class="tag-cloud-link tag-link-206 tag-link-position-11" style="font-size: 12.8125pt;" aria-label="CocoaPods (6 items)">CocoaPods</a>
+<a href="https://shashikantjagtap.net/tag/codesigning/" class="tag-cloud-link tag-link-210 tag-link-position-12" style="font-size: 14.475pt;" aria-label="codesigning (10 items)">codesigning</a>
+<a href="https://shashikantjagtap.net/tag/coreml/" class="tag-cloud-link tag-link-229 tag-link-position-13" style="font-size: 8pt;" aria-label="CoreML (1 item)">CoreML</a>
+<a href="https://shashikantjagtap.net/tag/createml/" class="tag-cloud-link tag-link-228 tag-link-position-14" style="font-size: 9.575pt;" aria-label="CreateML (2 items)">CreateML</a>
+<a href="https://shashikantjagtap.net/tag/cucumber/" class="tag-cloud-link tag-link-219 tag-link-position-15" style="font-size: 17.45pt;" aria-label="Cucumber (23 items)">Cucumber</a>
+<a href="https://shashikantjagtap.net/tag/devtools/" class="tag-cloud-link tag-link-198 tag-link-position-16" style="font-size: 18.4125pt;" aria-label="DevTools (30 items)">DevTools</a>
+<a href="https://shashikantjagtap.net/tag/docker/" class="tag-cloud-link tag-link-220 tag-link-position-17" style="font-size: 14.125pt;" aria-label="Docker (9 items)">Docker</a>
+<a href="https://shashikantjagtap.net/tag/fastlane/" class="tag-cloud-link tag-link-204 tag-link-position-18" style="font-size: 15.4375pt;" aria-label="Fastlane (13 items)">Fastlane</a>
+<a href="https://shashikantjagtap.net/tag/ios/" class="tag-cloud-link tag-link-240 tag-link-position-19" style="font-size: 8pt;" aria-label="iOS (1 item)">iOS</a>
+<a href="https://shashikantjagtap.net/tag/iosbdd/" class="tag-cloud-link tag-link-217 tag-link-position-20" style="font-size: 13.6875pt;" aria-label="iOSBDD (8 items)">iOSBDD</a>
+<a href="https://shashikantjagtap.net/tag/iosdev/" class="tag-cloud-link tag-link-202 tag-link-position-21" style="font-size: 20.25pt;" aria-label="iOSDev (49 items)">iOSDev</a>
+<a href="https://shashikantjagtap.net/tag/iosdevops/" class="tag-cloud-link tag-link-196 tag-link-position-22" style="font-size: 22pt;" aria-label="iOSDevOps (79 items)">iOSDevOps</a>
+<a href="https://shashikantjagtap.net/tag/iosdevuk/" class="tag-cloud-link tag-link-234 tag-link-position-23" style="font-size: 8pt;" aria-label="iOSDevUK (1 item)">iOSDevUK</a>
+<a href="https://shashikantjagtap.net/tag/jenkins/" class="tag-cloud-link tag-link-221 tag-link-position-24" style="font-size: 14.825pt;" aria-label="Jenkins (11 items)">Jenkins</a>
+<a href="https://shashikantjagtap.net/tag/kubernetes/" class="tag-cloud-link tag-link-241 tag-link-position-25" style="font-size: 8pt;" aria-label="Kubernetes (1 item)">Kubernetes</a>
+<a href="https://shashikantjagtap.net/tag/machine-learning/" class="tag-cloud-link tag-link-239 tag-link-position-26" style="font-size: 8pt;" aria-label="Machine Learning (1 item)">Machine Learning</a>
+<a href="https://shashikantjagtap.net/tag/packagemanager/" class="tag-cloud-link tag-link-218 tag-link-position-27" style="font-size: 13.25pt;" aria-label="PackageManager (7 items)">PackageManager</a>
+<a href="https://shashikantjagtap.net/tag/php/" class="tag-cloud-link tag-link-222 tag-link-position-28" style="font-size: 14.475pt;" aria-label="PHP (10 items)">PHP</a>
+<a href="https://shashikantjagtap.net/tag/ruby/" class="tag-cloud-link tag-link-208 tag-link-position-29" style="font-size: 18.15pt;" aria-label="Ruby (28 items)">Ruby</a>
+<a href="https://shashikantjagtap.net/tag/swift/" class="tag-cloud-link tag-link-197 tag-link-position-30" style="font-size: 20.6875pt;" aria-label="Swift (55 items)">Swift</a>
+<a href="https://shashikantjagtap.net/tag/testing/" class="tag-cloud-link tag-link-205 tag-link-position-31" style="font-size: 10.625pt;" aria-label="Testing (3 items)">Testing</a>
+<a href="https://shashikantjagtap.net/tag/vagrant/" class="tag-cloud-link tag-link-224 tag-link-position-32" style="font-size: 11.5pt;" aria-label="Vagrant (4 items)">Vagrant</a>
+<a href="https://shashikantjagtap.net/tag/wwdc2018/" class="tag-cloud-link tag-link-226 tag-link-position-33" style="font-size: 12.8125pt;" aria-label="WWDC2018 (6 items)">WWDC2018</a>
+<a href="https://shashikantjagtap.net/tag/xcode/" class="tag-cloud-link tag-link-209 tag-link-position-34" style="font-size: 17.7125pt;" aria-label="Xcode (25 items)">Xcode</a>
+<a href="https://shashikantjagtap.net/tag/xcode10/" class="tag-cloud-link tag-link-227 tag-link-position-35" style="font-size: 15.875pt;" aria-label="Xcode10 (15 items)">Xcode10</a>
+<a href="https://shashikantjagtap.net/tag/xcodeserver/" class="tag-cloud-link tag-link-213 tag-link-position-36" style="font-size: 16.1375pt;" aria-label="XcodeServer (16 items)">XcodeServer</a>
+<a href="https://shashikantjagtap.net/tag/xcteq/" class="tag-cloud-link tag-link-236 tag-link-position-37" style="font-size: 8pt;" aria-label="XCTEQ (1 item)">XCTEQ</a>
+<a href="https://shashikantjagtap.net/tag/xctest/" class="tag-cloud-link tag-link-201 tag-link-position-38" style="font-size: 19.2875pt;" aria-label="XCTest (38 items)">XCTest</a>
+<a href="https://shashikantjagtap.net/tag/xcuitest/" class="tag-cloud-link tag-link-200 tag-link-position-39" style="font-size: 19.1125pt;" aria-label="XCUITest (36 items)">XCUITest</a></div>
+</aside><aside id="archives-6" class="widget widget_archive"><h3 class="widget-title"><span>Archives</span></h3>		<label class="screen-reader-text" for="archives-dropdown-6">Archives</label>
+		<select id="archives-dropdown-6" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='https://shashikantjagtap.net/2019/03/'> March 2019 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2019/02/'> February 2019 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2018/12/'> December 2018 &nbsp;(4)</option>
+	<option value='https://shashikantjagtap.net/2018/11/'> November 2018 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2018/10/'> October 2018 &nbsp;(7)</option>
+	<option value='https://shashikantjagtap.net/2018/09/'> September 2018 &nbsp;(5)</option>
+	<option value='https://shashikantjagtap.net/2018/08/'> August 2018 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2018/07/'> July 2018 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2018/06/'> June 2018 &nbsp;(5)</option>
+	<option value='https://shashikantjagtap.net/2018/05/'> May 2018 &nbsp;(7)</option>
+	<option value='https://shashikantjagtap.net/2018/04/'> April 2018 &nbsp;(5)</option>
+	<option value='https://shashikantjagtap.net/2018/03/'> March 2018 &nbsp;(5)</option>
+	<option value='https://shashikantjagtap.net/2018/02/'> February 2018 &nbsp;(8)</option>
+	<option value='https://shashikantjagtap.net/2018/01/'> January 2018 &nbsp;(7)</option>
+	<option value='https://shashikantjagtap.net/2017/12/'> December 2017 &nbsp;(7)</option>
+	<option value='https://shashikantjagtap.net/2017/11/'> November 2017 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2017/10/'> October 2017 &nbsp;(6)</option>
+	<option value='https://shashikantjagtap.net/2017/09/'> September 2017 &nbsp;(9)</option>
+	<option value='https://shashikantjagtap.net/2017/08/'> August 2017 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2017/07/'> July 2017 &nbsp;(4)</option>
+	<option value='https://shashikantjagtap.net/2017/06/'> June 2017 &nbsp;(10)</option>
+	<option value='https://shashikantjagtap.net/2017/05/'> May 2017 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2017/04/'> April 2017 &nbsp;(4)</option>
+	<option value='https://shashikantjagtap.net/2017/03/'> March 2017 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2017/02/'> February 2017 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2017/01/'> January 2017 &nbsp;(10)</option>
+	<option value='https://shashikantjagtap.net/2016/10/'> October 2016 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2016/09/'> September 2016 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2016/08/'> August 2016 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2016/07/'> July 2016 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2016/06/'> June 2016 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2016/05/'> May 2016 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2016/04/'> April 2016 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2016/03/'> March 2016 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2016/02/'> February 2016 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2015/10/'> October 2015 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2015/09/'> September 2015 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2015/08/'> August 2015 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2015/05/'> May 2015 &nbsp;(4)</option>
+	<option value='https://shashikantjagtap.net/2015/04/'> April 2015 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2015/03/'> March 2015 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2014/12/'> December 2014 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2014/11/'> November 2014 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2014/10/'> October 2014 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2014/07/'> July 2014 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2014/05/'> May 2014 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2014/04/'> April 2014 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2014/03/'> March 2014 &nbsp;(3)</option>
+	<option value='https://shashikantjagtap.net/2014/02/'> February 2014 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2013/12/'> December 2013 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2013/09/'> September 2013 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2013/08/'> August 2013 &nbsp;(2)</option>
+	<option value='https://shashikantjagtap.net/2013/07/'> July 2013 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2013/05/'> May 2013 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2013/04/'> April 2013 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2013/03/'> March 2013 &nbsp;(5)</option>
+	<option value='https://shashikantjagtap.net/2013/02/'> February 2013 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2012/10/'> October 2012 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2012/04/'> April 2012 &nbsp;(1)</option>
+	<option value='https://shashikantjagtap.net/2012/01/'> January 2012 &nbsp;(1)</option>
+
+		</select>
+		</aside><aside id="rss-5" class="widget widget_rss"><h3 class="widget-title"><span><a class="rsswidget" href="http://shashikantjagtap.net/rss"><img class="rss-widget-icon" style="border:0" width="14" height="14" src="https://shashikantjagtap.net/wp-includes/images/rss.png" alt="RSS" /></a> <a class="rsswidget" href="https://shashikantjagtap.net/">Feed</a></span></h3><ul><li><a class='rsswidget' href='https://shashikantjagtap.net/status-of-the-upcoming-ios-devops-book/'>Status of the upcoming iOS DevOps Book</a></li><li><a class='rsswidget' href='https://shashikantjagtap.net/xcblog-on-apple-news-again/'>XCBlog on Apple News Again!</a></li><li><a class='rsswidget' href='https://shashikantjagtap.net/five-killer-features-of-cocoapods-for-ios-development-are-in-transit/'>Five Killer Features of CocoaPods for iOS Development are In Transit</a></li><li><a class='rsswidget' href='https://shashikantjagtap.net/apples-2fa-announcement-will-break-all-your-ios-ci-cd-pipelines-how-to-prepare-for-it/'>Apple’s 2FA announcement will break all Your  iOS CI/CD Pipelines. How to Prepare For It</a></li><li><a class='rsswidget' href='https://shashikantjagtap.net/swift-docker-kubernetes-awesome-deployments-from-macos/'>Swift + Docker + Kubernetes = Awesome Deployments from macOS</a></li></ul></aside></div><!-- #secondary -->
+
+	</div><!-- #content -->
+	
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="container">
+			<div class="site-info col-md-6 col-sm-6">
+
+				<a href="http://wordpress.org/" rel="nofollow">
+					Proudly powered by WordPress				</a>
+				<span class="sep"> | </span>
+				Theme: <a href="http://themeisle.com/themes/flymag/" rel="nofollow">FlyMag</a> by Themeisle.			</div><!-- .site-info -->
+					</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+        <!--facebook like and share js -->
+        <div id="fb-root"></div>
+		<script>(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+		  	if (d.getElementById(id)) return;
+		  	js = d.createElement(s); js.id = id;
+		  	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+		  	fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<!--<div id="fb-root"></div>
+        <script>
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1425108201100352&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>-->
+ 		
+       <!-- linkedIn share and  follow js -->
+        <script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+			<!-- twitter JS End -->
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>	
+	             <script>
+                jQuery( document ).scroll(function( $ )
+                {
+                    var y = jQuery(this).scrollTop();
+            
+                    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+                    {    
+                       if(jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height()-100)
+                       {
+                          jQuery('.sfsi_outr_div').css({'z-index':'9996',opacity:1,top:jQuery(window).scrollTop()+"px",position:"absolute"});
+                          jQuery('.sfsi_outr_div').fadeIn(200);
+                          jQuery('.sfsi_FrntInner_chg').fadeIn(200);
+                       }
+                       else{
+                           jQuery('.sfsi_outr_div').fadeOut();
+                           jQuery('.sfsi_FrntInner_chg').fadeOut();
+                       }
+                  }
+                  else
+                  {
+                       if(jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height()-3)
+                       {
+                            jQuery('.sfsi_outr_div').css({'z-index':'9996',opacity:1,top:jQuery(window).scrollTop()+200+"px",position:"absolute"});
+                            jQuery('.sfsi_outr_div').fadeIn(200);
+                            jQuery('.sfsi_FrntInner_chg').fadeIn(200);
+                       }
+                       else
+                       {
+                         jQuery('.sfsi_outr_div').fadeOut();
+                         jQuery('.sfsi_FrntInner_chg').fadeOut();
+                       }
+                  } 
+                });
+             </script>
+                	<script>
+			jQuery(document).ready(function(e) {
+                jQuery("body").addClass("sfsi_2.20")
+            });
+			function sfsi_processfurther(ref) {
+				var feed_id = 'T1pGZXVOVW9McSs2WUdpU0xvWEJQcFovRnkwY1ZvSytZcXAwbzdEN0QwNVhpcDBIRzc1R0xNdE5qdml0aFpsNktvUHFmOXNMRjdLMHp6S2djcGh2YXNSRkIzeURYMXdtVnVqOEhGMnBYcmpJRE9CYi9zNVMxVWRodlNGaE5ySHJ8RzZCVWdBei9YVUc2WjM0Y0wwRUtFV3FEYytpcExBcXhtY05Xb202ajdZVT0=';
+				var feedtype = 8;
+				var email = jQuery(ref).find('input[name="data[Widget][email]"]').val();
+				var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				if ((email != "Enter your email") && (filter.test(email))) {
+					if (feedtype == "8") {
+						var url ="https://www.specificfeeds.com/widgets/subscribeWidget/"+feed_id+"/"+feedtype;
+						window.open('', "popupwindow", "scrollbars=yes,width=1080,height=760");
+						ref.action=url;
+						ref.target="popupwindow";
+						return true;
+					}else{
+						return false
+					}
+				} else {
+					alert("Please enter email address");
+					jQuery(ref).find('input[name="data[Widget][email]"]').focus();
+					return false;
+				}
+			}
+		</script>
+        <style type="text/css" aria-selected="true">
+			.sfsi_subscribe_Popinner
+			{
+								width: 100% !important;
+				height: auto !important;
+												padding: 18px 0px !important;
+				background-color: #ffffff !important;
+			}
+			.sfsi_subscribe_Popinner form
+			{
+				margin: 0 20px !important;
+			}
+			.sfsi_subscribe_Popinner h5
+			{
+				font-family: Helvetica,Arial,sans-serif !important;
+								font-weight: bold !important;
+								color: #000000 !important;
+				font-size: 16px !important;
+				text-align: center !important;
+				margin: 0 0 10px !important;
+    			padding: 0 !important;
+			}
+			.sfsi_subscription_form_field {
+				margin: 5px 0 !important;
+				width: 100% !important;
+				display: inline-flex;
+				display: -webkit-inline-flex;
+			}
+			.sfsi_subscription_form_field input {
+				width: 100% !important;
+				padding: 10px 0px !important;
+			}
+			.sfsi_subscribe_Popinner input[type=email]
+			{
+				font-family: Helvetica,Arial,sans-serif !important;
+								font-style: normal !important;
+								color:  !important;
+				font-size: 14px !important;
+				text-align: center !important;
+			}
+			.sfsi_subscribe_Popinner input[type=email]::-webkit-input-placeholder {
+			   	font-family: Helvetica,Arial,sans-serif !important;
+								font-style: normal !important;
+								color:  !important;
+				font-size: 14px !important;
+				text-align: center !important;
+			}
+			.sfsi_subscribe_Popinner input[type=email]:-moz-placeholder { /* Firefox 18- */
+			    font-family: Helvetica,Arial,sans-serif !important;
+								font-style: normal !important;
+								color:  !important;
+				font-size: 14px !important;
+				text-align: center !important;
+			}
+			.sfsi_subscribe_Popinner input[type=email]::-moz-placeholder {  /* Firefox 19+ */
+			    font-family: Helvetica,Arial,sans-serif !important;
+								font-style: normal !important;
+								color:  !important;
+				font-size: 14px !important;
+				text-align: center !important;
+			}
+			.sfsi_subscribe_Popinner input[type=email]:-ms-input-placeholder {  
+			  	font-family: Helvetica,Arial,sans-serif !important;
+								font-style: normal !important;
+								color:  !important;
+				font-size: 14px !important;
+				text-align: center !important;
+			}
+			.sfsi_subscribe_Popinner input[type=submit]
+			{
+				font-family: Helvetica,Arial,sans-serif !important;
+								font-weight: bold !important;
+								color: #000000 !important;
+				font-size: 16px !important;
+				text-align: center !important;
+				background-color: #dedede !important;
+			}
+		</style>
+	<script>
+    jQuery(document).ready(function () {
+		jQuery.post('https://shashikantjagtap.net?ga_action=googleanalytics_get_script', {action: 'googleanalytics_get_script'}, function(response) {
+			var s = document.createElement("script");
+			s.type = "text/javascript";
+			s.innerHTML = response;
+			jQuery("head").append(s);
+		});
+    });
+</script><script type='text/javascript'>
+/* <![CDATA[ */
+var countVars = {"disqusShortname":"shashikant86"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/disqus-comment-system/public/js/comment_count.js?ver=3.0.17'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var embedVars = {"disqusConfig":{"integration":"wordpress 3.0.17"},"disqusIdentifier":"6897 https:\/\/shashikantjagtap.net\/?p=6897","disqusShortname":"shashikant86","disqusTitle":"GitHub Actions: Continuous Delivery of Swift Packages","disqusUrl":"https:\/\/shashikantjagtap.net\/github-actions-continuous-delivery-of-swift-packages\/","postId":"6897"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/disqus-comment-system/public/js/comment_embed.js?ver=3.0.17'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/jquery/ui/core.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/js/shuffle/modernizr.custom.min.js?ver=4.9.10'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/js/shuffle/jquery.shuffle.min.js?ver=4.9.10'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/js/shuffle/random-shuffle-min.js?ver=4.9.10'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sfsi_icon_ajax_object = {"ajax_url":"https:\/\/shashikantjagtap.net\/wp-admin\/admin-ajax.php"};
+var sfsi_icon_ajax_object = {"ajax_url":"https:\/\/shashikantjagtap.net\/wp-admin\/admin-ajax.php","plugin_url":"https:\/\/shashikantjagtap.net\/wp-content\/plugins\/ultimate-social-media-icons\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/plugins/ultimate-social-media-icons/js/custom.js?ver=4.9.10'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-content/themes/flymag/js/skip-link-focus-fix.js?ver=20130115'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/comment-reply.min.js?ver=4.9.10'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/imagesloaded.min.js?ver=3.2.0'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/masonry.min.js?ver=3.3.2'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/jquery/jquery.masonry.min.js?ver=3.1.2b'></script>
+<script type='text/javascript' src='https://shashikantjagtap.net/wp-includes/js/wp-embed.min.js?ver=4.9.10'></script>
+
+</body>
+</html>

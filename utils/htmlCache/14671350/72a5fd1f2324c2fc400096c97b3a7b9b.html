@@ -1,0 +1,993 @@
+
+<!DOCTYPE HTML><html lang="zh-CN"><head><meta charset="UTF-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><meta name="renderer" content="webkit"/><meta property="qc:admins" content="15317273575564615446375"/><meta property="og:image" content="https://cdn.segmentfault.com/v-5c8b4d77/global/img/touch-icon.png"/><meta name="viewport"
+              content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/><meta name="alexaVerifyID" content="LkzCRJ7rPEUwt6fVey2vhxiw1vQ"/><meta name="apple-itunes-app" content="app-id=958101793, app-argument="><title>iOS App 连接外设的几种方式 - SegmentFault 思否</title><meta name="description" content="一起来SegmentFault 头条阅读和讨论Kotexy分享的技术内容《iOS App 连接外设的几种方式》"/><meta name="keywords" content="iOS App 连接外设的几种方式,iOS,思否,技术,开发,编程,头条,SegmentFault"/><link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="SegmentFault"/><link rel="shortcut icon" href="https://cdn.segmentfault.com/v-5c8b4d77/global/img/favicon.ico"/><link rel="apple-touch-icon" href="https://cdn.segmentfault.com/v-5c8b4d77/global/img/touch-icon.png"><meta name="msapplication-TileColor" content="#009a61"/><meta name="msapplication-square150x150logo" content="https://cdn.segmentfault.com/v-5c8b4d77/global/img/touch-icon.png"/><meta name="baidu_union_verify" content="bcf7fd80dca60d53d46d5b46e1b990ca"><link rel="alternate" type="application/atom+xml" title="SegmentFault 最新问题" href="/feeds/questions"><link rel="alternate" type="application/atom+xml" title="SegmentFault 最新文章" href="/feeds/blogs"><link rel="stylesheet" href="https://cdn.segmentfault.com/v-5c8b4d77/global/css/global.css"/><link rel="stylesheet" href="https://cdn.segmentfault.com/v-5c8b4d77/news/css/news.css"/><link rel="stylesheet" href="https://cdn.segmentfault.com/v-5c8b4d77/global/css/responsive.css"/><script type='text/javascript' src='https://sponsor.segmentfault.com/spcjs.php?id=1&block=1&repu=0'></script><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6330872677300335",
+            enable_page_level_ads: true
+        });
+    </script></head><body data-mod="news"
+    class="news-detail "><!--[if lt IE 9]><div class="alert alert-danger topframe" role="alert">你的浏览器实在<strong>太太太太太太旧了</strong>，放学别走，升级完浏览器再说 <a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div><![endif]--><img id="icon4weChat" style="height: 0;width: 0;" data-src="https://cdn.segmentfault.com/v-5c8b4d77/global/img/touch-icon-512.png"><div id="gridMapHoverBox" style="position:absolute; border: 1px solid #009a61; z-index:99; font-size: 10px; background:#fff"></div><div class="global-nav sf-header sf-header--index"><div class="bottom-nav visible-xs visible-sm "><div class="opts"><a class="opts-group " href="/"><i class="fa fa-home" aria-hidden="true"></i><span>首页</span></a><a class="opts-group " href="/questions"><i class="fa fa-comments" aria-hidden="true"></i><span>问答</span></a><a class="opts-group " href="/blogs"><i class="fa fa-pencil-square" aria-hidden="true"></i><span>专栏</span></a><a class="opts-group " href="/lives"><i class="fa fa-play-circle" aria-hidden="true"></i><span>讲堂</span></a><div class="opts-group"><div class="btn-group dropup"><i class="fa fa-bars dropdown hoverDropdown" data-toggle="dropdown" aria-hidden="true"><span>更多</span></i><ul class="dropdown-menu"><li><a href="/jobs">职位</a></li><li><a href="/events">活动</a></li><li><a href="/tags">标签</a></li><li><a href="/badges">徽章</a></li></ul></div></div></div></div><nav class="container nav"><div class="visible-xs visible-sm header-response"><a href="/search" style="display:block"><i class="fa fa-search" aria-hidden="true"></i></a><div class="sf-header__logo sf-header__logo--response"><h1><a href="/" style="height:24px; background-size: auto 24px;"></a></h1></div><a href="/user/login" class="pull-right login-btn"><i class="fa fa-user" aria-hidden="true"></i></a></div><script>
+mobileScroll(
+    function(direction) { 
+        try {
+            if (direction === 'down') {
+                document.querySelector('.bottom-nav').classList.add('hidden')
+            } else {
+                document.querySelector('.bottom-nav').classList.remove('hidden')
+            }
+        } catch(err) {}
+    }
+);    
+function mobileScroll( fn ) {
+    var beforeScrollTop = document.documentElement.scrollTop || document.body.scrollTop,
+        fn = fn || function() {};
+    window.addEventListener("scroll", function() {
+        var afterScrollTop = document.documentElement.scrollTop || document.body.scrollTop,
+            delta = afterScrollTop - beforeScrollTop;
+        if( delta === 0 ) return false;
+        fn( delta > 0 ? "down" : "up" );
+        beforeScrollTop = afterScrollTop;
+    }, false);
+}
+</script><div class="row hidden-xs hidden-sm"><div class="col-sm-8 col-md-9 col-lg-9"><div class="sf-header__logo"><h1><a href="/">SegmentFault</a></h1></div><div><ul class="menu list-inline pull-left hidden-xs"><li class="menu__item"><a href="/" class="">首页</a></li><li class="menu__item"><a href="/questions" class="">问答</a></li><li class="menu__item"><a href="/blogs" class="">专栏</a></li><li class="menu__item"><a class=" " href="/lives" class="">讲堂</a></li><li class="menu__item"><a href="/groups" class="">圈子</a></li><li class="menu__item menu__item--more dropdown"><a href="##" class="dropdown-toggle dropdownBtn" data-toggle="dropdown">
+                                        发现<i class="fa fa-caret-down" style="font-size: 14px;margin-left: 5px;" aria-hidden="true"></i></a><div class="dropdown-block hidden"><ul class="dropdown-content-menu"><li><a href="/events">活动</a></li><li><a href="/tags">标签</a></li><li><a href="/groups?tab=jobs">酷工作</a></li><li><a href="/users">排行榜</a></li><li><a href="/badges">徽章</a></li><li><a href="/notes">笔记</a></li><li><a href="https://docs.segmentfault.com" target="_blank">开发手册<i style="line-height: 20px;font-size: 12px;color: #F5A623;" class="ml10 fa fa-external-link-square"></i></a></li><li><a href="https://business.segmentfault.com/ads?utm_source=sf-header" target="_blank">广告投放<i style="line-height: 20px;font-size: 12px;color: #F5A623;" class="ml10 fa fa-external-link-square"></i></a></li></ul></div></li><li class="menu__item visible-sm-inline-block"><a href="/search"><span class="glyphicon glyphicon-search" style="vertical-align: middle;"></span></a></li></ul><form action="/search" class="header-search  hidden-sm hidden-xs pull-right" ><button class="btn btn-link"><span class="sr-only">搜索</span><span class="glyphicon glyphicon-search"></span></button><input id="searchBox" name="q" type="text"  placeholder="搜索问题或关键字" class="form-control" value="" /></form></div></div><div class="col-sm-4 col-md-3 col-lg-3 text-right"><ul class="opts list-inline hidden-xs"><li class="opts__item"><a href="/user/login" class="SFRegister btn-signin" style="margin-bottom:2px;">立即登录</a><a href="/user/register" class="SFLogin ml10 btn-signup"
+                                       onClick="_gaq.push(['_trackEvent', 'Button', 'Click', 'Login']);">免费注册</a></li></ul></div></div><div class="sub-head hidden-xs hidden-sm"><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/frontend">前端</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/backend">后端</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/miniprogram">小程序</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/ai">人工智能</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/bc">区块链</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/netsec">安全</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/android">Android</a></span><span class="tag-nav__item mr20"><a
+                                    class="active "                                    href="/channel/ios">iOS</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/toolkit">工具</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/programmer">程序员</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/industry">行业</a></span><span class="tag-nav__item mr20"><a
+                                    class="text-secondNav"                                    href="/channel/segmentfault">SF官方</a></span></div></nav></div>
+
+<a name="top" id="top"></a>
+
+<style type="text/css">
+    body {
+        background-color: #fff !important;    
+    }
+</style>
+
+<div class="container news__read--container " data-id="1210000009602953">
+    <div class="news__read">
+        <h1 class="h3 news__read-title mt5" >iOS App 连接外设的几种方式</h1>
+        <p class="news__read-meta nowrap">阅读 688，2017年05月31日 发布，来源：<a target="_blank" href="/r/1250000009602952?shareId=1210000009602953">www.jianshu.com</a></p>
+        <div class="news__read-content fmt">
+            <div class="show-content">
+ <p>随着近年来车联网和物联网的兴起，智能家居和智能硬件的逐步火热，越来越多的 App 被用来跟硬件设备进行来连接，获取硬件相关信息用以展示或者发送指令控制硬件来提供服务。</p>
+<div class="image-package">
+<img src="/img/remote/1460000009602954?w=1240&amp;h=815" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-da2454281deacd20.jpg?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">iOS App 连接外设的几种方式.jpg</div>
+</div>
+<p>iOS App 连接外设的常用方式可以分为三大类:</p>
+<h2>网络端口</h2>
+<p>建立 Socket 使用 TCP/IP 协议族进行通信，天然支持多通道，想要几个通道就建几个 Socket 就可以。它主要有三种方式，</p>
+<h3>Wi-Fi 连接</h3>
+<p>优点：</p>
+<ul>
+<li>
+<p>简单，不需要集成 MFi 芯片</p>
+</li>
+<li>
+<p>只要对应的硬件有无线网卡，然后将手机和硬件连接到同一个局域网中就可以使用 Socket 通过网络协议通信</p>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>
+<p>无线连接信号容易受到干扰，不太稳定，容易断开</p>
+</li>
+<li>
+<p>如果硬件使用的场合没有公共 Wi-Fi，就需要手机自建热点共享，硬件进行热点接入，操作步骤较多，对用户来说学习使用成本较高，并且热点共享要求手机本身的数据移动网络是稳定的，在没有移动数据网络信号的地方，热点无法建立。</p>
+</li>
+</ul>
+<h3>USB 热点共享</h3>
+<p>这个其实跟 Wi-Fi 中的热点共享非常类似，也不需要集成 MFi 芯片。</p>
+<p>优点：</p>
+<ul>
+<li>
+<p>USB 热点共享，走的是有线，不容易受到干扰，更稳定，</p>
+</li>
+<li>
+<p>iPhone 可以边使用可以边充电</p>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>操作步骤比较复杂，需要先打开个人热点共享</li>
+</ul>
+<h3>NCM</h3>
+<p>就是把 USB 端口虚拟成标准的网络端口，然后手机和外设就能通过有线网络直连了，可以理解成手机和外设通过一跟网线连起来了，然后就可以用 Socket 通过 TCP，UDP 进行通信了。</p>
+<p>优点：</p>
+<ul>
+<li>
+<p>有线连接，非常稳定，带宽足够</p>
+</li>
+<li>
+<p>不依赖移动网络信号</p>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>
+<p>需要集成 MFi 芯片并进行 MFi 认证，有一定门槛</p>
+</li>
+<li>
+<p>除了 CarPlay，其他跟 iPhone 连接的外设都不能使用 NCM 的方式跟 iPhone 上的 App 进行连接和通信</p>
+</li>
+</ul>
+<h2>EAP</h2>
+<p>EAP 全拼是 External Accessory Protocol，即外部设备协议。这个是苹果推荐使用的外设连接方式。需要外设集成 MFi 芯片进行 MFi 认证。手机端开发相对简单，只要集成 iOS 系统提供的一个框架 ExternalAccessory.framework，并且在 info.plist 中配置好协议字符串 (Supported external accessory protocols)，当 iOS 设备通过 USB 或者蓝牙连接到对应硬件时，iOS 系统会把符合 MFi 认证要求的外设抽象成了一个流对象，App 通过指定的协议字符串来创建一个 EASession 类的实例来访问到该流对象，就能通过 NSInputStream 和 NSOutputStream 跟硬件件进行通信了。</p>
+<ul>
+<li>
+<p>EASession 模式：它的带宽相对较低，但是允许同时通过多个协议字符串创建多个会话，也就是说直接支持多通道</p>
+</li>
+<li>
+<p>Native Transport 模式：它的带宽足够大，理论值是 100MB 以上，但是不支持多通道，如果业务层需要支持多数据通道的话需要 App 自己进行通道的复用与拆分，并且 Native Transport 需要 iPhone 工作在 USB Host 模式，硬件需要支持 USB 模式切换</p>
+</li>
+</ul>
+<p>关于如何使用 EAP 跟外部设备进行通信，可以参考<a href="https://developer.apple.com/library/content/samplecode/EADemo/Introduction/Intro.html" target="_blank">苹果官方的 Demo </a>进行入门和学习。</p>
+<h2>BLE</h2>
+<p>BLE 即低功耗蓝牙，是 iOS7.0 以后才支持的连接方式。</p>
+<ul>
+<li>
+<p>优点：不需要集成 MFi 芯片做认证，功耗低，手机端开发也相对简单，集成 iOS 系统提供的 CoreBluetooth.framework 即可</p>
+</li>
+<li>
+<p>缺点：带宽很低，一般适合于只需要传输少量数据的场景。比如各种智能硬件，像智能水杯，智能体重计，运动手环等，都是采用这种连接方式</p>
+</li>
+</ul>
+<p>总结一下，图中带 MFi 字样的表示该连接方式需要硬件集成 MFi 芯片，做 MFi 认证。关于苹果的 MFi 认证，对 iOS 开发中来说其实是一个比较陌生并且繁琐的 Topic，原因如下：</p>
+<ul>
+<li>
+<p>网上鲜有资料，Google 基本上查不到。 因为 MFi 认证是由硬件生产商主导进行的，苹果首先对硬件生产商的实力 (质量，信誉，生产规模) 有很苛刻的要求，满足要求的才有进行 MFi 认证的资格。满足 MFi 认证资格要求的硬件生产商，提交了 MFi 产品计划后才能得到苹果 MFi 开发的官方文档，这个文档是带水印的，不允许外泄</p>
+</li>
+<li>
+<p>MFi认证周期很长，过程也很复杂</p>
+</li>
+<li>
+<p>苹果官方沟通渠道很窄，电话打不通，邮件回复不及时</p>
+</li>
+</ul>
+<h2>关于 MFi 申请的一些事情</h2>
+<div class="image-package">
+<img src="/img/remote/1460000009602955?w=1240&amp;h=629" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-896314f385087b50.jpg?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">MFi.jpg</div>
+</div>
+<h3>什么是 MFi 认证？</h3>
+<p>苹果 MFi 认证，是苹果公司(Apple Inc.)对其授权配件厂商生产的外置配件的一种标识使用许可，是 Apple 公司 “Made for iOS” 的英文缩写。</p>
+<h3>为什么要做 MFi 认证？</h3>
+<ul>
+<li>
+<p>从苹果角度来看，为了更好的巩固苹果的生态圈，只有集成了有<br>MFi 芯片，才能跟 iPhone、iPod，iPad 进行连接通信。而只有经过了 MFi 认证的企业才能批量购买 MFi 芯片，并且都 MFi 芯片的供销链条都有很严格的监督管理，所以这样苹果可以严格控制只有那些满足苹果规范和要求的外设才能加入到苹果生态圈。</p>
+</li>
+<li>
+<p>从生产厂商来看，经过苹果官方授权，配件产品能完美兼容苹果智能设备。提交 MFi 认证过程中，硬件设备需要经过苹果要求的<br>ATS 自测以及苹果的严格测试，产品质量更有保证。消费者也更加信任经过了 MFi 认证授权的配件；最后成功获得 MFi 授权这也成为技术与质量实力的一种标志，因为 MFi 认证通过率仅 2%，其中大部分企业因为申请资格不符合直接被拒绝。</p>
+</li>
+<li>
+<p>从 iOS 开发人员来看，MFi 认证是由硬件生产商主导进行申请的，是苹果对外设配件的一种认证和授权。但是很多外设跟苹果进行连接，并不只是跟 iOS 设备硬件或者 iOS 系统配合就可以完成对应的功能 (比如充电、CarPlay、播放 iPod 音乐 (A2DP)、接听蓝牙电话 (HPF) 或者提供 GPS 输入源等)。很多时候为了实现特定的需求，需要由 iOS App 的配合，由 iOS App 跟对应外设进行连接和通信，传输相关的控制命令对外设进行控制，或者传输相关的外设数据进行展示。iOS App 跟外设的连接方式有网络、EAP 和 BLE，其中 EAP 是苹果官方推荐的跟外设连接的方式。只有经过 MFi 认证的外设才能使用 EAP 跟 App 进行通信。</p>
+</li>
+</ul>
+<h3>如何做 MFi 认证?</h3>
+<p>MFi 认证的流程比较复杂，可以归纳总结为三个部分，如下图所示。</p>
+<div class="image-package">
+<img src="/img/remote/1460000009602956?w=1240&amp;h=2043" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-d7e0d34a25aed274.jpg?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">MFi 认证流程.jpg</div>
+</div>
+<p>其中黄色背景标注的部分是可能跟 iOS App 开发者相关的。</p>
+<h4>一、申请人提交申请资料</h4>
+<p>首先，收集公司资料信息，这些资料主要包括了认证负责人联系信息，企业情况介绍，公司组织架构、企业网站，物料品质控制以及 ISO 体系证书等资料。然后是在苹果 MFi 官网(<a href="mfi.apple.com" target="_blank">mfi.apple.com</a>)上进行注册，并提交第一步收集到的公司资料，进行账号申请。</p>
+<p>接下来苹果会进行 MFi 体系审核。这个是非常关键的一个步骤。 主要考察公司对 MFi 芯片的管理体系，看公司是否有规范的流程和系统来管理 MFi 芯片，能有效防止转售芯片或者挪用芯片 (把芯片用到未通过 MFi 认知的项目上)，苹果会安排专人或者代理公司来抽查。</p>
+<p>如果 MFi 体系审核过了，苹果还会对公司其他情况进行考察，来评估该公司是否满足 MFi 会员的资格。审核的标准主要看公司相关资质，是否有较大的生产规模；是否拥有自主品牌；品牌在业内是否有较高的地位 (主要表现为各类荣誉)；是否曾为其他国际知名企业供货；研发人员是否达到苹果要求的人数等，申请者一定保证申报资料的真实性，苹果公司都会一一核实。</p>
+<p>如果这些条件都满足，恭喜你公司成为了 MFi 会员，能够有资格购买样品芯片，并且拿到苹果提供的 MFi 官方开发文档，该文档的每一页都是带有申请人姓名水印的，禁止对外公开，如果被发现，有可能会被取消 MFi 会员资格。据说大部分的企业都会被卡在会员资格审核这一步。</p>
+<h4>二、提交产品计划，研发和自测</h4>
+<p>如果你的公司是属于那幸运的那一小部分通过了 MFi 会员资格审核，拿到了苹果的 MFi 研发官方文档，也购买了 MFi 样品芯片，那么就可以提交产品计划，进行产品研发和自测了。</p>
+<p>提交产品计划是非常关键的一步，需要根据要研发的公司产品的形态、所用技术方案和需要支持的 iOS 设备、iOS 的相关信息都进行详细的描述，其中比较重要信息有。</p>
+<h5>(1) 附件概览 (Accessory Overview)</h5>
+<div class="image-package">
+<img src="/img/remote/1460000009602957" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-0eac3762d5f0bfd4.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">附件概览.png</div>
+</div>
+<p>技术方案 (Technology) 如果你是做支持 CapPlay 的车机，那么就选择 CarPlay，否则都应该选择 iAP；如果你的硬件需要跟 iPhone 连接，并且处理相关业务，而不仅仅是充电线或者数据线，那么在 Components 里应该选择 Authentication coprocessor。</p>
+<h5>(2) 固件和硬件 (Firmware &amp; Hardware)</h5>
+<div class="image-package">
+<img src="/img/remote/1460000009602958?w=1056&amp;h=354" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-39df528c92a48774.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">固件和硬件.png</div>
+</div>
+<p>现在所有的 MFi 认证的硬件都需要支持 iAP2 协议，所以必须要选<br> iAP2 或者同时支持 iAP2 和 iAP1。然后外设硬件跟苹果设备是如何通信的，是使用 USB 的 Host 模式，还 USB 的 Devices 模式，还是串口或者蓝牙，这个需要根据产品的需求、特性进行选择。</p>
+<h5>(3) 选择硬件所支持的 iAP2 的特性</h5>
+<div class="image-package">
+<img src="/img/remote/1460000009602959?w=1070&amp;h=1008" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-982ca0039d7a0098.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">iAP2特性.png</div>
+</div>
+<h5>(4) 选择所支持的苹果设备型号</h5>
+<div class="image-package">
+<img src="/img/remote/1460000009602960?w=1084&amp;h=996" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-2b59ef6e2db0389a.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">所支持的苹果设备型号.png</div>
+</div>
+<p>根据产品的设计选择所需要支持的苹果设备型号，包括 iPad，iPhone 和 iPod 的各种型号。</p>
+<h5>(5) App 相关的信息</h5>
+<div class="image-package">
+<img src="/img/remote/1460000009602961?w=1106&amp;h=636" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-46b5210096f224ec.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">App 相关的信息.png</div>
+</div>
+<p>这部分也是 iOS 开发者需要重点关注的部分，包括 App 的版本号，BundleID 和协议字符串以及 iOS App 的主要功能特性描述，这部分信息需要跟最后送 MFi 审核时附带的 App 测试包的信息保持一致。提交了产品计划之后，就可以拿到 PPID (Product Plan ID)。这个 PPID 也是跟 iOS App 开发者需要关注的。当 App 开发完成，提交 AppStore 上线时，需要在版本审核备注信息里带上这个 PPID，否则审核是过不了的。</p>
+<p>接下来就可以进行产品研发了。主要是硬件生成商需要根据苹果提供的开发文档进行硬件和驱动认证程序的开发。而 iOS App 开发者则主要是需要成 iOS 系统提供的一个系统框架 ExternalAccessory.framework，并且在 info.plist 中配置好协议字符串 (Supported external accessory protocols)。当 iOS 设备通过<br> USB 线或者蓝牙连接到对应硬件时，iOS 系统会把符合 MFi 认证要求的外设抽象成了一个流对象，App 通过指定的协议字符串来创建一个 EASession 类的实例来访问到该流对象，就能通过<br> NSInputStream 和 NSOutputStream 跟硬件件进行通信了。这部分功能实现可以参考苹果官方的 <a href="https://developer.apple.com/library/ios/samplecode/EADemo/Introduction/Intro.html" target="_blank">EADemo</a> 进行入门和学习。</p>
+<p>产品研发完成后需要进行 ATS (Accessory Test System) 自测，并提供自测报告。ATS 自测苹果会提供 ATS Box 的测试工具和软件，主要是针对硬件进行电气特性相关的测试，包括各个节点的电压电流值是否满足苹果要求，然后传输带宽是否稳定，是否达到苹果要求等等。</p>
+<p>自测完成之后就可以把硬件和所配套的软件 (iOS App 的 ipa 安装包) 送到苹果指定的测试实验室进行认证测试。iOS 开发者在这个步骤需要关注的是如何打包 ipa 包。因为如果直接用开发证书打包，那么苹果测试人员的 iPhone 不在你开发证书的设备列表中，是无法安装的。如果用企业证书打包的话，可能 AppStore 发布证书对应的 BundleID 跟企业证书的 BundleID 不一致，所以也不可行。所以推荐的做法是，等到产品研发完成和自测之后，就带上产品计划中拿到的 PPID，提交 AppStore 进行审核。等审核通过之后，就可以直接从 AppStore 下载对应的 ipa 安装包，配合硬件一起送 MFi 认证测试了。</p>
+<h4>三、测试审核和批量生产</h4>
+<p>这个阶段也是硬件生产商主导进行的，跟 iOS App 开发者关系不大。当硬件的 MFi 认证送审通过之后，还需要对产品的包装也提交认证和审核。审核通过之后，就可以获得苹果授权进行 MFi 芯片的批量购买，然后根据销售计划进行硬件的批量生产和销售了。</p>
+<p>整个 MFi 认证的周期大概需要3个月到半年的时间，并且每次提交认证测试都需要支付一笔600美金的测试费用，所寄去测试的硬件测试样品苹果也是不会寄回来的。</p>
+<h2>iOS 外设连接黑科技，不需要 MFi 认证，实现 USB 连接</h2>
+<p>USBMuxd，利用这种连接方式不需要做 MFi 认证，支持 iPhone 上的 App 跟外设通过进行通信，非常方便。</p>
+<p><strong> 基本原理 </strong><br>iPhone 的 iOS 系统中自带了 USBMuxd 服务，该服务能够实现<br> USB-TCP 协议的转换，能够把 USB 的端口映射到本机 (localhost) 的 TCP 端 (基于 Unix Domain Socket )。只需要在外设端也实现一个 USBMuxd 服务，并指定端口映射关系， 那<br> iPhone 的 App 和外设上的应用就可以使用 Socket 进行 TCP 进行通信了。</p>
+<div class="image-package">
+<img src="/img/remote/1460000009602962?w=1040&amp;h=552" data-original-src="http://upload-images.jianshu.io/upload_images/2128042-d5394a92be2a1453.jpg?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption">USBMuxd.jpg</div>
+</div>
+<p><strong>一个开源实例</strong><br>开源项目 <a href="https://github.com/rsms/peertalk" target="_blank">peertalk</a> 就是一个完整的使用 USBMuxd 方式实现 iPhone App 跟 Mac App 进行 TCP 通信的例子。因为 Mac OS 系统中天生就自带了 USBMuxd 服务，所以 peertalk 的 Mac 端程序是比较简单的。外设一般都不会是 Mac 系统，而是 Android 或者 Linux 系统，那怎么办呢？那就自己在系统中集成 USBMuxd 服务，这里可以利用到 <a href="https://github.com/libimobiledevice" target="_blank">libimobiledevice</a> 实现在外设上集成 USBMuxd 服务。</p>
+<h2>MFi iOS App 端开发步骤</h2>
+<p>与附件设备通讯的 App 需设备支持的协议，这些协议由设备制造商维护，可是自定义或标准协议，标准协议可与其他设备通信，iOS不负责这些协议的维护。</p>
+<p>为防止命名空间冲突，推荐使用反 DNS 形式命名协议，如<br> com.apple.myProtocol、com.dji.video、com.dji.protocol、com.dji.common。</p>
+<h3>1、编程步骤</h3>
+<h4>1.1、引入框架与头文件</h4>
+<p>外部附件框架 (ExternalAccessory.framework) 为 App 与附件设备通信提供了桥梁。因此，在 Xcode 项目中，需要为每个与附件设备通信相关的项目添加 ExternalAccessory.framework。</p>
+<p>下一步是引入头文件 <code>#import &lt;ExternalAccessory/ExternalAccessory.h&gt;</code>。</p>
+<h4>1.2、声明App支持的协议</h4>
+<p><strong> 不声明协议直接调用EA框架的类会崩溃。</strong><br>使用 UISupportedExternalAccessoryProtocols 键在 Info.plist 中声明支持的协议，值为数组，数组的元素为支持的协议，元素的顺序任意且不限数量。这些值只用于判断 App 与附件设备的通信能力。当App与设备通信时，具体通信协议由我们编程决定。</p>
+<p>当附件设备插入 iOS 设备时，系统才知道 App 可被新插入的设备启动。若当前已安装的 App 都没注册协议，则系统可能到 App Store 去搜索支持新设备声明的协议的 App。</p>
+<p><code>UISupportedExternalAccessoryProtocols</code> 对应的值虽说可参考<a href="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW4" target="_blank"> UISupportedExternalAccessoryProtocols</a>，实际此链接并没给出有帮助的信息，《MFi Accessory Interface Specification for Apple Devices》也没给出所谓标准协议的字符串值。</p>
+<h4>1.3、开始通信</h4>
+<ol>
+<li>创建 EASession。此对象管理与附件设备交互的情况，它与底层系统工作，在设备上来回传输数据。一旦会话建立，数据通过<br>NSInputStream 和 NSOutputStream 的实例在 App 中传输。收发的数据包的格式由与附件设备通信的协议决定。</li>
+<li>接收数据。使用自定义委托对象，监视 NSInputStream 实例可从附件设备接收数据。</li>
+<li>发送数据。向 NSOutputStream 写入数据包即可发送至附件设备。</li>
+</ol>
+<h4>1.4、一个读取外接设备的示例</h4>
+<ol>
+<li>Info.plist 中加入 Supported external accessory protocols，值为 com.apple.p1。这个只是令系统认为我们的应用有能力与外接设备沟通，这里使用 Lightning USB Camera Adapter 测试。</li>
+<li>
+<p>读取外接设备信息代码：</p>
+<pre><code class="objc">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ NSMutableString *info = [[NSMutableString alloc] initWithCapacity:1024];
+
+ EAAccessoryManager *manager = [EAAccessoryManager sharedAccessoryManager];
+
+ NSArray&lt;EAAccessory *&gt; *accessArr = [manager connectedAccessories];
+
+ for (EAAccessory *access in accessArr) {
+ for (NSString *proStr in access.protocolStrings) {
+ [info appendFormat:@"protocolString = %@\n", proStr];
+ }
+
+ [info appendFormat:@"\n"];
+ [info appendFormat:@"manufacturer = %@\n", access.manufacturer];
+ [info appendFormat:@"name = %@\n", access.name];
+ [info appendFormat:@"modelNumber = %@\n", access.modelNumber];
+ [info appendFormat:@"serialNumber = %@\n", access.serialNumber];
+ [info appendFormat:@"firmwareRevision = %@\n", access.firmwareRevision];
+ [info appendFormat:@"hardwareRevision = %@\n", access.hardwareRevision];
+ [info appendFormat:@"dockType = %@\n", access.dockType];
+ }
+
+ dispatch_async(dispatch_get_main_queue(), ^{
+ label.text = info;
+ });
+});</code></pre>
+<p>运行结果为：</p>
+<pre><code class="objc">manufacturer = Apple
+name = Apple USB Camera Adapter
+modelNumber = A1440
+serialNumber = 
+firmwareRevision = 1.0.0
+hardwareRevision = 1.0.0
+dockType = (null)</code></pre>
+</li>
+</ol>
+<h4>1.5、与外接设备交互数据的示例</h4>
+<p>如下代码展示与 DXO One 相机通信。</p>
+<ol>
+<li>在非 UI 线程中打开设备，否则可能导致程序崩溃。</li>
+</ol>
+<pre><code class="objc">EAAccessoryManager *manager = [EAAccessoryManager sharedAccessoryManager];
+
+NSArray&lt;EAAccessory *&gt; *accessArr = [manager connectedAccessories];
+
+if (accessArr.first) {
+ EASession *session = [[EASession alloc] initWithAccessory:accessArr.firstObject forProtocol:@"com.dxo.one.protocol"];
+
+ if (!session) return;
+
+ NSInputStream *inputStream = [session inputStream];
+
+ if (!inputStream) {
+ // LOG inputStream = null
+ }
+
+ inputStream.delegate = self;
+
+ [inputStream open];
+}</code></pre>
+<ol>
+<li>实现 NSStreamDelegate 协议</li>
+</ol>
+<pre><code class="objc">- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
+ // LOG stream &amp; event code
+ switch (eventCode) {
+ case NSStreamEventNone:
+ break;
+ case NSStreamEventOpenCompleted:
+ // 开始读取
+ break;
+ case NSStreamEventHasBytesAvailable:
+ // 获取可读数据大小，读取流才有效。
+ break;
+ case NSStreamEventHasSpaceAvailable:
+ // 获取可写空间大小，写入流才有效。
+ break;
+ case NSStreamEventErrorOccurred:
+ // 出错处理
+ break;
+ case NSStreamEventEndEncountered:
+ // 读取结束
+ break;
+ }
+}</code></pre>
+<h3>2、ExternalAccessory框架</h3>
+<p><strong> 1、EAAccessory </strong><br>提供一个已连接的设备的信息，如制造商，固件版本等。</p>
+<p><strong> 2、EAAccessoryManager </strong><br>协调MFi设备与iOS设备之间的工作。</p>
+<p><strong> 3、EASession </strong><br>用来创建 App 与附件设备之间的通信通道。</p>
+<p><strong> 4、EAWiFiUnconfiguredAccessory </strong><br>提供未配置的 MFi Wireless Accessory Configuration 设备的信息给 App。</p>
+<p><strong> 5、EAWiFiUnconfiguredAccessoryBrowser </strong><br>让 App 访问 MFi Wireless Accessory Configuration 进程。</p>
+<h3>3、开发技巧</h3>
+<p>Lightning 接了设备则不能连接计算机，所以直观的做法是，将日志用 UITextView 显示出来。写成日志就得每次都拔掉设备，插上电脑，如此反复。</p>
+<p>另一个办法是，通过蓝牙测试传输协议，手机连接电脑，可单步调试。验证完再用 Lightning 连接设备联调。</p>
+<p>因本人目前在做关于 iOS App 连接外设方面的工作，因此搜集查找相关信息，文章中信息出自于以下简友：<a href="http://www.jianshu.com/u/b2f3f51fa5ce" target="_blank">我是云峰小罗</a>、<a href="http://www.jianshu.com/u/c68741efc396" target="_blank">熊皮皮</a>，在此对两位的分享表示感谢。</p>
+
+ </div>
+            <div class="row news__read-footer border-bt1">
+                <div class="col-xs-7">
+                    <span>© 著作权归原作者所有</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="news__read-footer">
+            <div class="row">
+                <div class="col-xs-5">
+                    <a href="/r/1250000009602952?shareId=1210000009602953" target="_blank"><strong>阅读原文</strong></a>
+                </div>
+                <div class="col-xs-7 text-right">
+                    <a href="/p/1210000009602953" target="_blank"><strong>参与讨论 ↩</strong></a>
+                </div>
+            </div>
+
+            <div class="row mt30">
+                <div class="col-xs-6 news__read-vote">
+                    <button class="btn btn-primary mr10 news__item-like  ">
+                        <span class="news__item-like-number">2</span> 
+                        <span class="news__item-like-text">推荐 </span>
+                    </button>
+
+                    <button class="btn btn-default news__item-mark " data-id="1210000009602953" data-type="news">
+                        <span class="news__item-mark-number">12</span> 
+                        <span class="news__item-mark-text">收藏</span>
+                    </button>
+                </div>
+                <div class="col-xs-6 component-share">
+                    <div class="widget-share__full" data-text="iOS App 连接外设的几种方式"
+ data-url="https://segmentfault.com/p/1210000009602953" data-shorturl="http://sfau.lt/b7Oskv"></div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div> <!-- news__read  container 结束 -->
+
+<div class="news__read--more hidden-xs">
+    <div class="container">
+        <div class="read-more">
+            <div class="title">
+                <p class="mb10">更多精彩文章</p>
+            </div>
+            <div class="content-group ">
+
+                                    
+                <div class="content-block">
+                    <div>
+                        <block>
+                            <a href="/r/1250000018394647?shareId=1210000018394657" target="_blank"><p class='content-title nowrap'>黄金三月，掌握这些，在六十万iOS程序员中脱颖而出</p></a>
+                        </block>
+                    </div>
+
+                    <div class="content-content">
+                        <p>
+                        最近和圈内比较技术不错的开发者上周也聊到这一块....
+                        <a href="/p/1210000018394657" target="_blank">
+                            <span class="content-showall">查看全文></span>
+                        </a>
+                        </p>
+                    </div>
+
+                    <div class="content-label">
+                        <span>iOSer · 3月5日</span>
+                    </div>
+                    <div class="content-type">
+                        <span> iOS </span>
+                    </div>
+                </div>
+                
+
+                                    
+                <div class="content-block">
+                    <div>
+                        <block>
+                            <a href="/r/1250000018070953?shareId=1210000018070954" target="_blank"><p class='content-title nowrap'>Latest App Trends In iOS Development for 2019</p></a>
+                        </block>
+                    </div>
+
+                    <div class="content-content">
+                        <p>
+                        We have already discussed the top mobile app de...
+                        <a href="/p/1210000018070954" target="_blank">
+                            <span class="content-showall">查看全文></span>
+                        </a>
+                        </p>
+                    </div>
+
+                    <div class="content-label">
+                        <span>jimmiewilliams · 1月30日</span>
+                    </div>
+                    <div class="content-type">
+                        <span> iOS </span>
+                    </div>
+                </div>
+                
+
+                                    
+                <div class="content-block">
+                    <div>
+                        <block>
+                            <a href="/r/1250000018014831?shareId=1210000018014851" target="_blank"><p class='content-title nowrap'>细说iOS代码签名(四)</p></a>
+                        </block>
+                    </div>
+
+                    <div class="content-content">
+                        <p>
+                        签名校验、越狱、重签名
+                        <a href="/p/1210000018014851" target="_blank">
+                            <span class="content-showall">查看全文></span>
+                        </a>
+                        </p>
+                    </div>
+
+                    <div class="content-label">
+                        <span>xelz · 1月24日</span>
+                    </div>
+                    <div class="content-type">
+                        <span> iOS </span>
+                    </div>
+                </div>
+                
+
+                                    
+                <div class="content-block">
+                    <div>
+                        <block>
+                            <a href="/r/1250000018014811?shareId=1210000018014823" target="_blank"><p class='content-title nowrap'>细说iOS代码签名(三)</p></a>
+                        </block>
+                    </div>
+
+                    <div class="content-content">
+                        <p>
+                        签名的过程及代码签名的数据结构
+                        <a href="/p/1210000018014823" target="_blank">
+                            <span class="content-showall">查看全文></span>
+                        </a>
+                        </p>
+                    </div>
+
+                    <div class="content-label">
+                        <span>xelz · 1月24日</span>
+                    </div>
+                    <div class="content-type">
+                        <span> iOS </span>
+                    </div>
+                </div>
+                
+
+                            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="visible-xs-block read-more-xs" >
+    <div class="title">
+        <p class="pl10">更多精彩文章</p>
+    </div>
+
+    <div class="content-list ">
+                <div class="content">
+            <a href="/p/1210000018394657">
+                <p class="content-title nowrap">黄金三月，掌握这些，在六十万iOS程序员中脱颖而出</p>
+                <p class="content-content nowrap_2row">最近和圈内比较技术不错的开发者上周也聊到这一块....<span class="content-showall"> 查看全文></span></p>
+            </a>
+        </div>
+                <div class="content">
+            <a href="/p/1210000018070954">
+                <p class="content-title nowrap">Latest App Trends In iOS Development for 2019</p>
+                <p class="content-content nowrap_2row">We have already discussed the top mobile app de...<span class="content-showall"> 查看全文></span></p>
+            </a>
+        </div>
+                <div class="content">
+            <a href="/p/1210000018014851">
+                <p class="content-title nowrap">细说iOS代码签名(四)</p>
+                <p class="content-content nowrap_2row">签名校验、越狱、重签名<span class="content-showall"> 查看全文></span></p>
+            </a>
+        </div>
+                <div class="content">
+            <a href="/p/1210000018014823">
+                <p class="content-title nowrap">细说iOS代码签名(三)</p>
+                <p class="content-content nowrap_2row">签名的过程及代码签名的数据结构<span class="content-showall"> 查看全文></span></p>
+            </a>
+        </div>
+            </div>
+</div>
+
+<div class="slide-tool-position hidden-xs hidden-sm">
+    <div class="slide-tool">
+        <a href="#top" id='toTop'><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+        <a href="/app#qrcode" id="qrcode"><i class="fa fa-qrcode" aria-hidden="true"></i></a>
+        <i class="fa fa-share-alt" id='share' aria-hidden="true"></i>
+    </div>
+    <div class="img_qrcode hidden">
+        <img src="https://cdn.segmentfault.com/v-5c8b4d77/page/img/app/appQrcode.png" >
+    </div>
+    <div class="share-block hidden">
+        <ul>
+            <li class="pt5 share-weibo">
+                <a href="javascript:void(0);"><span style="background-image: url(https://cdn.segmentfault.com/v-5c8b4d77/global/img/social-icons/icon-sn.svg)" class="icon-sn-weibo"></span> 分享到微博</a>
+            </li>
+            <li class="share-weixin">
+                <a href="javascript:void(0);"><span style="background-image: url(https://cdn.segmentfault.com/v-5c8b4d77/global/img/social-icons/icon-sn.svg)" class="icon-sn-weixin"></span> 分享到微信</li></a>
+            <li class="share-twitter">
+                <a href="javascript:void(0);"><span style="background-image: url(https://cdn.segmentfault.com/v-5c8b4d77/global/img/social-icons/icon-sn.svg)" class="icon-sn-twitter"></span> 分享到Twitter</li></a>
+            <li class="pb5 share-facebook">
+                <a href="javascript:void(0);"><span style="background-image: url(https://cdn.segmentfault.com/v-5c8b4d77/global/img/social-icons/icon-sn.svg)" class="icon-sn-facebook"></span> 分享到Facebook</li></a>
+        </ul>
+    </div>
+</div>
+
+    <script id="loginModal" type="text/template">
+    <div class="row bg-white login-modal">
+        <div class="col-md-12 login-wrap">
+            <form action="/api/user/login" method="POST" role="form" class="mt15">
+                <div class="form-group hidden">
+                                        <input type="text" class="form-control" name="remember" value="1"
+                           autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="username" class="control-label">手机号 或 Email</label>
+                    <input type="text" class="form-control" name="username" tabindex="1" required placeholder="11 位手机号 或 Email"
+                           autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">密码</label><span class="pull-right"><a
+                                href="/user/forgot" tabindex="4">忘记密码</a></span>
+                    <input type="password" class="form-control" name="password" tabindex="2" required placeholder="请输入密码">
+                </div>
+                <div class="form-group">
+                    <a
+                            
+                                                    href="/user/phoneLogin"
+                            class="phoneLogin"
+                                            >手机验证码登录</a>
+                </div>
+                <div class="form-group clearfix">
+                    <button type="submit" class="btn-block btn btn-primary pull-right pl20 pr20" tabindex="3"
+                            onclick='ga("send", "event", "email login button", "clicked", "login modal");'>登录
+                    </button>
+                </div>
+            </form>
+            <div class="text-muted text-center more-login-area">
+    <span class="more-login-words">更多登录方式</span>
+</div>
+<div class="widget-login mb15 text-center">
+    <a href="/user/oauth/google" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "google"});'><span
+                class="icon-sn-google"></span></a>
+    <a href="/user/oauth/github" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "github"});");'><span
+                class="icon-sn-github"></span></a>
+    <a href="/user/oauth/weibo" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "weibo"});'><span
+                class="icon-sn-weibo"></span></a>
+    <a href="/user/oauth/qq" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "qq"});'><span
+                class="icon-sn-qq"></span></a>
+    <a href="/user/oauth/weixin" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "qq"});'><span
+                class="icon-sn-weixin"></span></a>
+    <a href="/user/oauth/linkedin" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "linkedin"});'><span
+                class="icon-sn-linkedin"></span></a>
+    <span id="loginShowMore" style="cursor: pointer" class="mb5"><span class="icon-sn-dotted"></span></span>
+    <a href="/user/oauth/twitter" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "twitter"});'><span
+                class="icon-sn-twitter"></span></a>
+    <a href="/user/oauth/facebook" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "facebook"});'><span
+                class="icon-sn-facebook"></span></a>
+    <a href="/user/oauth/douban" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "douban"});'><span
+                class="icon-sn-douban"></span></a>
+</div>
+<div class="form-group clearfix">
+    <a class="btn-block btn btn-default pull-right pl20 pr20 
+                        SFLogin
+             "
+
+            
+        onclick='ga("send", "event", "email login button", "clicked", "login modal");'>
+                    注册新账号
+            </a>
+</div>
+<p class="text-muted text-center mb15">登录即表示你同意网站的<a href="/tos" target="_blank">《服务条款》</a></p>        </div>
+    </div>
+</script>
+    <script id="registerModal" type="text/template">
+    <div class="row bg-white login-modal">
+        <div class="col-md-12 login-wrap">
+            
+            <form action="/api/user/register" method="POST" role="form" class="mt15">
+                <div class="form-group">
+                    <label for="name" class="control-label">你的名字</label>
+                    <input type="text" class="form-control" name="name" required placeholder="真实姓名或常用昵称">
+                </div>
+                
+                <div class="form-group">
+                    <label for="mail" class="control-label">手机号</label>
+                    <input type="text" class="form-control" id="login-name" name="mail" required placeholder="11 位手机号">
+                </div>
+                
+                <input type="text" class="hidden" name="register_type" value="mail">
+
+                <div class="form-group">
+                    <div class="captchaInput mb10">
+                        <input type="text" class="form-control" name="cap" placeholder="右侧的验证码" style="width:50%; display: inline; margin-right: 15px;">
+                        <span class="mt10">
+                                <a id="loginReloadCaptcha" href="javascript:void(0)">
+                                <img src="/user/captcha?w=135&h=34" class="cap" width="135" height="34"/></a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="phone-register-only hidden">
+                        <div class="input-group">
+                            <input name="code" type="text" class="form-control js-user-login__phone-code-value" placeholder="短信验证码">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default js-user-login__phone-vaild-btn" style="width:96px;" type="button">
+                                获取验证码</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">密码</label>
+                    <input type="password" class="form-control" name="password" required placeholder="不少于 6 位的密码">
+                </div>
+                <div class="form-group clearfix">
+                    <button type="submit" class="btn-block btn btn-primary pl20 pr20 pull-right"
+                            onclick='ga("send", "event", "email register button", "clicked", "login modal");'>注册
+                    </button>
+                </div>
+                                <div class="text-muted text-center more-login-area">
+    <span class="more-login-words">更多登录方式</span>
+</div>
+<div class="widget-login mb15 text-center">
+    <a href="/user/oauth/google" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "google"});'><span
+                class="icon-sn-google"></span></a>
+    <a href="/user/oauth/github" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "github"});");'><span
+                class="icon-sn-github"></span></a>
+    <a href="/user/oauth/weibo" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "weibo"});'><span
+                class="icon-sn-weibo"></span></a>
+    <a href="/user/oauth/qq" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "qq"});'><span
+                class="icon-sn-qq"></span></a>
+    <a href="/user/oauth/weixin" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "qq"});'><span
+                class="icon-sn-weixin"></span></a>
+    <a href="/user/oauth/linkedin" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "linkedin"});'><span
+                class="icon-sn-linkedin"></span></a>
+    <span id="loginShowMore" style="cursor: pointer" class="mb5"><span class="icon-sn-dotted"></span></span>
+    <a href="/user/oauth/twitter" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "twitter"});'><span
+                class="icon-sn-twitter"></span></a>
+    <a href="/user/oauth/facebook" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "facebook"});'><span
+                class="icon-sn-facebook"></span></a>
+    <a href="/user/oauth/douban" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "douban"});'><span
+                class="icon-sn-douban"></span></a>
+</div>
+<div class="form-group clearfix">
+    <a class="btn-block btn btn-default pull-right pl20 pr20 
+                        SFRegister
+             "
+
+            
+        onclick='ga("send", "event", "email login button", "clicked", "login modal");'>
+                    已有账号登录
+            </a>
+</div>
+<p class="text-muted text-center mb15">登录即表示你同意网站的<a href="/tos" target="_blank">《服务条款》</a></p>            </form>
+        </div>
+    </div>
+</script>
+    <script id="phoneLoginModal" type="text/template">
+
+    <div class="row bg-white login-modal phonelogin-modal">
+        <div class="col-md-12 login-wrap">
+            <form action="/api/user/phonelogin" method="POST" role="form" class="mt15">
+                <div class="form-group">
+                    <label for="phone" class="control-label required">手机号</label>
+                    <input type="text" class="form-control phonelogin--phone" name="phone" tabindex="1" required placeholder="11 位手机号"
+                           autocomplete="off">
+                    <span class="help-block"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="authCode" class="control-label required">验证码</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control bindphone--code" name="authCode" placeholder="短信验证码">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default user-bind__phone-vaild-btn" type="button">获取验证码</button>
+                        </span>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+
+                <div class="form-group">
+                    <a 
+                                                            href="/user/login"
+                                class="SFRegister"
+                                                >密码登录（手机号或 Email）</a>
+                </div>
+                <div class="form-group clearfix">
+                    <button type="submit" class="btn-block btn btn-primary pull-right pl20 pr20" tabindex="3"
+                            onclick='ga("send", "event", "email login button", "clicked", "login modal");'>登录
+                    </button>
+                </div>
+            </form>
+            <div class="text-muted text-center more-login-area">
+    <span class="more-login-words">更多登录方式</span>
+</div>
+<div class="widget-login mb15 text-center">
+    <a href="/user/oauth/google" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "google"});'><span
+                class="icon-sn-google"></span></a>
+    <a href="/user/oauth/github" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "github"});");'><span
+                class="icon-sn-github"></span></a>
+    <a href="/user/oauth/weibo" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "weibo"});'><span
+                class="icon-sn-weibo"></span></a>
+    <a href="/user/oauth/qq" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "qq"});'><span
+                class="icon-sn-qq"></span></a>
+    <a href="/user/oauth/weixin" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "qq"});'><span
+                class="icon-sn-weixin"></span></a>
+    <a href="/user/oauth/linkedin" class=""
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "linkedin"});'><span
+                class="icon-sn-linkedin"></span></a>
+    <span id="loginShowMore" style="cursor: pointer" class="mb5"><span class="icon-sn-dotted"></span></span>
+    <a href="/user/oauth/twitter" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "twitter"});'><span
+                class="icon-sn-twitter"></span></a>
+    <a href="/user/oauth/facebook" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "facebook"});'><span
+                class="icon-sn-facebook"></span></a>
+    <a href="/user/oauth/douban" class=" hidden"
+       onclick='ga("send", "event", "3rd login button", "clicked", "login modal", {media: "douban"});'><span
+                class="icon-sn-douban"></span></a>
+</div>
+<div class="form-group clearfix">
+    <a class="btn-block btn btn-default pull-right pl20 pr20 
+                        SFLogin
+             "
+
+            
+        onclick='ga("send", "event", "email login button", "clicked", "login modal");'>
+                    注册新账号
+            </a>
+</div>
+<p class="text-muted text-center mb15">登录即表示你同意网站的<a href="/tos" target="_blank">《服务条款》</a></p>        </div>
+    </div>
+</script>
+<script id="bindPhoneModal" type="text/template">
+    <div class="bg-white bindphone-model">
+        <div class="alert alert-warning" role="alert">
+            为了保证账号安全，请先绑定手机
+        </div>
+        <div>
+            <form class="form-horizontal form__bindphone-apply" style="background-color:#fff;padding:0;">
+                <div class="form-group ">
+                    <label for="phoneNumber" class="col-sm-3 control-label required" >手机号码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control bindphone--phone" id="phoneNumber" name="phone" placeholder="仅只支持大陆手机号">
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="authCode" class="col-sm-3 control-label required">验证码</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control bindphone--code" name="code" placeholder="短信验证码">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default user-bind__phone-vaild-btn" type="button">获取验证码</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</script>
+
+
+<script>
+    window.serverTime = 1554227114000;
+</script>
+
+<script>
+    (function (w) {
+        w.SF = {
+            staticUrl: "https://cdn.segmentfault.com/v-5c8b4d77"
+        };
+        w.SF.token = (function () {
+    var _akkAt5e = '1R'//'1R'
++/* '9'//'9' */''+//'1Fy'
+'1'+'B33'//'B33'
++//'0f5'
+'3b7'+//'2q'
+'2q'+'x'//'x'
++'e'//'8T'
++//'COX'
+'eb9'+//'Wd'
+'d'+//'O'
+'ba'+'m'//'m'
++'f5'//'U'
++'79'//'vBa'
++//'C'
+'86'+''///*'R'*/'R'
++//'S'
+'e'+'6f2'//'ae'
++//'lz'
+'bc'+//'vO'
+'2'+'3'//'PV'
++'e'//'H'
++//'kEv'
+'08'+'lZA'//'lZA'
++//'Z'
+'7'+//'4R'
+'78'+''///*'l'*/'l'
++//'DhP'
+'8', _cAaf = [[0,2],[1,4],[4,6],[4,5],[11,12],[28,31]];
+
+    for (var i = 0; i < _cAaf.length; i ++) {
+        _akkAt5e = _akkAt5e.substring(0, _cAaf[i][0]) + _akkAt5e.substring(_cAaf[i][1]);
+    }
+
+    return _akkAt5e;
+})();;
+    })(window);
+
+                var lock = {
+        type: "",
+        text: '',
+        table: {"ban_post":[1,"\u4f60\u5df2\u7ecf\u88ab\u7981\u8a00, \u65e0\u6cd5\u8fdb\u884c\u6b64\u64cd\u4f5c, \u5982\u6709\u7591\u4e49\u8bf7\u63d0\u4ea4\u7533\u8bc9, \u6216\u8005\u53d1\u90ae\u4ef6\u5230pr@segmentfault.com"]}
+    };
+
+        var ddosMode = false;
+    
+        (function (currentUrl) {
+        if (typeof URL != 'undefined') {
+            var baseUrl = new URL('https://segmentfault.com');
+
+            if (baseUrl.protocol != currentUrl.protocol
+                || baseUrl.host != currentUrl.host) {
+                window.location.href = baseUrl.protocol + '//' + baseUrl.host
+                    + currentUrl.pathname + currentUrl.search + currentUrl.hash;
+            }
+        }
+    })(window.location);
+    </script>
+
+             <script crossorigin src="https://cdn.segmentfault.com/v-5c8b4d77/3rd/assets.js"></script>
+                 
+        <script crossorigin src="https://cdn.segmentfault.com/v-5c8b4d77/news/script/detail.min.js"></script>
+            
+
+
+<script src="https://cdn.segmentfault.com/v-5c8b4d77/global/script/ads.min.js" type="text/javascript"></script>
+
+<script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-918487-8']);
+    _gaq.push(['_trackPageview']);
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                
+        
+
+                
+
+    ga('create', 'UA-918487-8', 'auto', {
+        'userID'
+    : 0,
+        'createdTime'
+    : 0,
+        'now'
+    : 1554227114,
+        'allowLinker'
+    : true });
+    ga('require', 'linker');
+    ga('linker:autoLink', ['docs.segmentfault.com'] );
+    ga('set', 'dimension1', 'guest');
+    ga('send', 'pageview');
+
+        if(document.getElementById('UGTKzPZbRoOS')){
+        UGTKzPZbRoOS='No';
+    } else {
+        UGTKzPZbRoOS='Yes';
+    }
+
+    if(typeof ga !=='undefined'){
+        ga('send','event','Blocking Ads',UGTKzPZbRoOS,{'nonInteraction':1});
+    } else if(typeof _gaq !=='undefined'){
+        _gaq.push(['_trackEvent','Blocking Ads',UGTKzPZbRoOS,undefined,undefined,true]);
+    }
+
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?e23800c454aa573c0ccb16b52665ac26";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+</body>
+</html>
+<div class="app-promotion-bar">
+    <a href="javascript:;"><i class="fa fa-close close"></i></a>
+    <div class="icon"></div>
+    <h5 class="title h5">SegmentFault</h5>
+    <p class="describe">一起探索更多未知</p>
+    <a class="download-btn btn btn-sm btn-primary" href="/app#qrcode">下载 App</a>
+</div>
+

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>iOS UI Automation Tests at Babylon</title>
+
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=c0bf3b4825" />
+
+	<meta name="description" content="How to use local web server, snapshot tests, mock backend and BDD-style tests to make UI tests faster, more reliable and easier to write." />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/amp/" />
+    
+    <meta property="og:site_name" content="Ilya Puchka" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="iOS UI Automation Tests at Babylon" />
+    <meta property="og:description" content="How to use local web server, snapshot tests, mock backend and BDD-style tests to make UI tests faster, more reliable and easier to write." />
+    <meta property="og:url" content="http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/" />
+    <meta property="article:published_time" content="2018-10-08T09:00:00.000Z" />
+    <meta property="article:modified_time" content="2018-12-21T01:12:40.000Z" />
+    <meta property="article:tag" content="iOS" />
+    <meta property="article:tag" content="automation" />
+    <meta property="article:tag" content="Testing" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="iOS UI Automation Tests at Babylon" />
+    <meta name="twitter:description" content="How to use local web server, snapshot tests, mock backend and BDD-style tests to make UI tests faster, more reliable and easier to write." />
+    <meta name="twitter:url" content="http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Ilya Puchka" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="iOS, automation, Testing" />
+    <meta name="twitter:site" content="@ilyapuchka" />
+    <meta name="twitter:creator" content="@ilyapuchka" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Ilya Puchka",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://ilya.puchka.me/favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Ilya Puchka",
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://ilya.puchka.me/content/images/2019/01/image-1.png",
+            "width": 356,
+            "height": 356
+        },
+        "url": "http://ilya.puchka.me/author/ilya/",
+        "sameAs": [
+            "https://twitter.com/ilyapuchka"
+        ]
+    },
+    "headline": "iOS UI Automation Tests at Babylon",
+    "url": "http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/",
+    "datePublished": "2018-10-08T09:00:00.000Z",
+    "dateModified": "2018-12-21T01:12:40.000Z",
+    "keywords": "iOS, automation, Testing",
+    "description": "How to use local web server, snapshot tests, mock backend and BDD-style tests to make UI tests faster, more reliable and easier to write.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://ilya.puchka.me/"
+    }
+}
+    </script>
+
+    <script src="/public/ghost-sdk.min.js?v=c0bf3b4825"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "e9690076406e"
+});
+</script>
+    <meta name="generator" content="Ghost 2.9" />
+    <link rel="alternate" type="application/rss+xml" title="Ilya Puchka" href="http://ilya.puchka.me/rss/" />
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57638998-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>var disqus = 'ilyapuchkameen';</script>
+</head>
+
+<body class="post-template tag-ios-2 tag-automation tag-testing">
+
+	<nav id="menu">
+	<a class="close-button">Close</a>
+	<div class="nav-wrapper">
+		<p class="nav-label">Menu</p>
+		<ul>
+			<li class="nav-home" role="presentation"><a href="http://ilya.puchka.me/">Home</a></li>
+			<li class="nav-about-me" role="presentation"><a href="http://ilya.puchka.me/about-me/">About me</a></li>
+			<li class="nav-projects" role="presentation"><a href="http://ilya.puchka.me/projects/">Projects</a></li>
+			<li class="nav-github" role="presentation"><a href="https://github.com/ilyapuchka">GitHub</a></li>
+			<li class="nav-twitter"><a href="https://twitter.com/ilyapuchka" title="@ilyapuchka"><i class="ic ic-twitter"></i> Twitter</a></li>
+			<li class="nav-rss"><a href="http://ilya.puchka.me/rss/"><i class="ic ic-rss"></i> Subscribe</a></li>
+		</ul>
+	</div>
+</nav>
+
+
+	<section id="wrapper">
+		<a class="hidden-close"></a>
+		
+
+<div class="progress-container">
+	<span class="progress-bar"></span>
+</div>
+
+<header id="post-header">
+	<div class="inner">
+		<nav id="navigation">
+			<span id="home-button" class="nav-button">
+				<a class="home-button" href="http://ilya.puchka.me" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+			</span>
+			<span id="menu-button" class="nav-button">
+				<a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+			</span>
+		</nav>
+		<h1 class="post-title">iOS UI Automation Tests at Babylon</h1>
+		<span class="post-meta"><a href="/author/ilya/">Ilya Puchka</a> | <time datetime="2018-10-08">08 Oct 2018</time></span>
+		
+	</div>
+</header>
+
+<main class="content" role="main">
+	<article class="post tag-ios-2 tag-automation tag-testing">
+		<div class="inner">
+
+			<section class="post-content">
+				<blockquote>
+<p>This article is based on the talk I gave at iOS Astronauts meetup that was held on 03.10.2018 at Babylon. You can check out this talk and other videos as well as join the meetup group <a href="https://iosastronauts.splashthat.com">here</a>.</p>
+</blockquote>
+<p>Probably every iOS developer nowadays knows what UI tests are and how to write them. Sometimes we don't even have to write them ourselves because Xcode can do that for us. Of course, the result is far from ideal and probably you don't want to keep it as it is in your tests, but point is that it's not hard to write a code that will tap a button on a screen.</p>
+<p>What's hard is the issues you start to face when you write more and more of such tests.</p>
+<p>In this post, I'll be highlighting some of the issues we face with UI tests at Babylon. Mainly they are related to:</p>
+<ul>
+<li>unexpected tests failures</li>
+<li>tests performance</li>
+<li>the complexity of some scenarios</li>
+</ul>
+<h3 id="contentstability">Content stability</h3>
+<p>One of the main reasons for our UI tests suite failures is a frequent change of content that we don't control (of course after our own changes to the codebase). The best example of that is our chatbot. It works the way that you can ask our chatbot any question and in return, it asks you to answer some more questions so that it can give you better results. Some of these questions will expect you to choose an answer from a set of provided options or give a free-form answer. Depending on your answer chatbot may ask a different question next time. These flows are defined by the backend AI service and are absolutely opaque for the app - with rare exception we don't know what is the difference between one or another option. And from time to time these flows change and for example instead of answer option that says &quot;OK&quot; we receive &quot;SURE&quot;. And UI tests start to fail because they can't find a button they expect.</p>
+<p><img src="/content/images/2018/10/Screenshot-2018-09-30-at-13.13.27.png" style="width:300px"/><br/></p>
+<p>In some cases, we could probably use unique identifiers of the answer options as accessibility identifiers. And it would work for such simple cases where semantics doesn't change. But as we don't control these flows we have no knowledge about the nature of these changes and we might as well receive completely new elements that we know nothing about. Or the flow might change and instead of asking question A and then question B the chatbot will first ask question B, or even C and only then question A. That makes testing these flows on the client side particularly unstable.</p>
+<h3 id="externalsystemactionsrequired">External system actions required</h3>
+<p>Another issue is that some of the user scenarios in our app require not just user interaction but also GP interaction in a system we call &quot;GP Portal&quot;. For example, when a user books an appointment with a GP it will only start when GP initiates it and the app receives a call. The same with completing an appointment. It actually does not complete automatically when you or GP hang up. After that GP may have to do few things on the GP Portal and only when they are ready they complete the appointment. That's like your Uber driver completes the ride. Only then the app receives a push notification for example that you have a prescription or asking you to rate the appointment.  So as you can imagine these scenarios are pretty cumbersome to test manually as well as hard to automate.</p>
+<h3 id="networkstability">Network stability</h3>
+<p>Another very common reason for tests to fail is the network stability. It's not just about how good is a Wi-Fi signal in the room with your test devices, it's about everything that can happen when you are doing network calls, 500 responses, timeouts, connection drops and so on. And when your tests are running in the cloud, like ours, you have even less control of that.<br>
+Sometime people go extreme and build racks for test devices with their own WiFi signals and then have to add electromagnetic enclosures to isolate them to avoid networking issues.</p>
+<p><img src="/content/images/2018/10/img_20160712_122640.jpg" style="width:400px" /><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></p>
+<h3 id="performance">Performance</h3>
+<p>This brings us to another issue which is related to the performance of tests. Not just a device or simulator performance that also might vary and be unpredictable, but also the need to perform extra steps to reach a point of interest in the app. For example, every test needs to start from registering a new user because we want our tests to be isolated from each other. Then all tests related to appointments flows need to schedule an appointment, add a payment method, confirm payment and so on. This leads to a lot of tests going through the same steps over and over again.</p>
+<p>And then we face a dilemma - either we can group such scenarios together and have fewer tests but make them larger by asserting more expectations in each test which will make each test longer to run but will speed up whole test suite, or we could make tests smaller, more focused but run the whole tests suite for a much longer time because of more repeated steps.</p>
+<h3 id="howdowesolvethat">How do we solve that?</h3>
+<p>Now when we know the problems let's look at their solutions that we try to apply. Some of these things we are already doing, some of them we plan to do in a near future, some are still just ideas.</p>
+<p>Basically, our strategy is built around an approach that can be summarised as &quot;control the world&quot;. By the world, in this case, we mean everything outside the app, which is the <em>network</em>, and everything inside the app, which is the <em>app initial state</em> (the runtime state is already controlled by the test)</p>
+<p><img src="/content/images/2018/10/c-montgomery-burns-handbook-of-world-domination-9781608873203_hr.jpg" style="width:400px"/><sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></p>
+<p>What does it mean to control the network? It means that <em>our test instead of some backend services have full control over what data our application receives when it makes network calls</em>.</p>
+<p>How can we do that? This is a very trivial thing to do in unit tests, there are few well-known ways of doing that, from using dependency injection and network mocks, to using custom URL protocols to serve stubbed data. It's simple because unit tests and the code they test are running in the same process, so they can access the same network stack, modify it or completely replace it.</p>
+<p>But when we are running UI test we have two processes running in parallel - application process and test runner process - with two separate network stacks. That makes it a bit trickier to affect the network stack of the app from the test runner process.</p>
+<p>There are few ways to achieve that though. One is from the <em>inside of the application</em> process, and another is from the <em>inside of the test runner</em> process.</p>
+<h3 id="controltheworldfromtheinsideoftheapp">Control the world from the inside of the app</h3>
+<p>When we are doing that from the inside of the app we do it the same way as in unit tests, either by injecting mock network stack or using custom URL protocol to serve stubbed data. The most common is to use a URL protocol. The idea is that the URL protocol allows you to intercept all network requests and pass back stubbed data. There are several open-source libraries that make this very straightforward but when it comes to using them with UI tests there are few issues.</p>
+<p>First, you need to integrate some test related code into the app code. The problem is not that you have to do that, most likely you'll need to do that anyway for one or another reason. The problem is in the amount of that code and how well it is isolated from the rest of the app and what it will allow you to do. And even if it is isolated - it's still in the different target than tests.</p>
+<p>Next, you will have to somehow instruct the app what stubs to use. This is usually done via launch arguments as it is the only way that we have in UI tests to alter the app behavior. This approach is not very flexible when it comes to passing through something more than a few strings or JSON objects, but it might be enough just to pass the name of the test that is currently running so that the app can pick up the correct network stubs stored in a bundle.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=let%2520body%2520%253D%2520%255B%2520%2522user%2522%253A%2520%2522Kyle%2522%2520%255D%250Astub(uri(%2522%252F%257Buser%257D%252F%257Brepository%257D%2522)%252C%2520json(body))&es=2x&wm=false&ts=false"
+  style="width:100%; height:200px; border:0; overflow:hidden;"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<ul>
+<li>straightforward ✅</li>
+<li>integrates into application code ❌</li>
+<li>not very flexible ❌</li>
+</ul>
+<h3 id="controltheworldfromtheinsidethetestrunner">Control the world from the inside the test runner</h3>
+<p>Another way of controlling the network is from inside the test process. For that instead of making requests to a backend service, the app makes requests to a <em>local web server</em> that is running on the localhost and is controlled by the test code. The test then decides what to do with the request - return some stabbed data, redirect it to the real service or maybe return an error. Possibilities are basically endless and can satisfy all the needs that you can possibly imagine, unlike the previous approach where it's harder to synchronize between the app and the test. You can use it to simply log all network requests and responses to attach them to tests results to improve debugging experience. Or you can use these logs as snapshots and run your tests against these snapshots instead of the real network. Or you can even implement a mock backend and never talk to the real services.</p>
+<p>This approach also requires some integration in the app, but most likely you already have everything that you need for that. There is more work to be done on the test target side though, but its much better isolated from the app. That's another benefit of this approach - most of the code will be in the tests target, inlined into your tests so you will not need to jump between code in the app and tests.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=override%2520func%2520setUp()%2520%257B%250A%2520%2520server.start()%250A%2520%2520server.router.notFoundResponse%2520%253D%2520InterceptResponse()%250A%257D%250A%250Aoverride%2520func%2520tearDown()%2520%257B%250A%2520%2520server.stop()%250A%257D&es=2x&wm=false&ts=false"
+  style="width:1024px; height:327px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<ul>
+<li>harder to setup ❌</li>
+<li>integrates into the test runner ✅</li>
+<li>very flexible ✅</li>
+</ul>
+<h3 id="localserversetupintheapp">Local server setup - in the app</h3>
+<p>So what we need to do to make our tests work with the local web server? First of all our app needs to be able to switch to a localhost. If your app supports switching between backend environments like develop, staging, production then you simply need to add one more environment for localhost. If not - you need to implement that but it's pretty trivial and anyway is a good thing to have.</p>
+<p>In our case, it required a little bit more work because our app uses multiple backend services which are located on different hosts, so we can't just replace one host with a localhost, we have to somehow keep the original host of the request. We do that by putting it in the first path component of the request. Then in the test, we can extract it and make a real request to this host if we need.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=public%2520static%2520func%2520local(_%2520env%253A%2520Environment%252C%2520host%253A%2520String)%2520-%253E%2520Environment%2520%257B%250A%2520%2520return%2520Environment(%250A%2520%2520%2520%2520name%253A%2520%2522localhost%2522%252C%250A%2520%2520%2520%2520endpoints%253A%2520Environment.Endpoints(%250A%2520%2520%2520%2520%2520%2520app1BaseURL%253A%2520URL(string%253A%2520%2522http%253A%252F%252F%255C(host)%252F%255C(env.endpoints.app1BaseURL.host!)%2522)!%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%252F%252F%2520http%253A%252F%252Flocalhost%253A8080%252Fdev.api1.com%250A%2520%2520%2520%2520%2520%2520app2BaseURL%253A%2520URL(string%253A%2520%2522http%253A%252F%252F%255C(host)%252F%255C(env.endpoints.app2BaseURL.host!)%2522)!%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%252F%252F%2520http%253A%252F%252Flocalhost%253A8080%252Fdev.api2.com%250A%2520%2520%2520%2520%2520%2520webAppURL%253A%2520env.endpoints.webAppURL%250A%2520%2520%2520%2520)%250A%2520%2520)%250A%257D&es=2x&wm=false&ts=false"
+  style="width:1024px; height:400px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>Second, and the last, if you use TSL you will need to enable local networking for the app, which is done by adding a single key in Info.plist file.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=application%2Fx-sh&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=if%2520%255B%2520%2522%2524%257BCONFIGURATION%257D%2522%2520%253D%253D%2520%2522Debug%2522%2520%255D%253B%2520then%250A%252Fusr%252Flibexec%252FPlistBuddy%2520-c%2520%2522Set%2520NSAppTransportSecurity%253ANSAllowsLocalNetworking%2520YES%2522%2520%2522%2524%257BTARGET_BUILD_DIR%257D%252F%2524%257BINFOPLIST_PATH%257D%2522%250Afi&es=2x&wm=false&ts=false"
+  style="width:1024px; height:250px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<h3 id="localserversetupinthetest">Local server setup - in the test</h3>
+<p>On the test runner side, you need to do a bit more. First of all, you need a web server implementation of course. But that's not something you'll have to write yourself, there are open-source solutions that have been available for a while, like <a href="https://github.com/swisspol/GCDWebServer">GCDWebServer</a>, <a href="https://github.com/httpswift/swifter">swifter</a>, <a href="https://www.kitura.io">Kitura</a>, or if you want you can <a href="https://github.com/ilyapuchka/SwiftNIOMock">implement your own</a> based on <a href="https://github.com/apple/swift-nio/tree/master/Sources/NIOHTTP1Server">SwiftNIO</a>.</p>
+<p>What implementation you use does not really matter, some of them are easier to set up than others (for example I couldn't go through Kitura HelloWorld tutorial) but they basically work the same way. We currently use a small web framework called <a href="https://github.com/envoy/Ambassador">Ambassador</a> that works pretty well even though it is relatively unknown and gives us everything we need for testing purposes and nothing extra that we don't need.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=class%2520MockServer%2520%257B%250A%2520%2520func%2520start()%2520%257B%257D%250A%2520%2520func%2520stop()%2520%257B%257D%250A%2520%2520func%2520setupRoutes()%2520%257B%257D%250A%2520%2520func%2520startRecording(testName%253A%2520String)%2520%257B%257D%250A%257D%250A%250Aclass%2520MyTest%253A%2520XCTestCase%2520%257B%250A%2520%2520override%2520func%2520setUp()%2520%257B%250A%2520%2520%2520%2520server.start()%250A%2520%2520%2520%2520if%2520runsAgainstMockServer%2520%257B%250A%2520%2520%2520%2520%2520%2520%252F%252F%2520local%2520server%2520mocks%2520backend%250A%2520%2520%2520%2520%2520%2520server.setupRoutes()%250A%2520%2520%2520%2520%257D%2520else%2520server.config.recordingMode%2520!%253D%2520nil%2520%257B%250A%2520%2520%2520%2520%2520%2520%252F%252F%2520%2522snapshot%2522%2520tests%250A%2520%2520%2520%2520%2520%2520server.startRecording(testName%253A%2520testName)%250A%2520%2520%2520%2520%257D%2520else%2520%257B%250A%2520%2520%2520%2520%2520%2520%252F%252F%2520local%2520server%2520as%2520a%2520proxy%250A%2520%2520%2520%2520%2520%2520server.router.notFoundResponse%2520%253D%2520InterceptResponse()%250A%2520%2520%2520%2520%257D%250A%2520%2520%257D%250A%2520%2520%250A%2520%2520override%2520func%2520tearDown()%2520%257B%250A%2520%2520%2520%2520server.stop()%250A%2520%2520%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:700px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>Next, you need to intercept the requests from the app using this web server. The web frameworks already provide all functionality for that, usually through the concept known as &quot;router&quot;. Basically, this router holds a mapping between URL patterns and functions to handle them. In any web framework, it can be done by registering a handler for all incoming requests. This handler when invoked parses the request and then we can decide what to do with it. For example, we can redirect this request to the real server using <code>URLSession</code>, get the response and then send it back to the app.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=import%2520EnvoyAmbassador%250Aimport%2520Embassy%250A%250Astruct%2520InterceptResponse%253A%2520WebApp%2520%257B%250A%2520%2520func%2520app(%250A%2520%2520%2520%2520_%2520environ%253A%2520%255BString%253A%2520Any%255D%252C%250A%2520%2520%2520%2520startResponse%253A%2520%2540escaping%2520StartResponse%252C%250A%2520%2520%2520%2520sendBody%253A%2520%2540escaping%2520SendBody%2520%250A%2520%2520)%2520%257B%250A%2520%2520%2520%2520let%2520env%2520%253D%2520RequestEnvironment(environ)%250A%2520%2520%2520%2520let%2520request%2520%253D%2520env.request%250A%2520%2520%2520%2520session.dataTask(with%253A%2520request)%2520%257B%2520data%252C%2520response%252C%2520error%2520in%250A%2520%2520%2520%2520%2520%2520self.complete(env%252C%2520request%252C%2520response%252C%2520data%252C%2520startResponse%252C%2520sendBody)%250A%2520%2520%2520%2520%257D.resume()%250A%2520%2520%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:530px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<h3 id="localserveredgecases">Local server edge cases</h3>
+<p>Before we continue to how we use the local web server in our tests, there are some interesting edge cases that we faced when using this approach.</p>
+<p>First is running parallel tests in simulators on the same machine. When you are starting a local web server it needs to listen to a specific port, i.e. 8080. But if this port is already taken by another instance of a web server that is running on the same machine and was started from another test, you can't use the same port. For that, we simply pick up the next port until we find one that is free.</p>
+<p>Next edge case is that our backend sometimes returns us absolute URLs to some resources instead of relative URLs. In this case, we have to override such URLs to point them to localhost so that when the app access them we can intercept them too. But we have to be careful about that, for example, we can receive an URL that contains another URL in its query parameter. So when we were simply replacing all <code>http://</code> with <code>http://localhost</code> we were also changing those URLs. And then we ended up with URLs in query parameters like <code>http://localhost:8080/www.nhs.co.uk/</code> instead of just <code>http://www.nhs.co.uk</code> which real backend services can't understand. We solved that by replacing URLs pointing only to our hosts and ignore all other hosts.</p>
+<p>This resulted in another issue - when we change the content of the response, its size changes and so we also have to change corresponding HTTP headers of response, so that application network stack is not confused and can properly read all response data.</p>
+<p>There might be others that we just haven't faced yet, but so far they were easy to solve and flexibility that local server provides outweighs them.</p>
+<h3 id="localwebserverusecases">Local web server use cases</h3>
+<p>Now let's talk about how we are using the local web server in our tests. We do it in all different ways that this approach allows.</p>
+<p>In the simplest case, we redirect all requests to the real services and simply log requests and responses. This already gives us a useful insight into why the test may misbehave, is it because request failed or it returned some data we didn't expect. And we don't have to switch between app and test logs, everything now is in one place.</p>
+<p>We also use these logs as recordings, or snapshots, so that we can replay tests later without reaching real services. This is very similar to snapshot tests that you may write for your UI components. Each test can be run either in record or replay mode. In record mode, our web server redirects all requests to real backend services and writes responses in a file. In replay mode, it reads from these files.</p>
+<p>And in some rare scenarios, we use the web server to completely mock the backend.</p>
+<h3 id="networksessionrecording">Network session recording</h3>
+<p>Let's talk a bit more about network session recording. When a local web server receives a request from the app it makes a similar request but to the real web server. It does it using plain <code>URLSession</code>. Because of that, we can record all network interactions easily by injecting into our web server a mock URL session that handles all recording and replaying logic.</p>
+<p>There are again several open source solutions for that, like <a href="https://github.com/venmo/DVR">DVR</a>, but we are using one that is called <a href="https://github.com/Velhotes/Vinyl">Vinyl</a> and was actually developed by our team members. In practice, it worked much better than DVR and is much easier to use.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=func%2520startRecording(testName%253A%2520String)%2520%257B%250A%2520%2520%252F%252F%2520detect%2520recording%2520mode%250A%2520%2520let%2520recordingMode%253A%2520RecordingMode%250A%2520%2520if%2520case%2520.record%253F%2520%253D%2520config.recordingMode%2520%257B%250A%2520%2520%2520%2520recordingMode%2520%253D%2520.missingVinyl(recordingPath%253A%2520recordingPath)%250A%2520%2520%257D%2520else%2520%257B%250A%2520%2520%2520%2520recordingMode%2520%253D%2520.none%250A%2520%2520%257D%250A%2520%2520%252F%252F%2520configure%2520matching%2520strategy%250A%2520%2520let%2520matchingStrategy%2520%253D%2520MatchingStrategy.requestAttributes(%250A%2520%2520%2520%2520types%253A%2520%255B.method%252C%2520.url%252C%2520.query%252C%2520.body%255D%252C%250A%2520%2520%2520%2520playTracksUniquely%253A%2520false%250A%2520%2520)%250A%2520%2520%252F%252F%2520create%2520URLSession%2520mock%250A%2520%2520recordingSession%2520%253D%2520Turntable(%250A%2520%2520%2520%2520vinylName%253A%2520vinylName(forTest%253A%2520testName)%252C%2520%250A%2520%2520%2520%2520turntableConfiguration%253A%2520TurntableConfiguration(%250A%2520%2520%2520%2520%2520%2520matchingStrategy%253A%2520matchingStrategy%252C%250A%2520%2520%2520%2520%2520%2520recordingMode%253A%2520recordingMode%250A%2520%2520))%250A%2520%2520router.notFoundResponse%2520%253D%2520InterceptResponse(session%253A%2520recordingSession!)%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:670px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>Recording network session is pretty straightforward but when it comes to replaying them there are two interesting problems we have to solve.</p>
+<p>First one is random test input. Each of our tests starts with registering a new user. For that, we use randomly generated emails. And there are several other places where we generate random data, i.e. symptoms when booking an appointment. This random data then will be submitted in a body of a network request.</p>
+<p>Now when we replay these network requests we need a way to match previously recorded requests with new incoming requests. If we match them only by URLs we are risking to match wrong requests in the case when there are similar requests with different bodies. So we match everything - HTTP method, URL, query parameters and body data. But then when we replay the test and it uses a different random input than what was used in recording we will not find a match because its body will be different from what was recorded before.</p>
+<p>To solve that we simply store all random strings that test generates in a file next to network logs and then in replay mode read from it. This way when we replay test we use exactly the same input that was used when this test was recorded.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=let%2520matchingStrategy%2520%253D%2520MatchingStrategy.requestAttributes(%250A%2520%2520types%253A%2520%255B.method%252C%2520.url%252C%2520.query%252C%2520.body%255D%252C%250A%2520%2520playTracksUniquely%253A%2520false%250A)%250A%250Afunc%2520generateRandomString(length%253A%2520Int%252C%2520key%253A%2520String%253F)%2520-%253E%2520String%2520%257B%250A%2520%2520if%2520server.config.recordingMode%2520!%253D%2520nil%252C%2520let%2520key%2520%253D%2520key%2520%257B%250A%2520%2520%2520%2520%2520%2520return%2520randomStringFromFile(length%253A%2520length%252C%2520key%253A%2520key)%250A%2520%2520%257D%2520else%2520%257B%250A%2520%2520%2520%2520%2520%2520return%2520randomString(length%253A%2520length)%250A%2520%2520%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:430px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>Another problem is similar to random input data - it's a current date. For example when user books an appointment our backend returns us available time slots. Then before submitting a book appointment request, we are checking if a selected time slot is actually in the future.</p>
+<p><img src="/content/images/2018/10/Screenshot-2018-09-30-at-15.36.37.png" style="width: 400px"/><br/></p>
+<p>Now imagine that we replay this scenario against network recording made yesterday. All time slots will be in the past so the date check will fail and we will treat all of the time slots as expired. To solve that we need our app to use a custom date factory instead of default <code>Date</code> constructor that in tests returns the current date as a date of recording.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=extension%2520Date%2520%257B%250A%2520%2520static%2520func%2520now()%2520-%253E%2520Date%2520%257B%250A%2520%2520%2520%2520%2523if%2520targetEnvironment(simulator)%250A%2520%2520%2520%2520return%2520Date(fromLaunchArguments%253A%2520CommandLine.arguments)%250A%2520%2520%2520%2520%2523else%250A%2520%2520%2520%2520return%2520Date()%250A%2520%2520%2520%2520%2523end%250A%2520%2520%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:350px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<h3 id="mockingbackend">Mocking backend</h3>
+<p>The last use case for the local web server that we use is to completely mock the backend. This is useful for scenarios that we can't test only using the app and which require some actions on GP portal, i.e. prescriptions flow. For that, we need to have a prescription created on a backend. But instead, we can mock the endpoint to get prescriptions and return stubbed prescription. Or the scenario of registering with Facebook. For that, you need to have a test facebook user. But you can use it only once to register on a real server. We could create new test users in each test via Facebook API but this is very slow and we are introducing another point of failure that we can't control. Instead we use a single test user that we use to log in with Facebook in a browser and then we use a mock implementation of registration endpoint that we configure based on the test scenario - it can either return successful response or return an error so that we can make sure that the app reacts correctly on all responses.</p>
+<p>The main problem with this approach is that you need to mock everything. As soon as you mocked one endpoint, i.e. that returns fake authorization token or fake prescription, you can't make any requests using this data to the real backend because it will not know anything about this fake data. You don't have to reimplement all backend logic though, instead, you can just configure it to be in a specific state, i.e. have an upcoming appointment for the user or have a completed appointment with a prescription. So the logic that you need to implement boils down to doing CRUD operations on collections of data using queries based on incoming requests. And this can be implemented in a pretty neat way.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=func%2520setUp()%2520%257B%250A%2520%2520server.router%255B%2522patients%252F%2522%252C%2520.number()%255D%2520%253D%2520server.get(%255C.patients%252C%2520by%253A%2520%255C.id)%250A%257D%250A%250Afunc%2520test()%2520%257B%250A%2520%2520server.patient%2520%253D%2520PatientDTO.mock()%250A%257D&es=2x&wm=false&ts=false"
+  style="width:1000px; height:300px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>Another thing you'll need to implement is <code>Encodable</code> on your data models. In the app, most of your data models need to implement only <code>Decodable</code>, but to send them to the app from a mock server you need to decode them. If your models are simple or use tools like Sourcery you can get this boilerplate for free either relying on compiler generated implementations or code generated by Sourcery. Otherwise, you need to write this boilerplate code.</p>
+<p>So as you can see it requires more work (that can be trivial though) for each test comparing with snapshot tests. For that reason, we will most likely use snapshots approach going forward and only use mocking when there is no other option.</p>
+<ul>
+<li>mock everything ❌</li>
+<li>boilerplate code to write ❌</li>
+<li>total control ✅</li>
+</ul>
+<h3 id="networkandcontentstability">Network and content stability? ✅</h3>
+<p>Snapshots approach comes with another benefit that is that it solves network and content stability issues. It does not matter how you implement snapshot tests, using the local web server or from inside the app - you will not depend on the real network anymore, so this can potentially make your tests less flaky and even a bit faster. Tomorrow when running tests your app will receive the same data as yesterday so you can be sure that if the test fails it's because of the app, not network or content changes. And when content really changes and you want to update your snapshots you just need to run the tests in record mode (making them work with the changed content so that they pass of course) and your snapshots will be updated without you ever touching snapshot files manually.</p>
+<h3 id="testsperformance">Tests performance</h3>
+<p>Now let's move on to the last problem - tests performance. Specifically repeating the same steps in different tests. Every time a user tries to access clinical records in the app we may ask them for their password. It is similar to how AppStore app asks you for your password or a fingerprint from time to time when you make a purchase. So we have to handle this in a lot of tests and spend quite some time on these otherwise useless steps.</p>
+<p><img src="/content/images/2018/10/Simulator-Screen-Shot---iPhone-XR---2018-09-30-at-16.02.13.png" style="width:400px" /><br/></p>
+<p>To solve that we introduce shortcuts in the app which are only present when the app is built for the simulator. They work pretty much as feature toggles, just private and only available for our tests. We also use launch arguments to override some user defaults that we use in the app, for example, to check if we already showed onboarding screens or a screen that asks a user to enable push notifications.</p>
+<p>This not only makes tests faster to run but also easier to write because we don't risk to forget to handle some alert or a popup after some step when they are disabled. Sometimes, like in push notifications tests, we do the opposite - we override defaults so that we force notifications screen to appear so that we make sure we enable notifications if this was never done on this device (i.e. after resetting simulators content).</p>
+<p>We also use this approach to make the app to use memory storage instead of the keychain to store authentication token. This way we don't have to care about clearing any data from previous tests as each test will start with a completely fresh state.</p>
+<p>Another case of performing repeated steps is when several tests need to perform the same steps to reach a particular state, for example, register a new user or book an appointment. This is probably the main factor that affects our tests performance right now. To solve that we are currently doing API calls to the backend from the test and then pass the data that we received to the app.</p>
+<p>For example, when we need to register a new user at the beginning of the test we don't go through all registration steps every time. Instead, we make an API call to register a user with particular data and then we enter credentials we used for that on the login screen. We can even further speed it up by passing authorization token to the app via launch arguments so that it starts already in a logged in state, instead of going through the login screen. The same we can do with booking an appointment and other user actions, like adding a family member or a new payment method.</p>
+<p>We are currently working on splitting our code base into SDKs and we plan to use these SDKs in our UI tests so that we also don't have to duplicate networking code in automation tests and authentication will be probably the first thing we will use it for.</p>
+<p>We could even use API calls from tests to interact with GP portal instead of using mocked backend. This though will require us to first implement those APIs (which are designed first of all for a web app, not for tests), handle authentication and so on. But we then can use snapshots the same way as for calls made by our app. That's something we may switch to in future instead of using mock backend.</p>
+<h3 id="bddstyletests">BDD-style tests</h3>
+<p>Finally, let's see now how our typical UI test looks like. Here is an example.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=import%2520XCTest%250Aimport%2520XCTest_Gherkin%250A%250Aclass%2520MockServerTestExample%253A%2520BaseFeature%2520%257B%250A%250A%2520%2520override%2520func%2520setUp()%2520%257B%250A%2520%2520%2520%2520self.server.config.recordingMode%2520%253D%2520.replay%250A%2520%2520%2520%2520super.setUp()%250A%2520%2520%257D%250A%250A%2520%2520func%2520testExample()%2520%257B%250A%2520%2520%2520%2520And(%2522I%2520tap%2520the%2520Get%2520Started%2520button%2522)%250A%250A%2520%2520%2520%2520When(%2522I%2520enter%2520my%2520details%2522)%250A%2520%2520%2520%2520And(%2522I%2520accept%2520terms%2520and%2520conditions%2522)%250A%2520%2520%2520%2520And(%2522I%2520tap%2520on%2520Lets%2520go%2520button%2522)%250A%2520%2520%2520%2520And(%2522I%2520accept%2520privacy%2520policy%2522)%250A%250A%2520%2520%2520%2520Then(%2522I%2520see%2520the%2520home%2520screen%2522)%250A%2520%2520%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:600px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>As you can see it uses a mock server in replay mode and it's written in BDD style with clear given-when-then sections. It's also written in plain English which highly improves its readability. You can actually write it in any other language because these expressions are just plain strings. But at the same time, it is an absolutely valid Swift code.</p>
+<p>This way each test is not just a set of some obscure Swift methods calls, it's a specification that is easy to understand for any member of your team, be it QA, developer or product owner. It also makes tests a better documentation of your product requirements, how it should behave.</p>
+<p>To write tests like that we use a framework <a href="https://github.com/net-a-porter-mobile/XCTest-Gherkin">XCTest-Gherkin</a> that gives us this simple and neat given-when-then DSL. &quot;Gherkin&quot; is a &quot;Cucumber&quot; in German and it's the name of this DSL. And <a href="https://cucumber.io">Cucumber</a> is one of the test tools that use this DSL. <a href="https://calaba.sh">Calabash</a> is another example of such a tool. Cucumber actually has its own Objective-C implementation of Gherkin parser, and there are few other open source libraries for iOS like <a href="https://github.com/Ahmed-Ali/Cucumberish">Cucumberish</a>.</p>
+<p>Of course, by itself this test will not do anything. It will compile and run but it will fail on the first line because the Gherkin framework does not know what to do on this step. First, we need to implement the steps. Internally the Gherkin framework has a mapping between step expressions, which are just regular expressions, and their implementations, passed in as closures. Then when the step is invoked in tests using for example Given method, the string passed as a parameter to this method is matched with all available steps expressions and first matched step is invoked.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=func%2520defineSteps()%2520%257B%250A%2520%2520step(%2522I%2520launch%2520the%2520app%2522)%2520%257B%250A%2520%2520%2520%2520XCUIApplication().launchIfNeeded()%250A%2520%2520%257D%250A%2520%2520%250A%2520%2520step(%2522I%2520see%2520the%2520home%2520screen%2522)%2520%257B%250A%2520%2520%2520%2520XCTAssertTrue(TabBarMenu().isScreenDisplayed())%250A%2520%2520%2520%2520XCTAssertTrue(TabBarMenu().isSelected(tabBarItem%253A%2520.home))%250A%2520%2520%2520%2520XCTAssertTrue(HomeScreen().isScreenDisplayed())%250A%2520%2520%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:380px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>To implement steps we use plain XCTest APIs with some helpers and a <a href="https://martinfowler.com/bliki/PageObject.html">Page Object pattern</a>. This allows us to make steps implementation highly readable too and makes our tests code very structured (you can argue if its a good structure but they are definitely structured). For each screen, we have a dedicated Page Object with the main goal to abstract interactions with XCUIElements and to hide implementations details. Each page object has a dedicated Steps Definer with implementations of steps related to this screen. These steps are used by tests which are grouped in Features, fancy name to call subclasses of XCTestCase.</p>
+<iframe
+  src="https://carbon.now.sh/embed/?bg=rgba(255%2C255%2C255%2C1)&t=dracula&wt=none&l=swift&ds=false&dsyoff=20px&dsblur=68px&wc=false&wa=true&pv=48px&ph=32px&ln=false&fm=Source%20Code%20Pro&fs=16px&lh=133%25&si=false&code=class%2520HomeScreen%253A%2520BaseScreen%2520%257B%250A%2520%2520fileprivate%2520enum%2520Views%2520%257B%250A%2520%2520%2520%2520static%2520let%2520root%2520%253D%2520%2522homeRootView%2522%250A%2520%2520%257D%250A%2520%2520%250A%2520%2520func%2520isScreenDisplayed()%2520-%253E%2520Bool%2520%257B%250A%2520%2520%2520%2520let%2520rootView%2520%253D%2520app.otherElements%255BViews.root%255D%250A%2520%2520%2520%2520return%2520tryWaitFor(element%253A%2520rootView%252C%2520withState%253A%2520.exists)%250A%2520%2520%257D%250A%257D%250A%250Aclass%2520HomeScreenStepsDefiner%253A%2520BaseSteps%2520%257B%250A%2520%2520step(%2522I%2520see%2520the%2520home%2520screen%2522)%2520%257B%250A%2520%2520%2520%2520XCTAssertTrue(HomeScreen().isScreenDisplayed())%250A%2520%2520%257D%250A%257D%250A%250Aclass%2520HomeScreenFeature%253A%2520BaseFeature%2520%257B%250A%2520%2520func%2520test_view_default_home_screen()%2520%257B%257D%250A%2520%2520func%2520test_start_chat_from_home_screen()%2520%257B%257D%250A%257D&es=2x&wm=false&ts=false"
+  style="width:100%; height:600px; border:0; overflow:hidden; position: relative; left: 50%; transform: translateX(-50%);"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+<p>Another nice feature of XCTest-Gherkin is that it automatically wraps steps into <code>XCTActivity</code> that can be seen in the test activity log. Each step starts a new activity which has the same name as step expression. This way the activity log looks exactly as our tests. And then we use <a href="https://github.com/TitouanVanBelle/XCTestHTMLReport">XCTestHTMLReport</a> to generate HTML reports which look exactly like activity logs in Xcode.</p>
+<p><img src="/content/images/2018/10/Screenshot-2018-09-30-at-17.14.55.png" alt="Screenshot-2018-09-30-at-17.14.55"></p>
+<p>XCTest-Gherkin allows us to write very readable tests, but unfortunately, Xcode is not a great IDE to write such tests. There is no code completion for steps expression because they are just plain strings and there is no way to navigate from the test to the step implementation. Thankfully there are much better text editors like VSCode. It has a nice Gherkin plugin that works well with steps implemented basically with any BDD framework in any language, even with XCTest-Gherkin.</p>
+<p>In VSCode you will not write a Swift test that you can run in Xcode, instead, it will be a feature file written in vanilla Gherkin language. Then you can write a simple test case in XCTest-Gherkin that will parse this feature file, convert it to native test cases and run them.</p>
+<p>Unfortunately, you will not have a good debugging experience in this case as you will not be able to set breakpoints in test cases. VSCode has a plugin to compile Swift code but debugging tests is an issue that is still not solved.</p>
+<p>For this, we can theoretically develop a code generator that will convert vanilla Gherkin feature files to XCTestCases which we can run and debug in Xcode. This way we can have the best of two worlds: nice editing experience of VSCode, debugging with Xcode and sharing feature files across teams. And as VSCode can compile your Swift code you will only need to switch to Xcode for debugging.</p>
+<p>Alternatively one can develop a similar plugin for VSCode that will understand not just vanilla Gherkin but XCTest-Gherkin syntax. Then we wouldn't need to write feature files and generate Swift code from them.</p>
+<p>This is not something that we use though, at least right now, because tools are not there yet so we have to live with the limitations of Xcode.</p>
+<h3 id="wrapup">Wrap up</h3>
+<p>Now you know how local web server, snapshot tests and mock backend help us to solve some issues with UI tests. We are in the process of applying these approaches and currently have only few tests using snapshots and mocked backend but we already see how it enables us easily automate scenarious that we had to test manually before. If it proves to work well on a long run we will probably even opensource some of this code. And hopefully soon thanks to these techniques the only reason for our tests to fail will be developers being lazy to update them.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://techcrunch.com/2016/07/13/facebook-lifts-the-veil-on-its-mobile-device-lab">https://techcrunch.com/2016/07/13/facebook-lifts-the-veil-on-its-mobile-device-lab</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>C. Montgomery Burns' Handbook of World Domination By Matt Groening. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+			</section>
+
+			<section class="post-info">
+
+				<div class="post-share">
+					<a class="twitter" href="https://twitter.com/share?text=iOS UI Automation Tests at Babylon&url=http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+						<i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+					</a>
+					<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+						<i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+					</a>
+					<a class="googleplus" href="https://plus.google.com/share?url=http://ilya.puchka.me/ios-ui-automation-tests-at-babylon/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+						<i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+					</a>
+					<div class="clear"></div>
+				</div>
+
+				<aside class="post-tags">
+					<a href="/tag/ios-2/">iOS</a> <a href="/tag/automation/">automation</a> <a href="/tag/testing/">Testing</a>
+				</aside>
+
+				<div class="clear"></div>
+
+						<aside class="post-author">
+							<figure class="post-author-avatar avatar">
+									<img src="/content/images/2019/01/image-1.png" alt="Ilya Puchka" />
+							</figure>
+							<div class="post-author-bio">
+								<h4 class="post-author-name"><a href="/author/ilya/">Ilya Puchka</a></h4>
+									<p class="post-author-about">iOS developer @babylon</p>
+									<span class="post-author-twitter"><i class="ic ic-twitter"></i> <a target="_blank" href="https://twitter.com/@ilyapuchka">Twitter</a></span>
+							</div>
+							<div class="clear"></div>
+						</aside>
+
+			</section>
+
+
+			<section class="post-comments">
+				<a id="show-disqus" class="post-comments-activate">Show Comments</a>
+			    <div id="disqus_thread"></div>
+			</section>
+
+
+			<aside class="post-nav">
+					<a class="post-nav-next" href="/implementing-features-with-reactivefeedback/">
+						<section class="post-nav-teaser">
+							<i class="ic ic-arrow-left"></i>
+							<h2 class="post-nav-title">Implementing features with ReactiveFeedback</h2>
+							<p class="post-nav-excerpt">Some time ago there was an explosion of articles and talks in&hellip;</p>
+						</section>
+					</a>
+					<a class="post-nav-prev" href="/parametrised-jobs-in-circleci/">
+						<section class="post-nav-teaser">
+							<i class="ic ic-arrow-right"></i>
+							<h2 class="post-nav-title">Parameterized jobs in CircleCI</h2>
+							<p class="post-nav-excerpt">The title is a lie - there is no such thing as&hellip;</p>
+						</section>
+					</a>
+				<div class="clear"></div>
+			</aside>
+
+
+		</div>
+	</article>
+</main>
+
+
+		<div id="body-class" style="display: none;" class="post-template tag-ios-2 tag-automation tag-testing"></div>
+
+		<footer id="footer">
+			<div class="inner">
+				<section class="credits">
+					<span class="credits-theme">Theme <a href="https://github.com/zutrinken/attila">Attila</a> by <a href="http://zutrinken.com" rel="nofollow">zutrinken</a></span>
+					<span class="credits-software">Published with <a href="http://ghost.org">Ghost</a></span>
+				</section>
+			</div>
+		</footer>
+	</section>
+
+	<script type="text/javascript" src="/assets/js/script.js?v=c0bf3b4825"></script>
+
+	<!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+</body>
+</html>

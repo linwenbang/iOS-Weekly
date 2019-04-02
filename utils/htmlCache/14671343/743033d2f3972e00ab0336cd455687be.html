@@ -1,0 +1,1137 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-7uoDIEGQ8zTwUS9KjTP+/2I13FQPHvJ9EKoeUThfin5R1+27bcUC08VQzUo4CIjCdhvJM4zxuI+3HcSycAUTCg==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-abba74d6e28a6842788159fec056bf26.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-nZcL+1Szltbs1e7IMsmzRupcqmH76PIz0/h4jLIAVX74TKAU11YfzKPWpkO/H9OmtVyKnkpjDXItEWBdT3BPtQ==" rel="stylesheet" href="https://github.githubassets.com/assets/site-16d020fbc43a8c23c1f051eac510157b.css" />
+    <link crossorigin="anonymous" media="all" integrity="sha512-rAv/FeoLdUOJ/FGky4DykKdtXKq7yLIVNFhi7W+fMvH5dylaYatal0LufJfeK8Fi8Ou8WXDu1KLv3gKqFcFEQA==" rel="stylesheet" href="https://github.githubassets.com/assets/github-0916dff282db3d299c25e2cbfd95e85c.css" />
+    
+    
+    
+    
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>Paul Heckel&#39;s Diff Algorithm · GitHub</title>
+    <meta name="description" content="Paul Heckel&#39;s Diff Algorithm. GitHub Gist: instantly share code, notes, and snippets.">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch-gist.xml" title="Gist">
+  <link rel="fluid-icon" href="https://gist.github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    
+    <meta property="og:image" content="https://avatars2.githubusercontent.com/u/198682?s=400&amp;v=4" /><meta property="og:site_name" content="Gist" /><meta property="og:type" content="article" /><meta property="og:title" content="Paul Heckel&#39;s Diff Algorithm" /><meta property="og:url" content="https://gist.github.com/ndarville/3166060" /><meta property="og:description" content="Paul Heckel&#39;s Diff Algorithm. GitHub Gist: instantly share code, notes, and snippets." /><meta property="article:author" content="262588213843476" /><meta property="article:publisher" content="262588213843476" />
+
+  <link rel="assets" href="https://github.githubassets.com/">
+  
+  <meta name="pjax-timeout" content="1000">
+  
+  <meta name="request-id" content="E030:34A7:31BE5C:466FAB:5CA39FAA" data-pjax-transient>
+
+
+  
+
+  <meta name="selected-link" value="gist_code" data-pjax-transient>
+
+      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="gist" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="E030:34A7:31BE5C:466FAB:5CA39FAA" /><meta name="octolytics-dimension-region_edge" content="ap-southeast-1" /><meta name="octolytics-dimension-region_render" content="iad" />
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;gist-id&gt;" data-pjax-transient="true" />
+
+
+
+    <meta name="google-analytics" content="UA-3769691-4">
+
+
+<meta class="js-ga-set" name="dimension1" content="Logged Out">
+
+
+
+    <meta name="octolytics-dimension-public" content="true" /><meta name="octolytics-dimension-gist_id" content="3166060" /><meta name="octolytics-dimension-gist_name" content="3166060" /><meta name="octolytics-dimension-anonymous" content="false" /><meta name="octolytics-dimension-owner_id" content="198682" /><meta name="octolytics-dimension-owner_login" content="ndarville" /><meta name="octolytics-dimension-forked" content="false" />
+
+  <meta class="js-ga-set" name="dimension5" content="public">
+  <meta class="js-ga-set" name="dimension6" content="owned">
+  <meta class="js-ga-set" name="dimension7" content="markdown">
+
+
+      <meta name="hostname" content="gist.github.com">
+    <meta name="user-login" content="">
+
+      <meta name="expected-hostname" content="gist.github.com">
+    <meta name="js-proxy-site-detection-payload" content="OTM0N2ZkNzg2ZTVjYWU1NDc4ZjNlMjNiZmIwZjllNzUwMzFkMjZlZTQ4ODE1ZTllMzU2ZjUyYWI0ZmNmY2U1Mnx7InJlbW90ZV9hZGRyZXNzIjoiMTEzLjEwOS41OC4yNDAiLCJyZXF1ZXN0X2lkIjoiRTAzMDozNEE3OjMxQkU1Qzo0NjZGQUI6NUNBMzlGQUEiLCJ0aW1lc3RhbXAiOjE1NTQyMjcxMTgsImhvc3QiOiJnaXRodWIuY29tIn0=">
+
+    <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_UNVERIFIED_LISTINGS,MARKETPLACE_PLAN_RESTRICTION_EDITOR">
+
+  <meta name="html-safe-nonce" content="1bb7236254349e90002ac3cc61552da0075467ba">
+
+  <meta http-equiv="x-pjax-version" content="d2588fdd3b43403853261835863fac87">
+  
+
+      <link href="/ndarville.atom" rel="alternate" title="atom" type="application/atom+xml">
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-ePMbNH3eB0y5p/LoLTm3+eI53PhyUA2g0PwJs8nLZjVeVo3BK19Hj3cr8Fyuc9L9ZhbHSw85qEXrHM/63nUYOQ==" rel="stylesheet" href="https://github.githubassets.com/assets/gist-6ab0fc42583fec2f0a334dce30e3b3cc.css" />
+
+
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+
+
+  </head>
+
+  <body class="logged-out env-production">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+
+    
+    
+    
+
+
+        <div class="Header-old gist-header header-logged-out" role="banner">
+  <div class="container-lg px-3 clearfix">
+    <div class="d-flex flex-justify-between">
+      <div class="d-flex">
+        <a class="header-logo-wordmark" data-hotkey="g d" aria-label="Gist Homepage" href="/">
+          <svg width="78" height="28" class="octicon octicon-logo-github" viewBox="0 0 45 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M18.53 12.03h-.02c.009 0 .015.01.024.011h.006l-.01-.01zm.004.011c-.093.001-.327.05-.574.05-.78 0-1.05-.36-1.05-.83V8.13h1.59c.09 0 .16-.08.16-.19v-1.7c0-.09-.08-.17-.16-.17h-1.59V3.96c0-.08-.05-.13-.14-.13h-2.16c-.09 0-.14.05-.14.13v2.17s-1.09.27-1.16.28c-.08.02-.13.09-.13.17v1.36c0 .11.08.19.17.19h1.11v3.28c0 2.44 1.7 2.69 2.86 2.69.53 0 1.17-.17 1.27-.22.06-.02.09-.09.09-.16v-1.5a.177.177 0 0 0-.146-.18zM42.23 9.84c0-1.81-.73-2.05-1.5-1.97-.6.04-1.08.34-1.08.34v3.52s.49.34 1.22.36c1.03.03 1.36-.34 1.36-2.25zm2.43-.16c0 3.43-1.11 4.41-3.05 4.41-1.64 0-2.52-.83-2.52-.83s-.04.46-.09.52c-.03.06-.08.08-.14.08h-1.48c-.1 0-.19-.08-.19-.17l.02-11.11c0-.09.08-.17.17-.17h2.13c.09 0 .17.08.17.17v3.77s.82-.53 2.02-.53l-.01-.02c1.2 0 2.97.45 2.97 3.88zm-8.72-3.61h-2.1c-.11 0-.17.08-.17.19v5.44s-.55.39-1.3.39-.97-.34-.97-1.09V6.25c0-.09-.08-.17-.17-.17h-2.14c-.09 0-.17.08-.17.17v5.11c0 2.2 1.23 2.75 2.92 2.75 1.39 0 2.52-.77 2.52-.77s.05.39.08.45c.02.05.09.09.16.09h1.34c.11 0 .17-.08.17-.17l.02-7.47c0-.09-.08-.17-.19-.17zm-23.7-.01h-2.13c-.09 0-.17.09-.17.2v7.34c0 .2.13.27.3.27h1.92c.2 0 .25-.09.25-.27V6.23c0-.09-.08-.17-.17-.17zm-1.05-3.38c-.77 0-1.38.61-1.38 1.38 0 .77.61 1.38 1.38 1.38.75 0 1.36-.61 1.36-1.38 0-.77-.61-1.38-1.36-1.38zm16.49-.25h-2.11c-.09 0-.17.08-.17.17v4.09h-3.31V2.6c0-.09-.08-.17-.17-.17h-2.13c-.09 0-.17.08-.17.17v11.11c0 .09.09.17.17.17h2.13c.09 0 .17-.08.17-.17V8.96h3.31l-.02 4.75c0 .09.08.17.17.17h2.13c.09 0 .17-.08.17-.17V2.6c0-.09-.08-.17-.17-.17zM8.81 7.35v5.74c0 .04-.01.11-.06.13 0 0-1.25.89-3.31.89-2.49 0-5.44-.78-5.44-5.92S2.58 1.99 5.1 2c2.18 0 3.06.49 3.2.58.04.05.06.09.06.14L7.94 4.5c0 .09-.09.2-.2.17-.36-.11-.9-.33-2.17-.33-1.47 0-3.05.42-3.05 3.73s1.5 3.7 2.58 3.7c.92 0 1.25-.11 1.25-.11v-2.3H4.88c-.11 0-.19-.08-.19-.17V7.35c0-.09.08-.17.19-.17h3.74c.11 0 .19.08.19.17z"/></svg>
+          <svg width="40" height="28" class="octicon octicon-logo-gist" viewBox="0 0 25 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M4.7 8.73h2.45v4.02c-.55.27-1.64.34-2.53.34-2.56 0-3.47-2.2-3.47-5.05 0-2.85.91-5.06 3.48-5.06 1.28 0 2.06.23 3.28.73V2.66C7.27 2.33 6.25 2 4.63 2 1.13 2 0 4.69 0 8.03c0 3.34 1.11 6.03 4.63 6.03 1.64 0 2.81-.27 3.59-.64V7.73H4.7v1zm6.39 3.72V6.06h-1.05v6.28c0 1.25.58 1.72 1.72 1.72v-.89c-.48 0-.67-.16-.67-.7v-.02zm.25-8.72c0-.44-.33-.78-.78-.78s-.77.34-.77.78.33.78.77.78.78-.34.78-.78zm4.34 5.69c-1.5-.13-1.78-.48-1.78-1.17 0-.77.33-1.34 1.88-1.34 1.05 0 1.66.16 2.27.36v-.94c-.69-.3-1.52-.39-2.25-.39-2.2 0-2.92 1.2-2.92 2.31 0 1.08.47 1.88 2.73 2.08 1.55.13 1.77.63 1.77 1.34 0 .73-.44 1.42-2.06 1.42-1.11 0-1.86-.19-2.33-.36v.94c.5.2 1.58.39 2.33.39 2.38 0 3.14-1.2 3.14-2.41 0-1.28-.53-2.03-2.75-2.23h-.03zm8.58-2.47v-.86h-2.42v-2.5l-1.08.31v2.11l-1.56.44v.48h1.56v5c0 1.53 1.19 2.13 2.5 2.13.19 0 .52-.02.69-.05v-.89c-.19.03-.41.03-.61.03-.97 0-1.5-.39-1.5-1.34V6.94h2.42v.02-.01z"/></svg>
+</a>
+        <div class="site-search js-site-search">
+            <div class="header-search">
+
+<!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative js-quicksearch-form" role="search" aria-label="Site" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+  <div class="header-search-wrapper form-control js-chromeless-input-container">
+    <input type="text"
+      class="form-control js-site-search-focus header-search-input"
+      data-hotkey="s,/"
+      name="q"
+      aria-label="Search"
+      placeholder="Search…"
+      autocorrect="off"
+      autocomplete="off"
+      autocapitalize="off">
+  </div>
+
+</form></div>
+
+        </div>
+
+        <nav aria-label="Global" class="d-flex">
+          <ul class="list-style-none d-flex flex-items-center text-bold pl-2">
+            <li><a class="HeaderNavlink px-2" data-ga-click="Header, go to all gists, text:all gists" href="/discover">All gists</a></li>
+            <li><a class="HeaderNavlink px-2" data-ga-click="Header, go to GitHub, text:Back to GitHub" href="https://github.com">Back to GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+
+        <div class="header-actions" role="navigation">
+            <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="15df9717b369a1ba84bc2cab9c627a0e1ffbcd09e04d3b5188da6cb6ad482545" data-ga-click="Header, sign up" href="/join?source=header-gist">Sign up for a GitHub account</a>
+          <a class="btn" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="3f092a636ce4ffd2a9a97dc9964670ec2ac9b5bb54c088d469a13767e5ae4570" data-ga-click="Header, sign in" href="https://gist.github.com/auth/github?return_to=https%3A%2F%2Fgist.github.com%2Fndarville%2F3166060">Sign in</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+    <div id="js-flash-container">
+
+</div>
+
+
+
+  <div class="application-main " data-commit-hovercards-enabled>
+        <div itemscope itemtype="http://schema.org/Code">
+    <main id="gist-pjax-container" class="gist-content-wrapper" data-pjax-container>
+      
+
+
+  <div class="gist-detail-intro gist-banner">
+    <div class="container-lg px-3">
+      <p class="lead">
+        Instantly share code, notes, and snippets.
+      </p>
+    </div>
+  </div>
+
+
+<div class="gisthead pagehead repohead instapaper_ignore readability-menu experiment-repo-nav mb-4">
+  <div class="container-lg px-3">
+    
+  
+<div class="mb-3 d-flex">
+
+  <h1 class="public css-truncate float-none flex-auto width-fit pl-0">
+    <a class="avatar mr-1" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=198682" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/ndarville"><img src="https://avatars3.githubusercontent.com/u/198682?s=52&amp;v=4" width="26" height="26" alt="@ndarville" /></a>
+    <span class="author"><a data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=198682" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/ndarville">ndarville</a></span><!--
+        --><span class="path-divider">/</span><!--
+        --><strong itemprop="name" class="gist-header-title css-truncate-target"><a href="/ndarville/3166060">diff.mdown</a></strong>
+
+    <div class="d-block text-small text-gray">
+      Created <time-ago datetime="2012-07-23T20:33:50Z">Jul 23, 2012</time-ago>
+    </div>
+  </h1>
+
+  <ul class="pagehead-actions float-none">
+
+
+    <li>
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to star a gist" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist star button&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="1672790e6246132155f4b427b83fa75eb33f958d5c455a9491d384c2795274fa" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fndarville%2F3166060">
+    <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+    Star
+</a>
+  <a class="social-count" aria-label="72 users starred this gist" href="/ndarville/3166060/stargazers">
+    72
+</a>
+    </li>
+
+      <li>
+          <a class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to fork a gist" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist fork button&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="cf7cd58ecd0efe618e08d99baf6c7eadd98101dc92a1d493d70c9772ccc58558" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fndarville%2F3166060">
+    <svg class="octicon octicon-repo-forked" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+    Fork
+</a>    <a class="social-count js-social-count"
+      href="/ndarville/3166060/forks"
+      aria-label="14 users forked this gist">
+      14
+    </a>
+
+      </li>
+  </ul>
+
+</div>
+
+<div class="d-flex">
+  <div class="flex-auto">
+    <nav class="reponav js-repo-nav js-sidenav-container-pjax"
+     aria-label="Gist"
+     data-pjax="#gist-pjax-container">
+
+  <a class="js-selected-navigation-item selected reponav-item" aria-label="Code" data-pjax="true" data-hotkey="g c" aria-current="page" data-selected-links="gist_code /ndarville/3166060" href="/ndarville/3166060">
+    <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>
+    Code
+</a>
+    <a class="js-selected-navigation-item reponav-item" aria-label="Revisions" data-pjax="true" data-hotkey="g r" data-selected-links="gist_revisions /ndarville/3166060/revisions" href="/ndarville/3166060/revisions">
+      <svg class="octicon octicon-git-commit" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"/></svg>
+      Revisions
+      <span class="Counter">111</span>
+</a>
+    <a class="js-selected-navigation-item reponav-item" aria-label="Stars" data-pjax="true" data-hotkey="g s" data-selected-links="gist_stars /ndarville/3166060/stargazers" href="/ndarville/3166060/stargazers">
+      <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      Stars
+      <span class="Counter">72</span>
+</a>
+    <a class="js-selected-navigation-item reponav-item" aria-label="Forks" data-pjax="true" data-hotkey="g f" data-selected-links="gist_forks /ndarville/3166060/forks" href="/ndarville/3166060/forks">
+      <svg class="octicon octicon-git-branch" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 5c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v.3c-.02.52-.23.98-.63 1.38-.4.4-.86.61-1.38.63-.83.02-1.48.16-2 .45V4.72a1.993 1.993 0 0 0-1-3.72C.88 1 0 1.89 0 3a2 2 0 0 0 1 1.72v6.56c-.59.35-1 .99-1 1.72 0 1.11.89 2 2 2 1.11 0 2-.89 2-2 0-.53-.2-1-.53-1.36.09-.06.48-.41.59-.47.25-.11.56-.17.94-.17 1.05-.05 1.95-.45 2.75-1.25S8.95 7.77 9 6.73h-.02C9.59 6.37 10 5.73 10 5zM2 1.8c.66 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2C1.35 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2zm0 12.41c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm6-8c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+      Forks
+      <span class="Counter">14</span>
+</a></nav>
+
+  </div>
+
+  <div class="file-navigation-options" data-multiple>
+
+    <div class="file-navigation-option v-align-middle">
+
+  <div class="input-group js-gist-share-menu">
+    <div class="input-group-button">
+      <details class="details-reset details-overlay select-menu">
+        <summary class="btn btn-sm select-menu-button" data-ga-click="Repository, clone Embed, location:repo overview">
+          <span data-menu-button>Embed</span>
+        </summary>
+        <details-menu class="select-menu-modal position-absolute" style="z-index: 99;" aria-label="Clone options">
+          <div class="select-menu-header">
+            <span class="select-menu-title">What would you like to do?</span>
+          </div>
+          <div class="select-menu-list">
+              <button name="button" type="button" class="select-menu-item width-full" aria-checked="true" role="menuitemradio" tabindex="0" value="&lt;script src=&quot;https://gist.github.com/ndarville/3166060.js&quot;&gt;&lt;/script&gt;" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;EMBED&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:3166060,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="d838f4e846843b7bd8bef1d96e1930051411b88ab2e16b63787b00857c8e0a45">
+                <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
+                <div class="select-menu-item-text">
+                  <span class="select-menu-item-heading" data-menu-button-text>
+                    
+                    Embed
+                  </span>
+                    <span class="description">
+                      Embed this gist in your website.
+                    </span>
+                </div>
+</button>              <button name="button" type="button" class="select-menu-item width-full" aria-checked="false" role="menuitemradio" tabindex="0" value="https://gist.github.com/ndarville/3166060" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;SHARE&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:3166060,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="bbe042fe141bca4ede4fc96ccbce1146764b6ab6ca0d3570875c3e2574fbfc83">
+                <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
+                <div class="select-menu-item-text">
+                  <span class="select-menu-item-heading" data-menu-button-text>
+                    
+                    Share
+                  </span>
+                    <span class="description">
+                      Copy sharable link for this gist.
+                    </span>
+                </div>
+</button>              <button name="button" type="button" class="select-menu-item width-full" aria-checked="false" role="menuitemradio" tabindex="0" value="https://gist.github.com/3166060.git" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;USE_HTTPS&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:3166060,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="95658fa772d86e66c744d80b08240dce3e972b28227d43dfcc4b2750dce585c2">
+                <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
+                <div class="select-menu-item-text">
+                  <span class="select-menu-item-heading" data-menu-button-text>
+                    Clone via
+                    HTTPS
+                  </span>
+                    <span class="description">
+                      Clone with Git or checkout with SVN using the repository’s web address.
+                    </span>
+                </div>
+</button>          </div>
+          <div class="select-menu-list" role="menu">
+            <a class="select-menu-item select-menu-action" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank">
+              <svg class="octicon octicon-question select-menu-item-icon" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"/></svg>
+              <div class="select-menu-item-text">
+                Learn more about clone URLs
+              </div>
+            </a>
+          </div>
+        </details-menu>
+      </details>
+    </div>
+
+    <input
+      id="gist-share-url"
+      type="text"
+      data-autoselect
+      class="form-control input-monospace input-sm"
+      value="&lt;script src=&quot;https://gist.github.com/ndarville/3166060.js&quot;&gt;&lt;/script&gt;"
+      aria-label="Clone this repository at &lt;script src=&quot;https://gist.github.com/ndarville/3166060.js&quot;&gt;&lt;/script&gt;"
+      readonly>
+
+    <div class="input-group-button">
+      <clipboard-copy for="gist-share-url" aria-label="Copy to clipboard" class="btn btn-sm zeroclipboard-button" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;COPY_URL&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:3166060,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="edc0633e1ea19963df496a319260e8b6e312af575def24e7ece27d76dba219b5"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"/></svg></clipboard-copy>
+    </div>
+  </div>
+</div>
+
+
+    <div class="file-navigation-option">
+</div>
+
+
+    <div class="file-navigation-option">
+      <a class="btn btn-sm" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;DOWNLOAD_ZIP&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:3166060,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="92f2dde9d30e99231dd5be96373ec4aecc7ee6a91a15b99647789d7cc372f8d4" data-ga-click="Gist, download zip, location:gist overview" href="/ndarville/3166060/archive/99b9be4a7a5f6e1b5ceeb1b2873867883d143004.zip">Download ZIP</a>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<div class="container-lg px-3 new-discussion-timeline experiment-repo-nav">
+  <div class="repository-content gist-content">
+    
+  <div>
+      <div itemprop="about">
+    Paul Heckel's Diff Algorithm
+  </div>
+
+
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-diff-mdown" class="file">
+      <div class="file-header">
+        <div class="file-actions">
+
+          <a class="btn btn-sm " href="/ndarville/3166060/raw/99b9be4a7a5f6e1b5ceeb1b2873867883d143004/diff.mdown">Raw</a>
+        </div>
+        <div class="file-info">
+          <span class="icon">
+            <svg class="octicon octicon-gist" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.5 5L10 7.5 7.5 10l-.75-.75L8.5 7.5 6.75 5.75 7.5 5zm-3 0L2 7.5 4.5 10l.75-.75L3.5 7.5l1.75-1.75L4.5 5zM0 13V2c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1zm1 0h10V2H1v11z"/></svg>
+          </span>
+          <a class="tooltipped tooltipped-s css-truncate" aria-label="Permalink" href="#file-diff-mdown">
+            <strong class="user-select-contain gist-blob-name css-truncate-target">
+              diff.mdown
+            </strong>
+          </a>
+        </div>
+      </div>
+    
+  <div id="file-diff-mdown-readme" class="Box-body readme blob instapaper_body js-code-block-container">
+    <article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-isolating-differences-between-files" class="anchor" aria-hidden="true" href="#isolating-differences-between-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a href="http://scholar.google.dk/scholar?q=10.1145%2F359460.359467&amp;btnG=&amp;hl=da&amp;as_sdt=0" rel="nofollow">Isolating Differences Between Files</a></h1>
+<h2><a id="user-content-advantage-over-other-algorithms" class="anchor" aria-hidden="true" href="#advantage-over-other-algorithms"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advantage over Other Algorithms</h2>
+<p>The diff output is more specific:</p>
+<blockquote>
+<p>[I]f a whole block of text is moved, then all of it, rather than just the beginning and end, is detected as changed.</p>
+</blockquote>
+<blockquote>
+<p>The algorithm described here avoids these difficulties. It detects differences that correspond very closely to our intuitive notion of difference.</p>
+</blockquote>
+<p>Compare to Python's <a href="http://blog.doughellmann.com/2007/10/pymotw-difflib.html" rel="nofollow"><code>difflib</code></a>. We get an in-line diff instead of a block-level diff. Instead of this:</p>
+<div class="highlight highlight-source-diff"><pre><span class="pl-md"><span class="pl-md">-</span>I did not have sexual relations with that woman.</span>
+<span class="pl-mi1"><span class="pl-mi1">+</span>I may have had sexual relations with that woman.</span></pre></div>
+<p>... you get this:</p>
+<p>I <del>did not have</del> <ins>may have had</ins> sexual relations with that woman.</p>
+<h2><a id="user-content-running-time" class="anchor" aria-hidden="true" href="#running-time"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running Time</h2>
+<p>Linear time and space for all cases.</p>
+<h2><a id="user-content-the-algorithm" class="anchor" aria-hidden="true" href="#the-algorithm"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Algorithm</h2>
+<blockquote>
+<p>To compare two files, it is usually convenient to take a line as the basic unit, although other units are possible, such as word, sentence, paragraph, or character. We approach the problem by finding similarities until only differences remain. We make two observations:</p>
+</blockquote>
+<h3><a id="user-content-preliminary-observations" class="anchor" aria-hidden="true" href="#preliminary-observations"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Preliminary Observations</h3>
+<ol>
+<li>
+<p>If a line occurs only once in each file, then it must be the <em>same</em> line, although it may have been moved.</p>
+<p>We use this observation to <strong>locate</strong> unaltered lines that we subsequently <strong>exclude</strong> from further treatment.</p>
+</li>
+<li>
+<p>If a line has been found to be unaltered, and the lines immediately adjacent to it in both files are identical, then these lines must be the <em>same</em> line. This information can be used to find blocks of unchanged lines.</p>
+</li>
+</ol>
+<h3><a id="user-content-input-output-and-data-structures" class="anchor" aria-hidden="true" href="#input-output-and-data-structures"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Input, Output, and Data Structures</h3>
+<ul>
+<li>Files:
+<ol>
+<li><code>O</code>, the old file</li>
+<li><code>N</code>, the new file</li>
+</ol>
+</li>
+<li>Symbol table:
+<ul>
+<li><code>table</code></li>
+</ul>
+</li>
+<li>Arrays:
+<ol>
+<li><code>OA</code></li>
+<li><code>NA</code></li>
+</ol>
+</li>
+</ul>
+<h4><a id="user-content-the-symbol-table-table" class="anchor" aria-hidden="true" href="#the-symbol-table-table"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Symbol Table <code>table</code></h4>
+<p>Each <code>line</code> works as the key in the <code>table</code> look-up, i.e. as <code>table[line]</code>.</p>
+<p>The symbol table stores three entries for each line:</p>
+<ol>
+<li>Counters:
+<ol>
+<li><code>OC</code></li>
+<li><code>NC</code></li>
+</ol>
+</li>
+<li>Line reference:
+<ul>
+<li><code>OLNO</code></li>
+</ul>
+</li>
+</ol>
+<p>In Python:</p>
+<div class="highlight highlight-source-python"><pre>table <span class="pl-k">=</span> {
+    line: {
+        <span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>:   ocurrences_of_line_in_o
+        <span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>:   ocurrences_of_line_in_n
+        <span class="pl-s"><span class="pl-pds">"</span>OLNO<span class="pl-pds">"</span></span>: line_number_in_o
+    }
+}</pre></div>
+<h5><a id="user-content-counters-oc-and-nc" class="anchor" aria-hidden="true" href="#counters-oc-and-nc"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Counters <code>OC</code> and <code>NC</code></h5>
+<p>The value entry for each line in <code>table</code> has two counters. They specify the line's number of occurrences in <code>O</code> and <code>N</code>: <code>OC</code> and <code>NC</code>.</p>
+<p><code>OC</code> and <code>NC</code> can assume three values: 1, 2, and many.</p>
+<h5><a id="user-content-the-line-reference-olno" class="anchor" aria-hidden="true" href="#the-line-reference-olno"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Line Reference <code>OLNO</code></h5>
+<p>Aside from the two counters, the line's entry also includes a reference to the line's line number in <code>O</code>: <code>OLNO</code>.</p>
+<p><code>OLNO</code> is only interesting, if <code>OC == 1</code>. Alternatively, <code>OLNO</code> would have to assume multiple values or none at all.</p>
+<h4><a id="user-content-the-arrays-oa-and-na" class="anchor" aria-hidden="true" href="#the-arrays-oa-and-na"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Arrays <code>OA</code> and <code>NA</code></h4>
+<p>The arrays <code>OA</code> and <code>NA</code> have one entry for each line in their respective files, <code>O</code> and <code>N</code>. The arrays contain either:</p>
+<ul>
+<li>a pointer to the line's symbol table entry, <code>table[line]</code></li>
+<li>the line's number in the <em>other</em> file (<code>N</code> for <code>OA</code>, <code>O</code> for <code>NA</code>)</li>
+</ul>
+<p>... and some code to determine which. (See Third Pass part c.)</p>
+<p>In other words, you would have for each array:</p>
+<ul>
+<li>
+<p><code>OA</code></p>
+<ul>
+<li>one entry for each line of file <code>O</code> containing either
+<ul>
+<li>a pointer to <code>table[line]</code></li>
+<li>the line's number in file <code>N</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>NA</code></p>
+<ul>
+<li>one entry for each line of file <code>N</code> containing either
+<ul>
+<li>a pointer to <code>table[line]</code></li>
+<li>the line's number in file <code>O</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>In Python:</p>
+<div class="highlight highlight-source-python"><pre><span class="pl-c1">OA</span> <span class="pl-k">=</span> []
+<span class="pl-c1">NA</span> <span class="pl-k">=</span> []</pre></div>
+<h3><a id="user-content-the-passes" class="anchor" aria-hidden="true" href="#the-passes"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Passes</h3>
+<p>The algorithm has six passes:</p>
+<h4><a id="user-content-first-pass" class="anchor" aria-hidden="true" href="#first-pass"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>First Pass</h4>
+<ul>
+<li>a. Each line <code>i</code> of file <code>N</code> is read in sequence</li>
+<li>b. An entry for each line <code>i</code> is created in the table, if it doesn't already exist</li>
+<li>c. <code>NC</code> for the line's <code>table</code> entry is incremented</li>
+<li>d. <code>NA[i]</code> is set to point to the <code>table</code> entry of line <code>i</code></li>
+</ul>
+<blockquote>
+<p>a. each line <code>i</code> of file <code>N</code> is read in sequence</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre>i <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">for</span> line <span class="pl-k">in</span> N:</pre></div>
+<blockquote>
+<p>b. An entry for each line <code>i</code> is created in the table, if it doesn't already exist</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">if</span> <span class="pl-k">not</span> line <span class="pl-k">in</span> table:
+    table[line] <span class="pl-k">=</span> {}
+<span class="pl-c"><span class="pl-c">#</span>   (...)</span>
+<span class="pl-c"><span class="pl-c">#</span> else: </span>
+<span class="pl-c"><span class="pl-c">#</span>   (...)</span></pre></div>
+<blockquote>
+<p>c. <code>NC</code> for the line's <code>table</code> entry is incremented</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">if</span> <span class="pl-k">not</span> <span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> table[line]:
+    table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+<span class="pl-k">else</span>:
+    <span class="pl-k">if</span> table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">1</span>:
+        table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">2</span>  <span class="pl-c"><span class="pl-c">#</span> Why not just have 1 and "many"?</span>
+    <span class="pl-k">else</span>:
+        table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>many<span class="pl-pds">"</span></span></pre></div>
+<blockquote>
+<p>d. <code>NA[i]</code> is set to point to the <code>table</code> entry of line <code>i</code></p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-c1">NA</span>[i] <span class="pl-k">=</span> table[line]
+i <span class="pl-k">+=</span> <span class="pl-c1">1</span></pre></div>
+<p>All steps combined:</p>
+<div class="highlight highlight-source-python"><pre>i <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+<span class="pl-k">for</span> line <span class="pl-k">in</span> N:
+    <span class="pl-k">if</span> <span class="pl-k">not</span> line <span class="pl-k">in</span> table:
+        table[line] <span class="pl-k">=</span> {}
+        table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">else</span>:
+        <span class="pl-k">if</span> table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">1</span>:
+            table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">2</span>
+        <span class="pl-k">else</span>:
+            table[line][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>many<span class="pl-pds">"</span></span>
+    <span class="pl-c1">NA</span>[i] <span class="pl-k">=</span> table[line]
+    i <span class="pl-k">+=</span> <span class="pl-c1">1</span></pre></div>
+<h4><a id="user-content-second-pass" class="anchor" aria-hidden="true" href="#second-pass"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Second Pass</h4>
+<p>Similar to first pass, except it acts on files</p>
+<ul>
+<li><code>O</code></li>
+<li><code>OA</code></li>
+<li><code>OC</code></li>
+<li><code>OLNO</code> which is set to the line's number</li>
+</ul>
+<blockquote>
+<p><code>O</code></p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre>j <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">for</span> line <span class="pl-k">in</span> O:</pre></div>
+<blockquote>
+<p><code>OA</code></p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-c1">OA</span>[j] <span class="pl-k">=</span> table[line]
+j <span class="pl-k">+=</span> <span class="pl-c1">1</span></pre></div>
+<blockquote>
+<p><code>OC</code></p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">if</span> <span class="pl-k">not</span> <span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> table[line]:
+    table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+<span class="pl-k">else</span>:
+    <span class="pl-k">if</span> table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">1</span>:
+        table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">2</span>
+    <span class="pl-k">else</span>:
+        table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>many<span class="pl-pds">"</span></span></pre></div>
+<blockquote>
+<p><code>OLNO</code></p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-c"><span class="pl-c">#</span> for line in O:</span>
+table[line][<span class="pl-s"><span class="pl-pds">"</span>OLNO<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> j</pre></div>
+<p>All steps combined:</p>
+<div class="highlight highlight-source-python"><pre>j <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+<span class="pl-k">for</span> line <span class="pl-k">in</span> O:
+    <span class="pl-k">if</span> <span class="pl-k">not</span> line <span class="pl-k">in</span> table:
+        table[line] <span class="pl-k">=</span> {}
+        table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+    <span class="pl-k">else</span>:
+        <span class="pl-k">if</span> <span class="pl-k">not</span> <span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> table[line]:
+            table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+        <span class="pl-k">elif</span> table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">1</span>:
+            table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">2</span>
+        <span class="pl-k">else</span>:
+            table[line][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>many<span class="pl-pds">"</span></span>
+    table[line][<span class="pl-s"><span class="pl-pds">"</span>OLNO<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> j  <span class="pl-c"><span class="pl-c">#</span> Gets overwritten with multiple occurrences.</span>
+    <span class="pl-c"><span class="pl-c">#</span> Check to see if this is the intended implementation.</span>
+    <span class="pl-c"><span class="pl-c">#</span> Maybe only relevant for "OC" == "NC" == 1</span>
+    <span class="pl-c1">OA</span>[j] <span class="pl-k">=</span> table[line]
+    j <span class="pl-k">+=</span> <span class="pl-c1">1</span></pre></div>
+<h4><a id="user-content-third-pass" class="anchor" aria-hidden="true" href="#third-pass"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Third Pass</h4>
+<ul>
+<li>
+<p>a. We use <em>Observation 1</em>:</p>
+<blockquote>
+<p>If a line occurs only once in each file, then it must be the <em>same</em> line, although it may have been moved.</p>
+<p>We use this observation to <strong>locate</strong> unaltered lines that we subsequently <strong>exclude</strong> from further treatment.</p>
+</blockquote>
+</li>
+<li>
+<p>b. Using this, we only process the lines where <code>OC == NC == 1</code>.</p>
+</li>
+<li>
+<p>c. As the lines between <code>O</code> and <code>N</code> "must be the <em>same</em> line, although it may have been moved", we alter the <code>table</code> pointers in <code>OA</code> and <code>NA</code> to the number of the line in the other file.</p>
+</li>
+<li>
+<p>d. <strong>We also locate unique virtual lines</strong></p><strong>
+<ul>
+<li>immediately before the first and</li>
+<li>immediately after the last</li>
+</ul>
+</strong><p><strong>lines of the files</strong> (???)</p>
+</li>
+</ul>
+<blockquote>
+<p>b. Using this, we only process the lines where <code>OC == NC == 1</code>.</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> <span class="pl-c1">NA</span>[i] <span class="pl-k">and</span> <span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> <span class="pl-c1">NA</span>[i]:
+    <span class="pl-k">if</span> <span class="pl-c1">NA</span>[i][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">NA</span>[i][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">1</span>:</pre></div>
+<blockquote>
+<p>c. As the lines between <code>O</code> and <code>N</code> "must be the <em>same</em> line, although it may have been moved", we alter the <code>table</code> pointers in <code>OA</code> and <code>NA</code> to the number of the line in the other file.</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-s"><span class="pl-pds">"""</span>cf. the paper's ex. description of Pass 3.<span class="pl-pds">"""</span></span>
+olno <span class="pl-k">=</span> <span class="pl-c1">NA</span>[i][<span class="pl-s"><span class="pl-pds">"</span>OLNO<span class="pl-pds">"</span></span>]
+
+<span class="pl-c1">NA</span>[i]    <span class="pl-k">=</span> olno
+<span class="pl-c1">OA</span>[olno] <span class="pl-k">=</span> i</pre></div>
+<blockquote>
+<p>d. <strong>"Find" unique virtual lines immediately before the first and immediately after the last lines of the files</strong> (???)</p>
+</blockquote>
+<p>All steps combined:</p>
+<div class="highlight highlight-source-python"><pre>i <span class="pl-k">=</span> <span class="pl-c1">0</span>
+
+<span class="pl-k">for</span> i <span class="pl-k">in</span> <span class="pl-c1">NA</span>:
+    <span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> <span class="pl-c1">NA</span>[i] <span class="pl-k">and</span> <span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span> <span class="pl-k">in</span> <span class="pl-c1">NA</span>[i]:
+        <span class="pl-k">if</span> <span class="pl-c1">NA</span>[i][<span class="pl-s"><span class="pl-pds">"</span>OC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">NA</span>[i][<span class="pl-s"><span class="pl-pds">"</span>NC<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-c1">1</span>:
+            olno <span class="pl-k">=</span> <span class="pl-c1">NA</span>[i][<span class="pl-s"><span class="pl-pds">"</span>OLNO<span class="pl-pds">"</span></span>]
+            <span class="pl-c1">NA</span>[i], <span class="pl-c1">OA</span>[olno] <span class="pl-k">=</span> olno, i
+    i <span class="pl-k">+=</span> <span class="pl-c1">1</span></pre></div>
+<h4><a id="user-content-fourth-pass" class="anchor" aria-hidden="true" href="#fourth-pass"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fourth Pass</h4>
+<ul>
+<li>
+<p>a. We use <em>Observation 2</em>:</p>
+<blockquote>
+<p>If a line has been found to be unaltered, and the lines immediately adjacent to it in both files are identical, then these lines must be the <em>same</em> line. This information can be used to find blocks of unchanged lines.</p>
+</blockquote>
+</li>
+<li>
+<p>b. Using this, we process each entry in <strong>a</strong>scending order.</p>
+</li>
+<li>
+<p>c. If</p>
+<ul>
+<li><code>NA[i]</code> points to <code>OA[j]</code>, and</li>
+<li><code>NA[i+1]</code> and <code>OA[j+1]</code> contain identical <code>table</code> entry pointers</li>
+</ul>
+<p>then</p>
+<ul>
+<li><code>OA[j+1]</code> is set to line <code>i+1</code>, and</li>
+<li><code>NA[i+1]</code> is set to line <code>j+1</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>b. Using this, we process each entry in <strong>a</strong>scending order.</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-c"><span class="pl-c">#</span> ascending</span>
+<span class="pl-k">for</span> i, j <span class="pl-k">in</span> <span class="pl-c1">NA</span>, <span class="pl-c1">OA</span>:</pre></div>
+<blockquote>
+<p>c. If (...) then (...)</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">if</span> <span class="pl-c1">NA</span>[i] <span class="pl-k">==</span> <span class="pl-c1">OA</span>[j] <span class="pl-k">and</span> <span class="pl-c1">NA</span>[i<span class="pl-k">+</span><span class="pl-c1">1</span>] <span class="pl-k">==</span> <span class="pl-c1">OA</span>[j<span class="pl-k">+</span><span class="pl-c1">1</span>]:
+    <span class="pl-c1">OA</span>[j<span class="pl-k">+</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> table[O[i<span class="pl-k">+</span><span class="pl-c1">1</span>]]
+    <span class="pl-c1">NA</span>[i<span class="pl-k">+</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> table[N[j<span class="pl-k">+</span><span class="pl-c1">1</span>]]</pre></div>
+<h4><a id="user-content-fifth-pass" class="anchor" aria-hidden="true" href="#fifth-pass"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fifth Pass</h4>
+<p>Similar to fourth pass, except:</p>
+<ul>
+<li>It processes each entry in <strong>de</strong>scending order</li>
+<li>It uses <code>j-1</code> and <code>i-1</code> instead of <code>j+1</code> and <code>i+1</code></li>
+</ul>
+<blockquote>
+<p>It processes each entry in <strong>de</strong>scending order</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-c"><span class="pl-c">#</span> descending</span>
+<span class="pl-k">for</span> i, j <span class="pl-k">in</span> <span class="pl-c1">NA</span>, <span class="pl-c1">OA</span>:</pre></div>
+<blockquote>
+<p>It uses <code>j-1</code> and <code>i-1</code> instead of <code>j+1</code> and <code>i+1</code></p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">if</span> <span class="pl-c1">NA</span>[i] <span class="pl-k">==</span> <span class="pl-c1">OA</span>[j] <span class="pl-k">and</span> <span class="pl-c1">NA</span>[i<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">==</span> <span class="pl-c1">OA</span>[j<span class="pl-k">-</span><span class="pl-c1">1</span>]:
+    <span class="pl-c1">OA</span>[j<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> table[O[i<span class="pl-k">-</span><span class="pl-c1">1</span>]]
+    <span class="pl-c1">NA</span>[i<span class="pl-k">-</span><span class="pl-c1">1</span>] <span class="pl-k">=</span> table[N[j<span class="pl-k">-</span><span class="pl-c1">1</span>]]</pre></div>
+<h4><a id="user-content-final-pass" class="anchor" aria-hidden="true" href="#final-pass"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Final Pass</h4>
+<p>At this point following our five passes, we have the necessary information contained in <code>NA</code> to tell the differences between <code>O</code> and <code>N</code>.</p>
+<p>This pass uses <code>NA</code> and <code>OA</code> to tell when a line has changed between <code>O</code> and <code>N</code>, and how far the change extends.</p>
+<h5><a id="user-content-determining-a-new-line" class="anchor" aria-hidden="true" href="#determining-a-new-line"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Determining a New Line</h5>
+<p>Recall our initial description of <code>NA</code> in which we said that the array has either:</p>
+<blockquote>
+<p>one entry for each line of file <code>N</code> containing either</p>
+<ul>
+<li>a pointer to <code>table[line]</code></li>
+<li>the line's number in file <code>O</code></li>
+</ul>
+</blockquote>
+<p>Using these two cases, we know that if <code>NA[i]</code> refers to an entry in <code>table</code> (case 1), then line <code>i</code> must be new.</p>
+<p>We know this, because otherwise, <code>NA[i]</code> would have contained the line's number in <code>O</code> (case 2), if it existed in <code>O</code> and <code>N</code>.</p>
+<h5><a id="user-content-determining-the-boundaries-of-the-new-line" class="anchor" aria-hidden="true" href="#determining-the-boundaries-of-the-new-line"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Determining the Boundaries of the New Line</h5>
+<p>We now know that we are dealing with a new line, but we have yet to figure where the change ends.</p>
+<p>Recall <em>Observation 2</em>:</p>
+<blockquote>
+<p>If a line has been found to be unaltered, and the lines immediately adjacent to it in both files are identical, then these lines must be the same line. This information can be used to find blocks of unchanged lines.</p>
+</blockquote>
+<p>If <code>NA[i]</code> points to <code>OA[j]</code>, but <code>NA[i+1]</code> does not point to <code>OA[j+1]</code>, then line <code>i</code> is the boundary for the alteration.</p>
+<p>You can look at it this way:</p>
+<pre><code>i  : The quick brown fox      | j  : The quick brown fox
+i+1: jumps over the lazy dog  | j+1: jumps over the loafing cat
+</code></pre>
+<p>Here, <code>NA[i] == OA[j]</code>, but <code>NA[i+1] != OA[j+1]</code>. This means our boundary is between the two lines.</p>
+<h5><a id="user-content-output-diff" class="anchor" aria-hidden="true" href="#output-diff"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Output Diff</h5>
+<p>At this point, we know all we need to know and have all the relevant logic in place to output the diff(erence) between <code>O</code> and <code>N</code>.</p>
+</article>
+  </div>
+
+  </div>
+</div>
+
+
+    <a name="comments"></a>
+    <div class="discussion-timeline width-full js-quote-selection-container float-none" data-quote-markdown=".js-comment-body">
+      <div class="js-discussion js-socket-channel" data-channel="marked-as-read:gist:3166060">
+        
+  <div class="timeline-comment-wrapper js-comment-container">
+      
+
+<div class="avatar-parent-child timeline-comment-avatar">
+    <a class="d-inline-block" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=546" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/drudru"><img class="avatar rounded-1" height="44" width="44" alt="@drudru" src="https://avatars3.githubusercontent.com/u/546?s=88&amp;v=4" /></a>
+
+</div>
+
+
+    
+<div class="timeline-comment-group js-minimizable-comment-group js-targetable-comment" id="gistcomment-2746167">
+    <div class="minimized-comment d-none ">
+      
+
+  
+
+<details class="Details-element details-reset border rounded-1 bg-white"
+       data-body-version="4af21bbdc995812234063139c4feb7a2">
+    <summary class="bg-gray border-bottom-0 py-0 px-2">
+      <div class="d-flex flex-justify-between flex-items-center">
+        <h3 class="timeline-comment-header-text f5 text-gray text-normal text-italic">
+              This comment has been minimized.
+
+        </h3>
+        <div class="text-gray text-small">
+          <a rel="nofollow" class="link-gray" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;minimized comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="6ed715d5e037f77d2e4e84c0e4f3d8edf77be5e285d5cd99f6236c6af2dd300c" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fndarville%2F3166060">Sign in to view</a>
+        </div>
+      </div>
+    </summary>
+</details>
+
+
+    </div>
+  <div class="unminimized-comment comment previewable-edit js-comment js-task-list-container timeline-comment  "
+       data-body-version="4af21bbdc995812234063139c4feb7a2"
+       data-unfurl-hide-url="/content_reference_attachments/hide"
+       data-unfurl-authenticity-token="38RpOLqA5JxlmgV9/JXES1lPOK5z9+JrlH0qirgwHNIROWHU8jUT+9K5v4bRyxwn7b5U1Wl7aogo7U7dZjE8Gw==">
+
+    
+<div class="timeline-comment-header clearfix">
+  <div class="timeline-comment-actions">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<details class="details-overlay details-reset position-relative d-inline-block ">
+  <summary class="btn-link timeline-comment-action">
+    <svg aria-label="Show options" class="octicon octicon-kebab-horizontal" viewBox="0 0 13 16" version="1.1" width="13" height="16" role="img"><path fill-rule="evenodd" d="M1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM13 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </summary>
+  <details-menu class="dropdown-menu dropdown-menu-sw show-more-popover text-gray-dark anim-scale-in" style="width:185px">
+        <clipboard-copy
+    class="dropdown-item btn-link"
+    for="gistcomment-2746167-permalink"
+    aria-label="Copy link"
+    role="menuitem"
+    
+    >
+    Copy link
+  </clipboard-copy>
+
+        <button
+    type="button"
+    class="dropdown-item btn-link d-none js-comment-quote-reply"
+    role="menuitem">
+    Quote reply
+  </button>
+
+      
+  </details-menu>
+</details>
+
+  </div>
+
+    
+
+
+  
+
+
+  <h3 class="timeline-comment-header-text f5 text-normal">
+
+
+    <strong class="css-truncate">
+      
+
+  <a class="author text-inherit css-truncate-target" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=546" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/drudru">drudru</a>
+  
+
+    </strong>
+
+    commented
+
+      <a href="#gistcomment-2746167" id="gistcomment-2746167-permalink" class="timestamp js-timestamp"><relative-time datetime="2018-10-29T23:03:30Z">Oct 29, 2018</relative-time></a>
+
+
+    <span class="js-comment-edit-history">
+    </span>
+  </h3>
+</div>
+
+
+    <div class="edit-comment-hide">
+
+      
+<task-lists disabled sortable>
+<table class="d-block">
+  <tbody class="d-block">
+    <tr class="d-block">
+      <td class="d-block comment-body markdown-body  js-comment-body">
+
+          <p>Hi,</p>
+<p>Thanks for putting this gist up.</p>
+<p>I was wondering what your interpretation of Pass 3 of Heckel's diff algorithm is wrt. "virtual lines".</p>
+<p>In his paper he talks about locating "virtual lines" before the first and after the last. Maybe he means putting the begin and end lines in there?</p>
+<p>It looks like that can be ignored, but I was just curious if I was missing something?</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</task-lists>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  <div class="timeline-comment-wrapper js-comment-container">
+      
+
+<div class="avatar-parent-child timeline-comment-avatar">
+    <a class="d-inline-block" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=2412342" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/larspensjo"><img class="avatar rounded-1" height="44" width="44" alt="@larspensjo" src="https://avatars0.githubusercontent.com/u/2412342?s=88&amp;v=4" /></a>
+
+</div>
+
+
+    
+<div class="timeline-comment-group js-minimizable-comment-group js-targetable-comment" id="gistcomment-2784524">
+    <div class="minimized-comment d-none ">
+      
+
+  
+
+<details class="Details-element details-reset border rounded-1 bg-white"
+       data-body-version="e5619d962c4876e36f8c9e96ca77ef3e">
+    <summary class="bg-gray border-bottom-0 py-0 px-2">
+      <div class="d-flex flex-justify-between flex-items-center">
+        <h3 class="timeline-comment-header-text f5 text-gray text-normal text-italic">
+              This comment has been minimized.
+
+        </h3>
+        <div class="text-gray text-small">
+          <a rel="nofollow" class="link-gray" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;minimized comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="6ed715d5e037f77d2e4e84c0e4f3d8edf77be5e285d5cd99f6236c6af2dd300c" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fndarville%2F3166060">Sign in to view</a>
+        </div>
+      </div>
+    </summary>
+</details>
+
+
+    </div>
+  <div class="unminimized-comment comment previewable-edit js-comment js-task-list-container timeline-comment  "
+       data-body-version="e5619d962c4876e36f8c9e96ca77ef3e"
+       data-unfurl-hide-url="/content_reference_attachments/hide"
+       data-unfurl-authenticity-token="OCyFXujr0IoxMCH/GH6mx20rCukFmLYYZ4zpBkSeoJr20Y2yoF4n7YYTmwQ1IH6r2dpmkh8UPvvbHI1Rmp+AUw==">
+
+    
+<div class="timeline-comment-header clearfix">
+  <div class="timeline-comment-actions">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<details class="details-overlay details-reset position-relative d-inline-block ">
+  <summary class="btn-link timeline-comment-action">
+    <svg aria-label="Show options" class="octicon octicon-kebab-horizontal" viewBox="0 0 13 16" version="1.1" width="13" height="16" role="img"><path fill-rule="evenodd" d="M1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM13 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </summary>
+  <details-menu class="dropdown-menu dropdown-menu-sw show-more-popover text-gray-dark anim-scale-in" style="width:185px">
+        <clipboard-copy
+    class="dropdown-item btn-link"
+    for="gistcomment-2784524-permalink"
+    aria-label="Copy link"
+    role="menuitem"
+    
+    >
+    Copy link
+  </clipboard-copy>
+
+        <button
+    type="button"
+    class="dropdown-item btn-link d-none js-comment-quote-reply"
+    role="menuitem">
+    Quote reply
+  </button>
+
+      
+  </details-menu>
+</details>
+
+  </div>
+
+    
+
+
+  
+
+
+  <h3 class="timeline-comment-header-text f5 text-normal">
+
+
+    <strong class="css-truncate">
+      
+
+  <a class="author text-inherit css-truncate-target" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=2412342" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/larspensjo">larspensjo</a>
+  
+
+    </strong>
+
+    commented
+
+      <a href="#gistcomment-2784524" id="gistcomment-2784524-permalink" class="timestamp js-timestamp"><relative-time datetime="2018-12-13T08:13:52Z">Dec 13, 2018</relative-time></a>
+
+
+    <span class="js-comment-edit-history">
+    </span>
+  </h3>
+</div>
+
+
+    <div class="edit-comment-hide">
+
+      
+<task-lists disabled sortable>
+<table class="d-block">
+  <tbody class="d-block">
+    <tr class="d-block">
+      <td class="d-block comment-body markdown-body  js-comment-body">
+
+          <p>If the first line of the two files are identical but not unique, they will not be matched in pass 4. Inserting a virtual BEGIN and END line in the files will be matched in the third pass as identical. That means the first line of the file will now be matched in pass 4.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</task-lists>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+  </div>
+
+<!-- Rendered timeline since 2019-03-17 12:31:50 -->
+<div id="partial-timeline-marker"
+      class="js-timeline-marker js-updatable-content"
+      data-url="/ndarville/3166060/show_partial?partial=gist%2Ftimeline_marker&amp;since=1552851110"
+      data-last-modified="Sun, 17 Mar 2019 19:31:50 GMT"
+      >
+</div>
+
+
+        <div class="discussion-timeline-actions">
+            
+<div class="flash flash-warn mt-3">
+    <a rel="nofollow" class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;signed out comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="0c883bcdaf8fa3c43dd47203375905b3e0bde4940b60e8dd740c7c74cb2c58c9" href="/join?source=comment-gist">Sign up for free</a>
+    <strong>to join this conversation on GitHub</strong>.
+    Already have an account?
+    <a rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;signed out comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E030:34A7:31BE5C:466FAB:5CA39FAA&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/ndarville/3166060&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="620d17ed7a99dcf634622448657e98598ca1aded3b5a124c46a312a4b07438e3" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fndarville%2F3166060">Sign in to comment</a>
+</div>
+
+        </div>
+      </div>
+    </div>
+</div>
+  </div>
+
+  <div class="modal-backdrop js-touch-events"></div>
+</div><!-- /.container -->
+
+    </main>
+  </div>
+
+  </div>
+
+        
+<div class="footer container-lg width-full px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">&copy; 2019 <span title="0.09978s from unicorn-54f94b5f94-qt6hk">GitHub</span>, Inc.</li>
+        <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
+        <li class="mr-3"><a href="https://githubstatus.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon mx-lg-4" href="https://github.com">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3"><a href="https://github.com/pricing" data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+      <li class="mr-3"><a href="https://developer.github.com" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com" data-ga-click="Footer, go to training, text:training">Training</a></li>
+        <li class="mr-3"><a href="https://github.blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-jFuNBkwlIX73xJbI2nTCs01W/xjwP+Ccc0gEdkD4d/tQBv4xIZx4dZLnkYhzawWhnxjJbvkHsxSXQffNs0Ce4Q==" type="application/javascript" src="https://github.githubassets.com/assets/compat-bootstrap-8102d067.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-tEFti6nF1hBd4GQkgKYMs3eNp6ezhYHYiZBTDLaIhGDhFXca1JMrdgvzRCxp91tXzg3bnIn3NqA2f7EMJ672bQ==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-c3fed18a.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-dSmGXSDhNHUA1/Osb7KFRKf8ldL+vSmMQk69AHm+wzXaGyxybdi30CNZfJPyYcPsEMxlEy1ZyPaR8A3oF6pClQ==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-6c0a1f64.js"></script>
+    
+      <script crossorigin="anonymous" async="async" integrity="sha512-jBy3hBXaLVuYqRVwrsrPgPLlCW0l5AGJlwzPQxUwEC3K2tv+//lHCEB1NQYn48PHevZAk1iIRuOovfX1QG4akw==" type="application/javascript" src="https://github.githubassets.com/assets/gist-bootstrap-e61e3122.js"></script>
+
+    
+  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner" hidden
+    >
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark" open>
+    <summary aria-haspopup="dialog" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog>
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+  <div aria-live="polite" class="js-global-screen-reader-notice sr-only"></div>
+
+  </body>
+</html>
+

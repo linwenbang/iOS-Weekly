@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Get the most from our primary reference to UIKit and more">
+    <meta name="keywords" content="hacking with swift, apple, developer, news, tutorials, swift, ios, macos, watchos, tvos, api, swift 4, swift 3, swift, tutorial, ios, ios 10, ios 11, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, watchkit">
+    <meta name="author" content="Paul Hudson @twostraws">
+    <title>How to read Apple’s developer documentation – Hacking with Swift</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Swift Developer News RSS feed" href="https://www.hackingwithswift.com/articles/rss" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /* NOTE: This was added October 12th 2018; can be removed safely in 60 days */
+        div.speaking h4 { 
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        /* NOTE: This was added January 21st 2019; can be removed safely in 60 days */
+        div.hws-sponsor {
+            border: 3px solid firebrick;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        div.hws-sponsor p {
+            margin: 0;
+        }
+
+        div.hws-sponsor a {
+            text-decoration: underline;
+        }
+    </style>
+
+    <meta property="og:image" content="https://www.hackingwithswift.com/uploads/coding-woman-5.jpg" />
+    <meta property="og:title" content="How to read Apple’s developer documentation" />
+    <meta property="og:description" content="Get the most from our primary reference to UIKit and more" />
+    <meta property="og:url" content="https://www.hackingwithswift.com/articles/167/how-to-read-apples-developer-documentation" />
+    <meta property="og:site_name" content="Hacking with Swift" />
+    <meta property="og:type" content="article" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twostraws" />
+    <meta name="twitter:title" content="How to read Apple’s developer documentation" />
+    <meta name="twitter:description" content="Get the most from our primary reference to UIKit and more" />
+    <meta name="twitter:creator" content="@twostraws" />
+    <meta name="twitter:image" content="https://www.hackingwithswift.com/uploads/coding-woman-5.jpg" />
+    <meta name="twitter:domain" content="hackingwithswift.com" />
+    <meta name="twitter:dnt" content="on">
+
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Retina.js - Load first for faster HQ mobile images. -->
+    <script src="/js/plugins/retina/retina.min.js"></script>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/fontawesome-stars.css" />
+
+    <link href="/css/vitality-red.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/hws.css">
+    <!-- IE8 support for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="https://www.hackingwithswift.com/articles/167/how-to-read-apples-developer-documentation" />
+</head>
+<!-- Alternate Body Classes: .modern and .vintage -->
+
+<body id="page-top">
+    <!-- Navigation -->
+    <!-- Note: navbar-default and navbar-inverse are both supported with this theme. -->
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+    
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <img src="/img/logo.png" class="img-responsive" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/articles">Articles</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Learn <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/career-guide">Swift Career Guide</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/sixty">Swift in Sixty Seconds</a></li>
+                        <li><a href="/read">Hacking with Swift</a></li>
+                        <li><a href="/example-code">Swift Example Code</a></li>
+                        <li><a href="/store">Buy Books and Videos</a></li>
+                        <li><a href="/playgrounds">Swift Playgrounds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/review">Interactive Review</a></li>
+                        <li><a href="/interview-questions">Interview Questions</a></li>
+                        <li><a href="/test">Test your Swift</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/awards">Swift Community Awards</a></li>
+                        <li><a href="/articles">Latest News</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/glossary">Glossary of terms</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/store">See the range</a></li>
+                        <li><a href="/reviews">Reviews</a></li>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/frequent-flyer">Frequent Flyer Club</a></li>
+                        <li><a href="/update-policy">Update Policy</a></li>
+                        <li><a href="/ibooks">Buy on iBooks</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/about">About Hacking with Swift</a></li>
+                        <li><a href="/speaking">Conference Talks</a></li>
+                      </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+        <skybar id="latestTutorial">
+    <div class="container" style="background-color: firebrick; margin: 0; width: 100%;">
+         <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="/100" style="color: white;" target="_blank"><span class="pure-evil">FREE:</span> <strong>Follow my new 100 Days of Swift challenge!</strong> &gt;&gt;</a></p>
+
+<!--
+        <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="http://anchor.fm/swiftovercoffee" target="_blank" style="color: white;"><span class="pure-evil">NEW:</span> <strong>Check out my podcast with Sean Allen, Swift over Coffee!</strong> &gt;&gt;</a></p>
+-->
+    </div>
+</skybar>
+
+    
+
+    
+    <section class="read">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-top">
+	
+<a href="/store/swift-power-pack?source=powerpack-1"><img src="/assets/notice-powerpack-1.png" style="border: 1px solid black;" class="img-responsive center-block" /></a>
+
+
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="9393216522"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style="margin: 10px 0 0 0;">How to read Apple’s developer documentation</h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="margin: 0;"><a href="/about">Paul Hudson</a> &nbsp;&nbsp; <time itemprop="dateModified" datetime="2019-01-18T09:05:24+00:00">January 18th 2019</time>
+<meta itemprop="datePublished" content="2019-01-11T23:47:24+00:00"> &nbsp;&nbsp; <i class="fa fa-twitter" aria-hidden="true" style="color: #4099ff"></i> <a href="https://twitter.com/twostraws" target="_blank">@twostraws</a></p>
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <img src="/uploads/coding-woman-5.jpg" class="img-responsive" style="width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #dcdcdc;" />
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <p>To many people this article will sound strange, because we’re used to the way Apple’s API documentation works and so we’re mentally tuned to finding what we want quickly.</p>
+<p>But here’s a fun fact: one of the most popular article requests I had last year to help folks actually read Apple’s code documentation. How do you find the iOS APIs you’re looking for, how do you navigate through all the material to find what you actually want, and how do you dig deep to get an understanding of why things work the way they do?</p>
+<p>So, if you’ve ever needed help to understand Apple’s developer documentation, first I want you to know that you’re not alone – many, many people struggle with it. But second, I hope this article will help: I’ll try my best to explain how it’s structured, what it’s good for (and not so good for), and how I use it.</p>
+<p>More importantly, I’ll show you where experienced developers look for extra information that is often even more valuable than Apple’s online documentation.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">“What is it?” vs “How do you use it?”</h3>
+<p>Any written API documentation usually takes one of five forms:</p>
+<ol>
+<li>Interface code that shows what something is: method names and parameter, property names and types, and similar, with a little text describing what it’s supposed to do.</li>
+<li>Text description of the API describing what it’s supposed to do as well as general guidance of use cases.</li>
+<li>Sample code that uses the API extensively to make something useful.</li>
+<li>Code snippets showing the basics of how to use an API.</li>
+<li>A cookbook solving common problems: how to do X, how to do Y, and how to do Z, and so on.</li>
+</ol>
+<p>Very roughly, Apple does a lot of the first, a fair amount of the second and third, a small amount of the fourth, and almost none of the fifth.</p>
+<p>So, if you’re looking for specific examples of “how to do X with Y” you’re better off starting with my <a href="/example-code">Swift Knowledge Base</a> – that’s exactly what it’s there for.</p>
+<p>Understanding the problem Apple’s documentation is there to solve will help you get the most from it. It’s not trying to be a structured tutorial – it won’t introduce you to a series of concepts to help you achieve a goal – but instead is there to act as a reference guide for the thousands of APIs Apple supports.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Finding a class</h3>
+<p>Apple’s online documentation is at <a rel="nofollow" target="_blank" href="https://developer.apple.com/documentation/">https://developer.apple.com/documentation/</a>, and although you’re likely to have a local copy in Xcode most folks I speak to use the online version just because they can find things more easily.</p>
+<p>The overwhelming majority of Apple’s documentation describes interfaces, and it’s what you’ll see most of the time. I want to work with a practical example, so please start by opening <a rel="nofollow" target="_blank" href="https://developer.apple.com/documentation/">https://developer.apple.com/documentation/</a> in your web browser – that’s the homepage for all of Apple’s developer documentation.</p>
+<p>You’ll see all of Apple’s APIs split up into categories like App Frameworks or Graphics and Games, and already you can see an important thing: all the text in dark blue is clickable, and will take you through to the API documentation for a specific framework. Yes, it uses the same font and size, it’s not underlined, and to be honest there’s not a whole lot of difference between dark blue links and black text, but you still do need to keep an eye out for those links – there are <em>lots</em> of them, and you’ll be using them a lot to dig deeper into topics.</p>
+<p>For now please select UIKit from the App Frameworks category, and you’ll see a brief overview of what it does (creates user interfaces for iOS), a large yellow box marked “Important”, then a list of categories. Those yellow boxes really are worth paying attention to: although they are used frequently, they nearly always stop you making fundamental mistakes that cause weird problems later on.</p>
+<p>What matters on this page is the list of categories that together describe UIKit. This is where folks usually get lost: they want to learn about something like <code>UIImage</code>, so they have to look through that list to find where it might fit.</p>
+<p>In this case you might look under “Resource Management” because its subtitle of “manage the images, strings, storyboards, and nib files that you store outside your main executable” sounds promising. However, you’d be disappointed – you need to scroll way down to the Images and PDF section to find <code>UIImage</code>.</p>
+<p><strong>This is why most folks I’ve talked to just use their favorite search engine.</strong> They type in the class they care about, and - as long as it has a prefix like “UI”, “SK”, or similar – it’s likely to be the first result.</p>
+<p>Don’t get me wrong: I know this approach isn’t ideal. But faced with either searching for a class or going to <a rel="nofollow" target="_blank" href="https://developer.apple.com/documentation/">https://developer.apple.com/documentation/</a>, selecting a framework, choosing a category, then selecting a class, the first is simply faster. </p>
+<p><strong>Important:</strong> whichever approach you choose you end up at the same place, so just do what works best for you. For now, please find and select <code>UIImage</code>.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Reading a class’s interface</h3>
+<p>Once you select the class you care about, the page has four main components: overview, version summary, interface, and relationships.</p>
+<p>The overview is the “text description of the API describing what it’s supposed to do as well as general guidance of use cases” I mentioned earlier – I asked you to choose <code>UIImage</code> because it’s a good example of when that text description works well.</p>
+<p>When it’s a class I’m using for the first time, particularly if it were only recently introduced, I’ll usually read the Overview text. But for everything else – any class I’ve used at least once before – I skip right past it and try to find the specifics of what I came for. Remember, Apple documentation really isn’t designed to be a learning tool: it works best when you come with a specific purpose in mind.</p>
+<p>The version summary – the side bar on the right of the page – is really important if you don’t always develop for the latest version of your chosen Apple platform. In this case you’ll see iOS 2.0+, tvOS 9.0+, and watchOS 2.0+, which tells us when the <code>UIImage</code> class first available on those three operating systems, and also that it’s still available – if it were deprecated (no longer available) you’d see something like iOS 2.0-9.0.</p>
+<p>The real content on this page – and on all pages that serve as the homepage for a specific class in Apple’s frameworks – is listed under the “Topics” heading. This will list all the properties and methods supported by the class, broken up again into categories of use: “Getting the Image Data”, “Getting the Image Size and Scale”, etc.</p>
+<p>If the class you selected has any custom initializers, they should always be shown first. <code>UIImage</code> has a lot of custom initializers, and you’ll see them all listed as signatures – just the parts that describe parameters it expects. So, you’ll see things like this:</p>
+<pre><code class="language-swift">init?(named: String)
+init(imageLiteralResourceName: String)</code></pre>
+<p><strong>Tip:</strong> if you’re seeing Objective-C code, make sure you change your language to Swift. You can do this at the top-right of the page, which is also where you can enable the API changes option for the times when an important iOS beta introduces changes.</p>
+<p>Remember, initializers that are written <code>init?</code> rather than <code>init</code> are <em>failable</em> – they return an optional so that they can send back nil if initialization failed.</p>
+<p>Directly below the initializers you will sometimes see some methods for creating highly specialized instances of the class. These aren’t initializers in the Swift sense, but they do create instances of the class. For <code>UIImage</code> you’ll see things like this:</p>
+<pre><code class="language-swift">class func animatedImageNamed(String, duration: TimeInterval) -&gt; UIImage?</code></pre>
+<p>The <code>class func</code> part means you’d call it as <code>UIImage.animatedImageNamed()</code></p>
+<p>After the initializers, things become a bit less organized: you’ll find properties methods, and enums mixed together freely. While you could just scroll through to find what you’re looking for, I think it’s safe to say most folks just Cmd+F to find some text on the page!</p>
+<p>There are three things to watch out for:</p>
+<ul>
+<li>Nested types – classes, structs, and enums – are listed alongside properties and methods, which takes a little getting used to. For example, <code>UIImage</code> contains the nested enum <code>ResizingMode</code>.</li>
+<li>Anything with a line through it is deprecated. This means Apple intends to remove it at some point so you should not use it for future code, and start rewriting any existing code. (In practice, most APIs stay as “deprecated” for a long time – years and years.)</li>
+<li>Some very complex classes – see <code>UIViewController</code>, for example – will have extra documentation pages mixed alongside their methods and properties. Look for the page icon next to them, plus a plain English title like “Positioning Content Relative to the Safe Area”.</li>
+</ul>
+<p>At the bottom of the page you’ll find Relationships, which tells you which class it inherits from (in this case it comes straight from <code>NSObject</code>), as well as all the protocols it conforms to. This section is more helpful when you’re looking at Swift types, where the protocol relationships are more complex.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Reading a property or method page</h3>
+<p>You’ve chosen a framework and class, and now it’s time to look at a specific property or method. Find and select this method:</p>
+<pre><code class="language-swift">class func animatedResizableImageNamed(String, capInsets: UIEdgeInsets, resizingMode: UIImage.ResizingMode, duration: TimeInterval) -&gt; UIImage?</code></pre>
+<p>You should find it in the Creating Specialized Image Objects category.</p>
+<p>This isn’t a complicated method, but it does demonstrate the important parts of these pages:</p>
+<ul>
+<li>Apple has a few different ways of writing method names. There’s the previous one – the long <code>class func animatedResizableImageNamed</code> – then the form shown in the title of the method page (<code>animatedResizableImageNamed(_:capInsets:resizingMode:duration:)</code>), and the form in the Declaration section of the method page.</li>
+<li>As you can see in the version summary (on the right again) this method was introduced in iOS 6.0. So, while the main <code>UIImage</code> class has been around since day 1, this method was introduced a few years later.</li>
+<li>The individual parts of the method declaration, all colored purple, are clickable. Be careful, though: if you click <code>UIImage.ResizingMode</code> where you’ll go depends on whether you clicked “UIImage” or “ResizingMode”. (Tip: you will usually want to click the one on the right.)</li>
+<li>You’ll see a brief explanation of the meaning of each parameter and the return value.</li>
+<li>The Discussion section details specific usage notes for this method. This is – nearly always – the most useful part of each page, because here is where you’ll see things like “Don’t call this method” or “Be careful when…”</li>
+<li>You might find a See Also section, but this is a bit hit and miss – here it’s just the same listing of methods we had on the previous page.</li>
+</ul>
+<p>Now, <code>UIImage</code> is an old class and it doesn’t change much, so its documentation is in a good state. But some newer APIs – and many older APIs that don’t get quite as much love as UIKit – remain poorly documented. For example, <a rel="nofollow" target="_blank" href="https://developer.apple.com/documentation/scenekit/scnanimation">SCNAnimation</a> from SceneKit, or <a rel="nofollow" target="_blank" href="https://developer.apple.com/documentation/uikit/uitextdragpreviewrenderer">UITextDragPreviewRenderer</a> from UIKit: both were introduced in iOS 11, and both still contain “No overview available” as their documentation 18 months after they were announced.</p>
+<p>When you see “No overview available” your heart will sink, but don’t give up just yet: let me show you what I do next…</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Looking at the code</h3>
+<p>Even though Apple’s online documentation is pretty good, all too often you meet “No overview available”, or you find there just isn’t quite enough information to answer your question.</p>
+<p>Conway’s Law states that organizations that design systems are constrained to produce designs which are copies of the communication structures of these organizations.” That is, if you work in a certain way, you’ll design things in a similar way.</p>
+<p>Apple’s unique position in our industry causes them to work in a rather unusual way – it’s almost guaranteed to be entirely unlike the way your own company works. Yes, they have API review discussions where they try to thrash out how an API should look in both languages, and yes they have teams dedicated to making documentation and sample code.</p>
+<p>But their threshold for getting sample code out is extremely high: usually something needs to be really good to get out, and to have passed multiple layers of checks for things like legal issues. So, whereas I can type up a project in an hour and put it live as an article straight away, it takes significantly longer for Apple to do the same – they take their image very seriously, and quite rightly. If you’ve ever wondered why articles appear on the official Swift blog so rarely, now you know!</p>
+<p>Now, the reason I’m saying all this is that Apple has a shortcut that gets used a <em>lot</em>: the threshold for their engineers to leave comments in their code appears to be significantly lower, which means very often you’ll find valuable information right there in Xcode. These comments are like gold dust: they come straight from Apple’s developers rather than their developer publications team, and as much as I have deep love for devpubs it’s nice to hear straight from the, er, source.</p>
+<p>Remember I mentioned SceneKit’s <a rel="nofollow" target="_blank" href="https://developer.apple.com/documentation/scenekit/scnanimation">SCNAnimation</a> is undocumented on Apple’s developer site? Well, let’s take a look at what Xcode can show us: press Shift+Cmd+O to bring up the Open Quickly menu, make sure the Swift icon on the right is colored in rather than hollow, then type “SCNAnimation”.</p>
+<p>You’ll see a few options listed, but you’re looking for the one defined in SCNAnimation.h. If you’re ever not sure, choosing the file that is YourClassName.h is your best bet.</p>
+<p>Anyway, if you open SCNAnimation.h Xcode will show you a generated version of the SCNAnimation header file. It’s generated because the original is Objective-C, so Xcode does a live translation of that for Swift – that’s what the colored-in Swift logo means in the Open Quickly box.</p>
+<p>Now, if you press Cmd+F and search for “class SCNAnimation”, you’ll find this:</p>
+<pre><code class="language-swift">/**
+ SCNAnimation represents an animation that targets a specific key path.
+ */
+@available(iOS 11.0, *)
+open class SCNAnimation : NSObject, SCNAnimationProtocol, NSCopying, NSSecureCoding {  
+    /*!
+     Initializers
+     */
+
+    /**
+     Loads and returns an animation loaded from the specified URL.
+
+     @param animationUrl The url to load.
+     */
+    public /*not inherited*/ init(contentsOf animationUrl: URL)</code></pre>
+<p>And that’s just the start. Yes, the class and all its internals all have documentation, including usages notes, default values, and more. All this really ought to be in the online documentation, but for whatever reason it still isn’t, so be prepared to look up code as a helpful addition.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Last tips</h3>
+<p>At this point you should be able to look up the online documentation for any code you like, and look up the header file comments for extra usage notes.</p>
+<p>However, there are two more things you need to know before you’re ready to face the full range of Apple documentation.</p>
+<p>First, you will frequently come across documentation that is marked as being “archived”, “legacy”, or “retired” – even for things that are comparatively recent. When it’s <em>really</em> old you’ll see messages like “This document may not represent best practices for current development. Links to downloads and other resources may no longer be valid.”</p>
+<p>Despite being one of the world’s largest companies, Apple’s engineering and devpubs teams are hardly overflowing with personnel – it just isn’t possible for them to keep everything updated while also covering new APIs. So, when you see “archived” documentation or similar, exercise your judgement: if it’s in some version of Swift at least you know it’s vaguely recent, but even if it isn’t you might still find there’s a lot of valuable information there.</p>
+<p>Second, Apple has a handful of stand out documents that are particularly valuable. These are all listed in the footer of <a rel="nofollow" target="_blank" href="https://developer.apple.com">https://developer.apple.com</a>, but the main one is the <a rel="nofollow" target="_blank" href="https://developer.apple.com/design/human-interface-guidelines/">Human Interface Guidelines</a>. This walks you through all parts of designing apps for Apple platforms in a cohesive flow, including pictures to illustrate key points, and providing lots of specific advice. Even though this document is the single most important one to think about when building iOS apps, surprisingly few developers seem to have read it!</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Where next?</h3>
+<p>I’ve written previously about the <a href="/articles/42/apple-can-we-please-talk-about-your-documentation">problems with Apple’s documentation</a> – I’m afraid there’s no encouragement there, but at least it might help you feel less alone if you’re struggling.</p>
+<p>Fortunately, I have lots of material that might prove more useful:</p>
+<ul>
+<li><a href="/example-code">My Swift Knowledge Base</a> contains over 600 answers, tips, and techniques for Swift and iOS developers – it can help you solve problems faster.</li>
+<li><a href="/glossary">My glossary of Swift terms</a> defines over 100 commonly used terms in Swift development, all on one page.</li>
+<li><a href="/read">I have a whole book teaching Swift and iOS using projects</a>, and it’s specifically designed to introduce concepts in a logical flow.</li>
+</ul>
+<p>What ways do <em>you</em> find most effective for reading Apple documentation? Send me your tips on Twitter: <a rel="nofollow" target="_blank" href="https://twitter.com/twostraws">@twostraws</a>.</p><!-- <div class="hws-sponsor"><p><strong class="label label-danger">Sponsored</strong> You’re already busy updating your app for Swift 4.2 and iOS 12, so why not let Instabug help you find and fix bugs? <strong>Add just two lines of code</strong> to your project and receive comprehensive reports with all the feedback you need to ship a world-class app – <a href="https://try.instabug.com/ios/?utm_source=hackingwithswift&utm_medium=native_ads&utm_campaign=hackingwithswiftv3">click here to learn more</a>!</div> --><p align="center" style="margin: 30px;"><a href="https://twitter.com/share" data-dnt="true" class="twitter-share-button" data-url="https://www.hackingwithswift.com/articles/167/how-to-read-apples-developer-documentation" data-text="How to read Apple’s developer documentation – Get the most from our primary reference to UIKit and more" data-via="twostraws" data-size="large" data-hashtags="swiftlang" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p><p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                                <style>
+                    div.books-sidebar {
+                        text-align: center;
+                        padding-top: 5px
+                    }
+
+                    div.books-sidebar img {
+                        border: 1px solid #cccccc;
+                        margin-bottom: 5px;
+                    }
+
+                    @media (max-width: 991px) {
+                        div.books-sidebar {
+                            display: none;
+                        }
+                    }
+                </style>
+
+                <div class="col-md-3" style="padding: 0; padding-top: 20px;">
+                    <div class="books-sidebar" style="text-align: center;">
+                        <strong>MASTER SWIFT NOW</strong>
+                    </div>
+                    <div class="books-sidebar">
+                        <a href="/store/testing-swift"><img src="/img/covers-flat/testing.png" alt="Buy Testing Swift" width="95" /></a>
+                        <a href="/store/practical-ios12"><img src="/img/covers-flat/ios12.png" alt="Buy Practical iOS 12" width="95" /></a>
+                        <a href="/store/pro-swift"><img src="/img/covers-flat/pro-swift.png" alt="Buy Pro Swift" width="95" /></a>
+                        <a href="/store/swift-design-patterns"><img src="/img/covers-flat/patterns.png" alt="Buy Swift Design Patterns" width="95" /></a>
+                        <a href="/store/swift-coding-challenges"><img src="/img/covers-flat/swiftcc.png" alt="Buy Swift Coding Challenges" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/vapor.png" alt="Buy Server-Side Swift (Vapor Edition)" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/kitura.png" alt="Buy Server-Side Swift (Kitura Edition)" width="95" /></a>
+                        <a href="/store/hacking-with-macos"><img src="/img/covers-flat/macos.png" alt="Buy Hacking with macOS" width="95" /></a>
+                        <a href="/store/advanced-ios-1"><img src="/img/covers-flat/advanced-ios-1.png" alt="Buy Advanced iOS Volume One" width="95" /></a>
+                        <a href="/store/advanced-ios-2"><img src="/img/covers-flat/advanced-ios-2.png" alt="Buy Advanced iOS Volume Two" width="95" /></a>                        
+                        <a href="/store/hacking-with-watchos"><img src="/img/covers-flat/watchos.png" alt="Buy Hacking with watchOS" width="95" /></a>
+                        <a href="/store/hacking-with-tvos"><img src="/img/covers-flat/tvos.png" alt="Buy Hacking with tvOS" width="95" /></a>
+                        <a href="/store/hacking-with-swift"><img src="/img/covers-flat/hws.png" alt="Buy Hacking with Swift" width="95" /></a>
+                        <a href="/store/dive-into-spritekit"><img src="/img/covers-flat/spritekit.png" alt="Buy Dive Into SpriteKit" width="95" /></a>
+                        <a href="/sixty"><img src="/img/covers-flat/sixty.png" alt="Buy Swift in Sixty Seconds" width="95" /></a>
+                        <a href="/store/objective-c-for-swift-developers"><img src="/img/covers-flat/objc.png" alt="Buy Objective-C for Swift Developers" width="95" /></a>
+                        <a href="/store/beyond-code"><img src="/img/covers-flat/beyond-code.png" alt="Buy Beyond Code" width="95" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+            <div class="row">
+    <div class="col-sm-1" style="text-align: left;"></div>
+    <div class="col-sm-2">
+        <p style="text-align: center;"><img src="/img/paul.png" class="img-responsive" style="border-radius: 64px; border: 1px solid black; margin: auto;" /></p>
+        <p style="text-align: center;"><a href="https://twitter.com/twostraws">@twostraws</a></p>
+    </div>
+    <div class="col-sm-8" style="text-align: left;"><h3 style="margin: 0">About the author</h3><p>Paul Hudson is the creator of Hacking with Swift, the <a href="/store">most comprehensive series of Swift books</a> in the world. He's also the editor of <a href="/articles">Swift Developer News</a>, the maintainer of the <a href="/example-code">Swift Knowledge Base</a>, and Mario Kart world champion. OK, so that last part isn't true. If you're curious you can <a href="/about">learn more here</a>.</p></div>
+    <div class="col-sm-1" style="text-align: left;"></div>
+</div>            </div>
+
+            <div class="row" style="margin-top: 40px">            
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="margin-bottom: 10px;"><a href="/articles">More articles</a></p>
+                </div>
+
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="text-align: right; margin-bottom: 10px;"><img src="/img/feed.png" style="height: 22px; vertical-align: middle; margin-bottom: 4px;" /> <a href="/articles/rss">
+                    RSS feed</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/183/apple-announces-swift-enterprise-edition">
+                            <img src="/uploads/enterprise.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Apple announces Swift Enterprise Edition</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/182/whats-new-in-swift-5-1">
+                            <img src="/uploads/swift-evolution-1.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>What’s new in Swift 5.1</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/181/why-using-isempty-is-faster-than-checking-count-0">
+                            <img src="/uploads/typography.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Why using isEmpty is faster than checking count == 0</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/180/interview-antoine-van-der-lee">
+                            <img src="/uploads/zz-antoine-van-der-lee.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Interview: Antoine van der Lee</h4>
+                            </div>
+                        </a>
+                    </div>
+                            </div>
+
+            <div class="row" style="margin-bottom: 80px;">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-bottom">
+	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="1869949723"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </section>
+
+
+            <section class="page-rating-container bg-gray">
+        <div class="container text-center">
+            <div class="row">
+                <div id="page-rating-start">
+                  <p>Was this page useful? Let me know!</p>
+                	<select id="page-rating">
+                      <option value=""></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                </div>
+
+                                <p><small>Average rating: 5.0/5</small></p>
+                
+                <div id="page-rating-end" style="display: none">
+                    <p>Thank you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="application/ld+json">{
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "Paul Hudson",
+      "datePublished": "2019-01-11",
+      "dateModified": "2019-01-18",
+      "headline": "How to read Apple’s developer documentation",
+      "image": {
+        "@type": "imageObject",
+        "url": "https://www.hackingwithswift.com/uploads/coding-woman-5.jpg"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "worstRating": "1.0",
+            "bestRating": "5.0",
+            "reviewCount": "8"
+        },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hacking with Swift",
+        "logo": {
+          "@type": "imageObject",
+            "url": "https://www.hackingwithswift.com/files/logo-large.png"
+          }
+        }
+      }
+    </script>
+    
+    
+        <a href="/store" class="btn btn-block btn-full-width" style="white-space: normal;">Click here to visit the Hacking with Swift store &gt;&gt;</a>
+    
+    <footer class="footer" style="background-image: url('/img/bg-footer.jpg')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 contact-details">
+                    <a href="https://twitter.com/twostraws">
+                        <h4><i class="fa fa-twitter fa-4x"></i></h4>
+                        <p>@twostraws</p>
+                    </a>
+                </div>
+                <div class="col-md-6 contact-details">
+                    <a href="mailto:paul@hackingwithswift.com">
+                        <h4><i class="fa fa-envelope-o fa-4x"></i></h4>
+                        <p>paul@hackingwithswift.com
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-lg-12">
+                    <p class="small">Swift, the Swift logo, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright &copy; 1994 Miramax Films. Hacking with Swift &copy;2019 Paul Hudson.</p>
+
+                    <p class="small"><a href="/privacy">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Scripts -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui-custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Plugin Scripts -->
+    <script src="/js/plugins/jquery.easing.min.js"></script>
+    <script src="/js/plugins/classie.js"></script>
+
+    
+    <script src="/js/plugins/jquery.mixitup.js"></script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/vitality.js"></script>
+
+    <script src="/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript">
+       $(function() {
+            $('#page-rating').barrating('show', {
+              theme: 'fontawesome-stars',
+              onSelect: function(value, text, event) {
+                if (typeof(event) !== 'undefined') {
+                  // rating was selected by a user
+                  var rating = $(event.target).data("rating-value");
+
+                    $.ajax({
+                      type: "POST",
+                      url: "/rating",
+                      data: { "url": window.location.pathname, "rating": rating },
+                    });
+
+                  $("#page-rating-start").hide();
+                  $("#page-rating-end").show();
+                } else {
+                  // rating was selected programmatically
+                  // by calling `set` method
+                }
+              }
+            });
+       });
+    </script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58275818-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!--     { { include('house-ads.html') } }
+
+    <script src="/js/ads.js"></script>
+    <script>
+    if(window.areAdsDisplayed === undefined) {
+        var houseAd = createHouseAd();
+        $('.hws-notices-top').html(houseAd);
+        $('.hws-notices-bottom').html(houseAd);
+    }
+    </script> -->
+
+    </body>
+
+</html>

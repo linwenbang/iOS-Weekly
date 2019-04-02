@@ -1,0 +1,847 @@
+<!DOCTYPE html><html lang=zh-CN data-vue-meta-server-rendered><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"><meta name=google-site-verification content=cCHsgG9ktuCTgWgYfqCJql8AeR4gAne4DTZqztPoirE><meta name=apple-itunes-app content="app-id=987739104"><meta name=baidu-site-verification content=qiK2a1kcFc><meta name=360-site-verification content=4c3c7d57d59f0e1a308462fbc7fd7e51><meta name=sogou_site_verification content=c49WUDZczQ><style>body {
+        font-size: 16px;
+        line-height: 2;
+      }
+      a, button, input {
+        margin: 1rem 1.5rem;
+      }
+      img {
+        width: 0;
+        height: 0;
+      }
+      #juejin {
+        overflow-x: hidden;
+      }</style><meta data-vue-meta="true" data-vmid="keywords" name="keywords" content="iOS"/><meta data-vue-meta="true" data-vmid="description" name="description" content="本文将对category的源码进行比较全面的整理分析，最后结合一些面试题进行总结，希望对读者有所裨益。 GitHub Repo：iOSDeepAnalyse Follow: MisterBooo · GitHub Source: Category：从底层原理"/><title data-vue-meta="true">Category：从底层原理研究到面试题分析 - 掘金</title><link rel=apple-touch-icon sizes=180x180 href=https://b-gold-cdn.xitu.io/favicons/v2/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-16x16.png><link rel=manifest href=https://b-gold-cdn.xitu.io/favicons/v2/manifest.json><link rel=mask-icon href=https://b-gold-cdn.xitu.io/favicons/v2/safari-pinned-tab.svg color=#5bbad5><link rel="shortcut icon" href=https://b-gold-cdn.xitu.io/favicons/v2/favicon.ico><meta name=msapplication-config content=https://b-gold-cdn.xitu.io/favicons/v2/browserconfig.xml><meta name=theme-color content=#ffffff><link rel=search title=掘金 href=https://b-gold-cdn.xitu.io/conf/search.xml type=application/opensearchdescription+xml><link rel=stylesheet href=https://b-gold-cdn.xitu.io/ionicons/2.0.1/css/ionicons.min.css><link rel=stylesheet href=https://b-gold-cdn.xitu.io/asset/fw-icon/1.0.9/iconfont.css><link href=https://b-gold-cdn.xitu.io/v3/static/css/0.e5e86c9ed32911840313.css rel=stylesheet></head><body><div id="juejin" data-server-rendered="true" data-v-514f306c><div class="global-component-box" data-v-514f306c><!----><!----><!----><!----><!----><div class="emoji-barrage" data-v-82f90922 data-v-514f306c><!----></div><div class="book-new-user-award-popup" style="display:none;" data-v-13de706c data-v-514f306c><div class="content-box" style="display:;" data-v-13de706c><div class="close ion-close-round" data-v-13de706c></div><div class="header" data-v-13de706c><div class="icon" data-v-13de706c><img src="https://b-gold-cdn.xitu.io/v3/static/img/icon.a87e5ae.svg" data-v-13de706c></div><div class="txt" data-v-13de706c>新人专享好礼</div></div><div class="desc" data-v-13de706c>凡未购买过小册的用户，均可领取三张 5 折新人专享券，购买小册时自动使用专享券，最高可节省 45 元。</div><div class="tickets" data-v-13de706c><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div></div><div class="remark" data-v-13de706c>注：专享券的使用期限在领券的七天内。</div><div class="submit-btn" data-v-13de706c>一键领取</div></div><div class="model success" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取成功</div><div class="content-text" data-v-13de706c>购买小册时自动使用专享券</div><div class="btn-success-footer" data-v-13de706c><div class="btn-ok" data-v-13de706c>知道了</div><div class="btn-ok btn-link" data-v-13de706c>前往小册首页</div></div></div><div class="model fail" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取失败</div><div class="content-text" data-v-13de706c>本活动仅适用于小册新用户</div><div class="btn-ok" data-v-13de706c>知道了</div></div></div><!----></div><!----><div class="view-container" data-v-d4ff273a data-v-49e91c4b data-v-514f306c><div class="main-header-box" data-v-d4ff273a><header class="main-header main-header unauthorized visible" data-v-f41b678e data-v-d4ff273a><div class="container" data-v-f41b678e><a href="/" class="logo" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg" alt="掘金" class="logo-img" data-v-f41b678e></a><nav role="navigation" class="main-nav" data-v-f41b678e><ul class="nav-list" data-v-f41b678e><li class="main-nav-list" data-v-f41b678e><div class="phone-show-menu" data-v-f41b678e><span data-v-f41b678e>首页</span><div class="icon ion-arrow-down-b" data-v-f41b678e></div></div><ul class="phone-hide" data-v-f41b678e><li class="nav-item link-item route-active" data-v-f41b678e><a href="/" data-v-f41b678e>首页</a></li><li class="nav-item link-item activities" data-v-f41b678e><a href="/activities" data-v-f41b678e>动态</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/topics" data-v-f41b678e>话题</a></li><li class="nav-item link-item book" data-v-f41b678e><a href="/books" data-v-f41b678e>小册</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/events/all" data-v-f41b678e>活动</a></li></ul></li><li class="nav-item search" data-v-f41b678e><form role="search" class="search-form" data-v-f41b678e><input maxlength="32" placeholder="搜索更新啦" value="" class="search-input" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/juejin-search-icon.6f8ba1b.svg" alt="搜索" class="search-icon" data-v-f41b678e></form></li><!----><!----><!----><li class="nav-item submit" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/submit-icon.53f4253.svg" class="icon" data-v-f41b678e><span data-v-f41b678e>写文章</span><!----></li><li class="nav-item auth" data-v-f41b678e><span class="login" data-v-f41b678e>登录</span><span class="register" data-v-f41b678e>注册</span></li></ul></nav></div></header></div><main class="container main-container" style="max-width:;" data-v-d4ff273a><div class="view column-view" data-v-d4ff273a data-v-49e91c4b><div class="main-area article-area shadow" data-v-d4ff273a data-v-49e91c4b><article itemscope="itemscope" itemtype="http://schema.org/Article" class="article" data-v-49e91c4b><meta itemprop="url" content="https://juejin.im/post/5c0332ba6fb9a049d4418cac"><meta itemprop="headline" content="Category：从底层原理研究到面试题分析"><meta itemprop="keywords" content="iOS"><meta itemprop="datePublished" content="2018-12-02T01:21:28.852Z"><meta itemprop="image" content="https://b-gold-cdn.xitu.io/icon/icon-128.png"><div itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="name" content="程序员吴师兄"><meta itemprop="url" content="https://juejin.im/user/5b2cc5fee51d4553156be12f"></div><div itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="掘金"><div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://b-gold-cdn.xitu.io/icon/icon-white-180.png"><meta itemprop="width" content="180"><meta itemprop="height" content="180"></div></div><div class="author-info-block" data-v-49e91c4b><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" class="avatar-link" data-v-49e91c4b><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-49e91c4b></div></a><div class="author-info-box" data-v-49e91c4b><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" class="username ellipsis" data-v-49e91c4b></a><div class="meta-box" data-v-49e91c4b><time datetime="2018-12-02T01:21:28.852Z" title="Sun Dec 02 2018 09:21:28 GMT+0800 (China Standard Time)" class="time" data-v-49e91c4b>2018年12月02日</time><span class="views-count" data-v-49e91c4b>阅读 1035</span><!----></div></div><!----></div><!----><h1 class="article-title" data-v-49e91c4b>Category：从底层原理研究到面试题分析</h1><div data-id="5c03339851882528c4468e22" itemprop="articleBody" class="article-content" data-v-49e91c4b><p></p><figure><img alt="image" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/12/2/1676c801a7455f86?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1240" data-height="482"><figcaption></figcaption></figure><p></p>
+<blockquote>
+<p>本文将对category的源码进行比较全面的整理分析，最后结合一些面试题进行总结，希望对读者有所裨益。<br>
+GitHub Repo：<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2FMisterBooo%2FiOSDeepAnalyse" rel="nofollow noopener noreferrer">iOSDeepAnalyse</a><br>
+Follow: <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2FMisterBooo" rel="nofollow noopener noreferrer">MisterBooo · GitHub</a><br>
+Source:  <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2FMisterBooo%2FiOSDeepAnalyse%2Fblob%2Fmaster%2FArticle%2FCategory%25EF%25BC%259A%25E4%25BB%258E%25E5%25BA%2595%25E5%25B1%2582%25E5%258E%259F%25E7%2590%2586%25E7%25A0%2594%25E7%25A9%25B6%25E5%2588%25B0%25E9%259D%25A2%25E8%25AF%2595%25E9%25A2%2598%25E5%2588%2586%25E6%259E%2590.md" rel="nofollow noopener noreferrer">Category：从底层原理研究到面试题分析</a><br>
+公众号：五分钟学算法</p>
+</blockquote>
+<h3 class="heading" data-id="heading-0">目录</h3>
+<ul>
+<li>1.Category源码分析</li>
+<li>2.load源码分析</li>
+<li>3.initialize源码分析</li>
+<li>4.load与initialize对比</li>
+<li>5.面试题分析</li>
+</ul>
+<h2 class="heading" data-id="heading-1">源码分析</h2>
+<h3 class="heading" data-id="heading-2">1.源码阅读前的准备</h3>
+<p>本节代码基于以下的代码进行编译研究：</p>
+<pre><code class="hljs bash copyable" lang="bash">@interface Person : NSObject
+- (void)instanceRun;
++ (void)methodRun;
+@property(nonatomic, copy) NSString *name;
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">@interface Person (Eat)
+@property(nonatomic, assign) int age;
+- (void)instanceEat;
++ (void)methodEat;
+@end
+
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">@interface Person (Drink)
+- (void)instanceEat;
+@property(nonatomic, copy) NSString *waters;
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><h3 class="heading" data-id="heading-3">2.objc4中的源码</h3>
+<p>通过<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fopensource.apple.com%2Ftarballs%2Fobjc4%2F" rel="nofollow noopener noreferrer">objc4</a>中的源码进行分析，可以在<code>objc-runtime-new.h</code>中找到<code>Category</code>的结构如下</p>
+<pre><code class="hljs bash copyable" lang="bash">struct category_t {
+    const char *name;
+    classref_t cls;
+    struct method_list_t *instanceMethods;
+    struct method_list_t *classMethods;
+    struct protocol_list_t *protocols;
+    struct property_list_t *instanceProperties;
+    // Fields below this point are not always present on disk.
+    struct property_list_t *_classProperties;
+
+    method_list_t *methodsForMeta(bool isMeta) {
+        <span class="hljs-keyword">if</span> (isMeta) <span class="hljs-built_in">return</span> classMethods;
+        <span class="hljs-keyword">else</span> <span class="hljs-built_in">return</span> instanceMethods;
+    }
+
+    property_list_t *propertiesForMeta(bool isMeta, struct header_info *hi);
+};
+<span class="copy-code-btn">复制代码</span></code></pre><p>不难发现在这个结构体重存储着对象方法、类方法、协议和属性。接下来我们来验证一下我们刚刚自己编写的<code>Person+Eat.m</code>这个分类在编译时是否是这种结构。</p>
+<p>通过</p>
+<p><code>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc Person+Eat.m</code></p>
+<p>命令将<code>Person+Eat.m</code>文件编译成<code>cpp</code>文件，以下的源码分析基于<code>Person+Eat.cpp</code>里面的代码。下面让我们开始窥探Category的底层结构吧~</p>
+<h3 class="heading" data-id="heading-4">2.Person+Eat.cpp源码</h3>
+<p>将<code>Person+Eat.cpp</code>的代码滑到底部部分，可以看见一个名为<code>_category_t</code>的结构体，这就是Category的底层结构</p>
+<pre><code class="hljs bash copyable" lang="bash">struct _category_t {
+	const char *name;
+	struct _class_t *cls;
+	const struct _method_list_t *instance_methods; // 对象方法列表
+	const struct _method_list_t *class_methods;// 类方法列表
+	const struct _protocol_list_t *protocols;// 协议列表
+	const struct _prop_list_t *properties;// 属性列表
+};
+<span class="copy-code-btn">复制代码</span></code></pre><p><code>Person+Eat.m</code>这个分类的结构也是符合<code>_category_t</code>这种形式的</p>
+<pre><code class="hljs bash copyable" lang="bash">static struct _category_t _OBJC_<span class="hljs-variable">$_CATEGORY_Person_</span><span class="hljs-variable">$_Eat</span> __attribute__ ((used, section (<span class="hljs-string">"__DATA,__objc_const"</span>))) = 
+{
+	<span class="hljs-string">"Person"</span>,
+	0, // &amp;OBJC_CLASS_<span class="hljs-variable">$_Person</span>,
+	(const struct _method_list_t *)&amp;_OBJC_<span class="hljs-variable">$_CATEGORY_INSTANCE_METHODS_Person_</span><span class="hljs-variable">$_Eat</span>, // 对象方法列表
+	(const struct _method_list_t *)&amp;_OBJC_<span class="hljs-variable">$_CATEGORY_CLASS_METHODS_Person_</span><span class="hljs-variable">$_Eat</span>,// 类方法列表
+	(const struct _protocol_list_t *)&amp;_OBJC_CATEGORY_PROTOCOLS_<span class="hljs-variable">$_Person_</span><span class="hljs-variable">$_Eat</span>, // 协议列表
+	(const struct _prop_list_t *)&amp;_OBJC_<span class="hljs-variable">$_PROP_LIST_Person_</span><span class="hljs-variable">$_Eat</span>, // 属性列表
+};
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们开始来分析上面这个结构体的内部成员，其中<code>Person</code>表示类名</p>
+<h5 class="heading" data-id="heading-5">对象方法列表</h5>
+<p><code>_OBJC_$_CATEGORY_INSTANCE_METHODS_Person_$_Eat</code>是对象方法列表，在<code>Person+Eat.cpp</code>文件中可以找到<code>_OBJC_$_CATEGORY_INSTANCE_METHODS_Person_$_Eat</code>具体描述</p>
+<pre><code class="hljs bash copyable" lang="bash">_OBJC_<span class="hljs-variable">$_CATEGORY_INSTANCE_METHODS_Person_</span><span class="hljs-variable">$_Eat</span> __attribute__ ((used, section (<span class="hljs-string">"__DATA,__objc_const"</span>))) = {
+	sizeof(_objc_method),
+	1,
+	{{(struct objc_selector *)<span class="hljs-string">"instanceEat"</span>, <span class="hljs-string">"v16@0:8"</span>, (void *)_I_Person_Eat_instanceEat}}
+};
+<span class="copy-code-btn">复制代码</span></code></pre><p><code>instanceEat</code>就是我们上述实现的<code>Person+Eat</code>分类里面的实例方法。</p>
+<h5 class="heading" data-id="heading-6">类方法列表</h5>
+<p><code>_OBJC_$_CATEGORY_CLASS_METHODS_Person_$_Eat</code>是类方法列表，在<code>Person+Eat.cpp</code>中具体描述如下</p>
+<pre><code class="hljs bash copyable" lang="bash"> _OBJC_<span class="hljs-variable">$_CATEGORY_CLASS_METHODS_Person_</span><span class="hljs-variable">$_Eat</span> __attribute__ ((used, section (<span class="hljs-string">"__DATA,__objc_const"</span>))) = {
+	sizeof(_objc_method),
+	1,
+	{{(struct objc_selector *)<span class="hljs-string">"classEat"</span>, <span class="hljs-string">"v16@0:8"</span>, (void *)_C_Person_Eat_classEat}}
+};
+<span class="copy-code-btn">复制代码</span></code></pre><h5 class="heading" data-id="heading-7">协议列表</h5>
+<p><code>_OBJC_CATEGORY_PROTOCOLS_$_Person_$_Eat</code>是协议列表，在<code>Person+Eat.cpp</code>中具体描述如下</p>
+<pre><code class="hljs bash copyable" lang="bash"> _OBJC_CATEGORY_PROTOCOLS_<span class="hljs-variable">$_Person_</span><span class="hljs-variable">$_Eat</span> __attribute__ ((used, section (<span class="hljs-string">"__DATA,__objc_const"</span>))) = {
+	2,
+	&amp;_OBJC_PROTOCOL_NSCopying,
+	&amp;_OBJC_PROTOCOL_NSCoding
+};
+<span class="copy-code-btn">复制代码</span></code></pre><h5 class="heading" data-id="heading-8">属性列表</h5>
+<p><code>_OBJC_$_PROP_LIST_Person_$_Eat</code>是属性列表，在<code>Person+Eat.cpp</code>中具体描述如下</p>
+<pre><code class="hljs bash copyable" lang="bash">_OBJC_<span class="hljs-variable">$_PROP_LIST_Person_</span><span class="hljs-variable">$_Eat</span> __attribute__ ((used, section (<span class="hljs-string">"__DATA,__objc_const"</span>))) = {
+	sizeof(_prop_t),
+	2,
+	{{<span class="hljs-string">"weight"</span>,<span class="hljs-string">"Ti,N"</span>},
+	{<span class="hljs-string">"height"</span>,<span class="hljs-string">"Ti,N"</span>}}
+};
+<span class="copy-code-btn">复制代码</span></code></pre><h3 class="heading" data-id="heading-9">3.Category的加载处理过程</h3>
+<p>通过上面的分析，我们验证了编写一个分类的时候，在编译期间，这个分类内部的确会有<code>category_t</code>这种数据结构，那么这种数据结构是如何作用到这个类的呢？分类的方法和类的方法调用的逻辑是怎么样的呢？我们接下来回到<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fopensource.apple.com%2Ftarballs%2Fobjc4%2F" rel="nofollow noopener noreferrer">objc4</a>源码中进一步分析<code>Category</code>的加载处理过程来揭晓<code>Category</code>的神秘面纱。</p>
+<p>我们按照如下函数的调用顺序，一步一步的研究<code>Category</code>的加载处理过程</p>
+<pre><code class="hljs bash copyable" lang="bash">void _objc_init(void);
+└── void map_images(...);
+    └── void map_images_nolock(...);
+        └── void _read_images(...);
+            └── void _read_images(...);
+                └── static void remethodizeClass(Class cls);
+                    └──attachCategories(Class cls, category_list *cats, bool flush_caches);
+<span class="copy-code-btn">复制代码</span></code></pre><table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-os.mm" rel="nofollow noopener noreferrer">objc-os.mm</a></td>
+<td><code>_objc_init</code></td>
+</tr>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-os.mm" rel="nofollow noopener noreferrer">objc-os.mm</a></td>
+<td><code>map_images</code></td>
+</tr>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-os.mm" rel="nofollow noopener noreferrer">objc-os.mm</a></td>
+<td><code>map_images_nolock</code></td>
+</tr>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-runtime-new.mm" rel="nofollow noopener noreferrer">objc-runtime-new.mm</a></td>
+<td><code>_read_images</code></td>
+</tr>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-runtime-new.mm" rel="nofollow noopener noreferrer">objc-runtime-new.mm</a></td>
+<td><code>remethodizeClass</code></td>
+</tr>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-runtime-new.mm" rel="nofollow noopener noreferrer">objc-runtime-new.mm</a></td>
+<td><code>attachCategories</code></td>
+</tr>
+<tr>
+<td><a target="_blank" href="https://link.juejin.im?target=http%3A%2F%2Fobjc-runtime-new.mm" rel="nofollow noopener noreferrer">objc-runtime-new.mm</a></td>
+<td><code>attachLists</code></td>
+</tr>
+</tbody>
+</table>
+<p>在<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fblog.sunnyxx.com%2F2014%2F08%2F30%2Fobjc-pre-main%2F" rel="nofollow noopener noreferrer">iOS 程序 main 函数之前发生了什么
+</a>中提到，<code>_objc_init</code>这个函数是runtime的初始化函数，那我们从<code>_objc_init</code>这个函数开始进行分析。</p>
+<pre><code class="hljs bash copyable" lang="bash">/***********************************************************************
+* _objc_init
+* Bootstrap initialization. Registers our image notifier with dyld.
+* Called by libSystem BEFORE library initialization time
+**********************************************************************/
+
+void _objc_init(void)
+{
+    static bool initialized = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">if</span> (initialized) <span class="hljs-built_in">return</span>;
+    initialized = <span class="hljs-literal">true</span>;
+    
+    // fixme defer initialization until an objc-using image is found?
+    environ_init();
+    tls_init();
+    static_init();
+    lock_init();
+    exception_init();
+
+    _dyld_objc_notify_register(&amp;map_images, load_images, unmap_image);
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>接着我们来到 <code>&amp;map_images</code>读取资源（images这里代表资源模块），来到<code>map_images_nolock</code>函数中找到<code>_read_images</code>函数，在<code>_read_images</code>函数中我们找到与分类相关的代码</p>
+<pre><code class="hljs bash copyable" lang="bash">// Discover categories. 
+    <span class="hljs-keyword">for</span> (EACH_HEADER) {
+        category_t **catlist = 
+            _getObjc2CategoryList(hi, &amp;count);
+        bool hasClassProperties = hi-&gt;info()-&gt;hasCategoryClassProperties();
+
+        <span class="hljs-keyword">for</span> (i = 0; i &lt; count; i++) {
+            category_t *cat = catlist[i];
+            Class cls = remapClass(cat-&gt;cls);
+
+            <span class="hljs-keyword">if</span> (!cls) {
+                catlist[i] = nil;
+                <span class="hljs-keyword">if</span> (PrintConnecting) {
+                    _objc_inform(<span class="hljs-string">"CLASS: IGNORING category \?\?\?(%s) %p with "</span>
+                                 <span class="hljs-string">"missing weak-linked target class"</span>, 
+                                 cat-&gt;name, cat);
+                }
+                <span class="hljs-built_in">continue</span>;
+            }
+            bool classExists = NO;
+            <span class="hljs-keyword">if</span> (cat-&gt;instanceMethods ||  cat-&gt;protocols  
+                ||  cat-&gt;instanceProperties) 
+            {
+                addUnattachedCategoryForClass(cat, cls, hi);
+                <span class="hljs-keyword">if</span> (cls-&gt;isRealized()) {
+                    remethodizeClass(cls);
+                    classExists = YES;
+                }
+                <span class="hljs-keyword">if</span> (PrintConnecting) {
+                    _objc_inform(<span class="hljs-string">"CLASS: found category -%s(%s) %s"</span>, 
+                                 cls-&gt;nameForLogging(), cat-&gt;name, 
+                                 classExists ? <span class="hljs-string">"on existing class"</span> : <span class="hljs-string">""</span>);
+                }
+            }
+
+            <span class="hljs-keyword">if</span> (cat-&gt;classMethods  ||  cat-&gt;protocols  
+                ||  (hasClassProperties &amp;&amp; cat-&gt;_classProperties)) 
+            {
+                addUnattachedCategoryForClass(cat, cls-&gt;ISA(), hi);
+                <span class="hljs-keyword">if</span> (cls-&gt;ISA()-&gt;isRealized()) {
+                    remethodizeClass(cls-&gt;ISA());
+                }
+                <span class="hljs-keyword">if</span> (PrintConnecting) {
+                    _objc_inform(<span class="hljs-string">"CLASS: found category +%s(%s)"</span>, 
+                                 cls-&gt;nameForLogging(), cat-&gt;name);
+                }
+            }
+        }
+    }
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>在上面的代码中，主要做了以下的事情</p>
+<ul>
+<li>1.获取<code>category</code>列表<code>list</code></li>
+<li>2.遍历<code>category list</code>中的每一个<code>category</code></li>
+<li>3.获取<code>category</code>的<code>cls</code>，如果没有<code>cls</code>，则跳过(<code>continue</code>)这个继续获取下一个</li>
+<li>4.如果<code>cat</code>有实例方法、协议、属性，则调用<code>addUnattachedCategoryForClass</code>，同时如果<code>cls</code>有实现的话，就进一步调用<code>remethodizeClass</code>方法</li>
+<li>5.如果<code>cat</code>有类方法、协议，则调用<code>addUnattachedCategoryForClass</code>，同时如果<code>cls</code>的元类有实现的话，就进一步调用<code>remethodizeClass</code>方法</li>
+</ul>
+<p>其中<code>4</code>,<code>5</code>两步的区别主要是<code>cls</code>是类对象还是元类对象的区别，我们接下来主要是看在第<code>4</code>步中的<code>addUnattachedCategoryForClass</code>和<code>remethodizeClass</code>方法。</p>
+<h5 class="heading" data-id="heading-10">addUnattachedCategoryForClass</h5>
+<pre><code class="hljs bash copyable" lang="bash">static void addUnattachedCategoryForClass(category_t *cat, Class cls, 
+                                          header_info *catHeader)
+{
+    runtimeLock.assertWriting();
+
+    // DO NOT use cat-&gt;cls! cls may be cat-&gt;cls-&gt;isa instead
+    NXMapTable *cats = unattachedCategories();
+    category_list *list;
+
+    list = (category_list *)NXMapGet(cats, cls);
+    <span class="hljs-keyword">if</span> (!list) {
+        list = (category_list *)
+            calloc(sizeof(*list) + sizeof(list-&gt;list[0]), 1);
+    } <span class="hljs-keyword">else</span> {
+        list = (category_list *)
+            realloc(list, sizeof(*list) + sizeof(list-&gt;list[0]) * (list-&gt;count + 1));
+    }
+    list-&gt;list[list-&gt;count++] = (locstamped_category_t){cat, catHeader};
+    NXMapInsert(cats, cls, list);
+}
+static NXMapTable *unattachedCategories(void)
+{
+    runtimeLock.assertWriting();
+    //全局对象
+    static NXMapTable *category_map = nil;
+    <span class="hljs-keyword">if</span> (category_map) <span class="hljs-built_in">return</span> category_map;
+    // fixme initial map size
+    category_map = NXCreateMapTable(NXPtrValueMapPrototype, 16);
+    <span class="hljs-built_in">return</span> category_map;
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>对上面的代码进行解读：</p>
+<ul>
+<li>1.通过<code>unattachedCategories()</code>函数生成一个全局对象<code>cats</code></li>
+<li>2.我们从这个单例对象中查找<code>cls</code> ，获取一个<code>category_list</code> *<code>list</code>列表</li>
+<li>3.要是没有<code>list</code> 指针。那么我们就生成一个<code>category_list</code> 空间。</li>
+<li>4.要是有<code>list</code> 指针，那么就在该指针的基础上再分配出<code>category_list</code> 大小的空间</li>
+<li>5.在这新分配好的空间，将这个<code>cat</code> 和<code>catHeader</code> 写入。</li>
+<li>6.将数据插入到<code>cats</code> 中,<code>key</code> 是<code>cls</code>, 值是<code>list</code></li>
+</ul>
+<h5 class="heading" data-id="heading-11">remethodizeClass</h5>
+<pre><code class="hljs bash copyable" lang="bash">static void remethodizeClass(Class cls)
+{
+    //分类数组
+    category_list *cats;
+    bool isMeta;
+
+    runtimeLock.assertWriting();
+
+    isMeta = cls-&gt;isMetaClass();
+
+    // Re-methodizing: check <span class="hljs-keyword">for</span> more categories
+    <span class="hljs-keyword">if</span> ((cats = unattachedCategoriesForClass(cls, <span class="hljs-literal">false</span>/*not realizing*/))) {
+        <span class="hljs-keyword">if</span> (PrintConnecting) {
+            _objc_inform(<span class="hljs-string">"CLASS: attaching categories to class '%s' %s"</span>, 
+                         cls-&gt;nameForLogging(), isMeta ? <span class="hljs-string">"(meta)"</span> : <span class="hljs-string">""</span>);
+        }
+        
+        attachCategories(cls, cats, <span class="hljs-literal">true</span> /*flush caches*/);        
+        free(cats);
+    }
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>在<code>remethodizeClass</code>函数中将通过<code>attachCategories</code>函数我们的分类信息附加到该类中。</p>
+<h5 class="heading" data-id="heading-12">attachCategories</h5>
+<pre><code class="hljs bash copyable" lang="bash">//cls = [Person class]
+//cats = [category_t(Eat),category_t(Drink)]
+static void 
+attachCategories(Class cls, category_list *cats, bool flush_caches)
+{
+    <span class="hljs-keyword">if</span> (!cats) <span class="hljs-built_in">return</span>;
+    <span class="hljs-keyword">if</span> (PrintReplacedMethods) <span class="hljs-built_in">print</span>Replacements(cls, cats);
+
+    bool isMeta = cls-&gt;isMetaClass();
+
+    // 重新分配内存
+    method_list_t **mlists = (method_list_t **)
+        malloc(cats-&gt;count * sizeof(*mlists));
+    property_list_t **proplists = (property_list_t **)
+        malloc(cats-&gt;count * sizeof(*proplists));
+    protocol_list_t **protolists = (protocol_list_t **)
+        malloc(cats-&gt;count * sizeof(*protolists));
+
+    // Count backwards through cats to get newest categories first
+    int mcount = 0;
+    int propcount = 0;
+    int protocount = 0;
+    int i = cats-&gt;count;
+    bool fromBundle = NO;
+    <span class="hljs-keyword">while</span> (i--) {
+        auto&amp; entry = cats-&gt;list[i];
+
+        method_list_t *mlist = entry.cat-&gt;methodsForMeta(isMeta);
+        <span class="hljs-keyword">if</span> (mlist) {
+            mlists[mcount++] = mlist;
+            fromBundle |= entry.hi-&gt;isBundle();
+        }
+
+        property_list_t *proplist = 
+            entry.cat-&gt;propertiesForMeta(isMeta, entry.hi);
+        <span class="hljs-keyword">if</span> (proplist) {
+            proplists[propcount++] = proplist;
+        }
+
+        protocol_list_t *protolist = entry.cat-&gt;protocols;
+        <span class="hljs-keyword">if</span> (protolist) {
+            protolists[protocount++] = protolist;
+        }
+    }
+
+    auto rw = cls-&gt;data();
+
+    prepareMethodLists(cls, mlists, mcount, NO, fromBundle);
+    rw-&gt;methods.attachLists(mlists, mcount);
+    free(mlists);
+    <span class="hljs-keyword">if</span> (flush_caches  &amp;&amp;  mcount &gt; 0) flushCaches(cls);
+
+    rw-&gt;properties.attachLists(proplists, propcount);
+    free(proplists);
+
+    rw-&gt;protocols.attachLists(protolists, protocount);
+    free(protolists);
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>对上面的代码进行解读（假设<code>cls</code>是类对象，元类对象分析同理）：</p>
+<ul>
+<li>
+<p>1.根据方法列表、属性列表、协议列表分配内存</p>
+</li>
+<li>
+<p>2.<code>cats</code>是这种数据结构：<code>[category_t(Eat),category_t(Drink)，。。。]</code>，遍历<code>cats</code>，然后</p>
+<ul>
+<li>1.获取一个分类里面的所有对象方法，存储在<code>mlist</code>数组中，然后再将<code>mlist</code>数组添加到二维数组<code>mlists</code>中</li>
+<li>2.获取一个分类里面的所有协议，存储在<code>proplist</code>数组中，然后再将<code>proplist</code>数组添加到二维数组<code>proplists</code>中</li>
+<li>3.获取一个分类里面的所有属性，存储在<code>protolist</code>数组中，然后再将<code>protolist</code>数组添加到二维数组<code>protolists</code>中</li>
+</ul>
+</li>
+<li>
+<p>3.获取<code>cls</code> 的的<code>bits</code> 指针 <code>class_rw_t</code>,通过<code>attachLists</code>方法，将<code>mlists</code>附加到类对象方法列表中，将<code>proplists</code>附加到类对象的属性列表中，将<code>protolists</code>附加到类对象的协议列表中</p>
+</li>
+</ul>
+<p>其中<code>mlists</code>的数据结构如下,<code>proplists</code>与<code>protolists</code>同理：</p>
+<pre><code class="hljs bash copyable" lang="bash">[
+	[method_t,method_t],
+	[method_t,method_t]
+]
+<span class="copy-code-btn">复制代码</span></code></pre><h5 class="heading" data-id="heading-13">attachLists</h5>
+<pre><code class="hljs bash copyable" lang="bash">   void attachLists(List* const * addedLists, uint32_t addedCount) {
+        <span class="hljs-keyword">if</span> (addedCount == 0) <span class="hljs-built_in">return</span>;
+
+        <span class="hljs-keyword">if</span> (hasArray()) {
+            // many lists -&gt; many lists
+            uint32_t oldCount = array()-&gt;count;
+            uint32_t newCount = oldCount + addedCount;
+            <span class="hljs-built_in">set</span>Array((array_t *)realloc(array(), array_t::byteSize(newCount)));
+            array()-&gt;count = newCount;
+            memmove(array()-&gt;lists + addedCount, array()-&gt;lists, 
+                    oldCount * sizeof(array()-&gt;lists[0]));
+            memcpy(array()-&gt;lists, addedLists, 
+                   addedCount * sizeof(array()-&gt;lists[0]));
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!list  &amp;&amp;  addedCount == 1) {
+            // 0 lists -&gt; 1 list
+            list = addedLists[0];
+        } 
+        <span class="hljs-keyword">else</span> {
+            // 1 list -&gt; many lists
+            List* oldList = list;
+            uint32_t oldCount = oldList ? 1 : 0;
+            uint32_t newCount = oldCount + addedCount;
+            <span class="hljs-built_in">set</span>Array((array_t *)malloc(array_t::byteSize(newCount)));
+            array()-&gt;count = newCount;
+            <span class="hljs-keyword">if</span> (oldList) array()-&gt;lists[addedCount] = oldList;
+            memcpy(array()-&gt;lists, addedLists, 
+                   addedCount * sizeof(array()-&gt;lists[0]));
+        }
+    }
+<span class="copy-code-btn">复制代码</span></code></pre><p>在<code>attachLists</code>方法主要关注两个变量<code>array()-&gt;lists</code>和<code>addedLists</code></p>
+<ul>
+<li><strong>array()-&gt;lists</strong>： 类对象原来的方法列表，属性列表，协议列表，比如Person中的那些方法等</li>
+<li><strong>addedLists</strong>：传入所有分类的方法列表，属性列表，协议列表，比如Person(Eat)、Person(Drink)中的那些方法等。</li>
+</ul>
+<p>上面代码的作用就是通过<code>memmove</code>将原来的类找那个的方法、属性、协议列表分别进行后移，然后通过<code>memcpy</code>将传入的方法、属性、协议列表填充到开始的位置。<br>
+我们来总结一下这个过程：</p>
+<ul>
+<li>
+<p>通过Runtime加载某个类的所有Category数据</p>
+</li>
+<li>
+<p>把所有Category的方法、属性、协议数据，合并到一个大数组中，后面参与编译的Category数据，会在数组的前面</p>
+</li>
+<li>
+<p>将合并后的分类数据（方法、属性、协议），插入到类原来数据的前面</p>
+</li>
+</ul>
+<p>我们可以用如下的动画来表示一下这个过程（更多动画相关可在公众号内获取）</p>
+<hr>
+<p></p><figure><img alt="image" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/12/2/1676c801a7398f65?imageslim" data-width="895" data-height="497"><figcaption></figcaption></figure><p></p>
+<hr>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Ftech.meituan.com%2FDiveIntoCategory.html" rel="nofollow noopener noreferrer">通过这个动画我们不难注意到以下两点：</a></p>
+<ul>
+<li>1)、category的方法没有“完全替换掉”原来类已经有的方法，也就是说如果category和原来类都有methodA，那么category附加完成之后，类的方法列表里会有两个methodA.</li>
+<li>2)、category的方法被放到了新方法列表的前面，而原来类的方法被放到了新方法列表的后面，这也就是我们平常所说的category的方法会“覆盖”掉原来类的同名方法，这是因为运行时在查找方法的时候是顺着方法列表的顺序查找的，它只要一找到对应名字的方法，就会罢休^_^，殊不知后面可能还有一样名字的方法。</li>
+</ul>
+<p><strong>我们通过代码来验证一下上面两个注意点是否正确</strong></p>
+<p></p><figure><img alt="image" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/12/2/1676c801a766c04c?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1132" data-height="827"><figcaption></figcaption></figure><p></p>
+<h2 class="heading" data-id="heading-14">load与initialize</h2>
+<blockquote>
+<p>load方法与initialize方法的调用与一般普通方法的调用有所区别，因此笔者将其放在这一节一并分析进行想对比</p>
+</blockquote>
+<h4 class="heading" data-id="heading-15">load源码分析</h4>
+<p>同样的，我们按照如下函数的调用顺序，一步一步的研究<code>load</code>的加载处理过程</p>
+<pre><code class="hljs bash copyable" lang="bash">void _objc_init(void);
+└── void load_images(...);
+    └── void call_load_methods(...);
+        └── void call_class_loads(...);
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们直接从<code>load_images</code>方法进行分析</p>
+<pre><code class="hljs bash copyable" lang="bash">void
+load_images(const char *path __unused, const struct mach_header *mh)
+{
+    // Return without taking locks <span class="hljs-keyword">if</span> there are no +load methods here.
+    <span class="hljs-keyword">if</span> (!hasLoadMethods((const headerType *)mh)) <span class="hljs-built_in">return</span>;
+
+    recursive_mutex_locker_t lock(loadMethodLock);
+
+    // Discover load methods
+    {
+        rwlock_writer_t lock2(runtimeLock);
+        prepare_load_methods((const headerType *)mh);
+    }
+
+    // Call +load methods (without runtimeLock - re-entrant)
+    call_load_methods();
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>在<code>load_images</code>方法中主要关注<code>prepare_load_methods</code>方法与<code>call_load_methods</code>方法</p>
+<h5 class="heading" data-id="heading-16"><code>prepare_load_methods</code></h5>
+<pre><code class="hljs bash copyable" lang="bash">void prepare_load_methods(header_info *hi)
+{
+    size_t count, i;
+
+    rwlock_assert_writing(&amp;runtimeLock);
+
+    classref_t *classlist =
+        _getObjc2NonlazyClassList(hi, &amp;count);
+    <span class="hljs-keyword">for</span> (i = 0; i &lt; count; i++) {
+        schedule_class_load(remapClass(classlist[i]));
+    }
+
+    category_t **categorylist = _getObjc2NonlazyCategoryList(hi, &amp;count);
+    <span class="hljs-keyword">for</span> (i = 0; i &lt; count; i++) {
+        category_t *cat = categorylist[i];
+        Class cls = remapClass(cat-&gt;cls);
+        <span class="hljs-keyword">if</span> (!cls) <span class="hljs-built_in">continue</span>;  // category <span class="hljs-keyword">for</span> ignored weak-linked class
+        realizeClass(cls);
+        assert(cls-&gt;ISA()-&gt;isRealized());
+        add_category_to_loadable_list(cat);
+    }
+}
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">static void schedule_class_load(Class cls)
+{
+    <span class="hljs-keyword">if</span> (!cls) <span class="hljs-built_in">return</span>;
+    assert(cls-&gt;isRealized());  // _read_images should realize
+
+    <span class="hljs-keyword">if</span> (cls-&gt;data()-&gt;flags &amp; RW_LOADED) <span class="hljs-built_in">return</span>;
+
+    // 确保父类优先的顺序
+    schedule_class_load(cls-&gt;superclass);
+
+    add_class_to_loadable_list(cls);
+    cls-&gt;<span class="hljs-built_in">set</span>Info(RW_LOADED);
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>顾名思义，这个函数的作用就是提前准备好满足 +load 方法调用条件的类和分类，以供接下来的调用。
+然后在这个类中调用了<code>schedule_class_load(Class cls)</code>方法，并且在入参时对父类递归的调用了，确保父类优先的顺序。</p>
+<h5 class="heading" data-id="heading-17"><code>call_load_methods</code></h5>
+<p>经过<code>prepare_load_methods</code>的准备，接下来<code>call_load_methods</code>就开始大显身手了。</p>
+<pre><code class="hljs bash copyable" lang="bash">void call_load_methods(void)
+{
+    static BOOL loading = NO;
+    BOOL more_categories;
+
+    recursive_mutex_assert_locked(&amp;loadMethodLock);
+
+    // Re-entrant calls <span class="hljs-keyword">do</span> nothing; the outermost call will finish the job.
+    <span class="hljs-keyword">if</span> (loading) <span class="hljs-built_in">return</span>;
+    loading = YES;
+
+    void *pool = objc_autoreleasePoolPush();
+
+    <span class="hljs-keyword">do</span> {
+        // 1. Repeatedly call class +loads until there aren<span class="hljs-string">'t any more
+        while (loadable_classes_used &gt; 0) {
+            call_class_loads();
+        }
+
+        // 2. Call category +loads ONCE
+        more_categories = call_category_loads();
+
+        // 3. Run more +loads if there are classes OR more untried categories
+    } while (loadable_classes_used &gt; 0  ||  more_categories);
+
+    objc_autoreleasePoolPop(pool);
+
+    loading = NO;
+}
+</span><span class="copy-code-btn">复制代码</span></code></pre><p>在<code>call_load_methods</code>中我们看<code>do</code>循环这个方法，它调用上一步准备好的类和分类中的 +load 方法，并且确保类优先于分类的顺序。</p>
+<h5 class="heading" data-id="heading-18"><code>call_class_loads</code></h5>
+<p><code>call_class_loads</code>是<code>load</code>方法调用的核心方法</p>
+<pre><code class="hljs bash copyable" lang="bash">static void call_class_loads(void)
+{
+    int i;
+
+    // Detach current loadable list.
+    struct loadable_class *classes = loadable_classes;
+    int used = loadable_classes_used;
+    loadable_classes = nil;
+    loadable_classes_allocated = 0;
+    loadable_classes_used = 0;
+
+    // Call all +loads <span class="hljs-keyword">for</span> the detached list.
+    <span class="hljs-keyword">for</span> (i = 0; i &lt; used; i++) {
+        Class cls = classes[i].cls;
+        load_method_t load_method = (load_method_t)classes[i].method;
+        <span class="hljs-keyword">if</span> (!cls) <span class="hljs-built_in">continue</span>;
+
+        <span class="hljs-keyword">if</span> (PrintLoading) {
+            _objc_inform(<span class="hljs-string">"LOAD: +[%s load]\n"</span>, cls-&gt;nameForLogging());
+        }
+        (*load_method)(cls, SEL_load);
+    }
+
+    // Destroy the detached list.
+    <span class="hljs-keyword">if</span> (classes) _free_internal(classes);
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>这个函数的作用就是真正负责调用类的 <code>+load</code> 方法了。它从全局变量 <code>loadable_classes</code> 中取出所有可供调用的类，并进行清零操作。</p>
+<pre><code class="hljs bash copyable" lang="bash">loadable_classes = nil;
+loadable_classes_allocated = 0;
+loadable_classes_used = 0;
+<span class="copy-code-btn">复制代码</span></code></pre><p>其中 <code>loadable_classes</code> 指向用于保存类信息的内存的首地址，<code>loadable_classes_allocated</code> 标识已分配的内存空间大小，<code>loadable_classes_used</code> 则标识已使用的内存空间大小。</p>
+<p>然后，循环调用所有类的 <code>+load</code> 方法。注意，这里是（调用分类的 <code>+load</code> 方法也是如此）直接使用函数内存地址的方式 <code>(*load_method)(cls, SEL_load)</code>; 对 <code>+load</code> 方法进行调用的，而不是使用发送消息 <code>objc_msgSend</code> 的方式。</p>
+<p>但是如果我们写<code>[Student load]</code>时，这是使用发送消息 <code>objc_msgSend</code> 的方式。</p>
+<p>举个🌰：</p>
+<pre><code class="hljs bash copyable" lang="bash">@interface Person : NSObject
+@end
+@implementation Person
++ (void)load{
+    NSLog(@<span class="hljs-string">"%s"</span>,__func__);
+}
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">@interface Student : Person
+@end
+@implementation Student
+//+ (void)load{
+//    NSLog(@<span class="hljs-string">"%s"</span>,__func__);
+//}
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [Student load];
+    }
+    <span class="hljs-built_in">return</span> 0;
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>输出如下：</p>
+<p></p><figure><img alt="image" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/12/2/1676c801a75ab835?imageView2/0/w/1280/h/960/ignore-error/1" data-width="373" data-height="41"><figcaption></figcaption></figure><p></p>
+<p>第一句走的是<code>load</code>的加载方式，而第二句走的是<code>objc_msgSend</code>中消息发送机制，<code>isa</code>指针通过<code>superclass</code>在父类中找到类方法。</p>
+<p><em>小总结</em>：</p>
+<ul>
+<li><code>+load</code>方法会在runtime加载类、分类时调用</li>
+<li>每个类、分类的+load，在程序运行过程中只调用一次</li>
+<li>调用顺序</li>
+</ul>
+<blockquote>
+<p>1.先调用类的+load</p>
+<blockquote>
+<p>按照编译先后顺序调用（先编译，先调用）<br>
+调用子类的+load之前会先调用父类的+load</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>2.再调用分类的+load</p>
+<blockquote>
+<p>按照编译先后顺序调用（先编译，先调用）</p>
+</blockquote>
+</blockquote>
+<h4 class="heading" data-id="heading-19">initialize源码分析</h4>
+<p>同样的，我们按照如下函数的调用顺序，一步一步的研究<code>initialize</code>的加载处理过程</p>
+<pre><code class="hljs bash copyable" lang="bash">Method class_getInstanceMethod(Class cls, SEL sel);
+└── IMP lookUpImpOrNil(Class cls, SEL sel, id inst, bool initialize, bool cache, bool resolver);
+    └── IMP lookUpImpOrForward(Class cls, SEL sel, id inst, bool initialize, bool cache, bool resolver);
+        └── void _class_initialize(Class cls);
+        	  └── void callInitialize(Class cls);
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们直接打开<code>objc-runtime-new.mm</code>文件来研究<code>lookUpImpOrForward</code>这个方法</p>
+<h5 class="heading" data-id="heading-20">lookUpImpOrForward</h5>
+<pre><code class="hljs bash copyable" lang="bash">IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
+                       bool initialize, bool cache, bool resolver)
+{
+    ...
+        rwlock_unlock_write(&amp;runtimeLock);
+    }
+
+    <span class="hljs-keyword">if</span> (initialize  &amp;&amp;  !cls-&gt;isInitialized()) {
+        _class_initialize (_class_getNonMetaClass(cls, inst));
+        // If sel == initialize, _class_initialize will send +initialize and 
+        // <span class="hljs-keyword">then</span> the messenger will send +initialize again after this 
+        // procedure finishes. Of course, <span class="hljs-keyword">if</span> this is not being called 
+        // from the messenger <span class="hljs-keyword">then</span> it won<span class="hljs-string">'t happen. 2778172
+    }
+
+    // The lock is held to make method-lookup + cache-fill atomic 
+    // with respect to method addition. Otherwise, a category could 
+    ...
+}
+
+</span><span class="copy-code-btn">复制代码</span></code></pre><p><code>initialize &amp;&amp; !cls-&gt;isInitialized()</code>判断代码表明当一个类需要初始化却没有初始化时，会调用<code>_class_initialize</code>进行初始化。</p>
+<h5 class="heading" data-id="heading-21">_class_initialize</h5>
+<pre><code class="hljs bash copyable" lang="bash">void _class_initialize(Class cls)
+{
+    ...
+    Class supercls;
+    BOOL reallyInitialize = NO;
+
+    // Make sure super is <span class="hljs-keyword">done</span> initializing BEFORE beginning to initialize cls.
+    // See note about deadlock above.
+    supercls = cls-&gt;superclass;
+    <span class="hljs-keyword">if</span> (supercls  &amp;&amp;  !supercls-&gt;isInitialized()) {
+        _class_initialize(supercls);
+    }
+ 	 ...
+ 
+ 	 callInitialize(cls);
+ 	 
+    ...
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>同样的<code>supercls &amp;&amp; !supercls-&gt;isInitialized()</code>表明对入参的父类进行了递归调用，以确保父类优先于子类初始化。</p>
+<h5 class="heading" data-id="heading-22">callInitialize</h5>
+<pre><code class="hljs bash copyable" lang="bash">void callInitialize(Class cls)
+{
+    ((void(*)(Class, SEL))objc_msgSend)(cls, SEL_initialize);
+    asm(<span class="hljs-string">""</span>);
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>最后在<code>callInitialize</code>中通过发送消息 <code>objc_msgSend</code> 的方式对 <code>+initialize</code>方法进行调用,也就是说<code>+ initialize</code>与一般普通方法的调用处理是一样的。
+举个🌰：</p>
+<pre><code class="hljs bash copyable" lang="bash">@interface Person : NSObject
+@end
+@implementation Person
++ (void)initialize{
+    NSLog(@<span class="hljs-string">"%s"</span>,__func__);
+}
+@end
+@implementation Person (Eat)
++ (void)initialize{
+    NSLog(@<span class="hljs-string">"%s"</span>,__func__);
+}
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">@interface Student : Person
+@end
+@implementation Student
++ (void)initialize{
+    NSLog(@<span class="hljs-string">"%s"</span>,__func__);
+}
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">@interface Teacher : Person
+@end
+@implementation Teacher
+@end
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs bash copyable" lang="bash">int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [Student alloc];
+        [Student initialize];
+        [Person alloc];
+        [Person alloc];
+        [Person alloc];
+        [Person alloc];
+        [Person alloc];
+        [Person alloc];
+        NSLog(@<span class="hljs-string">"****分割线***"</span>);
+        [Teacher alloc];
+        [Teacher initialize];
+    }
+    <span class="hljs-built_in">return</span> 0;
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>输出如下：
+</p><figure><img alt="image" class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/12/2/1676c801a75f15b5?imageView2/0/w/1280/h/960/ignore-error/1" data-width="748" data-height="182"><figcaption></figcaption></figure><p></p>
+<p><em>小总结</em>：</p>
+<ul>
+<li><code>+initialize</code>方法会在类第一次接收到消息时调用</li>
+<li>调用顺序</li>
+</ul>
+<blockquote>
+<ol>
+<li>先调用父类的+initialize，再调用子类的+initialize</li>
+<li>先初始化父类，再初始化子类，每个类只会初始化1次</li>
+</ol>
+</blockquote>
+<h4 class="heading" data-id="heading-23">load与initialize对比</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>+load</th>
+<th>+initialize</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关键方法</td>
+<td><code>(*load_method)(cls, SEL_load)</code></td>
+<td><code>objc_msgSend</code></td>
+</tr>
+<tr>
+<td>调用时机</td>
+<td>被添加到 runtime 时</td>
+<td>收到第一条消息前，可能永远不调用</td>
+</tr>
+<tr>
+<td>调用顺序</td>
+<td>父类-&gt;子类-&gt;分类</td>
+<td>父类-&gt;子类</td>
+</tr>
+<tr>
+<td>调用次数</td>
+<td>1次</td>
+<td>多次</td>
+</tr>
+<tr>
+<td>是否需要显式调用父类实现</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>是否沿用父类的实现</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>分类中的实现</td>
+<td>类和分类都执行</td>
+<td>覆盖类中的方法，只执行分类的实现</td>
+</tr>
+</tbody>
+</table>
+<h4 class="heading" data-id="heading-24">面试题</h4>
+<h5 class="heading" data-id="heading-25">1.Category的使用场合是什么？</h5>
+<ul>
+<li>
+<ol>
+<li>给现有的类添加方法</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>将一个类的实现拆分成多个独立的源文件</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>声明私有的方法</li>
+</ol>
+</li>
+</ul>
+<h5 class="heading" data-id="heading-26">2.Category和Class Extension的区别是什么？</h5>
+<ul>
+<li>
+<ol>
+<li>Class Extension是编译时决议，在编译的时候，它的数据就已经包含在类信息中</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Category是运行时决议，在运行时，才会将数据合并到类信息中（可通过上面的动画进行理解<code>^_^</code>）</li>
+</ol>
+</li>
+</ul>
+<h5 class="heading" data-id="heading-27">3.Category的实现原理？</h5>
+<ul>
+<li>
+<ol>
+<li>Category编译之后的底层结构是<code>struct category_t</code>，里面存储着分类的对象方法、类方法、属性、协议信息</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>在程序运行的时候，runtime会将Category的数据，合并到类信息中（类对象、元类对象中）(依旧可通过上面的动画进行理解<code>-_-||</code>）)</li>
+</ol>
+</li>
+</ul>
+<h5 class="heading" data-id="heading-28">4.一个类的有多个分类方法，分类中都含有与原类同名的方法，请问调用改方法时会调用谁的方法？分类会覆盖原类的方法吗？</h5>
+<p>不会覆盖！所有分类的方法会在运行时将它们的方法都合并到一个大数组中，后面参与编译的Category数据，会在数组的前面，然后再将该数组合并到类信息中，调用时顺着方法列表的顺序查找。</p>
+<h5 class="heading" data-id="heading-29">5.load与initialize的区别</h5>
+<p>见<code>load</code>与<code>initialize</code>对比章节的表格</p>
+<h5 class="heading" data-id="heading-30">6.Category能否添加成员变量？如果可以，如何给Category添加成员变量？</h5>
+<p>不能直接给Category添加成员变量，但是可以通过关联对象或者全局字典等方式间接实现Category有成员变量的效果</p>
+</div></article><div class="tag-list-box" data-v-d4ff273a data-v-49e91c4b><div class="tag-list-title" data-v-d4ff273a data-v-49e91c4b>关注下面的标签，发现更多相似文章</div><div st:block="tagList" class="tag-list" data-v-d4ff273a data-v-49e91c4b><a href="/tag/iOS" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://user-gold-cdn.xitu.io/1532428449837649233abd9e9cfa8c4104f0ca4210f05.jpg?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>iOS</div></a></div></div><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" data-v-49e91c4b><div class="footer-author-block" data-v-49e91c4b><div itemscope="itemscope" itemtype="http://schema.org/Person" class="author" data-v-5a8982d2 data-v-49e91c4b><!----><div class="author-info-block" data-v-5a8982d2><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" class="avatar-link" data-v-5a8982d2><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5a8982d2></div></a><div class="author-info-box" data-v-5a8982d2><div class="profile-box" data-v-5a8982d2><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" class="username ellipsis" data-v-5a8982d2></a><span class="position ellipsis" data-v-5a8982d2></span></div><div class="meta-box" data-v-5a8982d2><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" class="posts" data-v-5a8982d2><span class="count post-count" data-v-5a8982d2>发布了  篇专栏 · </span></a><span class="count" data-v-5a8982d2>获得点赞  次 · </span><span class="count" data-v-5a8982d2>文章被阅读  次</span></div></div><!----></div></div></div></a><div st:block="banner" class="article-banner" data-v-d4ff273a data-v-49e91c4b><a st:name="link" st:state="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" href="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" target="_blank" class="banner-title" data-v-d4ff273a data-v-49e91c4b>安装掘金浏览器插件</a><div class="banner-content" data-v-d4ff273a data-v-49e91c4b>打开新标签页发现好内容，掘金、GitHub、Dribbble、ProductHunt 等站点内容轻松获取。快来安装掘金浏览器插件获取高质量内容吧！</div></div><!----><!----><div id="comment-box" class="comment-list-box" data-v-3a057265 data-v-49e91c4b><div class="title" data-v-3a057265>评论</div><div class="comment-form comment-form" data-v-5812a629 data-v-3a057265><div class="avatar-box" data-v-5812a629><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5812a629></div></div><div class="form-box" data-v-5812a629><div class="input-box" data-v-5812a629><div contenteditable="true" spellcheck="false" placeholder="输入评论..." class="rich-input empty" data-v-5812a629><br data-v-5812a629></div><!----></div><!----></div><input type="file" class="hidden" data-v-5812a629></div><!----><!----></div></div><!----><!----><div st:block="sidebar" class="sidebar sidebar" data-v-e8bd85a0 data-v-49e91c4b><div class="sidebar-block author-block shadow" data-v-3614612a data-v-8726068e data-v-e8bd85a0><div class="block-title" data-v-3614612a>关于作者</div><div class="block-body" data-v-3614612a><a href="/post/5c0332ba6fb9a049d4418cac" target="_blank" rel="" class="user-item item" data-v-8726068e><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-8726068e></div><div class="info-box" data-v-8726068e><div class="username" data-v-8726068e></div><!----></div></a><!----><!----><!----><!----></div></div><!----><!----><!----><!----><!----><div class="sticky-block-box" data-v-e8bd85a0><div class="sidebar-block catalog-block pure" data-v-3614612a data-v-0227ba49 data-v-e8bd85a0><nav class="article-catalog" style="display:none;" data-v-471a2118 data-v-0227ba49><div class="catalog-title" data-v-471a2118>目录</div><div class="catalog-body" data-v-471a2118><ul class="catalog-list" style="margin-top:0px;" data-v-471a2118></ul></div></nav></div></div></div><div class="article-suspended-panel article-suspended-panel" data-v-46f1d695 data-v-49e91c4b><div badge="15" class="like-btn panel-btn like-adjust with-badge" data-v-46f1d695></div><div badge="0" class="comment-btn panel-btn comment-adjust" data-v-46f1d695></div><div class="collect-btn panel-btn" data-v-46f1d695><!----></div><div class="share-title" data-v-46f1d695>分享</div><div class="weibo-btn share-btn panel-btn" data-v-46f1d695></div><div class="qq-btn share-btn panel-btn" data-v-46f1d695></div><div class="wechat-btn share-btn panel-btn" data-v-46f1d695><img src="" class="wechat-qr-code-img shadow" style="display:none;" data-v-46f1d695></div></div><div class="image-viewer-box" data-v-3cf863bc data-v-49e91c4b><!----></div></div></main></div><!----></div>
+      <div id="jjis" style="display:none;" data-state="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"></div>
+      
+      <script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/runtime.013d3571732a45acc62c.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/0.e83a72128cbe53a747b7.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/1.b6ab58c8b1c5ee2c6ad4.js></script></body></html>
+    

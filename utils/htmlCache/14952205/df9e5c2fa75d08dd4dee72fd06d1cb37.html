@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="How to prepare, what to expect, and more.">
+    <meta name="keywords" content="hacking with swift, apple, developer, news, tutorials, swift, ios, macos, watchos, tvos, api, swift 4, swift 3, swift, tutorial, ios, ios 10, ios 11, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, watchkit">
+    <meta name="author" content="Paul Hudson @twostraws">
+    <title>The Complete Guide to iOS and Swift Job Interviews – Hacking with Swift</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Swift Developer News RSS feed" href="https://www.hackingwithswift.com/articles/rss" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /* NOTE: This was added October 12th 2018; can be removed safely in 60 days */
+        div.speaking h4 { 
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        /* NOTE: This was added January 21st 2019; can be removed safely in 60 days */
+        div.hws-sponsor {
+            border: 3px solid firebrick;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        div.hws-sponsor p {
+            margin: 0;
+        }
+
+        div.hws-sponsor a {
+            text-decoration: underline;
+        }
+    </style>
+
+    <meta property="og:image" content="https://www.hackingwithswift.com/uploads/panic.png" />
+    <meta property="og:title" content="The Complete Guide to iOS and Swift Job Interviews" />
+    <meta property="og:description" content="How to prepare, what to expect, and more." />
+    <meta property="og:url" content="https://www.hackingwithswift.com/articles/157/the-complete-guide-to-ios-and-swift-job-interviews" />
+    <meta property="og:site_name" content="Hacking with Swift" />
+    <meta property="og:type" content="article" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twostraws" />
+    <meta name="twitter:title" content="The Complete Guide to iOS and Swift Job Interviews" />
+    <meta name="twitter:description" content="How to prepare, what to expect, and more." />
+    <meta name="twitter:creator" content="@twostraws" />
+    <meta name="twitter:image" content="https://www.hackingwithswift.com/uploads/panic.png" />
+    <meta name="twitter:domain" content="hackingwithswift.com" />
+    <meta name="twitter:dnt" content="on">
+
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Retina.js - Load first for faster HQ mobile images. -->
+    <script src="/js/plugins/retina/retina.min.js"></script>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/fontawesome-stars.css" />
+
+    <link href="/css/vitality-red.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/hws.css">
+    <!-- IE8 support for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="https://www.hackingwithswift.com/articles/157/the-complete-guide-to-ios-and-swift-job-interviews" />
+</head>
+<!-- Alternate Body Classes: .modern and .vintage -->
+
+<body id="page-top">
+    <!-- Navigation -->
+    <!-- Note: navbar-default and navbar-inverse are both supported with this theme. -->
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+    
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <img src="/img/logo.png" class="img-responsive" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/articles">Articles</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Learn <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/career-guide">Swift Career Guide</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/sixty">Swift in Sixty Seconds</a></li>
+                        <li><a href="/read">Hacking with Swift</a></li>
+                        <li><a href="/example-code">Swift Example Code</a></li>
+                        <li><a href="/store">Buy Books and Videos</a></li>
+                        <li><a href="/playgrounds">Swift Playgrounds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/review">Interactive Review</a></li>
+                        <li><a href="/interview-questions">Interview Questions</a></li>
+                        <li><a href="/test">Test your Swift</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/awards">Swift Community Awards</a></li>
+                        <li><a href="/articles">Latest News</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/glossary">Glossary of terms</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/store">See the range</a></li>
+                        <li><a href="/reviews">Reviews</a></li>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/frequent-flyer">Frequent Flyer Club</a></li>
+                        <li><a href="/update-policy">Update Policy</a></li>
+                        <li><a href="/ibooks">Buy on iBooks</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/about">About Hacking with Swift</a></li>
+                        <li><a href="/speaking">Conference Talks</a></li>
+                      </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+        <skybar id="latestTutorial">
+    <div class="container" style="background-color: firebrick; margin: 0; width: 100%;">
+         <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="/100" style="color: white;" target="_blank"><span class="pure-evil">FREE:</span> <strong>Follow my new 100 Days of Swift challenge!</strong> &gt;&gt;</a></p>
+
+<!--
+        <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="http://anchor.fm/swiftovercoffee" target="_blank" style="color: white;"><span class="pure-evil">NEW:</span> <strong>Check out my podcast with Sean Allen, Swift over Coffee!</strong> &gt;&gt;</a></p>
+-->
+    </div>
+</skybar>
+
+    
+
+    
+    <section class="read">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-top">
+	
+<a href="/store/hacking-with-swift?source=hws-1"><img src="/assets/notice-hws-1.png" style="border: 1px solid black;" class="img-responsive center-block" /></a>
+
+
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="9393216522"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style="margin: 10px 0 0 0;">The Complete Guide to iOS and Swift Job Interviews</h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="margin: 0;"><a href="/about">Paul Hudson</a> &nbsp;&nbsp; <time itemprop="dateModified" datetime="2019-01-02T09:11:32+00:00">January 2nd 2019</time>
+<meta itemprop="datePublished" content="2018-12-22T16:34:56+00:00"> &nbsp;&nbsp; <i class="fa fa-twitter" aria-hidden="true" style="color: #4099ff"></i> <a href="https://twitter.com/twostraws" target="_blank">@twostraws</a></p>
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <img src="/uploads/panic.png" class="img-responsive" style="width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #dcdcdc;" />
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <p>No matter where you’re at in your development career, job interviews are stressful situations. I wish it weren’t the case, and I know so many people go out of their way to be encouraging and supportive in interview environments, but ultimately they are stressful for a reason: you’re in the room because you want a job, and you know that your performance over the next few hours will likely decide whether you’re able to make the move or not.</p>
+<p>In this article I want to help you prepare for your next Swift job interview. We’ll talk about resumes, interview questions, preparation techniques, and more, so whether you’re the hopeful interviewee looking to make the next step in your career, or whether you’re the <em>interviewer</em> who is trying to fill a gap in your team, I hope there’s something you can learn here.</p>
+<p>Lots of my friends took time out from their busy schedules to help provide valuable details for this article, and I’m really grateful to them. So, thank you to Sean Allen, Bas Broek, Kristina Fox, Ash Furrow, Cate Huston, Janina Kutyn, Antoine van der Lee, Nick Lockwood, Paola Mata, Carola Nitz, and Kaya Thomas – these folks have experience working at well-known companies like Apple, Artsy, BuzzFeed, Slack, VLC, WeTransfer, and more. They gave up their time to help you do better at your next interview, so say thank you next time you see them!</p>
+<p><strong>Advance warning:</strong> This article really is a comprehensive guide to the state of iOS and Swift job interviews today, and it’s packed with important advice, tips, and challenges for you to do – it’s a huge article, so you might want to read it in chunks rather than trying to get through it all in one sitting.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Building a profile</h3>
+<p>A common piece of advice you’ll hear being given to folks who are looking to advance their career is to build some sort of online profile – maybe write blog posts, maybe deliver presentations, maybe post projects on GitHub, and so on.</p>
+<p>I understand this. I don’t <em>like</em> it, and I don’t <em>agree</em> with it, but I <em>understand</em> it. I should say up front that I do all of those things and more: I write hundreds of articles a year, speak at lots of conferences, regularly post code to GitHub, and more, but I do that because programming is a hobby for me as much as a job, and also because I’m in the privileged position to be able to do so.</p>
+<p>I’ll talk more about the problems with this approach in a moment, but first let’s look at the positive side – because there <em>is</em> a positive side and it’s important not to skip over it.</p>
+<p>In the early days of Swift I remember reading Natasha Murashev’s blog at <a rel="nofollow" target="_blank" href="https://www.natashatherobot.com">https://www.natashatherobot.com</a>. I was always struck by the tone she took in her posts: “I’m learning about X, and here’s what I found out…” Those blog posts were her way of summarizing for herself and others what she had learned, and often writing things down helps you understand them more clearly. Even better, Natasha would have folks emailing her saying “try this instead,” or “this approach is better,” and more, and she would add those to the blog, so everyone would learn even more as a result.</p>
+<p>If you sit down and write a blog post about something you’ve learned recently, you’ll find that doing so helps clarify your thoughts. If you go a step further and deliver a talk about that topic, even if it’s just at a local meetup, you’ll find you learn it even more thoroughly – you work extra hard to make sure you get up on stage feeling confident, so you end up with a really thorough understanding of the topic. </p>
+<p>And if you made a mistake, or missed something off, I can pretty much guarantee folks will tell you – we’re a pretty pedantic bunch sometimes! While it’s true that some folks will be negative, I think you’ll find most are positive and want to help you do better next time.</p>
+<p>As for releasing code on GitHub, this is more difficult than it sounds. Some folks are lucky enough to work at companies with large open-source commitments, but many if not most of us work in private repositories most of the day – we might write thousands of lines of code every day of the year, but few if any that folks outside the company might see.</p>
+<p>If you <em>are</em> fortunate enough to be in the position where you can publishing open-source work in your spare time – and that is significantly fewer people than you think, particularly when you remember that women are disproportionately given responsibility for family caring – then please do keep in mind it’s not just the quality and quantity of code you publish. If I see GitHub links on a resume, I <em>will</em> go through your code reviews and see how you respond to people. If you’re rude, disrespectful, or unhelpful there, I would imagine you’d be the same on my team.</p>
+<p>&nbsp;</p>
+<p><strong>I asked folks for their view on this – whether writing a blog, delivering presentations, or showing work on GitHub helped. Here’s what they said…</strong></p>
+<p><strong>Sean Allen:</strong> I believe your online presence <em>is</em> your resume in 2019. Of course, it’s not required to do all that and just because you do, doesn’t make you a great engineer. Tons of amazing engineers have little to no online presence. However, it’s objectively true that a great online presence provides many opportunities that you wouldn’t have received otherwise. </p>
+<p><strong>Bas Broek:</strong> As someone that has done quite a bit of open source work, I’ve never treated it as something I did for (future) work. I do it because I enjoy it, and that’s it. I still have that same view, also for hires. It’s a plus, but don’t worry if you’re not into open source – that’s totally fine. </p>
+<p>Blog posts are something that I do see as more valuable. I see them as a big plus. Again though, there are many reasons why people don’t feel comfortable with them and that’s OK too, but I would love to discuss this with the applicant. </p>
+<blockquote class="hws-interview">
+<p>“Not everyone wants to be a speaker, and not everyone has to be.”</p>
+</blockquote>
+<p>Giving talks: I think that is super valuable. If you are that kind of person, there should be a budget for that at the company you are applying to; please ask them. If you’re not giving talks, having been to one or more conferences is a great sign too. Not everyone wants to be a speaker, and not everyone has to be. </p>
+<p><strong>Ash Furrow:</strong> This is a tricky subject for me, because I've been privileged enough to have time to building a profile and I benefit from it, but I don't think that someone should need to build one to get a job. Similar to interviews, evaluating someone based on their public profile is flawed because you can only evaluate how good someone is at building their profile, and not necessarily their ability to succeed in the job. Artsy relies quite heavily on references checks to evaluate how someone works and what they're capable of – the logic being that the best predictor of someone's future performance is how well they performed in the past. This has worked quite well for us, and helps us evaluate candidates who don't necessarily have that public profile built up.</p>
+<blockquote class="hws-interview">
+<p>“Similar to interviews, evaluating someone based on their public profile is flawed because you can only evaluate how good someone is at building their profile, and not necessarily their ability to succeed in the job.”</p>
+</blockquote>
+<p><strong>Cate Huston:</strong> I think given my personal life choices it would be hypocritical for me to claim I don't think it's a good thing – it’s definitely helped me in my career. That being said, the way people show up on the internet is not necessarily how people show up at work, and the most &quot;internet famous&quot; people are not necessarily the best engineers or teammates. I consider it a mild positive in reviewing resumes, and it's something we gently encourage (and support!) but would never insist on in the teams I run.</p>
+<p><strong>Janina Kutyn:</strong> I believe that programming doesn't have to take over a candidate's life if they don't want it to. I am evaluating them purely on their ability to deliver in the workplace, so what they do with code in their spare time is irrelevant to me. Perhaps this comes from the fact that programming is not near the top of my own list of hobbies.</p>
+<p><strong>Antoine van der Lee:</strong> You can be a really good fit and a great developer without a blog or public repositories. The key is to make that clear in the interview, which is a lot easier when you have a blog or open source repositories. The great thing about having a blog or open sourced repositories is that you show your knowledge, but it can also be a downside and a wrong impression if they're not up to date or the code quality is quite poor.</p>
+<p><strong>Nick Lockwood:</strong> If your blog or GitHub work is famous enough that I have heard of you before you even walk into the interview then yes, that's going to be a huge advantage.</p>
+<p>But otherwise I'm probably not going to go and read your blog before you come in. It's possible I'll glance at your GitHub page if you put a link in your resume, but again I'll only spend a few minutes at most, so that's a hugely disproportionate effort if you are only doing it to impress an interviewer.</p>
+<p>And really I think that's the point: if you are passionate enough about tech to want to write a tech blog and publish a load of great OSS projects (and have the privilege of free time to spend on it) then you are probably the sort of person that a lot of companies will want to hire. But you can't <em>fake</em> that convincingly. If you are only doing it performatively to help you get hired then it won't work.</p>
+<p><strong>Paola Mata:</strong> Not everyone has time or interest in blogging or for giving talks. Having an empty GitHub might be disconcerting to see in someone looking for a dev role, but if they have projects they can point to elsewhere I wouldn’t hold it against them. </p>
+<p><strong>Carola Nitz:</strong> It helps a lot to get an understanding of how the person works and thinks. It is not a must, though – there are loads of great people who don’t put out content.</p>
+<blockquote class="hws-interview">
+<p>“Folks who have family obligations or just want to maintain a separation between work and the rest of their life should be able to still have fulfilling careers.”</p>
+</blockquote>
+<p><strong>Kaya Thomas:</strong> I don't think it should be required for folks to have a large external profile or brand in order to have a career as a developer. It's unfair and unrealistic to expect everyone to have the time it takes to create that profile outside their working hours. Folks who have family obligations or just want to maintain a separation between work and the rest of their life should be able to still have fulfilling careers. If you want to have the external presence then go for it, but I strongly believe we shouldn't have that as an expectation in the hiring process.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Writing your resume</h3>
+<p>Whether they are effective or not, writing a resume that does a good job of listing your strengths, experiences, and goals is a fundamental part of applying for jobs. What you’ll find is that writing a resume is very much like writing a news story for a website: anyone can do it, but it takes skill not to use eight pages.</p>
+<p>Yes, you can go on and on if you want, listing all the things you’ve done and all the places you’ve worked, but unless you’re applying for an academic position most people won’t read past page two. <em>Many people won’t even read past page one.</em> It’s like the old joke: if you want to keep something secret, mention it in the second hour of your podcast – folks tune out after a while, so you need to stay focused and cut things back.</p>
+<p>There are no hard and fast rules here, but unless you’ve been working with iPhone OS since day 1 you should be able to get your resume down to a single page. If you worked for a variety of high-profile companies or have some particularly notable open-source work or similar, fine: add a second page. But no more – no page three, four, five, and so on, because it will do more harm than good.</p>
+<p>When it comes to writing what you achieved in each role, focus on facts. Even though we’re programmers, this is one of the few places where we can easily slide into marketingspeak about finding synergies and liaising with teams, but remember: the folks reading your resume are either going to be recruiters (who are often looking for specific, concrete things like “5 years developing iOS apps with Core Graphics”) or developers (who usually despise marketing jargon), so you should try to stick to the facts.</p>
+<p>In Cracking the Coding Interview, Gayle Laakmann McDowell gives this brilliantly clear advice: discuss your work as “accomplished X by implementing Y, which led to Z.” This forces you to focus on facts: what you did, how you did it, and what the result was. If you have statistics – “increased revenues by 10%” – this is exactly the place for them.</p>
+<p>Once you have your resume down to a page and just the important facts, don’t forget to turn your attention to an equally important part: writing a great, customized cover letter that focuses on why you’re applying for the role. Please resist the urge to copy and paste these a dozen times, because they really are your chance to show your character and – I hope! – your genuine interest in the job.</p>
+<p>&nbsp;</p>
+<p><strong>I asked folks what they thought made someone’s resume stand out, either in a good or a bad way. Here’s what they said…</strong></p>
+<p><strong>Ash Furrow:</strong> I personally think that resumes are too prescriptive. I like a nice, portfolio-style resume that embodies what the person cares about. The resume is just the quick list of skills and experience, blah blah blah, but the initial intro/cover letter is more important (from an attention-grabbing perspective, at least at small companies). <a rel="nofollow" target="_blank" href="http://artsy.github.io/blog/2016/01/30/iOS-Junior-Interviews/#On.an.Intro.Email">Here is the one I used at Artsy</a>, and my resume is in there too. You'll notice my resume itself is kind of bland, but I put a lot of work into my intro email.</p>
+<blockquote class="hws-interview">
+<p>“You'll notice my resume itself is kind of bland, but I put a lot of work into my intro email.”</p>
+</blockquote>
+<p><strong>Cate Huston:</strong> Honestly, I'm not a fan of resumes - I much prefer a good cover letter. A good resume (for me) is a succinct description of someone's work experience. A great <em>application</em> includes a cover letter that connects that to the job being hired for, and shows their fit and excitement for it.</p>
+<p><strong>Janina Kutyn:</strong> To be honest, by the time a candidate's resume gets to me, they have typically already had a screening call with a recruiter and a hiring manager, so I only glance over the resume to get the overall idea of the candidate's level of experience. What does stand out is when a candidate has seven, eight, nine or more programming languages listed as proficient. Often that means they don't know any of them very well.</p>
+<blockquote class="hws-interview">
+<p>“What does stand out is when a candidate has seven, eight, nine or more programming languages listed as proficient. Often that means they don't know any of them very well.”</p>
+</blockquote>
+<p><strong>Antoine van der Lee:</strong> Make sure to show your experience. We need to know whether you're capable enough for the job and you know what you're doing. A resume which makes it clear that a certain skill needs improvement stands out as well as it shows reflection and motivation to improve. Especially if you think your experience might not match expectations, but you show that you're willing to improve and learn, you might still have a chance. A resume without clarity on experience or with a wide range of skills would result in possibly unneeded doubts. You would fix this by aligning your skills with the job you’re applying for.</p>
+<p><strong>Nick Lockwood:</strong> When I worked in smaller companies, resumes would be given to engineers for screening. But in larger companies they are typically pre-filtered by the internal recruitment team, and the interview is arranged before the interviewer even sees the resume.</p>
+<p>Because of that, these days I barely even glance at a candidate's resume before an interview. I generally just check their name and recent work history so I have some talking points for the informal chat before the interview.</p>
+<p>If they have worked at a particularly notable company, or with some especially cool technologies, then that would stand out. Otherwise, the resume is mostly for the benefit of the recruiters, not the interviewers.</p>
+<p><strong>Paola Mata:</strong> I think less is more when it comes to resumes. Information – your experience, online portfolio, contact info – should be easy to find with a quick scan. Keep it simple, and well organized. Highlight what you’re most proud of. I use a simple Pages template. </p>
+<p><strong>Carola Nitz:</strong> Experience working for well-known companies is always good, and involvement in meetups, conferences, blogs or open-source projects is also good because it indicates it's not only a job for you but a passion, and that you're someone who wants to learn beyond the scope of their work environment.</p>
+<blockquote class="hws-interview">
+<p>“Reading a resume that has several spelling or grammatical errors can be off-putting because it shows a lack of attention to detail.”</p>
+</blockquote>
+<p><strong>Kaya Thomas:</strong> If someone hasn't proofread their resume that definitely makes it stand out in a bad way. Reading a resume that has several spelling or grammatical errors can be off-putting because it shows a lack of attention to detail. A resume that stands out in a good way is especially descriptive about the impact their work has had on their team, customers or the company at large. Of course it's important to write about what you have done in your various roles, but what makes a true impression are the clear results of that work. </p>
+<h3 style="font-weight: normal; margin-top: 60px;">Preparing for your interview</h3>
+<p>Once you’ve built up some sort of profile – whether that’s just posting thoughts on Twitter now and then, or having a huge GitHub repository, a blog, and a collection of recordings of you speaking at conferences – and you’ve written the best resume and cover letter that you can, the next step is to prepare for the interview.</p>
+<p>This is, by far, the most complicated part of the whole process. Yes, the actual interview is <em>hard</em>, particularly if it has multiple rounds spanning one or more days, but at least then you’re too busy being interviewed to have time to get stressed out about all the things you need to learn.</p>
+<p>You see, there is no one, fixed standard of programming job interview. Some might give you coding tests on a laptop, others on a whiteboard, and still others take-home projects. Some might ask you detailed technical questions, others might ask you thought experiments about counting piano tuners in London, and others might focus mainly on your experiences so far.</p>
+<p>As a result, we tend to try to prepare for everything: we brush up on our algorithms knowledge, we go over past projects to find specific tasks and solutions to talk about, we try to prepare answers to common questions, and we somehow wonder why we’re struggling to sleep the night before the interview.</p>
+<p>All of those things are important, of course they are. I even wrote a book called <a href="/store/swift-coding-challenges">Swift Coding Challenges</a> that walks through 64 interview-style coding problems, providing hints and worked solutions. </p>
+<p>But I think there’s one thing that matters more than algorithm knowledge, past projects, and having prepared answers for questions, and that’s a drive to work at the place where you’re interviewing. That means:</p>
+<ul>
+<li>Download all their apps and use them thoroughly.</li>
+<li>Read through their website, particularly if they have an engineering blog.</li>
+<li>Read through what they or their developers post on Twitter.</li>
+</ul>
+<p>Do you think Apple would hire someone with great algorithmic knowledge, a huge collection of technical anecdotes from past projects, and the world’s best answer to “if you were a vegetable, what kind of vegetable would you be?” – but who <em>wasn’t</em> excited about the prospect of working for Apple? </p>
+<p>Probably not. And it’s not just Apple: if you don’t have a great answer to the question “why do you want to work here?” you’re going to have a hard time.</p>
+<p>So, yes: brush up on any particular weak spots in your knowledge of CS fundamentals, and by all means prep answers to common questions, but don’t think that stuff is any sort of substitute for doing some actual research into the company.</p>
+<p>&nbsp;</p>
+<p><strong>I asked folks what preparation they do ahead of an interview, and here’s how they replied…</strong></p>
+<p><strong>Sean Allen:</strong> I typically review my own Interview Questions playlist on my YouTube channel. I created that playlist based on all the standard iOS questions I’ve been asked in interviews all around Silicon Valley. Then I practice a bunch of questions from Cracking the Coding Interview to prep for the whiteboard phase. I start this a few weeks in advance. Then I research the specific companies – I look for work their developers have done. For example, if they’ve open sourced something they used at their company, I’ll familiarize myself with that so I can ask intelligent questions and also learn a bit about that companies code base.</p>
+<p><strong>Bas Broek:</strong> I read about the company, and take as many concerns and questions with me. Although I would probably not focus on concerns, if it is relevant enough, I like to discuss them to get a feeling as to how open the company is to talk about those things. Diversity is one thing that comes to mind. </p>
+<blockquote class="hws-interview">
+<p>“I am interviewing them as much as they are interviewing me.”</p>
+</blockquote>
+<p><strong>Cate Huston:</strong> I'm lucky in that now when I interview I am very selective about where and invariably come in through some kind of personal connection. So yes I try to get a good night's sleep, but other than that I am able to truly embrace the mindset that I am interviewing them as much as they are interviewing me, and only talk to places where there is a high likelihood of a good fit.</p>
+<p>The last time I interviewed - which resulted in joining Automattic - was the first time when I spoke to multiple companies. I spoke to four in total - one I concluded was a trashfire, another suggested I move to San Francisco (thank you but hell no), and the other two I went through the entire process and choosing between them was a genuinely difficult decision. </p>
+<p><strong>Janina Kutyn:</strong> I try to figure out if there are certain technologies or frameworks that are relevant to the specific role for which I'm interviewing, and brush up on those as needed.</p>
+<p><strong>Antoine van der Lee:</strong> I just make sure I know the company I'm applying for. How bad would it be if they ask you something simple like “which feature would you love to work on?&quot; and you have no idea what to answer. At WeTransfer when people apply for the position to work on the Collect app it is important to us that they installed the app. It doesn't take much and it shows the right interest in our company, but still we’ve had candidates who didn’t install our app. Apart from that, I just try to relax a bit and be myself. I know who I am and what my experiences are, so no need to prepare there.</p>
+<p><strong>Nick Lockwood:</strong> I've done interviews at a few companies that take the &quot;Cracking the Coding Interview&quot; approach, and there isn't really much revision I could have done for them. I have a pretty solid algorithms background so I am comfortable with most whiteboard coding questions, and so far nobody has ever asked me to implement a heap sort from memory or anything daft like that (of course there's always a first time).</p>
+<blockquote class="hws-interview">
+<p>“It's typically not worth memorizing a bunch of algorithms and data structures because there are too many to learn by rote, and most interviewers won't expect you to recall that stuff from memory.”</p>
+</blockquote>
+<p>If you are applying at those kinds of companies and you don't already know standard computer science stuff like Big-O notation or the difference between a hashmap and a linked list, you should definitely go and learn that before your interview. But I would say it's typically not worth memorizing a bunch of algorithms and data structures because there are too many to learn by rote, and most interviewers won't expect you to recall that stuff from memory.</p>
+<p>Something that <em>is</em> worth doing (which I generally fail to do) is to memorize some stock answers for questions like &quot;talk about a time when you resolved a conflict&quot; or &quot;talk about a time when you mentored a junior developer&quot;, because those are really hard to come up with on the spot.</p>
+<p><strong>Paola Mata:</strong> It depends on the interview. I like to get familiar with the product and have good questions to ask the team. I have a few go-to resources for brushing up on fundamentals, so that I can discuss concepts intelligently. These cover typical questions on topics I expect to be asked about in some fashion. I haven’t done many algorithm-heavy interviews, but I would spend several weeks preparing if I were expecting those types of questions.</p>
+<p><strong>Carola Nitz:</strong> Glassdoor is the most valuable resource to know what interviews are like, and do the questions on there and then do as many questions from Programming Interviews Exposed and Cracking the Coding Interview on paper! I need 3+ months preparation and it’s a skill by itself. I also have done mock interviews with friends and it helps to practice talking through coding challenges and recognizing that things you might take for granted need to be explicitly stated.</p>
+<blockquote class="hws-interview">
+<p>“Remember that interviewers talk with each other so you want to show as many different facets as you can when you interview.”</p>
+</blockquote>
+<p>There is one important thing that a friend told me when interviewing with big companies that I will never forget. Remember that interviewers talk with each other so you want to show as many different facets as you can when you interview, and don’t ask always the same question. Also prepare questions about the product you want to work on and maybe even ask about points of improvement but in a nice way. It shows interest in the product and a good understanding of what you get yourself into.  </p>
+<p><strong>Kaya Thomas:</strong> I always try to refresh my resume or cater it to the job description. Refreshing my resume also allows me to remember what I've worked on so I'm able to talk about it in interviews. I might also do some overview reading on general iOS topics and algorithms. I try not to study or cram right before an interview because it just makes me too stressed. I like to get a great night's rest before and eat a good breakfast so I feel good before going onsite or even doing the phone call. </p>
+<h3 style="font-weight: normal; margin-top: 60px;">Coping with nerves</h3>
+<p>You’ve prepared as much as you can, and now it’s time for the main event: the interview. At this point there’s literally nothing more you can do to prepare, so at least <em>that’s</em> behind you.</p>
+<p>However, this is also where folks usually feel most anxious: you might worry that you forget something important, you might worry that you revised the wrong kinds of interview topics, you might worry that you get particularly tough interviewers – or one of a thousand other things.</p>
+<p><strong>This is perfectly normal.</strong> Seriously, most people ought to be at least a little nervous before walking into an interview, because it shows you actually want the job. </p>
+<p>There are a handful of simple things that I recommend folks do:</p>
+<ol>
+<li>Go to the bathroom ahead of time – when we’re placed in pressurized environments humans have a weird capacity to feel thirsty while also somehow needing to pee, so at least you solve one of these. (And if you’re the kind of person who gets a little sweaty in the palms, this is your chance to wash and dry your hands extra thoroughly – this goes a long way to mitigating the problem.)</li>
+<li>When they ask if you’d like some coffee or some water, say yes. It doesn’t matter if you’re not thirsty: <em>say yes</em>. If someone asks you a tough question it doesn’t look good if you stare blankly at them while coming up with an answer, but if you say “that’s a good question” and take a sip of your coffee while you’re thinking, it looks much more natural.</li>
+<li>Don’t be afraid to ask small-talk questions while you walk to the interview location – “this is a really nice office – are all the developers here?”, for example. These will help settle your nerves a little, because you’re talking about small, low-stress things. (It doesn’t matter if you already know the answer – ask it anyway.)</li>
+<li>Don’t put your phone on the table – it’s a sign that you aren’t giving the interviewers your full attention. And no: putting it face down isn’t the magnanimous gesture you think it is. Put the phone away and keep it away unless you specifically want to discuss something on the device.</li>
+</ol>
+<p>&nbsp;</p>
+<p><strong>I asked my friends what advice they give people who get nervous. Here’s what they said…</strong></p>
+<p><strong>Bas Broek:</strong> Ask questions beforehand if you have them, to make sure both parties are prepared. How long will it take? If it is remote, if there’s an environment you can or should prepare. </p>
+<p>Make sure to get some water, go the the toilet etc. Then in the interview, be honest. Ask questions, and tell the interviewer when you’re stuck. And try to explain your thoughts! The interviewer is there to help and get an idea of how you tick – this helps both. If the interviewer gives you a hint, that’s not a bad thing.</p>
+<blockquote class="hws-interview">
+<p>“At the end of the day, everyone that you're talking to wants you to succeed.”</p>
+</blockquote>
+<p><strong>Kristina Fox:</strong> At the end of the day, everyone that you're talking to wants you to succeed. If you've never been on the other side of an interview table, it can be upsetting for the interviewer too if things aren't going well for the candidate. Some of the best advice that I've gotten is to treat the person on the other side of the table as one of my current teammates and talk to them as if you're working on a problem together. Just think of it as another workday - another bug to solve, another feature to implement. Hopefully, that will help cut down on any anxiety you might be feeling</p>
+<p><strong>Ash Furrow:</strong> Take a deep breath. You can only do your best. If you don't get the job, make sure to ask why. They probably will give you a general answer, so keep asking why until you get specifics, and then improve on them for next time.</p>
+<p><strong>Cate Huston:</strong> Don't panic – and be persistent!</p>
+<blockquote class="hws-interview">
+<p>“I used to think that nerves were sort of endearing and interviewers would empathize, until I realized that confident acting candidates come across as more competent.”</p>
+</blockquote>
+<p><strong>Janina Kutyn:</strong> Ever since I started interviewing people, I have become a lot less nervous as a candidate. First of all, I used to think that nerves were sort of endearing and interviewers would empathize, until I realized that confident acting candidates come across as more competent. Second of all, the interviewers don't want you to fail the interview. We want you to succeed. It wastes time interviewing unsuccessful candidates, so we are really rooting for you. And lastly, the interviewing process is not perfect and sometimes great candidates get turned away. Not getting an offer isn't necessarily a testament to your abilities. </p>
+<p><strong>Antoine van der Lee:</strong> Don't worry too much and try to show who you are. It's OK to be nervous, I think everybody is! If you're really nervous, try to make that clear and be honest about it. The interviewers might be able to relax you a bit and they are more aware that some questions might be answered less good because of your nervousness. If you’re nervous because you think you can’t answer all questions, I would advice to just be honest I’m a developer for over 8 years and I’m still not able to answer all questions (of course!).</p>
+<blockquote class="hws-interview">
+<p>“If the interviewers are jerks about you making a couple of mistakes or not being quick enough with your answers then you have to wonder whether you would really want to work with them anyway.”</p>
+</blockquote>
+<p><strong>Nick Lockwood:</strong> If you really have your heart set on a particular job then it's natural to feel a bit anxious. All I'd say is that you should remember that interviewers mostly aren't looking to trick you or catch you out. If you can do the job then you should be able to pass the interview, and if the interviewers are jerks about you making a couple of mistakes or not being quick enough with your answers then you have to wonder whether you would really want to work with them anyway.</p>
+<p><strong>Paola Mata:</strong> Practice helps. I’ve never done mock interviews, but seems like they would be helpful. It could mean taking interviews for roles you’re not super excited about to get more comfortable with being in that situation. Being as prepared as possible will go a long way in easing nerves. Do your best, and if it doesn’t work out, something else will.</p>
+<p><strong>Carola Nitz:</strong> I know that stress keeps people from interviewing which is even worse. What you have to remember is that no matter the outcome you can only win – you either win experience and meet some interesting people and learn along the way, or you get the job! Try to have fun and try to see it as that, know that so many fail and that it often has nothing to do with you if you do as well, and even if you don’t get the job it taught you a lot and prepared you for the next interview.</p>
+<blockquote class="hws-interview">
+<p>“Even if you don’t get the job it taught you a lot and prepared you for the next interview.”</p>
+</blockquote>
+<p><strong>Kaya Thomas:</strong> I would remind them that interviewing goes two ways! You are also interviewing the company to see if they would be a good fit for you and if they offer all the attributes you want in a working environment. How you are treated in the interview process gives you insight to how the company might treat you as an employee. The interview shouldn't be about purposely tripping you up and if you feel that way it might not be a great place to work. Make sure you are patient with yourself and, hopefully, your interviewers are patient with you, but if they aren't do not blame yourself. </p>
+<h3 style="font-weight: normal; margin-top: 60px;">Interview structure</h3>
+<p>One of the reasons programming job interviews are so stressful is that there is so much variation – every company has a different way of figuring out whether someone is a good fit for their company.</p>
+<p>Some rely heavily on algorithms: can you implement quicksort from memory? Can you find the loop in this linked list in the most efficient runtime? Although I personally don’t value these questions, at least they are fixed – as long as you’re able to explain the tortoise and hare approach to linked list loops, for example, you’re fine.</p>
+<p>One thing I’ve always strived for is open discussion: having the candidate talk freely and confidently about their work. That might be work they’ve brought with them, it might be work they can show on GitHub, or it might be work they can demonstrate after a coding test. The point is, it’s great to be able to ask specific questions about why they took a particular approach, what problems they faced, or how they might solve it differently next time.</p>
+<p>I used to give folks a coding test to build an iOS app. It was a trivial app, almost identical to <a rel="nofollow" target="_blank" href="https://www.hackingwithswift.com/read/1/overview">project 1 in Hacking with Swift</a> – “here’s a MacBook Pro with Xcode; please write an app that uses a table view controller and a navigation controller to show images.” It would take about 20 minutes to complete, but we’d allocate longer because interviews are stressful.</p>
+<p>No one built the complete app in the time we gave them, but that’s OK – the goal wasn’t to see how fast they can rush through code. Instead, no matter how little code they <em>did</em> write, we’d talk about it: what tests did they write? What classes did they make? How did they build their UI? What kind of comments did they write? Was there a coherent direction of travel?</p>
+<p>What I found, time and time again, is that folks are much happier talking about their code than they are talking about themselves, and happy interviewees are more relaxed, more comfortable, and more likely to <em>shine</em>.</p>
+<p>And if you’re faced with a question about something where your experience is limited, relax: we all have holes in our knowledge, and it’s not some special shortcoming unique to you. Instead, say something like “I don’t have experience with X, but I’d love to know more” – companies can teach frameworks, but they <em>can’t</em> teach the desire to learn.</p>
+<p>&nbsp;</p>
+<p><strong>I asked folks what kind of questions they ask in interviews. Here’s what they said…</strong></p>
+<p><strong>Bas Broek:</strong> I think it is good to try and make people feel at ease. It helps both parties. That said, it depends on the person and resume. Asking an applicant to talk about their hobbies is a great way to give them time to talk about something they love, which gives you as the interviewer an interesting insight into how they talk about these subjects.</p>
+<p>I also love asking (and discussing) people’s highlights in the last year, but also their struggles/failures/challenges. Seeing how open someone is to either question, and what they discuss, is something that has been valuable to me to assess the applicant. </p>
+<p><strong>Kristina Fox:</strong> At Intuit, we start final rounds and on-sites with something we call the “proud project.” It’s usually a short presentation that the candidate does on one of their favorite past projects. Aside from giving them a chance to put their best foot forward first, it also gives us a sense of what kind of experience they’ve had, challenges they’ve faced on past work, and tells us what they’re passionate about working on. </p>
+<p><strong>Ash Furrow:</strong> Here's what I do when I'm interviewing engineering candidates: I ask them to tell me about something they really like – maybe a framework or a programming language or whatever. Then I ask them to tell me something they really dislike about their favorite thing. I evaluate how well they can convey complex ideas simply, how nuanced their ideas of software development are, and whether they can empathize (with me, but also with the authors of that thing).</p>
+<p><strong>Cate Huston:</strong> Three of of my favorite questions:</p>
+<ol>
+<li>What's your favorite thing you've worked on? (Gives me a sense of someone's interests and what they enjoy).</li>
+<li>What are you looking for from your next job? (Helps me understand if they know what they are looking for, and if so what. If it's not a good match, the sooner we cut things off so as not to waste anyone's time).</li>
+<li>Tell me about a performance problem you've solved? (Often these yield a great story about some interesting aspect and going deep to understand and fix it).</li>
+</ol>
+<p><strong>Janina Kutyn:</strong> One of my favorite questions to ask is how to design and build a well-known game, such as Battleship. There are so many directions in which this question can go: modeling, building UI, algorithms! </p>
+<blockquote class="hws-interview">
+<p>“We like to ask which WWDC update is the most exciting for a person.”</p>
+</blockquote>
+<p><strong>Antoine van der Lee:</strong> We like to ask which WWDC update is the most exciting for a person. It gives us insight whether the candidate is up to date with WWDC and it shows how the person is responding. Are they enthusiastic? Do they directly know what to answer? It's also a nice way to kickstart a conversation. Apart from that we ask questions like “What are your motivations to join WeTransfer” or “What’s your take on third party dependencies” to get to know the candidate a bit more.</p>
+<p><strong>Nick Lockwood:</strong> I normally start by asking the candidate about their recent work history, what they like to work on, what they're interested in and so on.</p>
+<p>This is a good ice-breaker, and if they are passionate about a particular subject that tends to shine through and provide opportunities for follow-up questions. That's why I don't generally bother reading the resume - because I'd rather have the candidate summarize it to me in their own words anyway.</p>
+<p><strong>Paola Mata:</strong> I like to ask about any favorite projects they’ve worked on, or anything they’re particularly excited to learn about or work with in iOS. I also like to gauge whether there is genuine interest in the product/company, perhaps by asking why’d they’re interested in working for the company or what they like/don’t like about the product. </p>
+<p><strong>Carola Nitz:</strong> I think a common one is what was the most interesting bug you have ever encountered or encountered recently.</p>
+<p><strong>Kaya Thomas:</strong> “Can you explain a design pattern you've learned recently?” This question allows folks to display some of their iOS knowledge without asking it as a test question e.g. &quot;explain X Y Z specific pattern&quot; or &quot;explain all the patterns you know&quot;. It gauges how well they can communicate technical topics and allows the opportunity to talk about how they've used something they've learned in their own work. </p>
+<p>Or, “what work are you most proud of?” This question gives signal to the type of problems the candidate cares about solving. Maybe they're most proud of fixing some infrastructure problem in their team's codebase, or shipping a feature that reached millions, both tell valuable and very different stories. This gives the candidate the chance to talk about the impact of their work. </p>
+<h3 style="font-weight: normal; margin-top: 60px;">Junior and senior interviews</h3>
+<p>It’s sometimes not easy to know whether you’re a junior developer, a senior developer, or somewhere in between. Yes, some folks are clearly senior because they’ve been building apps for Apple platforms for double-digit years, but most people lie somewhere on a very large, very convoluted spectrum.</p>
+<p>Yes, the amount of experience you have designing and building iOS apps is going to be a huge factor in determining your overall level, but don’t discount exposure to and experience of alternative platforms. If anything I find it reassuring when someone says they spent a long time working in C#, Python, Java, or something else, because it tells me they are flexible enough to move around in the field, aren’t fixated on a single platform, and are hopefully able to draw on those experience to bring fresh ideas to the table that might not occur to someone with more limited experience.</p>
+<p>The more senior you get, the more likely I am to ask you about core skills – the skills often somewhat dismissively called “soft skills”. Can you present ideas to management? Are you able to mentor those around you? Are you able to take into account commercial interests when making decisions? When you’re a junior developer it’s really important to be able to write code, but as you progress you realize there’s a lot more to being a coder than, well, <em>code</em>.</p>
+<p>&nbsp;</p>
+<p><strong>I asked what kinds of changes folks make when interviewing more junior or more senior people, and here’s what they said…</strong></p>
+<p><strong>Kristina Fox:</strong> I usually like to use the same interview question no matter the experience level. How the candidate answers the question is what usually helps signify what level they're currently at. You can consider the following scenario - after a person finishes implementing a feature, what do they do next? Does this person consider edge cases? Do they write unit tests, or at least talk through how they would test a feature? How did they architect the code? Can they determine any performance issues or pitfalls their solution might have? If it's user-facing, do they make sure that the interface that they created is not only usable but is it a good experience? Generally, the more things they consider and build before they determine that the feature is done, the more experience they tend to have.</p>
+<blockquote class="hws-interview">
+<p>“Can they determine any performance issues or pitfalls their solution might have?”</p>
+</blockquote>
+<p><strong>Ash Furrow:</strong> There is a whole range of interview techniques and approaches for people at different parts of their careers. Artsy just hired a junior engineer and also a new VP of Engineering – those two tracks of interviews were quite different! It all depends on what the company is looking for.</p>
+<p><strong>Cate Huston:</strong> I don't change the process that much, to be honest. I'm a little more helpful to more junior people, mainly I have higher expectations for people who are more senior - e.g. expecting more depth and multiple examples vs a more theoretical understanding. </p>
+<p><strong>Janina Kutyn:</strong> I tend to start with the same base question or a problem and see how much I can build up on it. The conversation with a senior developer typically goes a lot deeper than with a junior.</p>
+<blockquote class="hws-interview">
+<p>“I typically ask the same sort of questions, but adjust my expectations for their answers accordingly.”</p>
+</blockquote>
+<p><strong>Nick Lockwood:</strong> I typically ask the same sort of questions, but adjust my expectations for their answers accordingly. A more junior candidate will tend to go less in-depth with their answers, so then I wouldn't ask the same follow-up questions that I would with a more senior developer.</p>
+<p><strong>Paola Mata:</strong> I’ve only interviewed junior candidates so far, but if I were to interview a more senior candidate, I’d imagine there would be questions or exercises that would cover topics like architecture patterns, best practices, performance considerations, tradeoffs. </p>
+<p><strong>Kaya Thomas:</strong> At my current job we don't do a different interview cycle for different levels. I actually think this way is best because it allows you to assess every candidate fairly with the same questions across the board. It also allows the leveling conversation to happen after interviews instead of being predetermined.  Usually, senior candidates have more in-depth responses to these questions, but each question should still be interesting and challenging enough, regardless of level.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Judging ability</h3>
+<p>When it comes right down to it, interviewers need some sort of way to figure out whether you’re going to be able to help them reach their development targets. In short: can you code as well as your resume suggests you can? </p>
+<p>There are lots of ways of judging ability, but before I dive into them I want to give a few provisos for folks <em>conducting</em> interviews:</p>
+<ol>
+<li>Almost everyone will perform better at their job than they do in an interview. This is just a natural stress response, so take that into account.</li>
+<li>It is absolutely the job of the interviewer to help the interviewee relax. Be friendly, set the right tone, and make it clear you’re not trying to catch them out.</li>
+<li>You need to be upfront about what your interview process is. I always start by laying out the schedule nice and clear: “I’ll tell you a little about our company, then we’ll talk through your resume a little, then there will be a short coding test” – let folks know ahead of time and they can stop worrying about surprises.</li>
+<li>If you’re going to do a coding test, at least make it vaguely realistic: give them a chunk of your actual code or an anonymized version of it, or give them the kind of task you think is common for developers in your company. Unless you implement sorting algorithms regularly, they probably ought not to be in your interview.</li>
+<li>If you’re going to do a take-home test, remember that many folks struggle to find four hours in their spare time to complete tests, and that’s exacerbated if you’re the fifth job they have applied for. So, keep it short, and make it clear what you’re looking for.</li>
+</ol>
+<p>&nbsp;</p>
+<p><strong>I asked my friends about their preferred way of judging someone's coding ability, and here’s what they said…</strong></p>
+<p><strong>Sean Allen:</strong> I like to give them a take home project and then have a sit down with them to discuss their code with open ended questions. I want to hear them talk about the reasoning behind their higher level decisions. You can also dive into the nitty gritty with things like memory management, optionals, etc… This project provides all kinds of avenues that will give me a feel for the persons coding ability.</p>
+<p><strong>Bas Broek:</strong> We use a two steps approach (coding challenge at home and then a pairing session on-site in a follow-up) and I see that working well. You can get a good set of questions ready from the initial coding challenge (which we discuss prior to the on-site) and discuss that with the applicant. Then the on-site pairing gives another insight into another coding situation. </p>
+<p>Something I’d like to explore in the future is to do a code review with an applicant, learning how they tackle that, what they see, and their approach (are they mentioning good things?) to providing feedback. </p>
+<blockquote class="hws-interview">
+<p>“The answer is pretty simple: we talk to them.”</p>
+</blockquote>
+<p><strong>Ash Furrow:</strong> Since Artsy doesn't do whiteboard interviews or take-home assignments, we get asked what we do instead to evaluate someone's abilities. The answer is pretty simple: we talk to them. Candidates get assigned four interviewers, who are Artsy employees from different parts of the company (not just engineers). The engineers divy up who will evaluate on which areas, and the person who deals with technical skills isn't evaluating specific coding abilities; rather, they're evaluating someone's ability to learn, to communicate, and to empathize. These are skills that we use day-to-day, and are much more representative of our job than whiteboard coding. An interviewer will learn way more from asking &quot;tell me about a piece of legacy code you've had to maintain – how did it get that way?&quot; than they will from any whiteboard interview.</p>
+<p><strong>Cate Huston:</strong> At one point in my life I did a lot of pair programming technical interviews, and I think with a good interviewer and a good question (not always the case) you can get a good signal from this. At Automattic, we do a coding test and a trial project.</p>
+<blockquote class="hws-interview">
+<p>“I started turning down potential employers because I didn't want to spend time on their coding challenges when I wasn't even convinced I wanted the job.”</p>
+</blockquote>
+<p><strong>Janina Kutyn:</strong> On the one hand, a take home test is great because the candidate can do it on their own time, in the comfort of their own home. On the other hand, as someone who recently went through a job search, I started turning down potential employers because I didn't want to spend time on their coding challenges when I wasn't even convinced I wanted the job. </p>
+<p><strong>Antoine van der Lee:</strong> A coding exercise which can be done from home with a deadline set to a week later. This gives room to the candidates to express themselves in various ways: design, product and technical decisions. We keep it open enough that the candidate has the choice to add tests or not, to go out of their way to customize the UI, to add more features, etc. It's nice to see an exercise being returned within a few days with high code quality. It shows that somebody's on top of it and if the code quality is not matching expectations in the end, it's at least not for interview-pressure reasons. The only doubt left is the speed of development for which we don't really have an answer yet.</p>
+<blockquote class="hws-interview">
+<p>“I personally feel that a well-crafted coding test is better than having candidates just submit samples of their work.”</p>
+</blockquote>
+<p><strong>Nick Lockwood:</strong> I personally feel that a well-crafted coding test is better than having candidates just submit samples of their work, because it's easier to compare their submission with other candidates, and you can have pre-prepared questions to ask them about the decisions they made.</p>
+<p>It also avoids unfairly advantaging candidates who happen to have a portfolio of personal projects that they are able to share. On the other hand it does require a candidate to be able to find four hours of free time to spare, which not everyone is able or willing to do.</p>
+<p><strong>Paola Mata:</strong> It depends on the role, but I like take home exercises. I much prefer these to pair programing exercises, which I almost always bomb due to performance anxiety. I’ve had to grade some coding tests for intern roles, and they were very helpful in an initial assessment of technical ability and informing who we should bring in. These can be time consuming for the hiring manager/team, so a quick technical screen could also be done before the code test. It’s important to be considerate of the candidate’s time as well – it shouldn’t take more than a few hours to complete an exercise.  </p>
+<blockquote class="hws-interview">
+<p>“I’ve never had a situation at work where my manager gave me a project and told me I had 60 minutes to do it or else!”</p>
+</blockquote>
+<p><strong>Kaya Thomas:</strong> My preferred way of judging someone's coding ability is to have an assessment that is as realistic as possible. I don't feel that high-pressure timed coding tests, or whiteboard coding really gives great signal to whether someone would work well in a team environment. Those types of assessments are often optimized for folks who have happened to cram and study the most algorithmic questions, or are good in testing environments. I've never had a situation at work where my manager gave me a project and told me I had 60 minutes to do it or else! I think take home assignments or onsite problem solving work best. Not everyone has the time to do take home assignments and, as an interviewer, you should always be mindful of that. For an onsite problem solving assessment, the candidate should be allowed to use Google or documentation because that's what they would most likely do in their jobs. Additionally, pair programming can also be a great method because it allows you to see how well they can work with others.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">What next?</h3>
+<p>You’ve polished your resume, practiced algorithms and questions, sat through the interview, and completed the coding test – you’ve done everything they wanted, and hopefully you’ve done it to the best of your ability.</p>
+<p>And now… you wait. This part often feels stressful, doubly so if you’re particularly keen on the job. But at this point there’s not much more you can do, so try to pass the time doing literally anything else.</p>
+<p>A few times while hiring I’ve seen folks do something extra at this point, and to be honest it <em>worked</em>. This isn’t me saying you need to do these things, only that when applicants did them when I was responsible for recruiting, it did help their chances.</p>
+<p>First, you can write a short email summarizing your experience – “thank you for the interview today; I feel I learned a lot about ACME Corp and the role you’re hiring for, and I hope to hear from you soon.” </p>
+<p>Second, if you hit problems during the interview, don’t be afraid to try again. I had someone flunk my coding test and struggle to explain their reasoning, but who then emailed the next day to say “I know I didn’t do great in the interview, but I took another shot last night and here are my results.” This showed resilience and initiative, and they got the job.</p>
+<p>If you <em>don’t</em> get the job, I hope you can at least take away some things from the experience:</p>
+<ol>
+<li>You now know what to expect in that company’s job interviews, so if you apply there again you’ll be better prepared.</li>
+<li>You have gained some interviewing experience. When you answered questions you’ll hopefully have had an idea which answers felt good and which felt a bit shaky – it gives you areas to practice next time.</li>
+<li>You’ve also gained a clearer idea of your weak spots: the parts where you struggled to come across clearly, and need to improve. Again, it’s normal to have weak spots, but this gives you a chance to work on them for next time.</li>
+</ol>
+<p>Taking job interviews is a skill in itself: you need to be confident enough to get across your skills, answer a range of questions, and still act in a natural way. None of that is easy, but each time you take an interview you’ll get a little better at it.</p>
+<p>Remember, not getting an offer from an interview doesn’t make you a bad developer. Sometimes you were up against significantly more experienced people, sometimes the company wanted someone more junior that they could train up, sometimes you or the interviewers just had a bad day, or a thousand other reasons. Dust yourself off and try again – you’ll do better next time!</p>
+<p>And if you’re lucky enough to get the job you were applying for – and, usually that’s only 1 in 10 people! – then congratulate yourself on a job well done. But remember, the <em>real</em> work has yet to begin: the company has put their faith in you as their new hire, so when you join the team be respectful, be helpful, be encouraging, and use the most of this amazing opportunity.</p><!-- <div class="hws-sponsor"><p><strong class="label label-danger">Sponsored</strong> You’re already busy updating your app for Swift 4.2 and iOS 12, so why not let Instabug help you find and fix bugs? <strong>Add just two lines of code</strong> to your project and receive comprehensive reports with all the feedback you need to ship a world-class app – <a href="https://try.instabug.com/ios/?utm_source=hackingwithswift&utm_medium=native_ads&utm_campaign=hackingwithswiftv3">click here to learn more</a>!</div> --><p align="center" style="margin: 30px;"><a href="https://twitter.com/share" data-dnt="true" class="twitter-share-button" data-url="https://www.hackingwithswift.com/articles/157/the-complete-guide-to-ios-and-swift-job-interviews" data-text="The Complete Guide to iOS and Swift Job Interviews – How to prepare, what to expect, and more." data-via="twostraws" data-size="large" data-hashtags="swiftlang" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p><p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                                <style>
+                    div.books-sidebar {
+                        text-align: center;
+                        padding-top: 5px
+                    }
+
+                    div.books-sidebar img {
+                        border: 1px solid #cccccc;
+                        margin-bottom: 5px;
+                    }
+
+                    @media (max-width: 991px) {
+                        div.books-sidebar {
+                            display: none;
+                        }
+                    }
+                </style>
+
+                <div class="col-md-3" style="padding: 0; padding-top: 20px;">
+                    <div class="books-sidebar" style="text-align: center;">
+                        <strong>MASTER SWIFT NOW</strong>
+                    </div>
+                    <div class="books-sidebar">
+                        <a href="/store/testing-swift"><img src="/img/covers-flat/testing.png" alt="Buy Testing Swift" width="95" /></a>
+                        <a href="/store/practical-ios12"><img src="/img/covers-flat/ios12.png" alt="Buy Practical iOS 12" width="95" /></a>
+                        <a href="/store/pro-swift"><img src="/img/covers-flat/pro-swift.png" alt="Buy Pro Swift" width="95" /></a>
+                        <a href="/store/swift-design-patterns"><img src="/img/covers-flat/patterns.png" alt="Buy Swift Design Patterns" width="95" /></a>
+                        <a href="/store/swift-coding-challenges"><img src="/img/covers-flat/swiftcc.png" alt="Buy Swift Coding Challenges" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/vapor.png" alt="Buy Server-Side Swift (Vapor Edition)" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/kitura.png" alt="Buy Server-Side Swift (Kitura Edition)" width="95" /></a>
+                        <a href="/store/hacking-with-macos"><img src="/img/covers-flat/macos.png" alt="Buy Hacking with macOS" width="95" /></a>
+                        <a href="/store/advanced-ios-1"><img src="/img/covers-flat/advanced-ios-1.png" alt="Buy Advanced iOS Volume One" width="95" /></a>
+                        <a href="/store/advanced-ios-2"><img src="/img/covers-flat/advanced-ios-2.png" alt="Buy Advanced iOS Volume Two" width="95" /></a>                        
+                        <a href="/store/hacking-with-watchos"><img src="/img/covers-flat/watchos.png" alt="Buy Hacking with watchOS" width="95" /></a>
+                        <a href="/store/hacking-with-tvos"><img src="/img/covers-flat/tvos.png" alt="Buy Hacking with tvOS" width="95" /></a>
+                        <a href="/store/hacking-with-swift"><img src="/img/covers-flat/hws.png" alt="Buy Hacking with Swift" width="95" /></a>
+                        <a href="/store/dive-into-spritekit"><img src="/img/covers-flat/spritekit.png" alt="Buy Dive Into SpriteKit" width="95" /></a>
+                        <a href="/sixty"><img src="/img/covers-flat/sixty.png" alt="Buy Swift in Sixty Seconds" width="95" /></a>
+                        <a href="/store/objective-c-for-swift-developers"><img src="/img/covers-flat/objc.png" alt="Buy Objective-C for Swift Developers" width="95" /></a>
+                        <a href="/store/beyond-code"><img src="/img/covers-flat/beyond-code.png" alt="Buy Beyond Code" width="95" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+            <div class="row">
+    <div class="col-sm-1" style="text-align: left;"></div>
+    <div class="col-sm-2">
+        <p style="text-align: center;"><img src="/img/paul.png" class="img-responsive" style="border-radius: 64px; border: 1px solid black; margin: auto;" /></p>
+        <p style="text-align: center;"><a href="https://twitter.com/twostraws">@twostraws</a></p>
+    </div>
+    <div class="col-sm-8" style="text-align: left;"><h3 style="margin: 0">About the author</h3><p>Paul Hudson is the creator of Hacking with Swift, the <a href="/store">most comprehensive series of Swift books</a> in the world. He's also the editor of <a href="/articles">Swift Developer News</a>, the maintainer of the <a href="/example-code">Swift Knowledge Base</a>, and Mario Kart world champion. OK, so that last part isn't true. If you're curious you can <a href="/about">learn more here</a>.</p></div>
+    <div class="col-sm-1" style="text-align: left;"></div>
+</div>            </div>
+
+            <div class="row" style="margin-top: 40px">            
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="margin-bottom: 10px;"><a href="/articles">More articles</a></p>
+                </div>
+
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="text-align: right; margin-bottom: 10px;"><img src="/img/feed.png" style="height: 22px; vertical-align: middle; margin-bottom: 4px;" /> <a href="/articles/rss">
+                    RSS feed</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/183/apple-announces-swift-enterprise-edition">
+                            <img src="/uploads/enterprise.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Apple announces Swift Enterprise Edition</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/182/whats-new-in-swift-5-1">
+                            <img src="/uploads/swift-evolution-1.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>What’s new in Swift 5.1</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/181/why-using-isempty-is-faster-than-checking-count-0">
+                            <img src="/uploads/typography.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Why using isEmpty is faster than checking count == 0</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/180/interview-antoine-van-der-lee">
+                            <img src="/uploads/zz-antoine-van-der-lee.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Interview: Antoine van der Lee</h4>
+                            </div>
+                        </a>
+                    </div>
+                            </div>
+
+            <div class="row" style="margin-bottom: 80px;">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-bottom">
+	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="1869949723"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </section>
+
+
+            <section class="page-rating-container bg-gray">
+        <div class="container text-center">
+            <div class="row">
+                <div id="page-rating-start">
+                  <p>Was this page useful? Let me know!</p>
+                	<select id="page-rating">
+                      <option value=""></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                </div>
+
+                                <p><small>Average rating: 4.6/5</small></p>
+                
+                <div id="page-rating-end" style="display: none">
+                    <p>Thank you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="application/ld+json">{
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "Paul Hudson",
+      "datePublished": "2018-12-22",
+      "dateModified": "2019-01-02",
+      "headline": "The Complete Guide to iOS and Swift Job Interviews",
+      "image": {
+        "@type": "imageObject",
+        "url": "https://www.hackingwithswift.com/uploads/panic.png"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.6",
+            "worstRating": "1.0",
+            "bestRating": "5.0",
+            "reviewCount": "9"
+        },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hacking with Swift",
+        "logo": {
+          "@type": "imageObject",
+            "url": "https://www.hackingwithswift.com/files/logo-large.png"
+          }
+        }
+      }
+    </script>
+    
+    
+        <a href="/store" class="btn btn-block btn-full-width" style="white-space: normal;">Click here to visit the Hacking with Swift store &gt;&gt;</a>
+    
+    <footer class="footer" style="background-image: url('/img/bg-footer.jpg')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 contact-details">
+                    <a href="https://twitter.com/twostraws">
+                        <h4><i class="fa fa-twitter fa-4x"></i></h4>
+                        <p>@twostraws</p>
+                    </a>
+                </div>
+                <div class="col-md-6 contact-details">
+                    <a href="mailto:paul@hackingwithswift.com">
+                        <h4><i class="fa fa-envelope-o fa-4x"></i></h4>
+                        <p>paul@hackingwithswift.com
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-lg-12">
+                    <p class="small">Swift, the Swift logo, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright &copy; 1994 Miramax Films. Hacking with Swift &copy;2019 Paul Hudson.</p>
+
+                    <p class="small"><a href="/privacy">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Scripts -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui-custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Plugin Scripts -->
+    <script src="/js/plugins/jquery.easing.min.js"></script>
+    <script src="/js/plugins/classie.js"></script>
+
+    
+    <script src="/js/plugins/jquery.mixitup.js"></script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/vitality.js"></script>
+
+    <script src="/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript">
+       $(function() {
+            $('#page-rating').barrating('show', {
+              theme: 'fontawesome-stars',
+              onSelect: function(value, text, event) {
+                if (typeof(event) !== 'undefined') {
+                  // rating was selected by a user
+                  var rating = $(event.target).data("rating-value");
+
+                    $.ajax({
+                      type: "POST",
+                      url: "/rating",
+                      data: { "url": window.location.pathname, "rating": rating },
+                    });
+
+                  $("#page-rating-start").hide();
+                  $("#page-rating-end").show();
+                } else {
+                  // rating was selected programmatically
+                  // by calling `set` method
+                }
+              }
+            });
+       });
+    </script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58275818-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!--     { { include('house-ads.html') } }
+
+    <script src="/js/ads.js"></script>
+    <script>
+    if(window.areAdsDisplayed === undefined) {
+        var houseAd = createHouseAd();
+        $('.hws-notices-top').html(houseAd);
+        $('.hws-notices-bottom').html(houseAd);
+    }
+    </script> -->
+
+    </body>
+
+</html>

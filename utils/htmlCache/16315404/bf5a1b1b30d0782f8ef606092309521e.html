@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Mastering the VIPER architecture - The.Swift.Dev.</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=64c8bc839a" />
+
+    <meta name="description" content="Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift." />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/amp/" />
+    
+    <meta property="og:site_name" content="The.Swift.Dev." />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Mastering the VIPER architecture - The.Swift.Dev." />
+    <meta property="og:description" content="Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift." />
+    <meta property="og:url" content="https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
+    <meta property="article:published_time" content="2019-03-19T21:52:40.000Z" />
+    <meta property="article:modified_time" content="2019-03-19T22:30:44.000Z" />
+    <meta property="article:tag" content="Design patterns" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mastering the VIPER architecture - The.Swift.Dev." />
+    <meta name="twitter:description" content="Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift." />
+    <meta name="twitter:url" content="https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/" />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Tibor Bödecs" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Design patterns" />
+    <meta name="twitter:creator" content="@tiborbodecs" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "The.Swift.Dev.",
+        "logo": "https://theswiftdev.com/content/images/2017/10/Logo-2.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Tibor Bödecs",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://theswiftdev.com/content/images/2019/03/tiborbodecs-profile-xs-2019.jpg",
+            "width": 256,
+            "height": 256
+        },
+        "url": "https://theswiftdev.com/author/tiborbodecs/",
+        "sameAs": [
+            "https://theswiftdev.com",
+            "https://twitter.com/tiborbodecs"
+        ]
+    },
+    "headline": "Mastering the VIPER architecture - The.Swift.Dev.",
+    "url": "https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/",
+    "datePublished": "2019-03-19T21:52:40.000Z",
+    "dateModified": "2019-03-19T22:30:44.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ",
+        "width": 1080,
+        "height": 720
+    },
+    "keywords": "Design patterns",
+    "description": "Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://theswiftdev.com/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.18" />
+    <link rel="alternate" type="application/rss+xml" title="The.Swift.Dev." href="https://theswiftdev.com/rss/" />
+    <link rel="mask-icon" sizes="any" href="/public/swift.svg" />
+ <!-- color="#DE2451"--> 
+<link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/public/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="57x57" href="/public/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/public/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/public/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/public/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/public/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/public/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/public/apple-touch-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon-180x180.png" />
+
+<style>
+.site-logo {
+    max-height: 192px;
+    top: -24px;
+    position: relative;
+}
+h1.site-title {
+    margin-bottom: 15px;
+}
+h2.site-description {
+    font-weight: 500;
+    position: relative;
+    top: -16px;
+    padding: 0px 30px;
+}
+.post-feed {
+    z-index: 999999999 !important;
+}
+h1, h2, h3, h4, h5, h6, h7 {
+    padding-bottom: 1em;
+}
+p.note {
+    border: 1px solid #f5e6a2;
+    border-radius: 1em;
+    padding: 1em;
+    background: #f9f4e2;
+}
+.post-full-content hr {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.gitlab-embed-snippets {
+    width: 100%;
+    margin: 0px 0px 40px 0px !important;
+}
+.sponsorship-box {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.sponsorship-box .sponsor {
+    border: 1px solid #de2451;
+    border-radius: 1em;
+    background: #fff;
+    padding: 1em;
+    margin-bottom: 0px;
+}
+.sponsor-layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+.sponsorship-box .sponsor b {
+    text-transform: uppercase;
+}
+.sponsor-layout .box {
+    padding: 0px;
+    margin: 0px;
+}
+.sponsor-layout h3, .sponsor-layout p {
+    margin: 0px;
+    padding: 1em;
+    padding-bottom: 0em;
+}
+.sponsor-layout h3 {
+    padding-left: 0.8em;
+}
+.sponsor-logo {
+    width: 128px !important;
+}
+.sponsor-text {
+    padding: 1em;
+    padding-top: 0em;
+}
+.sponsor-footer {
+    text-align: right; 
+    color: #222; 
+    margin: 0px; 
+    padding: 0px; 
+    padding-right: 1em; 
+    font-size: 12px;
+    font-family: sans-serif, Verdana;
+}
+.sponsor-footer a {
+    color: #de2451; 
+    box-shadow: none; 
+}
+.overview-layout {
+    text-align: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.overview-layout .box {
+    padding: 0px;
+    margin: 8px;
+    margin-bottom: 32px;
+}
+@media screen and (max-width: 1024px) {
+    .overview-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .sponsor-layout {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .gitlab-embed-snippets .btn-group {
+        width: 72px;
+    }
+    .gitlab-embed-snippets .file-content.code .line-numbers .diff-line-num {
+    }
+    .gitlab-embed-snippets .file-content.code .line-numbers {
+        visibility: hidden;
+        display: none;
+    }
+    .gitlab-embed-snippets .file-content.code .blob-content pre {
+        border-left: none !important;
+    }
+}
+</style>
+<link href="/public/prism.css" rel="stylesheet" />
+
+</head>
+<body class="post-template tag-design-patterns">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="https://theswiftdev.com"><img src="https://theswiftdev.com/content/images/2017/10/Logo-2.png" alt="The.Swift.Dev." /></a>
+            <ul class="nav" role="menu">
+    <li class="nav-ask-me" role="menuitem"><a href="https://discord.gg/C4DSQjP">💬 Ask me</a></li>
+    <li class="nav-follow-me" role="menuitem"><a href="https://twitter.com/tiborbodecs/">🔥 Follow me</a></li>
+    <li class="nav-articles" role="menuitem"><a href="https://theswiftdev.com/articles/">📖 Articles</a></li>
+    <li class="nav-sponsorship" role="menuitem"><a href="https://theswiftdev.com/sponsorship-options/">👍 Sponsorship</a></li>
+    <li class="nav-about" role="menuitem"><a href="https://theswiftdev.com/about/">🤓 About</a></li>
+    <li class="nav-newsletter" role="menuitem"><a href="https://theswiftdev.com/#subscribe">📫 Newsletter</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+        </div>
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-design-patterns ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2019-03-19">19 March 2019</time>
+                        <span class="date-divider">/</span> <a href="/tag/design-patterns/">Design patterns</a>
+                </section>
+                <h1 class="post-full-title">Mastering the VIPER architecture</h1>
+            </header>
+
+            <figure class="post-full-image">
+                <img
+                    srcset="https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 300w,
+                            https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 600w,
+                            https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 1000w,
+                            https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 2000w"
+                    sizes="(max-width: 800px) 400px,
+                            (max-width: 1170px) 700px,
+                            1400px"
+                    src="https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ"
+                    alt="Mastering the VIPER architecture"
+                />
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p>Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><p>After writing my <a href="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/">best practices article about VIPER</a>, I've made a few changes to the codebase. I was playing with these ideas in my mind already, but never had enough time to implement them properly. Let's me show you the changes...</p><p></p><h2 id="viper-protocols">VIPER protocols</h2><p>My generic issue was that I wanted to have a <a href="https://github.com/CoreKit/VIPER">common interface</a> for every single module component. That's why I created simple protocols for the following:</p><ul><li>View</li><li>Interactor</li><li>Presenter</li><li>Entity</li><li>Router</li><li>Module</li></ul><p>This way for example my router objects are implementing the <code>Router</code> protocol, so if I make an extension on it, every single one will have that particular functionality. It's a pretty small, but very pleasant addition that makes my modules way more powerful than they were before. Honestly speaking I should have had this from the very beginning, but anyway from now on it's gona be like this. 😬</p><p>This move implied to organize my <a href="https://github.com/CoreKit/VIPER">VIPER protocols</a> into a custom framework, so I made one, with these components. You can find it on github, it's a really basic one, feel free to use it, you just have to <code>import VIPER</code> in your project.</p><p></p><!--kg-card-begin: html-->
+<div class="sponsorship-box">
+    <div class="sponsor">
+        <div class="sponsor-layout">
+            <div class="box">
+                <a href="https://go.bitrise.io/swift?utm_source=theswiftdev&utm_medium=web&utm_campaign=mastering-the-viper-architecture">
+                <img class="sponsor-logo" src="https://theswiftdev.com/public/sponsors/bitrise.png" alt="Bitrise - Mobile Continuous Integration and Delivery" title="Bitrise Logo">
+                    </a>
+            </div>
+            <div class="box sponsor-text">
+                <h3>Bitrise - Automate everything</h3>
+                <p>You should <a href="https://go.bitrise.io/swift?utm_source=theswiftdev&utm_medium=web&utm_campaign=mastering-the-viper-architecture">check out</a> my favorite continuous integration & delivery service, because those guys at Bitrise are creating a truly amazing piece of software. It's time to automate your development workflow: save your time, <a href="https://go.bitrise.io/swift?utm_source=theswiftdev&utm_medium=web&utm_campaign=mastering-the-viper-architecture">try Bitrise!</a> </p>
+            </div>
+        </div>
+            <p class="sponsor-footer"><a href="/sponsorship-options">SPONSORED</a></p>
+    </div>
+</div>
+
+
+
+
+<!--kg-card-end: html--><p></p><h2 id="module-protocols">Module protocols</h2><p>Since I was using VIPER it had this great urge to implement a custom module for presenting system default alert messages on iOS. You know <a href="https://developer.apple.com/documentation/uikit/uialertcontroller">UIAlertController</a> is the one I'm talking about. Actually <a href="https://github.com/Ragnalorn">Robi</a> (my <a href="https://www.youtube.com/watch?v=voxtdphvP5k">true metal</a> friend) suggested a surprisingly nice general solution for the problem. His idea sounded like this:</p><blockquote>Why don't we create a protocol for the router, so we could implement this on every other router, also we could simply call show(alert:) on them?</blockquote><p>I loved this approach, so we've built it. Turned out, it's freakin awesome.  So we introduced a new protocol for the module router, implemented a default protocol extension and voilà routers are now capable of presenting error messages.</p><p>Note that you can use the same pattern for lots of other (similar) things as well. The basic implementation looks like this one below, I hope you get the idea. 💡  </p><!--kg-card-begin: markdown--><pre><code class="language-swift">import VIPER
+
+class AlertModule: Module {
+    /* ... */
+}
+
+protocol AlertModuleRouter: class {
+
+    func show(alert: AlertEntity)
+}
+
+extension AlertModuleRouter where Self: Router {
+
+    func show(alert: AlertEntity) {
+        /* ... */
+    }
+}
+
+// MARK: - other module 
+
+protocol MyModuleRouter: Router, AlertModuleRouter {
+
+    // show(alert:) is now available from this router too
+}
+</code></pre>
+<!--kg-card-end: markdown--><p>Of course this technique can work for other VIPER components as well, it's quite easy to implment and the protocol oriented approach gives us a huge win. 🏆 </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="presenter-to-presenter-interactions">Presenter to presenter interactions</h2><p>I also changed my mind about the place of the delegate implementations participating in the module communication flow. In my last article I told you that I'm storing the delegate on the router, but later on I realized that delegation is mostly related to business logic, so I simply moved them to the presenter layer. Sorry about this. 🤷‍♂️ </p><!--kg-card-begin: markdown--><pre><code class="language-swift">import VIPER
+
+protocol AModulePresenterDelegate {
+    func didDoSomething()
+}
+
+class AModule: Module {
+
+    func build(with delegate: AModulePresenterDelegate? = nil) -&gt; UIViewController {
+        // insert classic viper stuff here
+        
+        presenter.delegate = delegate
+        
+        /* ... */
+        
+        return view
+    }
+}
+
+class AModulePresenter: Presenter {
+
+    func someAction() {
+        self.delegate?.didDoSomething()
+        self.router?.dismiss()
+    }
+}
+
+// MARK: - other module
+
+class BModulePresenter: Presenter, AModulePresenterDelegate {
+
+    func didDoSomething() {
+        print(&quot;Hello from module A!&quot;)
+    }
+}
+
+</code></pre>
+<!--kg-card-end: markdown--><p>This way you can skip the entire router layer, plus all the business related logic will be implemented in the presenter layer, which should be the only way to go. 🤪</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="entities-are-here-to-stay">Entities are here to stay</h2><p>Apart from the service layer sometimes it's quite useful to have an entity wrapper with some additional metadata for the model objects. That's why I also made an <code>Entity</code> protocol, and started to use it in my modules. For example a web view module that can open a link can have a <code>WebViewEntity</code> with a title and a content url property. 😅</p><!--kg-card-begin: markdown--><pre><code class="language-swift">import VIPER
+
+struct AlertEntity: Entity {
+    let title: String
+    let message: String
+}
+</code></pre>
+<!--kg-card-end: markdown--><p>The sample alert module from above can use an <code>AlertEntity</code> with some properties that can define the title, message or the buttons. This way you don't really have to think about where to put those objects, because those are the real VIPER entities. </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="io-protocols">IO protocols</h2><p>This is a WIP (work-in-progress) idea that I'd like to try out, but the basic concept is somewhat like that I want to separate input and output protocols for VIPER module layers. Also this IO differentiation can be reflected on the service layers too (maybe the whole object "mess" from the service layer is going to be used as IO entities in the future), by mess I mean that there can be way too many objects in the Service/Objects directory, so this means that those could be also grouped by modules (aka. entities).</p><p>Anyway, I'm thinking of something like RequestEntity, ResponseEntity for service communication, and for the VIPER layer communication I could imagine two separate protocols, eg. PresenterInput, PresenterOutput. We'll see, but at first sight, it's seems like quite an overengineered thing (hahaha, says the VIPER advocate 😂). </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="viper-vs-put-your-architecture-name-here-">VIPER vs [put your architecture name here]</h2><p>No! Please don't think that x is better than y. Architectures and design patterns are simple tools that can be utilized to make your life more easy. If you don't like x, you should try y, but you should not blame x, just because that's your personal opinion.</p><p>My current favorite architecture is VIPER, so what? Maybe in a year or two I'll go crazy in love with reactive programming. Does it really matters? I don't think so. I've learned and tried so many things during the past, that I can't even remember. 🧠 </p><p>I'm also constantly trying to figure out new things, as you can see this whole series of articles about VIPER is the result of my learning progress &amp; experiences. If you really want to master something, you should practice, research and try a lot, and most importantly be proud of your successes and stay humble at the same time. 🙏 </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="external-sources">External sources</h2><ul><li><a href="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/">VIPER best practices for iOS developers</a></li><li><a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">The ultimate VIPER architecture tutorial</a></li></ul><p>That's it about the VIPER architecture for a while. I hope you enjoyed reading the whole series. If you have any questions, feel free to ask me through <a href="https://discord.gg/C4DSQjP">discord</a>. 💭 </p>
+                </div>
+            </section>
+
+            <section class="subscribe-form">
+                <h3 class="subscribe-form-title">Subscribe to The.Swift.Dev.</h3>
+                <p>Get the latest posts delivered right to your inbox</p>
+                <form method="post" action="/subscribe/" id="" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email" placeholder="youremail@example.com" />
+    </div>
+    <button id="" class="" type="submit"><span>Subscribe</span></button>
+    
+<script>
+    (function(g,h,o,s,t){
+        var buster = function(b,m) {
+            h[o]('input.'+b).forEach(function (i) {
+                i.value=i.value || m;
+            });
+        };
+        buster('location', g.location.href);
+        buster('referrer', h.referrer);
+    })(window,document,'querySelectorAll','value');
+</script>
+
+</form>
+
+
+            </section>
+
+            <footer class="post-full-footer">
+
+
+                    
+<section class="author-card">
+        <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+    <section class="author-card-content">
+        <h4 class="author-card-name"><a href="/author/tiborbodecs/">Tibor Bödecs</a></h4>
+            <p>Read <a href="/author/tiborbodecs/">more posts</a> by this author.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="/author/tiborbodecs/">Read More</a>
+</div>
+
+
+            </footer>
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card"
+                            style="background-image: url(/content/images/size/w600/2018/11/background-1.jpg)"
+                >
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">&mdash; The.Swift.Dev. &mdash;</small>
+                        <h3 class="read-next-card-header-title"><a href="/tag/design-patterns/">Design patterns</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="/2019/03/11/viper-best-practices-for-ios-developers/">VIPER best practices for iOS developers</a></li>
+                            <li><a href="/2018/12/17/lazy-initialization-in-swift/">Lazy initialization in Swift</a></li>
+                            <li><a href="/2018/12/09/swift-object-pool-design-pattern/">Swift object pool design pattern</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="/tag/design-patterns/">See all 20 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-ios ">
+
+    <a class="post-card-image-link" href="/2019/03/29/mastering-bitrise-workflows-for-ios-app-delivery/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2019/03/mastering-bitrise-workflows.png 300w,
+                    /content/images/size/w600/2019/03/mastering-bitrise-workflows.png 600w,
+                    /content/images/size/w1000/2019/03/mastering-bitrise-workflows.png 1000w,
+                    /content/images/size/w2000/2019/03/mastering-bitrise-workflows.png 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="/content/images/size/w600/2019/03/mastering-bitrise-workflows.png"
+            alt="Mastering Bitrise workflows for continuous iOS app delivery"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/2019/03/29/mastering-bitrise-workflows-for-ios-app-delivery/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">iOS</span>
+                <h2 class="post-card-title">Mastering Bitrise workflows for continuous iOS app delivery</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>In this tutorial, I'm going to show you how to set up a universal delivery workflow for continuously shipping your iOS app using Bitrise.</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Tibor Bödecs
+                    </div>
+
+                        <a href="/author/tiborbodecs/" class="static-avatar">
+                            <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+                        </a>
+                </li>
+            </ul>
+
+            <span class="reading-time">7 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-ios tag-design-patterns ">
+
+    <a class="post-card-image-link" href="/2019/03/11/viper-best-practices-for-ios-developers/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 300w,
+                    https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 600w,
+                    https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 1000w,
+                    https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ"
+            alt="VIPER best practices for iOS developers"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/2019/03/11/viper-best-practices-for-ios-developers/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">iOS</span>
+                <h2 class="post-card-title">VIPER best practices for iOS developers</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>In this tutorial I'm going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift.</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Tibor Bödecs
+                    </div>
+
+                        <a href="/author/tiborbodecs/" class="static-avatar">
+                            <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+                        </a>
+                </li>
+            </ul>
+
+            <span class="reading-time">9 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://theswiftdev.com">
+                <img src="/content/images/size/w30/2017/10/Logo-Square-1.png" alt="The.Swift.Dev. icon" />
+            <span>The.Swift.Dev.</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Mastering the VIPER architecture</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Mastering%20the%20VIPER%20architecture&amp;url=https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://theswiftdev.com/2019/03/19/mastering-the-viper-architecture/"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+        </a>
+    </div>
+    <progress id="reading-progress" class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://theswiftdev.com">The.Swift.Dev.</a> &copy; 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="https://theswiftdev.com">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="subscribe" class="subscribe-overlay">
+        <a class="subscribe-overlay-close" href="#"></a>
+        <div class="subscribe-overlay-content">
+                <img class="subscribe-overlay-logo" src="https://theswiftdev.com/content/images/2017/10/Logo-2.png" alt="The.Swift.Dev." />
+            <h1 class="subscribe-overlay-title">Subscribe to The.Swift.Dev.</h1>
+            <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+            <form method="post" action="/subscribe/" id="" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email" placeholder="youremail@example.com" />
+    </div>
+    <button id="" class="" type="submit"><span>Subscribe</span></button>
+    
+<script>
+    (function(g,h,o,s,t){
+        var buster = function(b,m) {
+            h[o]('input.'+b).forEach(function (i) {
+                i.value=i.value || m;
+            });
+        };
+        buster('location', g.location.href);
+        buster('referrer', h.referrer);
+    })(window,document,'querySelectorAll','value');
+</script>
+
+</form>
+
+
+        </div>
+    </div>
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/built/jquery.fitvids.js?v=64c8bc839a"></script>
+
+
+    
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-38095670-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-swift.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html><html lang=zh-CN data-vue-meta-server-rendered><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"><meta name=google-site-verification content=cCHsgG9ktuCTgWgYfqCJql8AeR4gAne4DTZqztPoirE><meta name=apple-itunes-app content="app-id=987739104"><meta name=baidu-site-verification content=qiK2a1kcFc><meta name=360-site-verification content=4c3c7d57d59f0e1a308462fbc7fd7e51><meta name=sogou_site_verification content=c49WUDZczQ><style>body {
+        font-size: 16px;
+        line-height: 2;
+      }
+      a, button, input {
+        margin: 1rem 1.5rem;
+      }
+      img {
+        width: 0;
+        height: 0;
+      }
+      #juejin {
+        overflow-x: hidden;
+      }</style><meta data-vue-meta="true" data-vmid="keywords" name="keywords" content="iOS"/><meta data-vue-meta="true" data-vmid="description" name="description" content="作者简介 boyce，饿了么物流团队资深iOS开发。曾在格瓦拉等公司从事iOS相关研发工作。 注：本篇文章是《iOS内存管理的那些事儿》系列文章的第一部分。稍后我们会持续更新第二部分（开源监测内存泄漏的实现）和第三部分（如何利用开源工具做相关的APM），感兴"/><title data-vue-meta="true">iOS内存管理的那些事儿-原理及实现 - 掘金</title><link rel=apple-touch-icon sizes=180x180 href=https://b-gold-cdn.xitu.io/favicons/v2/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-16x16.png><link rel=manifest href=https://b-gold-cdn.xitu.io/favicons/v2/manifest.json><link rel=mask-icon href=https://b-gold-cdn.xitu.io/favicons/v2/safari-pinned-tab.svg color=#5bbad5><link rel="shortcut icon" href=https://b-gold-cdn.xitu.io/favicons/v2/favicon.ico><meta name=msapplication-config content=https://b-gold-cdn.xitu.io/favicons/v2/browserconfig.xml><meta name=theme-color content=#ffffff><link rel=search title=掘金 href=https://b-gold-cdn.xitu.io/conf/search.xml type=application/opensearchdescription+xml><link rel=stylesheet href=https://b-gold-cdn.xitu.io/ionicons/2.0.1/css/ionicons.min.css><link rel=stylesheet href=https://b-gold-cdn.xitu.io/asset/fw-icon/1.0.9/iconfont.css><link href=https://b-gold-cdn.xitu.io/v3/static/css/0.e5e86c9ed32911840313.css rel=stylesheet></head><body><div id="juejin" data-server-rendered="true" data-v-514f306c><div class="global-component-box" data-v-514f306c><!----><!----><!----><!----><!----><div class="emoji-barrage" data-v-82f90922 data-v-514f306c><!----></div><div class="book-new-user-award-popup" style="display:none;" data-v-13de706c data-v-514f306c><div class="content-box" style="display:;" data-v-13de706c><div class="close ion-close-round" data-v-13de706c></div><div class="header" data-v-13de706c><div class="icon" data-v-13de706c><img src="https://b-gold-cdn.xitu.io/v3/static/img/icon.a87e5ae.svg" data-v-13de706c></div><div class="txt" data-v-13de706c>新人专享好礼</div></div><div class="desc" data-v-13de706c>凡未购买过小册的用户，均可领取三张 5 折新人专享券，购买小册时自动使用专享券，最高可节省 45 元。</div><div class="tickets" data-v-13de706c><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div></div><div class="remark" data-v-13de706c>注：专享券的使用期限在领券的七天内。</div><div class="submit-btn" data-v-13de706c>一键领取</div></div><div class="model success" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取成功</div><div class="content-text" data-v-13de706c>购买小册时自动使用专享券</div><div class="btn-success-footer" data-v-13de706c><div class="btn-ok" data-v-13de706c>知道了</div><div class="btn-ok btn-link" data-v-13de706c>前往小册首页</div></div></div><div class="model fail" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取失败</div><div class="content-text" data-v-13de706c>本活动仅适用于小册新用户</div><div class="btn-ok" data-v-13de706c>知道了</div></div></div><!----></div><!----><div class="view-container" data-v-d4ff273a data-v-49e91c4b data-v-514f306c><div class="main-header-box" data-v-d4ff273a><header class="main-header main-header unauthorized visible" data-v-f41b678e data-v-d4ff273a><div class="container" data-v-f41b678e><a href="/" class="logo" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg" alt="掘金" class="logo-img" data-v-f41b678e></a><nav role="navigation" class="main-nav" data-v-f41b678e><ul class="nav-list" data-v-f41b678e><li class="main-nav-list" data-v-f41b678e><div class="phone-show-menu" data-v-f41b678e><span data-v-f41b678e>首页</span><div class="icon ion-arrow-down-b" data-v-f41b678e></div></div><ul class="phone-hide" data-v-f41b678e><li class="nav-item link-item route-active" data-v-f41b678e><a href="/" data-v-f41b678e>首页</a></li><li class="nav-item link-item activities" data-v-f41b678e><a href="/activities" data-v-f41b678e>动态</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/topics" data-v-f41b678e>话题</a></li><li class="nav-item link-item book" data-v-f41b678e><a href="/books" data-v-f41b678e>小册</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/events/all" data-v-f41b678e>活动</a></li></ul></li><li class="nav-item search" data-v-f41b678e><form role="search" class="search-form" data-v-f41b678e><input maxlength="32" placeholder="搜索更新啦" value="" class="search-input" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/juejin-search-icon.6f8ba1b.svg" alt="搜索" class="search-icon" data-v-f41b678e></form></li><!----><!----><!----><li class="nav-item submit" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/submit-icon.53f4253.svg" class="icon" data-v-f41b678e><span data-v-f41b678e>写文章</span><!----></li><li class="nav-item auth" data-v-f41b678e><span class="login" data-v-f41b678e>登录</span><span class="register" data-v-f41b678e>注册</span></li></ul></nav></div></header></div><main class="container main-container" style="max-width:;" data-v-d4ff273a><div class="view column-view" data-v-d4ff273a data-v-49e91c4b><div class="main-area article-area shadow" data-v-d4ff273a data-v-49e91c4b><article itemscope="itemscope" itemtype="http://schema.org/Article" class="article" data-v-49e91c4b><meta itemprop="url" content="https://juejin.im/post/5c0744f6e51d45598b76f481"><meta itemprop="headline" content="iOS内存管理的那些事儿-原理及实现"><meta itemprop="keywords" content="iOS"><meta itemprop="datePublished" content="2018-12-05T03:45:13.937Z"><meta itemprop="image" content="https://user-gold-cdn.xitu.io/2018/12/5/1677c7a52df4dbec?w=2792&amp;h=1548&amp;f=png&amp;s=1112762"><div itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="name" content="饿了么物流技术团队"><meta itemprop="url" content="https://juejin.im/user/5aa892d0f265da23815550ca"></div><div itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="掘金"><div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://b-gold-cdn.xitu.io/icon/icon-white-180.png"><meta itemprop="width" content="180"><meta itemprop="height" content="180"></div></div><div class="author-info-block" data-v-49e91c4b><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" class="avatar-link" data-v-49e91c4b><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-49e91c4b></div></a><div class="author-info-box" data-v-49e91c4b><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" class="username ellipsis" data-v-49e91c4b></a><div class="meta-box" data-v-49e91c4b><time datetime="2018-12-05T03:45:13.937Z" title="Wed Dec 05 2018 11:45:13 GMT+0800 (China Standard Time)" class="time" data-v-49e91c4b>2018年12月05日</time><span class="views-count" data-v-49e91c4b>阅读 3552</span><!----></div></div><!----></div><div data-src="https://user-gold-cdn.xitu.io/2018/12/5/1677c7a52df4dbec?imageView2/1/w/1304/h/734/q/85/interlace/1" class="lazy thumb article-hero" style="background-image:none;background-size:cover;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><h1 class="article-title" data-v-49e91c4b>iOS内存管理的那些事儿-原理及实现</h1><div data-id="5c0749c9518825076d3ffcf1" itemprop="articleBody" class="article-content" data-v-49e91c4b><blockquote>
+<p>作者简介</p>
+<p>boyce，饿了么物流团队资深iOS开发。曾在格瓦拉等公司从事iOS相关研发工作。</p>
+</blockquote>
+<p><strong>注：本篇文章是《iOS内存管理的那些事儿》系列文章的第一部分。稍后我们会持续更新第二部分（开源监测内存泄漏的实现）和第三部分（如何利用开源工具做相关的APM），感兴趣的童鞋可以关注我们专栏并获取实时推送信息哦～</strong></p>
+<h1 class="heading" data-id="heading-0">为什么要写这篇文章</h1>
+<p>最近在做内存优化相关的问题，趁着这个机会把内存相关知识捋一捋。虽然现在语言设计的趋势之一就是让程序员不在关心内存管理这件事。但是作为一名程序开发，如果因为语言这个特性，而忽略这方面的知识的话，那是非常不可取的，不懂这方面知识，遇到问题会让我们知其然还不知其所以然。因为内存设计的知识比较多，因此我把他做成了系列。第一部分讲下基础的知识和原理，第二部分讲下一些开源监测内存泄漏的实现。第三部分讲下如何利用开源工具做相关的APM。文章中难免有出错的地方，还请各位斧正。</p>
+<h1 class="heading" data-id="heading-1">为什么要进行内存管理</h1>
+<p>内存是计算机的稀缺资源，在移动设备乃至嵌入设备就显得更为稀缺。不同的操作系统对程序运行时所占用的内存要求不一样。在这里我们主要说一下移动操作系统对运行中App所占用的内存限制。Android不同Rom在默认情况下，对单个App所能申请的内存是有上限。这里的上限没有一个统一的具体值，但可以肯定的是，这个上限是存在的。iOS也同样如此。做移动开发的同学对此应该都会有所感受。内存管理是移动日常开发中非常重要的一环。因此，作为移动开发的我们，不仅要知其然，也要知其所以然。</p>
+<h1 class="heading" data-id="heading-2">程序内存空间布局</h1>
+<p>一个程序被加载到内存中，内存布局通常是分为如下几块。主要分为，代码段，数据段，栈，堆。不同语言的程序可能有所不同，比如C++还会具体区分为全局/静态存储区，常量区，自由存储区。这里主要关注，属于程序员可以分配和释放的部分。虽然有些语言使用了GC技术，但是我们在写代码时候依然要关注内存的分配和释放。</p>
+<h1 class="heading" data-id="heading-3">常见的内存管理技术</h1>
+<p>现代的内存管理技术主要集中在GC（Garbage Collection）上，现在很多语言也在使用GC技术，GC中的内存管理技术主要是有以下这些：</p>
+<ul>
+<li>
+<p><strong>标记清除算法</strong></p>
+<p>标记清除算法是有两个部分组成，分别是标记阶段和清除阶段。标记阶段就是对对象进行遍历，将所有可达的对象进行标记。在清除阶段，会将那些没有被标记的对象进行回收，收回内存。这个算法的缺点是容易造成内存碎片</p>
+</li>
+<li>
+<p><strong>标记复制算法</strong></p>
+<p>标记复制算法就是把活动对象复制到新的空间，然后把旧的控件全部释放掉。这个算法不会像清除算法一样产生大量的碎片，因为他是一次把就有空间释放掉，因此吞吐量比较大。速度较快。他缺点也很明显，算法使用可能会用到AB两个空间，对的使用率较低，同时在实现的时候不可能避免的产生递归调用</p>
+</li>
+<li>
+<p><strong>标记压缩算法</strong></p>
+<p>相比较上面的标记清除算法，标记压缩算法会把可达的对象重新排列起来，减少可达对象之间的间隙。这样就不产生内存碎片。相比复制算法不用开辟两个空间，也节约了空间。</p>
+</li>
+<li>
+<p><strong>引用计数法</strong></p>
+<p>引用计数法，内部保存一个计数器，保存了被多少个程序引用。当没有被其他程序引用时候，内存会被回收。相比于其他的算法，引用技术法。有以下的优点，可以及时的回收垃圾，查找次数少。但引用计数有一个比较致命的缺点，无法解决循环引用问题。</p>
+</li>
+</ul>
+<p>通过边对内存管理技术介绍，作为iOS开发会对引用计数法有种熟悉的感觉。iOS也是用到了这个技术，只是实现有所不同。</p>
+<h1 class="heading" data-id="heading-4">iOS的内存管理技术</h1>
+<h2 class="heading" data-id="heading-5">MRC</h2>
+<p>通过上面关于常见内存管理技术的介绍，我们知道iOS使用的是引用计数这一技术。在前几年iOS是手动管理引用计数的也就是MRC(manual retain-release),MRC，需要程序员自己管理一个对象的引用计数。随着ARC（Automatic Reference Counting）技术的发展。现在已经很少看到MRC的代码。在MRC时代，程序员要手动管理引用计数，通常要遵循一下几个原则</p>
+<ul>
+<li>开头为<code>alloc</code>，<code>new</code>，<code>copy</code>，<code>mutableCopy</code>的方法创建的对象，引用计数都会被+1；</li>
+<li>如果需要对对象进行引用，可以通过retain来使引用计数+1；</li>
+<li>不再使用该对象时候，通过release使应用计数-1；</li>
+<li>不要release你没有持有的对象。</li>
+</ul>
+<h2 class="heading" data-id="heading-6">ARC</h2>
+<p>在ARC时代，我们不需要手动retain，relase。由于ARC是一种编译器的技术，因此他本质上并没有变。以前MRC的知识依然是有用且是必要的。ARC引入了一些新的关键词，如strong，weak，__strong,__weak,__unsafe_reatian等等，值得关注是weak，__weak。这两个关键词会在对象释放后，会将引用置位nil，从而避免了野指针的问题。同时，我们也要注意ARC所能管理的只是OC对象，对于非OC的对象，ARC并不会管理他们的内存问题。所以在一个对象转成C的时候，我们要进行桥接。告诉这个编译器对象生命周期有程序员自己来控制；这时候程序员需要手动管理c指针的生命周期。同时C指针转化为OC对象时候，也要进行桥接，这时候桥接的含义则生命周期管理交由ARC管理。你要对它负责。因此我们可以看出来ARC相对于MRC来说，减轻了程序员的负担，不用写大量的retain，relase的代码，同时使用weak,__weak关键字可以有效的避免野指针的问题。其背后的原理则没有变。</p>
+<h2 class="heading" data-id="heading-7">iOS内存的代码实现</h2>
+<p>苹果的runtime源码可以在这里看<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fopensource.apple.com%2Fsource%2Fobjc4%2Fobjc4-723%2F" rel="nofollow noopener noreferrer">runtime</a>,如果你觉得这样看不方便的话，你可以通过wget把源码现在下来看，具体命令如下所示</p>
+<pre><code class="hljs bash copyable" lang="bash">wget -c -r -np -k -L -p https://opensource.apple.com/<span class="hljs-built_in">source</span>/objc4/objc4-723/
+<span class="copy-code-btn">复制代码</span></code></pre><p>下面我看看苹果的源码是如何实现。
+<code>https://opensource.apple.com/source/objc4/objc4-723/runtime/NSObject.mm.auto.html</code></p>
+<h3 class="heading" data-id="heading-8">alloc</h3>
+<p>使用一个对象，首先我们得要对象分配内存，所以我们首先来看下alloc的实现吧：
+alloc方法很简单，里边只是调用了一个C函数  _objc_rootAlloc(Class cls)；</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">+ (<span class="hljs-keyword">id</span>)alloc {
+    <span class="hljs-keyword">return</span> _objc_rootAlloc(<span class="hljs-keyword">self</span>);
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>而<code>_objc_rootAlloc</code>则调用了<code>callAlloc(Class cls, bool checkNil, bool allocWithZone=false)</code>函数；</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">id</span> _objc_rootAlloc(Class cls)
+{
+    <span class="hljs-keyword">return</span> callAlloc(cls, <span class="hljs-literal">false</span><span class="hljs-comment">/*checkNil*/</span>, <span class="hljs-literal">true</span><span class="hljs-comment">/*allocWithZone*/</span>);
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>因此我们只需要重点关注callAlloc这个函数的逻辑，剖析这个函数的行为和功能。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">static</span> ALWAYS_INLINE <span class="hljs-keyword">id</span> callAlloc(Class cls, <span class="hljs-keyword">bool</span> checkNil, <span class="hljs-keyword">bool</span> allocWithZone=<span class="hljs-literal">false</span>)
+{
+    <span class="hljs-keyword">if</span> (slowpath(checkNil &amp;&amp; !cls)) <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+
+<span class="hljs-meta">#if __OBJC2__</span>
+    <span class="hljs-keyword">if</span> (fastpath(!cls-&gt;ISA()-&gt;hasCustomAWZ())) {
+        <span class="hljs-keyword">if</span> (fastpath(cls-&gt;canAllocFast())) {
+            <span class="hljs-keyword">bool</span> dtor = cls-&gt;hasCxxDtor();
+            <span class="hljs-keyword">id</span> obj = (<span class="hljs-keyword">id</span>)calloc(<span class="hljs-number">1</span>, cls-&gt;bits.fastInstanceSize());
+            <span class="hljs-keyword">if</span> (slowpath(!obj)) <span class="hljs-keyword">return</span> callBadAllocHandler(cls);
+            obj-&gt;initInstanceIsa(cls, dtor);
+            <span class="hljs-keyword">return</span> obj;
+        }
+        <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">id</span> obj = class_createInstance(cls, <span class="hljs-number">0</span>);
+            <span class="hljs-keyword">if</span> (slowpath(!obj)) <span class="hljs-keyword">return</span> callBadAllocHandler(cls);
+            <span class="hljs-keyword">return</span> obj;
+        }
+    }
+<span class="hljs-meta">#endif</span>
+
+    <span class="hljs-keyword">if</span> (allocWithZone) <span class="hljs-keyword">return</span> [cls allocWithZone:<span class="hljs-literal">nil</span>];
+    <span class="hljs-keyword">return</span> [cls alloc];
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><pre><code class="hljs objectivec copyable" lang="objectivec">fastpath(!cls-&gt;ISA()-&gt;hasCustomAWZ())
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>fastpath 是一个编译优化的宏，他会告诉编译器刮号里边的值大概率是什么，从而编译器在代码优化过程中进行相应汇编指令的优化。这里主要是判断子类或者当前类有没有实现<code>alloc/allocWithZone</code>。如果有实现的话则直接进入</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">   <span class="hljs-keyword">if</span> (allocWithZone) <span class="hljs-keyword">return</span> [cls allocWithZone:<span class="hljs-literal">nil</span>];
+   <span class="hljs-keyword">return</span> [cls alloc];
+<span class="copy-code-btn">复制代码</span></code></pre><p>没有实现的话，那么会进入稍复杂的判断逻辑里边，通过宏定义可以看出我们是不支持fastalloc的，所以相关部分逻辑我们暂时忽略过。所以我们只需要关注class_createInstance这个函数的实现。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">id</span> class_createInstance(Class cls, size_t extraBytes)
+{
+    <span class="hljs-keyword">return</span> _class_createInstanceFromZone(cls, extraBytes, <span class="hljs-literal">nil</span>);
+}
+
+<span class="hljs-keyword">static</span> __attribute__((always_inline))  <span class="hljs-keyword">id</span> _class_createInstanceFromZone(Class cls, size_t extraBytes, <span class="hljs-keyword">void</span> *zone, 
+                              <span class="hljs-keyword">bool</span> cxxConstruct = <span class="hljs-literal">true</span>, 
+                              size_t *outAllocatedSize = <span class="hljs-literal">nil</span>)
+{
+    <span class="hljs-keyword">if</span> (!cls) <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+
+    assert(cls-&gt;isRealized());
+
+    <span class="hljs-keyword">bool</span> hasCxxCtor = cls-&gt;hasCxxCtor();
+    <span class="hljs-keyword">bool</span> hasCxxDtor = cls-&gt;hasCxxDtor();
+    <span class="hljs-keyword">bool</span> fast = cls-&gt;canAllocNonpointer();
+
+    size_t size = cls-&gt;instanceSize(extraBytes);
+    <span class="hljs-keyword">if</span> (outAllocatedSize) *outAllocatedSize = size;
+
+    <span class="hljs-keyword">id</span> obj;
+    <span class="hljs-keyword">if</span> (!zone  &amp;&amp;  fast) {
+        obj = (<span class="hljs-keyword">id</span>)calloc(<span class="hljs-number">1</span>, size);
+        <span class="hljs-keyword">if</span> (!obj) <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+        obj-&gt;initInstanceIsa(cls, hasCxxDtor);
+    } 
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (zone) {
+            obj = (<span class="hljs-keyword">id</span>)malloc_zone_calloc ((malloc_zone_t *)zone, <span class="hljs-number">1</span>, size);
+        } <span class="hljs-keyword">else</span> {
+            obj = (<span class="hljs-keyword">id</span>)calloc(<span class="hljs-number">1</span>, size);
+        }
+        <span class="hljs-keyword">if</span> (!obj) <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+        obj-&gt;initIsa(cls);
+    }
+
+    <span class="hljs-keyword">if</span> (cxxConstruct &amp;&amp; hasCxxCtor) {
+        obj = _objc_constructOrFree(obj, cls);
+    }
+
+    <span class="hljs-keyword">return</span> obj;
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>在这个<code>_class_createInstanceFromZone</code>方法中给对象分配了相应的内存。而初始化则调用了<code>initInstanceIsa</code> 和 <code>initIsa</code>两个方法。而 <code>initInstanceIsa</code> 只是在调用<code>initIsa</code>前进行了判断。因此我们只需要分析<code>initIsa</code>方法。从方法名字看，似乎是对<code>isa</code>进行初始化。是不是这样呢？我们进入到方法内部看看具体实现：</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> objc_object::initIsa(Class cls)
+{
+    initIsa(cls, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+}
+
+<span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> objc_object::initIsa(Class cls, <span class="hljs-keyword">bool</span> nonpointer, <span class="hljs-keyword">bool</span> hasCxxDtor) 
+{ 
+    assert(!isTaggedPointer()); 
+    
+    <span class="hljs-keyword">if</span> (!nonpointer) {
+        isa.cls = cls;
+    } <span class="hljs-keyword">else</span> {
+        assert(!DisableNonpointerIsa);
+        assert(!cls-&gt;instancesRequireRawIsa());
+        isa_t newisa(<span class="hljs-number">0</span>);
+
+<span class="hljs-meta">#if SUPPORT_INDEXED_ISA</span>
+        assert(cls-&gt;classArrayIndex() &gt; <span class="hljs-number">0</span>);
+        newisa.bits = ISA_INDEX_MAGIC_VALUE;
+        newisa.has_cxx_dtor = hasCxxDtor;
+        newisa.indexcls = (uintptr_t)cls-&gt;classArrayIndex();
+<span class="hljs-meta">#else</span>
+        newisa.bits = ISA_MAGIC_VALUE;
+        newisa.has_cxx_dtor = hasCxxDtor;
+        newisa.shiftcls = (uintptr_t)cls &gt;&gt; <span class="hljs-number">3</span>;
+<span class="hljs-meta">#endif</span>
+
+        isa = newisa;
+    }
+}
+
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里代码很简单只是简单的赋值操作这里不做细讲，可以说从名字上就可以看出来这个函数要干嘛了。</p>
+<h3 class="heading" data-id="heading-9">retain</h3>
+<p><code>retain</code>是对引用计数+1操作。分配完内存后我来看看<code>retain</code>是如何实现的</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">- (<span class="hljs-keyword">id</span>)<span class="hljs-keyword">retain</span> {
+    <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">id</span>)<span class="hljs-keyword">self</span>)-&gt;rootRetain();
+}
+
+ALWAYS_INLINE <span class="hljs-keyword">id</span> objc_object::rootRetain()
+{
+    <span class="hljs-keyword">return</span> rootRetain(<span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+}
+
+ALWAYS_INLINE <span class="hljs-keyword">id</span> objc_object::rootRetain(<span class="hljs-keyword">bool</span> tryRetain, <span class="hljs-keyword">bool</span> handleOverflow)
+{
+    <span class="hljs-keyword">if</span> (isTaggedPointer()) <span class="hljs-keyword">return</span> (<span class="hljs-keyword">id</span>)<span class="hljs-keyword">this</span>;
+
+    <span class="hljs-keyword">bool</span> sideTableLocked = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">bool</span> transcribeToSideTable = <span class="hljs-literal">false</span>;
+
+    isa_t oldisa;
+    isa_t newisa;
+
+    <span class="hljs-keyword">do</span> {
+        transcribeToSideTable = <span class="hljs-literal">false</span>;
+        oldisa = LoadExclusive(&amp;isa.bits);
+        newisa = oldisa;
+        <span class="hljs-keyword">if</span> (slowpath(!newisa.nonpointer)) {
+            ClearExclusive(&amp;isa.bits);
+            <span class="hljs-keyword">if</span> (!tryRetain &amp;&amp; sideTableLocked) sidetable_unlock();
+            <span class="hljs-keyword">if</span> (tryRetain) <span class="hljs-keyword">return</span> sidetable_tryRetain() ? (<span class="hljs-keyword">id</span>)<span class="hljs-keyword">this</span> : <span class="hljs-literal">nil</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> sidetable_retain();
+        }
+     
+        <span class="hljs-keyword">if</span> (slowpath(tryRetain &amp;&amp; newisa.deallocating)) {
+            ClearExclusive(&amp;isa.bits);
+            <span class="hljs-keyword">if</span> (!tryRetain &amp;&amp; sideTableLocked) sidetable_unlock();
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+        }
+        uintptr_t carry;
+        newisa.bits = addc(newisa.bits, RC_ONE, <span class="hljs-number">0</span>, &amp;carry);  <span class="hljs-comment">// extra_rc++</span>
+
+        <span class="hljs-keyword">if</span> (slowpath(carry)) {
+     
+            <span class="hljs-keyword">if</span> (!handleOverflow) {
+                ClearExclusive(&amp;isa.bits);
+                <span class="hljs-keyword">return</span> rootRetain_overflow(tryRetain);
+            }
+    
+            <span class="hljs-keyword">if</span> (!tryRetain &amp;&amp; !sideTableLocked) sidetable_lock();
+            sideTableLocked = <span class="hljs-literal">true</span>;
+            transcribeToSideTable = <span class="hljs-literal">true</span>;
+            newisa.extra_rc = RC_HALF;
+            newisa.has_sidetable_rc = <span class="hljs-literal">true</span>;
+        }
+    } <span class="hljs-keyword">while</span> (slowpath(!StoreExclusive(&amp;isa.bits, oldisa.bits, newisa.bits)));
+
+    <span class="hljs-keyword">if</span> (slowpath(transcribeToSideTable)) {
+        sidetable_addExtraRC_nolock(RC_HALF);
+    }
+
+    <span class="hljs-keyword">if</span> (slowpath(!tryRetain &amp;&amp; sideTableLocked)) sidetable_unlock();
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">id</span>)<span class="hljs-keyword">this</span>;
+}
+
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们来主要看<code>rootRetain</code>的逻辑，他接受两个bool参数。如果是<code>TaggedPointer</code>对象的话直接返回this。因此<code>TaggedPointer</code>的对象调用reatin不会改变引用计数。这个函数里边有个<code>do{}while()</code>的循环，当<code>isa.bits</code>中的值被更新后则循环结束。我们一步一步看下do里边的逻辑。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">  <span class="hljs-keyword">if</span> (slowpath(!newisa.nonpointer)) {
+      ClearExclusive(&amp;isa.bits);
+      <span class="hljs-keyword">if</span> (!tryRetain &amp;&amp; sideTableLocked) sidetable_unlock();
+      <span class="hljs-keyword">if</span> (tryRetain) <span class="hljs-keyword">return</span> sidetable_tryRetain() ? (<span class="hljs-keyword">id</span>)<span class="hljs-keyword">this</span> : <span class="hljs-literal">nil</span>;
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> sidetable_retain();
+   }
+<span class="copy-code-btn">复制代码</span></code></pre><p>这段逻辑主要处理当前类没有开启进行内存优化的情况。这里主要有两个函数<code>sidetable_tryRetain</code>和<code>sidetable_retain</code>。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">
+<span class="hljs-keyword">bool</span> objc_object::sidetable_tryRetain()
+{
+<span class="hljs-meta">#if SUPPORT_NONPOINTER_ISA</span>
+    assert(!isa.nonpointer);
+<span class="hljs-meta">#endif</span>
+    SideTable&amp; table = SideTables()[<span class="hljs-keyword">this</span>];
+    <span class="hljs-keyword">bool</span> result = <span class="hljs-literal">true</span>;
+    RefcountMap::iterator it = table.refcnts.find(<span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">if</span> (it == table.refcnts.end()) {
+        table.refcnts[<span class="hljs-keyword">this</span>] = SIDE_TABLE_RC_ONE;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (it-&gt;second &amp; SIDE_TABLE_DEALLOCATING) {
+        result = <span class="hljs-literal">false</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (! (it-&gt;second &amp; SIDE_TABLE_RC_PINNED)) {
+        it-&gt;second += SIDE_TABLE_RC_ONE;
+    }
+    
+    <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-keyword">id</span> objc_object::sidetable_retain()
+{
+<span class="hljs-meta">#if SUPPORT_NONPOINTER_ISA</span>
+    assert(!isa.nonpointer);
+<span class="hljs-meta">#endif</span>
+    SideTable&amp; table = SideTables()[<span class="hljs-keyword">this</span>];
+    
+    table.lock();
+    size_t&amp; refcntStorage = table.refcnts[<span class="hljs-keyword">this</span>];
+    <span class="hljs-keyword">if</span> (! (refcntStorage &amp; SIDE_TABLE_RC_PINNED)) {
+        refcntStorage += SIDE_TABLE_RC_ONE;
+    }
+    table.unlock();
+
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">id</span>)<span class="hljs-keyword">this</span>;
+}
+
+
+<span class="copy-code-btn">复制代码</span></code></pre><p><code>sidetable_tryRetain</code>函数主要做了这几件事,先从散列表中取出数值，如果这个数值找不到，就在Map添加 <code>SIDE_TABLE_RC_ONE</code> 值，如果这个数值所在的对象正在析构，那么将result置位false。最后检查下这个数字是否溢出，如果没有溢出则将引用计数+1；而<code>sidetable_retain</code>函数加了个自旋锁，同时逻辑更简单些。检查是否数值是否溢出，没有溢出则引用计数+1；
+说完这两个函数，我们在回到<code>rootTryRetain()</code>函数。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> <span class="hljs-keyword">if</span> (slowpath(tryRetain &amp;&amp; newisa.deallocating)) {
+     ClearExclusive(&amp;isa.bits);
+     <span class="hljs-keyword">if</span> (!tryRetain &amp;&amp; sideTableLocked) sidetable_unlock();
+     <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+ }
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里的逻辑判断对象是否在析构。如果在析构则会进行相关处理操作。这下来我们看看开启了指针优化后的<code>retain</code>逻辑</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> newisa.bits = addc(newisa.bits, RC_ONE, <span class="hljs-number">0</span>, &amp;carry); 
+<span class="copy-code-btn">复制代码</span></code></pre><p>这行也是对引用计数+1的，是对其中的extra_rc进行+1</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> <span class="hljs-keyword">if</span> (slowpath(carry)) {
+     <span class="hljs-keyword">if</span> (!handleOverflow) {
+         ClearExclusive(&amp;isa.bits);
+         <span class="hljs-keyword">return</span> rootRetain_overflow(tryRetain);
+      }
+     <span class="hljs-keyword">if</span> (!tryRetain &amp;&amp; !sideTableLocked) sidetable_lock();
+     sideTableLocked = <span class="hljs-literal">true</span>;
+     transcribeToSideTable = <span class="hljs-literal">true</span>;
+     newisa.extra_rc = RC_HALF;
+     newisa.has_sidetable_rc = <span class="hljs-literal">true</span>;
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里判断是否溢出，如果溢出了就会进入到rootRetain_overflow函数里边，而rootRetain_overflow函数则又调用了rootRetain，只不过handleOverflow会传true，同时会处理溢出的情况，这时候<code>transcribeToSideTable</code>为true，在结束后就会调用<code>sidetable_addExtraRC_nolock(RC_HALF);</code>,我们来看下这个函数的实现。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">bool</span> 
+objc_object::sidetable_addExtraRC_nolock(size_t delta_rc)
+{
+    SideTable&amp; table = SideTables()[<span class="hljs-keyword">this</span>];
+
+    size_t&amp; refcntStorage = table.refcnts[<span class="hljs-keyword">this</span>];
+    size_t oldRefcnt = refcntStorage;
+  
+    <span class="hljs-keyword">if</span> (oldRefcnt &amp; SIDE_TABLE_RC_PINNED) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+
+    uintptr_t carry;
+    size_t newRefcnt = 
+        addc(oldRefcnt, delta_rc &lt;&lt; SIDE_TABLE_RC_SHIFT, <span class="hljs-number">0</span>, &amp;carry);
+    <span class="hljs-keyword">if</span> (carry) {
+        refcntStorage =
+            SIDE_TABLE_RC_PINNED | (oldRefcnt &amp; SIDE_TABLE_FLAG_MASK);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        refcntStorage = newRefcnt;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>之前我们调用addc发现溢出后，我们把<code>newisa.extra_rc</code> 置位<code>RC_HALF</code>,同时我们调用<code>sidetable_addExtraRC_nolock</code>同时把剩下的<code>RC_HALF</code>加入散列表中;也是通过addc进行操作。如果这是溢出则恢复散列表中的值，至此retain的逻辑差不多结束了。</p>
+<h3 class="heading" data-id="heading-10">release</h3>
+<p>看完<code>retain</code>源码，喘口气继续看看<code>release</code>是怎么实现的吧</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">- (<span class="hljs-keyword">oneway</span> <span class="hljs-keyword">void</span>)release {
+    ((<span class="hljs-keyword">id</span>)<span class="hljs-keyword">self</span>)-&gt;rootRelease();
+}
+
+ALWAYS_INLINE <span class="hljs-keyword">bool</span> objc_object::rootRelease()
+{
+    <span class="hljs-keyword">return</span> rootRelease(<span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>);
+}
+
+ALWAYS_INLINE <span class="hljs-keyword">bool</span> objc_object::rootRelease(<span class="hljs-keyword">bool</span> performDealloc, <span class="hljs-keyword">bool</span> handleUnderflow)
+{
+    <span class="hljs-keyword">if</span> (isTaggedPointer()) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+    <span class="hljs-keyword">bool</span> sideTableLocked = <span class="hljs-literal">false</span>;
+
+    isa_t oldisa;
+    isa_t newisa;
+
+ retry:
+    <span class="hljs-keyword">do</span> {
+        oldisa = LoadExclusive(&amp;isa.bits);
+        newisa = oldisa;
+        <span class="hljs-keyword">if</span> (slowpath(!newisa.nonpointer)) {
+            ClearExclusive(&amp;isa.bits);
+            <span class="hljs-keyword">if</span> (sideTableLocked) sidetable_unlock();
+            <span class="hljs-keyword">return</span> sidetable_release(performDealloc);
+        }
+ 
+        uintptr_t carry;
+        newisa.bits = subc(newisa.bits, RC_ONE, <span class="hljs-number">0</span>, &amp;carry);
+        <span class="hljs-keyword">if</span> (slowpath(carry)) {
+            <span class="hljs-keyword">goto</span> underflow;
+        }
+    } <span class="hljs-keyword">while</span> (slowpath(!StoreReleaseExclusive(&amp;isa.bits, 
+                                             oldisa.bits, newisa.bits)));
+
+    <span class="hljs-keyword">if</span> (slowpath(sideTableLocked)) sidetable_unlock();
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+ underflow:
+    newisa = oldisa;
+
+    <span class="hljs-keyword">if</span> (slowpath(newisa.has_sidetable_rc)) {
+        <span class="hljs-keyword">if</span> (!handleUnderflow) {
+            ClearExclusive(&amp;isa.bits);
+            <span class="hljs-keyword">return</span> rootRelease_underflow(performDealloc);
+        }
+
+        <span class="hljs-keyword">if</span> (!sideTableLocked) {
+            ClearExclusive(&amp;isa.bits);
+            sidetable_lock();
+            sideTableLocked = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">goto</span> retry;
+        }
+        
+        size_t borrowed = sidetable_subExtraRC_nolock(RC_HALF);
+
+        <span class="hljs-keyword">if</span> (borrowed &gt; <span class="hljs-number">0</span>) {
+            newisa.extra_rc = borrowed - <span class="hljs-number">1</span>;  
+            <span class="hljs-keyword">bool</span> stored = StoreReleaseExclusive(&amp;isa.bits, 
+                                                oldisa.bits, newisa.bits);
+            <span class="hljs-keyword">if</span> (!stored) {
+            
+                isa_t oldisa2 = LoadExclusive(&amp;isa.bits);
+                isa_t newisa2 = oldisa2;
+                <span class="hljs-keyword">if</span> (newisa2.nonpointer) {
+                    uintptr_t overflow;
+                    newisa2.bits = 
+                        addc(newisa2.bits, RC_ONE * (borrowed<span class="hljs-number">-1</span>), <span class="hljs-number">0</span>, &amp;overflow);
+                    <span class="hljs-keyword">if</span> (!overflow) {
+                        stored = StoreReleaseExclusive(&amp;isa.bits, oldisa2.bits, 
+                                                       newisa2.bits);
+                    }
+                }
+            }
+
+            <span class="hljs-keyword">if</span> (!stored) {
+                sidetable_addExtraRC_nolock(borrowed);
+                <span class="hljs-keyword">goto</span> retry;
+            }
+
+            sidetable_unlock();
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+        <span class="hljs-keyword">else</span> {
+        
+        }
+    }
+
+    <span class="hljs-keyword">if</span> (slowpath(newisa.deallocating)) {
+        ClearExclusive(&amp;isa.bits);
+        <span class="hljs-keyword">if</span> (sideTableLocked) sidetable_unlock();
+        <span class="hljs-keyword">return</span> overrelease_error();
+    }
+    newisa.deallocating = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">if</span> (!StoreExclusive(&amp;isa.bits, oldisa.bits, newisa.bits)) <span class="hljs-keyword">goto</span> retry;
+
+    <span class="hljs-keyword">if</span> (slowpath(sideTableLocked)) sidetable_unlock();
+
+    __sync_synchronize();
+    <span class="hljs-keyword">if</span> (performDealloc) {
+        ((<span class="hljs-keyword">void</span>(*)(objc_object *, SEL))objc_msgSend)(<span class="hljs-keyword">this</span>, SEL_dealloc);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>看完调用顺序后，我们着重分析下这个函数吧</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">objc_object::rootRelease(<span class="hljs-keyword">bool</span> performDealloc, <span class="hljs-keyword">bool</span> handleUnderflow)
+<span class="copy-code-btn">复制代码</span></code></pre><p>同样如果是<code>TaggedPointer</code>对象直接返回 false。我们先看<code>retry:</code>代码段
+这里边的部分逻辑与<code>retain</code>相似，我们不一一分析。如果没有开启指针优化的话会有调用这样关键函数</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">uintptr_t
+objc_object::sidetable_release(<span class="hljs-keyword">bool</span> performDealloc)
+{
+<span class="hljs-meta">#if SUPPORT_NONPOINTER_ISA</span>
+    assert(!isa.nonpointer);
+<span class="hljs-meta">#endif</span>
+    SideTable&amp; table = SideTables()[<span class="hljs-keyword">this</span>];
+
+    <span class="hljs-keyword">bool</span> do_dealloc = <span class="hljs-literal">false</span>;
+
+    table.lock();
+    RefcountMap::iterator it = table.refcnts.find(<span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">if</span> (it == table.refcnts.end()) {
+        do_dealloc = <span class="hljs-literal">true</span>;
+        table.refcnts[<span class="hljs-keyword">this</span>] = SIDE_TABLE_DEALLOCATING;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (it-&gt;second &lt; SIDE_TABLE_DEALLOCATING) {
+        do_dealloc = <span class="hljs-literal">true</span>;
+        it-&gt;second |= SIDE_TABLE_DEALLOCATING;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (! (it-&gt;second &amp; SIDE_TABLE_RC_PINNED)) {
+        it-&gt;second -= SIDE_TABLE_RC_ONE;
+    }
+    table.unlock();
+    <span class="hljs-keyword">if</span> (do_dealloc  &amp;&amp;  performDealloc) {
+        ((<span class="hljs-keyword">void</span>(*)(objc_object *, SEL))objc_msgSend)(<span class="hljs-keyword">this</span>, SEL_dealloc);
+    }
+    <span class="hljs-keyword">return</span> do_dealloc;
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里主要做了这几个逻辑，如果在散列表中没有找到对象，那么将其中的值置为<code>SIDE_TABLE_DEALLOCATING</code>。如果找到值比<code>SIDE_TABLE_DEALLOCATING</code>还小那么将it中<code>second</code>置位<code>SIDE_TABLE_DEALLOCATING</code>。如果找到的值不属于上面情况。那么检查是否溢出，没有溢出则引用计数-1；最后如果这个<code>do_dealloc</code>为true（这个链路里边的performDealloc为true）那么就给会给发送一个SEL_dealloc 的消息进行释放。分析完这个函数后我们继续回到<code>rootRelease</code>中，下面代码是开启了指针优化的情况，接下来会调用</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> uintptr_t carry;
+ newisa.bits = subc(newisa.bits, RC_ONE, <span class="hljs-number">0</span>, &amp;carry); 
+<span class="copy-code-btn">复制代码</span></code></pre><p>将引用计数-1；同时 会做溢出判断，如果已经溢出了，则会跳到<code>underflow:</code>代码段。这段代码的主要逻辑在一个长长的if语句里边。这里边先判断<code>has_sidetable_rc</code>这个属性，这个属性代表如果为yes，那么代表会有部分引用计数存到一table里边。如果没有那么说明已经没有引用了。直接走释放逻辑。如果有的话，那么要从table中取出引用计数，然后进行-1操作，然后赋值给<code>newisa.extra_rc</code>，如果-1操作失败会立即进行一次。如果还是失败那么要table中引用计数恢复，然后进入retry代码重复这样的逻辑.</p>
+<h3 class="heading" data-id="heading-11">autolrease</h3>
+<p>最后说一下autolrease吧，先贴上调用栈。
+<code>@autoreleasepool{}</code>经过<code>clang -rewrite-objc</code>命令后，我们可以看到</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">struct</span> __AtAutoreleasePool {
+  __AtAutoreleasePool() {atautoreleasepoolobj = objc_autoreleasePoolPush();}
+  ~__AtAutoreleasePool() {objc_autoreleasePoolPop(atautoreleasepoolobj);}
+  <span class="hljs-keyword">void</span> * atautoreleasepoolobj;
+};
+<span class="copy-code-btn">复制代码</span></code></pre><p>这样的结构体。初始化的时候会调用objc_autoreleasePoolPush()方法，~__AtAutoreleasePool() 是c++结构体中的析构方法，类似于OC中的delloc方法，他会调用objc_autoreleasePoolPop(atautoreleasepoolobj)方法，传入的参数就是我们刚刚通过objc_autoreleasePoolPush()生成的对象。关于<code>@autoreleasepool{}</code>的创建和释放逻辑我们看这两个函数就可以了。我们先从<code>objc_autoreleasePoolPush()</code>这个函数开始。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">objc_autoreleasePoolPush(<span class="hljs-keyword">void</span>)
+{
+    <span class="hljs-keyword">return</span> AutoreleasePoolPage::push();
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> *push() 
+{
+    <span class="hljs-keyword">id</span> *dest;
+    <span class="hljs-keyword">if</span> (DebugPoolAllocation) {
+        dest = autoreleaseNewPage(POOL_BOUNDARY);
+    } <span class="hljs-keyword">else</span> {
+        dest = autoreleaseFast(POOL_BOUNDARY);
+    }
+    assert(dest == EMPTY_POOL_PLACEHOLDER || *dest == POOL_BOUNDARY);
+    <span class="hljs-keyword">return</span> dest;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">id</span> *autoreleaseFast(<span class="hljs-keyword">id</span> obj)
+{
+  AutoreleasePoolPage *page = hotPage();
+  <span class="hljs-keyword">if</span> (page &amp;&amp; !page-&gt;full()) {
+      <span class="hljs-keyword">return</span> page-&gt;add(obj);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (page) {
+      <span class="hljs-keyword">return</span> autoreleaseFullPage(obj, page);
+  } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> autoreleaseNoPage(obj);
+ }
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里边会调用AutoreleasePoolPage类的push()方法，我们看一下AutoreleasePoolPage结构</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">class</span> AutoreleasePoolPage 
+{
+ 
+<span class="hljs-meta">#   define EMPTY_POOL_PLACEHOLDER ((id*)1)</span>
+<span class="hljs-meta">#   define POOL_BOUNDARY nil</span>
+
+    <span class="hljs-keyword">static</span> pthread_key_t <span class="hljs-keyword">const</span> key = AUTORELEASE_POOL_KEY;
+    <span class="hljs-keyword">static</span> uint8_t <span class="hljs-keyword">const</span> SCRIBBLE = <span class="hljs-number">0xA3</span>;  <span class="hljs-comment">// 0xA3A3A3A3 after releasing</span>
+    <span class="hljs-keyword">static</span> size_t <span class="hljs-keyword">const</span> SIZE = 
+<span class="hljs-meta">#if PROTECT_AUTORELEASEPOOL</span>
+        PAGE_MAX_SIZE;  <span class="hljs-comment">// must be multiple of vm page size</span>
+<span class="hljs-meta">#else</span>
+        PAGE_MAX_SIZE;  <span class="hljs-comment">// size and alignment, power of 2</span>
+<span class="hljs-meta">#endif</span>
+
+    <span class="hljs-keyword">static</span> size_t <span class="hljs-keyword">const</span> COUNT = SIZE / <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">id</span>);
+
+    magic_t <span class="hljs-keyword">const</span> magic;
+    <span class="hljs-keyword">id</span> *next;
+    pthread_t <span class="hljs-keyword">const</span> thread;
+    AutoreleasePoolPage * <span class="hljs-keyword">const</span> parent;
+    AutoreleasePoolPage *child;
+    uint32_t <span class="hljs-keyword">const</span> depth;
+    uint32_t hiwat;
+    
+ }
+<span class="copy-code-btn">复制代码</span></code></pre><p><code>EMPTY_POOL_PLACEHOLDER</code>这个宏看名字意思是占位的意思。</p>
+<p>从作用上来看，当一个外部调用第一次调用创建AutoreleasePoolPage，但是没有任何要进栈的对象时候，那么他不会先创建一个AutoreleasePoolPage对象，而是把EMPTY_POOL_PLACEHOLDER作为指针返回，并用TLS技术绑定当前线程。这样的实现有点像懒加载，在需要的时候才创建对象。</p>
+<p><code>POOL_BOUNDARY</code>这个之前是<code>POOL_SENTINEL</code>，他们同样值都是nil。</p>
+<p>作用都是在第一次有对象入栈时候会push一个空的对象。这样以后在pop的时候通过判断值是不是nil，知道是不是栈底了。相比于<code>POOL_SENTINEL</code>我更觉得<code>POOL_BOUNDARY</code>意思简洁明了。</p>
+<p><code>static pthread_key_t const key = AUTORELEASE_POOL_KEY</code> 这个这个就是TLS把当前hotpage或者EMPTY_POOL_PLACEHOLDER存储在当前线程的key。没有什么好说的。</p>
+<p><code>static uint8_t const SCRIBBLE = 0xA3;</code>这个是常数值，唯一的作用就是在releasing的时候通过<code>memset((void*)page-&gt;next, SCRIBBLE, sizeof(*page-&gt;next));</code>把page的next置位0xA3A3A3A3</p>
+<p><code>magic_t const magic;</code>这个<code>magic</code>用来校验类的完整性。
+<code>id *next;</code>栈的指针。
+<code>pthread_t const thread;</code>用于保存线程。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">AutoreleasePoolPage * <span class="hljs-keyword">const</span> parent;
+AutoreleasePoolPage *child;
+uint32_t <span class="hljs-keyword">const</span> depth;
+uint32_t hiwat;
+<span class="copy-code-btn">复制代码</span></code></pre><p>这几个属性都是跟双向链表有关系，<code>parent</code>指向父节点，<code>child</code>指向子节点。<code>depth</code>这个是层级，<code>hiwat</code>这个应该栈里数据的数量。</p>
+<p>分析完这个类的结构。我们继续看调用的流程。再调用到<code>static inline id *autoreleaseFast(id obj)</code>方法时，里边有三个分支走向。我们首先看下一个关键一行
+<code>AutoreleasePoolPage *page = hotPage();</code>这个<code>hotPage()</code>是通过TLS取当前的AutoreleasePoolPage的。如果是EMPTY_POOL_PLACEHOLDER的话直接返回nil，否则的话就会返回AutoreleasePoolPage，返回之前会做一个完整性检测。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">if</span> (page &amp;&amp; !page-&gt;full()) {
+      <span class="hljs-keyword">return</span> page-&gt;add(obj);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (page) {
+      <span class="hljs-keyword">return</span> autoreleaseFullPage(obj, page);
+  } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> autoreleaseNoPage(obj);
+ }
+<span class="copy-code-btn">复制代码</span></code></pre><p>这个判断也是比较简单的，如果当前不为nil，且没有满则直接调用add函数，添加obj。这个add函数也是比较简单入栈操作。只是在入栈的时候做了线程保护。当然我们根据宏是没有启用这个线程保护功能的。如果当前page已经满了，那么会调用<code>autoreleaseFullPage</code>方法。我们看下<code>autoreleaseFullPage</code>怎么实现的。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">  <span class="hljs-keyword">static</span> __attribute__((noinline))
+    <span class="hljs-keyword">id</span> *autoreleaseFullPage(<span class="hljs-keyword">id</span> obj, AutoreleasePoolPage *page)
+    {
+        assert(page == hotPage());
+        assert(page-&gt;full()  ||  DebugPoolAllocation);
+
+        <span class="hljs-keyword">do</span> {
+            <span class="hljs-keyword">if</span> (page-&gt;child) page = page-&gt;child;
+            <span class="hljs-keyword">else</span> page = new AutoreleasePoolPage(page);
+        } <span class="hljs-keyword">while</span> (page-&gt;full());
+
+        setHotPage(page);
+        <span class="hljs-keyword">return</span> page-&gt;add(obj);
+    }
+<span class="copy-code-btn">复制代码</span></code></pre><p>这个方法的逻辑也没有复杂的地方。你遍历子节点直到找到没有满的page，如果最后都没有找到，那么就新建一个page，然后把这个page绑定到当前线程。同时调用add方法添加这个obj。然后我们再看下最后一个分支走向<code>autoreleaseNoPage(obj)</code>方法</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">  <span class="hljs-keyword">static</span> __attribute__((noinline))
+    <span class="hljs-keyword">id</span> *autoreleaseNoPage(<span class="hljs-keyword">id</span> obj)
+    {
+        
+        assert(!hotPage());
+
+        <span class="hljs-keyword">bool</span> pushExtraBoundary = <span class="hljs-literal">false</span>;
+        
+        <span class="hljs-keyword">if</span> (haveEmptyPoolPlaceholder()) {
+            
+            pushExtraBoundary = <span class="hljs-literal">true</span>;
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (obj != POOL_BOUNDARY  &amp;&amp;  DebugMissingPools) {
+            _objc_inform(<span class="hljs-string">"MISSING POOLS: (%p) Object %p of class %s "</span>
+                         <span class="hljs-string">"autoreleased with no pool in place - "</span>
+                         <span class="hljs-string">"just leaking - break on "</span>
+                         <span class="hljs-string">"objc_autoreleaseNoPool() to debug"</span>, 
+                         pthread_self(), (<span class="hljs-keyword">void</span>*)obj, object_getClassName(obj));
+            objc_autoreleaseNoPool(obj);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>;
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (obj == POOL_BOUNDARY  &amp;&amp;  !DebugPoolAllocation) {
+            
+            <span class="hljs-keyword">return</span> setEmptyPoolPlaceholder();
+        }
+
+       AutoreleasePoolPage *page = new AutoreleasePoolPage(<span class="hljs-literal">nil</span>);
+       setHotPage(page);
+       
+       <span class="hljs-keyword">if</span> (pushExtraBoundary) {
+           page-&gt;add(POOL_BOUNDARY);
+       }
+ 
+       <span class="hljs-keyword">return</span> page-&gt;add(obj);
+    }
+
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>相比于前几个方法这个方法逻辑就稍稍复杂了点。<code>bool pushExtraBoundary = false;</code>这个属性表示要不要像栈里边添加<code>POOL_BOUNDARY</code>，这个只有在栈为空的时候才会是<code>true</code>。第二个if判断主要是用debug相关，这里先不管。第三个判断，如果传的是一个<code>POOL_BOUNDARY</code>对象且没有调试alloc的时候，会将当前线程绑定一个EMPTY_POOL_PLACEHOLDER的占位对象，并返回。经过这些判断，我们走到了这里</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">AutoreleasePoolPage *page = new AutoreleasePoolPage(<span class="hljs-literal">nil</span>);
+       setHotPage(page);
+       
+<span class="hljs-keyword">if</span> (pushExtraBoundary) {
+    page-&gt;add(POOL_BOUNDARY);
+}
+ 
+<span class="hljs-keyword">return</span> page-&gt;add(obj);
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里的代码比较简单，新建一个<code>AutoreleasePoolPage</code>对象，并且设置为hotpage，然后如果<code>pushExtraBoundary</code>为true，则把<code>POOL_BOUNDARY</code>入栈，然后把obj入栈。最后返回page对象。这里大家可能有疑问了，这里有条件的将<code>POOL_BOUNDARY</code>入栈，为不为导致底不是<code>POOL_BOUNDARY</code>,有这个疑问是很好的。可以我们看整个NSObject.mm的代码，可以看到不会出现栈底元素不是<code>POOL_BOUNDARY</code>的。至此，我们把<code>@autorelease{}</code>代码的新建逻辑分析完毕。下面我们来看释放逻辑。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">void</span>
+objc_autoreleasePoolPop(<span class="hljs-keyword">void</span> *ctxt)
+{
+    AutoreleasePoolPage::pop(ctxt);
+}
+
+ <span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> pop(<span class="hljs-keyword">void</span> *token) 
+    {
+        AutoreleasePoolPage *page;
+        <span class="hljs-keyword">id</span> *stop;
+
+        <span class="hljs-keyword">if</span> (token == (<span class="hljs-keyword">void</span>*)EMPTY_POOL_PLACEHOLDER) {
+            <span class="hljs-keyword">if</span> (hotPage()) {
+                pop(coldPage()-&gt;begin());
+            } <span class="hljs-keyword">else</span> {
+                setHotPage(<span class="hljs-literal">nil</span>);
+            }
+            <span class="hljs-keyword">return</span>;
+        }
+
+        page = pageForPointer(token);
+        stop = (<span class="hljs-keyword">id</span> *)token;
+        <span class="hljs-keyword">if</span> (*stop != POOL_BOUNDARY) {
+            <span class="hljs-keyword">if</span> (stop == page-&gt;begin()  &amp;&amp;  !page-&gt;parent) {
+            
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">return</span> badPop(token);
+            }
+        }
+
+        <span class="hljs-keyword">if</span> (PrintPoolHiwat) printHiwat();
+
+        page-&gt;releaseUntil(stop);
+
+        <span class="hljs-keyword">if</span> (DebugPoolAllocation  &amp;&amp;  page-&gt;empty()) {
+            AutoreleasePoolPage *parent = page-&gt;parent;
+            page-&gt;kill();
+            setHotPage(parent);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (DebugMissingPools  &amp;&amp;  page-&gt;empty()  &amp;&amp;  !page-&gt;parent) {
+            page-&gt;kill();
+            setHotPage(<span class="hljs-literal">nil</span>);
+        } 
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (page-&gt;child) {
+            <span class="hljs-keyword">if</span> (page-&gt;lessThanHalfFull()) {
+                page-&gt;child-&gt;kill();
+            }
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (page-&gt;child-&gt;child) {
+                page-&gt;child-&gt;child-&gt;kill();
+            }
+        }
+    }
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>看调用流程，我们着重分析下<code>pop(void *token)</code>方法，我们先看下段代码块的逻辑：</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">if</span> (token == (<span class="hljs-keyword">void</span>*)EMPTY_POOL_PLACEHOLDER) {
+
+    <span class="hljs-keyword">if</span> (hotPage()) {
+       pop(coldPage()-&gt;begin());
+    } <span class="hljs-keyword">else</span> {
+       setHotPage(<span class="hljs-literal">nil</span>);
+    }
+     <span class="hljs-keyword">return</span>;
+     
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>这段逻辑主要判断如果pop的是一个<code>EMPTY_POOL_PLACEHOLDER</code>,这个就是我们之前空池占位。那么先判断是否存在hotpage，若果存在的话，那么将调用pop方法，同时传入当前hotpage的最初的父节点，<code>coldPage()</code>返回的是第一个节点。如果不存在hotpage，那么将TLS绑定的值置位nil。我们继续看下面的代码块：</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">page = pageForPointer(token);
+stop = (<span class="hljs-keyword">id</span> *)token;
+<span class="hljs-keyword">if</span> (*stop != POOL_BOUNDARY) {
+    <span class="hljs-keyword">if</span> (stop == page-&gt;begin()  &amp;&amp;  !page-&gt;parent) {
+
+     } <span class="hljs-keyword">else</span> {             
+	     <span class="hljs-keyword">return</span> badPop(token);
+     }
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p><code>page = pageForPointer(token);</code>这个函数根据传入的token获取page的首指针。获取到page后，下面检查一下token，通常下我们pop最终会传入一个page的beigin指针。这个通常应该是POOL_BOUNDARY，这里主要是做异常处理。接下来我们会走到这个函数</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">page-&gt;releaseUntil(stop);
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这个函数的实现如下：</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> <span class="hljs-keyword">void</span> releaseUntil(<span class="hljs-keyword">id</span> *stop) 
+ {
+     
+   <span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>-&gt;next != stop) {
+           
+     AutoreleasePoolPage *page = hotPage();
+     
+     <span class="hljs-keyword">while</span> (page-&gt;empty()) {
+     page = page-&gt;parent;
+     setHotPage(page);
+     }
+
+     page-&gt;unprotect();
+     <span class="hljs-keyword">id</span> obj = *--page-&gt;next;
+     memset((<span class="hljs-keyword">void</span>*)page-&gt;next, SCRIBBLE, <span class="hljs-keyword">sizeof</span>(*page-&gt;next));
+     page-&gt;protect();
+
+     <span class="hljs-keyword">if</span> (obj != POOL_BOUNDARY) {
+     	objc_release(obj);
+     }
+     }
+
+     setHotPage(<span class="hljs-keyword">this</span>);
+
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这个函数的实现逻辑还是比较清楚的，他依次释放栈的内容直到遇到stop，并且把next指向的区域置为<code>SCRIBBLE</code>,然后把最近的栈为非空的置为当前的hotpage。最后我们看一下kill的相关逻辑</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">  <span class="hljs-keyword">if</span> (page-&gt;lessThanHalfFull()) {
+      page-&gt;child-&gt;kill();
+  }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (page-&gt;child-&gt;child) {
+      page-&gt;child-&gt;child-&gt;kill();
+  }
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>上面的判断逻辑主要是经过<code>releaseUntil</code>后，当前的page的栈已经被清空了，当前栈如果有子节点那么就释放子节点。最后我们看一下<code>kill</code>方法。</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-keyword">void</span> kill() 
+{
+    AutoreleasePoolPage *page = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">while</span> (page-&gt;child) page = page-&gt;child;
+
+    AutoreleasePoolPage *deathptr;
+    <span class="hljs-keyword">do</span> {
+        deathptr = page;
+         page = page-&gt;parent;
+         <span class="hljs-keyword">if</span> (page) {
+          page-&gt;unprotect();
+          page-&gt;child = <span class="hljs-literal">nil</span>;
+         page-&gt;protect();
+        }
+            delete deathptr;
+   } <span class="hljs-keyword">while</span> (deathptr != <span class="hljs-keyword">this</span>);
+   
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这段逻辑就相当简单了，依次释放子节点。至此<code>@autorelease{}</code>就分析完毕了，关于<code>autorelease</code>方法这里就不再分析了，<code>autorelease</code>逻辑基本上与我们上面分析的高度重合，这里不展开。</p>
+<h1 class="heading" data-id="heading-12">常见的容易造成泄漏的点</h1>
+<p>分析完源码后，我们知道iOS中的引用计数是怎么实现的，但这只是初步。内存管理难点不是在原理，而是在复杂的场景下怎么保证内存不泄漏，这才是最难的。我们先列举常见的容易造成泄漏的点：</p>
+<h2 class="heading" data-id="heading-13">循环引用</h2>
+<p>引用计数计数最大的缺点就是他无法解决循环引用的问题。如果出现循环引用了，需要我们手动打破循环引用。否则会一直占用内存。常见的循环引用情况主要是block。因为block会强引用外部变量，如果外部变量也在强引用这个block。那么他们就会造成循环引用。比如</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> HasBlock *hasBlock = [[HasBlock alloc] init];
+
+[hasBlock setBlock:^{
+        hasBlock.name = <span class="hljs-string">@"abc"</span>;
+ }];
+<span class="copy-code-btn">复制代码</span></code></pre><p>修改方法也很简单通过一个弱引用间接使用改造如下</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> HasBlock *hasBlock = [[HasBlock alloc] init];
+ __<span class="hljs-keyword">weak</span> HasBlock* weakHasBlock = hasBlock;
+[hasBlock setBlock:^{
+        weakHasBlock.name = <span class="hljs-string">@"abc"</span>;
+ }];
+<span class="copy-code-btn">复制代码</span></code></pre><p>这样就可以解决循环引用，这个是比较常见循环引用情况网上有很多宏解决这个问题。这里不展开。</p>
+<h2 class="heading" data-id="heading-14">使用单例的的一些情况</h2>
+<p>在使用单例的时候要注意，特别是单例含有block回调方法时候。有些单例会强持有这些block。这种情况虽然不是循环引用，但也是造成了喜欢引用。所以在使用单例的时候要清楚。如系统有些方法这样使用会造成无法释放：</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec">- (<span class="hljs-keyword">void</span>)viewDidLoad {
+    [<span class="hljs-keyword">super</span> viewDidLoad];
+    <span class="hljs-keyword">self</span>.obser = [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="hljs-string">@"boyce"</span> object:<span class="hljs-literal">nil</span> queue:<span class="hljs-literal">nil</span> usingBlock:^(<span class="hljs-built_in">NSNotification</span> * _Nonnull note) {
+        <span class="hljs-keyword">self</span>.name = <span class="hljs-string">@"boyce"</span>;
+    }];
+    
+}
+
+- (<span class="hljs-keyword">void</span>)dealloc{
+    [[<span class="hljs-built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="hljs-keyword">self</span>.obser];
+}
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里就造成了内存泄漏，这是因为NSNotificationCenter强引用了usingBlock，而usingBlock强引用了self，而NSNotificationCenter是个单例不会被释放，而self在被释放的时候才会去把self.obser从NSNotificationCenter中移除。类似的情况还有很多，比如一个数组中对象等等。这些内存泄漏不容易发现。</p>
+<h2 class="heading" data-id="heading-15">NSTimer</h2>
+<p>NSTimer会强引用传入的target，这时候如果加入NSRunLoop这个timer又会被NSRunLoop强引用</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-built_in">NSTimer</span> *timer = [<span class="hljs-built_in">NSTimer</span> timerWithTimeInterval:<span class="hljs-number">10</span> target:<span class="hljs-keyword">self</span> selector:<span class="hljs-keyword">@selector</span>(commentAnimation) userInfo:<span class="hljs-literal">nil</span> repeats:<span class="hljs-literal">YES</span>];
+[[<span class="hljs-built_in">NSRunLoop</span> currentRunLoop] addTimer:timer forMode:<span class="hljs-built_in">NSRunLoopCommonModes</span>];
+
+<span class="copy-code-btn">复制代码</span></code></pre><p>解决这个方法主动stoptimer，至少是不能在dealloc中stoptimer的。另外可以设置一个中间类，把target变成中间类。</p>
+<h2 class="heading" data-id="heading-16">NSURLSession</h2>
+<p>这个问题和上面的NSTimer类似</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-built_in">NSURLSession</span> *section = [<span class="hljs-built_in">NSURLSession</span> sessionWithConfiguration:[<span class="hljs-built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration]
+                                                              delegate:<span class="hljs-keyword">self</span>
+                                                         delegateQueue:[[<span class="hljs-built_in">NSOperationQueue</span> alloc] init]];
+<span class="hljs-built_in">NSURLSessionDataTask</span> *task = [section dataTaskWithURL:[<span class="hljs-built_in">NSURL</span> URLWithString:path]
+                                            completionHandler:^(<span class="hljs-built_in">NSData</span> *data, <span class="hljs-built_in">NSURLResponse</span> *response, <span class="hljs-built_in">NSError</span> *error) {
+                                               <span class="hljs-comment">//Do something</span>
+                                            }];
+[task resume];
+<span class="copy-code-btn">复制代码</span></code></pre><p>这里NSURLSession会强引用了self。同时本地SSL会对一个NSURLSession缓存一段时间。所以即使没有强引用。也会造成内存泄漏。这里比较好的使用单例[NSURLSession sharedSession]</p>
+<h2 class="heading" data-id="heading-17">非OC对象的内存问题</h2>
+<p>在OC对象转换为非OC对象时候，要进行桥接。要把对象的控制权由ARC转换为程序员自己控制，这时候程序员要自己控制对象创建和释放。如下面的简单代码</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"><span class="hljs-built_in">NSString</span> *name = <span class="hljs-string">@"boyce"</span>;
+<span class="hljs-built_in">CFStringRef</span> cfStringRef = (__bridge <span class="hljs-built_in">CFStringRef</span>) name;
+<span class="hljs-built_in">CFRelease</span>(cfStringRef);
+
+<span class="copy-code-btn">复制代码</span></code></pre><h2 class="heading" data-id="heading-18">其他泄漏情况</h2>
+<p>如果present一个UINavigationController，如果返回的姿势不正确。会造成内存泄漏</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> <span class="hljs-built_in">UIViewController</span> *vc = [[<span class="hljs-built_in">UIViewController</span> alloc]init];
+   <span class="hljs-built_in">UINavigationController</span> *nav = [[<span class="hljs-built_in">UINavigationController</span> alloc]initWithRootViewController:vc];
+   [<span class="hljs-keyword">self</span> presentViewController:nav animated:<span class="hljs-literal">YES</span> completion:<span class="hljs-literal">NULL</span>];
+<span class="copy-code-btn">复制代码</span></code></pre><p>如果在UIViewController里边调用的是</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> [<span class="hljs-keyword">self</span> dismissViewControllerAnimated:<span class="hljs-literal">YES</span> completion:<span class="hljs-literal">NULL</span>];
+<span class="copy-code-btn">复制代码</span></code></pre><p>那么就会造成内存泄漏，这里边测试发现vc是没有被释放的。需要这样调用</p>
+<pre><code class="hljs objectivec copyable" lang="objectivec"> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>.navigationController.topViewController == <span class="hljs-keyword">self</span>) {
+        [<span class="hljs-keyword">self</span>.navigationController dismissViewControllerAnimated:<span class="hljs-literal">YES</span> completion:<span class="hljs-literal">nil</span>];
+    }
+
+<span class="copy-code-btn">复制代码</span></code></pre><h2 class="heading" data-id="heading-19">想说的</h2>
+<p>我认为内存管理的一些基本原理还是比较简单容易理解，难就难在结合复杂的场景，在一些复杂的场景下我们比较不容易发现内存泄漏的点。但是当我们把内存泄漏解决后你会发现，原来就是这么回事!!!</p>
+<h1 class="heading" data-id="heading-20">结束语</h1>
+<p>这部分就到此结束了，我们介绍了内存管理的原理，实现以及造成泄漏的常见场景。下篇介绍一些开源检测内存泄漏工具以及他们的实现。谢谢大家。</p>
+<p><br><br></p><hr><p></p>
+<p>阅读博客还不过瘾？</p>
+<blockquote>
+<p>欢迎大家扫二维码通过添加群助手，加入交流群，讨论和博客有关的技术问题，还可以和博主有更多互动</p>
+<p></p><figure><img class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/9/18/165ea8d9ae3cc60b?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1280" data-height="700"><figcaption></figcaption></figure><p></p>
+<p>博客转载、线下活动及合作等问题请邮件至 <a target="_blank" href="https://link.juejin.im?target=mailto%3Ashadowfly_zyl%40hotmail.com" rel="nofollow noopener noreferrer">shadowfly_zyl@hotmail.com</a> 进行沟通</p>
+</blockquote>
+</div></article><div class="tag-list-box" data-v-d4ff273a data-v-49e91c4b><div class="tag-list-title" data-v-d4ff273a data-v-49e91c4b>关注下面的标签，发现更多相似文章</div><div st:block="tagList" class="tag-list" data-v-d4ff273a data-v-49e91c4b><a href="/tag/iOS" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://user-gold-cdn.xitu.io/1532428449837649233abd9e9cfa8c4104f0ca4210f05.jpg?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>iOS</div></a></div></div><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" data-v-49e91c4b><div class="footer-author-block" data-v-49e91c4b><div itemscope="itemscope" itemtype="http://schema.org/Person" class="author" data-v-5a8982d2 data-v-49e91c4b><!----><div class="author-info-block" data-v-5a8982d2><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" class="avatar-link" data-v-5a8982d2><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5a8982d2></div></a><div class="author-info-box" data-v-5a8982d2><div class="profile-box" data-v-5a8982d2><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" class="username ellipsis" data-v-5a8982d2></a><span class="position ellipsis" data-v-5a8982d2></span></div><div class="meta-box" data-v-5a8982d2><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" class="posts" data-v-5a8982d2><span class="count post-count" data-v-5a8982d2>发布了  篇专栏 · </span></a><span class="count" data-v-5a8982d2>获得点赞  次 · </span><span class="count" data-v-5a8982d2>文章被阅读  次</span></div></div><!----></div></div></div></a><div st:block="banner" class="article-banner" data-v-d4ff273a data-v-49e91c4b><a st:name="link" st:state="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" href="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" target="_blank" class="banner-title" data-v-d4ff273a data-v-49e91c4b>安装掘金浏览器插件</a><div class="banner-content" data-v-d4ff273a data-v-49e91c4b>打开新标签页发现好内容，掘金、GitHub、Dribbble、ProductHunt 等站点内容轻松获取。快来安装掘金浏览器插件获取高质量内容吧！</div></div><!----><!----><div id="comment-box" class="comment-list-box" data-v-3a057265 data-v-49e91c4b><div class="title" data-v-3a057265>评论</div><div class="comment-form comment-form" data-v-5812a629 data-v-3a057265><div class="avatar-box" data-v-5812a629><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5812a629></div></div><div class="form-box" data-v-5812a629><div class="input-box" data-v-5812a629><div contenteditable="true" spellcheck="false" placeholder="输入评论..." class="rich-input empty" data-v-5812a629><br data-v-5812a629></div><!----></div><!----></div><input type="file" class="hidden" data-v-5812a629></div><!----><!----></div></div><!----><!----><div st:block="sidebar" class="sidebar sidebar" data-v-e8bd85a0 data-v-49e91c4b><div class="sidebar-block author-block shadow" data-v-3614612a data-v-8726068e data-v-e8bd85a0><div class="block-title" data-v-3614612a>关于作者</div><div class="block-body" data-v-3614612a><a href="/post/5c0744f6e51d45598b76f481" target="_blank" rel="" class="user-item item" data-v-8726068e><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-8726068e></div><div class="info-box" data-v-8726068e><div class="username" data-v-8726068e></div><!----></div></a><!----><!----><!----><!----></div></div><!----><!----><!----><!----><!----><div class="sticky-block-box" data-v-e8bd85a0><div class="sidebar-block catalog-block pure" data-v-3614612a data-v-0227ba49 data-v-e8bd85a0><nav class="article-catalog" style="display:none;" data-v-471a2118 data-v-0227ba49><div class="catalog-title" data-v-471a2118>目录</div><div class="catalog-body" data-v-471a2118><ul class="catalog-list" style="margin-top:0px;" data-v-471a2118></ul></div></nav></div></div></div><div class="article-suspended-panel article-suspended-panel" data-v-46f1d695 data-v-49e91c4b><div badge="81" class="like-btn panel-btn like-adjust with-badge" data-v-46f1d695></div><div badge="15" class="comment-btn panel-btn comment-adjust with-badge" data-v-46f1d695></div><div class="collect-btn panel-btn" data-v-46f1d695><!----></div><div class="share-title" data-v-46f1d695>分享</div><div class="weibo-btn share-btn panel-btn" data-v-46f1d695></div><div class="qq-btn share-btn panel-btn" data-v-46f1d695></div><div class="wechat-btn share-btn panel-btn" data-v-46f1d695><img src="" class="wechat-qr-code-img shadow" style="display:none;" data-v-46f1d695></div></div><div class="image-viewer-box" data-v-3cf863bc data-v-49e91c4b><!----></div></div></main></div><!----></div>
+      <div id="jjis" style="display:none;" data-state="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"></div>
+      
+      <script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/runtime.013d3571732a45acc62c.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/0.e83a72128cbe53a747b7.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/1.b6ab58c8b1c5ee2c6ad4.js></script></body></html>
+    

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Swift.org - Swift 5.0 Release Process</title>
+  <meta name="author" content="Apple Inc." />
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <link rel="license" href="/LICENSE.txt" />
+  <link rel="stylesheet" media="all" href="/assets/stylesheets/application.css" />
+  <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+  <link rel="mask-icon" href="/assets/images/icon-swift.svg" color="#F05339" />
+  
+
+  
+  <link rel="canonical" href="https://swift.org/blog/5-0-release-process/" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@SwiftLang" />
+  
+  <meta name="twitter:title" content="Swift 5.0 Release Process" />
+  <meta name="twitter:description" content="This post describes the goals, release process, and estimated schedule for
+Swift 5.0.
+
+" />
+  
+
+  <meta property="og:site_name" content="Swift.org" />
+  <meta property="og:image" content="https://swift.org/touch-icon-ipad-180x180.png" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Swift 5.0 Release Process" />
+  <meta property="og:url" content="https://swift.org/blog/5-0-release-process/" />
+  <meta property="og:description" content="This post describes the goals, release process, and estimated schedule for
+Swift 5.0.
+
+" />
+  <meta property="article:published_time" content="2018-09-25T03:00:00-07:00" />
+  <meta property="article:modified_time" content="2019-04-02T10:39:07-07:00" />
+  
+</head>
+
+<body>
+
+<nav role="navigation">
+  <header role="banner">
+    <h1 id="logo">
+      <a href="/" title="Swift.org" role="img" aria-label="Swift.org">
+        Swift.org
+      </a>
+    </h1>
+  </header>
+
+  <div id="menu-toggle" class="menu-toggle open"></div>
+
+  <ul>
+    
+    
+    <li>
+    
+      <a href="/about/">About Swift</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/blog/">Blog</a>
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/download/">Download</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/getting-started/">Getting Started</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/documentation/">Documentation</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/source-code/">Source Code</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/community/">Community</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/contributing/">Contributing</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/continuous-integration/">Continuous Integration</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/source-compatibility/">Source Compatibility</a>
+      
+    </li>
+  </ul>
+
+
+    <h2>Focus Areas</h2>
+    <ul>
+      
+      
+      <li>
+      
+        <a href="/gsoc2019/">GSoC 2019</a>
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/server/">Server Work Group</a>
+      </li>
+    </ul>
+
+  <h2>Projects</h2>
+  <ul>
+      
+      
+      <li>
+      
+        <a href="/compiler-stdlib/">Compiler and Standard Library</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/package-manager/">Package Manager</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/core-libraries/">Core Libraries</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/lldb/">REPL, Debugger &amp; Playgrounds</a>
+        
+      </li>
+
+  </ul>
+</nav>
+
+
+<main role="main">
+<article class="post">
+  <header>
+    <h1>Swift 5.0 Release Process</h1>
+
+    <time pubdate datetime="2018-09-25T03:00:00-07:00">September 25, 2018</time>
+    
+    
+    
+      <div class="byline">
+        
+          <img src="https://s.gravatar.com/avatar/b6520643611a05fd040d0abcee3c883c?s=64" alt="Ted Kremenek"/>
+        
+
+        <span class="author">
+          
+            <a href="https://github.com/tkremenek/" rel="nofollow" title="Ted Kremenek (@tkremenek) on GitHub">Ted Kremenek</a>
+          
+        </span>
+      </div>
+    
+    
+  </header>
+
+  <p>This post describes the goals, release process, and estimated schedule for
+<strong>Swift 5.0</strong>.</p>
+
+<h2 id="motivation-and-goals">Motivation and Goals</h2>
+
+<p>The primary goal of Swift 5.0 is for the language to
+<a href="https://swift.org/abi-stability/">achieve ABI stability</a>.  This will enable a stable Swift
+runtime to be deployed by OS vendors that can be linked against by executables
+and libraries.</p>
+
+<p>Related to ABI stability, <a href="https://forums.swift.org/t/plan-for-module-stability/14551">module stability</a>
+will be a primary focal point as well.  This will
+land in either the Swift 5.0 release or in a subsequent 5.x release
+depending on its readiness.</p>
+
+<h2 id="binary-compatibility">Binary Compatibility</h2>
+
+<p>Swift 5.0 is not binary compatible with earlier Swift releases.  Binary
+compatibility allows Swift code compiled by different Swift compilers to
+link together and interoperate at a runtime level.</p>
+
+<p>However, future Swift releases will be binary compatible with Swift 5.</p>
+
+<h2 id="source-compatibility">Source Compatibility</h2>
+
+<p>As with Swift 4.2, the vast majority of sources that built with the Swift 4.2
+compiler should compile with the Swift 5.0 compiler.</p>
+
+<p>However, the Swift 3 compatibility mode will not be supported in the Swift 5
+compiler.  Swift 4.2 is the last release of Swift to support Swift 3 mode.
+There are important changes to both the surface of the language and the
+interior of its implementation in the releases following Swift 3 that will be
+the basis of future (and lasting) source and binary stability.</p>
+
+<h2 id="snapshots-of-swift-50">Snapshots of Swift 5.0</h2>
+
+<p>Downloadable snapshots of the Swift 5.0 release branch will be posted
+regularly as part of <a href="https://ci.swift.org">continuous integration</a> testing.</p>
+
+<p>Once Swift 5.0 is released, the official final builds will also be posted in
+addition to the snapshots.</p>
+
+<h2 id="getting-changes-into-swift-50">Getting Changes into Swift 5.0</h2>
+
+<p>The <code class="highlighter-rouge">swift-5.0-branch</code> contains the changes that will be released in Swift
+5.0.  The branch will be managed as follows:</p>
+
+<ul>
+  <li>
+    <p>The <code class="highlighter-rouge">swift-5.0-branch</code> has already been initially cut from <code class="highlighter-rouge">master</code>.</p>
+  </li>
+  <li>
+    <p>Periodically, the <code class="highlighter-rouge">master</code> development branch will be merged into
+<code class="highlighter-rouge">swift-5.0-branch</code> until the final branch date.</p>
+  </li>
+  <li>
+    <p><strong>November 16, 2018 (final branching)</strong>: The <code class="highlighter-rouge">swift-5.0-branch</code> will have
+changes merged from <code class="highlighter-rouge">master</code> one last time.  After the final branch date
+there will be a “bake” period in which only select, critical fixes will go
+into the release (via pull requests).</p>
+  </li>
+</ul>
+
+<p>Five notable exceptions to this plan are <a href="https://github.com/apple/swift-package-manager">swift-package-manager</a>,
+<a href="https://github.com/apple/swift-llbuild">swift-llbuild</a>, <a href="https://github.com/apple/swift-corelibs-foundation">swift-corelibs-foundation</a>, <a href="https://github.com/apple/swift-corelibs-xctest">swift-corelibs-xctest</a>, and
+<a href="https://github.com/apple/swift-corelibs-libdispatch">swift-corelibs-libdispatch</a> which
+will merge from <code class="highlighter-rouge">master</code> into <code class="highlighter-rouge">swift-5.0-branch</code> daily and whose final cutoff
+date for changes will extend beyond November 16 and will be announced later.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Cutoff date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/apple/swift">swift</a></td>
+      <td>November 20, 2018</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/apple/swift-package-manager">swift-package-manager</a></td>
+      <td>February 11, 2019</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/apple/swift-llbuild">swift-llbuild</a></td>
+      <td>February 11, 2019</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="philosophy-on-taking-changes-into-swift-50">Philosophy on Taking Changes into Swift 5.0</h3>
+
+<ul>
+  <li>
+    <p>All language and API changes for Swift 5.0 will go through the <a href="https://github.com/apple/swift-evolution">Swift
+Evolution</a> process, with criteria
+for what changes are in scope for the release documented there.</p>
+  </li>
+  <li>
+    <p>Other changes (e.g., bug fixes, diagnostic improvements, SourceKit interface
+improvements) will be accepted based on their risk and impact.</p>
+  </li>
+  <li>
+    <p>Low-risk test tweaks will also be accepted late into the release branch if
+it aids in the qualification of the release.</p>
+  </li>
+  <li>
+    <p>As the release converges, the criteria for accepted changes will become
+increasingly restrictive.</p>
+  </li>
+</ul>
+
+<h2 id="impacted-repositories">Impacted Repositories</h2>
+
+<p>The following repositories will have a <code class="highlighter-rouge">swift-5.0-branch</code> branch to track
+sources as part of Swift 5.0 release:</p>
+
+<ul>
+  <li><a href="https://github.com/apple/swift">swift</a></li>
+  <li><a href="https://github.com/apple/swift-clang">swift-clang</a></li>
+  <li><a href="https://github.com/apple/swift-cmark">swift-cmark</a></li>
+  <li><a href="https://github.com/apple/swift-compiler-rt">swift-compiler-rt</a></li>
+  <li><a href="https://github.com/apple/swift-corelibs-foundation">swift-corelibs-foundation</a></li>
+  <li><a href="https://github.com/apple/swift-corelibs-libdispatch">swift-corelibs-libdispatch</a></li>
+  <li><a href="https://github.com/apple/swift-corelibs-xctest">swift-corelibs-xctest</a></li>
+  <li><a href="https://github.com/apple/swift-integration-tests">swift-integration-tests</a></li>
+  <li><a href="https://github.com/apple/swift-llbuild">swift-llbuild</a></li>
+  <li><a href="https://github.com/apple/swift-lldb">swift-lldb</a></li>
+  <li><a href="https://github.com/apple/swift-llvm">swift-llvm</a></li>
+  <li><a href="https://github.com/apple/swift-syntax">swift-syntax</a></li>
+  <li><a href="https://github.com/apple/swift-package-manager">swift-package-manager</a></li>
+  <li><a href="https://github.com/apple/swift-xcode-playground-support">swift-xcode-playground-support</a></li>
+</ul>
+
+<h2 id="release-managers">Release Managers</h2>
+
+<p>The overall management of the release will be overseen by the following
+individuals, who will announce when stricter control of change goes into
+effect for the Swift 5.0 release as the release converges:</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/tkremenek">Ted Kremenek</a> is the overall release manager for Swift 5.0.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/dexonsmith">Duncan Exon Smith</a> is the release manager for
+<a href="https://github.com/apple/swift-llvm">swift-llvm</a>, <a href="https://github.com/apple/swift-clang">swift-clang</a>, and <a href="https://github.com/apple/swift-compiler-rt">swift-compiler-rt</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/orgs/apple/people/fredriss">Fred Riss</a> is the release manager for <a href="https://github.com/apple/swift-lldb">swift-lldb</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/airspeedswift">Ben Cohen</a> is the release manager for the
+Swift Standard Library.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/parkera">Tony Parker</a> is the release manager for
+<a href="https://github.com/apple/swift-corelibs-foundation">swift-corelibs-foundation</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/MadCoder">Pierre Habouzit</a> is the release manager for
+<a href="https://github.com/apple/swift-corelibs-libdispatch">swift-corelibs-libdispatch</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/briancroom">Brian Croom</a> is the release manager for
+<a href="https://github.com/apple/swift-corelibs-xctest">swift-corelibs-xctest</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/rballard">Rick Ballard</a> is the release manager for
+<a href="https://github.com/apple/swift-package-manager">swift-package-manager</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/ddunbar">Daniel Dunbar</a> is the release manager for
+<a href="https://github.com/apple/swift-llbuild">swift-llbuild</a>.</p>
+  </li>
+</ul>
+
+<p>Please feel free to post on the <a href="https://forums.swift.org/c/development/compiler">development forum</a>
+or contact <a href="https://github.com/tkremenek">Ted Kremenek</a> directly concerning any questions about the release management
+process.</p>
+
+<h2 id="pull-requests-for-release-branch">Pull Requests for Release Branch</h2>
+
+<p>In order for a pull request to be considered for inclusion in the release
+branch after the final re-branch from <code class="highlighter-rouge">master</code> it must include the following
+information:</p>
+
+<ul>
+  <li>
+    <p><strong>Explanation</strong>: A description of the issue being fixed or enhancement being
+made.  This can be brief, but it should be clear.</p>
+  </li>
+  <li>
+    <p><strong>Scope</strong>: An assessment of the impact/importance of the change. For
+example, is the change a source-breaking language change, etc.</p>
+  </li>
+  <li>
+    <p><strong>SR Issue</strong>: The SR if the change fixes/implements an issue/enhancement on
+<a href="https://bugs.swift.org">bugs.swift.org</a>.</p>
+  </li>
+  <li>
+    <p><strong>Risk</strong>: What is the (specific) risk to the release for taking this change?</p>
+  </li>
+  <li>
+    <p><strong>Testing</strong>: What specific testing has been done or needs to be done to
+further validate any impact of this change?</p>
+  </li>
+  <li>
+    <p><strong>Reviewer</strong>: One or more <a href="https://swift.org/community/#code-owners">code owners</a>
+for the impacted components should review the change. Technical review can
+be delegated by a code owner or otherwise requested as deemed appropriate or
+useful.</p>
+  </li>
+</ul>
+
+<p><strong>All change</strong> going into the <code class="highlighter-rouge">swift-5.0-branch</code> (outside changes being merged
+in automatically from <code class="highlighter-rouge">master</code>) <strong>must go through pull requests</strong> that are
+accepted by the corresponding release manager.</p>
+
+
+
+  
+  <footer>
+    <nav>
+      
+      <a href="/blog/swift-4-2-released/" rel="prev" title="Previous: Swift 4.2 Released!">Swift 4.2 Released!</a>
+      
+
+      
+      <a href="/blog/how-mirror-works/" rel="next" title="Next: How Mirror Works">How Mirror Works</a>
+      
+    </nav>
+  </footer>
+  
+</article>
+</main>
+
+<footer role="contentinfo">
+  <aside>
+    <a href="/atom.xml" title="Subscribe to Site Updates"><i class="feed"></i></a>
+    <a href="https://twitter.com/swiftlang" rel="nofollow" title="Follow @SwiftLang on Twitter"><i class="twitter"></i></a>
+  </aside>
+
+  <p>Except where otherwise noted, all content on this blog is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International license</a>.</p>
+  
+  
+  <p class="copyright">Copyright © 2019 Apple Inc. All rights reserved.</p>
+  <p class="trademark">Swift and the Swift logo are trademarks of Apple Inc.</p>
+    <p class="privacy">
+    <a href="//www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="//www.apple.com/legal/privacy/en-ww/cookies/">Cookies</a>
+  </p>
+</footer>
+
+
+<script src="/assets/javascripts/application.js"></script>
+<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdswiftorg"
+</script>   
+<script src="https://developer.apple.com/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->
+</body>
+</html>

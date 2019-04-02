@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Swift.org - ABI Stability and More</title>
+  <meta name="author" content="Apple Inc." />
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <link rel="license" href="/LICENSE.txt" />
+  <link rel="stylesheet" media="all" href="/assets/stylesheets/application.css" />
+  <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+  <link rel="mask-icon" href="/assets/images/icon-swift.svg" color="#F05339" />
+  
+
+  
+  <link rel="canonical" href="https://swift.org/blog/abi-stability-and-more/" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@SwiftLang" />
+  
+  <meta name="twitter:title" content="ABI Stability and More" />
+  <meta name="twitter:description" content="It has been a longstanding goal to stabilize Swift’s ABI on macOS, iOS, watchOS, and tvOS.  While a stable ABI is an important milestone for the maturity of any language, the ultimate benefit to the Swift ecosystem was to enable binary compatibility for apps and libraries.  This post describes what binary compatibility means in Swift 5 and how it will evolve in future releases of Swift.
+
+" />
+  
+
+  <meta property="og:site_name" content="Swift.org" />
+  <meta property="og:image" content="https://swift.org/touch-icon-ipad-180x180.png" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="ABI Stability and More" />
+  <meta property="og:url" content="https://swift.org/blog/abi-stability-and-more/" />
+  <meta property="og:description" content="It has been a longstanding goal to stabilize Swift’s ABI on macOS, iOS, watchOS, and tvOS.  While a stable ABI is an important milestone for the maturity of any language, the ultimate benefit to the Swift ecosystem was to enable binary compatibility for apps and libraries.  This post describes what binary compatibility means in Swift 5 and how it will evolve in future releases of Swift.
+
+" />
+  <meta property="article:published_time" content="2019-02-07T02:00:00-08:00" />
+  <meta property="article:modified_time" content="2019-04-02T10:39:07-07:00" />
+  
+</head>
+
+<body>
+
+<nav role="navigation">
+  <header role="banner">
+    <h1 id="logo">
+      <a href="/" title="Swift.org" role="img" aria-label="Swift.org">
+        Swift.org
+      </a>
+    </h1>
+  </header>
+
+  <div id="menu-toggle" class="menu-toggle open"></div>
+
+  <ul>
+    
+    
+    <li>
+    
+      <a href="/about/">About Swift</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/blog/">Blog</a>
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/download/">Download</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/getting-started/">Getting Started</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/documentation/">Documentation</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/source-code/">Source Code</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/community/">Community</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/contributing/">Contributing</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/continuous-integration/">Continuous Integration</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/source-compatibility/">Source Compatibility</a>
+      
+    </li>
+  </ul>
+
+
+    <h2>Focus Areas</h2>
+    <ul>
+      
+      
+      <li>
+      
+        <a href="/gsoc2019/">GSoC 2019</a>
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/server/">Server Work Group</a>
+      </li>
+    </ul>
+
+  <h2>Projects</h2>
+  <ul>
+      
+      
+      <li>
+      
+        <a href="/compiler-stdlib/">Compiler and Standard Library</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/package-manager/">Package Manager</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/core-libraries/">Core Libraries</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/lldb/">REPL, Debugger &amp; Playgrounds</a>
+        
+      </li>
+
+  </ul>
+</nav>
+
+
+<main role="main">
+<article class="post">
+  <header>
+    <h1>ABI Stability and More</h1>
+
+    <time pubdate datetime="2019-02-07T02:00:00-08:00">February 7, 2019</time>
+    
+    
+    
+      <div class="byline">
+        
+          <img src="https://s.gravatar.com/avatar/c4fe988326eed161b989d0c5521cb105?s=64" alt="Jordan Rose"/>
+        
+
+        <span class="author">
+          
+            <a href="https://twitter.com/UINT_MIN/" rel="nofollow" title="Jordan Rose (@UINT_MIN) on Twitter">Jordan Rose</a>
+          
+        </span>
+      </div>
+    
+    
+  </header>
+
+  <p>It has been a longstanding goal to stabilize Swift’s ABI on macOS, iOS, watchOS, and tvOS.  While a stable ABI is an important milestone for the maturity of any language, the ultimate benefit to the Swift ecosystem was to enable binary compatibility for apps and libraries.  This post describes what binary compatibility means in Swift 5 and how it will evolve in future releases of Swift.</p>
+
+<p>You may ask: what about other platforms?  ABI stability is implemented for each operating system that it compiles and runs on. Swift’s ABI is currently declared stable for Swift 5 on Apple platforms. As development of Swift on Linux, Windows, and other platforms matures, the Swift Core Team will evaluate stabilizing the ABI on those platforms.</p>
+
+<p>Swift 5 provides binary compatibility for apps: a guarantee that going forward, an app built with one version of the Swift compiler will be able to talk to a library built with another version. This applies even when using the compatibility mode with older language versions (<code class="highlighter-rouge">-swift-version 4.2</code>).</p>
+
+<p><img src="/assets/images/abi-stability-blog/abi-stability.png" alt="Take an app built with Swift 5, using a compiler that supports ABI stability." /></p>
+
+<p>In this example, an app built with Swift 5.0 will run on systems that have a Swift 5 standard library installed, as well as those with a hypothetical Swift 5.1 or Swift 6.</p>
+
+<p><em>(all version numbers past Swift 5.0 in this post are hypothetical, of course)</em></p>
+
+<p>ABI stability for Apple OSes means that apps deploying to upcoming releases of those OSes will no longer need to embed the Swift standard library and “overlay” libraries within the app bundle, shrinking their download size; the Swift runtime and standard library will be shipped with the OS, like the Objective-C runtime.</p>
+
+<p>More information on how this affects apps submitted to the App Store is available in the <a href="https://developer.apple.com/documentation/xcode_release_notes/xcode_10_2_beta_release_notes/swift_5_release_notes_for_xcode_10_2_beta">Xcode 10.2 release notes</a>.</p>
+
+<h2 id="module-stability">Module Stability</h2>
+
+<p>ABI stability is about mixing versions of Swift at <em>run time.</em> What about compile time? Right now, Swift uses an opaque archive format called “swiftmodule” to describe the interface of a library, such as a framework “MagicKit”, rather than manually-written header files. However, the “swiftmodule” format is also tied to the current version of the compiler, which means an app developer can’t <code class="highlighter-rouge">import MagicKit</code> if MagicKit was built with a different version of Swift. That is, the app developer and the library author have to be using the same version of the compiler.</p>
+
+<p>To remove this restriction, the library author needs a feature currently being implemented called <em>module stability.</em> This involves augmenting the opaque format with a textual summary of a module, similar to what you see in Xcodeʼs “Generated Interface” view, so that clients can use a module without having to care what compiler it was built with. You can read more about that <a href="https://forums.swift.org/t/plan-for-module-stability/14551">on the Swift forums</a>.</p>
+
+<p><img src="/assets/images/abi-stability-blog/module-stability.png" alt="Let's say support for module stability ships with Swift 6." /></p>
+
+<p>As an example, you could build a framework using Swift 6, and that framework’s interface would be readable by both Swift 6 and a future Swift 7 compiler.</p>
+
+<p><em>Again, all Swift version numbers here are hypothetical.</em></p>
+
+<h2 id="library-evolution">Library Evolution</h2>
+
+<p>Up until now, we’ve been talking about changing the compiler but keeping the Swift code the same. What about changes to libraries that an app is using? Today, when a Swift library changes, any apps using that library have to be recompiled. This has some advantages: because the compiler knows the exact version of the library the app is using, it can make additional assumptions that reduce code size and make the app run faster. But those assumptions might not be true for the next version of the library.</p>
+
+<p>This feature is <em>library evolution support:</em> shipping a new version of a library <em>without</em> having to recompile its clients. This happens when Apple updates the libraries in an OS, but it’s also important when one company’s binary framework depends on another company’s binary framework. In this case, updating the second framework would ideally not require recompiling the first framework.</p>
+
+<p><img src="/assets/images/abi-stability-blog/library-evolution.png" alt="When an app is built, it has an expectation of what APIs are available based on the compile-time interfaces of the framework it's using. Resilience allows the framework to change without disrupting that interface, allowing the app to run using different versions of the framework." /></p>
+
+<p>In this example, the app is built against the original version of the framework, in yellow. With support for library evolution, it will run on systems that have the yellow version available, but also the newer, improved red version.</p>
+
+<p>Swift already has an implementation of support for library evolution, informally termed “resilience”. It’s an opt-in feature for libraries that need it, and it uses not-yet-finalized annotations to strike a balance between performance and future flexibility, which you can see in the source code for the standard library. The first of these to go through the Swift Evolution Process was <code class="highlighter-rouge">@inlinable</code>, added in Swift 4.2 (<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0193-cross-module-inlining-and-specialization.md">SE-0193</a>). Look for more proposals about library evolution support in the future.</p>
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">When Swift has…</th>
+      <th style="text-align: center">…then you can change…</th>
+      <th style="text-align: left">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">ABI Stability</td>
+      <td style="text-align: center">the Swift<br />standard library</td>
+      <td style="text-align: left">Swift 5 on macOS, iOS, watchOS, and tvOS</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Module Stability<br /><em>(and ABI stability)</em></td>
+      <td style="text-align: center">compilers</td>
+      <td style="text-align: left">Under active development</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Library Evolution Support</td>
+      <td style="text-align: center">your library’s APIs</td>
+      <td style="text-align: left">Largely implemented but needs to go through the Swift Evolution Process</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="questions">Questions?</h1>
+
+<p>Please feel free to post questions about this post on the <a href="https://forums.swift.org/t/swift-org-blog-abi-stability-and-more/20250">associated thread</a> on the <a href="https://forums.swift.org">Swift forums</a>.</p>
+
+
+
+  
+  <footer>
+    <nav>
+      
+      <a href="/blog/sourcekitd-stress-tester/" rel="prev" title="Previous: Introducing the sourcekitd Stress Tester">Introducing the sourcekitd Stress Tester</a>
+      
+
+      
+      <a href="/blog/abi-stability-and-apple/" rel="next" title="Next: Evolving Swift On Apple Platforms After ABI Stability">Evolving Swift On Apple Platforms After ABI Stability</a>
+      
+    </nav>
+  </footer>
+  
+</article>
+</main>
+
+<footer role="contentinfo">
+  <aside>
+    <a href="/atom.xml" title="Subscribe to Site Updates"><i class="feed"></i></a>
+    <a href="https://twitter.com/swiftlang" rel="nofollow" title="Follow @SwiftLang on Twitter"><i class="twitter"></i></a>
+  </aside>
+
+  <p>Except where otherwise noted, all content on this blog is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International license</a>.</p>
+  
+  
+  <p class="copyright">Copyright © 2019 Apple Inc. All rights reserved.</p>
+  <p class="trademark">Swift and the Swift logo are trademarks of Apple Inc.</p>
+    <p class="privacy">
+    <a href="//www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="//www.apple.com/legal/privacy/en-ww/cookies/">Cookies</a>
+  </p>
+</footer>
+
+
+<script src="/assets/javascripts/application.js"></script>
+<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdswiftorg"
+</script>   
+<script src="https://developer.apple.com/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->
+</body>
+</html>

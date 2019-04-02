@@ -1,0 +1,1893 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-7uoDIEGQ8zTwUS9KjTP+/2I13FQPHvJ9EKoeUThfin5R1+27bcUC08VQzUo4CIjCdhvJM4zxuI+3HcSycAUTCg==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-abba74d6e28a6842788159fec056bf26.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-nZcL+1Szltbs1e7IMsmzRupcqmH76PIz0/h4jLIAVX74TKAU11YfzKPWpkO/H9OmtVyKnkpjDXItEWBdT3BPtQ==" rel="stylesheet" href="https://github.githubassets.com/assets/site-16d020fbc43a8c23c1f051eac510157b.css" />
+    <link crossorigin="anonymous" media="all" integrity="sha512-rAv/FeoLdUOJ/FGky4DykKdtXKq7yLIVNFhi7W+fMvH5dylaYatal0LufJfeK8Fi8Ou8WXDu1KLv3gKqFcFEQA==" rel="stylesheet" href="https://github.githubassets.com/assets/github-0916dff282db3d299c25e2cbfd95e85c.css" />
+    
+    
+    
+    
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>Some non-`String`, non-`AttributedString` examples of types which might use `ExpressibleByStringInterpolation`. These designs assume we use an interpolation design which allows `appendInterpolatedSegment(_:)` to be overloaded, but an unconstrained generic design would work only a little bit less gracefully. · GitHub</title>
+    <meta name="description" content="Some non-`String`, non-`AttributedString` examples of types which might use `ExpressibleByStringInterpolation`. These designs assume we use an interpolation design which allows `appendInterpolatedSegment(_:)` to be overloaded, but an unconstrained generic design would work only a little bit less gracefully. - HTML.swift">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch-gist.xml" title="Gist">
+  <link rel="fluid-icon" href="https://gist.github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    
+    <meta property="og:image" content="https://avatars2.githubusercontent.com/u/931226?s=400&amp;v=4" /><meta property="og:site_name" content="Gist" /><meta property="og:type" content="article" /><meta property="og:title" content="Some non-`String`, non-`AttributedString` examples of types which might use `ExpressibleByStringInterpolation`. These designs assume we use an interpolation design which allows `appendInterpolatedSegment(_:)` to be overloaded, but an unconstrained generic design would work only a little bit less gracefully." /><meta property="og:url" content="https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6" /><meta property="og:description" content="Some non-`String`, non-`AttributedString` examples of types which might use `ExpressibleByStringInterpolation`. These designs assume we use an interpolation design which allows `appendInterpolatedS..." /><meta property="article:author" content="262588213843476" /><meta property="article:publisher" content="262588213843476" />
+
+  <link rel="assets" href="https://github.githubassets.com/">
+  
+  <meta name="pjax-timeout" content="1000">
+  
+  <meta name="request-id" content="E960:1D26:A7EE5:EE47C:5CA39FA9" data-pjax-transient>
+
+
+  
+
+  <meta name="selected-link" value="gist_code" data-pjax-transient>
+
+      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="gist" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="E960:1D26:A7EE5:EE47C:5CA39FA9" /><meta name="octolytics-dimension-region_edge" content="ap-southeast-1" /><meta name="octolytics-dimension-region_render" content="iad" />
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;gist-id&gt;" data-pjax-transient="true" /><meta name="octolytics-location" content="/&lt;user-name&gt;/&lt;gist-id&gt;" data-pjax-transient="true" />
+
+
+
+    <meta name="google-analytics" content="UA-3769691-4">
+
+
+<meta class="js-ga-set" name="dimension1" content="Logged Out">
+
+
+
+    <meta name="octolytics-dimension-public" content="false" /><meta name="octolytics-dimension-gist_id" content="89563842" /><meta name="octolytics-dimension-gist_name" content="0b46ce25b7da1049e61b4669352094b6" /><meta name="octolytics-dimension-anonymous" content="false" /><meta name="octolytics-dimension-owner_id" content="931226" /><meta name="octolytics-dimension-owner_login" content="brentdax" /><meta name="octolytics-dimension-forked" content="false" />
+
+  <meta class="js-ga-set" name="dimension5" content="secret">
+  <meta class="js-ga-set" name="dimension6" content="owned">
+  <meta class="js-ga-set" name="dimension7" content="swift">
+
+
+      <meta name="hostname" content="gist.github.com">
+    <meta name="user-login" content="">
+
+      <meta name="expected-hostname" content="gist.github.com">
+    <meta name="js-proxy-site-detection-payload" content="ZDcyMGFlMTRlNmMwMDZlOGE2MTBmOTU5ZWYxY2NhOTZiODZlYzBiMWZmYmY3M2VmNDhlYTIzNzkzNTM5OTQ4N3x7InJlbW90ZV9hZGRyZXNzIjoiMTEzLjEwOS41OC4yNDAiLCJyZXF1ZXN0X2lkIjoiRTk2MDoxRDI2OkE3RUU1OkVFNDdDOjVDQTM5RkE5IiwidGltZXN0YW1wIjoxNTU0MjI3MTE4LCJob3N0IjoiZ2l0aHViLmNvbSJ9">
+
+    <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_UNVERIFIED_LISTINGS,MARKETPLACE_PLAN_RESTRICTION_EDITOR">
+
+  <meta name="html-safe-nonce" content="d1bf2b4e4815ab31e44112702c4da044ea8819a5">
+
+  <meta http-equiv="x-pjax-version" content="d2588fdd3b43403853261835863fac87">
+  
+
+      <link href="/brentdax.atom" rel="alternate" title="atom" type="application/atom+xml">
+  <meta name="robots" content="noindex, follow" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-ePMbNH3eB0y5p/LoLTm3+eI53PhyUA2g0PwJs8nLZjVeVo3BK19Hj3cr8Fyuc9L9ZhbHSw85qEXrHM/63nUYOQ==" rel="stylesheet" href="https://github.githubassets.com/assets/gist-6ab0fc42583fec2f0a334dce30e3b3cc.css" />
+
+
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+
+
+  </head>
+
+  <body class="logged-out env-production">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+
+    
+    
+    
+
+
+        <div class="Header-old gist-header header-logged-out" role="banner">
+  <div class="container-lg px-3 clearfix">
+    <div class="d-flex flex-justify-between">
+      <div class="d-flex">
+        <a class="header-logo-wordmark" data-hotkey="g d" aria-label="Gist Homepage" href="/">
+          <svg width="78" height="28" class="octicon octicon-logo-github" viewBox="0 0 45 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M18.53 12.03h-.02c.009 0 .015.01.024.011h.006l-.01-.01zm.004.011c-.093.001-.327.05-.574.05-.78 0-1.05-.36-1.05-.83V8.13h1.59c.09 0 .16-.08.16-.19v-1.7c0-.09-.08-.17-.16-.17h-1.59V3.96c0-.08-.05-.13-.14-.13h-2.16c-.09 0-.14.05-.14.13v2.17s-1.09.27-1.16.28c-.08.02-.13.09-.13.17v1.36c0 .11.08.19.17.19h1.11v3.28c0 2.44 1.7 2.69 2.86 2.69.53 0 1.17-.17 1.27-.22.06-.02.09-.09.09-.16v-1.5a.177.177 0 0 0-.146-.18zM42.23 9.84c0-1.81-.73-2.05-1.5-1.97-.6.04-1.08.34-1.08.34v3.52s.49.34 1.22.36c1.03.03 1.36-.34 1.36-2.25zm2.43-.16c0 3.43-1.11 4.41-3.05 4.41-1.64 0-2.52-.83-2.52-.83s-.04.46-.09.52c-.03.06-.08.08-.14.08h-1.48c-.1 0-.19-.08-.19-.17l.02-11.11c0-.09.08-.17.17-.17h2.13c.09 0 .17.08.17.17v3.77s.82-.53 2.02-.53l-.01-.02c1.2 0 2.97.45 2.97 3.88zm-8.72-3.61h-2.1c-.11 0-.17.08-.17.19v5.44s-.55.39-1.3.39-.97-.34-.97-1.09V6.25c0-.09-.08-.17-.17-.17h-2.14c-.09 0-.17.08-.17.17v5.11c0 2.2 1.23 2.75 2.92 2.75 1.39 0 2.52-.77 2.52-.77s.05.39.08.45c.02.05.09.09.16.09h1.34c.11 0 .17-.08.17-.17l.02-7.47c0-.09-.08-.17-.19-.17zm-23.7-.01h-2.13c-.09 0-.17.09-.17.2v7.34c0 .2.13.27.3.27h1.92c.2 0 .25-.09.25-.27V6.23c0-.09-.08-.17-.17-.17zm-1.05-3.38c-.77 0-1.38.61-1.38 1.38 0 .77.61 1.38 1.38 1.38.75 0 1.36-.61 1.36-1.38 0-.77-.61-1.38-1.36-1.38zm16.49-.25h-2.11c-.09 0-.17.08-.17.17v4.09h-3.31V2.6c0-.09-.08-.17-.17-.17h-2.13c-.09 0-.17.08-.17.17v11.11c0 .09.09.17.17.17h2.13c.09 0 .17-.08.17-.17V8.96h3.31l-.02 4.75c0 .09.08.17.17.17h2.13c.09 0 .17-.08.17-.17V2.6c0-.09-.08-.17-.17-.17zM8.81 7.35v5.74c0 .04-.01.11-.06.13 0 0-1.25.89-3.31.89-2.49 0-5.44-.78-5.44-5.92S2.58 1.99 5.1 2c2.18 0 3.06.49 3.2.58.04.05.06.09.06.14L7.94 4.5c0 .09-.09.2-.2.17-.36-.11-.9-.33-2.17-.33-1.47 0-3.05.42-3.05 3.73s1.5 3.7 2.58 3.7c.92 0 1.25-.11 1.25-.11v-2.3H4.88c-.11 0-.19-.08-.19-.17V7.35c0-.09.08-.17.19-.17h3.74c.11 0 .19.08.19.17z"/></svg>
+          <svg width="40" height="28" class="octicon octicon-logo-gist" viewBox="0 0 25 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M4.7 8.73h2.45v4.02c-.55.27-1.64.34-2.53.34-2.56 0-3.47-2.2-3.47-5.05 0-2.85.91-5.06 3.48-5.06 1.28 0 2.06.23 3.28.73V2.66C7.27 2.33 6.25 2 4.63 2 1.13 2 0 4.69 0 8.03c0 3.34 1.11 6.03 4.63 6.03 1.64 0 2.81-.27 3.59-.64V7.73H4.7v1zm6.39 3.72V6.06h-1.05v6.28c0 1.25.58 1.72 1.72 1.72v-.89c-.48 0-.67-.16-.67-.7v-.02zm.25-8.72c0-.44-.33-.78-.78-.78s-.77.34-.77.78.33.78.77.78.78-.34.78-.78zm4.34 5.69c-1.5-.13-1.78-.48-1.78-1.17 0-.77.33-1.34 1.88-1.34 1.05 0 1.66.16 2.27.36v-.94c-.69-.3-1.52-.39-2.25-.39-2.2 0-2.92 1.2-2.92 2.31 0 1.08.47 1.88 2.73 2.08 1.55.13 1.77.63 1.77 1.34 0 .73-.44 1.42-2.06 1.42-1.11 0-1.86-.19-2.33-.36v.94c.5.2 1.58.39 2.33.39 2.38 0 3.14-1.2 3.14-2.41 0-1.28-.53-2.03-2.75-2.23h-.03zm8.58-2.47v-.86h-2.42v-2.5l-1.08.31v2.11l-1.56.44v.48h1.56v5c0 1.53 1.19 2.13 2.5 2.13.19 0 .52-.02.69-.05v-.89c-.19.03-.41.03-.61.03-.97 0-1.5-.39-1.5-1.34V6.94h2.42v.02-.01z"/></svg>
+</a>
+        <div class="site-search js-site-search">
+            <div class="header-search">
+
+<!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative js-quicksearch-form" role="search" aria-label="Site" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+  <div class="header-search-wrapper form-control js-chromeless-input-container">
+    <input type="text"
+      class="form-control js-site-search-focus header-search-input"
+      data-hotkey="s,/"
+      name="q"
+      aria-label="Search"
+      placeholder="Search…"
+      autocorrect="off"
+      autocomplete="off"
+      autocapitalize="off">
+  </div>
+
+</form></div>
+
+        </div>
+
+        <nav aria-label="Global" class="d-flex">
+          <ul class="list-style-none d-flex flex-items-center text-bold pl-2">
+            <li><a class="HeaderNavlink px-2" data-ga-click="Header, go to all gists, text:all gists" href="/discover">All gists</a></li>
+            <li><a class="HeaderNavlink px-2" data-ga-click="Header, go to GitHub, text:Back to GitHub" href="https://github.com">Back to GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+
+        <div class="header-actions" role="navigation">
+            <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="80f842cbf4c353c0803a65ee21981cfe09f5a8d9f8d2f15c9f521ba102750d00" data-ga-click="Header, sign up" href="/join?source=header-gist">Sign up for a GitHub account</a>
+          <a class="btn" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="942b184c14d4a02ce1569b61db9807655d6a1dad9064e76b5b769461add17657" data-ga-click="Header, sign in" href="https://gist.github.com/auth/github?return_to=https%3A%2F%2Fgist.github.com%2Fbrentdax%2F0b46ce25b7da1049e61b4669352094b6">Sign in</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+    <div id="js-flash-container">
+
+</div>
+
+
+
+  <div class="application-main " data-commit-hovercards-enabled>
+        <div itemscope itemtype="http://schema.org/Code">
+    <main id="gist-pjax-container" class="gist-content-wrapper" data-pjax-container>
+      
+
+
+  <div class="gist-detail-intro gist-banner">
+    <div class="container-lg px-3">
+      <p class="lead">
+        Instantly share code, notes, and snippets.
+      </p>
+    </div>
+  </div>
+
+
+<div class="gisthead pagehead repohead instapaper_ignore readability-menu experiment-repo-nav mb-4">
+  <div class="container-lg px-3">
+    
+  
+<div class="mb-3 d-flex">
+
+  <h1 class="secret css-truncate float-none flex-auto width-fit pl-0">
+    <a class="avatar mr-1" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=931226" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/brentdax"><img src="https://avatars2.githubusercontent.com/u/931226?s=52&amp;v=4" width="26" height="26" alt="@brentdax" /></a>
+    <span class="author"><a data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=931226" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/brentdax">brentdax</a></span><!--
+        --><span class="path-divider">/</span><!--
+        --><strong itemprop="name" class="gist-header-title css-truncate-target"><a href="/brentdax/0b46ce25b7da1049e61b4669352094b6">HTML.swift</a></strong>
+      <span class="Label Label--outline v-align-middle">Secret</span>
+
+    <div class="d-block text-small text-gray">
+      Last active <time-ago datetime="2019-02-23T07:16:16Z">Feb 23, 2019</time-ago>
+    </div>
+  </h1>
+
+  <ul class="pagehead-actions float-none">
+
+
+    <li>
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to star a gist" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist star button&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="25d3495b19ae7197721d313090b520f0385c2e48acd5c3d2e38b36cf7cc3c6ed" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fbrentdax%2F0b46ce25b7da1049e61b4669352094b6">
+    <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+    Star
+</a>
+  <a class="social-count" aria-label="6 users starred this gist" href="/brentdax/0b46ce25b7da1049e61b4669352094b6/stargazers">
+    6
+</a>
+    </li>
+
+      <li>
+          <a class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to fork a gist" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;gist fork button&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="618f43b2fd341515a48f1b197f5ab66b429f8dc7eda9c5363f7992ebd9c654c4" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fbrentdax%2F0b46ce25b7da1049e61b4669352094b6">
+    <svg class="octicon octicon-repo-forked" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+    Fork
+</a>    <a class="social-count js-social-count"
+      href="/brentdax/0b46ce25b7da1049e61b4669352094b6/forks"
+      aria-label="1 user forked this gist">
+      1
+    </a>
+
+      </li>
+  </ul>
+
+</div>
+
+<div class="d-flex">
+  <div class="flex-auto">
+    <nav class="reponav js-repo-nav js-sidenav-container-pjax"
+     aria-label="Gist"
+     data-pjax="#gist-pjax-container">
+
+  <a class="js-selected-navigation-item selected reponav-item" aria-label="Code" data-pjax="true" data-hotkey="g c" aria-current="page" data-selected-links="gist_code /brentdax/0b46ce25b7da1049e61b4669352094b6" href="/brentdax/0b46ce25b7da1049e61b4669352094b6">
+    <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>
+    Code
+</a>
+    <a class="js-selected-navigation-item reponav-item" aria-label="Revisions" data-pjax="true" data-hotkey="g r" data-selected-links="gist_revisions /brentdax/0b46ce25b7da1049e61b4669352094b6/revisions" href="/brentdax/0b46ce25b7da1049e61b4669352094b6/revisions">
+      <svg class="octicon octicon-git-commit" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"/></svg>
+      Revisions
+      <span class="Counter">15</span>
+</a>
+    <a class="js-selected-navigation-item reponav-item" aria-label="Stars" data-pjax="true" data-hotkey="g s" data-selected-links="gist_stars /brentdax/0b46ce25b7da1049e61b4669352094b6/stargazers" href="/brentdax/0b46ce25b7da1049e61b4669352094b6/stargazers">
+      <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      Stars
+      <span class="Counter">6</span>
+</a>
+    <a class="js-selected-navigation-item reponav-item" aria-label="Forks" data-pjax="true" data-hotkey="g f" data-selected-links="gist_forks /brentdax/0b46ce25b7da1049e61b4669352094b6/forks" href="/brentdax/0b46ce25b7da1049e61b4669352094b6/forks">
+      <svg class="octicon octicon-git-branch" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 5c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v.3c-.02.52-.23.98-.63 1.38-.4.4-.86.61-1.38.63-.83.02-1.48.16-2 .45V4.72a1.993 1.993 0 0 0-1-3.72C.88 1 0 1.89 0 3a2 2 0 0 0 1 1.72v6.56c-.59.35-1 .99-1 1.72 0 1.11.89 2 2 2 1.11 0 2-.89 2-2 0-.53-.2-1-.53-1.36.09-.06.48-.41.59-.47.25-.11.56-.17.94-.17 1.05-.05 1.95-.45 2.75-1.25S8.95 7.77 9 6.73h-.02C9.59 6.37 10 5.73 10 5zM2 1.8c.66 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2C1.35 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2zm0 12.41c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm6-8c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+      Forks
+      <span class="Counter">1</span>
+</a></nav>
+
+  </div>
+
+  <div class="file-navigation-options" data-multiple>
+
+    <div class="file-navigation-option v-align-middle">
+
+  <div class="input-group js-gist-share-menu">
+    <div class="input-group-button">
+      <details class="details-reset details-overlay select-menu">
+        <summary class="btn btn-sm select-menu-button" data-ga-click="Repository, clone Embed, location:repo overview">
+          <span data-menu-button>Embed</span>
+        </summary>
+        <details-menu class="select-menu-modal position-absolute" style="z-index: 99;" aria-label="Clone options">
+          <div class="select-menu-header">
+            <span class="select-menu-title">What would you like to do?</span>
+          </div>
+          <div class="select-menu-list">
+              <button name="button" type="button" class="select-menu-item width-full" aria-checked="true" role="menuitemradio" tabindex="0" value="&lt;script src=&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6.js&quot;&gt;&lt;/script&gt;" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;EMBED&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:89563842,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4e1e65c35913383b365da60a9e67f1094d567ab63b6b060955c8c9a690acd39d">
+                <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
+                <div class="select-menu-item-text">
+                  <span class="select-menu-item-heading" data-menu-button-text>
+                    
+                    Embed
+                  </span>
+                    <span class="description">
+                      Embed this gist in your website.
+                    </span>
+                </div>
+</button>              <button name="button" type="button" class="select-menu-item width-full" aria-checked="false" role="menuitemradio" tabindex="0" value="https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;SHARE&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:89563842,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="9bfd0138981a9d2c4401f8fdb4937b2692cb51486b0789511b2e4c97f6641481">
+                <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
+                <div class="select-menu-item-text">
+                  <span class="select-menu-item-heading" data-menu-button-text>
+                    
+                    Share
+                  </span>
+                    <span class="description">
+                      Copy sharable link for this gist.
+                    </span>
+                </div>
+</button>              <button name="button" type="button" class="select-menu-item width-full" aria-checked="false" role="menuitemradio" tabindex="0" value="https://gist.github.com/0b46ce25b7da1049e61b4669352094b6.git" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;USE_HTTPS&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:89563842,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="bacf78bda516b9161e503687e8590efebaf1d9f2259fff5453793608412d5fc0">
+                <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
+                <div class="select-menu-item-text">
+                  <span class="select-menu-item-heading" data-menu-button-text>
+                    Clone via
+                    HTTPS
+                  </span>
+                    <span class="description">
+                      Clone with Git or checkout with SVN using the repository’s web address.
+                    </span>
+                </div>
+</button>          </div>
+          <div class="select-menu-list" role="menu">
+            <a class="select-menu-item select-menu-action" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank">
+              <svg class="octicon octicon-question select-menu-item-icon" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"/></svg>
+              <div class="select-menu-item-text">
+                Learn more about clone URLs
+              </div>
+            </a>
+          </div>
+        </details-menu>
+      </details>
+    </div>
+
+    <input
+      id="gist-share-url"
+      type="text"
+      data-autoselect
+      class="form-control input-monospace input-sm"
+      value="&lt;script src=&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6.js&quot;&gt;&lt;/script&gt;"
+      aria-label="Clone this repository at &lt;script src=&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6.js&quot;&gt;&lt;/script&gt;"
+      readonly>
+
+    <div class="input-group-button">
+      <clipboard-copy for="gist-share-url" aria-label="Copy to clipboard" class="btn btn-sm zeroclipboard-button" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;COPY_URL&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:89563842,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="5b18916e84332bd015816d0725e38df06ca6f48465aafa365fc9a022d38be46b"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"/></svg></clipboard-copy>
+    </div>
+  </div>
+</div>
+
+
+    <div class="file-navigation-option">
+</div>
+
+
+    <div class="file-navigation-option">
+      <a class="btn btn-sm" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;clone_or_download.click&quot;,&quot;payload&quot;:{&quot;feature_clicked&quot;:&quot;DOWNLOAD_ZIP&quot;,&quot;git_repository_type&quot;:&quot;GIST&quot;,&quot;gist_id&quot;:89563842,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="367719ff52ff28861394f96c1ff2f88c13729b6062da993195540a58b837f702" data-ga-click="Gist, download zip, location:gist overview" href="/brentdax/0b46ce25b7da1049e61b4669352094b6/archive/52cd43fe634a89e27d3cc71e401543f344c28fca.zip">Download ZIP</a>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<div class="container-lg px-3 new-discussion-timeline experiment-repo-nav">
+  <div class="repository-content gist-content">
+    
+  <div>
+      <div itemprop="about">
+    Some non-`String`, non-`AttributedString` examples of types which might use `ExpressibleByStringInterpolation`. These designs assume we use an interpolation design which allows `appendInterpolatedSegment(_:)` to be overloaded, but an unconstrained generic design would work only a little bit less gracefully.
+  </div>
+
+
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-html-swift" class="file">
+      <div class="file-header">
+        <div class="file-actions">
+
+          <a class="btn btn-sm " href="/brentdax/0b46ce25b7da1049e61b4669352094b6/raw/52cd43fe634a89e27d3cc71e401543f344c28fca/HTML.swift">Raw</a>
+        </div>
+        <div class="file-info">
+          <span class="icon">
+            <svg class="octicon octicon-gist" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.5 5L10 7.5 7.5 10l-.75-.75L8.5 7.5 6.75 5.75 7.5 5zm-3 0L2 7.5 4.5 10l.75-.75L3.5 7.5l1.75-1.75L4.5 5zM0 13V2c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1zm1 0h10V2H1v11z"/></svg>
+          </span>
+          <a class="tooltipped tooltipped-s css-truncate" aria-label="Permalink" href="#file-html-swift">
+            <strong class="user-select-contain gist-blob-name css-truncate-target">
+              HTML.swift
+            </strong>
+          </a>
+        </div>
+      </div>
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-swift ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-html-swift-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-html-swift-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-en">Foundation</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-html-swift-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-html-swift-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Contains an HTML-escaped string.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-html-swift-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-html-swift-LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> An `HTML` instance works like a string, except that it is marked as containing HTML code.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-html-swift-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> When the contents of an ordinary `String` are inserted or interpolated into an `HTML` </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-html-swift-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> instance, they are escaped before insertion. Use of `HTML` can therefore help prevent </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-html-swift-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> cross-site scripting attacks.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-html-swift-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-html-swift-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Types can customize the way they&#39;re added to `HTML` instances by adopting the `HTMLConvertible` </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-html-swift-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> protocol.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-html-swift-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-html-swift-LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Example:</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-html-swift-LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-html-swift-LC15" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     func makeRow(for account: Account, origin: String, accountInfo: HTML) throws -&gt; HTML {</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-html-swift-LC16" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>       return try &quot;&quot;&quot;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-html-swift-LC17" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>         &lt;tr id=&quot;account_\(account.id)&quot; class=&quot;account&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-html-swift-LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           &lt;td class=&quot;account_name&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-html-swift-LC19" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>             &lt;img src=&quot;\(account.avatarURL)&quot; class=&quot;avatar&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-html-swift-LC20" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>             &lt;a href=&quot;/account/\(account.id)?origin=\(url: origin, withAllowedCharacters: .urlQueryAllowed)&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-html-swift-LC21" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>               \(account.name)</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-html-swift-LC22" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>             &lt;/a&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-html-swift-LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           &lt;/td&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-html-swift-LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           &lt;td class=&quot;account_info&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-html-swift-LC25" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>             \(accountInfo)</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-html-swift-LC26" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           &lt;/td&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-html-swift-LC27" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           &lt;td class=&quot;account_actions&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-html-swift-LC28" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>             &lt;button class=&quot;flag&quot; data-ajax-target-account=&quot;\(js: account)&quot;&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-html-swift-LC29" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>               Flag Account</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-html-swift-LC30" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>             &lt;/button&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-html-swift-LC31" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           &lt;/td&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-html-swift-LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>         &lt;/tr&gt;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-html-swift-LC33" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>         &quot;&quot;&quot;</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-html-swift-LC34" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     }</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-html-swift-LC35" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span><span class="pl-k">struct</span> <span class="pl-en">HTML</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-html-swift-LC36" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> raw<span class="pl-k">:</span> <span class="pl-c1">String</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-html-swift-LC37" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-html-swift-LC38" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">raw</span></span>: <span class="pl-c1">String</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">&quot;</span><span class="pl-pds">&quot;</span></span>) { <span class="pl-c1">self</span>.<span class="pl-smi">raw</span> <span class="pl-k">=</span> raw }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-html-swift-LC39" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-html-swift-LC40" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-smi"><span class="pl-en">raw</span></span>: <span class="pl-c1">String</span>) { <span class="pl-c1">self</span>.<span class="pl-smi">raw</span> <span class="pl-k">+=</span> raw }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-html-swift-LC41" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-html-swift-LC42" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-en">_</span> <span class="pl-smi">html</span>: HTML) { <span class="pl-c1">append</span>(<span class="pl-c1">raw</span>: html.<span class="pl-smi">raw</span>) }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-html-swift-LC43" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-html-swift-LC44" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">append</span>(<span class="pl-en">_</span> <span class="pl-smi">text</span>: <span class="pl-c1">String</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-html-swift-LC45" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">append</span>(<span class="pl-c1">raw</span>: text.<span class="pl-c1">applyingTransform</span>(.<span class="pl-smi">toXMLHex</span>, <span class="pl-c1">reverse</span>: <span class="pl-c1">false</span>))</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-html-swift-LC46" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-html-swift-LC47" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-html-swift-LC48" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-html-swift-LC49" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en">HTML</span>: <span class="pl-e"><span class="pl-c1">ExpressibleByStringInterpolation</span> </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-html-swift-LC50" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">stringInterpolation</span></span>: StringInterpolation) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-html-swift-LC51" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span> <span class="pl-k">=</span> stringInterpolation.<span class="pl-smi">instance</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-html-swift-LC52" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-html-swift-LC53" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-html-swift-LC54" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">struct</span> <span class="pl-en">StringInterpolation</span>: <span class="pl-e">StringInterpolationProtocol </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-html-swift-LC55" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> instance <span class="pl-k">=</span> <span class="pl-c1">HTML</span>()</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-html-swift-LC56" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-html-swift-LC57" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">literalCapacity</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">interpolationCount</span></span>: <span class="pl-c1">Int</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-html-swift-LC58" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">let</span> estimatedSize <span class="pl-k">=</span> literalCapacity <span class="pl-k">+</span> interpolationCount <span class="pl-k">*</span> <span class="pl-c1">8</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-html-swift-LC59" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-smi">raw</span>.<span class="pl-c1">reserveCapacity</span>(estimatedSize)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-html-swift-LC60" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-html-swift-LC61" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L62" class="blob-num js-line-number" data-line-number="62"></td>
+        <td id="file-html-swift-LC62" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendLiteral</span>(<span class="pl-en">_</span> <span class="pl-smi">literal</span>: <span class="pl-c1">String</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L63" class="blob-num js-line-number" data-line-number="63"></td>
+        <td id="file-html-swift-LC63" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(<span class="pl-c1">raw</span>: literal)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L64" class="blob-num js-line-number" data-line-number="64"></td>
+        <td id="file-html-swift-LC64" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L65" class="blob-num js-line-number" data-line-number="65"></td>
+        <td id="file-html-swift-LC65" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L66" class="blob-num js-line-number" data-line-number="66"></td>
+        <td id="file-html-swift-LC66" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Allow interpolation of other HTML instances.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L67" class="blob-num js-line-number" data-line-number="67"></td>
+        <td id="file-html-swift-LC67" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>(<span class="pl-en">_</span> <span class="pl-smi">html</span>: HTML) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L68" class="blob-num js-line-number" data-line-number="68"></td>
+        <td id="file-html-swift-LC68" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(html)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L69" class="blob-num js-line-number" data-line-number="69"></td>
+        <td id="file-html-swift-LC69" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L70" class="blob-num js-line-number" data-line-number="70"></td>
+        <td id="file-html-swift-LC70" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L71" class="blob-num js-line-number" data-line-number="71"></td>
+        <td id="file-html-swift-LC71" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Allow interpolation of auto-escaped strings (and other types converted</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L72" class="blob-num js-line-number" data-line-number="72"></td>
+        <td id="file-html-swift-LC72" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> to strings).</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L73" class="blob-num js-line-number" data-line-number="73"></td>
+        <td id="file-html-swift-LC73" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">text</span>: T) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L74" class="blob-num js-line-number" data-line-number="74"></td>
+        <td id="file-html-swift-LC74" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(<span class="pl-c1">String</span>(<span class="pl-c1">describing</span>: text))</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L75" class="blob-num js-line-number" data-line-number="75"></td>
+        <td id="file-html-swift-LC75" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L76" class="blob-num js-line-number" data-line-number="76"></td>
+        <td id="file-html-swift-LC76" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L77" class="blob-num js-line-number" data-line-number="77"></td>
+        <td id="file-html-swift-LC77" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Allow interpolation of unescaped strings (and other types converted</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L78" class="blob-num js-line-number" data-line-number="78"></td>
+        <td id="file-html-swift-LC78" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> to strings) with the raw: label.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L79" class="blob-num js-line-number" data-line-number="79"></td>
+        <td id="file-html-swift-LC79" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>&lt;<span class="pl-c1">T</span>&gt;(<span class="pl-smi"><span class="pl-en">raw</span></span>: T) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L80" class="blob-num js-line-number" data-line-number="80"></td>
+        <td id="file-html-swift-LC80" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(<span class="pl-c1">raw</span>: <span class="pl-c1">String</span>(<span class="pl-c1">describing</span>: raw))</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L81" class="blob-num js-line-number" data-line-number="81"></td>
+        <td id="file-html-swift-LC81" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L82" class="blob-num js-line-number" data-line-number="82"></td>
+        <td id="file-html-swift-LC82" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L83" class="blob-num js-line-number" data-line-number="83"></td>
+        <td id="file-html-swift-LC83" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Allow interpolation of URLs.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L84" class="blob-num js-line-number" data-line-number="84"></td>
+        <td id="file-html-swift-LC84" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>(<span class="pl-en">_</span> <span class="pl-smi">url</span>: URL) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L85" class="blob-num js-line-number" data-line-number="85"></td>
+        <td id="file-html-swift-LC85" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(url.<span class="pl-smi">absoluteString</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L86" class="blob-num js-line-number" data-line-number="86"></td>
+        <td id="file-html-swift-LC86" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L87" class="blob-num js-line-number" data-line-number="87"></td>
+        <td id="file-html-swift-LC87" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L88" class="blob-num js-line-number" data-line-number="88"></td>
+        <td id="file-html-swift-LC88" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Allow interpolation of URL-escaped strings with the url: label.</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L89" class="blob-num js-line-number" data-line-number="89"></td>
+        <td id="file-html-swift-LC89" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>(<span class="pl-en">url</span> <span class="pl-smi">string</span>: <span class="pl-c1">String</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L90" class="blob-num js-line-number" data-line-number="90"></td>
+        <td id="file-html-swift-LC90" class="blob-code blob-code-inner js-file-line">        <span class="pl-en">withAllowedCharacters</span> <span class="pl-smi">allowedCharacters</span>: CharacterSet <span class="pl-k">=</span> .<span class="pl-smi">urlPathAllowed</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L91" class="blob-num js-line-number" data-line-number="91"></td>
+        <td id="file-html-swift-LC91" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(<span class="pl-c1">raw</span>: string.<span class="pl-c1">addingPercentEncoding</span>(<span class="pl-c1">withAllowedCharacters</span>: allowedCharacters))</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L92" class="blob-num js-line-number" data-line-number="92"></td>
+        <td id="file-html-swift-LC92" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L93" class="blob-num js-line-number" data-line-number="93"></td>
+        <td id="file-html-swift-LC93" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L94" class="blob-num js-line-number" data-line-number="94"></td>
+        <td id="file-html-swift-LC94" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Allow interpolation of structured data as JSON, optionally specifying</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L95" class="blob-num js-line-number" data-line-number="95"></td>
+        <td id="file-html-swift-LC95" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-c"><span class="pl-c">//</span> the encoder to use (for its strategy).</span></td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L96" class="blob-num js-line-number" data-line-number="96"></td>
+        <td id="file-html-swift-LC96" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>    <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e">Encodable</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L97" class="blob-num js-line-number" data-line-number="97"></td>
+        <td id="file-html-swift-LC97" class="blob-code blob-code-inner js-file-line">      (js value<span class="pl-k">:</span> T, using encoder<span class="pl-k">:</span> JSONEncoder <span class="pl-k">=</span> <span class="pl-c1">JSONEncoder</span>()) <span class="pl-k">throws</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L98" class="blob-num js-line-number" data-line-number="98"></td>
+        <td id="file-html-swift-LC98" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">let</span> jsonData <span class="pl-k">=</span> <span class="pl-k">try</span> encoder.<span class="pl-c1">encode</span>(value)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L99" class="blob-num js-line-number" data-line-number="99"></td>
+        <td id="file-html-swift-LC99" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">let</span> json <span class="pl-k">=</span> <span class="pl-c1">String</span>(<span class="pl-c1">decoding</span>: jsonData, <span class="pl-c1">as</span>: <span class="pl-c1">UTF8</span>.<span class="pl-k">self</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L100" class="blob-num js-line-number" data-line-number="100"></td>
+        <td id="file-html-swift-LC100" class="blob-code blob-code-inner js-file-line">      instance.<span class="pl-c1">append</span>(json)</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L101" class="blob-num js-line-number" data-line-number="101"></td>
+        <td id="file-html-swift-LC101" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L102" class="blob-num js-line-number" data-line-number="102"></td>
+        <td id="file-html-swift-LC102" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-html-swift-L103" class="blob-num js-line-number" data-line-number="103"></td>
+        <td id="file-html-swift-LC103" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-localizablestring-swift" class="file">
+      <div class="file-header">
+        <div class="file-actions">
+
+          <a class="btn btn-sm " href="/brentdax/0b46ce25b7da1049e61b4669352094b6/raw/52cd43fe634a89e27d3cc71e401543f344c28fca/LocalizableString.swift">Raw</a>
+        </div>
+        <div class="file-info">
+          <span class="icon">
+            <svg class="octicon octicon-gist" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.5 5L10 7.5 7.5 10l-.75-.75L8.5 7.5 6.75 5.75 7.5 5zm-3 0L2 7.5 4.5 10l.75-.75L3.5 7.5l1.75-1.75L4.5 5zM0 13V2c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1zm1 0h10V2H1v11z"/></svg>
+          </span>
+          <a class="tooltipped tooltipped-s css-truncate" aria-label="Permalink" href="#file-localizablestring-swift">
+            <strong class="user-select-contain gist-blob-name css-truncate-target">
+              LocalizableString.swift
+            </strong>
+          </a>
+        </div>
+      </div>
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-swift ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-localizablestring-swift-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-localizablestring-swift-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Represents a string whose exact phrasing is locale-dependent.</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-localizablestring-swift-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-localizablestring-swift-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> `LocalizableString` contains a `key` and a series of `arguments`. When the `LocalizableString` is </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-localizablestring-swift-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> passed to the `String(localized:)` initializer, its `key` is used to find a format string in a </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-localizablestring-swift-LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> `Bundle`&#39;s localized string tables, and the format string is passed with the `arguments` to </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-localizablestring-swift-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> `String(format:arguments:)` to create the final value.</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-localizablestring-swift-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-localizablestring-swift-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> `LocalizableString` can be instantiated directly to use it with any key and set of arguments, or </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-localizablestring-swift-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> it can be instantiated with a string literal, with or without interpolations, to automatically </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-localizablestring-swift-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> calculate a format string and use it as the key.</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-localizablestring-swift-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-localizablestring-swift-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Example:</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-localizablestring-swift-LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-localizablestring-swift-LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     let alert = NSAlert()</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-localizablestring-swift-LC15" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     alert.messageText = String(localized: &quot;\(appName) could not add “\(name)” because a person with that name already exists.&quot;)</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-localizablestring-swift-LC16" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     alert.addButton(withTitle: String(localized: &quot;Cancel&quot;))</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-localizablestring-swift-LC17" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     alert.addButton(withTitle: String(localized: &quot;Replace&quot;))</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-localizablestring-swift-LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">LocalizableString</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-localizablestring-swift-LC19" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> key<span class="pl-k">:</span> <span class="pl-c1">String</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-localizablestring-swift-LC20" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> arguments<span class="pl-k">:</span> [<span class="pl-c1">CVarArg</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-localizablestring-swift-LC21" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-localizablestring-swift-LC22" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">key</span></span>: <span class="pl-c1">String</span>, <span class="pl-smi"><span class="pl-en">arguments</span></span>: [<span class="pl-c1">CVarArg</span>]) {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-localizablestring-swift-LC23" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span>.<span class="pl-smi">key</span> <span class="pl-k">=</span> key</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-localizablestring-swift-LC24" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span>.<span class="pl-smi">arguments</span> <span class="pl-k">=</span> arguments</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-localizablestring-swift-LC25" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-localizablestring-swift-LC26" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-localizablestring-swift-LC27" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">format</span>(<span class="pl-en">inTable</span> <span class="pl-smi">table</span>: <span class="pl-c1">String</span><span class="pl-k">?</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>, <span class="pl-en">from</span> <span class="pl-smi">bundle</span>: Bundle <span class="pl-k">=</span> .<span class="pl-smi">main</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-localizablestring-swift-LC28" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> bundle.<span class="pl-c1">localizedString</span>(<span class="pl-c1">forKey</span>: key, <span class="pl-c1">value</span>: key, <span class="pl-c1">table</span>: table)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-localizablestring-swift-LC29" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-localizablestring-swift-LC30" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-localizablestring-swift-LC31" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-localizablestring-swift-LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">String</span></span> {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-localizablestring-swift-LC33" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">///</span> Converts a localizable string into a concrete, fully localized `String`.</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-localizablestring-swift-LC34" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-en">localized</span> <span class="pl-smi">str</span>: LocalizableString, <span class="pl-en">inTable</span> <span class="pl-smi">table</span>: <span class="pl-c1">String</span><span class="pl-k">?</span> <span class="pl-k">=</span> <span class="pl-c1">nil</span>, <span class="pl-en">from</span> <span class="pl-smi">bundle</span>: Bundle <span class="pl-k">=</span> .<span class="pl-smi">main</span>) -&gt; String {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-localizablestring-swift-LC35" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span>.<span class="pl-k">init</span>(<span class="pl-c1">format</span>: str.<span class="pl-c1">format</span>(<span class="pl-c1">inTable</span>: table, <span class="pl-c1">from</span>: bundle), <span class="pl-c1">arguments</span>: str.<span class="pl-smi">arguments</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-localizablestring-swift-LC36" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-localizablestring-swift-LC37" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-localizablestring-swift-LC38" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-localizablestring-swift-LC39" class="blob-code blob-code-inner js-file-line"><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">LocalizableStringInterpolatable</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-localizablestring-swift-LC40" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> localizableKeyFormat<span class="pl-k">:</span> <span class="pl-c1">String</span> { <span class="pl-k">get</span> }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-localizablestring-swift-LC41" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> localizableValue<span class="pl-k">:</span> <span class="pl-c1">CVarArg</span> { <span class="pl-k">get</span> }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-localizablestring-swift-LC42" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-localizablestring-swift-LC43" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-localizablestring-swift-LC44" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en"><span class="pl-c1">Int</span></span>: <span class="pl-e">LocalizableStringInterpolatable </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-localizablestring-swift-LC45" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> localizableKeyFormat<span class="pl-k">:</span> <span class="pl-c1">String</span> { <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">&quot;</span>%lld<span class="pl-pds">&quot;</span></span> }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-localizablestring-swift-LC46" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> localizableValue<span class="pl-k">:</span> <span class="pl-c1">CVarArg</span> { <span class="pl-k">return</span> <span class="pl-c1">Int64</span>(<span class="pl-c1">self</span>) }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-localizablestring-swift-LC47" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-localizablestring-swift-LC48" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Other conformances omitted</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-localizablestring-swift-LC49" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-localizablestring-swift-LC50" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en">LocalizableString</span>: <span class="pl-e"><span class="pl-c1">ExpressibleByStringInterpolation</span> </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-localizablestring-swift-LC51" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">stringInterpolation</span></span>: StringInterpolation) {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-localizablestring-swift-LC52" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span>.<span class="pl-k">init</span>(<span class="pl-c1">key</span>: stringInterpolation.<span class="pl-smi">key</span>, <span class="pl-c1">arguments</span>: stringInterpolation.<span class="pl-smi">arguments</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-localizablestring-swift-LC53" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-localizablestring-swift-LC54" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-localizablestring-swift-LC55" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">StringInterpolation</span>: <span class="pl-e">StringInterpolationProtocol </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-localizablestring-swift-LC56" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> key<span class="pl-k">:</span> <span class="pl-c1">String</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">&quot;</span><span class="pl-pds">&quot;</span></span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-localizablestring-swift-LC57" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> arguments<span class="pl-k">:</span> [<span class="pl-c1">CVarArg</span>] <span class="pl-k">=</span> []</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-localizablestring-swift-LC58" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-localizablestring-swift-LC59" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">literalCapacity</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">interpolationCount</span></span>: <span class="pl-c1">Int</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-localizablestring-swift-LC60" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">let</span> assumedSizeOfFormatSpecifier <span class="pl-k">=</span> <span class="pl-c1">2</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-localizablestring-swift-LC61" class="blob-code blob-code-inner js-file-line">      </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L62" class="blob-num js-line-number" data-line-number="62"></td>
+        <td id="file-localizablestring-swift-LC62" class="blob-code blob-code-inner js-file-line">      key.<span class="pl-c1">reserveCapacity</span>(literalCapacity <span class="pl-k">+</span> interpolationCount <span class="pl-k">*</span> assumedSizeOfFormatSpecifier)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L63" class="blob-num js-line-number" data-line-number="63"></td>
+        <td id="file-localizablestring-swift-LC63" class="blob-code blob-code-inner js-file-line">      arguments.<span class="pl-c1">reserveCapacity</span>(interpolationCount)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L64" class="blob-num js-line-number" data-line-number="64"></td>
+        <td id="file-localizablestring-swift-LC64" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L65" class="blob-num js-line-number" data-line-number="65"></td>
+        <td id="file-localizablestring-swift-LC65" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L66" class="blob-num js-line-number" data-line-number="66"></td>
+        <td id="file-localizablestring-swift-LC66" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendLiteral</span>(<span class="pl-en">_</span> <span class="pl-smi">literal</span>: <span class="pl-c1">String</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L67" class="blob-num js-line-number" data-line-number="67"></td>
+        <td id="file-localizablestring-swift-LC67" class="blob-code blob-code-inner js-file-line">      <span class="pl-c"><span class="pl-c">//</span> Escape any % characters in the literal.</span></td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L68" class="blob-num js-line-number" data-line-number="68"></td>
+        <td id="file-localizablestring-swift-LC68" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>      key.<span class="pl-c1">append</span>(<span class="pl-c1">contentsOf</span>: literal.<span class="pl-c1">lazy</span>.<span class="pl-c1">flatMap</span> { <span class="pl-c1">$0</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">&quot;</span>%<span class="pl-pds">&quot;</span></span> <span class="pl-k">?</span> <span class="pl-s"><span class="pl-pds">&quot;</span>%%<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">String</span>(<span class="pl-c1">$0</span>) })</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L69" class="blob-num js-line-number" data-line-number="69"></td>
+        <td id="file-localizablestring-swift-LC69" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L70" class="blob-num js-line-number" data-line-number="70"></td>
+        <td id="file-localizablestring-swift-LC70" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L71" class="blob-num js-line-number" data-line-number="71"></td>
+        <td id="file-localizablestring-swift-LC71" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>(<span class="pl-en">_</span> <span class="pl-smi">value</span>: <span class="pl-c1">CVarArg</span>, <span class="pl-smi"><span class="pl-en">format</span></span>: <span class="pl-c1">String</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L72" class="blob-num js-line-number" data-line-number="72"></td>
+        <td id="file-localizablestring-swift-LC72" class="blob-code blob-code-inner js-file-line">      key <span class="pl-k">+=</span> format</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L73" class="blob-num js-line-number" data-line-number="73"></td>
+        <td id="file-localizablestring-swift-LC73" class="blob-code blob-code-inner js-file-line">      arguments.<span class="pl-c1">append</span>(value)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L74" class="blob-num js-line-number" data-line-number="74"></td>
+        <td id="file-localizablestring-swift-LC74" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L75" class="blob-num js-line-number" data-line-number="75"></td>
+        <td id="file-localizablestring-swift-LC75" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L76" class="blob-num js-line-number" data-line-number="76"></td>
+        <td id="file-localizablestring-swift-LC76" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e">LocalizableStringInterpolatable</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T) {</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L77" class="blob-num js-line-number" data-line-number="77"></td>
+        <td id="file-localizablestring-swift-LC77" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">appendInterpolation</span>(value.<span class="pl-smi">localizableValue</span>, <span class="pl-c1">format</span>: value.<span class="pl-smi">localizableKeyFormat</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L78" class="blob-num js-line-number" data-line-number="78"></td>
+        <td id="file-localizablestring-swift-LC78" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L79" class="blob-num js-line-number" data-line-number="79"></td>
+        <td id="file-localizablestring-swift-LC79" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-localizablestring-swift-L80" class="blob-num js-line-number" data-line-number="80"></td>
+        <td id="file-localizablestring-swift-LC80" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-sqlitestatement-swift" class="file">
+      <div class="file-header">
+        <div class="file-actions">
+
+          <a class="btn btn-sm " href="/brentdax/0b46ce25b7da1049e61b4669352094b6/raw/52cd43fe634a89e27d3cc71e401543f344c28fca/SQLiteStatement.swift">Raw</a>
+        </div>
+        <div class="file-info">
+          <span class="icon">
+            <svg class="octicon octicon-gist" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.5 5L10 7.5 7.5 10l-.75-.75L8.5 7.5 6.75 5.75 7.5 5zm-3 0L2 7.5 4.5 10l.75-.75L3.5 7.5l1.75-1.75L4.5 5zM0 13V2c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1zm1 0h10V2H1v11z"/></svg>
+          </span>
+          <a class="tooltipped tooltipped-s css-truncate" aria-label="Permalink" href="#file-sqlitestatement-swift">
+            <strong class="user-select-contain gist-blob-name css-truncate-target">
+              SQLiteStatement.swift
+            </strong>
+          </a>
+        </div>
+      </div>
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-swift ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-sqlitestatement-swift-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-sqlitestatement-swift-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> <span class="pl-en">sqlite3</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-sqlitestatement-swift-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-sqlitestatement-swift-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Represents a statement and its parameters, ready to be executed with a database.</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-sqlitestatement-swift-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-sqlitestatement-swift-LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> A `SQLStatement` can be created by either passing a SQL query string and an array of parameters, </span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-sqlitestatement-swift-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> or by using a string literal and interpolating any values you want to include as parameters.</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-sqlitestatement-swift-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Once you&#39;ve created a statement, you can execute it with `SQLiteDatabase.execute(_:)`.</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-sqlitestatement-swift-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-sqlitestatement-swift-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> Example:</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-sqlitestatement-swift-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span> </span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-sqlitestatement-swift-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     let resultSet = try db.execute(&quot;&quot;&quot;</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-sqlitestatement-swift-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>          SELECT id, title, slug FROM posts WHERE user_id = \(user.id)</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-sqlitestatement-swift-LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>           ORDER BY title \(raw: reversed ? &quot;DESC&quot; : &quot;ASC&quot;)</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-sqlitestatement-swift-LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>          &quot;&quot;&quot;)</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-sqlitestatement-swift-LC15" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     for row in resultSet {</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-sqlitestatement-swift-LC16" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>       print(row[0, as: Int.self], row[2, as: String.self], row[1, as: String.self])</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-sqlitestatement-swift-LC17" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">///</span>     }</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-sqlitestatement-swift-LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span><span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">SQLiteStatement</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-sqlitestatement-swift-LC19" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> sql<span class="pl-k">:</span> <span class="pl-c1">String</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-sqlitestatement-swift-LC20" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> parameters<span class="pl-k">:</span> [Parameter]</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-sqlitestatement-swift-LC21" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-sqlitestatement-swift-LC22" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">sql</span></span>: <span class="pl-c1">String</span>, <span class="pl-smi"><span class="pl-en">parameters</span></span>: [Parameter]) {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-sqlitestatement-swift-LC23" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span>.<span class="pl-smi">sql</span> <span class="pl-k">=</span> sql</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-sqlitestatement-swift-LC24" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span>.<span class="pl-smi">parameters</span> <span class="pl-k">=</span> parameters</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-sqlitestatement-swift-LC25" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-sqlitestatement-swift-LC26" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-sqlitestatement-swift-LC27" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">enum</span> <span class="pl-en">Parameter</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-sqlitestatement-swift-LC28" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">case</span> <span class="pl-c1">blob</span>(Data)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-sqlitestatement-swift-LC29" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">case</span> <span class="pl-c1">int64</span>(<span class="pl-c1">Int64</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-sqlitestatement-swift-LC30" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">case</span> <span class="pl-c1">double</span>(<span class="pl-c1">Double</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-sqlitestatement-swift-LC31" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">case</span> <span class="pl-c1">text</span>(<span class="pl-c1">String</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-sqlitestatement-swift-LC32" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">case</span> <span class="pl-c1">null</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-sqlitestatement-swift-LC33" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-sqlitestatement-swift-LC34" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">private</span> <span class="pl-k">func</span> <span class="pl-en">bind</span>(<span class="pl-en">to</span> <span class="pl-smi">resultSet</span>: SQLiteResultSet, <span class="pl-en">at</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">throws</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-sqlitestatement-swift-LC35" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">switch</span> <span class="pl-c1">self</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-sqlitestatement-swift-LC36" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">case</span> .<span class="pl-c1">blob</span>(<span class="pl-k">let</span> data)<span class="pl-k">:</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-sqlitestatement-swift-LC37" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">try</span> data.<span class="pl-smi">withUnsafeBytes</span> { buffer <span class="pl-k">in</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-sqlitestatement-swift-LC38" class="blob-code blob-code-inner js-file-line">          <span class="pl-k">try</span> resultSet.<span class="pl-c1">bindBlob</span>(buffer, <span class="pl-c1">count</span>: data.<span class="pl-c1">count</span>, <span class="pl-c1">to</span>: i, <span class="pl-c1">destructor</span>: .<span class="pl-smi">transient</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-sqlitestatement-swift-LC39" class="blob-code blob-code-inner js-file-line">        }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-sqlitestatement-swift-LC40" class="blob-code blob-code-inner js-file-line">        <span class="pl-c"><span class="pl-c">//</span> ...other cases omitted...</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-sqlitestatement-swift-LC41" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span>      }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-sqlitestatement-swift-LC42" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-sqlitestatement-swift-LC43" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-sqlitestatement-swift-LC44" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-sqlitestatement-swift-LC45" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-sqlitestatement-swift-LC46" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en">SQLiteDatabase</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-sqlitestatement-swift-LC47" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">execute</span>(<span class="pl-en">_</span> <span class="pl-smi">statement</span>: SQLiteStatement) <span class="pl-k">throws</span> <span class="pl-k">-&gt;</span> SQLiteResultSet {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-sqlitestatement-swift-LC48" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> preparedStatement<span class="pl-k">:</span> <span class="pl-c1">UnsafeRawPointer</span><span class="pl-k">?</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-sqlitestatement-swift-LC49" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">try</span> statement.<span class="pl-smi">sql</span>.<span class="pl-c1">withCString</span> { ptr <span class="pl-k">in</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-sqlitestatement-swift-LC50" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">try</span> SQLiteError.<span class="pl-c1">check</span>(<span class="pl-c1">sqlite3_prepare_v3</span>(db, ptr, <span class="pl-c1">strlen</span>(ptr), <span class="pl-c1">0</span>, <span class="pl-k">&amp;</span>preparedStatement, <span class="pl-c1">nil</span>))</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-sqlitestatement-swift-LC51" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-sqlitestatement-swift-LC52" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">let</span> resultSet <span class="pl-k">=</span> <span class="pl-c1">SQLiteResultSet</span>(<span class="pl-c1">preparedStatement</span>: preparedStatement<span class="pl-k">!</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-sqlitestatement-swift-LC53" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-sqlitestatement-swift-LC54" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">for</span> (i, parameter) <span class="pl-k">in</span> <span class="pl-c1">zip</span>(<span class="pl-c1">1</span><span class="pl-k">...</span>, statement.<span class="pl-smi">parameters</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-sqlitestatement-swift-LC55" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">try</span> parameter.<span class="pl-c1">bind</span>(<span class="pl-c1">to</span>: resultSet, <span class="pl-c1">at</span>: i)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-sqlitestatement-swift-LC56" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-sqlitestatement-swift-LC57" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-sqlitestatement-swift-LC58" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> resultSet</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-sqlitestatement-swift-LC59" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-sqlitestatement-swift-LC60" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-sqlitestatement-swift-LC61" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L62" class="blob-num js-line-number" data-line-number="62"></td>
+        <td id="file-sqlitestatement-swift-LC62" class="blob-code blob-code-inner js-file-line"><span class="pl-k">public</span> <span class="pl-k">protocol</span> <span class="pl-en">SQLiteStatementConvertible</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L63" class="blob-num js-line-number" data-line-number="63"></td>
+        <td id="file-sqlitestatement-swift-LC63" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> sqliteStatement<span class="pl-k">:</span> SQLiteStatement { <span class="pl-k">get</span> }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L64" class="blob-num js-line-number" data-line-number="64"></td>
+        <td id="file-sqlitestatement-swift-LC64" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L65" class="blob-num js-line-number" data-line-number="65"></td>
+        <td id="file-sqlitestatement-swift-LC65" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L66" class="blob-num js-line-number" data-line-number="66"></td>
+        <td id="file-sqlitestatement-swift-LC66" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en">Data</span>: <span class="pl-e">SQLiteStatementConvertible </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L67" class="blob-num js-line-number" data-line-number="67"></td>
+        <td id="file-sqlitestatement-swift-LC67" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> sqliteStatement<span class="pl-k">:</span> SQLiteStatement {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L68" class="blob-num js-line-number" data-line-number="68"></td>
+        <td id="file-sqlitestatement-swift-LC68" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> <span class="pl-c1">SQLStatement</span>(<span class="pl-c1">sql</span>: <span class="pl-s"><span class="pl-pds">&quot;</span>?<span class="pl-pds">&quot;</span></span>, <span class="pl-c1">parameters</span>: [.<span class="pl-c1">blob</span>(<span class="pl-c1">self</span>)])</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L69" class="blob-num js-line-number" data-line-number="69"></td>
+        <td id="file-sqlitestatement-swift-LC69" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L70" class="blob-num js-line-number" data-line-number="70"></td>
+        <td id="file-sqlitestatement-swift-LC70" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L71" class="blob-num js-line-number" data-line-number="71"></td>
+        <td id="file-sqlitestatement-swift-LC71" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Other conformances omitted</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L72" class="blob-num js-line-number" data-line-number="72"></td>
+        <td id="file-sqlitestatement-swift-LC72" class="blob-code blob-code-inner js-file-line"><span class="pl-c"></span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L73" class="blob-num js-line-number" data-line-number="73"></td>
+        <td id="file-sqlitestatement-swift-LC73" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en">SQLiteStatement</span>: <span class="pl-e">SQLiteStatementConvertible </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L74" class="blob-num js-line-number" data-line-number="74"></td>
+        <td id="file-sqlitestatement-swift-LC74" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">var</span> sqliteStatement<span class="pl-k">:</span> SQLiteStatement {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L75" class="blob-num js-line-number" data-line-number="75"></td>
+        <td id="file-sqlitestatement-swift-LC75" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> <span class="pl-c1">self</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L76" class="blob-num js-line-number" data-line-number="76"></td>
+        <td id="file-sqlitestatement-swift-LC76" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L77" class="blob-num js-line-number" data-line-number="77"></td>
+        <td id="file-sqlitestatement-swift-LC77" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L78" class="blob-num js-line-number" data-line-number="78"></td>
+        <td id="file-sqlitestatement-swift-LC78" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L79" class="blob-num js-line-number" data-line-number="79"></td>
+        <td id="file-sqlitestatement-swift-LC79" class="blob-code blob-code-inner js-file-line"><span class="pl-k">extension</span> <span class="pl-en">SQLiteStatement</span>: <span class="pl-e"><span class="pl-c1">ExpressibleByStringInterpolation</span> </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L80" class="blob-num js-line-number" data-line-number="80"></td>
+        <td id="file-sqlitestatement-swift-LC80" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">stringInterpolation</span></span>: StringInterpolation) <span class="pl-k">throws</span> -&gt; Void) <span class="pl-k">rethrows</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L81" class="blob-num js-line-number" data-line-number="81"></td>
+        <td id="file-sqlitestatement-swift-LC81" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">self</span> <span class="pl-k">=</span> stringInterpolation.<span class="pl-smi">statement</span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L82" class="blob-num js-line-number" data-line-number="82"></td>
+        <td id="file-sqlitestatement-swift-LC82" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L83" class="blob-num js-line-number" data-line-number="83"></td>
+        <td id="file-sqlitestatement-swift-LC83" class="blob-code blob-code-inner js-file-line">  </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L84" class="blob-num js-line-number" data-line-number="84"></td>
+        <td id="file-sqlitestatement-swift-LC84" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-en">StringInterpolation</span>: <span class="pl-e">StringInterpolationProtocol </span>{</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L85" class="blob-num js-line-number" data-line-number="85"></td>
+        <td id="file-sqlitestatement-swift-LC85" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> statement<span class="pl-k">:</span> SQLiteStatement</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L86" class="blob-num js-line-number" data-line-number="86"></td>
+        <td id="file-sqlitestatement-swift-LC86" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L87" class="blob-num js-line-number" data-line-number="87"></td>
+        <td id="file-sqlitestatement-swift-LC87" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">init</span>(<span class="pl-smi"><span class="pl-en">literalCapacity</span></span>: <span class="pl-c1">Int</span>, <span class="pl-smi"><span class="pl-en">interpolationCount</span></span>: <span class="pl-c1">Int</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L88" class="blob-num js-line-number" data-line-number="88"></td>
+        <td id="file-sqlitestatement-swift-LC88" class="blob-code blob-code-inner js-file-line">      statement.<span class="pl-smi">sql</span>.<span class="pl-c1">reserveCapacity</span>(literalCapacity <span class="pl-k">+</span> interpolationCount)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L89" class="blob-num js-line-number" data-line-number="89"></td>
+        <td id="file-sqlitestatement-swift-LC89" class="blob-code blob-code-inner js-file-line">      statement.<span class="pl-smi">parameters</span>.<span class="pl-c1">reserveCapacity</span>(interpolationCount)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L90" class="blob-num js-line-number" data-line-number="90"></td>
+        <td id="file-sqlitestatement-swift-LC90" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L91" class="blob-num js-line-number" data-line-number="91"></td>
+        <td id="file-sqlitestatement-swift-LC91" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L92" class="blob-num js-line-number" data-line-number="92"></td>
+        <td id="file-sqlitestatement-swift-LC92" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendLiteral</span>(<span class="pl-en">_</span> <span class="pl-smi">literal</span>: <span class="pl-c1">String</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L93" class="blob-num js-line-number" data-line-number="93"></td>
+        <td id="file-sqlitestatement-swift-LC93" class="blob-code blob-code-inner js-file-line">      statement.<span class="pl-smi">sql</span> <span class="pl-k">+=</span> literal</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L94" class="blob-num js-line-number" data-line-number="94"></td>
+        <td id="file-sqlitestatement-swift-LC94" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L95" class="blob-num js-line-number" data-line-number="95"></td>
+        <td id="file-sqlitestatement-swift-LC95" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L96" class="blob-num js-line-number" data-line-number="96"></td>
+        <td id="file-sqlitestatement-swift-LC96" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>&lt;<span class="pl-c1">T</span>: <span class="pl-e">SQLiteStatementConvertible</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">value</span>: T<span class="pl-k">?</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L97" class="blob-num js-line-number" data-line-number="97"></td>
+        <td id="file-sqlitestatement-swift-LC97" class="blob-code blob-code-inner js-file-line">      statement.<span class="pl-smi">sql</span> <span class="pl-k">+=</span> value<span class="pl-k">?</span>.<span class="pl-smi">statement</span>.<span class="pl-smi">sql</span> <span class="pl-k">??</span> <span class="pl-s"><span class="pl-pds">&quot;</span>?<span class="pl-pds">&quot;</span></span></td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L98" class="blob-num js-line-number" data-line-number="98"></td>
+        <td id="file-sqlitestatement-swift-LC98" class="blob-code blob-code-inner js-file-line">      statement.<span class="pl-smi">parameters</span> <span class="pl-k">+=</span> value<span class="pl-k">?</span>.<span class="pl-smi">statement</span>.<span class="pl-smi">parameters</span> <span class="pl-k">??</span> [.<span class="pl-smi">null</span>]</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L99" class="blob-num js-line-number" data-line-number="99"></td>
+        <td id="file-sqlitestatement-swift-LC99" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L100" class="blob-num js-line-number" data-line-number="100"></td>
+        <td id="file-sqlitestatement-swift-LC100" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L101" class="blob-num js-line-number" data-line-number="101"></td>
+        <td id="file-sqlitestatement-swift-LC101" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-k">mutating</span> <span class="pl-k">func</span> <span class="pl-en">appendInterpolation</span>(<span class="pl-en">raw</span> <span class="pl-smi">sql</span>: SQLiteStatement) {</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L102" class="blob-num js-line-number" data-line-number="102"></td>
+        <td id="file-sqlitestatement-swift-LC102" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">appendInterpolation</span>(sql)</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L103" class="blob-num js-line-number" data-line-number="103"></td>
+        <td id="file-sqlitestatement-swift-LC103" class="blob-code blob-code-inner js-file-line">    }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L104" class="blob-num js-line-number" data-line-number="104"></td>
+        <td id="file-sqlitestatement-swift-LC104" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-sqlitestatement-swift-L105" class="blob-num js-line-number" data-line-number="105"></td>
+        <td id="file-sqlitestatement-swift-LC105" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+
+    <a name="comments"></a>
+    <div class="discussion-timeline width-full js-quote-selection-container float-none" data-quote-markdown=".js-comment-body">
+      <div class="js-discussion js-socket-channel" data-channel="marked-as-read:gist:89563842">
+        
+  <div class="timeline-comment-wrapper js-comment-container">
+      
+
+<div class="avatar-parent-child timeline-comment-avatar">
+    <a class="d-inline-block" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=216089" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/AliSoftware"><img class="avatar rounded-1" height="44" width="44" alt="@AliSoftware" src="https://avatars0.githubusercontent.com/u/216089?s=88&amp;v=4" /></a>
+
+</div>
+
+
+    
+<div class="timeline-comment-group js-minimizable-comment-group js-targetable-comment" id="gistcomment-2719222">
+    <div class="minimized-comment d-none ">
+      
+
+  
+
+<details class="Details-element details-reset border rounded-1 bg-white"
+       data-body-version="1771b5a73a9748b28957c051f326de24">
+    <summary class="bg-gray border-bottom-0 py-0 px-2">
+      <div class="d-flex flex-justify-between flex-items-center">
+        <h3 class="timeline-comment-header-text f5 text-gray text-normal text-italic">
+              This comment has been minimized.
+
+        </h3>
+        <div class="text-gray text-small">
+          <a rel="nofollow" class="link-gray" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;minimized comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="913f88d75635fa6fa7a95577599be40bb5f4fdb032b70af02f1377df151cc7fa" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fbrentdax%2F0b46ce25b7da1049e61b4669352094b6">Sign in to view</a>
+        </div>
+      </div>
+    </summary>
+</details>
+
+
+    </div>
+  <div class="unminimized-comment comment previewable-edit js-comment js-task-list-container timeline-comment  "
+       data-body-version="1771b5a73a9748b28957c051f326de24"
+       data-unfurl-hide-url="/content_reference_attachments/hide"
+       data-unfurl-authenticity-token="RegpQxTqm1a088zUFA/h8aj7k53UriN9ScL1FscYZvMC6H+DYMIxFe1fKOaTdOv8V+uQSdyhVdeAB9SnJKDeUw==">
+
+    
+<div class="timeline-comment-header clearfix">
+  <div class="timeline-comment-actions">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<details class="details-overlay details-reset position-relative d-inline-block ">
+  <summary class="btn-link timeline-comment-action">
+    <svg aria-label="Show options" class="octicon octicon-kebab-horizontal" viewBox="0 0 13 16" version="1.1" width="13" height="16" role="img"><path fill-rule="evenodd" d="M1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM13 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </summary>
+  <details-menu class="dropdown-menu dropdown-menu-sw show-more-popover text-gray-dark anim-scale-in" style="width:185px">
+        <clipboard-copy
+    class="dropdown-item btn-link"
+    for="gistcomment-2719222-permalink"
+    aria-label="Copy link"
+    role="menuitem"
+    
+    >
+    Copy link
+  </clipboard-copy>
+
+        <button
+    type="button"
+    class="dropdown-item btn-link d-none js-comment-quote-reply"
+    role="menuitem">
+    Quote reply
+  </button>
+
+      
+  </details-menu>
+</details>
+
+  </div>
+
+    
+
+
+  
+
+
+  <h3 class="timeline-comment-header-text f5 text-normal">
+
+
+    <strong class="css-truncate">
+      
+
+  <a class="author text-inherit css-truncate-target" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=216089" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/AliSoftware">AliSoftware</a>
+  
+
+    </strong>
+
+    commented
+
+      <a href="#gistcomment-2719222" id="gistcomment-2719222-permalink" class="timestamp js-timestamp"><relative-time datetime="2018-09-28T18:13:01Z">Sep 28, 2018</relative-time></a>
+
+
+    <span class="js-comment-edit-history">
+        
+  <span class="d-inline-block text-gray-light">&#8226;</span>
+
+  <details class="details-overlay details-reset d-inline-block dropdown">
+    <summary class="btn-link no-underline text-gray js-notice">
+      <div class="position-relative">
+        <span>
+            edited
+        </span>
+        <svg height="11" class="octicon octicon-triangle-down v-align-middle" viewBox="0 0 12 16" version="1.1" width="8" aria-hidden="true"><path fill-rule="evenodd" d="M0 5l6 6 6-6H0z"/></svg>
+      </div>
+    </summary>
+    <details-menu class="anim-scale-in dropdown-menu dropdown-menu-se py-0" style="width:352px" src="/_render_node/MDExOkdpc3RDb21tZW50MGI0NmNlMjViN2RhMTA0OWU2MWI0NjY5MzUyMDk0YjY6MjcxOTIyMg==/comments/comment_edit_history_log" preload>
+      <include-fragment class="octocat-spinner my-3" aria-label="Loading"></include-fragment>
+    </details-menu>
+  </details>
+
+    </span>
+  </h3>
+</div>
+
+
+    <div class="edit-comment-hide">
+
+      
+<task-lists disabled sortable>
+<table class="d-block">
+  <tbody class="d-block">
+    <tr class="d-block">
+      <td class="d-block comment-body markdown-body  js-comment-body">
+
+          <p>On <a href="https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6#file-sqlitestatement-swift-L98">lines 97 &amp; 98 of your <code>SQLiteStatement.swift</code> example</a>, <code>value</code> conforms to <code>SQLiteStatementConvertible</code>, not a <code>SQLiteStatement.StringInterpolation</code>; so the property you're accessing should be <code>sqliteStatement</code>, not <code>statement</code> there, right?</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</task-lists>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+  </div>
+
+<!-- Rendered timeline since 2019-02-22 23:16:16 -->
+<div id="partial-timeline-marker"
+      class="js-timeline-marker js-updatable-content"
+      data-url="/brentdax/0b46ce25b7da1049e61b4669352094b6/show_partial?partial=gist%2Ftimeline_marker&amp;since=1550906176"
+      data-last-modified="Sat, 23 Feb 2019 07:16:16 GMT"
+      >
+</div>
+
+
+        <div class="discussion-timeline-actions">
+            
+<div class="flash flash-warn mt-3">
+    <a rel="nofollow" class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;signed out comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="0979d2b49089164307f232acb6c0fe3aa3e3c85cf321eec966ebce465d572d97" href="/join?source=comment-gist">Sign up for free</a>
+    <strong>to join this conversation on GitHub</strong>.
+    Already have an account?
+    <a rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;signed out comment&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E960:1D26:A7EE5:EE47C:5CA39FA9&quot;,&quot;originating_url&quot;:&quot;https://gist.github.com/brentdax/0b46ce25b7da1049e61b4669352094b6&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="98d110011a7f436f3b1fc0b0962d60047aaa79f42b0b8b46701c158e95bac573" href="/login?return_to=https%3A%2F%2Fgist.github.com%2Fbrentdax%2F0b46ce25b7da1049e61b4669352094b6">Sign in to comment</a>
+</div>
+
+        </div>
+      </div>
+    </div>
+</div>
+  </div>
+
+  <div class="modal-backdrop js-touch-events"></div>
+</div><!-- /.container -->
+
+    </main>
+  </div>
+
+  </div>
+
+        
+<div class="footer container-lg width-full px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">&copy; 2019 <span title="0.27852s from unicorn-54f94b5f94-6hwjt">GitHub</span>, Inc.</li>
+        <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
+        <li class="mr-3"><a href="https://githubstatus.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon mx-lg-4" href="https://github.com">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3"><a href="https://github.com/pricing" data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+      <li class="mr-3"><a href="https://developer.github.com" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com" data-ga-click="Footer, go to training, text:training">Training</a></li>
+        <li class="mr-3"><a href="https://github.blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-jFuNBkwlIX73xJbI2nTCs01W/xjwP+Ccc0gEdkD4d/tQBv4xIZx4dZLnkYhzawWhnxjJbvkHsxSXQffNs0Ce4Q==" type="application/javascript" src="https://github.githubassets.com/assets/compat-bootstrap-8102d067.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-tEFti6nF1hBd4GQkgKYMs3eNp6ezhYHYiZBTDLaIhGDhFXca1JMrdgvzRCxp91tXzg3bnIn3NqA2f7EMJ672bQ==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-c3fed18a.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-dSmGXSDhNHUA1/Osb7KFRKf8ldL+vSmMQk69AHm+wzXaGyxybdi30CNZfJPyYcPsEMxlEy1ZyPaR8A3oF6pClQ==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-6c0a1f64.js"></script>
+    
+      <script crossorigin="anonymous" async="async" integrity="sha512-jBy3hBXaLVuYqRVwrsrPgPLlCW0l5AGJlwzPQxUwEC3K2tv+//lHCEB1NQYn48PHevZAk1iIRuOovfX1QG4akw==" type="application/javascript" src="https://github.githubassets.com/assets/gist-bootstrap-e61e3122.js"></script>
+
+    
+  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner" hidden
+    >
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark" open>
+    <summary aria-haspopup="dialog" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog>
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+  <div aria-live="polite" class="js-global-screen-reader-notice sr-only"></div>
+
+  </body>
+</html>
+

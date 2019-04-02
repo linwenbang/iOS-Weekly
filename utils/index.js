@@ -3,24 +3,24 @@ const app = express();
 
 // ...
 
-let parseCotent = (url, html) => {
+let parseCotent = (tag, url, html) => {
 
+  
   var fs = require("fs")
   console.log("准备写入文件");
   var md5 = require('md5');
-  let filename = 'htmlCache/' + md5(url)+'.html'
+  let dirname = './htmlCache/' + tag
+  let filename = dirname + '/' + md5(url)+'.html'
+  
+  if (!fs.existsSync(dirname)) {
+    fs.mkdirSync(dirname);
+  }
 
   fs.writeFile(filename, html,  function(err) {
     if (err) {
         return console.error(err);
     }
-    console.log("write successfully")
-    // fs.readFile('input.txt', function (err, data) {
-    //     if (err) {
-    //       return console.error(err);
-    //     }
-    //     console.log("异步读取文件数据: " + data.toString());
-    // });
+    console.log(`write ${url} successfully`)
   });
 
   // // 引入所需要的第三方包
@@ -39,7 +39,9 @@ let parseCotent = (url, html) => {
   // });
 }
 
-let fetchContent = (item) => {
+let fetchContent = (tag, item) => {
+
+  console.log(`tag ${tag}`)
 
   let url = item.match(/\((.+)\)/)[1]
   console.log("will load url: " + url)
@@ -54,10 +56,10 @@ let fetchContent = (item) => {
   superagent.get(encodeURI(url)).end((err, res) => {
     if (err) {
       // 如果访问失败或者出错，会这行这里
-      console.log(`catch error - ${err}`)
+      console.log(`error ${url} - ${err}`)
     } else {
       // console.log(res.text)
-      parseCotent(url, res.text)
+      parseCotent(tag, url, res.text)
     }
   });
 }
@@ -66,9 +68,8 @@ let handleItem = (item) => {
   var content = item.body;
   // console.log(item)
   var list = content.match(/\[[\s\S]*?\]\([\s\S]*?\)/g)
-  // console.log(list)
-  for (var item of list) {
-    fetchContent(item)
+  for (var temp of list) {
+    fetchContent(item.id, temp)
   }
 }
 
