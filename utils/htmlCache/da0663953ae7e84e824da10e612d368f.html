@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SE-0234: Removing Sequence.SubSequence - Proposal Reviews - Swift Forums</title>
+    <meta name="description" content="The review of SE-0234: Remove Sequence.SubSequence begins now and runs through November 14th, 2018. 
+Reviews are an important part of the Swift evolution process. All review feedback should be either on this forum thread&amp;hellip;">
+    <meta name="author" content="">
+<meta name="generator" content="Discourse 2.3.0.beta5 - https://github.com/discourse/discourse version b9ab393d70a682b9249d0642e1f59c02f6a28f7c">
+<link rel="icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/6/610ef4c64700c53fad713dda8c9563c461d82e41.ico">
+<link rel="apple-touch-icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="canonical" href="https://forums.swift.org/t/se-0234-removing-sequence-subsequence/17750" />
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","url":"https://forums.swift.org","potentialAction":{"@type":"SearchAction","target":"https://forums.swift.org/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<link rel="search" type="application/opensearchdescription+xml" href="https://forums.swift.org/opensearch.xml" title="Swift Forums Search">
+
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_fc38bc1627f273b322141d8e39871e8f1a4ed2f7.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop" data-theme-id="2"/>
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_theme_2_059b9cade5b9070983e4a1b8712b96266620ec9d.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="2"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS feed of &#39;SE-0234: Removing Sequence.SubSequence&#39;" href="https://forums.swift.org/t/se-0234-removing-sequence-subsequence/17750.rss" />
+  <meta property="og:site_name" content="Swift Forums" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:url" content="https://forums.swift.org/t/se-0234-removing-sequence-subsequence/17750" />
+<meta name="twitter:url" content="https://forums.swift.org/t/se-0234-removing-sequence-subsequence/17750" />
+<meta property="og:title" content="SE-0234: Removing Sequence.SubSequence" />
+<meta name="twitter:title" content="SE-0234: Removing Sequence.SubSequence" />
+<meta property="og:description" content="The review of SE-0234: Remove Sequence.SubSequence begins now and runs through November 14th, 2018.  Reviews are an important part of the Swift evolution process. All review feedback should be either on this forum thread or, if you would like to keep your feedback private, directly to the review manager by direct message on these forums or email.  What goes into a review of a proposal? The goal of the review process is to improve the proposal under review through constructive criticism and, even..." />
+<meta name="twitter:description" content="The review of SE-0234: Remove Sequence.SubSequence begins now and runs through November 14th, 2018.  Reviews are an important part of the Swift evolution process. All review feedback should be either on this forum thread or, if you would like to keep your feedback private, directly to the review manager by direct message on these forums or email.  What goes into a review of a proposal? The goal of the review process is to improve the proposal under review through constructive criticism and, even..." />
+<meta name="twitter:label1" value="Reading time" />
+<meta name="twitter:data1" value="10 mins 🕑" />
+<meta name="twitter:label2" value="Likes" />
+<meta name="twitter:data2" value="47 ❤" />
+<meta property="article:published_time" content="2018-11-07T22:11:07+00:00" />
+<meta property="og:ignore_canonical" content="true" />
+
+      <link rel="next" href="/t/se-0234-removing-sequence-subsequence/17750?page=2">
+
+
+    
+  </head>
+  <body class="crawler">
+    
+    <header>
+      <a href="/">
+          <img src="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/0/0d7ab3b633e07bf8ec99bdc18e22ad89d8934801.png" alt="Swift Forums" id="site-logo" style="max-width: 150px;">
+      </a>
+    </header>
+    <div id="main-outlet" class="wrap">
+      <h1>
+  <a href="/t/se-0234-removing-sequence-subsequence/17750">SE-0234: Removing Sequence.SubSequence</a>
+</h1>
+
+<div id='breadcrumbs'>
+    <div id="breadcrumb-0" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+        itemref="breadcrumb-1"
+      >
+      <a href="/c/evolution" itemprop="url">
+        <span itemprop="title">Evolution</span>
+      </a>
+    </div>
+    <div id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+>
+      <a href="/c/evolution/proposal-reviews" itemprop="url">
+        <span itemprop="title">Proposal Reviews</span>
+      </a>
+    </div>
+</div>
+
+
+
+
+
+<hr>
+
+
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/John_McCall'><b itemprop='author'>John_McCall</b></a>
+          (John McCall)
+            <time itemprop='datePublished' datetime='2018-11-07T22:11:07Z'>
+              2018-11-07 22:11:07 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#1</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>The review of <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0234-remove-sequence-subsequence.md">SE-0234: Remove <code>Sequence.SubSequence</code></a> begins now and runs through November 14th, 2018.</p>
+<p>Reviews are an important part of the Swift evolution process. All review feedback should be either on this forum thread or, if you would like to keep your feedback private, directly to the review manager by direct message on these forums or <a href="mailto:rjmccall@apple.com">email</a>.</p>
+<h2>What goes into a review of a proposal?</h2>
+<p>The goal of the review process is to improve the proposal under review through constructive criticism and, eventually, determine the direction of Swift.</p>
+<p>When reviewing a proposal, here are some questions to consider:</p>
+<ul>
+<li>What is your evaluation of the proposal?</li>
+<li>Is the problem being addressed significant enough to warrant a change to Swift?</li>
+<li>Does this proposal fit well with the feel and direction of Swift?</li>
+<li>If you have used other languages or libraries with a similar feature, how do you feel that this proposal compares to those?</li>
+<li>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</li>
+</ul>
+<p>Thanks,<br>
+John McCall<br>
+Review Manager</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:13'>
+      <meta itemprop='interactionCount' content='UserComments:2'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+            <a href="https://forums.swift.org/t/accepted-se-0234-remove-sequence-subsequence/18002">[Accepted] SE-0234: Remove Sequence.SubSequence</a>
+            <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/SlaunchaMan'><b itemprop='author'>SlaunchaMan</b></a>
+          (Jeff Kelley)
+            <time itemprop='datePublished' datetime='2018-11-08T03:03:38Z'>
+              2018-11-08 03:03:38 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#2</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><strong>What is your evaluation of the proposal?</strong></p>
+<p>+1. The pitch is well-written and makes a nice case. And for what it’s worth, I have never written any Swift code that relies on <code>Sequence.SubSequence</code>.</p>
+<p><strong>Is the problem being addressed significant enough to warrant a change to Swift?</strong></p>
+<p>I’m a very soft “yes” here. What we have today seems to work, but—as the proposal indicates—could be better. I’m not sure how often developers run into problems implementing <code>SubSequence</code>, but when they do, I’m sure they would like it being easier.</p>
+<p><strong>Does this proposal fit well with the feel and direction of Swift?</strong></p>
+<p>Yes. Generic types should be implemented at the correct level, and this proposal seems to be better than status quo.</p>
+<p><strong>If you have used other languages or libraries with a similar feature, how do you feel that this proposal compares to those?</strong></p>
+<p>I have no relevant experience with other languages’ <code>SubSequence</code> equivalents.</p>
+<p><strong>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</strong></p>
+<p>A fairly thorough review of the proposal.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/dwaite'><b itemprop='author'>dwaite</b></a>
+          (David Waite)
+            <time itemprop='datePublished' datetime='2018-11-08T05:04:14Z'>
+              2018-11-08 05:04:14 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#3</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote group-core-team" data-post="1" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/john_mccall/40/1351_1.png" class="avatar"> John_McCall:</div>
+<blockquote>
+<ul>
+<li>What is your evaluation of the proposal?</li>
+</ul>
+</blockquote>
+</aside>
+<p>+1. I would generally say that using the previously discussed opaque type feature would be a better alternative, but:</p>
+<ul>
+<li>the conditional conformance requirements make the implementor's job for custom subsequences more challenging than would first appear.</li>
+<li>AnySequence already erased the ability to call any custom version of these methods, since it only captured the makeIterator function. Apparently, that hasn't been a big deal.</li>
+</ul>
+<p>Suffix as an array seemed expensive, but if you want to compose these you should be doing so lazily.</p>
+<p>For this method:</p>
+<pre><code class="lang-swift">public func drop(while predicate: (Element) throws -&gt; Bool) rethrows -&gt; DropWhileSequence&lt;Self&gt;
+</code></pre>
+<p>I expected this to return an array. Is the predicate meant to be escaping?</p>
+<aside class="quote no-group">
+<blockquote>
+<ul>
+<li>Is the problem being addressed significant enough to warrant a change to Swift?</li>
+<li>Does this proposal fit well with the feel and direction of Swift?</li>
+</ul>
+</blockquote>
+</aside>
+<p>Anything that simplifies Sequence seems to both be significant enough to warrant a change and to fit well in the direction of Swift :-)</p>
+<aside class="quote no-group">
+<blockquote>
+<ul>
+<li>If you have used other languages or libraries with a similar feature, how do you feel that this proposal compares to those?</li>
+</ul>
+</blockquote>
+</aside>
+<p>I don't have much to offer here. In most of the languages I've dealt with, Swift falls closest to Java's <code>Iterable</code>, but attempting to add the logic you might see in Ruby's <code>Enumerable</code>. Given the focus on performance in sequences, it makes sense to optimize today's performance and simplify the sequence interface, even if it means potentially less flexibility for implementors of custom sequences (which, to be honest, they are already bound by enough limitations that it is hard to make custom implementations anyways).</p>
+<aside class="quote no-group">
+<blockquote>
+<ul>
+<li>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</li>
+</ul>
+</blockquote>
+</aside>
+<p>Discussions on sequence/collection in the past, and implementing several custom sequences myself.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:2'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/lukasa'><b itemprop='author'>lukasa</b></a>
+          (Cory Benfield)
+            <meta itemprop='datePublished' content='2018-11-08T10:53:56Z'>
+            <time itemprop='dateModified' datetime='2018-11-08T10:54:26Z'>
+              2018-11-08 10:54:26 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#4</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><strong>What is your evaluation of the proposal?</strong></p>
+<p>+1</p>
+<p>For what it's worth, none of the code in SwiftNIO or its "core extensions" (SSL, HTTP/2 etc.) has ever relied on <code>Sequence.SubSequence</code>. All instances of <code>SubSequence</code> in our codebase are restricted to <code>Collection</code>s. We have written a few chunks of code that handle generic <code>Sequence</code> objects, but none of those access <code>SubSequence</code> (they all call <code>makeIterator</code> and <code>next()</code>).</p>
+<p><strong>Is the problem being addressed significant enough to warrant a change to Swift?</strong></p>
+<p>I think so. It's not an obvious problem that will stick out to most Swift users, as its most likely to become apparent to those writing data structure implementations. However, the status quo punishes regular Swift users with unnecessarily slow code in order to optimise for one somewhat unusual case. That seems like a bad tradeoff.</p>
+<p><strong>Does this proposal fit well with the feel and direction of Swift?</strong></p>
+<p>Yes</p>
+<p><strong>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</strong></p>
+<p>Read the review multiple times, evaluated the effects of the proposal on SwiftNIO.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/soroush'><b itemprop='author'>soroush</b></a>
+          (Soroush Khanlou)
+            <time itemprop='datePublished' datetime='2018-11-08T15:37:16Z'>
+              2018-11-08 15:37:16 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#5</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote group-core-team" data-post="1" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/john_mccall/40/1351_1.png" class="avatar"> John_McCall:</div>
+<blockquote>
+<ul>
+<li>What is your evaluation of the proposal?</li>
+</ul>
+</blockquote>
+</aside>
+<p>+1, it's good</p>
+<aside class="quote group-core-team" data-post="1" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/john_mccall/40/1351_1.png" class="avatar"> John_McCall:</div>
+<blockquote>
+<ul>
+<li>Is the problem being addressed significant enough to warrant a change to Swift?</li>
+</ul>
+</blockquote>
+</aside>
+<p>Yes. SubSequence (and honestly Sequence broadly) is too rough of an edge for how important it is, and anything we can do to simplify it is good.</p>
+<aside class="quote group-core-team" data-post="1" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/john_mccall/40/1351_1.png" class="avatar"> John_McCall:</div>
+<blockquote>
+<ul>
+<li>Does this proposal fit well with the feel and direction of Swift?</li>
+</ul>
+</blockquote>
+</aside>
+<p>I don't have a strong feeling here.</p>
+<aside class="quote group-core-team" data-post="1" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/john_mccall/40/1351_1.png" class="avatar"> John_McCall:</div>
+<blockquote>
+<ul>
+<li>If you have used other languages or libraries with a similar feature, how do you feel that this proposal compares to those?</li>
+</ul>
+</blockquote>
+</aside>
+<p>N/A</p>
+<aside class="quote group-core-team" data-post="1" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/john_mccall/40/1351_1.png" class="avatar"> John_McCall:</div>
+<blockquote>
+<ul>
+<li>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</li>
+</ul>
+</blockquote>
+</aside>
+<p>Quick reading, and have spent a lot of time with sequences.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <meta itemprop='datePublished' content='2018-11-08T15:51:12Z'>
+            <time itemprop='dateModified' datetime='2018-11-08T15:52:51Z'>
+              2018-11-08 15:52:51 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#6</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="3" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/dwaite/40/1200_1.png" class="avatar"> dwaite:</div>
+<blockquote>
+<p>I would generally say that using the previously discussed opaque type feature would be a better alternative</p>
+</blockquote>
+</aside>
+<p>The proposal doesn't mention them, because the opaque type feature doesn't exist yet so it isn't an actual  alternative to consider (and waiting is not an option for ABI reasons). But I want to push back a bit on the assumption, both here and in the pitch, that opaque types would be better, even if we had them. The meme that opaque types are always preferable is a false one.</p>
+<p>Keeping an air of mystery about what you are returning is not an end in itself. It is a means to two ends — of hiding complexity, and of preserving source compatibility under change.</p>
+<p>We hide complexity to help the user understand what is important. If the exact implementation details of what type is returned are likely to distract and confuse the user, and that adding an extra type into the library would be noise, then an opaque type is better. <strong>But this comes at a cost.</strong> Opaque types are also <em>less</em> clear about exactly what is going on. The question is, is that lack of clarity worth it to reduce the noise.</p>
+<p>In the recent example of <code>LazyCompactMap</code>, it was worth it. The lazy sequences are a bit strange, and the laziness would still be spelled out explicitly in the opaque type (because it would be an opaque implementation of <code>LazySequenceProtocol</code>). Lazy types are often wrapped around other lazy types in a chain and those types get unwieldy, so the opaqueness helps there too.</p>
+<p>In this case, it's different, because this method <strong>is shadowed later in the hierarchy</strong>. That shadowing isn't great — shadowing also causes confusion and mishaps — but there's no good alternative. When shadowing like this, it's important to be as clear as possible at every point. You ought to know, when you call suffix, that you have called a version that returned an array not a slice. You ought to know, when you call <code>DropFirstSequence</code>, that you've got a lazily evaluated sequence wrapper. You shouldn't have to wonder what the mystery thing you got back actually is. That would be unhelpful.</p>
+<p>It would also be unhelpful, when the contents of that mystery package is an array, to not give the user an actual array. It's really nice to be given an array! Arrays have really important properties you can usefully take advantage of. Arrays are currency types and you should prefer to return them when they're the best option. Even if you think there <em>might</em> be a better implementation in the future, you should think really hard about whether that future potential outweighs the big user benefit of returning an array.</p>
+<p>Opaque types also help preserve source stability when you want to change things in later releases. They will let you avoid brittle interfaces when you want to refactor your code. This will also be great for non-ABI-stable libraries; I wish we'd had this feature during the early development of the standard library. But once a library declares ABI stability, it's not so useful, because symbols are forever. So even if we want to change these methods to return something different in the future, we'd have to keep the old methods around until the next ABI break. Yes, recompiling means you'll pick up the new versions, but only when combined with minimum deployment targets. And there's also a real risk of confusion: if the behavior of the <em>new</em> version changes significantly (and presumably it does, to justify changing it), then you're in this odd situation where behavior changes in an opaque way, determined at a distance by things like which compiler you used and what availability settings kick in. That's a pretty bad unintended consequence.</p>
+<p>tl;dr: opaque types are great for lots of use cases, but they're not a panacea.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <time itemprop='datePublished' datetime='2018-11-08T20:38:02Z'>
+              2018-11-08 20:38:02 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#7</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="3" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/dwaite/40/1200_1.png" class="avatar"> dwaite:</div>
+<blockquote>
+<p>Suffix as an array seemed expensive, but if you want to compose these you should be doing so lazily.</p>
+</blockquote>
+</aside>
+<p>If sequences are potentially single-pass, you really can't get the suffix lazily. To iterate is to consume, so you need to buffer what you consumed if you ever want to see it again.</p>
+<aside class="quote no-group" data-post="3" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/dwaite/40/1200_1.png" class="avatar"> dwaite:</div>
+<blockquote>
+<pre><code class="lang-swift">public func drop(while predicate: (Element) throws -&gt; Bool) rethrows -&gt; DropWhileSequence&lt;Self&gt;
+</code></pre>
+<p>I expected this to return an array. Is the predicate meant to be escaping?</p>
+</blockquote>
+</aside>
+<p>No methods like this are escaping currently. Escaping closures can be very surprising to users if they ever capture state. They also can't be throwing (when would they throw). This is one reason why <code>map</code> and <code>filter</code> aren't lazy by default. Unlike <code>suffix</code> though, there is a reasonable lazy equivalent for <code>dropWhile</code> which you currently get on <code>LazySequence</code>.</p>
+<p>What this currently does is create an iterator, advance it until the predicate returns false, and stash that element in case of that. Then when you iterate over it, it serves that element back up and then continues with the rest of the iterator.</p>
+<p>This is again based on the assumption that sequences can be single pass. As it happens, if the iterator is a copyable value type (like almost all are for multi-pass sequences) it will all work out OK because the stored iterator for each iteration is a <em>copy</em> that restores the state each time.</p>
+<p>The good thing about making these just extensions instead of customization points is we have a lot more flexibility in the future to deprecate or replace them with new methods (gated on swift version) that do different things, depending on how move-only types work out or if we declare sequence to be multi-pass, or if we deprecate sequence altogether.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Nevin'><b itemprop='author'>Nevin</b></a>
+          
+            <time itemprop='datePublished' datetime='2018-11-08T20:48:13Z'>
+              2018-11-08 20:48:13 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#8</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I’m not sure the tail-operations (<code>suffix</code> and <code>dropLast</code>) really belong on <code>Sequence</code> at all.</p>
+<p>Also, does <code>split</code> have to be eager, or could we make a lazy splitting wrapper sequence?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <time itemprop='datePublished' datetime='2018-11-08T22:15:59Z'>
+              2018-11-08 22:15:59 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#9</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="8" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/nevin/40/617_1.png" class="avatar"> Nevin:</div>
+<blockquote>
+<p>I’m not sure the tail-operations ( <code>suffix</code> and <code>dropLast</code> ) really belong on <code>Sequence</code> at all.</p>
+</blockquote>
+</aside>
+<p>There's a good case to be made that they don't, though probably one that would be deemed not sufficiently justified given the source breakage. That should be a separate subsequent proposal, though. This proposal is a necessary precursor to it.</p>
+<aside class="quote no-group" data-post="8" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/nevin/40/617_1.png" class="avatar"> Nevin:</div>
+<blockquote>
+<p>Also, does <code>split</code> have to be eager, or could we make a lazy splitting wrapper sequence?</p>
+</blockquote>
+</aside>
+<p>Given it takes a closure, the same reasoning as applied above means it cannot be lazy by default. A proposal to add a lazy version to <code>lazy</code> might be welcomed, though.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Michael_Ilseman'><b itemprop='author'>Michael_Ilseman</b></a>
+          (Michael Ilseman)
+            <time itemprop='datePublished' datetime='2018-11-09T01:35:39Z'>
+              2018-11-09 01:35:39 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#10</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <ul>
+<li>What is your evaluation of the proposal?</li>
+</ul>
+<p>+1 (I would also support removing the rest of Sequence in lieu of Collection and Iterator being root concepts)</p>
+<ul>
+<li>Is the problem being addressed significant enough to warrant a change to Swift?</li>
+</ul>
+<p>Yes, forcing all return values to the same type makes it impossible to provide an efficient implementation for anything that is naturally a Sequence but not counted and bidirectional.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/anthonylatsis'><b itemprop='author'>anthonylatsis</b></a>
+          (Anthony Latsis)
+            <meta itemprop='datePublished' content='2018-11-09T07:26:54Z'>
+            <time itemprop='dateModified' datetime='2018-11-09T07:28:45Z'>
+              2018-11-09 07:28:45 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#11</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><a class="mention" href="/u/ben_cohen">@Ben_Cohen</a></p>
+<blockquote>
+<p>This is a nice performance tweak, but it doesn’t justify the significant downsides listed above. It is essentially improving generic performance at the expense of concrete performance. <em>Normally, these kind of generic improvements come at just a tiny cost (e.g. slight increase in compile time or binary size) rather than a significant runtime performance penalty.</em></p>
+</blockquote>
+<p>Hi Ben, could you clarify the following for me? I'm a bit confused trying to figure out how the highlighted sentence logically follows the rest. You demonstrate the performance regression that happens when the methods aren't dynamically dispatched. You then end the section saying that using generic algorithms that benefit from dynamic dispatch normally comes at a tiny cost rather than a significant runtime performance penalty (probably referring to the preceding benchmarks). Is that right? It seems I didn't quite get what you were trying to convey with that last sentence. Is it simply a side-note? Just in case, sorry for the language gap!</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/brentdax'><b itemprop='author'>brentdax</b></a>
+          (Brent Royal-Gordon)
+            <time itemprop='datePublished' datetime='2018-11-09T09:13:59Z'>
+              2018-11-09 09:13:59 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#12</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <ul>
+<li>What is your evaluation of the proposal?</li>
+</ul>
+<p>I once tried to write a single type that could do most of what <code>Sequence.SubSequence</code> would need to do. It didn't seem <em>completely</em> impossible, but it was a nightmare.</p>
+<p>Nobody's ever gonna really use <code>Sequence.SubSequence</code>. Dump it.</p>
+<ul>
+<li>Is the problem being addressed significant enough to warrant a change to Swift?</li>
+</ul>
+<p>Yes. We shouldn't be erasing these types.</p>
+<ul>
+<li>Does this proposal fit well with the feel and direction of Swift?</li>
+</ul>
+<p>Yes. This is a sensible clean-up.</p>
+<ul>
+<li>If you have used other languages or libraries with a similar feature, how do you feel that this proposal compares to those?</li>
+</ul>
+<p>N/A.</p>
+<ul>
+<li>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</li>
+</ul>
+<p>Just a glance.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/timv'><b itemprop='author'>timv</b></a>
+          (Tim Vermeulen)
+            <time itemprop='datePublished' datetime='2018-11-09T19:14:55Z'>
+              2018-11-09 19:14:55 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#13</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I'm absolutely +1, my only concern is that I'm not sure whether to write code for <code>Sequence</code> or <code>Collection</code> anymore after this change. I'd like to make use of the more efficient <code>suffix</code>/etc methods that use <code>SubSequence</code> and I'd have to write my code in terms of <code>Collection</code> for that, but not all sequences in the standard library implement <code>Collection</code>. The proposal states that several types such as <code>Zip2Sequence</code> could be conditionally conformed to <code>Collection</code> after this change, but what's the timeline for this? Will this need to be proposed separately?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <time itemprop='datePublished' datetime='2018-11-09T19:33:40Z'>
+              2018-11-09 19:33:40 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#14</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="13" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/timv/40/621_1.png" class="avatar"> timv:</div>
+<blockquote>
+<p>The proposal states that several types such as <code>Zip2Sequence</code> could be conditionally conformed to <code>Collection</code> after this change, but what's the timeline for this? Will this need to be proposed separately?</p>
+</blockquote>
+</aside>
+<p>My intention was that this proposal includes making them collections (similar to how the conditional conformance proposal made Array and Optional Equatable,  codable things Codable etc). The work is pretty trivial once we boot out the and stuff in Sequence.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/endofunk'><b itemprop='author'>endofunk</b></a>
+          (endofunk)
+            <time itemprop='datePublished' datetime='2018-11-09T20:03:24Z'>
+              2018-11-09 20:03:24 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#15</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>What is your evaluation of the proposal?<br>
+<strong>+1</strong></p>
+<p>Is the problem being addressed significant enough to warrant a change to Swift?<br>
+<strong>Yes</strong></p>
+<p>Does this proposal fit well with the feel and direction of Swift?<br>
+<strong>Yes</strong></p>
+<p>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?<br>
+<strong>Read the proposal</strong></p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/dennisvennink'><b itemprop='author'>dennisvennink</b></a>
+          (Dennis Vennink)
+            <time itemprop='datePublished' datetime='2018-11-10T01:31:33Z'>
+              2018-11-10 01:31:33 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#16</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><strong>What is your evaluation of the proposal?</strong></p>
+<p><img src="https://discourse-cdn-sjc1.com/swift/images/emoji/apple/+1.png?v=6" title=":+1:" class="emoji" alt=":+1:"></p>
+<p>The ability to conform a <code>Sequence</code> to <code>Collection</code>s higher up the hierarchy chain in a single type is long overdue.</p>
+<p>I tried to conform <code>Zip2Sequence</code> to <code>Collection</code> a few months ago. And while I did finally manage to make it work in the end after hours of frustration, I ended up rewriting almost every single instance method that touched <code>SubSequence</code>.</p>
+<p>Fast forward to last week. I <code>git clone</code>d <a class="mention" href="/u/ben_cohen">@Ben_Cohen</a>'s repo, checked out the PR, created a local development toolchain, loaded it up into Xcode and conformed <code>Zip2Sequence</code> to <code>Collection</code> in literally 5 minutes. (Although it also helped that I already had a full implementation.)</p>
+<p>It really is a breeze to work with.</p>
+<p><strong>Is the problem being addressed significant enough to warrant a change to Swift?</strong></p>
+<p>Yes.</p>
+<p><strong>Does this proposal fit well with the feel and direction of Swift?</strong></p>
+<p>Yes.</p>
+<p><strong>If you have used other languages or libraries with a similar feature, how do you feel that this proposal compares to those?</strong></p>
+<p>—</p>
+<p><strong>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</strong></p>
+<p>Multiple thorough readings. Already wrote code with it.</p>
+<p><img src="https://discourse-cdn-sjc1.com/swift/images/emoji/apple/ship.png?v=6" title=":ship:" class="emoji" alt=":ship:"> it.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:5'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/akashivskyy'><b itemprop='author'>akashivskyy</b></a>
+          (Adrian Kashivskyy)
+            <time itemprop='datePublished' datetime='2018-11-11T17:59:14Z'>
+              2018-11-11 17:59:14 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#17</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <h4>What is your evaluation of the proposal?</h4>
+<p>+1.</p>
+<h4>Is the problem being addressed significant enough to warrant a change to Swift?</h4>
+<p>Yes.</p>
+<h4>Does this proposal fit well with the feel and direction of Swift?</h4>
+<p>Yes, it eliminates an unnecessary complexity.</p>
+<h4>How much effort did you put into your review? A glance, a quick reading, or an in-depth study?</h4>
+<p>Read the proposal.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/palimondo'><b itemprop='author'>palimondo</b></a>
+          (Pavol Vaskovic)
+            <meta itemprop='datePublished' content='2018-11-13T22:33:37Z'>
+            <time itemprop='dateModified' datetime='2018-11-13T22:36:34Z'>
+              2018-11-13 22:36:34 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#18</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I wholeheartedly welcome this proposal, which is finally addressing issues in the critically important area of Swift Standard Library — the  Collections framework. <strong>I fully support removing the <code>Sequence.SubSequence</code></strong>. But given this problem was actually <em>raison d'être</em> for my work on Swift Benchmarking Suite, this review will be a bit more detail oriented with regards to the proposed solution. I have written about this topic extensively before in <a href="https://forums.swift.org/t/troubling-sequence/13130">Troubled <code>Sequence</code></a>. I’ll focus only on the basic sequence slicing operations — I have done no work with <code>split</code>.</p>
+<p>The sequence slicing benchmarks that feature different underlying types and <strong><code>AnySequence</code></strong> in particular, were <a href="https://github.com/apple/swift/pull/8641" rel="nofollow noopener">added to highlight</a> how utterly destructive to performance this type-erasing abstraction actually is. But the reasons for some dramatic regressions highlighted in the text of this proposal have almost nothing to do with the loss of customization point. They are caused by unspecialized generic code, dynamic dispatch, value type boxing and reference counting. See section <a href="https://forums.swift.org/t/troubling-sequence/13130"><strong>Cost of Abstractions, Revisited</strong></a> in the <em>Troubling <code>Sequence</code></em> for more details. In the end, these regressions are unimportant to the evaluation of this proposal to remove <code>Sequence.SubSequence</code>, because they only highlight the extent of utter optimizer failure in the combination of <code>.lazy</code> and <code>AnySequence</code>, which this proposal completely eliminates: As long as no stdlib API returns <code>AnySequence</code>, we are golden!</p>
+<h2>Regular eager and lazy API</h2>
+<p>Since we are breaking source and ABI compatibility for 5.0 with the proposed change, we should do this one as good as we can. In my opinion, we can do better than simply expose the existing implementations of <code>DropFirstSequence</code>, <code>DropWhileSequence</code> and <code>PrefixSequence</code>.</p>
+<p>The irregularity of the current sequence slicing implementations, from the perspective of eager/lazy dichotomy is not only bothersome on esthetic grounds, but it has serious impact on the performance of code written in functional style. <a href="https://forums.swift.org/t/troubling-sequence/13130/2">In my experience</a>, chaining sequence slicing operations can achieve the performance of imperative code only when there is a truly lazy implementation. With the current architecture, this means that relevant sequence slicing methods should also have proper <strong><code>LazySequenceProtocol</code></strong> implementations, as is already the case with <code>drop(while:)</code> and <code>prefix(while:)</code> from <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0045-scan-takewhile-dropwhile.md" rel="nofollow noopener">SE-0045</a> implemented in <a href="https://github.com/apple/swift/pull/3600" rel="nofollow noopener">PR #3600</a>. Such code allows the optimizer to boil the functional method chain down to single loop with performance equivalent to hand tuned imperative loop.</p>
+<p>Even though the internal sequences were <a href="https://github.com/apple/swift/pull/19970" rel="nofollow noopener">recently cleaned up</a> a bit, I think they still exhibit a bit of technical debt form the piecemeal evolution:</p>
+<ul>
+<li>
+<code>DropWhileSequence</code> <strong>eagerly drops</strong> the elements in its <strong><code>init</code></strong> method and than <strong>lazily iterates</strong> over the remainder.</li>
+<li>
+<code>DropFirstSequence</code> <strong>eagerly drops</strong> elements in its <strong><code>makeIterator</code></strong> method and than <strong>lazily iterates</strong> over the remainder.</li>
+</ul>
+<p>The <code>PrefixSequence</code> looks to be always lazy, so after removing the <code>AnySequence</code> overhead, the main remaining issue is that it breaks the <code>.lazy</code> chains, as brought up by <a class="mention" href="/u/dennisvennink">@dennisvennink</a> in <a href="https://bugs.swift.org/browse/SR-5754" rel="nofollow noopener">SR-5754</a>. But I would like to re-measure my <a href="https://github.com/palimondo/MandelbrotSwifty" rel="nofollow noopener">MandelbrotSwiftly</a> benchmarks with this change, just to make sure the laziness does its magic… Can I please get a toolchain from <a href="https://github.com/apple/swift/pull/20221" rel="nofollow noopener">PR #20221</a>?</p>
+<p>Since we are breaking source and API compatibility here, I think it would be shame to not use this opportunity to also polish this area and complete the <code>LazySequenceProtocol</code> implementations for the relevant slicing methods before 5.0. At a minimum, we should change the default implementations for <code>dropFirst</code>, <code>drop(while:)</code> and <code>prefix</code> to always eagerly return <code>[Element]</code>. I think this can be done trivially by using the internal sequences to fully materialize the <code>[Element]</code> in the default implementation (I have <a href="https://forums.swift.org/t/pitch-sequence-cleanup/5783">pitched</a> this <a href="https://github.com/palimondo/swift-evolution/blob/sequence-cleanup/proposals/NNNN-sequence-cleanup.md" rel="nofollow noopener">before</a>). Surfacing the the hybrid eager/lazy implementations helps nobody. Lazy implementations can be added later… right?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:8'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <meta itemprop='datePublished' content='2018-11-14T00:00:39Z'>
+            <time itemprop='dateModified' datetime='2018-11-14T00:02:58Z'>
+              2018-11-14 00:02:58 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#19</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group quote-modified" data-post="18" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/palimondo/40/1144_1.png" class="avatar"> palimondo:</div>
+<blockquote>
+<p>Even though the internal sequences were <a href="https://github.com/apple/swift/pull/19970">recently cleaned up</a> a bit, I think they still exhibit a bit of technical debt form the piecemeal evolution:<br>
+[...]<br>
+At a minimum, we should change the default implementations for <code>dropFirst</code> , <code>drop(while:)</code> and <code>prefix</code> to always eagerly return <code>[Element]</code> .</p>
+</blockquote>
+</aside>
+<p>This recommendation really needs a justification. It's not clear to me why it would be better to return arrays instead of wrapper types. I was pretty intentional when proposing this change in leaving them in-place, so I don't think it's correct to describe their continued presence as debt through evolution. It was a conscious choice, though certainly open to debate.</p>
+<p>The current situation in the standard library is things are as lazy as they can be without incurring a downside (other than that of relying on the optimizer to strip off the cost of modest abstractions).</p>
+<p>So for example, <code>BidirectionalCollection.reversed</code>, or <code>zip</code>, can return lazy wrappers, because there is no risk from that laziness – it's all win.</p>
+<p>Whereas <code>Sequence.filter</code> and <code>Sequence.map</code> are <em>not</em> lazy by default because there are two big downsides to making them lazy: a performance one, because the mapping/filtering will happen on every iteration, which is bad if that operation is costly; and a correctness one, because if the closure has side effects or is nondeterminstic, the user may not realize that they could get different results every time. It also means the closure can throw, unlike in the lazy version.</p>
+<p>So you can basically ask two questions whenever you add a method to <code>Sequence</code>: could it being lazy bring benefits, and are there any risks from making it lazy? If the answer is yes/no, it should be lazy by default. If the answer is yes/yes, it should be eager, and there should be a lazy version put onto <code>LazySequenceProtocol</code>.</p>
+<p><code>dropFirst</code> is clearly in the yes/no bucket. Returning <code>[Element]</code> instead of a lazy wrapper with the elements already dropped could be disastrous for performance in many cases, where only the next few elements are consumed. Why allocate and copy potentially huge numbers of elements for no reason?  The case needs to be stronger than that. Bear in mind the most common use is <code>dropFirst(1)</code> – so common that we default the argument to 1.</p>
+<p><code>prefix</code> is the same clearly beneficial with no risks bucket.</p>
+<p><code>dropWhile</code> on the other hand falls into the yes beneficial but with risks bucket, for the same reasons as <code>map</code> and <code>filter</code>: it takes a closure. That's why it eagerly drops the elements when called. But there is still a useful middle-ground where the iterator can be consumed eagerly, but then the rest of the sequence produced lazily.</p>
+<aside class="quote no-group" data-post="18" data-topic="17750">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/palimondo/40/1144_1.png" class="avatar"> palimondo:</div>
+<blockquote>
+<p>Surfacing the the hybrid eager/lazy implementations helps nobody.</p>
+</blockquote>
+</aside>
+<p>It helps avoid allocating memory (potentially a lot of memory) gratuitously. It also avoids <code>dropFirst()</code> from being O(n) on every call. The same argument could be applied to <code>zip</code> – should we deprecate the current version and instead return <code>[(T,U)]</code>? Should <code>repeatElement</code> also return an array? What is the justification for this performance pessimization? Consistency? The justification needs to be stronger than that.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:6'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/palimondo'><b itemprop='author'>palimondo</b></a>
+          (Pavol Vaskovic)
+            <time itemprop='datePublished' datetime='2018-11-14T00:11:30Z'>
+              2018-11-14 00:11:30 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#20</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I understand now the convenience factor of the hybrid default implementation, that doesn't force people to explicitly choose between eager and lazy. Thank you for the explanation, that justification makes perfect  sense.</p>
+<p>I was coming from the perspective of <code>.lazy</code> sequences, where the eager part messes up the method chaining. That's probably a stronger case to also provide <code>LazySequeceProtocol</code> version, that delays the dropping until the first call to <code>Iterator.next</code>, right?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='SE-0234: Removing Sequence.SubSequence'>
+      <hr>
+  </div>
+
+  <div role='navigation' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+      <span itemprop='name'><b><a rel="next" itemprop="url" href="/t/se-0234-removing-sequence-subsequence/17750?page=2">next page →</a></b></span>
+  </div>
+
+
+
+
+
+    </div>
+    <footer class="container">
+      <nav class='crawler-nav' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <a href='/'>Home</a>
+        <a href="/categories">Categories</a>
+        <a href="/guidelines">FAQ/Guidelines</a>
+        <a href="/tos">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+      </nav>
+      <p class='powered-by-link'>Powered by <a href="https://www.discourse.org">Discourse</a>, best viewed with JavaScript enabled</p>
+    </footer>
+    
+  </body>
+  
+</html>

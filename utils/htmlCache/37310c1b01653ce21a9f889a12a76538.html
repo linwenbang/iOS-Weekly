@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Why #if DEBUG Conditional Should Be Avoided in Library Code – Arek Holko</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/public/css/main.css">
+	<link rel="icon" href="/public/images/favicon.png" type="image/png">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/ArkadiuszHolko">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@arekholko">
+  <meta name="twitter:creator" content="@arekholko">
+  <meta name="twitter:image:src" content="https://holko.pl/public/images/logo.png">
+  <meta property="og:title" content="Why #if DEBUG Conditional Should Be Avoided in Library Code" >
+  <meta property="og:description" content="Conditional Compilation along with Active Compilation Conditions is a way to alter the app’s behavior depending on the build configuration. In this article, I’ll show why these kinds of conditional blocks shouldn’t be used directly in the source code of libraries distributed to other developers." >
+  <meta property="og:url" content="https://holko.pl/2018/09/24/compilation-directives-in-libraries/" >
+
+</head>
+<body>
+
+	<header class="masthead">
+		<div class="masthead-inner">
+			<h1><a href="/">Arek Holko</a></h1>
+			<nav>
+					<a href="/archive/">All Articles</a>
+          /
+					<a href="/hire/">About Me</a>
+          /
+					<a href="https://twitter.com/arekholko">Twitter</a>
+			</nav>
+		</div>
+	</header>
+	<div class="content container">
+		<div class="single-post">
+  <div class="post">
+    <h1>
+      
+      Why #if DEBUG Conditional Should Be Avoided in Library Code
+      
+    </h1>
+    <span class="post-meta">September 24, 2018</span>
+    
+    
+    
+    <p><a href="https://docs.swift.org/swift-book/ReferenceManual/Statements.html#ID539"><em>Conditional Compilation</em></a> along with <a href="https://fdp.io/blog/2018/03/18/active-compilation-conditions-for-xcode/"><em>Active Compilation Conditions</em></a> is a way to alter the app’s behavior depending on the build configuration. For example for the code to compile only in the Debug configuration, we can do:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cp">#if DEBUG</span>
+  <span class="n">performAdditionalChecks</span><span class="p">()</span>
+<span class="cp">#endif</span>
+</code></pre></div>
+<p>In this article, I’ll show why these kinds of conditional blocks shouldn’t be used directly in the source code of libraries distributed to other developers.</p>
+
+<!-- break -->
+
+<h2 id="problem">Problem</h2>
+
+<p>Around a week ago I noticed that my <a href="https://github.com/fastred/DeallocationChecker">DeallocationChecker</a> library didn’t catch a leaking view controller in a project I help with. At the time the main entry method in that library <a href="https://github.com/fastred/DeallocationChecker/blob/df2fb2188d5a0e51f286dd8e13372d035e32d080/Sources/DeallocationChecker.swift">looked like this</a>:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">func</span> <span class="nf">dch_checkDeallocation</span><span class="p">(</span><span class="n">afterDelay</span> <span class="nl">delay</span><span class="p">:</span> <span class="n">TimeInterval</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="cp">#if DEBUG</span>
+    <span class="c1">// Real logic can be ignored for this article</span>
+    <span class="k">if</span> <span class="n">isLeaked</span> <span class="p">{</span>
+      <span class="n">assertionFailure</span><span class="p">()</span>
+    <span class="p">}</span>
+  <span class="cp">#endif</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>After a short debugging session I noticed that even though the app is running in the Debug configuration, the code within this <code>#if DEBUG</code> block isn’t compiled at all! It confused me because that code was running fine just a few months ago.</p>
+
+<p>Here’s a summary of the situation:</p>
+
+<ol>
+<li><em>Active Compilation Conditions</em> were set up correctly in the main project because the code in <code>#if DEBUG</code> blocks inside the project was being compiled and executed.</li>
+<li>DeallocationChecker was included through <a href="https://github.com/Carthage/Carthage">Carthage</a>.</li>
+</ol>
+
+<p>So, there was something wrong with conditional compilation using <code>DEBUG</code> flag specifically in the project included through Carthage.</p>
+
+<h2 id="carthage">Carthage</h2>
+
+<p>In contrast to libraries imported through <a href="https://cocoapods.org">CocoaPods</a> or as subprojects, Carthage operates in a two-step way:</p>
+
+<ol>
+<li>First, when we add or update a dependency, Carthage builds it and produces a binary framework.</li>
+<li>Then, going forward we use that prebuilt framework in the project.</li>
+</ol>
+
+<p><strong>This means, that when Carthage builds a framework, it doesn’t know whether the framework will be used in Debug, Release or any other configuration!</strong> So, it defaults to the Release configuration, causing that <code>#if DEBUG</code> block to not be compiled. We end up with our app’s code running in the Debug configuration, yet the library’s code is at the same time running in its Release configuration.</p>
+
+<p>Technically speaking, we can instruct <a href="https://github.com/Carthage/Carthage/issues/2370#issuecomment-372116902">Carthage to use the Debug configuration</a> but that complicates the workflow significantly. We would have to build both configurations and make sure to not ship a non-optimized Debug version to our users.</p>
+
+<p>Also, the same rule applies to libraries distributed only in a binary form, e.g. <a href="https://fabric.io/kits/ios/crashlytics/install">Fabric</a>.</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>A better approach to conditioning the execution depending on a configuration is to get the current configuration from a library’s user. It can be as simple as:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cp">#if DEBUG</span>
+  <span class="k">let</span> <span class="n">library</span> <span class="o">=</span> <span class="n">YourAwesomeLibrary</span><span class="p">(</span><span class="nl">useDebugChecks</span><span class="p">:</span> <span class="nb">true</span><span class="p">)</span>
+<span class="cp">#else</span>
+  <span class="k">let</span> <span class="n">library</span> <span class="o">=</span> <span class="n">YourAwesomeLibrary</span><span class="p">(</span><span class="nl">useDebugChecks</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span>
+<span class="cp">#endif</span>
+</code></pre></div>
+<p>This way, as a library’s author we stop being dependent on the exact way a user builds it. The intention gets explicit.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>We learned how a subtle difference in a build process can break an otherwise sound code. What’s worse in this case, due to the nature of DeallocationChecker, which is invisible unless there’s a leak, the bug went unnoticed for some time.</p>
+
+<p>As to why the conditional check stopped working for us just in recent months? We switched from CocoaPods to Carthage in the meantime. So, DeallocationChecker didn’t suddenly break, it just never worked correctly with Carthage.</p>
+
+  </div>
+</div>
+
+<div id="mailing-list">
+  <form action="https://holko.us3.list-manage.com/subscribe/post?u=9ae8ef98dc1c177a858d4ade2&amp;id=747fbdaa96" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+      <h3>Subscribe to my newsletter</h2>
+      <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" placeholder="Email address" id="mce-EMAIL"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_9ae8ef98dc1c177a858d4ade2_747fbdaa96" tabindex="-1" value=""></div>
+  </form>
+</div>  
+
+<div id="follow-me">
+  <div class="photo">
+    <a href="/hire/"><img src="/public/images/me.jpg" width="80" height="80" /></a>
+  </div>
+  <div class="short-about">
+    I'm Arek Holko, an iOS engineer in Warsaw, Poland. <a href="https://twitter.com/arekholko">Follow me on Twitter</a> or subscribe to my newsletter above to stay updated.
+    Learn more <a href="/hire/">about me</a>.
+  </div>
+</div>
+
+<div id="recent-articles">
+  <h3>Recent Articles:</h3>
+  <ul>
+    
+    
+    <li><a href="/2018/10/08/internal-modifier/">Hiding Implementation Details Using internal Properties</a></li>
+    
+    
+    
+    
+    
+    <li><a href="/2017/12/06/future-proof-dependency-injection/">Future-Proof Dependency Injection for Storyboard-Based View Controllers</a></li>
+    
+    
+    
+    <li><a href="/2017/11/15/rebuilding-ibdesignables/">Stop Xcode from constantly rebuilding your project because of @IBDesignable</a></li>
+    
+    
+  </ul>
+</div>
+
+		<footer>
+			Copyright &copy; Arek Holko
+		</footer>
+	</div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-8860201-5', 'holko.pl');
+    ga('send', 'pageview');
+
+  </script>
+</body>
+</html>

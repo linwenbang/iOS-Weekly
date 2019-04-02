@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Docker loves Swift &amp; Vapor - The.Swift.Dev.</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=64c8bc839a" />
+
+    <meta name="description" content="Learn how to run Swift &amp; Vapor inside a Docker container. Are you completely new to Docker? This article is just for you!" />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/amp/" />
+    
+    <meta property="og:site_name" content="The.Swift.Dev." />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Docker loves Swift &amp; Vapor - The.Swift.Dev." />
+    <meta property="og:description" content="Learn how to run Swift &amp; Vapor inside a Docker container. Are you completely new to Docker? This article is just for you!" />
+    <meta property="og:url" content="https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb" />
+    <meta property="article:published_time" content="2018-11-15T09:07:29.000Z" />
+    <meta property="article:modified_time" content="2018-11-22T11:43:59.000Z" />
+    <meta property="article:tag" content="Server" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Docker loves Swift &amp; Vapor - The.Swift.Dev." />
+    <meta name="twitter:description" content="Learn how to run Swift &amp; Vapor inside a Docker container. Are you completely new to Docker? This article is just for you!" />
+    <meta name="twitter:url" content="https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/" />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Tibor Bödecs" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Server" />
+    <meta name="twitter:creator" content="@tiborbodecs" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="720" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "The.Swift.Dev.",
+        "logo": "https://theswiftdev.com/content/images/2017/10/Logo-2.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Tibor Bödecs",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://theswiftdev.com/content/images/2019/03/tiborbodecs-profile-xs-2019.jpg",
+            "width": 256,
+            "height": 256
+        },
+        "url": "https://theswiftdev.com/author/tiborbodecs/",
+        "sameAs": [
+            "https://theswiftdev.com",
+            "https://twitter.com/tiborbodecs"
+        ]
+    },
+    "headline": "Docker loves Swift &amp; Vapor - The.Swift.Dev.",
+    "url": "https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/",
+    "datePublished": "2018-11-15T09:07:29.000Z",
+    "dateModified": "2018-11-22T11:43:59.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ&s=d82357ad2d2291c39a5078cdc892d4fb",
+        "width": 1080,
+        "height": 720
+    },
+    "keywords": "Server",
+    "description": "Learn how to run Swift &amp; Vapor inside a Docker container. Are you completely new to Docker? This article is just for you!",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://theswiftdev.com/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.18" />
+    <link rel="alternate" type="application/rss+xml" title="The.Swift.Dev." href="https://theswiftdev.com/rss/" />
+    <link rel="mask-icon" sizes="any" href="/public/swift.svg" />
+ <!-- color="#DE2451"--> 
+<link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/public/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="57x57" href="/public/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/public/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/public/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/public/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/public/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/public/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/public/apple-touch-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon-180x180.png" />
+
+<style>
+.site-logo {
+    max-height: 192px;
+    top: -24px;
+    position: relative;
+}
+h1.site-title {
+    margin-bottom: 15px;
+}
+h2.site-description {
+    font-weight: 500;
+    position: relative;
+    top: -16px;
+    padding: 0px 30px;
+}
+.post-feed {
+    z-index: 999999999 !important;
+}
+h1, h2, h3, h4, h5, h6, h7 {
+    padding-bottom: 1em;
+}
+p.note {
+    border: 1px solid #f5e6a2;
+    border-radius: 1em;
+    padding: 1em;
+    background: #f9f4e2;
+}
+.post-full-content hr {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.gitlab-embed-snippets {
+    width: 100%;
+    margin: 0px 0px 40px 0px !important;
+}
+.sponsorship-box {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.sponsorship-box .sponsor {
+    border: 1px solid #de2451;
+    border-radius: 1em;
+    background: #fff;
+    padding: 1em;
+    margin-bottom: 0px;
+}
+.sponsor-layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+.sponsorship-box .sponsor b {
+    text-transform: uppercase;
+}
+.sponsor-layout .box {
+    padding: 0px;
+    margin: 0px;
+}
+.sponsor-layout h3, .sponsor-layout p {
+    margin: 0px;
+    padding: 1em;
+    padding-bottom: 0em;
+}
+.sponsor-layout h3 {
+    padding-left: 0.8em;
+}
+.sponsor-logo {
+    width: 128px !important;
+}
+.sponsor-text {
+    padding: 1em;
+    padding-top: 0em;
+}
+.sponsor-footer {
+    text-align: right; 
+    color: #222; 
+    margin: 0px; 
+    padding: 0px; 
+    padding-right: 1em; 
+    font-size: 12px;
+    font-family: sans-serif, Verdana;
+}
+.sponsor-footer a {
+    color: #de2451; 
+    box-shadow: none; 
+}
+.overview-layout {
+    text-align: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.overview-layout .box {
+    padding: 0px;
+    margin: 8px;
+    margin-bottom: 32px;
+}
+@media screen and (max-width: 1024px) {
+    .overview-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .sponsor-layout {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .gitlab-embed-snippets .btn-group {
+        width: 72px;
+    }
+    .gitlab-embed-snippets .file-content.code .line-numbers .diff-line-num {
+    }
+    .gitlab-embed-snippets .file-content.code .line-numbers {
+        visibility: hidden;
+        display: none;
+    }
+    .gitlab-embed-snippets .file-content.code .blob-content pre {
+        border-left: none !important;
+    }
+}
+</style>
+<link href="/public/prism.css" rel="stylesheet" />
+
+</head>
+<body class="post-template tag-server">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="https://theswiftdev.com"><img src="https://theswiftdev.com/content/images/2017/10/Logo-2.png" alt="The.Swift.Dev." /></a>
+            <ul class="nav" role="menu">
+    <li class="nav-ask-me" role="menuitem"><a href="https://discord.gg/C4DSQjP">💬 Ask me</a></li>
+    <li class="nav-follow-me" role="menuitem"><a href="https://twitter.com/tiborbodecs/">🔥 Follow me</a></li>
+    <li class="nav-articles" role="menuitem"><a href="https://theswiftdev.com/articles/">📖 Articles</a></li>
+    <li class="nav-sponsorship" role="menuitem"><a href="https://theswiftdev.com/sponsorship-options/">👍 Sponsorship</a></li>
+    <li class="nav-about" role="menuitem"><a href="https://theswiftdev.com/about/">🤓 About</a></li>
+    <li class="nav-newsletter" role="menuitem"><a href="https://theswiftdev.com/#subscribe">📫 Newsletter</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+        </div>
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-server ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2018-11-15">15 November 2018</time>
+                        <span class="date-divider">/</span> <a href="/tag/server/">Server</a>
+                </section>
+                <h1 class="post-full-title">Docker ❤️ Swift &amp; Vapor</h1>
+            </header>
+
+            <figure class="post-full-image">
+                <img
+                    srcset="https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb 300w,
+                            https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb 600w,
+                            https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb 1000w,
+                            https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb 2000w"
+                    sizes="(max-width: 800px) 400px,
+                            (max-width: 1170px) 700px,
+                            1400px"
+                    src="https://images.unsplash.com/photo-1454991727061-be514eae86f7?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;d82357ad2d2291c39a5078cdc892d4fb"
+                    alt="Docker ❤️ Swift &amp; Vapor"
+                />
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p>Learn how to run Swift &amp; Vapor inside a Docker container. Are you completely new to Docker? This article is just for you!</p><hr><h2 id="what-the-heck-is-docker">What the heck is Docker?</h2><p>If you never heard about <a href="https://www.docker.com">Docker</a> or the containerization technology, you should read these quotes from <a href="https://en.wikipedia.org/wiki/Docker_(software)">wikipedia</a> two or three times carefully and you'll get the basics:</p><blockquote>Docker is a computer program that performs operating-system-level virtualization, also known as "containerization"</blockquote><blockquote>Docker is used to run software packages called "containers". Containers are isolated from each other and bundle their own tools, libraries and configuration files; they can communicate with each other through well-defined channels. </blockquote><blockquote>All containers are run by a single operating system kernel and are thus more lightweight than virtual machines. </blockquote><blockquote>Containers are created from "images" that specify their precise contents. Images are often created by combining and modifying standard images downloaded from public repositories.</blockquote><p>It's pretty simple, but it's also a quite complicated technology. Docker is extremely useful if you don't want to spend hours to setup &amp; configure your work environment. Also it helps the software deployment process, so patches, hotfixes and new code releases can be delivered more frequently.  That's why it's usually categorized as a <a href="https://en.wikipedia.org/wiki/DevOps">DevOps</a> tool. Guess what: you can use Swift right ahead through a single Docker container, you don't even need to install anything else on your computer. 🐳 </p><p></p><h3 id="docker-architecture-in-a-nutshell">Docker architecture in a nutshell</h3><p>There is a nice get to know post about <a href="https://nickjanetakis.com/blog/get-to-know-dockers-ecosystem">the Docker ecosystem</a>, but if you want to get a detailed overview you should read the Docker <a href="https://docs.docker.com/glossary/">glossary</a>. In this tutorial I'm going to focus on images and containers. Maybe a little bit on the hub, engine &amp; machines. 😅</p><p><strong>Docker engine</strong></p><blockquote>Lightweight and powerful open source containerization technology combined with a work flow for building and containerizing your applications.</blockquote><p><strong>Docker image</strong></p><blockquote>Docker images are the basis of containers.</blockquote><p><strong>Docker container</strong></p><blockquote>A container is a runtime instance of a docker image.</blockquote><p><strong>Docker machine</strong></p><blockquote>A tool that lets you install Docker Engine on virtual hosts, and manage the hosts with <code>docker-machine</code> commands. </blockquote><p><strong>Docker hub</strong></p><blockquote>A centralized resource for working with Docker and its components.</blockquote><p>So just a little clarification: Docker images can be created through Dockerfiles, these are the templates for running containers. Imagine them like "pre-built install disks" for your container environments. You'll get it through the samples. 💾</p><hr><h2 id="docker-cheatsheet-for-beginners">Docker cheatsheet for beginners</h2><p>So you want to learn Docker commands, but you don't know where to start? Before I show you some real world examples here is a useful cheatsheet for the Docker CLI.<strong><em> </em></strong>Don't worry you don't have to remember any of these commands yet! Also...</p><blockquote>feel free to <a href="#how-to">skip this section</a>, anyway you'll come back later... 😉 </blockquote><p></p><h3 id="docker-machine-commands">Docker machine commands</h3><ul><li>Create new: <code>docker-machine create MACHINE</code></li><li>List all: <code>docker-machine ls</code> </li><li>Show env: <code>docker-machine env default</code></li><li>Use: <code>eval "$(docker-machine env default)"</code></li><li>Unset: <code>docker-machine env -u</code></li><li>Unset: <code>eval $(docker-machine env -u)</code></li></ul><p></p><h3 id="docker-image-commands">Docker image commands</h3><ul><li>Download: <code>docker pull IMAGE[:TAG]</code> </li><li>Build from local Dockerfile: <code>docker build -t TAG .</code></li><li>Build with user and tag: <code>docker build -t USER/IMAGE:TAG .</code></li><li>List: <code>docker image ls</code> or <code>docker images</code></li><li>List all: <code>docker image ls -a</code> or <code>docker images -a</code></li><li>Remove (image or tag): <code>docker image rm IMAGE</code> or <code>docker rmi IMAGE</code></li><li>Remove all dangling (nameless): <code>docker image prune</code></li><li>Remove all unused: <code>docker image prune -a</code></li><li>Remove all: <code>docker rmi $(docker images -aq)</code></li><li><a href="https://medium.freecodecamp.org/an-introduction-to-docker-tags-9b5395636c2a">Tag</a>: <code>docker tag IMAGE TAG</code></li><li>Save to file:<em> </em><code>docker save IMAGE &gt; FILE</code></li><li>Load from file: <code>docker load -i FILE</code></li></ul><p></p><h3 id="docker-container-commands">Docker container commands</h3><ul><li>Run from image: <code>docker run IMAGE</code></li><li>Run with name: <code>docker run --name NAME IMAGE</code></li><li>Map a port: <code>docker run -p HOST:CONTAINER IMAGE</code></li><li>Map all ports: <code>docker run -P IMAGE</code></li><li>Start in background: <code>docker run -d IMAGE</code></li><li>Set hostname: <code>docker run --hostname NAME IMAGE</code></li><li>Set domain: <code>docker run --add-host HOSTNAME:IP IMAGE</code></li><li>Map local directory: <code>docker run -v HOST:TARGET IMAGE</code></li><li>Change entrypoint: <code>docker run -it --entrypoint NAME IMAGE</code> </li><li>List running: <code>docker ps</code> or <code>docker container ls</code></li><li>List all: <code>docker ps -a</code> or <code>docker container ls -a</code></li><li>Stop: <code>docker stop ID</code> or <code>docker container stop ID</code></li><li>Start: <code>docker start ID</code></li><li>Stop all: <code>docker stop $(docker ps -aq)</code></li><li>Kill (force stop): <code>docker kill ID</code> or <code>docker container kill ID</code></li><li>Remove: <code>docker rm ID</code> or <code>docker container rm ID</code></li><li>Remove running: <code>docker rm -f ID</code></li><li>Remove all stopped: <code>docker container prune</code></li><li>Remove all: <code>docker rm $(docker ps -aq)</code></li><li>Rename: <code>docker rename OLD NEW</code></li><li>Create image from container: <code>docker commit ID</code></li><li>Show modified files: <code>docker diff ID</code></li><li>Show mapped ports: <code>docker port ID</code></li><li>Copy from container: <code>docker cp ID:SOURCE TARGET</code></li><li>Copy to container <code>docker cp TARGET ID:SOURCE</code></li><li>Show logs: <code>docker logs ID</code></li><li>Show processes: <code>docker top ID</code></li><li>Start shell: <code>docker exec -it ID bash</code></li></ul><p></p><h3 id="other-useful-docker-commands">Other useful Docker commands</h3><ul><li>Log in: <code>docker login</code></li><li>Run compose file: <code>docker-compose</code> </li><li>Get info about image: <code>docker inspect IMAGE</code></li><li>Show stats of running containers: <code>docker stats</code></li><li>Show version: <code>docker version</code></li></ul><a id="how-to"></a><hr><h2 id="how-to-run-swift-in-a-docker-container">How to run Swift in a Docker container?</h2><p>As I promised in the beginning let me show you <a href="https://theswiftdev.com/2017/11/30/how-to-run-swift-on-linux/">how to run Swift under linux</a> inside a Docker container. First of all, install Docker (fastest way is <code>brew cask install docker</code>), start the app itself (give it some permissions), and pull the "official" Swift Docker image from the cloud by using the <code>docker pull swift</code> command. 😎</p><p></p><h3 id="packaging-swift-code-into-an-image">Packaging Swift code into an image</h3><p>The first thing I'd like to teach you is how to create a custom Docker image &amp; pack all your Swift source code into it. Just create a new Swift project <code>swift package init --type=executable</code> inside a folder and also make a new <code>Dockerfile</code>:</p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778708.js"></script><p> The <strong>FROM </strong>directive tells Docker to set our base image, which will be the previously pulled "official" Swift Docker image with some minor changes. Let's make those changes right ahead!  We're going to add a new <strong>WORKDIR</strong> that's called /app, and from now on we'll literally work inside that. The <strong>COPY</strong> command will copy our local files to the remote (working) directory, <strong>CMD</strong> will run the given command if you don't specify an external command e.g. run shell. 🐚 </p><p>Please note that we could use the <strong><a href="https://nickjanetakis.com/blog/docker-tip-2-the-difference-between-copy-and-add-in-a-dockerile">ADD</a></strong> instruction instead of <strong>COPY</strong> or the <strong><a href="http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/">RUN</a></strong> instuction instead of <strong>CMD</strong>, but there are slight differneces (see the links). </p><p>Now build, tag &amp; finally run the image. 🔨</p><pre><code>docker build -t my-swift-image . # build the image
+docker run --rm my-swift-image 	 # --rm = remove container after exit</code></pre><p>Congratulations! You just made your first Docker image &amp; used your first Docker container with Swift! But wait, do I have to re-build every time I change my code?</p><p></p><h3 id="editing-swift-code-inside-a-docker-container-on-the-fly">Editing Swift code inside a Docker container on-the-fly</h3><p>The first option is that you execute a bash <code>docker run -it my-swift-image bash</code> and log in to your container so you'll be able to edit Swift source files inside of it &amp; build the whole package by using <code>swift build</code> (or you can run <code>swift test</code> if you'd just like to test your app under linux). This method is a little bit inconvenient, because all the Swift files are copied during the image build process so if you would like to pull out changes from the container you have to manually copy everything, also you can't use your favorite editor inside a terminal window.</p><p>Second option is to run the original Swift image, instead of our custom one and attach a local directory to it. Imagine that my sources are under the current directory, so I can simply run <code>docker run --rm -v $(pwd):/app -it swift</code> in order to start a new container with the local content mapped to the remote app directory. Now I can use Xcode, Sublime Text or anything I want to make modifications, and execute my Swift code inside the terminal window by using <code>swift run</code>. 🏃 </p><p></p><h3 id="server-side-swift-projects-inside-docker">Server side Swift projects inside Docker</h3><p>You can also run a server side Swift application through Docker. Let's create a new Vapor project <code>vapor new my-project</code> and a brand new Dockerfile:</p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778707.js"></script><p>Now we use the <strong>ADD</strong> &amp; <strong>RUN </strong>instructions in order to build our Swift source files during the image build phase. Next we have to build our sources &amp; we'll copy the build artifact into a better location, because we don't want to mess with the architecture name in the executable's build path. </p><p>Finally we have to<strong> EXPOSE </strong>our local 8080 port to the outside world, and set our main<strong> ENTRYPOINT </strong>to the newly created <code>Run</code> executable file. We also have to change the IP address that Vapor listens on. Since we are inside of a Docker container <a href="https://stackoverflow.com/questions/35414479/docker-ports-are-not-exposed">we have to use 0.0.0.0</a> instead of 127.0.0.1. </p><pre><code>docker build -t vapor-image .
+docker run --name vapor-server -p 8080:8080 vapor-image
+</code></pre><p>Let's build our image &amp; run it. You also have to <a href="https://medium.freecodecamp.org/expose-vs-publish-docker-port-commands-explained-simply-434593dbc9a3">publish your exposed port</a>, in order to make things work. Now if you go to your browser and enter <code>http://localhost:8080</code> you'll see that Vapor is running inside your container... <code>It works!</code> ... like magic! ⭐️ </p><p></p><h3 id="creating-swift-micro-services-using-docker-compose">Creating Swift (micro)services using Docker compose</h3><p>The docker-compose command can be used to start multiple docker containers at once. You can have separate containers for every single service, like your Swift application, or the database that you are going to use. You can deploy &amp; start all of your microservices with just one command.  Let me show you how to do this. 🤓</p><p>In this example I'm going to connect our Vapor application (running inside a Docker container) to another one that's going to run a PostgreSQL database. In order to make our sample work, we have to switch from SQLite to pgsql inside our project.  </p><p>First, we have to add postgres as a dependency inside the <code>Package.swift</code> file:</p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778702.js"></script><p>Next we change the <code>configure.swift</code> file in order to set up the PostgreSQL driver instead of SQLite, also we're going to get the database connection details from the environment. Thankfully Vapor has a nice support to get env vars:</p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778703.js"></script><p>Only a slight change is needed inside the <code>Models/Todo.swift</code> file:</p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778704.js"></script><p>We also have to add one little thing inside the <code>Run/main.swift</code> file. If a <code>SLEEP_LENGHT</code> environment variable is present we'll wait before we start our Vapor server. Despite the <code>docker-compose up</code> command can <a href="https://docs.docker.com/compose/compose-file/#devices">manage dependencies</a>, it won't wait for services to load completely inside the containers and the PostgreSQL database service needs just a little extra time to boot up. In a production environment you could solve this issue by using <a href="https://docs.docker.com/compose/startup-order/">health checks</a>, but for the demo <a href="https://8thlight.com/blog/dariusz-pasciak/2016/10/17/docker-compose-wait-for-dependencies.html">sleep is fine</a> enough. 😴 </p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778705.js"></script><p>The last thing that we have to do is to create a <code>docker-compose.yaml</code> file. This contains all the services that we'd like to start with the base images / environment variables and other configurations. Just use the following content as a base:</p><script src="https://gitlab.com/theswiftdev/swift/snippets/1778706.js"></script><p>Ready? Go! Fire up your terminal window and enter <code>docker-compose up</code> to start all of our services. Docker will first build the api service based on your local Dockerfile and name it as <code>vapor-composer-image</code> and pull the postgres image from the hub. Next it'll create a container for both services based on the images. Environment variables will be passed to the images (you can <a href="https://docs.docker.com/compose/networking/">reach out to other containers</a> by using the service names) and the api service will be exposed on port 8080. 🌍 </p><figure class="kg-card kg-image-card kg-width-full"><img src="https://theswiftdev.com/content/images/2018/11/docker-compose-vapor-and-postgresql.jpg" class="kg-image"></figure><p>Just visit <code>http://localhost:8080</code> after everything is up and runnning. You can stop the services by entering the <code>docker-compose down</code> command in a new terminal tab or window. You can also "get into the containers" - if you want to run a special script - by executing <code>docker exec -it &lt;my-container&gt; bash</code>. So cool, isn't it? 😎</p><h2 id="-">🐳 +🐘 +💧 = ❤️ </h2><p>I hope you enjoyed this comprehensive Docker tutorial. If you want to learn more about building &amp; hosting cloud services, you should browse my <a href="https://theswiftdev.com/tag/server/">collection of server side Swift articles</a>. More new Vapor 3 related stuff is on it's way, I promise! 😅</p><hr><h2 id="external-sources">External sources</h2><ul><li><a href="https://medium.com/pintail-labs/docker-series-what-is-docker-9eddca88f434">Docker Series — What is Docker?</a></li><li><a href="https://forums.swift.org/t/kickstarting-new-official-docker-support-for-swift/15487">Kickstarting new official Docker support for Swift</a></li><li><a href="https://oleb.net/blog/2017/03/testing-swift-packages-on-linux/">How to test a Swift package on Linux using Docker</a></li><li><a href="https://bygri.github.io/2018/05/14/developing-deploying-vapor-docker.html">Developing and deploying Vapor 3 with Docker</a></li><li><a href="https://github.com/wsargent/docker-cheat-sheet">Docker Cheat Sheet</a></li><li><a href="http://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/">What are Docker &lt;none&gt;:&lt;none&gt; images?</a></li></ul>
+                </div>
+            </section>
+
+            <section class="subscribe-form">
+                <h3 class="subscribe-form-title">Subscribe to The.Swift.Dev.</h3>
+                <p>Get the latest posts delivered right to your inbox</p>
+                <form method="post" action="/subscribe/" id="" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email" placeholder="youremail@example.com" />
+    </div>
+    <button id="" class="" type="submit"><span>Subscribe</span></button>
+    
+<script>
+    (function(g,h,o,s,t){
+        var buster = function(b,m) {
+            h[o]('input.'+b).forEach(function (i) {
+                i.value=i.value || m;
+            });
+        };
+        buster('location', g.location.href);
+        buster('referrer', h.referrer);
+    })(window,document,'querySelectorAll','value');
+</script>
+
+</form>
+
+
+            </section>
+
+            <footer class="post-full-footer">
+
+
+                    
+<section class="author-card">
+        <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+    <section class="author-card-content">
+        <h4 class="author-card-name"><a href="/author/tiborbodecs/">Tibor Bödecs</a></h4>
+            <p>Read <a href="/author/tiborbodecs/">more posts</a> by this author.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="/author/tiborbodecs/">Read More</a>
+</div>
+
+
+            </footer>
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card"
+                            style="background-image: url(/content/images/size/w600/2018/11/background-1.jpg)"
+                >
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">&mdash; The.Swift.Dev. &mdash;</small>
+                        <h3 class="read-next-card-header-title"><a href="/tag/server/">Server</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="/2018/04/09/vapor-3-tutorial-for-beginners/">Vapor 3 tutorial for beginners</a></li>
+                            <li><a href="/2018/03/20/server-side-swift-with-swift-nio/">Server side Swift with SwiftNIO</a></li>
+                            <li><a href="/2018/02/21/how-to-build-server-side-swift-applications/">How to build server side Swift applications?</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="/tag/server/">See all 7 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-uikit ">
+
+    <a class="post-card-image-link" href="/2018/12/02/uitableview-tutorial-in-swift/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;19cb3f8faa546e028839b6985ee2491d 300w,
+                    https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;19cb3f8faa546e028839b6985ee2491d 600w,
+                    https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;19cb3f8faa546e028839b6985ee2491d 1000w,
+                    https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;19cb3f8faa546e028839b6985ee2491d 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;19cb3f8faa546e028839b6985ee2491d"
+            alt="UITableView tutorial in Swift"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/2018/12/02/uitableview-tutorial-in-swift/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">UIKit</span>
+                <h2 class="post-card-title">UITableView tutorial in Swift</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>This guide is made for beginners to learn the foundations of the UITableView class programmatically with auto layout in Swift.</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Tibor Bödecs
+                    </div>
+
+                        <a href="/author/tiborbodecs/" class="static-avatar">
+                            <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+                        </a>
+                </li>
+            </ul>
+
+            <span class="reading-time">7 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-swift ">
+
+    <a class="post-card-image-link" href="/2018/11/06/swift-5-and-abi-stability/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1516434233442-0c69c369b66d?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;acc553d3545a4a2bcba2075b1bbdcee9 300w,
+                    https://images.unsplash.com/photo-1516434233442-0c69c369b66d?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;acc553d3545a4a2bcba2075b1bbdcee9 600w,
+                    https://images.unsplash.com/photo-1516434233442-0c69c369b66d?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;acc553d3545a4a2bcba2075b1bbdcee9 1000w,
+                    https://images.unsplash.com/photo-1516434233442-0c69c369b66d?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;acc553d3545a4a2bcba2075b1bbdcee9 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="https://images.unsplash.com/photo-1516434233442-0c69c369b66d?ixlib&#x3D;rb-0.3.5&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ&amp;s&#x3D;acc553d3545a4a2bcba2075b1bbdcee9"
+            alt="Swift 5 and ABI stability"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/2018/11/06/swift-5-and-abi-stability/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">Swift</span>
+                <h2 class="post-card-title">Swift 5 and ABI stability</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Apple's Swift 5 language version will be a huge milestone for the developer community, let's see what are the possible benefits of it.</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Tibor Bödecs
+                    </div>
+
+                        <a href="/author/tiborbodecs/" class="static-avatar">
+                            <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+                        </a>
+                </li>
+            </ul>
+
+            <span class="reading-time">3 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://theswiftdev.com">
+                <img src="/content/images/size/w30/2017/10/Logo-Square-1.png" alt="The.Swift.Dev. icon" />
+            <span>The.Swift.Dev.</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Docker ❤️ Swift &amp; Vapor</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Docker%20%E2%9D%A4%EF%B8%8F%20Swift%20%26%20Vapor&amp;url=https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://theswiftdev.com/2018/11/15/docker-loves-swift-and-vapor/"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+        </a>
+    </div>
+    <progress id="reading-progress" class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://theswiftdev.com">The.Swift.Dev.</a> &copy; 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="https://theswiftdev.com">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="subscribe" class="subscribe-overlay">
+        <a class="subscribe-overlay-close" href="#"></a>
+        <div class="subscribe-overlay-content">
+                <img class="subscribe-overlay-logo" src="https://theswiftdev.com/content/images/2017/10/Logo-2.png" alt="The.Swift.Dev." />
+            <h1 class="subscribe-overlay-title">Subscribe to The.Swift.Dev.</h1>
+            <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+            <form method="post" action="/subscribe/" id="" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email" placeholder="youremail@example.com" />
+    </div>
+    <button id="" class="" type="submit"><span>Subscribe</span></button>
+    
+<script>
+    (function(g,h,o,s,t){
+        var buster = function(b,m) {
+            h[o]('input.'+b).forEach(function (i) {
+                i.value=i.value || m;
+            });
+        };
+        buster('location', g.location.href);
+        buster('referrer', h.referrer);
+    })(window,document,'querySelectorAll','value');
+</script>
+
+</form>
+
+
+        </div>
+    </div>
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/built/jquery.fitvids.js?v=64c8bc839a"></script>
+
+
+    <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('#reading-progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+
+});
+</script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-38095670-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-swift.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,4586 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+	<meta charset="utf-8" />
+<meta name="Author" content="Apple Inc." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="mask-icon" href="/apple-logo.svg" color="#333333">
+
+<link rel="stylesheet" href="/assets/styles/globalnav.css?1" type="text/css" />
+<link rel="stylesheet" href="/assets/styles/global.dist.css" type="text/css" />
+
+<script src="/assets/scripts/lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="/assets/scripts/lib/jquery/jquery.retinate.js"></script>
+<script src="/assets/scripts/global.js"></script>
+<script src="/assets/scripts/global-logout.js"></script>
+	<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro+Icons&v=1" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Mono&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=Apple+Icons&amp;v=1" type="text/css" />
+
+		<meta name="omni_page" content="Understanding Swift Performance - WWDC 2016 - Videos" />
+	<title>Understanding Swift Performance - WWDC 2016 - Videos - Apple Developer</title>
+		<meta name="robots" content="noodp,noydir" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link type="text/css" rel="stylesheet" href="/videos/styles/videos.css">
+	<meta name="description" content="In this advanced session, find out how structs, classes, protocols, and generics are implemented in Swift. Learn about their relative...">
+
+	<meta property="og:url" content="developer.apple.com/videos/play/wwdc2016/416/" />
+	<meta property="og:title" content="Understanding Swift Performance - WWDC 2016 - Videos - Apple Developer" />
+	<meta property="og:description" content="In this advanced session, find out how structs, classes, protocols, and generics are implemented in Swift. Learn about their relative..." />
+	<meta property="og:site_name" content="Apple Developer" />
+	<meta property="og:type" content="website" />
+		<meta property="og:image" content="https://devimages-cdn.apple.com/wwdc-services/images/1/78/78_wide_250x141_2x.jpg" />
+		<meta property="og:locale" content="en_US" />
+
+</head>
+<body class="view-play">
+
+	<aside id="ac-gn-segmentbar" class="ac-gn-segmentbar" lang="en-US" dir="ltr">
+</aside>
+<input type="checkbox" id="ac-gn-menustate" class="ac-gn-menustate" />
+<nav id="ac-globalnav" class="no-js" role="navigation" aria-label="Global" data-hires="false" data-analytics-region="global nav" lang="en-US" dir="ltr" data-store-locale="us" data-store-api="/[storefront]/shop/bag/status" data-search-locale="en_US" data-search-api="/search-services/suggestions/">
+	<div class="ac-gn-content">
+		<ul class="ac-gn-header">
+			<li class="ac-gn-item ac-gn-menuicon">
+				<label class="ac-gn-menuicon-label" for="ac-gn-menustate" aria-hidden="true">
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-top">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-top"></span>
+					</span>
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-bottom">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-bottom"></span>
+					</span>
+				</label>
+				<a href="#ac-gn-menustate" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-open" id="ac-gn-menuanchor-open">
+					<span class="ac-gn-menuanchor-label">Global Nav Open Menu</span>
+				</a>
+				<a href="#" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-close" id="ac-gn-menuanchor-close">
+					<span class="ac-gn-menuanchor-label">Global Nav Close Menu</span>
+				</a>
+			</li>
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus-small">
+					<span class="ac-gn-link-text">Apple Developer</span>
+				</a>
+			</li>
+		</ul>
+		<div class="ac-gn-search-placeholder-container" role="search">
+			<div class="ac-gn-search ac-gn-search-small">
+				<a id="ac-gn-link-search-small" class="ac-gn-link" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer">
+					<div class="ac-gn-search-placeholder-bar">
+						<div class="ac-gn-search-placeholder-input">
+							<div class="ac-gn-search-placeholder-input-text" aria-hidden="true">
+								<div class="ac-gn-link-search ac-gn-search-placeholder-input-icon"></div>
+								<span class="ac-gn-search-placeholder">Search Developer</span>
+							</div>
+						</div>
+						<div class="ac-gn-searchview-close ac-gn-searchview-close-small ac-gn-search-placeholder-searchview-close">
+							<span class="ac-gn-searchview-close-cancel" aria-hidden="true">Cancel</span>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<ul class="ac-gn-list">
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus">
+					<span class="ac-gn-link-text">Apple Developer</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-discover">
+				<a class="ac-gn-link ac-gn-link-discover" href="/discover/" data-analytics-title="discover">
+					<span class="ac-gn-link-text">Discover</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-design">
+				<a class="ac-gn-link ac-gn-link-design" href="/design/" data-analytics-title="design">
+					<span class="ac-gn-link-text">Design</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-develop">
+				<a class="ac-gn-link ac-gn-link-develop" href="/develop/" data-analytics-title="develop">
+					<span class="ac-gn-link-text">Develop</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-distribute">
+				<a class="ac-gn-link ac-gn-link-distribute" href="/distribute/" data-analytics-title="distribute">
+					<span class="ac-gn-link-text">Distribute</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-dsupport">
+				<a class="ac-gn-link ac-gn-link-dsupport" href="/support/" data-analytics-title="dsupport">
+					<span class="ac-gn-link-text">Support</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-account">
+				<a class="ac-gn-link ac-gn-link-account" href="/account/" data-analytics-title="account">
+					<span class="ac-gn-link-text">Account</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-search" role="search">
+				<a id="ac-gn-link-search" class="ac-gn-link ac-gn-link-search" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer"></a>
+			</li>
+		</ul>
+		<aside id="ac-gn-searchview" class="ac-gn-searchview" role="search" data-analytics-region="search">
+			<div class="ac-gn-searchview-content">
+				<div class="ac-gn-searchview-bar">
+					<div class="ac-gn-searchview-bar-wrapper">
+						<form id="ac-gn-searchform" class="ac-gn-searchform" action="/search/" method="get">
+							<div class="ac-gn-searchform-wrapper">
+								<input id="ac-gn-searchform-input" class="ac-gn-searchform-input" type="text" name="q" aria-label="Search Developer" placeholder="Search Developer" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="true" aria-owns="quicklinks suggestions" />
+								<button id="ac-gn-searchform-submit" class="ac-gn-searchform-submit" type="submit" disabled aria-label="Submit Search"></button>
+								<button id="ac-gn-searchform-reset" class="ac-gn-searchform-reset" type="reset" disabled aria-label="Clear Search">
+										<span class="ac-gn-searchform-reset-background"></span>
+									</button>
+							</div>
+						</form>
+						<button id="ac-gn-searchview-close-small" class="ac-gn-searchview-close ac-gn-searchview-close-small" aria-label="Cancel Search">
+								<span class="ac-gn-searchview-close-cancel" aria-hidden="true">
+									Cancel
+								</span>
+							</button>
+					</div>
+				</div>
+				<aside id="ac-gn-searchresults" class="ac-gn-searchresults" data-string-quicklinks="Quick Links" data-string-suggestions="Suggested Searches" data-string-noresults=""></aside>
+			</div>
+			<button id="ac-gn-searchview-close" class="ac-gn-searchview-close" aria-label="Cancel Search">
+					<span class="ac-gn-searchview-close-wrapper">
+						<span class="ac-gn-searchview-close-left"></span>
+						<span class="ac-gn-searchview-close-right"></span>
+					</span>
+				</button>
+		</aside>
+			</div>
+</nav>
+<div class="ac-gn-blur"></div>
+<div id="ac-gn-curtain" class="ac-gn-curtain"></div>
+<div id="ac-gn-placeholder" class="ac-nav-placeholder"></div>
+<script src="/assets/scripts/ac-globalnav.built.js"></script>
+
+			<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdappledeveloper"
+</script>	
+<script src="/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    s.channel="www.en.developer"
+    s.channel="www.videos.developer";
+
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->	
+	<main id="main" class="main theme-dark" role="main">
+
+		<section class="bg-dark">
+
+			<section class="grid">
+
+				<section class="row">
+					<section class="column large-10 small-12  padding-top-small large-centered no-padding-bottom">
+						<!-- back link -->
+						<p class="back-link smaller">
+														<a class="arrow-left" href="/videos/">More Videos</a>
+													</p>
+					</section>
+				</section>
+
+				<!-- video player -->
+				<section class="video-wrapper row">
+					<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+												<video id="video" class="video large-centered" controls="" src="https://devstreaming-cdn.apple.com/videos/wwdc/2016/416k7f0xkmz28rvlvwb/416/hls_vod_mvp.m3u8" autoplay data-id="1263">
+							
+						</video>
+						<div class="no-video-banner hidden">
+							<div class="no-video-copy">
+								<p>Streaming is available in most browsers,<br> and in the WWDC app.</p>
+							</div>
+							</span>
+						</div>
+											</section>
+				</section>
+
+			</section>
+
+		</section>
+
+		<section class="grid">
+
+			<!-- tab menu -->
+			<section class="tab-menu row divider-bottom">
+
+				<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+
+					<ul class="tabs">
+						<li class="tab" data-supplement-id="details"><a href="#"><span class="smaller">Overview</span></a></li>
+
+												<li class="tab" data-supplement-id="transcript"><a href="#"><span class="smaller">Transcript</span></a></li>
+						<li class="tab right active" data-supplement-id="search">
+							<!-- mobile search -->
+							<a href="#"><span><!--icon--></span></a>
+							<!-- desktop search -->
+							<section class="searchbar-wrapper desktop" style="opacity:0;">
+								<button class="search-icon"></button>
+								<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+							</section>
+						</li>
+						
+												<section class="searchbar-wrapper mobile" style="">
+							<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+						</section>
+						
+					</ul>
+				</section>
+
+			</section>
+
+			<!-- supplements -->
+			<section class="row">
+
+				<section class="column large-10 small-12  large-centered no-padding-top no-padding-bottom">
+
+					<ul class="supplements hidden">
+
+						<!-- details -->
+						<li class="supplement details " data-supplement-id="details">
+							
+							<h1>Understanding Swift Performance</h1>
+							<p>In this advanced session, find out how structs, classes, protocols, and generics are implemented in Swift. Learn about their relative costs in different dimensions of performance. See how to apply this information to speed up your code.</p>
+							<p class="smaller lighter">WWDC 2016 - Session 416
+							 - iOS, macOS, tvOS, watchOS</p>
+
+														<h2>Resources</h2>
+
+							<ul class="links small">
+																																					<li class="guide"><a href="https://developer.apple.com/videos/play/wwdc2015/409/" target="_blank">Optimizing Swift Performance (WWDC 2015, Session 409)</a></li>
+																																							<li class="reference"><a href="https://swift.org" target="_blank">Swift.org</a></li>
+																											
+																	<li class="download">
+										<ul class="options">
+																						<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2016/416k7f0xkmz28rvlvwb/416/416_hd_understanding_swift_performance.mp4?dl=1">HD Video</a></li>
+																																	<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2016/416k7f0xkmz28rvlvwb/416/416_sd_understanding_swift_performance.mp4?dl=1">SD Video</a></li>
+																					</ul>
+									</li>
+																
+																										<li class="download"><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2016/416k7f0xkmz28rvlvwb/416/416_understanding_swift_performance.pdf?dl=1">Presentation Slides (PDF)</a></li>
+																								</ul>
+							
+														<div class="divider-top margin-top-small padding-bottom-small"></div>
+							<h2>Related Videos</h2>
+														<h4>WWDC 2017</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2017/244">Efficient Interactions with Frameworks</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2017/402">What's New in Swift</a>
+										</li>
+																	</ul>
+														<h4>WWDC 2016</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/720">Concurrent Programming With GCD in Swift 3</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/415">Going Server-side with Swift Open Source</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/419">Protocol and Value Oriented Programming in UIKit Apps</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/403">Swift API Design Guidelines</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/207">What's New in Foundation for Swift</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/402">What's New in Swift</a>
+										</li>
+																	</ul>
+														
+							
+						</li>
+
+						<!-- transcript -->
+						<li class="supplement transcript" data-supplement-id="transcript" data-shortcut-base-url="/videos/play/wwdc2016-416/">
+							<section>
+								<div class="margin-bottom-small download-transcript"><span id="get-transcript" class="icon icon-before icon-downloadcircle">Download</span></div>
+								<p><span class="sentence"><span data-start="7.0" data-end="18.0"> 
+[ Music ] </span></span>
+
+<span class="sentence"><span data-start="25.0" data-end="26.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="26.0" data-end="29.0"> 
+ Hello and welcome to Understand Swift Performance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="29.0" data-end="33.0"> 
+I'm Kyle. Arnold and I are so excited to be here today to talk </span></span>
+
+<span class="sentence"><span data-start="33.0" data-end="34.0"> 
+to you guys about Swift.</span></span>
+
+<span class="sentence"><span data-start="35.0" data-end="38.0"> 
+As developers, Swift offers us a broad </span></span>
+
+<span class="sentence"><span data-start="38.0" data-end="40.0"> 
+and powerful design space to explore.</span></span>
+
+<span class="sentence"><span data-start="40.0" data-end="43.0"> 
+Swift has a variety of first class types </span></span>
+
+<span class="sentence"><span data-start="43.0" data-end="46.0"> 
+and various mechanisms for code reuse and dynamism.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="46.0" data-end="49.0"> 
+All of these language features can be combined </span></span>
+
+<span class="sentence"><span data-start="49.0" data-end="51.0"> 
+in interesting, emergent ways.</span></span>
+
+<span class="sentence"><span data-start="51.0" data-end="55.0"> 
+So, how do we go about narrowing this design space </span></span>
+
+<span class="sentence"><span data-start="55.0" data-end="56.0"> 
+and picking the right tool for the job? </span></span>
+
+<span class="sentence"><span data-start="57.0" data-end="59.0"> 
+Well, first and foremost, you want to take </span></span>
+
+<span class="sentence"><span data-start="59.0" data-end="61.0"> 
+into account the modeling implications </span></span>
+
+<span class="sentence"><span data-start="62.0" data-end="64.0"> 
+of Swift's different abstraction mechanisms.</span></span>
+
+<span class="sentence"><span data-start="64.0" data-end="67.0"> 
+Are value or reference semantics more appropriate? </span></span>
+
+<span class="sentence"><span data-start="68.0" data-end="71.0"> 
+How dynamic do you need this abstraction to be? </span></span>
+
+<span class="sentence"><span data-start="72.0" data-end="74.0"> 
+Well, Arnold and I also want to empower you today </span></span>
+
+<span class="sentence"><span data-start="75.0" data-end="77.0"> 
+to use performance to narrow the design space.</span></span>
+
+<span class="sentence"><span data-start="77.0" data-end="80.0"> 
+In my experience, taking performance implications </span></span>
+
+<span class="sentence"><span data-start="80.0" data-end="84.0"> 
+into account often helps guide me to a more idiomatic solution.</span></span>
+
+<span class="sentence"><span data-start="84.0" data-end="87.0"> 
+So, we're going to be focusing primarily on performance.</span></span>
+
+<span class="sentence"><span data-start="88.0" data-end="89.0"> 
+We'll touch a bit on modeling.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="89.0" data-end="91.0"> 
+But we had some great talks last year </span></span>
+
+<span class="sentence"><span data-start="91.0" data-end="94.0"> 
+and we have another great talk this year on powerful techniques </span></span>
+
+<span class="sentence"><span data-start="94.0" data-end="95.0"> 
+for modeling your program in Swift.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="96.0" data-end="97.0"> 
+If you want to get the most out of this talk, </span></span>
+
+<span class="sentence"><span data-start="97.0" data-end="100.0"> 
+I strongly recommend watching at least one of these talks.</span></span>
+
+<span class="sentence"><span data-start="101.0" data-end="101.0"> 
+All right.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="102.0" data-end="104.0"> 
+So, we want to use performance to narrow the design space.</span></span>
+
+<span class="sentence"><span data-start="105.0" data-end="108.0"> 
+Well, the best way to understand the performance implications </span></span>
+
+<span class="sentence"><span data-start="108.0" data-end="110.0"> 
+of Swift's abstraction mechanisms is </span></span>
+
+<span class="sentence"><span data-start="110.0" data-end="112.0"> 
+to understand their underlying implementation.</span></span>
+
+<span class="sentence"><span data-start="112.0" data-end="114.0"> 
+So, that's what we're going to do today.</span></span>
+
+<span class="sentence"><span data-start="114.0" data-end="115.0"> 
+We're going to begin </span></span>
+
+<span class="sentence"><span data-start="115.0" data-end="118.0"> 
+by identifying the different dimensions you want to take </span></span>
+
+<span class="sentence"><span data-start="118.0" data-end="121.0"> 
+into account when evaluating your different abstraction </span></span>
+
+<span class="sentence"><span data-start="121.0" data-end="122.0"> 
+mechanism options.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="122.0" data-end="123.0"> 
+For each of these, we're going to trace </span></span>
+
+<span class="sentence"><span data-start="123.0" data-end="126.0"> 
+through some code using structs and classes </span></span>
+
+<span class="sentence"><span data-start="126.0" data-end="129.0"> 
+to deepen our mental model for the overhead involved.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="129.0" data-end="130.0"> 
+And then we're going to look </span></span>
+
+<span class="sentence"><span data-start="130.0" data-end="132.0"> 
+at how we can apply what we've learned to clean up </span></span>
+
+<span class="sentence"><span data-start="132.0" data-end="133.0"> 
+and speed up some Swift code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="134.0" data-end="135.0"> 
+In the second half of this talk, </span></span>
+
+<span class="sentence"><span data-start="135.0" data-end="137.0"> 
+we're going to evaluate the performance </span></span>
+
+<span class="sentence"><span data-start="137.0" data-end="139.0"> 
+of protocol oriented programming.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="139.0" data-end="141.0"> 
+We're going to look at the implementation </span></span>
+
+<span class="sentence"><span data-start="141.0" data-end="144.0"> 
+of advanced Swift features like protocols and generics </span></span>
+
+<span class="sentence"><span data-start="144.0" data-end="146.0"> 
+to get a better understanding of their modeling </span></span>
+
+<span class="sentence"><span data-start="146.0" data-end="148.0"> 
+and performance implications.</span></span>
+
+<span class="sentence"><span data-start="149.0" data-end="151.0"> 
+Quick disclaimer: We're going to be looking </span></span>
+
+<span class="sentence"><span data-start="151.0" data-end="154.0"> 
+at memory representations and generated code representations </span></span>
+
+<span class="sentence"><span data-start="154.0" data-end="156.0"> 
+of what Swift compiles and executes on your behalf.</span></span>
+
+<span class="sentence"><span data-start="157.0" data-end="160.0"> 
+These are inevitably going to be simplifications, but Arnold </span></span>
+
+<span class="sentence"><span data-start="160.0" data-end="161.0"> 
+and I think we've struck a really good balance </span></span>
+
+<span class="sentence"><span data-start="162.0" data-end="164.0"> 
+between seeing simplicity and accuracy.</span></span>
+
+<span class="sentence"><span data-start="164.0" data-end="165.0"> 
+And this is a really good mental model </span></span>
+
+<span class="sentence"><span data-start="166.0" data-end="167.0"> 
+to reason about your code with.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="168.0" data-end="168.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="169.0" data-end="171.0"> 
+Let's get started by identifying the different dimensions </span></span>
+
+<span class="sentence"><span data-start="171.0" data-end="172.0"> 
+of performance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="173.0" data-end="175.0"> 
+So, when you're building an abstraction </span></span>
+
+<span class="sentence"><span data-start="175.0" data-end="177.0"> 
+and choosing an abstraction mechanism, </span></span>
+
+<span class="sentence"><span data-start="177.0" data-end="180.0"> 
+you should be asking yourself, "Is my instance going </span></span>
+
+<span class="sentence"><span data-start="180.0" data-end="182.0"> 
+to be allocated on the stack or the heap? </span></span>
+
+<span class="sentence"><span data-start="183.0" data-end="185.0"> 
+When I pass this instance around, </span></span>
+
+<span class="sentence"><span data-start="185.0" data-end="188.0"> 
+how much reference counting overhead am I going to incur? </span></span>
+
+<span class="sentence"><span data-start="188.0" data-end="190.0"> 
+When I call a method on this instance, </span></span>
+
+<span class="sentence"><span data-start="190.0" data-end="193.0"> 
+is it going to be statically or dynamically dispatched?" </span></span>
+
+<span class="sentence"><span data-start="194.0" data-end="197.0"> 
+If we want to write fast Swift code, we're going to need </span></span>
+
+<span class="sentence"><span data-start="197.0" data-end="199.0"> 
+to avoid paying for dynamism and runtime </span></span>
+
+<span class="sentence"><span data-start="199.0" data-end="201.0"> 
+that we're not taking advantage of.</span></span>
+
+<span class="sentence"><span data-start="202.0" data-end="206.0"> 
+And we're going to need to learn when and how we can trade </span></span>
+
+<span class="sentence"><span data-start="206.0" data-end="207.0"> 
+between these different dimensions </span></span>
+
+<span class="sentence"><span data-start="208.0" data-end="209.0"> 
+for better performance.</span></span>
+
+<span class="sentence"><span data-start="210.0" data-end="210.0"> 
+All right.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="210.0" data-end="212.0"> 
+We're going to go through each of these dimensions one </span></span>
+
+<span class="sentence"><span data-start="212.0" data-end="214.0"> 
+at a time beginning with allocation.</span></span>
+
+<span class="sentence"><span data-start="216.0" data-end="218.0"> 
+Swift automatically allocates </span></span>
+
+<span class="sentence"><span data-start="218.0" data-end="219.0"> 
+and deallocates memory on your behalf.</span></span>
+
+<span class="sentence"><span data-start="219.0" data-end="221.0"> 
+Some of that memory it allocates on the stack.</span></span>
+
+<span class="sentence"><span data-start="222.0" data-end="224.0"> 
+The stack is a really simple data structure.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="224.0" data-end="226.0"> 
+You can push onto the end of the stack </span></span>
+
+<span class="sentence"><span data-start="226.0" data-end="228.0"> 
+and you can pop off the end of the stack.</span></span>
+
+<span class="sentence"><span data-start="228.0" data-end="231.0"> 
+Because you can only ever add or remove to the end of the stack, </span></span>
+
+<span class="sentence"><span data-start="231.0" data-end="234.0"> 
+we can implement the stack -- or implement push and pop just </span></span>
+
+<span class="sentence"><span data-start="234.0" data-end="238.0"> 
+by keeping a pointer to the end of the stack.</span></span>
+
+<span class="sentence"><span data-start="238.0" data-end="240.0"> 
+And this means, when we call into a function -- or, rather -- </span></span>
+
+<span class="sentence"><span data-start="241.0" data-end="241.0"> 
+that pointer at the end </span></span>
+
+<span class="sentence"><span data-start="241.0" data-end="243.0"> 
+of the stack is called the stack pointer.</span></span>
+
+<span class="sentence"><span data-start="243.0" data-end="246.0"> 
+And when we call into a function, we can allocate </span></span>
+
+<span class="sentence"><span data-start="246.0" data-end="248.0"> 
+that memory that we need just </span></span>
+
+<span class="sentence"><span data-start="248.0" data-end="251.0"> 
+by trivially decrementing the stack pointer to make space.</span></span>
+
+<span class="sentence"><span data-start="251.0" data-end="254.0"> 
+And when we've finished executing our function, </span></span>
+
+<span class="sentence"><span data-start="254.0" data-end="256.0"> 
+we can trivially deallocate that memory just </span></span>
+
+<span class="sentence"><span data-start="256.0" data-end="258.0"> 
+by incrementing the stack pointer back up to </span></span>
+
+<span class="sentence"><span data-start="258.0" data-end="260.0"> 
+where it was before we called this function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="261.0" data-end="263.0"> 
+Now, if you're not that familiar with the stack or stack pointer, </span></span>
+
+<span class="sentence"><span data-start="264.0" data-end="265.0"> 
+what I want you to take away </span></span>
+
+<span class="sentence"><span data-start="265.0" data-end="268.0"> 
+from this slide is just how fast stack allocation is.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="268.0" data-end="270.0"> 
+It's literally the cost of assigning an integer.</span></span>
+
+<span class="sentence"><span data-start="272.0" data-end="275.0"> 
+So, this is in contrast to the heap, which is more dynamic, </span></span>
+
+<span class="sentence"><span data-start="275.0" data-end="276.0"> 
+but less efficient than the stack.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="277.0" data-end="280.0"> 
+The heap lets you do things the stack can't like allocate memory </span></span>
+
+<span class="sentence"><span data-start="280.0" data-end="281.0"> 
+with a dynamic lifetime.</span></span>
+
+<span class="sentence"><span data-start="282.0" data-end="284.0"> 
+But that requires a more advanced data structure.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="284.0" data-end="286.0"> 
+So, if you're going to allocate memory on the heap, </span></span>
+
+<span class="sentence"><span data-start="286.0" data-end="288.0"> 
+you actually have to search the heap data structure </span></span>
+
+<span class="sentence"><span data-start="288.0" data-end="291.0"> 
+to find an unused block of the appropriate size.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="291.0" data-end="293.0"> 
+And then when you're done with it, to deallocate it, </span></span>
+
+<span class="sentence"><span data-start="293.0" data-end="296.0"> 
+you have to reinsert that memory back </span></span>
+
+<span class="sentence"><span data-start="296.0" data-end="297.0"> 
+into the appropriate position.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="298.0" data-end="299.0"> 
+So, clearly, there's more involved here </span></span>
+
+<span class="sentence"><span data-start="299.0" data-end="302.0"> 
+than just assigning an integer like we had with the stack.</span></span>
+
+<span class="sentence"><span data-start="302.0" data-end="304.0"> 
+But these aren't even necessarily the main costs </span></span>
+
+<span class="sentence"><span data-start="304.0" data-end="305.0"> 
+involved with heap allocation.</span></span>
+
+<span class="sentence"><span data-start="306.0" data-end="309.0"> 
+Because multiple threads can be allocating memory on the heap </span></span>
+
+<span class="sentence"><span data-start="309.0" data-end="310.0"> 
+at the same time, the heap needs </span></span>
+
+<span class="sentence"><span data-start="310.0" data-end="313.0"> 
+to protect its integrity using locking </span></span>
+
+<span class="sentence"><span data-start="313.0" data-end="314.0"> 
+or other synchronization mechanisms.</span></span>
+
+<span class="sentence"><span data-start="315.0" data-end="316.0"> 
+This is a pretty large cost.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="317.0" data-end="319.0"> 
+If you're not paying attention today to when and where </span></span>
+
+<span class="sentence"><span data-start="319.0" data-end="321.0"> 
+in your program you're allocating memory on the heap, </span></span>
+
+<span class="sentence"><span data-start="322.0" data-end="323.0"> 
+just by being a little more deliberate, </span></span>
+
+<span class="sentence"><span data-start="323.0" data-end="325.0"> 
+you can likely dramatically improve your performance.</span></span>
+
+<span class="sentence"><span data-start="326.0" data-end="327.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="327.0" data-end="328.0"> 
+Let's trace through some code </span></span>
+
+<span class="sentence"><span data-start="328.0" data-end="330.0"> 
+and see what Swift is doing on our behalf.</span></span>
+
+<span class="sentence"><span data-start="331.0" data-end="334.0"> 
+Here we have a point struct with an x and y stored property.</span></span>
+
+<span class="sentence"><span data-start="334.0" data-end="336.0"> 
+It also has the draw method on it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="337.0" data-end="340.0"> 
+We're going to construct the point at (0, 0), assign point1 </span></span>
+
+<span class="sentence"><span data-start="340.0" data-end="343.0"> 
+to point2 making a copy, and assign a value of five </span></span>
+
+<span class="sentence"><span data-start="343.0" data-end="345.0"> 
+to point2.x. Then, we're going </span></span>
+
+<span class="sentence"><span data-start="345.0" data-end="347.0"> 
+to use our point1 and use our point2.</span></span>
+
+<span class="sentence"><span data-start="348.0" data-end="349.0"> 
+So, let's trace through this.</span></span>
+
+<span class="sentence"><span data-start="349.0" data-end="351.0"> 
+As we enter this function, </span></span>
+
+<span class="sentence"><span data-start="352.0" data-end="355.0"> 
+before we even begin executing any code, we've allocated space </span></span>
+
+<span class="sentence"><span data-start="355.0" data-end="357.0"> 
+on the stack for our point1 instance </span></span>
+
+<span class="sentence"><span data-start="357.0" data-end="358.0"> 
+and our point2 instance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="359.0" data-end="360.0"> 
+And because point is a struct, </span></span>
+
+<span class="sentence"><span data-start="360.0" data-end="364.0"> 
+the x and y properties are stored in line on the stack.</span></span>
+
+<span class="sentence"><span data-start="364.0" data-end="367.0"> 
+So, when we go to construct our point with an x of 0 and a y </span></span>
+
+<span class="sentence"><span data-start="367.0" data-end="369.0"> 
+of 0, all we're doing is initializing </span></span>
+
+<span class="sentence"><span data-start="369.0" data-end="372.0"> 
+that memory we've already allocated on the stack.</span></span>
+
+<span class="sentence"><span data-start="372.0" data-end="375.0"> 
+When we assign point1 to point2, we're just making a copy </span></span>
+
+<span class="sentence"><span data-start="376.0" data-end="379.0"> 
+of that point and initializing the point2 memory, again, </span></span>
+
+<span class="sentence"><span data-start="379.0" data-end="381.0"> 
+that we'd already allocated on the stack.</span></span>
+
+<span class="sentence"><span data-start="381.0" data-end="384.0"> 
+Note that point1 and point2 are independent instances.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="385.0" data-end="387.0"> 
+That means, when we go and assign a value of five </span></span>
+
+<span class="sentence"><span data-start="387.0" data-end="392.0"> 
+to point2.x, point2.x is five, but point1.x is still 0.</span></span>
+
+<span class="sentence"><span data-start="392.0" data-end="394.0"> 
+This is known as value semantics.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="394.0" data-end="397.0"> 
+Then we'll go ahead and use point1, use point2, </span></span>
+
+<span class="sentence"><span data-start="397.0" data-end="399.0"> 
+and we're done executing our function.</span></span>
+
+<span class="sentence"><span data-start="399.0" data-end="402.0"> 
+So, we can trivially deallocate that memory for point1 </span></span>
+
+<span class="sentence"><span data-start="402.0" data-end="406.0"> 
+and point2 just by incrementing that stack pointer back up to </span></span>
+
+<span class="sentence"><span data-start="406.0" data-end="408.0"> 
+where we were when we entered our function.</span></span>
+
+<span class="sentence"><span data-start="409.0" data-end="412.0"> 
+Let's contrast this to the same exact code, but using a point </span></span>
+
+<span class="sentence"><span data-start="412.0" data-end="415.0"> 
+which is a class instead of a struct.</span></span>
+
+<span class="sentence"><span data-start="416.0" data-end="416.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="417.0" data-end="419.0"> 
+So, when we enter this function, just like before, </span></span>
+
+<span class="sentence"><span data-start="419.0" data-end="420.0"> 
+we're allocating memory on the stack.</span></span>
+
+<span class="sentence"><span data-start="421.0" data-end="424.0"> 
+But instead of for the actual storage of the properties </span></span>
+
+<span class="sentence"><span data-start="424.0" data-end="425.0"> 
+on point, we're going to allocate memory </span></span>
+
+<span class="sentence"><span data-start="425.0" data-end="427.0"> 
+for references to point1 and point2.</span></span>
+
+<span class="sentence"><span data-start="428.0" data-end="430.0"> 
+References to memory we're going to be allocated on the heap.</span></span>
+
+<span class="sentence"><span data-start="431.0" data-end="434.0"> 
+So, when we construct our point at (0, 0), Swift is going </span></span>
+
+<span class="sentence"><span data-start="434.0" data-end="436.0"> 
+to lock the heap and search that data structure </span></span>
+
+<span class="sentence"><span data-start="436.0" data-end="438.0"> 
+for an unused block of memory of the appropriate size.</span></span>
+
+<span class="sentence"><span data-start="439.0" data-end="442.0"> 
+Then, once we have it, we can initialize that memory with an x </span></span>
+
+<span class="sentence"><span data-start="442.0" data-end="445.0"> 
+of 0, a y of 0, and we can initialize our point1 reference </span></span>
+
+<span class="sentence"><span data-start="445.0" data-end="448.0"> 
+with the memory address to that memory on the heap.</span></span>
+
+<span class="sentence"><span data-start="449.0" data-end="452.0"> 
+Note, when we allocate it on the heap, Swift actually allocated </span></span>
+
+<span class="sentence"><span data-start="452.0" data-end="455.0"> 
+for our class point four words of storage.</span></span>
+
+<span class="sentence"><span data-start="455.0" data-end="458.0"> 
+This is in contrast to the two words it allocated </span></span>
+
+<span class="sentence"><span data-start="458.0" data-end="459.0"> 
+when our point was a struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="459.0" data-end="461.0"> 
+This is because now the point is a class, </span></span>
+
+<span class="sentence"><span data-start="461.0" data-end="463.0"> 
+in addition to these stored for x and y, </span></span>
+
+<span class="sentence"><span data-start="464.0" data-end="465.0"> 
+we're allocating two more words that Swift is going </span></span>
+
+<span class="sentence"><span data-start="465.0" data-end="466.0"> 
+to manage on our behalf.</span></span>
+
+<span class="sentence"><span data-start="467.0" data-end="470.0"> 
+Those are denoted with these blue boxes in the heap diagram.</span></span>
+
+<span class="sentence"><span data-start="471.0" data-end="473.0"> 
+When we assign point1 to point two, we're not going </span></span>
+
+<span class="sentence"><span data-start="473.0" data-end="475.0"> 
+to copy the contents of point -- </span></span>
+
+<span class="sentence"><span data-start="475.0" data-end="476.0"> 
+like we did when point1 was a struct.</span></span>
+
+<span class="sentence"><span data-start="476.0" data-end="478.0"> 
+Instead, we're going to copy the reference.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="478.0" data-end="480.0"> 
+So, point1 and point2 are actually referring </span></span>
+
+<span class="sentence"><span data-start="480.0" data-end="482.0"> 
+to the same exact instance of point on the heap.</span></span>
+
+<span class="sentence"><span data-start="483.0" data-end="486.0"> 
+That means when we go and assign a value of five to point2.x, </span></span>
+
+<span class="sentence"><span data-start="486.0" data-end="489.0"> 
+both point1.x and point2.x have a value five.</span></span>
+
+<span class="sentence"><span data-start="489.0" data-end="492.0"> 
+This is known as reference semantics and can lead </span></span>
+
+<span class="sentence"><span data-start="492.0" data-end="493.0"> 
+to unintended sharing of state.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="493.0" data-end="496.0"> 
+Then, we're going to use point1, use point2, </span></span>
+
+<span class="sentence"><span data-start="496.0" data-end="498.0"> 
+and then Swift is going to deallocate this memory </span></span>
+
+<span class="sentence"><span data-start="498.0" data-end="501.0"> 
+on our behalf locking the heap and retraining that unused block </span></span>
+
+<span class="sentence"><span data-start="501.0" data-end="502.0"> 
+to the appropriate position.</span></span>
+
+<span class="sentence"><span data-start="502.0" data-end="504.0"> 
+And then we can pop the stack.</span></span>
+
+<span class="sentence"><span data-start="505.0" data-end="505.0"> 
+All right.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="506.0" data-end="506.0"> 
+So, what did we just see? </span></span>
+
+<span class="sentence"><span data-start="507.0" data-end="510.0"> 
+We saw that classes are more expensive to construct </span></span>
+
+<span class="sentence"><span data-start="510.0" data-end="513.0"> 
+than structs because classes require a heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="514.0" data-end="517.0"> 
+Because classes are allocated on the heap </span></span>
+
+<span class="sentence"><span data-start="517.0" data-end="518.0"> 
+and have reference semantics, </span></span>
+
+<span class="sentence"><span data-start="519.0" data-end="522.0"> 
+classes have some powerful characteristics </span></span>
+
+<span class="sentence"><span data-start="522.0" data-end="523.0"> 
+like identity and indirect storage.</span></span>
+
+<span class="sentence"><span data-start="524.0" data-end="526.0"> 
+But, if we don't need those characteristics for abstraction, </span></span>
+
+<span class="sentence"><span data-start="527.0" data-end="528.0"> 
+we're going to better -- if we use a struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="531.0" data-end="535.0"> 
+And structs aren't prone to the unintended sharing </span></span>
+
+<span class="sentence"><span data-start="535.0" data-end="536.0"> 
+of state like classes are.</span></span>
+
+<span class="sentence"><span data-start="537.0" data-end="538.0"> 
+So, let's see how we can apply </span></span>
+
+<span class="sentence"><span data-start="538.0" data-end="540.0"> 
+that to improve the performance of some Swift code.</span></span>
+
+<span class="sentence"><span data-start="540.0" data-end="541.0"> 
+Here's an example </span></span>
+
+<span class="sentence"><span data-start="542.0" data-end="545.0"> 
+from a messaging application I've been working on.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="545.0" data-end="548.0"> 
+So, [laughing] basically this is from the view layer.</span></span>
+
+<span class="sentence"><span data-start="548.0" data-end="551.0"> 
+And my users send a text message and behind </span></span>
+
+<span class="sentence"><span data-start="551.0" data-end="554.0"> 
+that text message I want to draw a pretty balloon image.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="554.0" data-end="557.0"> 
+My makeBalloon function is what generates this image </span></span>
+
+<span class="sentence"><span data-start="557.0" data-end="559.0"> 
+and it supports a configuration of different -- </span></span>
+
+<span class="sentence"><span data-start="559.0" data-end="561.0"> 
+or the whole configuration space of different balloons.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="562.0" data-end="565.0"> 
+For example, this balloon we see is blue color </span></span>
+
+<span class="sentence"><span data-start="565.0" data-end="566.0"> 
+with a right orientation and a tail.</span></span>
+
+<span class="sentence"><span data-start="567.0" data-end="569.0"> 
+We also support, for example, a gray balloon </span></span>
+
+<span class="sentence"><span data-start="570.0" data-end="571.0"> 
+with a left orientation and a bubble tail.</span></span>
+
+<span class="sentence"><span data-start="573.0" data-end="575.0"> 
+Now, the makeBalloon function needs to be really fast </span></span>
+
+<span class="sentence"><span data-start="575.0" data-end="578.0"> 
+because I call it frequently during allocation launch </span></span>
+
+<span class="sentence"><span data-start="578.0" data-end="579.0"> 
+and during user scrolling.</span></span>
+
+<span class="sentence"><span data-start="579.0" data-end="581.0"> 
+And so I've added this caching layer.</span></span>
+
+<span class="sentence"><span data-start="581.0" data-end="583.0"> 
+So, for any given configuration, I never have </span></span>
+
+<span class="sentence"><span data-start="584.0" data-end="587.0"> 
+to generate this balloon image more than once.</span></span>
+
+<span class="sentence"><span data-start="587.0" data-end="588.0"> 
+If I've done it once, I can just get it out of the cache.</span></span>
+
+<span class="sentence"><span data-start="589.0" data-end="592.0"> 
+The way I've done this is by serializing my color, </span></span>
+
+<span class="sentence"><span data-start="592.0" data-end="595.0"> 
+orientation, and tail into a key, which is a string.</span></span>
+
+<span class="sentence"><span data-start="595.0" data-end="598.0"> 
+Now, there's a couple things not to like here.</span></span>
+
+<span class="sentence"><span data-start="599.0" data-end="602.0"> 
+String isn't particularly a strong type for this key.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="602.0" data-end="605.0"> 
+I'm using it to represent this configuration space, </span></span>
+
+<span class="sentence"><span data-start="605.0" data-end="608.0"> 
+but I could just as easily put the name of my dog in that key.</span></span>
+
+<span class="sentence"><span data-start="608.0" data-end="609.0"> 
+So, not a lot of safety there.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="610.0" data-end="612.0"> 
+Also, String can represent so many things </span></span>
+
+<span class="sentence"><span data-start="612.0" data-end="614.0"> 
+because it actually stores the contents </span></span>
+
+<span class="sentence"><span data-start="614.0" data-end="616.0"> 
+of its characters indirectly on the heap.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="616.0" data-end="618.0"> 
+So, that means every time we're calling </span></span>
+
+<span class="sentence"><span data-start="618.0" data-end="620.0"> 
+into this makeBalloon function, even if we have a cache hit, </span></span>
+
+<span class="sentence"><span data-start="621.0" data-end="622.0"> 
+we're incurring a heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="623.0" data-end="624.0"> 
+Let's see if we can do better.</span></span>
+
+<span class="sentence"><span data-start="625.0" data-end="628.0"> 
+Well, in Swift we can represent this configuration space </span></span>
+
+<span class="sentence"><span data-start="628.0" data-end="631.0"> 
+of color, orientation, and tail just using a struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="632.0" data-end="633.0"> 
+This is a much safer way </span></span>
+
+<span class="sentence"><span data-start="633.0" data-end="635.0"> 
+to represent this configuration space than a String.</span></span>
+
+<span class="sentence"><span data-start="635.0" data-end="638.0"> 
+And because structs are first class types in Swift, </span></span>
+
+<span class="sentence"><span data-start="638.0" data-end="640.0"> 
+they can be used as the key in our dictionary.</span></span>
+
+<span class="sentence"><span data-start="641.0" data-end="643.0"> 
+Now, when we call the makeBalloon function, </span></span>
+
+<span class="sentence"><span data-start="644.0" data-end="646.0"> 
+if we have a cache hit, there's no allocation overhead </span></span>
+
+<span class="sentence"><span data-start="646.0" data-end="648.0"> 
+because constructing a struct </span></span>
+
+<span class="sentence"><span data-start="648.0" data-end="651.0"> 
+like this attributes one doesn't require any heap allocation.</span></span>
+
+<span class="sentence"><span data-start="651.0" data-end="654.0"> 
+It can be allocated on the stack.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="654.0" data-end="656.0"> 
+So, this is a lot safer and it's going to be a lot faster.</span></span>
+
+<span class="sentence"><span data-start="657.0" data-end="659.0"> 
+Let's move on to our next dimension </span></span>
+
+<span class="sentence"><span data-start="659.0" data-end="662.0"> 
+of performance, reference counting.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="663.0" data-end="665.0"> 
+So, I glossed over a detail when we were talking </span></span>
+
+<span class="sentence"><span data-start="665.0" data-end="666.0"> 
+about heap allocation.</span></span>
+
+<span class="sentence"><span data-start="667.0" data-end="669.0"> 
+How does Swift know when it's safe </span></span>
+
+<span class="sentence"><span data-start="669.0" data-end="673.0"> 
+to deallocate memory it allocated on the heap? </span></span>
+
+<span class="sentence"><span data-start="673.0" data-end="676.0"> 
+Well, the answer is Swift keeps a count of the total number </span></span>
+
+<span class="sentence"><span data-start="676.0" data-end="678.0"> 
+of references to any instance on the heap.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="678.0" data-end="680.0"> 
+And it keeps it on the instance itself.</span></span>
+
+<span class="sentence"><span data-start="680.0" data-end="682.0"> 
+When you add a reference or remove a reference, </span></span>
+
+<span class="sentence"><span data-start="682.0" data-end="685.0"> 
+that reference count is incremented or decremented.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="685.0" data-end="689.0"> 
+When that count hits zero, Swift knows no one is pointing </span></span>
+
+<span class="sentence"><span data-start="689.0" data-end="691.0"> 
+to this instance on the heap anymore and it's safe </span></span>
+
+<span class="sentence"><span data-start="691.0" data-end="692.0"> 
+to deallocate that memory.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="693.0" data-end="694.0"> 
+The key thing to keep in mind </span></span>
+
+<span class="sentence"><span data-start="694.0" data-end="697.0"> 
+with reference counting is this is a really frequent operation </span></span>
+
+<span class="sentence"><span data-start="697.0" data-end="699.0"> 
+and there's actually more to it than just incrementing </span></span>
+
+<span class="sentence"><span data-start="699.0" data-end="701.0"> 
+and decrementing an integer.</span></span>
+
+<span class="sentence"><span data-start="701.0" data-end="703.0"> 
+First, there's a couple levels of indirection involved </span></span>
+
+<span class="sentence"><span data-start="703.0" data-end="707.0"> 
+to just go and execute the increment and decrement.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="708.0" data-end="710.0"> 
+But, more importantly, just like with heap allocation, </span></span>
+
+<span class="sentence"><span data-start="711.0" data-end="713.0"> 
+there is thread safety to take into consideration </span></span>
+
+<span class="sentence"><span data-start="714.0" data-end="717.0"> 
+because references can be added or removed to any heap instance </span></span>
+
+<span class="sentence"><span data-start="717.0" data-end="719.0"> 
+on multiple threads at the same time, we actually have </span></span>
+
+<span class="sentence"><span data-start="719.0" data-end="722.0"> 
+to atomically increment and decrement the reference count.</span></span>
+
+<span class="sentence"><span data-start="722.0" data-end="723.0"> 
+And because of the frequency </span></span>
+
+<span class="sentence"><span data-start="723.0" data-end="724.0"> 
+of reference counting operations, </span></span>
+
+<span class="sentence"><span data-start="725.0" data-end="726.0"> 
+this cost can add up.</span></span>
+
+<span class="sentence"><span data-start="727.0" data-end="731.0"> 
+So, let's go back to our point class and our program and look </span></span>
+
+<span class="sentence"><span data-start="731.0" data-end="734.0"> 
+at what Swift is actually doing on our behalf.</span></span>
+
+<span class="sentence"><span data-start="734.0" data-end="737.0"> 
+So, here now we have, in comparison, </span></span>
+
+<span class="sentence"><span data-start="737.0" data-end="739.0"> 
+some generated pseudocode.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="739.0" data-end="742.0"> 
+We see our point has gained an additional property, refCount.</span></span>
+
+<span class="sentence"><span data-start="743.0" data-end="746.0"> 
+And we see that Swift has added a couple calls to retain -- </span></span>
+
+<span class="sentence"><span data-start="746.0" data-end="748.0"> 
+or a call to retain and a couple calls to release.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="749.0" data-end="751.0"> 
+Retain is going to atomically increment our reference count </span></span>
+
+<span class="sentence"><span data-start="751.0" data-end="752.0"> 
+and release is going </span></span>
+
+<span class="sentence"><span data-start="752.0" data-end="753.0"> 
+to atomically decrement our reference count.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="754.0" data-end="756.0"> 
+In this way Swift will be able to keep track </span></span>
+
+<span class="sentence"><span data-start="756.0" data-end="759.0"> 
+of how many references are alive to our point on the heap.</span></span>
+
+<span class="sentence"><span data-start="759.0" data-end="761.0"> 
+All right.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="761.0" data-end="763.0"> 
+And if we trace through this quickly, </span></span>
+
+<span class="sentence"><span data-start="763.0" data-end="765.0"> 
+we can see that after constructing our point </span></span>
+
+<span class="sentence"><span data-start="765.0" data-end="768.0"> 
+on the heap, it's initialized with a reference count of one </span></span>
+
+<span class="sentence"><span data-start="768.0" data-end="771.0"> 
+because we have one live reference to that point.</span></span>
+
+<span class="sentence"><span data-start="771.0" data-end="775.0"> 
+As we go through our program and we assign point1 to point2, </span></span>
+
+<span class="sentence"><span data-start="775.0" data-end="779.0"> 
+we now have two references and so Swift has added a call </span></span>
+
+<span class="sentence"><span data-start="779.0" data-end="781.0"> 
+to atomically increment the reference count </span></span>
+
+<span class="sentence"><span data-start="781.0" data-end="782.0"> 
+of our point instance.</span></span>
+
+<span class="sentence"><span data-start="782.0" data-end="787.0"> 
+As we keep executing, once we've finished using point1, </span></span>
+
+<span class="sentence"><span data-start="787.0" data-end="789.0"> 
+Swift has added a call </span></span>
+
+<span class="sentence"><span data-start="789.0" data-end="790.0"> 
+to atomically decrement the reference count </span></span>
+
+<span class="sentence"><span data-start="791.0" data-end="793.0"> 
+because point1 is no longer really a living reference </span></span>
+
+<span class="sentence"><span data-start="793.0" data-end="794.0"> 
+as far as it's concerned.</span></span>
+
+<span class="sentence"><span data-start="795.0" data-end="796.0"> 
+Similarly, once we're done using point2, </span></span>
+
+<span class="sentence"><span data-start="796.0" data-end="799.0"> 
+Swift has added another atomic decrement </span></span>
+
+<span class="sentence"><span data-start="799.0" data-end="799.0"> 
+of the reference count.</span></span>
+
+<span class="sentence"><span data-start="800.0" data-end="802.0"> 
+At this point, there's no more references that are making use </span></span>
+
+<span class="sentence"><span data-start="802.0" data-end="804.0"> 
+of our point instance and so Swift knows it's safe </span></span>
+
+<span class="sentence"><span data-start="805.0" data-end="808.0"> 
+to lock the heap and return that block of memory to it.</span></span>
+
+<span class="sentence"><span data-start="811.0" data-end="812.0"> 
+So, what about structs? </span></span>
+
+<span class="sentence"><span data-start="813.0" data-end="815.0"> 
+Is there any reference counting involved with structs? </span></span>
+
+<span class="sentence"><span data-start="815.0" data-end="818.0"> 
+Well, when we constructed our point struct, </span></span>
+
+<span class="sentence"><span data-start="818.0" data-end="819.0"> 
+there was no heap allocation involved.</span></span>
+
+<span class="sentence"><span data-start="820.0" data-end="822.0"> 
+When we copied, there was no heap allocation involved.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="822.0" data-end="824.0"> 
+There were no references involved in any of this.</span></span>
+
+<span class="sentence"><span data-start="824.0" data-end="827.0"> 
+So, there's no reference counting overhead </span></span>
+
+<span class="sentence"><span data-start="827.0" data-end="828.0"> 
+for our point struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="829.0" data-end="832.0"> 
+What about a more complicated struct, though? </span></span>
+
+<span class="sentence"><span data-start="833.0" data-end="835.0"> 
+Here we have a label struct which contains text which is </span></span>
+
+<span class="sentence"><span data-start="835.0" data-end="838.0"> 
+of type String and font of type UIFont.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="838.0" data-end="841.0"> 
+String, as we heard earlier, actually stores its -- </span></span>
+
+<span class="sentence"><span data-start="841.0" data-end="843.0"> 
+the contents of its characters on the heap.</span></span>
+
+<span class="sentence"><span data-start="843.0" data-end="844.0"> 
+So, that needs to be reference counted.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="845.0" data-end="846.0"> 
+And font is a class.</span></span>
+
+<span class="sentence"><span data-start="846.0" data-end="848.0"> 
+And so that also needs to be reference counted.</span></span>
+
+<span class="sentence"><span data-start="848.0" data-end="850.0"> 
+If we look at our memory representation, </span></span>
+
+<span class="sentence"><span data-start="850.0" data-end="852.0"> 
+labels got two references.</span></span>
+
+<span class="sentence"><span data-start="852.0" data-end="853.0"> 
+And when we make a copy of it, </span></span>
+
+<span class="sentence"><span data-start="853.0" data-end="855.0"> 
+we're actually adding two more references, </span></span>
+
+<span class="sentence"><span data-start="855.0" data-end="858.0"> 
+another one to the text storage and another one to the font.</span></span>
+
+<span class="sentence"><span data-start="858.0" data-end="860.0"> 
+The way Swift tracks this -- </span></span>
+
+<span class="sentence"><span data-start="860.0" data-end="862.0"> 
+these heap allocations is by adding calls </span></span>
+
+<span class="sentence"><span data-start="862.0" data-end="863.0"> 
+to retain and release.</span></span>
+
+<span class="sentence"><span data-start="864.0" data-end="866.0"> 
+So, here we see the label is actually going </span></span>
+
+<span class="sentence"><span data-start="866.0" data-end="868.0"> 
+to be incurring twice the reference counting overhead </span></span>
+
+<span class="sentence"><span data-start="868.0" data-end="870.0"> 
+that a class would have.</span></span>
+
+<span class="sentence"><span data-start="871.0" data-end="872.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="872.0" data-end="876.0"> 
+So, in summary, because classes are allocated on the heap, </span></span>
+
+<span class="sentence"><span data-start="876.0" data-end="878.0"> 
+Swift has to manage the lifetime of that heap allocation.</span></span>
+
+<span class="sentence"><span data-start="879.0" data-end="881.0"> 
+It does so with reference counting.</span></span>
+
+<span class="sentence"><span data-start="882.0" data-end="884.0"> 
+This is nontrivial because reference counting operations </span></span>
+
+<span class="sentence"><span data-start="884.0" data-end="886.0"> 
+are relatively frequently and because of the atomicity </span></span>
+
+<span class="sentence"><span data-start="886.0" data-end="887.0"> 
+of the reference counting.</span></span>
+
+<span class="sentence"><span data-start="888.0" data-end="890.0"> 
+This is just one more resent to use structs.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="891.0" data-end="894.0"> 
+But if structs contain references, they're going </span></span>
+
+<span class="sentence"><span data-start="894.0" data-end="896.0"> 
+to be paying reference counting overhead as well.</span></span>
+
+<span class="sentence"><span data-start="896.0" data-end="897.0"> 
+In fact, structs are going </span></span>
+
+<span class="sentence"><span data-start="897.0" data-end="899.0"> 
+to be paying reference counting overhead proportional </span></span>
+
+<span class="sentence"><span data-start="899.0" data-end="901.0"> 
+to the number of references that they contain.</span></span>
+
+<span class="sentence"><span data-start="901.0" data-end="903.0"> 
+So, if they have more than one reference, they're going </span></span>
+
+<span class="sentence"><span data-start="904.0" data-end="907.0"> 
+to retain more reference counting overhead than a class.</span></span>
+
+<span class="sentence"><span data-start="907.0" data-end="911.0"> 
+Let's see how we chain apply this to another example coming </span></span>
+
+<span class="sentence"><span data-start="911.0" data-end="913.0"> 
+from my theoretical messaging application.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="914.0" data-end="917.0"> 
+So, my users weren't satisfied with just sending text messages.</span></span>
+
+<span class="sentence"><span data-start="917.0" data-end="918.0"> 
+They also wanted to send attachments </span></span>
+
+<span class="sentence"><span data-start="919.0" data-end="920.0"> 
+like images to each other.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="920.0" data-end="922.0"> 
+And so I have this struct attachment, </span></span>
+
+<span class="sentence"><span data-start="922.0" data-end="924.0"> 
+which is a model object in my application.</span></span>
+
+<span class="sentence"><span data-start="924.0" data-end="928.0"> 
+It's got a fileURL property, which stores the path of my data </span></span>
+
+<span class="sentence"><span data-start="928.0" data-end="929.0"> 
+on disk for this attachment.</span></span>
+
+<span class="sentence"><span data-start="930.0" data-end="933.0"> 
+It has a uuid, which is a unique randomly generated identifier </span></span>
+
+<span class="sentence"><span data-start="933.0" data-end="936.0"> 
+so that we can recognize this attachment on client and server </span></span>
+
+<span class="sentence"><span data-start="936.0" data-end="937.0"> 
+and different client devices.</span></span>
+
+<span class="sentence"><span data-start="938.0" data-end="941.0"> 
+It's got a mimeType, which stores the type of data </span></span>
+
+<span class="sentence"><span data-start="941.0" data-end="944.0"> 
+that this attachment represents like JPG or PNG or GIF.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="944.0" data-end="947.0"> 
+Probably the only nontrivial code </span></span>
+
+<span class="sentence"><span data-start="947.0" data-end="950.0"> 
+in this example is the failable initializer, which checks </span></span>
+
+<span class="sentence"><span data-start="950.0" data-end="952.0"> 
+if the mimeType is one of my supported mimeTypes </span></span>
+
+<span class="sentence"><span data-start="952.0" data-end="954.0"> 
+for this application because I don't support all mimeTypes.</span></span>
+
+<span class="sentence"><span data-start="955.0" data-end="957.0"> 
+And if it's not supported, we're going to abort out of this.</span></span>
+
+<span class="sentence"><span data-start="958.0" data-end="958.0"> 
+Otherwise, we're going </span></span>
+
+<span class="sentence"><span data-start="958.0" data-end="963.0"> 
+to initialize our fileURL, uuid, and mimeType.</span></span>
+
+<span class="sentence"><span data-start="963.0" data-end="965.0"> 
+So, we noticed a lot of reference counting overhead </span></span>
+
+<span class="sentence"><span data-start="965.0" data-end="968.0"> 
+and if we actually look at our memory representation </span></span>
+
+<span class="sentence"><span data-start="968.0" data-end="970.0"> 
+of this struct, all 3 </span></span>
+
+<span class="sentence"><span data-start="970.0" data-end="972.0"> 
+of our properties are incurring reference counting overhead </span></span>
+
+<span class="sentence"><span data-start="972.0" data-end="974.0"> 
+when you pass them around because there are references </span></span>
+
+<span class="sentence"><span data-start="974.0" data-end="977.0"> 
+to heap allocations underlying each of these structs.</span></span>
+
+<span class="sentence"><span data-start="978.0" data-end="978.0"> 
+We can do better.</span></span>
+
+<span class="sentence"><span data-start="980.0" data-end="981.0"> 
+First, just like we saw before, </span></span>
+
+<span class="sentence"><span data-start="982.0" data-end="984.0"> 
+uuid is a really well defined concept.</span></span>
+
+<span class="sentence"><span data-start="985.0" data-end="989.0"> 
+It's a 128 bit randomly generated identifier.</span></span>
+
+<span class="sentence"><span data-start="990.0" data-end="991.0"> 
+And we don't want to just allow you </span></span>
+
+<span class="sentence"><span data-start="991.0" data-end="993.0"> 
+to put anything in the uuid field.</span></span>
+
+<span class="sentence"><span data-start="993.0" data-end="995.0"> 
+And, as a String, you really can.</span></span>
+
+<span class="sentence"><span data-start="995.0" data-end="1000.0"> 
+Well, Foundation this year added a new value type and so -- </span></span>
+
+<span class="sentence"><span data-start="1000.0" data-end="1003.0"> 
+for uuid, which is really great because it stores those 128 bits </span></span>
+
+<span class="sentence"><span data-start="1004.0" data-end="1005.0"> 
+in line directly in the struct.</span></span>
+
+<span class="sentence"><span data-start="1006.0" data-end="1007.0"> 
+And so let's use that.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1008.0" data-end="1010.0"> 
+What this is going to do is it's going to eliminate any </span></span>
+
+<span class="sentence"><span data-start="1010.0" data-end="1011.0"> 
+of the reference counting overhead we're paying </span></span>
+
+<span class="sentence"><span data-start="1011.0" data-end="1013.0"> 
+for that uuid field, the one that was a String.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1013.0" data-end="1015.0"> 
+And we've got much more tight safety </span></span>
+
+<span class="sentence"><span data-start="1015.0" data-end="1017.0"> 
+because I can't just put anything in here.</span></span>
+
+<span class="sentence"><span data-start="1017.0" data-end="1018.0"> 
+I can only put a uuid.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1019.0" data-end="1019.0"> 
+That's fantastic.</span></span>
+
+<span class="sentence"><span data-start="1020.0" data-end="1022.0"> 
+Let's take a look at mimeType and let's look </span></span>
+
+<span class="sentence"><span data-start="1022.0" data-end="1024.0"> 
+at how I've implemented this isMimeType check.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1025.0" data-end="1027.0"> 
+I'm actually only supporting a closed set </span></span>
+
+<span class="sentence"><span data-start="1027.0" data-end="1030.0"> 
+of mimeTypes today, JPG, PNG, GIF.</span></span>
+
+<span class="sentence"><span data-start="1032.0" data-end="1034.0"> 
+And, you know, Swift has a great abstraction mechanism </span></span>
+
+<span class="sentence"><span data-start="1034.0" data-end="1036.0"> 
+for representing a fixed set of things.</span></span>
+
+<span class="sentence"><span data-start="1036.0" data-end="1037.0"> 
+And that's an enumeration.</span></span>
+
+<span class="sentence"><span data-start="1038.0" data-end="1039.0"> 
+So, I'm going to take that switch statement, </span></span>
+
+<span class="sentence"><span data-start="1039.0" data-end="1041.0"> 
+put it inside a failable initializer </span></span>
+
+<span class="sentence"><span data-start="1041.0" data-end="1044.0"> 
+and map those mimeTypes to an appropriate -- </span></span>
+
+<span class="sentence"><span data-start="1044.0" data-end="1046.0"> 
+to the appropriate case in my enum.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1046.0" data-end="1049.0"> 
+So, now I've got more type safety with this mimeType enum </span></span>
+
+<span class="sentence"><span data-start="1049.0" data-end="1052.0"> 
+and I've also got more performance because I don't need </span></span>
+
+<span class="sentence"><span data-start="1052.0" data-end="1055.0"> 
+to be storing these different cases indirectly on the heap.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1055.0" data-end="1057.0"> 
+Swift actually has a really compact and convenient way </span></span>
+
+<span class="sentence"><span data-start="1057.0" data-end="1059.0"> 
+for writing this exact code, </span></span>
+
+<span class="sentence"><span data-start="1059.0" data-end="1062.0"> 
+which is using enum that's backed by a raw String value.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1062.0" data-end="1066.0"> 
+And so this is effectively the exact same code except it's even </span></span>
+
+<span class="sentence"><span data-start="1066.0" data-end="1068.0"> 
+more powerful, has the same performance characteristics, </span></span>
+
+<span class="sentence"><span data-start="1068.0" data-end="1070.0"> 
+but it's way more convenient to write.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1070.0" data-end="1072.0"> 
+So, if we looked at our attachment struct now, </span></span>
+
+<span class="sentence"><span data-start="1072.0" data-end="1073.0"> 
+it's way more type safe.</span></span>
+
+<span class="sentence"><span data-start="1073.0" data-end="1075.0"> 
+We've got a strongly typed uuid and mimeType field </span></span>
+
+<span class="sentence"><span data-start="1076.0" data-end="1078.0"> 
+and we're not paying nearly as much reference counting overhead </span></span>
+
+<span class="sentence"><span data-start="1078.0" data-end="1080.0"> 
+because uuid and mimeType don't need </span></span>
+
+<span class="sentence"><span data-start="1080.0" data-end="1082.0"> 
+to be reference counted or heap allocated.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1083.0" data-end="1084.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="1084.0" data-end="1086.0"> 
+Let's move on to our final dimension </span></span>
+
+<span class="sentence"><span data-start="1086.0" data-end="1088.0"> 
+of performance, method dispatch.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1089.0" data-end="1091.0"> 
+When you call a method at runtime, </span></span>
+
+<span class="sentence"><span data-start="1092.0" data-end="1094.0"> 
+Swift needs to execute the correct implementation.</span></span>
+
+<span class="sentence"><span data-start="1095.0" data-end="1097.0"> 
+If it can determine the implementation to execute </span></span>
+
+<span class="sentence"><span data-start="1097.0" data-end="1100.0"> 
+at compile time, that's known as a static dispatch.</span></span>
+
+<span class="sentence"><span data-start="1100.0" data-end="1102.0"> 
+And at runtime, we're just going to be able to jump directly </span></span>
+
+<span class="sentence"><span data-start="1102.0" data-end="1103.0"> 
+to the correct implementation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1103.0" data-end="1106.0"> 
+And this is really cool because the compiler actually going </span></span>
+
+<span class="sentence"><span data-start="1107.0" data-end="1108.0"> 
+to be able to have visibility </span></span>
+
+<span class="sentence"><span data-start="1108.0" data-end="1111.0"> 
+into which implementations are going to be executed.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1111.0" data-end="1112.0"> 
+And so it's going to be able </span></span>
+
+<span class="sentence"><span data-start="1112.0" data-end="1115.0"> 
+to optimize this code pretty aggressively including things </span></span>
+
+<span class="sentence"><span data-start="1115.0" data-end="1115.0"> 
+like inlining.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1116.0" data-end="1118.0"> 
+This is in contrast to a dynamic dispatch.</span></span>
+
+<span class="sentence"><span data-start="1119.0" data-end="1121.0"> 
+Dynamic dispatch isn't going -- </span></span>
+
+<span class="sentence"><span data-start="1121.0" data-end="1122.0"> 
+we're not going to be able </span></span>
+
+<span class="sentence"><span data-start="1122.0" data-end="1124.0"> 
+to determine a compile time directly </span></span>
+
+<span class="sentence"><span data-start="1124.0" data-end="1125.0"> 
+which implementation to go to.</span></span>
+
+<span class="sentence"><span data-start="1125.0" data-end="1127.0"> 
+And so at runtime, we're actually going to look </span></span>
+
+<span class="sentence"><span data-start="1127.0" data-end="1130.0"> 
+up the implementation and then jump to it.</span></span>
+
+<span class="sentence"><span data-start="1130.0" data-end="1132.0"> 
+So, on its own, a dynamic dispatch is not </span></span>
+
+<span class="sentence"><span data-start="1132.0" data-end="1134.0"> 
+that much more expensive than a static dispatch.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1134.0" data-end="1136.0"> 
+There's just one level of indirection.</span></span>
+
+<span class="sentence"><span data-start="1136.0" data-end="1139.0"> 
+None of this thread synchronization overhead </span></span>
+
+<span class="sentence"><span data-start="1139.0" data-end="1142.0"> 
+like we had with reference counting and heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1142.0" data-end="1146.0"> 
+But this dynamic dispatch blocks the visibility of the compiler </span></span>
+
+<span class="sentence"><span data-start="1146.0" data-end="1149.0"> 
+and so while the compiler could do all these really cool </span></span>
+
+<span class="sentence"><span data-start="1149.0" data-end="1152.0"> 
+optimizations for our static dispatches, a dynamic dispatch, </span></span>
+
+<span class="sentence"><span data-start="1152.0" data-end="1155.0"> 
+the compiler is not going to be able to reason through it.</span></span>
+
+<span class="sentence"><span data-start="1156.0" data-end="1157.0"> 
+So, I mentioned inlining.</span></span>
+
+<span class="sentence"><span data-start="1157.0" data-end="1158.0"> 
+What is inlining? </span></span>
+
+<span class="sentence"><span data-start="1159.0" data-end="1162.0"> 
+Well, let's return to our familiar struct point.</span></span>
+
+<span class="sentence"><span data-start="1163.0" data-end="1165.0"> 
+It's got an x and y and it's got a draw method.</span></span>
+
+<span class="sentence"><span data-start="1165.0" data-end="1167.0"> 
+I've also added this drawAPoint method.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1168.0" data-end="1171.0"> 
+The drawAPoint method takes in a point and just calls draw on it.</span></span>
+
+<span class="sentence"><span data-start="1171.0" data-end="1172.0"> 
+Really fancy.</span></span>
+
+<span class="sentence"><span data-start="1172.0" data-end="1175.0"> 
+And then the body of my program constructs a point at (0, </span></span>
+
+<span class="sentence"><span data-start="1175.0" data-end="1177.0"> 
+0) and passes that point to drawAPoint.</span></span>
+
+<span class="sentence"><span data-start="1177.0" data-end="1178.0"> 
+Well, the drawAPoint function </span></span>
+
+<span class="sentence"><span data-start="1179.0" data-end="1182.0"> 
+and the point.draw method are both statically dispatched.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1183.0" data-end="1187.0"> 
+What this means is that the compiler knows exactly </span></span>
+
+<span class="sentence"><span data-start="1187.0" data-end="1189.0"> 
+which implementations are going to be executed </span></span>
+
+<span class="sentence"><span data-start="1189.0" data-end="1192.0"> 
+and so it's actually going to take our drawAPoint dispatch </span></span>
+
+<span class="sentence"><span data-start="1192.0" data-end="1194.0"> 
+and it's just going to replace </span></span>
+
+<span class="sentence"><span data-start="1194.0" data-end="1196.0"> 
+that with the implementation of drawAPoint.</span></span>
+
+<span class="sentence"><span data-start="1197.0" data-end="1199.0"> 
+And then it's going to take our point.draw method and, </span></span>
+
+<span class="sentence"><span data-start="1200.0" data-end="1202.0"> 
+because that's a static dispatch, it can replace </span></span>
+
+<span class="sentence"><span data-start="1202.0" data-end="1205.0"> 
+that with the actual implementation of point.draw.</span></span>
+
+<span class="sentence"><span data-start="1205.0" data-end="1207.0"> 
+So, when we go and execute this code at runtime, </span></span>
+
+<span class="sentence"><span data-start="1207.0" data-end="1209.0"> 
+we're going to be able to just construct our point, </span></span>
+
+<span class="sentence"><span data-start="1210.0" data-end="1213.0"> 
+run the implementation, and we're done.</span></span>
+
+<span class="sentence"><span data-start="1213.0" data-end="1215.0"> 
+We didn't need those two -- </span></span>
+
+<span class="sentence"><span data-start="1215.0" data-end="1217.0"> 
+the overhead of those two static dispatches </span></span>
+
+<span class="sentence"><span data-start="1217.0" data-end="1219.0"> 
+and the associated setting </span></span>
+
+<span class="sentence"><span data-start="1219.0" data-end="1220.0"> 
+up of the call stack and tearing it down.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1221.0" data-end="1222.0"> 
+So, this is really cool.</span></span>
+
+<span class="sentence"><span data-start="1222.0" data-end="1224.0"> 
+And this gets to why static dispatches </span></span>
+
+<span class="sentence"><span data-start="1224.0" data-end="1227.0"> 
+and how static dispatches are faster than dynamic dispatches.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1229.0" data-end="1230.0"> 
+Whereas like a single static dispatch compared </span></span>
+
+<span class="sentence"><span data-start="1230.0" data-end="1233.0"> 
+to a single dynamic dispatch, there isn't that much </span></span>
+
+<span class="sentence"><span data-start="1233.0" data-end="1235.0"> 
+of a difference, but a whole chain of static dispatches, </span></span>
+
+<span class="sentence"><span data-start="1235.0" data-end="1237.0"> 
+the compiler is going to have visibility </span></span>
+
+<span class="sentence"><span data-start="1237.0" data-end="1238.0"> 
+through that whole chain.</span></span>
+
+<span class="sentence"><span data-start="1238.0" data-end="1240.0"> 
+Whereas the chain of dynamic dispatches is going </span></span>
+
+<span class="sentence"><span data-start="1240.0" data-end="1243.0"> 
+to be blocked at every single step from reasoning </span></span>
+
+<span class="sentence"><span data-start="1243.0" data-end="1244.0"> 
+at a higher level without it.</span></span>
+
+<span class="sentence"><span data-start="1244.0" data-end="1246.0"> 
+And so the compiler is going to be able to collapse a chain </span></span>
+
+<span class="sentence"><span data-start="1246.0" data-end="1248.0"> 
+of static method dispatches just </span></span>
+
+<span class="sentence"><span data-start="1248.0" data-end="1249.0"> 
+like into a single implementation </span></span>
+
+<span class="sentence"><span data-start="1250.0" data-end="1252.0"> 
+with no call stack overhead.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1252.0" data-end="1254.0"> 
+So, that's really cool.</span></span>
+
+<span class="sentence"><span data-start="1254.0" data-end="1255.0"> 
+So, why do we have this dynamic -- </span></span>
+
+<span class="sentence"><span data-start="1255.0" data-end="1257.0"> 
+this dynamic dispatch thing at all? </span></span>
+
+<span class="sentence"><span data-start="1257.0" data-end="1260.0"> 
+Well, one of the reasons is it enables really powerful things </span></span>
+
+<span class="sentence"><span data-start="1261.0" data-end="1262.0"> 
+like polymorphism.</span></span>
+
+<span class="sentence"><span data-start="1263.0" data-end="1265.0"> 
+If we look at a traditional object oriented program here </span></span>
+
+<span class="sentence"><span data-start="1265.0" data-end="1267.0"> 
+with a drawable abstract superclass, </span></span>
+
+<span class="sentence"><span data-start="1268.0" data-end="1271.0"> 
+I could define a point subclass and a line subclass </span></span>
+
+<span class="sentence"><span data-start="1272.0" data-end="1274.0"> 
+that override draw with their own custom implementation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1274.0" data-end="1277.0"> 
+And then I have a program that can polymorphically -- </span></span>
+
+<span class="sentence"><span data-start="1277.0" data-end="1280.0"> 
+can create an array of drawables.</span></span>
+
+<span class="sentence"><span data-start="1280.0" data-end="1281.0"> 
+Might contain lines.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1281.0" data-end="1282.0"> 
+Might contain points.</span></span>
+
+<span class="sentence"><span data-start="1282.0" data-end="1283.0"> 
+And it can call draw on each of them.</span></span>
+
+<span class="sentence"><span data-start="1285.0" data-end="1286.0"> 
+So, how does this work? </span></span>
+
+<span class="sentence"><span data-start="1286.0" data-end="1290.0"> 
+Well, because point -- because drawable, point, </span></span>
+
+<span class="sentence"><span data-start="1290.0" data-end="1293.0"> 
+and line are all classes, we can create an array of these things </span></span>
+
+<span class="sentence"><span data-start="1293.0" data-end="1295.0"> 
+and they're all the same size because we're storing them </span></span>
+
+<span class="sentence"><span data-start="1295.0" data-end="1296.0"> 
+by reference in the array.</span></span>
+
+<span class="sentence"><span data-start="1297.0" data-end="1300.0"> 
+And then when we go through each of them, </span></span>
+
+<span class="sentence"><span data-start="1300.0" data-end="1304.0"> 
+we're going to call draw on them.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1304.0" data-end="1307.0"> 
+So, we can understand -- or hopefully we have some intuition </span></span>
+
+<span class="sentence"><span data-start="1307.0" data-end="1311.0"> 
+about why the compiler can't determine at compile time </span></span>
+
+<span class="sentence"><span data-start="1311.0" data-end="1313.0"> 
+which is the correct implementation to execute.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1313.0" data-end="1317.0"> 
+Because this d.draw, it could be a point, it could be a line.</span></span>
+
+<span class="sentence"><span data-start="1317.0" data-end="1318.0"> 
+They are different code paths.</span></span>
+
+<span class="sentence"><span data-start="1318.0" data-end="1320.0"> 
+So, how does it determine which one to call? </span></span>
+
+<span class="sentence"><span data-start="1320.0" data-end="1323.0"> 
+Well, the compiler adds another field to classes </span></span>
+
+<span class="sentence"><span data-start="1323.0" data-end="1326.0"> 
+which is a pointer to the type information of that class </span></span>
+
+<span class="sentence"><span data-start="1327.0" data-end="1328.0"> 
+and it's stored in static memory.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1328.0" data-end="1330.0"> 
+And so when we go and call draw, </span></span>
+
+<span class="sentence"><span data-start="1331.0" data-end="1332.0"> 
+what the compiler actually generates </span></span>
+
+<span class="sentence"><span data-start="1332.0" data-end="1334.0"> 
+on our behalf is a lookup through the type </span></span>
+
+<span class="sentence"><span data-start="1335.0" data-end="1337.0"> 
+to something called the virtual method table on the type </span></span>
+
+<span class="sentence"><span data-start="1337.0" data-end="1339.0"> 
+and static memory, which contains a pointer </span></span>
+
+<span class="sentence"><span data-start="1339.0" data-end="1341.0"> 
+to the correct implementation to execute.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1341.0" data-end="1344.0"> 
+And so if we change this d.draw to what the compiler is doing </span></span>
+
+<span class="sentence"><span data-start="1344.0" data-end="1347.0"> 
+on our behalf, we see it's actually looking </span></span>
+
+<span class="sentence"><span data-start="1347.0" data-end="1348.0"> 
+up through the virtual method table </span></span>
+
+<span class="sentence"><span data-start="1348.0" data-end="1350.0"> 
+to find the correct draw implementation to execute.</span></span>
+
+<span class="sentence"><span data-start="1350.0" data-end="1352.0"> 
+And then it passes the actual instance </span></span>
+
+<span class="sentence"><span data-start="1352.0" data-end="1354.0"> 
+as the implicit self-parameter.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1356.0" data-end="1357.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="1358.0" data-end="1358.0"> 
+So, what have we seen here? </span></span>
+
+<span class="sentence"><span data-start="1360.0" data-end="1363.0"> 
+Well, classes by default dynamically dispatch </span></span>
+
+<span class="sentence"><span data-start="1363.0" data-end="1363.0"> 
+their methods.</span></span>
+
+<span class="sentence"><span data-start="1364.0" data-end="1366.0"> 
+This doesn't make a big difference on its own, </span></span>
+
+<span class="sentence"><span data-start="1366.0" data-end="1369.0"> 
+but when it comes to method chaining and other things, </span></span>
+
+<span class="sentence"><span data-start="1369.0" data-end="1372.0"> 
+it can prevent optimizations </span></span>
+
+<span class="sentence"><span data-start="1372.0" data-end="1374.0"> 
+like inlining and that can add up.</span></span>
+
+<span class="sentence"><span data-start="1374.0" data-end="1377.0"> 
+Not all classes, though, require dynamic dispatch.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1377.0" data-end="1379.0"> 
+If you never intend for a class to be subclassed, </span></span>
+
+<span class="sentence"><span data-start="1380.0" data-end="1383.0"> 
+you can mark it as final to convey to your follow teammates </span></span>
+
+<span class="sentence"><span data-start="1383.0" data-end="1386.0"> 
+and to your future self that that was your intention.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1387.0" data-end="1388.0"> 
+The compiler will pick up on this and it's going </span></span>
+
+<span class="sentence"><span data-start="1388.0" data-end="1390.0"> 
+to statically dispatch those methods.</span></span>
+
+<span class="sentence"><span data-start="1390.0" data-end="1393.0"> 
+Furthermore, if the compiler can reason and prove </span></span>
+
+<span class="sentence"><span data-start="1393.0" data-end="1395.0"> 
+that you're never going to be subclassing a class </span></span>
+
+<span class="sentence"><span data-start="1395.0" data-end="1396.0"> 
+in your application, </span></span>
+
+<span class="sentence"><span data-start="1396.0" data-end="1399.0"> 
+it'll opportunistically turn those dynamic dispatches </span></span>
+
+<span class="sentence"><span data-start="1399.0" data-end="1400.0"> 
+into static dispatches on your behalf.</span></span>
+
+<span class="sentence"><span data-start="1401.0" data-end="1403.0"> 
+If you want to hear about more about how this is done, </span></span>
+
+<span class="sentence"><span data-start="1404.0" data-end="1405.0"> 
+check out this great talk from last year </span></span>
+
+<span class="sentence"><span data-start="1405.0" data-end="1407.0"> 
+on optimizing Swift performance.</span></span>
+
+<span class="sentence"><span data-start="1409.0" data-end="1409.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="1409.0" data-end="1412.0"> 
+So, where does that leave us? </span></span>
+
+<span class="sentence"><span data-start="1413.0" data-end="1415.0"> 
+What I want you to take away from this first half </span></span>
+
+<span class="sentence"><span data-start="1415.0" data-end="1417.0"> 
+of the talk is these questions to ask yourself.</span></span>
+
+<span class="sentence"><span data-start="1417.0" data-end="1419.0"> 
+Whenever you're reading and writing Swift code, </span></span>
+
+<span class="sentence"><span data-start="1420.0" data-end="1422.0"> 
+you should be looking at it and thinking, </span></span>
+
+<span class="sentence"><span data-start="1422.0" data-end="1423.0"> 
+"Is this instance going to be allocated </span></span>
+
+<span class="sentence"><span data-start="1423.0" data-end="1424.0"> 
+on the stack or the heap? </span></span>
+
+<span class="sentence"><span data-start="1425.0" data-end="1426.0"> 
+When I pass this instance around, </span></span>
+
+<span class="sentence"><span data-start="1427.0" data-end="1429.0"> 
+how much reference containing overhead I'm going to incur? </span></span>
+
+<span class="sentence"><span data-start="1429.0" data-end="1431.0"> 
+When I call a method on this instance, </span></span>
+
+<span class="sentence"><span data-start="1431.0" data-end="1433.0"> 
+is it going to be statically or dynamically dispatched?" </span></span>
+
+<span class="sentence"><span data-start="1434.0" data-end="1436.0"> 
+If we're paying for dynamism we don't need, </span></span>
+
+<span class="sentence"><span data-start="1436.0" data-end="1437.0"> 
+it's going to hurt our performance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1438.0" data-end="1441.0"> 
+And if you're new to Swift or you're working </span></span>
+
+<span class="sentence"><span data-start="1441.0" data-end="1443.0"> 
+in a code base that's been ported from objective C </span></span>
+
+<span class="sentence"><span data-start="1443.0" data-end="1446.0"> 
+over to Swift, you can likely take more advantage of structs </span></span>
+
+<span class="sentence"><span data-start="1446.0" data-end="1447.0"> 
+than you currently are today.</span></span>
+
+<span class="sentence"><span data-start="1448.0" data-end="1452.0"> 
+Like we've seen with my examples here why I use structs instead </span></span>
+
+<span class="sentence"><span data-start="1452.0" data-end="1452.0"> 
+of strings.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1454.0" data-end="1457.0"> 
+One question, though, is, "How does one go </span></span>
+
+<span class="sentence"><span data-start="1457.0" data-end="1459.0"> 
+about writing polymorphic code with structs?" </span></span>
+
+<span class="sentence"><span data-start="1459.0" data-end="1460.0"> 
+We haven't seen that yet.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1461.0" data-end="1463.0"> 
+Well, the answer is protocol oriented programming.</span></span>
+
+<span class="sentence"><span data-start="1463.0" data-end="1464.0"> 
+And to tell you all about it, </span></span>
+
+<span class="sentence"><span data-start="1464.0" data-end="1466.0"> 
+I'd like to invite Arnold up to the stage.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1468.0" data-end="1472.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1472.0" data-end="1472.0"> 
+Go get it.</span></span>
+
+<span class="sentence"><span data-start="1472.0" data-end="1473.0"> 
+ Thank you, Kyle.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1474.0" data-end="1476.0"> 
+Hello. I'm Arnold.</span></span>
+
+<span class="sentence"><span data-start="1476.0" data-end="1480.0"> 
+Come and join me on a journey through the implementation </span></span>
+
+<span class="sentence"><span data-start="1480.0" data-end="1483.0"> 
+of protocol types and generic code starting </span></span>
+
+<span class="sentence"><span data-start="1483.0" data-end="1484.0"> 
+with protocol types.</span></span>
+
+<span class="sentence"><span data-start="1484.0" data-end="1487.0"> 
+We will look at how variables of protocol type are stored </span></span>
+
+<span class="sentence"><span data-start="1487.0" data-end="1489.0"> 
+and copied and how method dispatch works.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1490.0" data-end="1492.0"> 
+Let's come back </span></span>
+
+<span class="sentence"><span data-start="1492.0" data-end="1495.0"> 
+to our application this time implemented using </span></span>
+
+<span class="sentence"><span data-start="1495.0" data-end="1496.0"> 
+protocol types.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1497.0" data-end="1499.0"> 
+Instead of a drawable abstract base class, </span></span>
+
+<span class="sentence"><span data-start="1500.0" data-end="1504.0"> 
+we now have protocol drawable that declares the draw method.</span></span>
+
+<span class="sentence"><span data-start="1505.0" data-end="1507.0"> 
+And we have value type struct Point </span></span>
+
+<span class="sentence"><span data-start="1508.0" data-end="1511.0"> 
+and struct Line conformed to the protocol.</span></span>
+
+<span class="sentence"><span data-start="1512.0" data-end="1515.0"> 
+Note, we could have also had a class SharedLine conformed </span></span>
+
+<span class="sentence"><span data-start="1515.0" data-end="1516.0"> 
+to the protocol.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1517.0" data-end="1520.0"> 
+However, we decided because of the unintended sharing </span></span>
+
+<span class="sentence"><span data-start="1520.0" data-end="1523.0"> 
+that reference semantics that comes with classes brings </span></span>
+
+<span class="sentence"><span data-start="1523.0" data-end="1525.0"> 
+with it to not to do that.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1525.0" data-end="1527.0"> 
+So, let's drop it.</span></span>
+
+<span class="sentence"><span data-start="1530.0" data-end="1531.0"> 
+Our program was still polymorphic.</span></span>
+
+<span class="sentence"><span data-start="1532.0" data-end="1538.0"> 
+We could store both values of types Point and of type Line </span></span>
+
+<span class="sentence"><span data-start="1539.0" data-end="1541.0"> 
+in our array of drawable protocol type.</span></span>
+
+<span class="sentence"><span data-start="1542.0" data-end="1545.0"> 
+However, compared to before, one thing was different.</span></span>
+
+<span class="sentence"><span data-start="1547.0" data-end="1549.0"> 
+Note that our value type struct Line </span></span>
+
+<span class="sentence"><span data-start="1549.0" data-end="1553.0"> 
+and struct Point don't share a common inheritance relationship </span></span>
+
+<span class="sentence"><span data-start="1555.0" data-end="1557.0"> 
+necessary to do V-Table dispatch, the mechanism </span></span>
+
+<span class="sentence"><span data-start="1557.0" data-end="1558.0"> 
+that Kyle just showed us.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1559.0" data-end="1563.0"> 
+So, how does Swift dispatch to the correct method? </span></span>
+
+<span class="sentence"><span data-start="1563.0" data-end="1566.0"> 
+While it's going over the array in this case.</span></span>
+
+<span class="sentence"><span data-start="1567.0" data-end="1571.0"> 
+The answer to this question is a table based mechanism called the </span></span>
+
+<span class="sentence"><span data-start="1571.0" data-end="1572.0"> 
+Protocol Witness Table.</span></span>
+
+<span class="sentence"><span data-start="1573.0" data-end="1575.0"> 
+There's one of those tables per type </span></span>
+
+<span class="sentence"><span data-start="1576.0" data-end="1579.0"> 
+that implements the protocol in your application.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1580.0" data-end="1583.0"> 
+And the entries in that table link </span></span>
+
+<span class="sentence"><span data-start="1583.0" data-end="1588.0"> 
+to an implementation in the type.</span></span>
+
+<span class="sentence"><span data-start="1588.0" data-end="1590.0"> 
+OK. So, now we know how to find that method.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1591.0" data-end="1595.0"> 
+But there's still a question, "How do we get from the element </span></span>
+
+<span class="sentence"><span data-start="1595.0" data-end="1597.0"> 
+in the array to the table?" </span></span>
+
+<span class="sentence"><span data-start="1598.0" data-end="1599.0"> 
+And there's another question.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1600.0" data-end="1603.0"> 
+Note that we now have value types Line and Point.</span></span>
+
+<span class="sentence"><span data-start="1604.0" data-end="1607.0"> 
+Our Line needs four words.</span></span>
+
+<span class="sentence"><span data-start="1608.0" data-end="1610.0"> 
+Point needs two words.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1610.0" data-end="1612.0"> 
+They don't have the same size.</span></span>
+
+<span class="sentence"><span data-start="1612.0" data-end="1616.0"> 
+But our array wants to store its elements uniformly </span></span>
+
+<span class="sentence"><span data-start="1616.0" data-end="1618.0"> 
+at fixed offsets in the array.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1618.0" data-end="1619.0"> 
+So, how does that work? </span></span>
+
+<span class="sentence"><span data-start="1622.0" data-end="1623.0"> 
+The answer to this question is </span></span>
+
+<span class="sentence"><span data-start="1623.0" data-end="1627.0"> 
+that Swift uses a special storage layout called the </span></span>
+
+<span class="sentence"><span data-start="1627.0" data-end="1628.0"> 
+Existential Container.</span></span>
+
+<span class="sentence"><span data-start="1628.0" data-end="1630.0"> 
+Now, what's in there? </span></span>
+
+<span class="sentence"><span data-start="1631.0" data-end="1637.0"> 
+The first three words in that existential container are </span></span>
+
+<span class="sentence"><span data-start="1637.0" data-end="1638.0"> 
+reserved for the valueBuffer.</span></span>
+
+<span class="sentence"><span data-start="1640.0" data-end="1644.0"> 
+Small types like our Point, which only needs two words, </span></span>
+
+<span class="sentence"><span data-start="1644.0" data-end="1645.0"> 
+fit into this valueBuffer.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1646.0" data-end="1648.0"> 
+Now, you might say, "Wait a second.</span></span>
+
+<span class="sentence"><span data-start="1648.0" data-end="1649.0"> 
+What about our Line? </span></span>
+
+<span class="sentence"><span data-start="1650.0" data-end="1651.0"> 
+It needs four words.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1651.0" data-end="1652.0"> 
+Where do we put that?" </span></span>
+
+<span class="sentence"><span data-start="1653.0" data-end="1657.0"> 
+Well, in this case Swift allocates memory on the heap </span></span>
+
+<span class="sentence"><span data-start="1658.0" data-end="1661.0"> 
+and stores the value there and stores a pointer to that memory </span></span>
+
+<span class="sentence"><span data-start="1663.0" data-end="1665.0"> 
+in the existential container.</span></span>
+
+<span class="sentence"><span data-start="1666.0" data-end="1668.0"> 
+Now, you saw that there was a difference </span></span>
+
+<span class="sentence"><span data-start="1668.0" data-end="1669.0"> 
+between Line and Point.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1670.0" data-end="1672.0"> 
+So, somehow the existential container needs </span></span>
+
+<span class="sentence"><span data-start="1672.0" data-end="1673.0"> 
+to manage this difference.</span></span>
+
+<span class="sentence"><span data-start="1673.0" data-end="1674.0"> 
+So, how does it do that? </span></span>
+
+<span class="sentence"><span data-start="1676.0" data-end="1680.0"> 
+Hmmm. The answer to this, again, is a table based mechanism.</span></span>
+
+<span class="sentence"><span data-start="1681.0" data-end="1683.0"> 
+In this case, we call it the Value Witness Table.</span></span>
+
+<span class="sentence"><span data-start="1685.0" data-end="1689.0"> 
+The Value Witness Table manages the lifetime of our value </span></span>
+
+<span class="sentence"><span data-start="1690.0" data-end="1692.0"> 
+and there is one of those tables per type in your program.</span></span>
+
+<span class="sentence"><span data-start="1693.0" data-end="1697.0"> 
+Now, let's take a look at the lifetime of a local variable </span></span>
+
+<span class="sentence"><span data-start="1697.0" data-end="1699.0"> 
+to see how this table operates.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1700.0" data-end="1702.0"> 
+So, at the beginning of the lifetime of our local variable </span></span>
+
+<span class="sentence"><span data-start="1702.0" data-end="1706.0"> 
+of protocol type, Swift calls the allocate function inside </span></span>
+
+<span class="sentence"><span data-start="1706.0" data-end="1707.0"> 
+of that table.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1708.0" data-end="1711.0"> 
+This function, because we now have a -- in this case -- </span></span>
+
+<span class="sentence"><span data-start="1711.0" data-end="1714.0"> 
+a Line Value Witness Table, we'll allocate the memory </span></span>
+
+<span class="sentence"><span data-start="1714.0" data-end="1716.0"> 
+on the heap and store a pointer to that memory inside </span></span>
+
+<span class="sentence"><span data-start="1716.0" data-end="1718.0"> 
+of the valueBuffer of the existential container.</span></span>
+
+<span class="sentence"><span data-start="1719.0" data-end="1723.0"> 
+Next, Swift needs to copy the value from the source </span></span>
+
+<span class="sentence"><span data-start="1723.0" data-end="1726.0"> 
+of the assignment that initializes our local variable </span></span>
+
+<span class="sentence"><span data-start="1726.0" data-end="1728.0"> 
+into the existential container.</span></span>
+
+<span class="sentence"><span data-start="1729.0" data-end="1733.0"> 
+Again, we have a Line here and so the copy entry </span></span>
+
+<span class="sentence"><span data-start="1733.0" data-end="1736.0"> 
+of our value witness table will do the correct thing and copy it </span></span>
+
+<span class="sentence"><span data-start="1736.0" data-end="1739.0"> 
+into the valueBuffer allocated in the heap.</span></span>
+
+<span class="sentence"><span data-start="1740.0" data-end="1745.0"> 
+OK. Program continues and we are at the end of the lifetime </span></span>
+
+<span class="sentence"><span data-start="1745.0" data-end="1746.0"> 
+of our local variable.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1746.0" data-end="1749.0"> 
+And so Swift calls the destruct entry </span></span>
+
+<span class="sentence"><span data-start="1749.0" data-end="1750.0"> 
+in the value witness table, </span></span>
+
+<span class="sentence"><span data-start="1750.0" data-end="1754.0"> 
+which will decrement any reference counts for values </span></span>
+
+<span class="sentence"><span data-start="1754.0" data-end="1756.0"> 
+that might be contained in our type.</span></span>
+
+<span class="sentence"><span data-start="1756.0" data-end="1759.0"> 
+Line doesn't have any so nothing is necessary here.</span></span>
+
+<span class="sentence"><span data-start="1760.0" data-end="1761.0"> 
+And then at the very end, </span></span>
+
+<span class="sentence"><span data-start="1761.0" data-end="1764.0"> 
+Swift calls the deallocate function in that table.</span></span>
+
+<span class="sentence"><span data-start="1764.0" data-end="1766.0"> 
+Again, we have a value witness table for Line </span></span>
+
+<span class="sentence"><span data-start="1766.0" data-end="1769.0"> 
+so this will deallocate the memory allocated </span></span>
+
+<span class="sentence"><span data-start="1769.0" data-end="1771.0"> 
+on the heap for our value.</span></span>
+
+<span class="sentence"><span data-start="1772.0" data-end="1774.0"> 
+OK. So, we've seen the mechanics </span></span>
+
+<span class="sentence"><span data-start="1775.0" data-end="1777.0"> 
+of how Swift can generically deal </span></span>
+
+<span class="sentence"><span data-start="1777.0" data-end="1778.0"> 
+with different kind of values.</span></span>
+
+<span class="sentence"><span data-start="1778.0" data-end="1781.0"> 
+But somehow it still needs to get to those tables, right? </span></span>
+
+<span class="sentence"><span data-start="1782.0" data-end="1784.0"> 
+Well, the answer is obvious.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1785.0" data-end="1788.0"> 
+The next entry in the value witness table is a reference.</span></span>
+
+<span class="sentence"><span data-start="1788.0" data-end="1790.0"> 
+In the existential container is a reference </span></span>
+
+<span class="sentence"><span data-start="1791.0" data-end="1792.0"> 
+to the value witness table.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1793.0" data-end="1796.0"> 
+And, finally, how do we get to our protocol witness table? </span></span>
+
+<span class="sentence"><span data-start="1796.0" data-end="1800.0"> 
+Well, it is, again, referenced in the existential container.</span></span>
+
+<span class="sentence"><span data-start="1802.0" data-end="1803.0"> 
+So, we've seen the mechanics </span></span>
+
+<span class="sentence"><span data-start="1803.0" data-end="1810.0"> 
+of how Swift manages values of protocol type.</span></span>
+
+<span class="sentence"><span data-start="1810.0" data-end="1813.0"> 
+Let's take a look at an example </span></span>
+
+<span class="sentence"><span data-start="1813.0" data-end="1815.0"> 
+to see the existential container in action.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1818.0" data-end="1822.0"> 
+So, in this example we have a function </span></span>
+
+<span class="sentence"><span data-start="1822.0" data-end="1825.0"> 
+that takes a protocol type parameter local </span></span>
+
+<span class="sentence"><span data-start="1826.0" data-end="1828.0"> 
+and executes the draw method on it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1828.0" data-end="1831.0"> 
+And then our program creates a local variable </span></span>
+
+<span class="sentence"><span data-start="1832.0" data-end="1836.0"> 
+of drawable protocol type and initializes it with a point.</span></span>
+
+<span class="sentence"><span data-start="1837.0" data-end="1840.0"> 
+And passes this local variable off </span></span>
+
+<span class="sentence"><span data-start="1840.0" data-end="1843.0"> 
+to a drawACopy function call as its argument.</span></span>
+
+<span class="sentence"><span data-start="1844.0" data-end="1846.0"> 
+In order to illustrate the code </span></span>
+
+<span class="sentence"><span data-start="1846.0" data-end="1848.0"> 
+that the Swift compiler generates for us, </span></span>
+
+<span class="sentence"><span data-start="1849.0" data-end="1853.0"> 
+I will use Swift as a pseudocode notation underneath </span></span>
+
+<span class="sentence"><span data-start="1853.0" data-end="1854.0"> 
+this example.</span></span>
+
+<span class="sentence"><span data-start="1854.0" data-end="1857.0"> 
+And so for the existential container, I have a struct </span></span>
+
+<span class="sentence"><span data-start="1858.0" data-end="1863.0"> 
+that has three words storage for valueBuffer and a reference </span></span>
+
+<span class="sentence"><span data-start="1863.0" data-end="1865.0"> 
+to the value witness and protocol witness table.</span></span>
+
+<span class="sentence"><span data-start="1866.0" data-end="1870.0"> 
+When the drawACopy function call executes, </span></span>
+
+<span class="sentence"><span data-start="1870.0" data-end="1876.0"> 
+it receives the argument and passes it off to the function.</span></span>
+
+<span class="sentence"><span data-start="1877.0" data-end="1878.0"> 
+In the generated code we see </span></span>
+
+<span class="sentence"><span data-start="1879.0" data-end="1881.0"> 
+that Swift passes the existential container </span></span>
+
+<span class="sentence"><span data-start="1881.0" data-end="1884.0"> 
+of the argument to that function.</span></span>
+
+<span class="sentence"><span data-start="1887.0" data-end="1888.0"> 
+When the function starts executing, </span></span>
+
+<span class="sentence"><span data-start="1889.0" data-end="1892.0"> 
+it creates a local variable for that parameter </span></span>
+
+<span class="sentence"><span data-start="1893.0" data-end="1895.0"> 
+and assigns the argument to it.</span></span>
+
+<span class="sentence"><span data-start="1896.0" data-end="1901.0"> 
+And so in the generated code, </span></span>
+
+<span class="sentence"><span data-start="1901.0" data-end="1903.0"> 
+Swift will allocate an existential container </span></span>
+
+<span class="sentence"><span data-start="1903.0" data-end="1906.0"> 
+on the heap.</span></span>
+
+<span class="sentence"><span data-start="1906.0" data-end="1908.0"> 
+Next it will read the value witness table </span></span>
+
+<span class="sentence"><span data-start="1908.0" data-end="1909.0"> 
+and the protocol witness table </span></span>
+
+<span class="sentence"><span data-start="1910.0" data-end="1912.0"> 
+from the argument existential container </span></span>
+
+<span class="sentence"><span data-start="1913.0" data-end="1917.0"> 
+and initializes the fields in the local existential container.</span></span>
+
+<span class="sentence"><span data-start="1917.0" data-end="1922.0"> 
+Next, it will call a value witness function </span></span>
+
+<span class="sentence"><span data-start="1922.0" data-end="1925.0"> 
+to allocate a buffer if necessary and copy the value.</span></span>
+
+<span class="sentence"><span data-start="1926.0" data-end="1928.0"> 
+In this example we passed a point </span></span>
+
+<span class="sentence"><span data-start="1929.0" data-end="1932.0"> 
+so no dynamic heap allocation is necessary.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1932.0" data-end="1936.0"> 
+This function just copies the value from the argument </span></span>
+
+<span class="sentence"><span data-start="1937.0" data-end="1939.0"> 
+into the local existential container's valueBuffer.</span></span>
+
+<span class="sentence"><span data-start="1940.0" data-end="1943.0"> 
+However, had we passed a line instead, </span></span>
+
+<span class="sentence"><span data-start="1944.0" data-end="1948.0"> 
+this function would allocate the buffer and copy the value there.</span></span>
+
+<span class="sentence"><span data-start="1951.0" data-end="1954.0"> 
+Next, the draw method executes and Swift looks </span></span>
+
+<span class="sentence"><span data-start="1954.0" data-end="1957.0"> 
+up the protocol witness table from the field </span></span>
+
+<span class="sentence"><span data-start="1957.0" data-end="1960.0"> 
+in the existential container, looks up the draw method </span></span>
+
+<span class="sentence"><span data-start="1960.0" data-end="1963.0"> 
+in the fixed offset in that table and jumps </span></span>
+
+<span class="sentence"><span data-start="1963.0" data-end="1964.0"> 
+to the implementation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1965.0" data-end="1966.0"> 
+But wait a second.</span></span>
+
+<span class="sentence"><span data-start="1967.0" data-end="1969.0"> 
+There's another value witness call, projectBuffer.</span></span>
+
+<span class="sentence"><span data-start="1970.0" data-end="1973.0"> 
+Why is that there? </span></span>
+
+<span class="sentence"><span data-start="1973.0" data-end="1975.0"> 
+Well, the draw method expects the address </span></span>
+
+<span class="sentence"><span data-start="1975.0" data-end="1977.0"> 
+of our value as its input.</span></span>
+
+<span class="sentence"><span data-start="1978.0" data-end="1981.0"> 
+And note that depending </span></span>
+
+<span class="sentence"><span data-start="1981.0" data-end="1984.0"> 
+on whether our value is a small value which fits </span></span>
+
+<span class="sentence"><span data-start="1984.0" data-end="1986.0"> 
+into the inline buffer, this address is the beginning </span></span>
+
+<span class="sentence"><span data-start="1987.0" data-end="1991.0"> 
+of our existential container, or if we have a large value </span></span>
+
+<span class="sentence"><span data-start="1991.0" data-end="1994.0"> 
+that does not fit into the inline valueBuffer, </span></span>
+
+<span class="sentence"><span data-start="1994.0" data-end="1997.0"> 
+the address is the beginning </span></span>
+
+<span class="sentence"><span data-start="1997.0" data-end="1999.0"> 
+of the memory allocated on the heap for us.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2000.0" data-end="2004.0"> 
+So, this value witness function abstracts away this difference </span></span>
+
+<span class="sentence"><span data-start="2004.0" data-end="2006.0"> 
+depending on the type.</span></span>
+
+<span class="sentence"><span data-start="2006.0" data-end="2010.0"> 
+A draw method executes, finishes, and now we are </span></span>
+
+<span class="sentence"><span data-start="2010.0" data-end="2013.0"> 
+at the end of our function which means our local variable created </span></span>
+
+<span class="sentence"><span data-start="2013.0" data-end="2016.0"> 
+for the parameter goes out of scope.</span></span>
+
+<span class="sentence"><span data-start="2017.0" data-end="2020.0"> 
+And so Swift calls a value witness function </span></span>
+
+<span class="sentence"><span data-start="2020.0" data-end="2021.0"> 
+to destruct the value, </span></span>
+
+<span class="sentence"><span data-start="2021.0" data-end="2023.0"> 
+which will decrement any reference counts </span></span>
+
+<span class="sentence"><span data-start="2023.0" data-end="2027.0"> 
+if there are references in the value and deallocate a buffer </span></span>
+
+<span class="sentence"><span data-start="2027.0" data-end="2028.0"> 
+if a buffer was allocated.</span></span>
+
+<span class="sentence"><span data-start="2030.0" data-end="2036.0"> 
+Our function finishes executing and our stack is removed, </span></span>
+
+<span class="sentence"><span data-start="2036.0" data-end="2039.0"> 
+which removes the local existential container created </span></span>
+
+<span class="sentence"><span data-start="2039.0" data-end="2040.0"> 
+on the stack for us.</span></span>
+
+<span class="sentence"><span data-start="2041.0" data-end="2045.0"> 
+OK. That was a lot of work.</span></span>
+
+<span class="sentence"><span data-start="2046.0" data-end="2049.0"> 
+Right? There is one thing I want you to take away </span></span>
+
+<span class="sentence"><span data-start="2049.0" data-end="2055.0"> 
+from this is this work is what enables combining value types </span></span>
+
+<span class="sentence"><span data-start="2055.0" data-end="2059.0"> 
+such as struct Line and struct Point together with protocols </span></span>
+
+<span class="sentence"><span data-start="2059.0" data-end="2062.0"> 
+to get dynamic behavior, dynamic polymorphism.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2062.0" data-end="2066.0"> 
+We can store a Line and a Point in our array </span></span>
+
+<span class="sentence"><span data-start="2066.0" data-end="2069.0"> 
+of drawable protocol type.</span></span>
+
+<span class="sentence"><span data-start="2071.0" data-end="2074.0"> 
+If you need this dynamism, this is a good price to pay </span></span>
+
+<span class="sentence"><span data-start="2075.0" data-end="2079.0"> 
+and compares to using classes like in the example </span></span>
+
+<span class="sentence"><span data-start="2079.0" data-end="2082.0"> 
+that Kyle showed us because classes also go </span></span>
+
+<span class="sentence"><span data-start="2082.0" data-end="2085.0"> 
+through a V-Table and they have the additional overhead </span></span>
+
+<span class="sentence"><span data-start="2086.0" data-end="2089.0"> 
+of reference counting.</span></span>
+
+<span class="sentence"><span data-start="2091.0" data-end="2095.0"> 
+OK. So, we've seen how local variables are copied </span></span>
+
+<span class="sentence"><span data-start="2095.0" data-end="2100.0"> 
+and how method dispatch works for values of protocol type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2101.0" data-end="2102.0"> 
+Let's look at stored properties.</span></span>
+
+<span class="sentence"><span data-start="2103.0" data-end="2106.0"> 
+So, in this example, we have a pair </span></span>
+
+<span class="sentence"><span data-start="2107.0" data-end="2110.0"> 
+that contains two stored properties, first and second, </span></span>
+
+<span class="sentence"><span data-start="2111.0" data-end="2114.0"> 
+of protocol -- drawable protocol type.</span></span>
+
+<span class="sentence"><span data-start="2114.0" data-end="2118.0"> 
+How does Swift store those two stored properties? </span></span>
+
+<span class="sentence"><span data-start="2119.0" data-end="2123.0"> 
+Hmm. Well, inline of the enclosing struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2124.0" data-end="2127.0"> 
+So, if we look at -- when we allocate a pair, </span></span>
+
+<span class="sentence"><span data-start="2128.0" data-end="2131.0"> 
+Swift will store the two existential containers necessary </span></span>
+
+<span class="sentence"><span data-start="2131.0" data-end="2135.0"> 
+for the storage of that pair inline of the enclosing struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2135.0" data-end="2139.0"> 
+Our program then goes and initializes this pair </span></span>
+
+<span class="sentence"><span data-start="2139.0" data-end="2142.0"> 
+of the Line and the Point and so, as we've seen before, </span></span>
+
+<span class="sentence"><span data-start="2142.0" data-end="2144.0"> 
+for our Line, we will allocate a buffer on the heap.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2145.0" data-end="2148.0"> 
+Point fits into the inline valueBuffer and can be stored </span></span>
+
+<span class="sentence"><span data-start="2148.0" data-end="2150.0"> 
+in the -- inline in the existential container.</span></span>
+
+<span class="sentence"><span data-start="2151.0" data-end="2155.0"> 
+Now, this representation allows storing a differently typed </span></span>
+
+<span class="sentence"><span data-start="2155.0" data-end="2158.0"> 
+value later in the program.</span></span>
+
+<span class="sentence"><span data-start="2158.0" data-end="2161.0"> 
+So, the program goes and stores a Line to the second element.</span></span>
+
+<span class="sentence"><span data-start="2161.0" data-end="2164.0"> 
+This works, but we have two heap allocations now.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2165.0" data-end="2167.0"> 
+OK. Two heap allocations.</span></span>
+
+<span class="sentence"><span data-start="2167.0" data-end="2170.0"> 
+Well, let's look at a different program to illustrate </span></span>
+
+<span class="sentence"><span data-start="2170.0" data-end="2172.0"> 
+that cost of heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2174.0" data-end="2178.0"> 
+So, again, we create a Line and we create a pair </span></span>
+
+<span class="sentence"><span data-start="2178.0" data-end="2180.0"> 
+and initialize this pair with the Line.</span></span>
+
+<span class="sentence"><span data-start="2181.0" data-end="2183.0"> 
+So, we have one, two heap allocations.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2184.0" data-end="2187.0"> 
+And then we create a copy of that pair again, </span></span>
+
+<span class="sentence"><span data-start="2187.0" data-end="2189.0"> 
+two existential containers on the stack </span></span>
+
+<span class="sentence"><span data-start="2189.0" data-end="2190.0"> 
+and then two heap allocations.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2191.0" data-end="2195.0"> 
+Now, you might say, "Kyle just told us heap allocations </span></span>
+
+<span class="sentence"><span data-start="2195.0" data-end="2195.0"> 
+are expensive.</span></span>
+
+<span class="sentence"><span data-start="2196.0" data-end="2197.0"> 
+Four heap allocations? </span></span>
+
+<span class="sentence"><span data-start="2198.0" data-end="2202.0"> 
+Hmm." Can we do anything about this? </span></span>
+
+<span class="sentence"><span data-start="2202.0" data-end="2209.0"> 
+Well, remember our existential container has place </span></span>
+
+<span class="sentence"><span data-start="2209.0" data-end="2212.0"> 
+for three words and references would fit into the -- </span></span>
+
+<span class="sentence"><span data-start="2212.0" data-end="2215.0"> 
+into those three words because a reference is basically one word.</span></span>
+
+<span class="sentence"><span data-start="2216.0" data-end="2223.0"> 
+So, if we implemented our Line instead with a class, the -- </span></span>
+
+<span class="sentence"><span data-start="2223.0" data-end="2225.0"> 
+and class is a reference semantics so they're stored </span></span>
+
+<span class="sentence"><span data-start="2226.0" data-end="2229.0"> 
+by reference -- this reference would fit into the valueBuffer.</span></span>
+
+<span class="sentence"><span data-start="2229.0" data-end="2237.0"> 
+And when we copy the first reference to the second field </span></span>
+
+<span class="sentence"><span data-start="2237.0" data-end="2240.0"> 
+in our pair, only the reference is copied and we -- </span></span>
+
+<span class="sentence"><span data-start="2240.0" data-end="2244.0"> 
+the only price we pay is then extra reference count increment.</span></span>
+
+<span class="sentence"><span data-start="2245.0" data-end="2246.0"> 
+Now, you might say, "Wait a second.</span></span>
+
+<span class="sentence"><span data-start="2247.0" data-end="2250.0"> 
+Haven't we just heard about unintended sharing of state </span></span>
+
+<span class="sentence"><span data-start="2251.0" data-end="2253.0"> 
+that reference semantics brings with it." </span></span>
+
+<span class="sentence"><span data-start="2254.0" data-end="2261.0"> 
+So, if we store to the x1 field through the second field </span></span>
+
+<span class="sentence"><span data-start="2261.0" data-end="2264.0"> 
+in our pair, the first field can observe the change.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2265.0" data-end="2267.0"> 
+And that's not what we want to have.</span></span>
+
+<span class="sentence"><span data-start="2267.0" data-end="2268.0"> 
+We want value semantics.</span></span>
+
+<span class="sentence"><span data-start="2268.0" data-end="2270.0"> 
+Right? Hmmm.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2270.0" data-end="2272.0"> 
+What can we do about this? </span></span>
+
+<span class="sentence"><span data-start="2273.0" data-end="2276.0"> 
+Well, there's a technique called copy and write </span></span>
+
+<span class="sentence"><span data-start="2277.0" data-end="2279.0"> 
+that allows us to work around this.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2280.0" data-end="2284.0"> 
+So, before we write to our class, </span></span>
+
+<span class="sentence"><span data-start="2284.0" data-end="2285.0"> 
+we check its reference count.</span></span>
+
+<span class="sentence"><span data-start="2287.0" data-end="2288.0"> 
+We've heard that when there's more </span></span>
+
+<span class="sentence"><span data-start="2288.0" data-end="2291.0"> 
+than one reference outstanding to the same instants, </span></span>
+
+<span class="sentence"><span data-start="2291.0" data-end="2294.0"> 
+the reference count will be greater than one, two, </span></span>
+
+<span class="sentence"><span data-start="2294.0" data-end="2295.0"> 
+or three, or four, or five.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2295.0" data-end="2300.0"> 
+And so if this is the case, before we write to our instance, </span></span>
+
+<span class="sentence"><span data-start="2300.0" data-end="2303.0"> 
+we copy the instance and then write to that copy.</span></span>
+
+<span class="sentence"><span data-start="2303.0" data-end="2306.0"> 
+This will decouple the state.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2306.0" data-end="2311.0"> 
+OK. Let's take a look at how we can do this for our Line.</span></span>
+
+<span class="sentence"><span data-start="2314.0" data-end="2318.0"> 
+Instead of directly implementing the storage inside of our Line, </span></span>
+
+<span class="sentence"><span data-start="2318.0" data-end="2320.0"> 
+we create a class called LineStorage </span></span>
+
+<span class="sentence"><span data-start="2320.0" data-end="2322.0"> 
+that has all the fields of our Line struct.</span></span>
+
+<span class="sentence"><span data-start="2323.0" data-end="2327.0"> 
+And then our Line struct references this storage.</span></span>
+
+<span class="sentence"><span data-start="2328.0" data-end="2330.0"> 
+And whenever we want to read a value, </span></span>
+
+<span class="sentence"><span data-start="2330.0" data-end="2333.0"> 
+we just read the value inside of that storage.</span></span>
+
+<span class="sentence"><span data-start="2334.0" data-end="2337.0"> 
+However, when we come to modify, mutate our value, </span></span>
+
+<span class="sentence"><span data-start="2338.0" data-end="2339.0"> 
+we first check the reference count.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2340.0" data-end="2341.0"> 
+Is it greater than one? </span></span>
+
+<span class="sentence"><span data-start="2341.0" data-end="2344.0"> 
+This is what the isUniquelyReferenced call </span></span>
+
+<span class="sentence"><span data-start="2344.0" data-end="2345.0"> 
+here achieves.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2345.0" data-end="2347.0"> 
+The only thing it does is check the reference count.</span></span>
+
+<span class="sentence"><span data-start="2348.0" data-end="2350.0"> 
+Is it greater or equal to one? </span></span>
+
+<span class="sentence"><span data-start="2352.0" data-end="2353.0"> 
+And if the reference count is greater to one -- </span></span>
+
+<span class="sentence"><span data-start="2354.0" data-end="2357.0"> 
+greater than one -- we create a copy </span></span>
+
+<span class="sentence"><span data-start="2357.0" data-end="2360.0"> 
+of our Line storage and mutate that.</span></span>
+
+<span class="sentence"><span data-start="2361.0" data-end="2367.0"> 
+OK. So, we've seen how we can combine a struct and a class </span></span>
+
+<span class="sentence"><span data-start="2368.0" data-end="2370.0"> 
+to get indirect storage using copy and write.</span></span>
+
+<span class="sentence"><span data-start="2370.0" data-end="2372.0"> 
+Let's come back to our example </span></span>
+
+<span class="sentence"><span data-start="2372.0" data-end="2377.0"> 
+to see what happens here this time using indirect storage.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2378.0" data-end="2379.0"> 
+So, again, we create a Line.</span></span>
+
+<span class="sentence"><span data-start="2380.0" data-end="2383.0"> 
+This will create a line storage object on the heap.</span></span>
+
+<span class="sentence"><span data-start="2383.0" data-end="2386.0"> 
+And then we use that line to initialize our pair.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2387.0" data-end="2392.0"> 
+This time only the references to the line storage are copied.</span></span>
+
+<span class="sentence"><span data-start="2394.0" data-end="2397.0"> 
+When we come to copy our Line -- </span></span>
+
+<span class="sentence"><span data-start="2400.0" data-end="2401.0"> 
+Again, only the references are copied </span></span>
+
+<span class="sentence"><span data-start="2402.0" data-end="2403.0"> 
+and the reference count is incremented.</span></span>
+
+<span class="sentence"><span data-start="2403.0" data-end="2406.0"> 
+This is a lot cheaper than heap allocation.</span></span>
+
+<span class="sentence"><span data-start="2407.0" data-end="2408.0"> 
+It's a good trade off to make.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2415.0" data-end="2420.0"> 
+OK. So, we've seen how variables of protocol type are copied </span></span>
+
+<span class="sentence"><span data-start="2420.0" data-end="2423.0"> 
+and stored and how method dispatch works.</span></span>
+
+<span class="sentence"><span data-start="2424.0" data-end="2427.0"> 
+Let's take a look what that means for performance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2428.0" data-end="2431.0"> 
+If we have protocol types that contain small values </span></span>
+
+<span class="sentence"><span data-start="2431.0" data-end="2433.0"> 
+that can fit into the inline valueBuffer </span></span>
+
+<span class="sentence"><span data-start="2433.0" data-end="2436.0"> 
+of the existential container, there is no heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2438.0" data-end="2440.0"> 
+If our struct does not contain any references, </span></span>
+
+<span class="sentence"><span data-start="2440.0" data-end="2442.0"> 
+there's also no reference counting.</span></span>
+
+<span class="sentence"><span data-start="2442.0" data-end="2443.0"> 
+So, this is really fast code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2444.0" data-end="2446.0"> 
+However, because of the indirection </span></span>
+
+<span class="sentence"><span data-start="2447.0" data-end="2451.0"> 
+through value witness and protocol witness table, </span></span>
+
+<span class="sentence"><span data-start="2451.0" data-end="2458.0"> 
+we get the full power of dynamic dispatch, which allows </span></span>
+
+<span class="sentence"><span data-start="2458.0" data-end="2461.0"> 
+for dynamically polymorph behavior.</span></span>
+
+<span class="sentence"><span data-start="2463.0" data-end="2464.0"> 
+Compare this with large values.</span></span>
+
+<span class="sentence"><span data-start="2464.0" data-end="2467.0"> 
+Large values incur heap allocations whenever we </span></span>
+
+<span class="sentence"><span data-start="2467.0" data-end="2472.0"> 
+initialize or assign variables of protocol type.</span></span>
+
+<span class="sentence"><span data-start="2472.0" data-end="2473.0"> 
+Potentially reference counting </span></span>
+
+<span class="sentence"><span data-start="2474.0" data-end="2477.0"> 
+if our large value struct contain references.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2479.0" data-end="2481.0"> 
+However, I showed you a technique, </span></span>
+
+<span class="sentence"><span data-start="2481.0" data-end="2484.0"> 
+namely using indirect storage with copy and write, </span></span>
+
+<span class="sentence"><span data-start="2484.0" data-end="2489.0"> 
+that you can use to trade the expensive heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2492.0" data-end="2493.0"> 
+For cheaper reference counting.</span></span>
+
+<span class="sentence"><span data-start="2495.0" data-end="2500.0"> 
+Note that this compares favorably to using classes.</span></span>
+
+<span class="sentence"><span data-start="2501.0" data-end="2505.0"> 
+Classes also incur reference counting.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2506.0" data-end="2508.0"> 
+And allocation on initialization.</span></span>
+
+<span class="sentence"><span data-start="2508.0" data-end="2513.0"> 
+It's a good trade off to make.</span></span>
+
+<span class="sentence"><span data-start="2513.0" data-end="2518.0"> 
+OK. So, we went back -- so, to summarize, </span></span>
+
+<span class="sentence"><span data-start="2518.0" data-end="2522.0"> 
+protocol types provide a dynamic form of polymorphism.</span></span>
+
+<span class="sentence"><span data-start="2523.0" data-end="2526.0"> 
+We can use value types together with protocols </span></span>
+
+<span class="sentence"><span data-start="2527.0" data-end="2531.0"> 
+and can store our Lines and Points inside </span></span>
+
+<span class="sentence"><span data-start="2531.0" data-end="2532.0"> 
+of an array of protocol type.</span></span>
+
+<span class="sentence"><span data-start="2533.0" data-end="2536.0"> 
+This is achieved by the use of protocol </span></span>
+
+<span class="sentence"><span data-start="2536.0" data-end="2538.0"> 
+and value witness tables and existential container.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2540.0" data-end="2544.0"> 
+Copying of large values incurs heap allocation.</span></span>
+
+<span class="sentence"><span data-start="2544.0" data-end="2545.0"> 
+However, I showed you a technique how you can work </span></span>
+
+<span class="sentence"><span data-start="2545.0" data-end="2548.0"> 
+around this by implementing your structs </span></span>
+
+<span class="sentence"><span data-start="2548.0" data-end="2550.0"> 
+with indirect storage and copy and write.</span></span>
+
+<span class="sentence"><span data-start="2552.0" data-end="2555.0"> 
+OK. Let's come back to our application </span></span>
+
+<span class="sentence"><span data-start="2555.0" data-end="2556.0"> 
+and take a look again.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2556.0" data-end="2558.0"> 
+So, in our application we had to draw a copy -- </span></span>
+
+<span class="sentence"><span data-start="2559.0" data-end="2562.0"> 
+a function that took a parameter of protocol type.</span></span>
+
+<span class="sentence"><span data-start="2564.0" data-end="2565.0"> 
+However, the way that we use </span></span>
+
+<span class="sentence"><span data-start="2565.0" data-end="2568.0"> 
+that is we would always use it on a concrete type.</span></span>
+
+<span class="sentence"><span data-start="2569.0" data-end="2570.0"> 
+Here we used it on a Line.</span></span>
+
+<span class="sentence"><span data-start="2571.0" data-end="2574.0"> 
+Later in our program we would use it on a Point.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2575.0" data-end="2576.0"> 
+And we thought, "Hmm.</span></span>
+
+<span class="sentence"><span data-start="2577.0" data-end="2580.0"> 
+Could we use generic code here?" </span></span>
+
+<span class="sentence"><span data-start="2581.0" data-end="2582.0"> 
+Well, yes, we can.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2582.0" data-end="2583.0"> 
+So, let's take a look.</span></span>
+
+<span class="sentence"><span data-start="2584.0" data-end="2588.0"> 
+During this last part of the talk, I'll look at how variables </span></span>
+
+<span class="sentence"><span data-start="2588.0" data-end="2590.0"> 
+of generic type are stored and copied </span></span>
+
+<span class="sentence"><span data-start="2590.0" data-end="2592.0"> 
+and how method dispatch works with them.</span></span>
+
+<span class="sentence"><span data-start="2592.0" data-end="2593.0"> 
+So, coming back </span></span>
+
+<span class="sentence"><span data-start="2593.0" data-end="2597.0"> 
+to our application this time implemented using generic code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2597.0" data-end="2600.0"> 
+DrawACopy method now takes a generic parameter constraint </span></span>
+
+<span class="sentence"><span data-start="2600.0" data-end="2604.0"> 
+to be Drawable and the rest of our program stays the same.</span></span>
+
+<span class="sentence"><span data-start="2606.0" data-end="2611.0"> 
+So, what is different when I compare this to protocol types? </span></span>
+
+<span class="sentence"><span data-start="2613.0" data-end="2616.0"> 
+Generic code supports a more static form </span></span>
+
+<span class="sentence"><span data-start="2616.0" data-end="2619.0"> 
+of polymorphism also known as parametric polymorphism.</span></span>
+
+<span class="sentence"><span data-start="2619.0" data-end="2621.0"> 
+One type per call context.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2622.0" data-end="2623.0"> 
+What do I mean by that? </span></span>
+
+<span class="sentence"><span data-start="2623.0" data-end="2625.0"> 
+Well, let's take a look at this example.</span></span>
+
+<span class="sentence"><span data-start="2625.0" data-end="2630.0"> 
+We have the function foo, which takes a generic parameter, </span></span>
+
+<span class="sentence"><span data-start="2630.0" data-end="2631.0"> 
+T constraint to be drawable, </span></span>
+
+<span class="sentence"><span data-start="2632.0" data-end="2635.0"> 
+and it passes this parameter off to the function bar.</span></span>
+
+<span class="sentence"><span data-start="2636.0" data-end="2638.0"> 
+This function, again, takes a generic parameter T.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2639.0" data-end="2640.0"> 
+And then our program creates a point </span></span>
+
+<span class="sentence"><span data-start="2641.0" data-end="2643.0"> 
+and passes this point to the function foo.</span></span>
+
+<span class="sentence"><span data-start="2644.0" data-end="2646.0"> 
+When this function executes, </span></span>
+
+<span class="sentence"><span data-start="2647.0" data-end="2655.0"> 
+Swift will bind the generic type T to the type used </span></span>
+
+<span class="sentence"><span data-start="2655.0" data-end="2657.0"> 
+at this call side, which is in this case, the Point.</span></span>
+
+<span class="sentence"><span data-start="2658.0" data-end="2664.0"> 
+When the function foo executes with this binding and it gets </span></span>
+
+<span class="sentence"><span data-start="2664.0" data-end="2667.0"> 
+to the function call of bar, this -- </span></span>
+
+<span class="sentence"><span data-start="2667.0" data-end="2669.0"> 
+the local variable has the type </span></span>
+
+<span class="sentence"><span data-start="2669.0" data-end="2671.0"> 
+that was just found, namely Point.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2671.0" data-end="2674.0"> 
+And so, again, the generic parameter T </span></span>
+
+<span class="sentence"><span data-start="2674.0" data-end="2677.0"> 
+in this call context is bound through the type Point.</span></span>
+
+<span class="sentence"><span data-start="2678.0" data-end="2680.0"> 
+As we can see, the type is substituted </span></span>
+
+<span class="sentence"><span data-start="2680.0" data-end="2681.0"> 
+down the call chain along the parameters.</span></span>
+
+<span class="sentence"><span data-start="2682.0" data-end="2687.0"> 
+This is what we mean by a more static form of polymorphism </span></span>
+
+<span class="sentence"><span data-start="2687.0" data-end="2688.0"> 
+or parametric polymorphism.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2688.0" data-end="2689.0"> 
+So, let's take a look </span></span>
+
+<span class="sentence"><span data-start="2689.0" data-end="2693.0"> 
+of how Swift implements this under the hood.</span></span>
+
+<span class="sentence"><span data-start="2693.0" data-end="2696.0"> 
+Again, coming back to our drawACopy function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2698.0" data-end="2705.0"> 
+In this example, we pass a point.</span></span>
+
+<span class="sentence"><span data-start="2705.0" data-end="2706.0"> 
+Like when we used protocol types, </span></span>
+
+<span class="sentence"><span data-start="2706.0" data-end="2708.0"> 
+there is one shared implementation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2709.0" data-end="2713.0"> 
+And this shared implementation, if I would show you the code </span></span>
+
+<span class="sentence"><span data-start="2713.0" data-end="2714.0"> 
+like I did before for protocol types, </span></span>
+
+<span class="sentence"><span data-start="2715.0" data-end="2716.0"> 
+the code would look pretty similar.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2717.0" data-end="2720.0"> 
+It would use protocol and value witness table </span></span>
+
+<span class="sentence"><span data-start="2720.0" data-end="2723.0"> 
+to generically perform the operations inside </span></span>
+
+<span class="sentence"><span data-start="2723.0" data-end="2724.0"> 
+of that function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2726.0" data-end="2729.0"> 
+However, because we have one type per call context, </span></span>
+
+<span class="sentence"><span data-start="2730.0" data-end="2732.0"> 
+Swift does not use an existential container here.</span></span>
+
+<span class="sentence"><span data-start="2734.0" data-end="2738.0"> 
+Instead, it can pass both the value witness table </span></span>
+
+<span class="sentence"><span data-start="2738.0" data-end="2740.0"> 
+and the protocol witness table of the Point -- </span></span>
+
+<span class="sentence"><span data-start="2740.0" data-end="2743.0"> 
+of the type used at this call-site </span></span>
+
+<span class="sentence"><span data-start="2743.0" data-end="2745.0"> 
+as additional arguments to the function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2745.0" data-end="2749.0"> 
+So, in this case, we see that the value witness table </span></span>
+
+<span class="sentence"><span data-start="2749.0" data-end="2750.0"> 
+for Point and Line is passed.</span></span>
+
+<span class="sentence"><span data-start="2751.0" data-end="2753.0"> 
+And then during execution of that function, </span></span>
+
+<span class="sentence"><span data-start="2753.0" data-end="2757.0"> 
+when we create a local variable for the parameter, </span></span>
+
+<span class="sentence"><span data-start="2758.0" data-end="2761.0"> 
+Swift will use the value witness table </span></span>
+
+<span class="sentence"><span data-start="2761.0" data-end="2764.0"> 
+to allocate potentially any necessary buffers on the heap </span></span>
+
+<span class="sentence"><span data-start="2764.0" data-end="2767.0"> 
+and execute the copy from the source </span></span>
+
+<span class="sentence"><span data-start="2767.0" data-end="2770.0"> 
+of the assignment to the destination.</span></span>
+
+<span class="sentence"><span data-start="2770.0" data-end="2774.0"> 
+And similar when it executes the draw method </span></span>
+
+<span class="sentence"><span data-start="2774.0" data-end="2777.0"> 
+on the local parameter, it will use the protocol witness table </span></span>
+
+<span class="sentence"><span data-start="2777.0" data-end="2781.0"> 
+passed, look up the draw method of the fixed offset in the table </span></span>
+
+<span class="sentence"><span data-start="2781.0" data-end="2783.0"> 
+and jump to the implementation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2786.0" data-end="2788.0"> 
+Now, I just told you there is no existential container here.</span></span>
+
+<span class="sentence"><span data-start="2789.0" data-end="2793.0"> 
+So, how does Swift allocate the memory necessary </span></span>
+
+<span class="sentence"><span data-start="2793.0" data-end="2796.0"> 
+for the local parameter -- </span></span>
+
+<span class="sentence"><span data-start="2796.0" data-end="2798.0"> 
+for the local variable created for this parameter? </span></span>
+
+<span class="sentence"><span data-start="2799.0" data-end="2803.0"> 
+Well, it allocates a valueBuffer on the stack.</span></span>
+
+<span class="sentence"><span data-start="2804.0" data-end="2806.0"> 
+Again, this valueBuffer is three words.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2807.0" data-end="2810.0"> 
+Small values like a Point fit into the valueBuffer.</span></span>
+
+<span class="sentence"><span data-start="2811.0" data-end="2816.0"> 
+Large values like our Line are, again, stored on the heap </span></span>
+
+<span class="sentence"><span data-start="2817.0" data-end="2819.0"> 
+and we store a pointer to that memory inside </span></span>
+
+<span class="sentence"><span data-start="2819.0" data-end="2821.0"> 
+of the local existential container.</span></span>
+
+<span class="sentence"><span data-start="2824.0" data-end="2826.0"> 
+And all of this is managed for the use </span></span>
+
+<span class="sentence"><span data-start="2826.0" data-end="2827.0"> 
+of the value witness table.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2827.0" data-end="2831.0"> 
+Now, you might ask, "Is this any faster? </span></span>
+
+<span class="sentence"><span data-start="2831.0" data-end="2832.0"> 
+Is this any better? </span></span>
+
+<span class="sentence"><span data-start="2832.0" data-end="2837.0"> 
+Could I not -- have not just used protocol types here?" </span></span>
+
+<span class="sentence"><span data-start="2838.0" data-end="2840.0"> 
+Well, this static form </span></span>
+
+<span class="sentence"><span data-start="2840.0" data-end="2844.0"> 
+of polymorphism enables the compiler optimization called </span></span>
+
+<span class="sentence"><span data-start="2844.0" data-end="2845.0"> 
+specialization of generics.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2845.0" data-end="2846.0"> 
+Let's take a look.</span></span>
+
+<span class="sentence"><span data-start="2847.0" data-end="2849.0"> 
+So, again, here is our function drawACopy </span></span>
+
+<span class="sentence"><span data-start="2849.0" data-end="2853.0"> 
+that takes a generic parameter and we pass a Point </span></span>
+
+<span class="sentence"><span data-start="2853.0" data-end="2855.0"> 
+to that function call the method.</span></span>
+
+<span class="sentence"><span data-start="2855.0" data-end="2859.0"> 
+And we have static polymorphism </span></span>
+
+<span class="sentence"><span data-start="2859.0" data-end="2861.0"> 
+so there is one type at the call-site.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2861.0" data-end="2866.0"> 
+Swift uses that type to substitute the generic parameter </span></span>
+
+<span class="sentence"><span data-start="2866.0" data-end="2869.0"> 
+in the function and create a version of that function </span></span>
+
+<span class="sentence"><span data-start="2870.0" data-end="2871.0"> 
+that is specific to that type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2872.0" data-end="2875.0"> 
+So, here we have a drawACopy of a Point function now </span></span>
+
+<span class="sentence"><span data-start="2875.0" data-end="2878.0"> 
+that takes a parameter that is of type Point </span></span>
+
+<span class="sentence"><span data-start="2879.0" data-end="2883.0"> 
+and the code inside of that function is, again, </span></span>
+
+<span class="sentence"><span data-start="2883.0" data-end="2884.0"> 
+specific to that type.</span></span>
+
+<span class="sentence"><span data-start="2885.0" data-end="2889.0"> 
+And, as Kyle showed us, this can be really fast code.</span></span>
+
+<span class="sentence"><span data-start="2890.0" data-end="2894.0"> 
+Swift will create a version per type used </span></span>
+
+<span class="sentence"><span data-start="2894.0" data-end="2896.0"> 
+at a call-site in your program.</span></span>
+
+<span class="sentence"><span data-start="2896.0" data-end="2899.0"> 
+So, if we call the drawACopy function on a Line in the Point, </span></span>
+
+<span class="sentence"><span data-start="2899.0" data-end="2903.0"> 
+it will specialize and create two versions of that function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2904.0" data-end="2905.0"> 
+Now, you might say, "Wait a second.</span></span>
+
+<span class="sentence"><span data-start="2906.0" data-end="2908.0"> 
+This has the potential to increase code size by a lot.</span></span>
+
+<span class="sentence"><span data-start="2908.0" data-end="2913.0"> 
+Right?" But because the static typing information </span></span>
+
+<span class="sentence"><span data-start="2913.0" data-end="2916.0"> 
+that is not available enables aggressive compiler </span></span>
+
+<span class="sentence"><span data-start="2916.0" data-end="2920.0"> 
+optimization, Swift can actually potentially reduce the code </span></span>
+
+<span class="sentence"><span data-start="2920.0" data-end="2920.0"> 
+size here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2921.0" data-end="2923.0"> 
+So, for example, it will inline the drawACopy </span></span>
+
+<span class="sentence"><span data-start="2923.0" data-end="2924.0"> 
+of a Point method -- function.</span></span>
+
+<span class="sentence"><span data-start="2925.0" data-end="2926.0"> 
+And then further optimize the code </span></span>
+
+<span class="sentence"><span data-start="2926.0" data-end="2929.0"> 
+because it now has a lot more context.</span></span>
+
+<span class="sentence"><span data-start="2929.0" data-end="2933.0"> 
+And so that function call can basically reduce </span></span>
+
+<span class="sentence"><span data-start="2933.0" data-end="2935.0"> 
+to this one line and, as Kyle showed us, </span></span>
+
+<span class="sentence"><span data-start="2935.0" data-end="2940.0"> 
+this can be even further reduced to the implementation of draw.</span></span>
+
+<span class="sentence"><span data-start="2941.0" data-end="2942.0"> 
+Now that the drawACopy </span></span>
+
+<span class="sentence"><span data-start="2942.0" data-end="2944.0"> 
+of a Point method is no longer referenced, </span></span>
+
+<span class="sentence"><span data-start="2944.0" data-end="2946.0"> 
+the compiler will also remove it </span></span>
+
+<span class="sentence"><span data-start="2946.0" data-end="2949.0"> 
+and perform similar optimization for the Line example.</span></span>
+
+<span class="sentence"><span data-start="2949.0" data-end="2951.0"> 
+So, it's not necessarily the case </span></span>
+
+<span class="sentence"><span data-start="2951.0" data-end="2955.0"> 
+that this compiler optimization will increase code size.</span></span>
+
+<span class="sentence"><span data-start="2955.0" data-end="2956.0"> 
+Can happen.</span></span>
+
+<span class="sentence"><span data-start="2956.0" data-end="2959.0"> 
+Not necessarily the case.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2961.0" data-end="2963.0"> 
+OK. So, we've seen how specialization works, </span></span>
+
+<span class="sentence"><span data-start="2963.0" data-end="2968.0"> 
+but one question to ask is, "When does it happen?" </span></span>
+
+<span class="sentence"><span data-start="2968.0" data-end="2971.0"> 
+Well, let's take a look at a very small example.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2971.0" data-end="2975.0"> 
+So, we define a Point and then create a local variable </span></span>
+
+<span class="sentence"><span data-start="2975.0" data-end="2976.0"> 
+of that type.</span></span>
+
+<span class="sentence"><span data-start="2976.0" data-end="2979.0"> 
+Point -- initialize it to a Point and then pass that Point </span></span>
+
+<span class="sentence"><span data-start="2979.0" data-end="2983.0"> 
+as a -- for argument to the drawACopy function.</span></span>
+
+<span class="sentence"><span data-start="2984.0" data-end="2987.0"> 
+Now, in order to specialize this code, Swift needs to be able </span></span>
+
+<span class="sentence"><span data-start="2987.0" data-end="2989.0"> 
+to infer the type at this call-site.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2990.0" data-end="2993.0"> 
+It can do that because it can look at that local variable, </span></span>
+
+<span class="sentence"><span data-start="2994.0" data-end="2996.0"> 
+walk back to its initialization, </span></span>
+
+<span class="sentence"><span data-start="2996.0" data-end="2999.0"> 
+and see that it has been initialized to a Point.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3001.0" data-end="3003.0"> 
+Swift also needs to have the definition </span></span>
+
+<span class="sentence"><span data-start="3004.0" data-end="3006.0"> 
+of both the type used during the specialization </span></span>
+
+<span class="sentence"><span data-start="3007.0" data-end="3010.0"> 
+and the function -- the generic function itself available.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3010.0" data-end="3011.0"> 
+Again, this is the case here.</span></span>
+
+<span class="sentence"><span data-start="3012.0" data-end="3013.0"> 
+It's all defined in one file.</span></span>
+
+<span class="sentence"><span data-start="3015.0" data-end="3019.0"> 
+This is a place where whole module optimization can greatly </span></span>
+
+<span class="sentence"><span data-start="3019.0" data-end="3021.0"> 
+improve the optimization opportunity.</span></span>
+
+<span class="sentence"><span data-start="3022.0" data-end="3025.0"> 
+Let's take a look why that is.</span></span>
+
+<span class="sentence"><span data-start="3026.0" data-end="3029.0"> 
+So, let's say I've moved the definition </span></span>
+
+<span class="sentence"><span data-start="3029.0" data-end="3031.0"> 
+of my Point into a separate file.</span></span>
+
+<span class="sentence"><span data-start="3032.0" data-end="3034.0"> 
+Now, if we compile those two files separately, </span></span>
+
+<span class="sentence"><span data-start="3035.0" data-end="3040.0"> 
+when I come to compile the file UsePoint, the definition </span></span>
+
+<span class="sentence"><span data-start="3041.0" data-end="3042.0"> 
+of my Point is no longer available </span></span>
+
+<span class="sentence"><span data-start="3042.0" data-end="3044.0"> 
+because the compiler has compiled those two </span></span>
+
+<span class="sentence"><span data-start="3044.0" data-end="3044.0"> 
+files separately.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3045.0" data-end="3047.0"> 
+However, with whole module optimization, </span></span>
+
+<span class="sentence"><span data-start="3048.0" data-end="3052.0"> 
+the compiler will compile both files together as one unit </span></span>
+
+<span class="sentence"><span data-start="3052.0" data-end="3057.0"> 
+and will have insight into the definition of the Point file </span></span>
+
+<span class="sentence"><span data-start="3058.0" data-end="3059.0"> 
+and optimization can take place.</span></span>
+
+<span class="sentence"><span data-start="3060.0" data-end="3064.0"> 
+Because this so greatly improves the optimization opportunity, </span></span>
+
+<span class="sentence"><span data-start="3064.0" data-end="3067.0"> 
+we have now enabled a whole module optimization </span></span>
+
+<span class="sentence"><span data-start="3067.0" data-end="3068.0"> 
+for default in Xcode 8.</span></span>
+
+<span class="sentence"><span data-start="3075.0" data-end="3077.0"> 
+OK. Let's come back to our program.</span></span>
+
+<span class="sentence"><span data-start="3078.0" data-end="3084.0"> 
+So, in our program we had this pair of Drawable protocol type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3084.0" data-end="3089.0"> 
+And, again, we noticed something about how we used it.</span></span>
+
+<span class="sentence"><span data-start="3091.0" data-end="3094.0"> 
+Whenever we wanted to create a pair, we actually wanted </span></span>
+
+<span class="sentence"><span data-start="3094.0" data-end="3095.0"> 
+to create a pair of the same type, </span></span>
+
+<span class="sentence"><span data-start="3096.0" data-end="3101.0"> 
+say a pair of Lines or a pair of Point.</span></span>
+
+<span class="sentence"><span data-start="3103.0" data-end="3108.0"> 
+Now, remember that the storage representation of a pair </span></span>
+
+<span class="sentence"><span data-start="3108.0" data-end="3110.0"> 
+of Lines would cost two heap allocations.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3113.0" data-end="3114.0"> 
+When we looked at this program, </span></span>
+
+<span class="sentence"><span data-start="3114.0" data-end="3119.0"> 
+we realized that we could use a generic type here.</span></span>
+
+<span class="sentence"><span data-start="3120.0" data-end="3125.0"> 
+So, if we define our pair to be generic and then the first </span></span>
+
+<span class="sentence"><span data-start="3125.0" data-end="3128.0"> 
+and second property of that generic type have this generic </span></span>
+
+<span class="sentence"><span data-start="3128.0" data-end="3130.0"> 
+type, then the compiler could actually enforce </span></span>
+
+<span class="sentence"><span data-start="3131.0" data-end="3135.0"> 
+that we only ever create a pair of the same type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3135.0" data-end="3140.0"> 
+Furthermore, we can't store a Point to a pair of Lines later </span></span>
+
+<span class="sentence"><span data-start="3140.0" data-end="3141.0"> 
+in the program either.</span></span>
+
+<span class="sentence"><span data-start="3142.0" data-end="3146.0"> 
+So, this is what we wanted, but is this -- </span></span>
+
+<span class="sentence"><span data-start="3146.0" data-end="3149.0"> 
+the representation of that any better or worse for performance? </span></span>
+
+<span class="sentence"><span data-start="3149.0" data-end="3151.0"> 
+Let's take a look.</span></span>
+
+<span class="sentence"><span data-start="3154.0" data-end="3155.0"> 
+So, here we have our pair.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3155.0" data-end="3158.0"> 
+This time the store properties are of generic type.</span></span>
+
+<span class="sentence"><span data-start="3159.0" data-end="3163.0"> 
+Remember that I said that the type cannot change at runtime.</span></span>
+
+<span class="sentence"><span data-start="3166.0" data-end="3169.0"> 
+What that means for the generated code is </span></span>
+
+<span class="sentence"><span data-start="3169.0" data-end="3172.0"> 
+that Swift can allocate the storage inline </span></span>
+
+<span class="sentence"><span data-start="3172.0" data-end="3173.0"> 
+of the enclosing type.</span></span>
+
+<span class="sentence"><span data-start="3173.0" data-end="3176.0"> 
+So, when we create a pair of Lines, </span></span>
+
+<span class="sentence"><span data-start="3177.0" data-end="3181.0"> 
+the memory for the Line will actually be allocated inline </span></span>
+
+<span class="sentence"><span data-start="3181.0" data-end="3182.0"> 
+of the enclosing pair.</span></span>
+
+<span class="sentence"><span data-start="3183.0" data-end="3184.0"> 
+No extra heap allocation is necessary.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3185.0" data-end="3187.0"> 
+That's pretty cool.</span></span>
+
+<span class="sentence"><span data-start="3190.0" data-end="3195.0"> 
+However, as I said, you cannot store a differently typed value </span></span>
+
+<span class="sentence"><span data-start="3195.0" data-end="3196.0"> 
+later to that stored property.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3197.0" data-end="3198.0"> 
+But this is what we wanted.</span></span>
+
+<span class="sentence"><span data-start="3203.0" data-end="3207.0"> 
+OK. So, we've seen how unspecialized code works using </span></span>
+
+<span class="sentence"><span data-start="3207.0" data-end="3208.0"> 
+the value witness and the protocol witness table </span></span>
+
+<span class="sentence"><span data-start="3209.0" data-end="3214.0"> 
+and how the compiler can specialize code creating </span></span>
+
+<span class="sentence"><span data-start="3214.0" data-end="3217.0"> 
+type-specific versions of the generic function.</span></span>
+
+<span class="sentence"><span data-start="3218.0" data-end="3220.0"> 
+Let's take a look at the performance </span></span>
+
+<span class="sentence"><span data-start="3220.0" data-end="3222.0"> 
+of this first looking </span></span>
+
+<span class="sentence"><span data-start="3222.0" data-end="3226.0"> 
+at specialized generic code containing structs.</span></span>
+
+<span class="sentence"><span data-start="3227.0" data-end="3229.0"> 
+In this case, we have performance characteristics </span></span>
+
+<span class="sentence"><span data-start="3229.0" data-end="3232.0"> 
+identical to using struct types because, as we just saw, </span></span>
+
+<span class="sentence"><span data-start="3233.0" data-end="3235.0"> 
+the generated code is essentially </span></span>
+
+<span class="sentence"><span data-start="3235.0" data-end="3238.0"> 
+as if you had written this function in terms of a struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3238.0" data-end="3242.0"> 
+No heap allocation is necessary when we copy values </span></span>
+
+<span class="sentence"><span data-start="3242.0" data-end="3244.0"> 
+of struct type around.</span></span>
+
+<span class="sentence"><span data-start="3245.0" data-end="3246.0"> 
+No reference counting </span></span>
+
+<span class="sentence"><span data-start="3246.0" data-end="3248.0"> 
+if our struct didn't contain any references.</span></span>
+
+<span class="sentence"><span data-start="3250.0" data-end="3252.0"> 
+And we have static method dispatch </span></span>
+
+<span class="sentence"><span data-start="3252.0" data-end="3255.0"> 
+which enables further compiler optimization </span></span>
+
+<span class="sentence"><span data-start="3255.0" data-end="3261.0"> 
+and reduces your runtime -- execution time.</span></span>
+
+<span class="sentence"><span data-start="3261.0" data-end="3266.0"> 
+Comparing this with class types, if we use class types, </span></span>
+
+<span class="sentence"><span data-start="3266.0" data-end="3271.0"> 
+we get similar characteristics to classes so heap allocation </span></span>
+
+<span class="sentence"><span data-start="3271.0" data-end="3273.0"> 
+and creating the instance, reference counting </span></span>
+
+<span class="sentence"><span data-start="3273.0" data-end="3275.0"> 
+for passing the value around, </span></span>
+
+<span class="sentence"><span data-start="3275.0" data-end="3279.0"> 
+and dynamic dispatch through the V-Table.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3279.0" data-end="3282.0"> 
+Now, let's look at unspecialized generic code containing </span></span>
+
+<span class="sentence"><span data-start="3282.0" data-end="3283.0"> 
+small values.</span></span>
+
+<span class="sentence"><span data-start="3283.0" data-end="3286.0"> 
+There's no heap allocation necessary for local variables, </span></span>
+
+<span class="sentence"><span data-start="3286.0" data-end="3289.0"> 
+as we've seen, because small values fit </span></span>
+
+<span class="sentence"><span data-start="3289.0" data-end="3292.0"> 
+into the valueBuffer allocated in the stack.</span></span>
+
+<span class="sentence"><span data-start="3293.0" data-end="3294.0"> 
+There's no reference counting </span></span>
+
+<span class="sentence"><span data-start="3294.0" data-end="3296.0"> 
+if the value didn't contain any references.</span></span>
+
+<span class="sentence"><span data-start="3297.0" data-end="3301.0"> 
+However, we get to share one implementation </span></span>
+
+<span class="sentence"><span data-start="3301.0" data-end="3305.0"> 
+across all potential call-sites through the use </span></span>
+
+<span class="sentence"><span data-start="3305.0" data-end="3308.0"> 
+of the witness table -- witness tables.</span></span>
+
+<span class="sentence"><span data-start="3313.0" data-end="3318.0"> 
+OK. So, we've seen during this talk today how the performance </span></span>
+
+<span class="sentence"><span data-start="3318.0" data-end="3320.0"> 
+characteristics of struct and classes looks like </span></span>
+
+<span class="sentence"><span data-start="3321.0" data-end="3325.0"> 
+and how generic code works and how protocol types work.</span></span>
+
+<span class="sentence"><span data-start="3326.0" data-end="3328.0"> 
+What -- what can we take away from this? </span></span>
+
+<span class="sentence"><span data-start="3330.0" data-end="3332.0"> 
+Oh. Hmm. There you go.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3332.0" data-end="3334.0"> 
+I forgot the punchline.</span></span>
+
+<span class="sentence"><span data-start="3334.0" data-end="3339.0"> 
+So, if we are using large values and generic code, </span></span>
+
+<span class="sentence"><span data-start="3340.0" data-end="3341.0"> 
+we are incurring heap allocation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3341.0" data-end="3343.0"> 
+But I showed you that technique before, namely, </span></span>
+
+<span class="sentence"><span data-start="3343.0" data-end="3347.0"> 
+using indirect storage as a workaround.</span></span>
+
+<span class="sentence"><span data-start="3347.0" data-end="3350.0"> 
+If the large value contained references, </span></span>
+
+<span class="sentence"><span data-start="3350.0" data-end="3354.0"> 
+then there's reference counting and, again, we get the power </span></span>
+
+<span class="sentence"><span data-start="3354.0" data-end="3357.0"> 
+of dynamic dispatch, which means we can share one generic </span></span>
+
+<span class="sentence"><span data-start="3357.0" data-end="3361.0"> 
+implementation across our code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3364.0" data-end="3364.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="3364.0" data-end="3368.0"> 
+So, let's come to the takeaway finally.</span></span>
+
+<span class="sentence"><span data-start="3369.0" data-end="3372.0"> 
+Choose a fitting abstraction for your -- </span></span>
+
+<span class="sentence"><span data-start="3372.0" data-end="3374.0"> 
+for the entities in your application </span></span>
+
+<span class="sentence"><span data-start="3374.0" data-end="3377.0"> 
+with the least dynamic runtime type requirements.</span></span>
+
+<span class="sentence"><span data-start="3378.0" data-end="3383.0"> 
+This will enable static type checking, compiler can make sure </span></span>
+
+<span class="sentence"><span data-start="3383.0" data-end="3388.0"> 
+that your program is correct at compile time, and, in addition, </span></span>
+
+<span class="sentence"><span data-start="3388.0" data-end="3389.0"> 
+the compiler has more information </span></span>
+
+<span class="sentence"><span data-start="3389.0" data-end="3393.0"> 
+to optimize your code so you'll get faster code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3393.0" data-end="3395.0"> 
+So, if you can express the entities </span></span>
+
+<span class="sentence"><span data-start="3395.0" data-end="3399.0"> 
+in your program using value types such as structs and enums, </span></span>
+
+<span class="sentence"><span data-start="3400.0" data-end="3402.0"> 
+you'll get value semantics, which is great, </span></span>
+
+<span class="sentence"><span data-start="3402.0" data-end="3404.0"> 
+no unintended sharing of state, </span></span>
+
+<span class="sentence"><span data-start="3405.0" data-end="3407.0"> 
+and you'll get highly optimizable code.</span></span>
+
+<span class="sentence"><span data-start="3409.0" data-end="3412.0"> 
+If you need to use classes because you need, for example, </span></span>
+
+<span class="sentence"><span data-start="3412.0" data-end="3415.0"> 
+an entity or you're working with an object oriented framework, </span></span>
+
+<span class="sentence"><span data-start="3416.0" data-end="3418.0"> 
+Kyle showed us some techniques how to reduce the cost </span></span>
+
+<span class="sentence"><span data-start="3418.0" data-end="3420.0"> 
+of reference counting.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3423.0" data-end="3426.0"> 
+If parts of your program can be expressed using a more static </span></span>
+
+<span class="sentence"><span data-start="3427.0" data-end="3429.0"> 
+form of polymorphism, you can combine generic code </span></span>
+
+<span class="sentence"><span data-start="3431.0" data-end="3435.0"> 
+with value types and, again, get really fast code, </span></span>
+
+<span class="sentence"><span data-start="3435.0" data-end="3438.0"> 
+but share the implementation for that code.</span></span>
+
+<span class="sentence"><span data-start="3438.0" data-end="3443.0"> 
+And if you need dynamic polymorphism such as </span></span>
+
+<span class="sentence"><span data-start="3443.0" data-end="3446.0"> 
+in our array of drawable protocol type example, </span></span>
+
+<span class="sentence"><span data-start="3447.0" data-end="3451.0"> 
+you can combine protocol types with value types and get -- </span></span>
+
+<span class="sentence"><span data-start="3451.0" data-end="3456.0"> 
+get a code that is comparably fast to using classes, </span></span>
+
+<span class="sentence"><span data-start="3457.0" data-end="3460.0"> 
+but you still can stay within value semantics.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="3460.0" data-end="3465.0"> 
+And if you run into issues with heap allocation </span></span>
+
+<span class="sentence"><span data-start="3466.0" data-end="3469.0"> 
+because you're copying large values inside of protocol types </span></span>
+
+<span class="sentence"><span data-start="3469.0" data-end="3473.0"> 
+or generic types, I showed you that technique, namely, </span></span>
+
+<span class="sentence"><span data-start="3473.0" data-end="3475.0"> 
+using indirect storage with copy </span></span>
+
+<span class="sentence"><span data-start="3475.0" data-end="3478.0"> 
+and write how to work around this.</span></span>
+
+<span class="sentence"><span data-start="3478.0" data-end="3483.0"> 
+OK. So, here's some related sessions about modeling </span></span>
+
+<span class="sentence"><span data-start="3483.0" data-end="3484.0"> 
+and about performance.</span></span>
+
+<span class="sentence"><span data-start="3485.0" data-end="3487.0"> 
+And I especially want to call out the talk this afternoon </span></span>
+
+<span class="sentence"><span data-start="3488.0" data-end="3490.0"> 
+about Protocol and Value Oriented Programming </span></span>
+
+<span class="sentence"><span data-start="3490.0" data-end="3491.0"> 
+in your UIKit Apps.</span></span>
+
+<span class="sentence"><span data-start="3491.0" data-end="3491.0"> 
+Thank you.</span></span>
+
+<span class="sentence"><span data-start="3492.0" data-end="3494.0"> 
+</span></span>
+
+</p>
+							</section>
+						</li>
+
+						<!-- search -->
+						<li class="supplement search active" data-supplement-id="search">
+
+							<section class="transcript-results-summary">
+								<p class="message smaller lighter"><!-- to be populated --></p>
+								<p class="instructions smaller lighter text-center">Looking for something specific? Enter a topic above and jump straight to the good stuff.</p>
+								<p class="error smaller lighter italic text-center" style="display:none;">An error occurred when submitting your query. Please check your Internet connection and try again.</p>
+							</section>
+
+							<!-- search results -->
+							<ul class="transcript-results row">
+															</ul>
+
+						</li>
+
+					</ul>
+
+				</section>
+
+			</section>
+
+		</section>
+
+		<input id="analytics-meta" type="hidden" data-event-name="WWDC 2016" 
+		data-event-id="wwdc2016-416" 
+		data-session-id="416" 
+		data-video-name="Understanding Swift Performance" 
+		data-session-response-id="">
+	</main>
+
+	<div id="globalfooter-wrapper">
+		<footer id="globalfooter" role="contentinfo">
+			<nav class="footer-breadory">
+				<a href="/" class="home breadcrumbs-home"><span aria-hidden="true"></span><span class="breadcrumbs-home-label">Developer</span></a>
+				<section class="breadcrumbs">
+					<ol class="breadcrumbs-list">
+						<li><a href="/videos/">Videos</a></li>
+						<li><a href="/videos/wwdc2016/">WWDC 2016</a></li>						<li>Understanding Swift Performance</li>
+					</ol>
+				</section>
+				<div id="directorynav" class="directorynav">
+	<div id="dn-cola" class="column">
+		<h3><a href="/discover/">Discover</a></h3>
+		<ul>
+			<li><a href="/macos/">macOS</a></li>
+			<li><a href="/ios/">iOS</a></li>
+			<li><a href="/watchos/">watchOS</a></li>
+			<li><a href="/tvos/">tvOS</a></li>
+			<li><a href="/safari/">Safari and Web</a></li>
+			<li><a href="/games/">Games</a></li>
+			<li><a href="/business/">Business</a></li>
+			<li><a href="/education/">Education</a></li>
+			<li><a href="/wwdc/">WWDC</a></li>
+		</ul>
+	</div>
+	<div id="dn-colb" class="column">
+		<h3><a href="/design/">Design</a></h3>
+		<ul>
+			<li><a href="/design/human-interface-guidelines/">Human Interface Guidelines</a></li>
+			<li><a href="/design/resources/">Resources</a></li>
+			<li><a href="/videos/design/">Videos</a></li>
+			<li><a href="/design/awards/">Apple Design Awards</a></li>
+			<li><a href="/accessibility/">Accessibility</a></li>
+			<li><a href="/internationalization/">Internationalization</a></li>
+			<li><a href="/accessories/">Accessories</a></li>
+		</ul>
+	</div>
+	<div id="dn-colc" class="column">
+		<h3><a href="/develop/">Develop</a></h3>
+		<ul>
+			<li><a href="/xcode/">Xcode</a></li>
+			<li><a href="/swift/">Swift</a></li>
+			<li><a href="/swift-playgrounds/">Swift Playgrounds</a></li>
+			<li><a href="/testflight/">TestFlight</a></li>
+			<li><a href="/documentation/">Documentation</a></li>
+			<li><a href="/videos/">Videos</a></li>
+			<li><a href="/download/">Downloads</a></li>
+		</ul>
+	</div>
+	<div id="dn-cold" class="column">
+		<h3><a href="/distribute/">Distribute</a></h3>
+		<ul>
+			<li><a href="/programs/">Developer Program</a></li>
+			<li><a href="/app-store/">App Store</a></li>
+			<li><a href="/app-store/review/">App Review</a></li>
+			<li><a href="/macos/distribution/">Mac Software</a></li>
+			<li><a href="/business/distribute/">Apps for Business</a></li>
+			<li><a href="/safari/extensions/">Safari Extensions</a></li>
+			<li><a href="/app-store/marketing/guidelines/">Marketing Resources</a></li>
+			<li><a href="/softwarelicensing/">Trademark Licensing</a></li>
+		</ul>
+	</div>
+	<div id="dn-cole" class="column">
+		<h3><a href="/support/">Support</a></h3>
+		<ul>
+			<li><a href="https://forums.developer.apple.com">Developer Forums</a></li>
+			<li><a href="/bug-reporting/">Bug Reporting</a></li>
+			<li><a href="/terms/">License Agreements</a></li>
+			<li><a href="/system-status/">System Status</a></li>
+			<li><a href="/contact/">Contact Us</a></li>
+		</ul>
+		<h3><a href="/account/">Account</a></h3>
+		<ul>
+			<li><a href="/account/ios/certificate/">Certificates, IDs &amp; Profiles</a></li>
+			<li><a href="https://appstoreconnect.apple.com/">App Store Connect</a></li>
+		</ul>
+	</div>
+</div>
+
+			</nav>
+			<div class="ac-gf-footer-legal">
+  <div class="ac-gf-footer-news"> To receive the latest developer news, visit and subscribe to our <a href="/news/">News and Updates</a>. </div>
+  <div class="ac-gf-footer-legal-copyright">Copyright ©  2019 Apple Inc. All rights reserved.</div>
+  <div class="ac-gf-footer-legal-links">
+    <a href="https://www.apple.com/legal/internet-services/terms/site.html" class="first">Terms of Use</a>
+    <a href="https://www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="/bug-reporting/">Report Bugs</a>
+    <a href="/contact/submit/?subject=website-feedback">Feedback</a>
+  </div>
+  <div class="ac-gf-footer-language-links">
+    <a href="/cn/" lang="zh" class="first">简体中文</a>
+    <a href="/jp/" lang="ja">日本語</a>
+    <a href="/kr/" lang="ko">한국어</a>
+  </div>
+</div>
+
+		</footer>
+	</div>
+
+	<script src="/assets/scripts/params.js"></script>
+	<script src="/assets/scripts/watchable.js"></script>
+	<script src="/assets/scripts/timeout.js"></script>
+
+	<script src="/videos/scripts/play/play.js?2"></script>
+	<script src="/videos/scripts/hls/hls.min.js"></script>
+	
+</body>
+</html>

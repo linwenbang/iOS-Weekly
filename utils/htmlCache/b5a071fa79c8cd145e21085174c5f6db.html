@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+	<script type="text/javascript" src="http://use.typekit.com/ldo3bow.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+  <title>Khanlou | The Coordinator</title>
+	<link rel="stylesheet" type="text/css" media="all" href="/styles.css" />
+  <link rel="canonical" href="http://khanlou.com/2015/01/the-coordinator/">
+  <link rel="alternate" type="application/rss+xml" title="Khanlou" href="http://khanlou.com/feed">
+</head>
+
+
+  <body>
+    <div id="page" class="hfeed">
+        <div class="wrapper">
+    <header id="header" role="banner">
+      <h1 id="site-title"><a href="" title="Khanlou" rel="home">Khanlou</a></h1>
+    </header>
+  </div>
+
+      <div id="main" class="clearfix">
+        <div id="primary">
+            <ul id="navigation" class="clearfix">
+    <li ><a href="/">Articles</a></li>
+    
+      <li ><a class="page-link" href="/best/">Best Of</a></li>
+      
+      <li ><a class="page-link" href="/hire/">Hire Me</a></li>
+      
+      <li ><a class="page-link" href="/love/">Things I Love</a></li>
+      
+      <li ><a class="page-link" href="/talks/">Talks</a></li>
+      
+      <li ><a class="page-link" href="/projects/">Projects</a></li>
+      
+  </ul>
+
+          <div id="content" role="main">
+            <div class="blogpost">
+  <div class="post-meta">
+    <time datetime="2015-01-20T09:00:46-05:00" itemprop="datePublished" class="timestamp">January 20, 2015</time>
+    <h2 class="post-title" itemprop="name headline">The Coordinator</h2>
+  </div>
+  
+  <p>One of the biggest problems with the big view controllers is that they entangle your flow logic, view logic, and business logic.</p>
+
+<p>When a table cell is selected, that delegate method typically looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
+	id object = [self.dataSource objectAtIndexPath:indexPath];  
+	SKDetailViewController *detailViewController = [[SKDetailViewController alloc] initWithDetailObject:object]  
+	[self.navigationController presentViewController:detailViewController animated:YES];  
+}  
+</code></pre>
+</div>
+
+<p>Three simple lines: get the object; create a view controller; present the view controller. In a simple app, this works great. Each view controller is probably used once, and in only one context. Coupling them together like this isn’t a dangerous proposition. As your app grows in complexity, however, the same view controller might get used in a new way or in a new place. Maybe it’s on the iPad. Maybe it’s in an extension. Maybe it’s a new flow for doing an old thing.</p>
+
+<p>If the flow logic is encoded into the view controller itself, the view controller can’t be reused for its stunningly good looks without dragging all that flow code with it. Don’t forget, the view controller base class is prefixed with <code class="highlighter-rouge">UI</code>. It’s view object, and handling user flow is out of its scope.</p>
+
+<p>In the code example above, the view controller <em>knows</em> how to create the next thing in the flow, and how to present it. In the third line of code, it tells its parent view controller what to do, which definitely seems backwards. And even worse, that flow code is distributed among multiple view controllers, each of which only knows how to perform the next step.</p>
+
+<p>I used to think of the view controllers as the highest level thing in app, the things that know how to run the whole show. Lately, however, I’ve found many advantages to having the view controllers be bossed around by an even higher level object, one whose role is to marshal and manage all the view controllers in its purview.</p>
+
+<p>I call these objects <strong>Coordinators</strong>, but I’ve also heard them called <strong>Directors</strong>. To really execute this pattern well, you need one high-level coordinator that directs the whole app (this is sometimes known as the <a href="http://martinfowler.com/eaaCatalog/applicationController.html">Application Controller pattern</a>). The app delegate holds on to the <code class="highlighter-rouge">AppCoordinator</code>. Every coordinator holds an array of its child coordinators. Especially if you have more than one, as in a tab bar app, each navigation controller gets its own coordinator, for directing its behavior and flow. Further child coordinators can be created for specific tasks like signing up or creating content. Each coordinator is spawned by its parent coordinator. As always, use this pattern early in the development process, so they’re useful even in single-step tasks, such as authentication.</p>
+
+<p>The Coordinator is a <a href="https://twitter.com/khanlou/status/450385190599557120">PONSO</a>, like all great objects. For something like Instagram’s photo creation flow, we could have a <code class="highlighter-rouge">PhotoCreationCoordinator</code>. The app coordinator could spawn a new one, and pass it the root view controller so that it could present the first view controller in the flow.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)beginPhotoCreationProcess {  
+	PhotoCreationCoordinator *coordinator = [[PhotoCreationCoordinator alloc] initWithRootViewController:self.rootViewController delegate:self]  
+	[self.childCoordinators addObject:coordinator];  
+	[coordinator beginPhotoCreationProcess];  
+}
+	
+- (void)photoCreationCompletedSuccessfully:(PhotoCreationCoordinator *)coordinator {  
+	[self.childCoordinators removeObject:coordinator];  
+}
+	
+- (void)photoCreationCanceled:(PhotoCreationCoordinator *)coordinator {  
+	[self.childCoordinators removeObject:coordinator];  
+}  
+</code></pre>
+</div>
+
+<p>The coordinator’s <code class="highlighter-rouge">-beginPhotoCreationProcess</code> method can now create a new photo selection view controller and configure it as needed. The coordinator can conform to the photo selection view controller’s delegate so that it can be informed when it’s time to present the next step. None of the view controllers in the process need to know about any of the other view controllers. Each view controller is an island.</p>
+
+<p>Business logic, like posting the photo, is wrapped up in its own object and can either be pushed up to the coordinator or pushed down to the model as appropriate. Either way, it comes out of the view controller. Moving it up is great because the coordinator is already acting as the glue between different parts of your code already.</p>
+
+<p>The benefits to extracting the flow into a coordinator are myriad. View controllers now can focus on their goal of binding a model to a view. The can be reused more easily, such as in extensions or unbundled apps, without having complex conditionals to manage different contexts. A/B testing is as simple as creating a different coordinator object and using that to start the process. Flow logic now has a home, and things that have a home feel real nice.</p>
+
+<p>View controller initialization is also extracted. This shouldn’t be overlooked. Initializing is always a more complex task than it seems, requiring lots of knowledge about classes and configuations, and we moved it to a better place where more informed decisions can be made.</p>
+
+<p>Coordinator objects naturally fall into one of many disjoint states — in other words, especially for an iPhone app, only one screen is visible at any time. This makes them a ripe place to <a href="http://khanlou.com/2015/01/finite-states-of-america/">use state machines</a> to manage all of the data in their custody.</p>
+
+<p>Apple loves having the view controller be the center of the iOS world. This is obvious in the new <code class="highlighter-rouge">UISplitViewController</code> APIs in iOS 8, as well as Interface Builder components like storyboard segues. Unfortunately, a view controller-centric approach to app development isn’t scalable. The Coordinator is a great way to isolate your code into small, easily-replaced chunks, and another part of the solution to view controller malaise.</p>
+
+</div>
+
+
+            <div id="nav-below" class="navigation">
+          	</div>
+    			</div><!-- #content -->
+    		</div><!-- #primary -->
+    
+      <div id="secondary" class="widget-area clearfix" role="complementary">
+      <li id="text-3" class="widget widget_text">
+        <div class="textwidget"><img src="/images/khanlou.jpg"></div>
+      </li>
+      <li id="text-2" class="widget widget_text">
+        <div class="textwidget">
+          <p>I am Soroush Khanlou, and this is my blog. I write about programming, primarily Swift and Objective-C and learning what I can from other languages, like Ruby and Haskell. You can rarely catch me talking about things that aren't programming photography, travel, politics, eating, and fonts.</p>
+          <p>Get in touch via Twitter <a href="http://www.twitter.com/khanlou">@khanlou</a> or <a href="mailto:soroush@khanlou.com">email</a>.</p>
+        </div>
+      </li>
+      <li id="text-4" class="widget widget_text">
+        <div class="textwidget">
+          <a href="http://khanlou.com/feed">RSS</a>
+        </div>
+      </li>
+    </div>
+    </div>
+  </body>
+
+</html>

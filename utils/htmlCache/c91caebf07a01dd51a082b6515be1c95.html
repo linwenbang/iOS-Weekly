@@ -1,0 +1,4497 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+	<meta charset="utf-8" />
+<meta name="Author" content="Apple Inc." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="mask-icon" href="/apple-logo.svg" color="#333333">
+
+<link rel="stylesheet" href="/assets/styles/globalnav.css?1" type="text/css" />
+<link rel="stylesheet" href="/assets/styles/global.dist.css" type="text/css" />
+
+<script src="/assets/scripts/lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="/assets/scripts/lib/jquery/jquery.retinate.js"></script>
+<script src="/assets/scripts/global.js"></script>
+<script src="/assets/scripts/global-logout.js"></script>
+	<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro+Icons&v=1" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Mono&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=Apple+Icons&amp;v=1" type="text/css" />
+
+		<meta name="omni_page" content="What's New in Swift - WWDC 2018 - Videos" />
+	<title>What's New in Swift - WWDC 2018 - Videos - Apple Developer</title>
+		<meta name="robots" content="noodp,noydir" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link type="text/css" rel="stylesheet" href="/videos/styles/videos.css">
+	<meta name="description" content="Hear about the latest advancements in Swift, the safe, fast, and expressive language. Find out about improvements to build times, code...">
+
+	<meta property="og:url" content="developer.apple.com/videos/play/wwdc2018/401/" />
+	<meta property="og:title" content="What's New in Swift - WWDC 2018 - Videos - Apple Developer" />
+	<meta property="og:description" content="Hear about the latest advancements in Swift, the safe, fast, and expressive language. Find out about improvements to build times, code..." />
+	<meta property="og:site_name" content="Apple Developer" />
+	<meta property="og:type" content="website" />
+		<meta property="og:image" content="https://devimages-cdn.apple.com/wwdc-services/images/42/2168/2168_wide_250x141_2x.jpg" />
+		<meta property="og:locale" content="en_US" />
+
+</head>
+<body class="view-play">
+
+	<aside id="ac-gn-segmentbar" class="ac-gn-segmentbar" lang="en-US" dir="ltr">
+</aside>
+<input type="checkbox" id="ac-gn-menustate" class="ac-gn-menustate" />
+<nav id="ac-globalnav" class="no-js" role="navigation" aria-label="Global" data-hires="false" data-analytics-region="global nav" lang="en-US" dir="ltr" data-store-locale="us" data-store-api="/[storefront]/shop/bag/status" data-search-locale="en_US" data-search-api="/search-services/suggestions/">
+	<div class="ac-gn-content">
+		<ul class="ac-gn-header">
+			<li class="ac-gn-item ac-gn-menuicon">
+				<label class="ac-gn-menuicon-label" for="ac-gn-menustate" aria-hidden="true">
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-top">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-top"></span>
+					</span>
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-bottom">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-bottom"></span>
+					</span>
+				</label>
+				<a href="#ac-gn-menustate" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-open" id="ac-gn-menuanchor-open">
+					<span class="ac-gn-menuanchor-label">Global Nav Open Menu</span>
+				</a>
+				<a href="#" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-close" id="ac-gn-menuanchor-close">
+					<span class="ac-gn-menuanchor-label">Global Nav Close Menu</span>
+				</a>
+			</li>
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus-small">
+					<span class="ac-gn-link-text">Apple Developer</span>
+				</a>
+			</li>
+		</ul>
+		<div class="ac-gn-search-placeholder-container" role="search">
+			<div class="ac-gn-search ac-gn-search-small">
+				<a id="ac-gn-link-search-small" class="ac-gn-link" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer">
+					<div class="ac-gn-search-placeholder-bar">
+						<div class="ac-gn-search-placeholder-input">
+							<div class="ac-gn-search-placeholder-input-text" aria-hidden="true">
+								<div class="ac-gn-link-search ac-gn-search-placeholder-input-icon"></div>
+								<span class="ac-gn-search-placeholder">Search Developer</span>
+							</div>
+						</div>
+						<div class="ac-gn-searchview-close ac-gn-searchview-close-small ac-gn-search-placeholder-searchview-close">
+							<span class="ac-gn-searchview-close-cancel" aria-hidden="true">Cancel</span>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<ul class="ac-gn-list">
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus">
+					<span class="ac-gn-link-text">Apple Developer</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-discover">
+				<a class="ac-gn-link ac-gn-link-discover" href="/discover/" data-analytics-title="discover">
+					<span class="ac-gn-link-text">Discover</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-design">
+				<a class="ac-gn-link ac-gn-link-design" href="/design/" data-analytics-title="design">
+					<span class="ac-gn-link-text">Design</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-develop">
+				<a class="ac-gn-link ac-gn-link-develop" href="/develop/" data-analytics-title="develop">
+					<span class="ac-gn-link-text">Develop</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-distribute">
+				<a class="ac-gn-link ac-gn-link-distribute" href="/distribute/" data-analytics-title="distribute">
+					<span class="ac-gn-link-text">Distribute</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-dsupport">
+				<a class="ac-gn-link ac-gn-link-dsupport" href="/support/" data-analytics-title="dsupport">
+					<span class="ac-gn-link-text">Support</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-account">
+				<a class="ac-gn-link ac-gn-link-account" href="/account/" data-analytics-title="account">
+					<span class="ac-gn-link-text">Account</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-search" role="search">
+				<a id="ac-gn-link-search" class="ac-gn-link ac-gn-link-search" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer"></a>
+			</li>
+		</ul>
+		<aside id="ac-gn-searchview" class="ac-gn-searchview" role="search" data-analytics-region="search">
+			<div class="ac-gn-searchview-content">
+				<div class="ac-gn-searchview-bar">
+					<div class="ac-gn-searchview-bar-wrapper">
+						<form id="ac-gn-searchform" class="ac-gn-searchform" action="/search/" method="get">
+							<div class="ac-gn-searchform-wrapper">
+								<input id="ac-gn-searchform-input" class="ac-gn-searchform-input" type="text" name="q" aria-label="Search Developer" placeholder="Search Developer" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="true" aria-owns="quicklinks suggestions" />
+								<button id="ac-gn-searchform-submit" class="ac-gn-searchform-submit" type="submit" disabled aria-label="Submit Search"></button>
+								<button id="ac-gn-searchform-reset" class="ac-gn-searchform-reset" type="reset" disabled aria-label="Clear Search">
+										<span class="ac-gn-searchform-reset-background"></span>
+									</button>
+							</div>
+						</form>
+						<button id="ac-gn-searchview-close-small" class="ac-gn-searchview-close ac-gn-searchview-close-small" aria-label="Cancel Search">
+								<span class="ac-gn-searchview-close-cancel" aria-hidden="true">
+									Cancel
+								</span>
+							</button>
+					</div>
+				</div>
+				<aside id="ac-gn-searchresults" class="ac-gn-searchresults" data-string-quicklinks="Quick Links" data-string-suggestions="Suggested Searches" data-string-noresults=""></aside>
+			</div>
+			<button id="ac-gn-searchview-close" class="ac-gn-searchview-close" aria-label="Cancel Search">
+					<span class="ac-gn-searchview-close-wrapper">
+						<span class="ac-gn-searchview-close-left"></span>
+						<span class="ac-gn-searchview-close-right"></span>
+					</span>
+				</button>
+		</aside>
+			</div>
+</nav>
+<div class="ac-gn-blur"></div>
+<div id="ac-gn-curtain" class="ac-gn-curtain"></div>
+<div id="ac-gn-placeholder" class="ac-nav-placeholder"></div>
+<script src="/assets/scripts/ac-globalnav.built.js"></script>
+
+			<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdappledeveloper"
+</script>	
+<script src="/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    s.channel="www.en.developer"
+    s.channel="www.videos.developer";
+
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->	
+	<main id="main" class="main theme-dark" role="main">
+
+		<section class="bg-dark">
+
+			<section class="grid">
+
+				<section class="row">
+					<section class="column large-10 small-12  padding-top-small large-centered no-padding-bottom">
+						<!-- back link -->
+						<p class="back-link smaller">
+														<a class="arrow-left" href="/videos/">More Videos</a>
+													</p>
+					</section>
+				</section>
+
+				<!-- video player -->
+				<section class="video-wrapper row">
+					<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+												<video id="video" class="video large-centered" controls="" src="https://devstreaming-cdn.apple.com/videos/wwdc/2018/401ieeclipzse3tz3fg/401/hls_vod_mvp.m3u8" autoplay data-id="1809">
+							
+						</video>
+						<div class="no-video-banner hidden">
+							<div class="no-video-copy">
+								<p>Streaming is available in most browsers,<br> and in the WWDC app.</p>
+							</div>
+							</span>
+						</div>
+											</section>
+				</section>
+
+			</section>
+
+		</section>
+
+		<section class="grid">
+
+			<!-- tab menu -->
+			<section class="tab-menu row divider-bottom">
+
+				<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+
+					<ul class="tabs">
+						<li class="tab" data-supplement-id="details"><a href="#"><span class="smaller">Overview</span></a></li>
+
+												<li class="tab" data-supplement-id="transcript"><a href="#"><span class="smaller">Transcript</span></a></li>
+						<li class="tab right active" data-supplement-id="search">
+							<!-- mobile search -->
+							<a href="#"><span><!--icon--></span></a>
+							<!-- desktop search -->
+							<section class="searchbar-wrapper desktop" style="opacity:0;">
+								<button class="search-icon"></button>
+								<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+							</section>
+						</li>
+						
+												<section class="searchbar-wrapper mobile" style="">
+							<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+						</section>
+						
+					</ul>
+				</section>
+
+			</section>
+
+			<!-- supplements -->
+			<section class="row">
+
+				<section class="column large-10 small-12  large-centered no-padding-top no-padding-bottom">
+
+					<ul class="supplements hidden">
+
+						<!-- details -->
+						<li class="supplement details " data-supplement-id="details">
+							
+							<h1>What's New in Swift</h1>
+							<p>Hear about the latest advancements in Swift, the safe, fast, and expressive language. Find out about improvements to build times, code size, and runtime performance. Learn how to take advantage of new features in your code that eliminate boilerplate, increase safety and security, and improve your overall development productivity.</p>
+							<p class="smaller lighter">WWDC 2018 - Session 401
+							 - iOS, macOS, tvOS, watchOS</p>
+
+														<h2>Resources</h2>
+
+							<ul class="links small">
+								
+																	<li class="download">
+										<ul class="options">
+																						<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/401ieeclipzse3tz3fg/401/401_hd_whats_new_in_swift.mp4?dl=1">HD Video</a></li>
+																																	<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/401ieeclipzse3tz3fg/401/401_sd_whats_new_in_swift.mp4?dl=1">SD Video</a></li>
+																					</ul>
+									</li>
+																
+																										<li class="download"><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/401ieeclipzse3tz3fg/401/401_whats_new_in_swift.pdf?dl=1">Presentation Slides (PDF)</a></li>
+																								</ul>
+							
+														<div class="divider-top margin-top-small padding-bottom-small"></div>
+							<h2>Related Videos</h2>
+														<h4>WWDC 2018</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/415">Behind the Scenes of the Xcode Build Process</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/408">Building Faster in Xcode</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/411">Getting to Know Swift Package Manager</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/406">Swift Generics (Expanded)</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/414">Understanding Crashes and Crash Logs</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/409">What's New in LLVM</a>
+										</li>
+																	</ul>
+														<h4>WWDC 2017</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2017/402">What's New in Swift</a>
+										</li>
+																	</ul>
+														
+							
+						</li>
+
+						<!-- transcript -->
+						<li class="supplement transcript" data-supplement-id="transcript" data-shortcut-base-url="/videos/play/wwdc2018-401/">
+							<section>
+								<div class="margin-bottom-small download-transcript"><span id="get-transcript" class="icon icon-before icon-downloadcircle">Download</span></div>
+								<p><span class="sentence"><span data-start="7.0" data-end="15.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="25.0" data-end="28.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="29.0" data-end="31.0"> 
+ Good morning and welcome to </span></span>
+
+<span class="sentence"><span data-start="31.0" data-end="32.0"> 
+What's New in Swift.</span></span>
+
+<span class="sentence"><span data-start="33.0" data-end="35.0"> 
+This has been an exciting year </span></span>
+
+<span class="sentence"><span data-start="35.0" data-end="36.0"> 
+for Swift and the Swift </span></span>
+
+<span class="sentence"><span data-start="37.0" data-end="37.0"> 
+Community.</span></span>
+
+<span class="sentence"><span data-start="37.0" data-end="39.0"> 
+And over the next 40 minutes </span></span>
+
+<span class="sentence"><span data-start="39.0" data-end="40.0"> 
+Slava and I are thrilled to give </span></span>
+
+<span class="sentence"><span data-start="40.0" data-end="41.0"> 
+you an update on the major </span></span>
+
+<span class="sentence"><span data-start="41.0" data-end="42.0"> 
+developments there.</span></span>
+
+<span class="sentence"><span data-start="43.0" data-end="44.0"> 
+The session is roughly broken in </span></span>
+
+<span class="sentence"><span data-start="44.0" data-end="45.0"> 
+to two parts.</span></span>
+
+<span class="sentence"><span data-start="46.0" data-end="47.0"> 
+First I'm going to give an </span></span>
+
+<span class="sentence"><span data-start="47.0" data-end="48.0"> 
+update on the Swift open source </span></span>
+
+<span class="sentence"><span data-start="48.0" data-end="51.0"> 
+project and the community around </span></span>
+
+<span class="sentence"><span data-start="51.0" data-end="51.0"> 
+it.</span></span>
+
+<span class="sentence"><span data-start="51.0" data-end="52.0"> 
+And then we'll dive into Swift </span></span>
+
+<span class="sentence"><span data-start="52.0" data-end="54.0"> 
+4.2, which is available as a </span></span>
+
+<span class="sentence"><span data-start="54.0" data-end="56.0"> 
+preview today in the Xcode 10 </span></span>
+
+<span class="sentence"><span data-start="58.0" data-end="58.0"> 
+beta.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="58.0" data-end="60.0"> 
+Since late 2015, Swift has been </span></span>
+
+<span class="sentence"><span data-start="60.0" data-end="62.0"> 
+an open source project on </span></span>
+
+<span class="sentence"><span data-start="62.0" data-end="62.0"> 
+GitHub.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="64.0" data-end="66.0"> 
+With a vibrant community of </span></span>
+
+<span class="sentence"><span data-start="66.0" data-end="70.0"> 
+users who discuss, propose, and </span></span>
+
+<span class="sentence"><span data-start="70.0" data-end="71.0"> 
+review all changes to the </span></span>
+
+<span class="sentence"><span data-start="71.0" data-end="73.0"> 
+language and standard library.</span></span>
+
+<span class="sentence"><span data-start="75.0" data-end="77.0"> 
+In that time over 600 </span></span>
+
+<span class="sentence"><span data-start="77.0" data-end="78.0"> 
+individuals have contributed </span></span>
+
+<span class="sentence"><span data-start="78.0" data-end="80.0"> 
+code to GitHub as Swift open </span></span>
+
+<span class="sentence"><span data-start="80.0" data-end="81.0"> 
+source project.</span></span>
+
+<span class="sentence"><span data-start="82.0" data-end="83.0"> 
+And together they have merged </span></span>
+
+<span class="sentence"><span data-start="83.0" data-end="86.0"> 
+over 18,000 pull requests.</span></span>
+
+<span class="sentence"><span data-start="87.0" data-end="89.0"> 
+Since Swift.org was launched </span></span>
+
+<span class="sentence"><span data-start="89.0" data-end="91.0"> 
+Swift has been available for </span></span>
+
+<span class="sentence"><span data-start="91.0" data-end="93.0"> 
+download on Swift.org both for </span></span>
+
+<span class="sentence"><span data-start="93.0" data-end="95.0"> 
+downloadable tool chains for </span></span>
+
+<span class="sentence"><span data-start="95.0" data-end="96.0"> 
+Xcode, as well as various </span></span>
+
+<span class="sentence"><span data-start="96.0" data-end="98.0"> 
+version of Ubuntu.</span></span>
+
+<span class="sentence"><span data-start="98.0" data-end="99.0"> 
+These are both development </span></span>
+
+<span class="sentence"><span data-start="99.0" data-end="103.0"> 
+snapshots and official releases.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="105.0" data-end="106.0"> 
+Now we want Swift to be </span></span>
+
+<span class="sentence"><span data-start="106.0" data-end="108.0"> 
+supported on all platforms so </span></span>
+
+<span class="sentence"><span data-start="108.0" data-end="110.0"> 
+everyone can use it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="110.0" data-end="113.0"> 
+And a critical part of that is </span></span>
+
+<span class="sentence"><span data-start="113.0" data-end="114.0"> 
+extending the testing support </span></span>
+
+<span class="sentence"><span data-start="115.0" data-end="116.0"> 
+provided to the community.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="117.0" data-end="118.0"> 
+Various folks in the open source </span></span>
+
+<span class="sentence"><span data-start="118.0" data-end="120.0"> 
+project are working on bringing </span></span>
+
+<span class="sentence"><span data-start="120.0" data-end="121.0"> 
+Swift support to other </span></span>
+
+<span class="sentence"><span data-start="121.0" data-end="122.0"> 
+platforms.</span></span>
+
+<span class="sentence"><span data-start="122.0" data-end="123.0"> 
+And we'd like to support those </span></span>
+
+<span class="sentence"><span data-start="123.0" data-end="124.0"> 
+efforts.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="125.0" data-end="127.0"> 
+About a month ago we extended </span></span>
+
+<span class="sentence"><span data-start="127.0" data-end="128.0"> 
+the public continuous </span></span>
+
+<span class="sentence"><span data-start="128.0" data-end="130.0"> 
+integration systems to support </span></span>
+
+<span class="sentence"><span data-start="130.0" data-end="132.0"> 
+community hosted CI notes.</span></span>
+
+<span class="sentence"><span data-start="132.0" data-end="133.0"> 
+So if you are a member of the </span></span>
+
+<span class="sentence"><span data-start="133.0" data-end="134.0"> 
+community interested in bringing </span></span>
+
+<span class="sentence"><span data-start="134.0" data-end="136.0"> 
+Swift to another platform or </span></span>
+
+<span class="sentence"><span data-start="136.0" data-end="138.0"> 
+effort, you can now seamlessly </span></span>
+
+<span class="sentence"><span data-start="138.0" data-end="139.0"> 
+plug in your own hardware </span></span>
+
+<span class="sentence"><span data-start="139.0" data-end="140.0"> 
+support to bring testing there.</span></span>
+
+<span class="sentence"><span data-start="141.0" data-end="142.0"> 
+This is a nice prerequisite for </span></span>
+
+<span class="sentence"><span data-start="142.0" data-end="143.0"> 
+supporting Swift in other </span></span>
+
+<span class="sentence"><span data-start="143.0" data-end="144.0"> 
+places.</span></span>
+
+<span class="sentence"><span data-start="146.0" data-end="148.0"> 
+We've also invested tremendously </span></span>
+
+<span class="sentence"><span data-start="149.0" data-end="151.0"> 
+in the community around the </span></span>
+
+<span class="sentence"><span data-start="151.0" data-end="152.0"> 
+Swift open source project.</span></span>
+
+<span class="sentence"><span data-start="153.0" data-end="154.0"> 
+This is the community that </span></span>
+
+<span class="sentence"><span data-start="154.0" data-end="155.0"> 
+discusses all changes to the </span></span>
+
+<span class="sentence"><span data-start="155.0" data-end="155.0"> 
+language.</span></span>
+
+<span class="sentence"><span data-start="156.0" data-end="158.0"> 
+About six months ago we moved </span></span>
+
+<span class="sentence"><span data-start="158.0" data-end="160.0"> 
+from using mailing lists, which </span></span>
+
+<span class="sentence"><span data-start="160.0" data-end="162.0"> 
+were very high traffic to </span></span>
+
+<span class="sentence"><span data-start="162.0" data-end="162.0"> 
+forums.</span></span>
+
+<span class="sentence"><span data-start="162.0" data-end="164.0"> 
+This was at the behest of the </span></span>
+
+<span class="sentence"><span data-start="164.0" data-end="164.0"> 
+community.</span></span>
+
+<span class="sentence"><span data-start="165.0" data-end="167.0"> 
+Various people were concerned </span></span>
+
+<span class="sentence"><span data-start="167.0" data-end="168.0"> 
+that they wanted to be able to </span></span>
+
+<span class="sentence"><span data-start="168.0" data-end="170.0"> 
+engage in the project at a level </span></span>
+
+<span class="sentence"><span data-start="170.0" data-end="172.0"> 
+that worked well for them but </span></span>
+
+<span class="sentence"><span data-start="172.0" data-end="174.0"> 
+found it difficult to do so.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="174.0" data-end="175.0"> 
+With the forums you can now </span></span>
+
+<span class="sentence"><span data-start="175.0" data-end="177.0"> 
+engage the level that works well </span></span>
+
+<span class="sentence"><span data-start="177.0" data-end="178.0"> 
+for you.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="179.0" data-end="180.0"> 
+The forums have also worked so </span></span>
+
+<span class="sentence"><span data-start="180.0" data-end="182.0"> 
+well that we wanted to extend </span></span>
+
+<span class="sentence"><span data-start="182.0" data-end="184.0"> 
+their utility out to supporting </span></span>
+
+<span class="sentence"><span data-start="184.0" data-end="186.0"> 
+the general open source project.</span></span>
+
+<span class="sentence"><span data-start="187.0" data-end="190.0"> 
+If you maintain a Swift open </span></span>
+
+<span class="sentence"><span data-start="190.0" data-end="191.0"> 
+source project such as a popular </span></span>
+
+<span class="sentence"><span data-start="191.0" data-end="193.0"> 
+Swift library, you can now use </span></span>
+
+<span class="sentence"><span data-start="193.0" data-end="194.0"> 
+the forums for use to discuss </span></span>
+
+<span class="sentence"><span data-start="195.0" data-end="196.0"> 
+things on that project such as </span></span>
+
+<span class="sentence"><span data-start="196.0" data-end="198.0"> 
+discussions with your users or </span></span>
+
+<span class="sentence"><span data-start="198.0" data-end="199.0"> 
+development.</span></span>
+
+<span class="sentence"><span data-start="200.0" data-end="202.0"> 
+We've also looked at ways to </span></span>
+
+<span class="sentence"><span data-start="202.0" data-end="204.0"> 
+continue to extend Swift.org to </span></span>
+
+<span class="sentence"><span data-start="204.0" data-end="206.0"> 
+be of general use the community.</span></span>
+
+<span class="sentence"><span data-start="206.0" data-end="207.0"> 
+This week we've moved to hosting </span></span>
+
+<span class="sentence"><span data-start="207.0" data-end="208.0"> 
+the Swift programming language </span></span>
+
+<span class="sentence"><span data-start="209.0" data-end="210.0"> 
+book to swift.org.</span></span>
+
+<span class="sentence"><span data-start="211.0" data-end="213.0"> 
+Located at docs.swift.org, this </span></span>
+
+<span class="sentence"><span data-start="213.0" data-end="215.0"> 
+will be a natural place for us </span></span>
+
+<span class="sentence"><span data-start="215.0" data-end="217.0"> 
+to extend more documentation for </span></span>
+
+<span class="sentence"><span data-start="217.0" data-end="219.0"> 
+use by the community.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="219.0" data-end="222.0"> 
+Now the really exciting thing </span></span>
+
+<span class="sentence"><span data-start="222.0" data-end="225.0"> 
+about Swift is that people are </span></span>
+
+<span class="sentence"><span data-start="225.0" data-end="226.0"> 
+really thrilled about using it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="226.0" data-end="228.0"> 
+And they're talking about it in </span></span>
+
+<span class="sentence"><span data-start="228.0" data-end="229.0"> 
+a variety of places.</span></span>
+
+<span class="sentence"><span data-start="229.0" data-end="231.0"> 
+At Podcasts, Meetups, </span></span>
+
+<span class="sentence"><span data-start="231.0" data-end="232.0"> 
+conferences.</span></span>
+
+<span class="sentence"><span data-start="233.0" data-end="234.0"> 
+And we, Apple, thought it was </span></span>
+
+<span class="sentence"><span data-start="234.0" data-end="236.0"> 
+very important for us to engage </span></span>
+
+<span class="sentence"><span data-start="236.0" data-end="238.0"> 
+in those places because that's </span></span>
+
+<span class="sentence"><span data-start="238.0" data-end="239.0"> 
+where a lot of the discussion is </span></span>
+
+<span class="sentence"><span data-start="239.0" data-end="239.0"> 
+happening.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="240.0" data-end="242.0"> 
+Over the last year we have made </span></span>
+
+<span class="sentence"><span data-start="242.0" data-end="244.0"> 
+a very conscious effort to </span></span>
+
+<span class="sentence"><span data-start="244.0" data-end="246.0"> 
+engage in those conferences and </span></span>
+
+<span class="sentence"><span data-start="246.0" data-end="249.0"> 
+present technical presentations </span></span>
+
+<span class="sentence"><span data-start="249.0" data-end="250.0"> 
+on things that we're doing with </span></span>
+
+<span class="sentence"><span data-start="250.0" data-end="253.0"> 
+Swift, or how does Swift work, </span></span>
+
+<span class="sentence"><span data-start="253.0" data-end="254.0"> 
+or how you can get involved in </span></span>
+
+<span class="sentence"><span data-start="254.0" data-end="255.0"> 
+the open source project.</span></span>
+
+<span class="sentence"><span data-start="256.0" data-end="257.0"> 
+And this is something we're very </span></span>
+
+<span class="sentence"><span data-start="257.0" data-end="259.0"> 
+committed to continuing going </span></span>
+
+<span class="sentence"><span data-start="259.0" data-end="259.0"> 
+forward.</span></span>
+
+<span class="sentence"><span data-start="261.0" data-end="262.0"> 
+One of these efforts I'd like to </span></span>
+
+<span class="sentence"><span data-start="262.0" data-end="265.0"> 
+talk about is a event co-located </span></span>
+
+<span class="sentence"><span data-start="265.0" data-end="266.0"> 
+next to WWDC on Friday and that </span></span>
+
+<span class="sentence"><span data-start="266.0" data-end="267.0"> 
+is the try! </span></span>
+
+<span class="sentence"><span data-start="267.0" data-end="269.0"> 
+Swift San Jose Conference.</span></span>
+
+<span class="sentence"><span data-start="269.0" data-end="271.0"> 
+There there will be a workshop </span></span>
+
+<span class="sentence"><span data-start="271.0" data-end="273.0"> 
+with members from the community </span></span>
+
+<span class="sentence"><span data-start="273.0" data-end="274.0"> 
+to help on board people who are </span></span>
+
+<span class="sentence"><span data-start="274.0" data-end="276.0"> 
+interested in contributing to </span></span>
+
+<span class="sentence"><span data-start="276.0" data-end="278.0"> 
+the Swift open source project.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="278.0" data-end="279.0"> 
+And there will be members from </span></span>
+
+<span class="sentence"><span data-start="279.0" data-end="281.0"> 
+Apple's compiler team there to </span></span>
+
+<span class="sentence"><span data-start="282.0" data-end="283.0"> 
+also facilitate those </span></span>
+
+<span class="sentence"><span data-start="283.0" data-end="284.0"> 
+conversations.</span></span>
+
+<span class="sentence"><span data-start="285.0" data-end="287.0"> 
+So that's all about the </span></span>
+
+<span class="sentence"><span data-start="287.0" data-end="288.0"> 
+community update.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="289.0" data-end="290.0"> 
+Let's talk about Swift 4.2.</span></span>
+
+<span class="sentence"><span data-start="290.0" data-end="292.0"> 
+I think the natural place to </span></span>
+
+<span class="sentence"><span data-start="292.0" data-end="293.0"> 
+start is well, what is this </span></span>
+
+<span class="sentence"><span data-start="293.0" data-end="294.0"> 
+release about and how does it </span></span>
+
+<span class="sentence"><span data-start="294.0" data-end="295.0"> 
+fit into the bigger picture? </span></span>
+
+<span class="sentence"><span data-start="298.0" data-end="299.0"> 
+Swift updates occur -- some </span></span>
+
+<span class="sentence"><span data-start="299.0" data-end="301.0"> 
+major updates occur about twice </span></span>
+
+<span class="sentence"><span data-start="301.0" data-end="302.0"> 
+a year.</span></span>
+
+<span class="sentence"><span data-start="302.0" data-end="304.0"> 
+And Swift 4.2 is a major update </span></span>
+
+<span class="sentence"><span data-start="304.0" data-end="307.0"> 
+over Swift 4.1 and 4.0.</span></span>
+
+<span class="sentence"><span data-start="308.0" data-end="310.0"> 
+Now there are in broad strokes </span></span>
+
+<span class="sentence"><span data-start="310.0" data-end="311.0"> 
+two themes to this release.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="312.0" data-end="314.0"> 
+One is a huge focus on developer </span></span>
+
+<span class="sentence"><span data-start="314.0" data-end="315.0"> 
+productivity.</span></span>
+
+<span class="sentence"><span data-start="315.0" data-end="316.0"> 
+You can see this in a variety of </span></span>
+
+<span class="sentence"><span data-start="316.0" data-end="317.0"> 
+ways.</span></span>
+
+<span class="sentence"><span data-start="317.0" data-end="319.0"> 
+The faster builds for projects.</span></span>
+
+<span class="sentence"><span data-start="319.0" data-end="320.0"> 
+But also just through and </span></span>
+
+<span class="sentence"><span data-start="320.0" data-end="322.0"> 
+through massive improvement to </span></span>
+
+<span class="sentence"><span data-start="322.0" data-end="324.0"> 
+the core tooling experience from </span></span>
+
+<span class="sentence"><span data-start="324.0" data-end="326.0"> 
+the Debugger through the Editor.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="326.0" data-end="328.0"> 
+And the community has also </span></span>
+
+<span class="sentence"><span data-start="328.0" data-end="330.0"> 
+focused on language improvements </span></span>
+
+<span class="sentence"><span data-start="330.0" data-end="332.0"> 
+that aim to improve common </span></span>
+
+<span class="sentence"><span data-start="332.0" data-end="333.0"> 
+developer workflows, remove </span></span>
+
+<span class="sentence"><span data-start="333.0" data-end="334.0"> 
+boilerplate.</span></span>
+
+<span class="sentence"><span data-start="334.0" data-end="336.0"> 
+And Apple has continued invested </span></span>
+
+<span class="sentence"><span data-start="336.0" data-end="339.0"> 
+improvements to the SDK so that </span></span>
+
+<span class="sentence"><span data-start="339.0" data-end="341.0"> 
+the Objective-C APIs better </span></span>
+
+<span class="sentence"><span data-start="341.0" data-end="344.0"> 
+reflect into Swift making better </span></span>
+
+<span class="sentence"><span data-start="344.0" data-end="345.0"> 
+use of the language and </span></span>
+
+<span class="sentence"><span data-start="345.0" data-end="347.0"> 
+improving your use of our APIs.</span></span>
+
+<span class="sentence"><span data-start="348.0" data-end="349.0"> 
+And the other side there's been </span></span>
+
+<span class="sentence"><span data-start="349.0" data-end="351.0"> 
+a massive effort on under the </span></span>
+
+<span class="sentence"><span data-start="351.0" data-end="353.0"> 
+hood improvements and changes to </span></span>
+
+<span class="sentence"><span data-start="353.0" data-end="355.0"> 
+the runtime towards this binary </span></span>
+
+<span class="sentence"><span data-start="355.0" data-end="358.0"> 
+compatibility goal, which </span></span>
+
+<span class="sentence"><span data-start="358.0" data-end="361.0"> 
+culminates in Swift 5, which </span></span>
+
+<span class="sentence"><span data-start="361.0" data-end="364.0"> 
+will be released in early 2019.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="365.0" data-end="367.0"> 
+So what is binary compatibility? </span></span>
+
+<span class="sentence"><span data-start="368.0" data-end="369.0"> 
+Binary compatibility means that </span></span>
+
+<span class="sentence"><span data-start="369.0" data-end="371.0"> 
+you can build your Swift code </span></span>
+
+<span class="sentence"><span data-start="371.0" data-end="372.0"> 
+with the Swift 5 compiler and </span></span>
+
+<span class="sentence"><span data-start="372.0" data-end="373.0"> 
+layer.</span></span>
+
+<span class="sentence"><span data-start="373.0" data-end="375.0"> 
+And at the binary level it will </span></span>
+
+<span class="sentence"><span data-start="375.0" data-end="376.0"> 
+be able to interoperate with </span></span>
+
+<span class="sentence"><span data-start="376.0" data-end="377.0"> 
+other code built with that </span></span>
+
+<span class="sentence"><span data-start="377.0" data-end="379.0"> 
+compiler or any other compiler </span></span>
+
+<span class="sentence"><span data-start="379.0" data-end="380.0"> 
+layer.</span></span>
+
+<span class="sentence"><span data-start="380.0" data-end="382.0"> 
+This is a very important </span></span>
+
+<span class="sentence"><span data-start="382.0" data-end="383.0"> 
+milestone for the maturity of </span></span>
+
+<span class="sentence"><span data-start="383.0" data-end="384.0"> 
+the language.</span></span>
+
+<span class="sentence"><span data-start="385.0" data-end="386.0"> 
+And what this will enable is </span></span>
+
+<span class="sentence"><span data-start="386.0" data-end="388.0"> 
+Apple to shift the Swift runtime </span></span>
+
+<span class="sentence"><span data-start="388.0" data-end="390.0"> 
+in the operating system, which </span></span>
+
+<span class="sentence"><span data-start="390.0" data-end="392.0"> 
+means apps can directly use it, </span></span>
+
+<span class="sentence"><span data-start="392.0" data-end="393.0"> 
+meaning that they no longer need </span></span>
+
+<span class="sentence"><span data-start="393.0" data-end="394.0"> 
+it included in the application </span></span>
+
+<span class="sentence"><span data-start="394.0" data-end="394.0"> 
+bundle.</span></span>
+
+<span class="sentence"><span data-start="395.0" data-end="397.0"> 
+So this is a code size win but </span></span>
+
+<span class="sentence"><span data-start="397.0" data-end="398.0"> 
+it's also important that it </span></span>
+
+<span class="sentence"><span data-start="398.0" data-end="400.0"> 
+impacts things like startup </span></span>
+
+<span class="sentence"><span data-start="400.0" data-end="402.0"> 
+time, memory usage, it's an </span></span>
+
+<span class="sentence"><span data-start="402.0" data-end="403.0"> 
+overall huge win for the </span></span>
+
+<span class="sentence"><span data-start="403.0" data-end="404.0"> 
+community.</span></span>
+
+<span class="sentence"><span data-start="404.0" data-end="406.0"> 
+If you're -- we've been very </span></span>
+
+<span class="sentence"><span data-start="406.0" data-end="408.0"> 
+transparent on the progress </span></span>
+
+<span class="sentence"><span data-start="408.0" data-end="410.0"> 
+towards ABI stability or binary </span></span>
+
+<span class="sentence"><span data-start="410.0" data-end="410.0"> 
+compatibility.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="411.0" data-end="412.0"> 
+You can follow along on the ABI </span></span>
+
+<span class="sentence"><span data-start="412.0" data-end="414.0"> 
+stability dashboard on </span></span>
+
+<span class="sentence"><span data-start="414.0" data-end="415.0"> 
+Swift.org.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="417.0" data-end="420.0"> 
+Today's focus is on Swift 4.2, </span></span>
+
+<span class="sentence"><span data-start="420.0" data-end="421.0"> 
+which is an important waypoint </span></span>
+
+<span class="sentence"><span data-start="421.0" data-end="422.0"> 
+toward Swift 5.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="423.0" data-end="425.0"> 
+Let's talk about source </span></span>
+
+<span class="sentence"><span data-start="425.0" data-end="426.0"> 
+compatibility.</span></span>
+
+<span class="sentence"><span data-start="427.0" data-end="430.0"> 
+So just like in Xcode 9, Xcode </span></span>
+
+<span class="sentence"><span data-start="430.0" data-end="432.0"> 
+10 shifts with one Swift </span></span>
+
+<span class="sentence"><span data-start="432.0" data-end="432.0"> 
+compiler.</span></span>
+
+<span class="sentence"><span data-start="433.0" data-end="435.0"> 
+So if you're using Xcode 10, you </span></span>
+
+<span class="sentence"><span data-start="435.0" data-end="436.0"> 
+are using Swift 4.2.</span></span>
+
+<span class="sentence"><span data-start="437.0" data-end="439.0"> 
+However, just like in Xcode 9, </span></span>
+
+<span class="sentence"><span data-start="440.0" data-end="441.0"> 
+the compiler also supports </span></span>
+
+<span class="sentence"><span data-start="442.0" data-end="443.0"> 
+multiple language compatibility </span></span>
+
+<span class="sentence"><span data-start="443.0" data-end="444.0"> 
+modes.</span></span>
+
+<span class="sentence"><span data-start="445.0" data-end="447.0"> 
+Now in all the modes you can use </span></span>
+
+<span class="sentence"><span data-start="447.0" data-end="447.0"> 
+all the new APIs.</span></span>
+
+<span class="sentence"><span data-start="448.0" data-end="449.0"> 
+You can use all the new language </span></span>
+
+<span class="sentence"><span data-start="449.0" data-end="450.0"> 
+features.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="450.0" data-end="451.0"> 
+What these gate are </span></span>
+
+<span class="sentence"><span data-start="451.0" data-end="453.0"> 
+source-impacting changes.</span></span>
+
+<span class="sentence"><span data-start="454.0" data-end="457.0"> 
+The first two are ones that </span></span>
+
+<span class="sentence"><span data-start="457.0" data-end="459.0"> 
+existed previously in Xcode 9.</span></span>
+
+<span class="sentence"><span data-start="459.0" data-end="460.0"> 
+They're there to provide an out </span></span>
+
+<span class="sentence"><span data-start="460.0" data-end="461.0"> 
+of the box experience that you </span></span>
+
+<span class="sentence"><span data-start="461.0" data-end="463.0"> 
+can build your Swift 3 and Swift </span></span>
+
+<span class="sentence"><span data-start="463.0" data-end="464.0"> 
+4 code without modifications.</span></span>
+
+<span class="sentence"><span data-start="465.0" data-end="467.0"> 
+The Swift 4.2 mode is almost </span></span>
+
+<span class="sentence"><span data-start="467.0" data-end="469.0"> 
+identical to the 4 mode except </span></span>
+
+<span class="sentence"><span data-start="469.0" data-end="471.0"> 
+it gates those SDK improvements </span></span>
+
+<span class="sentence"><span data-start="471.0" data-end="472.0"> 
+that are talked about.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="473.0" data-end="474.0"> 
+That's it.</span></span>
+
+<span class="sentence"><span data-start="474.0" data-end="477.0"> 
+Just some previous versions of </span></span>
+
+<span class="sentence"><span data-start="477.0" data-end="478.0"> 
+Xcode, there's Migrator Support </span></span>
+
+<span class="sentence"><span data-start="478.0" data-end="479.0"> 
+that you can find in the edit </span></span>
+
+<span class="sentence"><span data-start="479.0" data-end="481.0"> 
+menu to mechanize most of your </span></span>
+
+<span class="sentence"><span data-start="481.0" data-end="481.0"> 
+changes.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="482.0" data-end="483.0"> 
+I want to give an important </span></span>
+
+<span class="sentence"><span data-start="483.0" data-end="486.0"> 
+disclaimer about the Swift 4.2 </span></span>
+
+<span class="sentence"><span data-start="486.0" data-end="487.0"> 
+SDK changes.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="487.0" data-end="489.0"> 
+Later Xcode 10 betas will likely </span></span>
+
+<span class="sentence"><span data-start="489.0" data-end="491.0"> 
+have further SDK improvements.</span></span>
+
+<span class="sentence"><span data-start="491.0" data-end="493.0"> 
+This is to provide opportunities </span></span>
+
+<span class="sentence"><span data-start="493.0" data-end="494.0"> 
+to incorporate you feedback from </span></span>
+
+<span class="sentence"><span data-start="494.0" data-end="496.0"> 
+the betas of how these APIs </span></span>
+
+<span class="sentence"><span data-start="496.0" data-end="498.0"> 
+should be improved and how they </span></span>
+
+<span class="sentence"><span data-start="498.0" data-end="499.0"> 
+reflect into Swift.</span></span>
+
+<span class="sentence"><span data-start="500.0" data-end="502.0"> 
+This means if you migrate to 4.2 </span></span>
+
+<span class="sentence"><span data-start="502.0" data-end="503.0"> 
+early, you should expect there </span></span>
+
+<span class="sentence"><span data-start="503.0" data-end="504.0"> 
+are going to be some changes </span></span>
+
+<span class="sentence"><span data-start="504.0" data-end="505.0"> 
+later.</span></span>
+
+<span class="sentence"><span data-start="505.0" data-end="507.0"> 
+Or you can hold off and migrate </span></span>
+
+<span class="sentence"><span data-start="507.0" data-end="507.0"> 
+later.</span></span>
+
+<span class="sentence"><span data-start="507.0" data-end="508.0"> 
+It's completely up to you.</span></span>
+
+<span class="sentence"><span data-start="510.0" data-end="512.0"> 
+Now with Swift 4.2 we think we </span></span>
+
+<span class="sentence"><span data-start="512.0" data-end="514.0"> 
+are rapidly converging on what </span></span>
+
+<span class="sentence"><span data-start="514.0" data-end="515.0"> 
+Swift code is going to look like </span></span>
+
+<span class="sentence"><span data-start="515.0" data-end="516.0"> 
+going forward.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="516.0" data-end="519.0"> 
+This is an important phase in </span></span>
+
+<span class="sentence"><span data-start="519.0" data-end="520.0"> 
+the maturation of the language.</span></span>
+
+<span class="sentence"><span data-start="521.0" data-end="523.0"> 
+And thus we really think it's </span></span>
+
+<span class="sentence"><span data-start="523.0" data-end="524.0"> 
+important for everyone to move </span></span>
+
+<span class="sentence"><span data-start="524.0" data-end="527.0"> 
+off of Swift 3 and embrace using </span></span>
+
+<span class="sentence"><span data-start="527.0" data-end="528.0"> 
+Swift 4.2.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="528.0" data-end="529.0"> 
+There are important code size </span></span>
+
+<span class="sentence"><span data-start="529.0" data-end="530.0"> 
+improvements there and just </span></span>
+
+<span class="sentence"><span data-start="530.0" data-end="531.0"> 
+overall improvements to the </span></span>
+
+<span class="sentence"><span data-start="531.0" data-end="532.0"> 
+language.</span></span>
+
+<span class="sentence"><span data-start="532.0" data-end="534.0"> 
+And this is Xcode 10 is going to </span></span>
+
+<span class="sentence"><span data-start="534.0" data-end="535.0"> 
+be the last release to support </span></span>
+
+<span class="sentence"><span data-start="535.0" data-end="538.0"> 
+that Swift 3 compatibility mode.</span></span>
+
+<span class="sentence"><span data-start="539.0" data-end="540.0"> 
+So let's talk about some </span></span>
+
+<span class="sentence"><span data-start="540.0" data-end="541.0"> 
+improvements to the tooling.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="542.0" data-end="544.0"> 
+In the State of the Union we </span></span>
+
+<span class="sentence"><span data-start="544.0" data-end="545.0"> 
+mentioned that there are some </span></span>
+
+<span class="sentence"><span data-start="545.0" data-end="546.0"> 
+significant improvements to </span></span>
+
+<span class="sentence"><span data-start="546.0" data-end="547.0"> 
+build improvement for Swift </span></span>
+
+<span class="sentence"><span data-start="547.0" data-end="549.0"> 
+projects over Xcode 9.</span></span>
+
+<span class="sentence"><span data-start="550.0" data-end="552.0"> 
+And so these numbers are run on </span></span>
+
+<span class="sentence"><span data-start="552.0" data-end="553.0"> 
+a 4-Core MacBook Pro i7.</span></span>
+
+<span class="sentence"><span data-start="553.0" data-end="556.0"> 
+Let's look a little bit closer </span></span>
+
+<span class="sentence"><span data-start="556.0" data-end="557.0"> 
+at one of them.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="558.0" data-end="560.0"> 
+This project is a mix and match </span></span>
+
+<span class="sentence"><span data-start="560.0" data-end="561.0"> 
+of Objective-C in Swift.</span></span>
+
+<span class="sentence"><span data-start="562.0" data-end="563.0"> 
+It started out as an Objective-C </span></span>
+
+<span class="sentence"><span data-start="563.0" data-end="564.0"> 
+project and started </span></span>
+
+<span class="sentence"><span data-start="564.0" data-end="565.0"> 
+incorporating Swift.</span></span>
+
+<span class="sentence"><span data-start="566.0" data-end="567.0"> 
+This is a very common scenario.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="568.0" data-end="569.0"> 
+Now what this Build time </span></span>
+
+<span class="sentence"><span data-start="569.0" data-end="572.0"> 
+improvement doesn't really </span></span>
+
+<span class="sentence"><span data-start="572.0" data-end="573.0"> 
+underscore is how much faster </span></span>
+
+<span class="sentence"><span data-start="573.0" data-end="574.0"> 
+building this Swift Code </span></span>
+
+<span class="sentence"><span data-start="574.0" data-end="575.0"> 
+actually became.</span></span>
+
+<span class="sentence"><span data-start="576.0" data-end="577.0"> 
+So if we just focus on how much </span></span>
+
+<span class="sentence"><span data-start="577.0" data-end="579.0"> 
+faster the Swift code built, it </span></span>
+
+<span class="sentence"><span data-start="579.0" data-end="581.0"> 
+actually builds three times </span></span>
+
+<span class="sentence"><span data-start="581.0" data-end="582.0"> 
+faster than it did before.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="583.0" data-end="584.0"> 
+And so that's why the project </span></span>
+
+<span class="sentence"><span data-start="585.0" data-end="587.0"> 
+has that more modest 1.6x </span></span>
+
+<span class="sentence"><span data-start="587.0" data-end="587.0"> 
+speedup.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="589.0" data-end="591.0"> 
+And what you will see is that </span></span>
+
+<span class="sentence"><span data-start="591.0" data-end="592.0"> 
+the overall build improvements </span></span>
+
+<span class="sentence"><span data-start="592.0" data-end="593.0"> 
+will depend on the nature of </span></span>
+
+<span class="sentence"><span data-start="593.0" data-end="594.0"> 
+your project, how much Swift </span></span>
+
+<span class="sentence"><span data-start="594.0" data-end="596.0"> 
+code it's using, the number of </span></span>
+
+<span class="sentence"><span data-start="596.0" data-end="598.0"> 
+cores on your machine, but we've </span></span>
+
+<span class="sentence"><span data-start="598.0" data-end="600.0"> 
+in practice have seen from many </span></span>
+
+<span class="sentence"><span data-start="600.0" data-end="601.0"> 
+projects it's a 2x speedup.</span></span>
+
+<span class="sentence"><span data-start="602.0" data-end="604.0"> 
+And the win comes from observing </span></span>
+
+<span class="sentence"><span data-start="604.0" data-end="606.0"> 
+that because within a Swift </span></span>
+
+<span class="sentence"><span data-start="606.0" data-end="608.0"> 
+target you have cross-file </span></span>
+
+<span class="sentence"><span data-start="608.0" data-end="609.0"> 
+visibility, right, that's one of </span></span>
+
+<span class="sentence"><span data-start="609.0" data-end="610.0"> 
+the great features of Swift </span></span>
+
+<span class="sentence"><span data-start="610.0" data-end="611.0"> 
+where you don't need header </span></span>
+
+<span class="sentence"><span data-start="611.0" data-end="611.0"> 
+files.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="612.0" data-end="613.0"> 
+There was a lot of redundant </span></span>
+
+<span class="sentence"><span data-start="613.0" data-end="615.0"> 
+work being done by the compiler.</span></span>
+
+<span class="sentence"><span data-start="615.0" data-end="617.0"> 
+And what we've done is we've </span></span>
+
+<span class="sentence"><span data-start="617.0" data-end="618.0"> 
+retooled the compilation </span></span>
+
+<span class="sentence"><span data-start="618.0" data-end="620.0"> 
+pipeline to reduce a lot of this </span></span>
+
+<span class="sentence"><span data-start="620.0" data-end="621.0"> 
+redundant work and make better </span></span>
+
+<span class="sentence"><span data-start="621.0" data-end="622.0"> 
+use of the cores on your </span></span>
+
+<span class="sentence"><span data-start="622.0" data-end="622.0"> 
+machine.</span></span>
+
+<span class="sentence"><span data-start="623.0" data-end="623.0"> 
+And that's where these speedups </span></span>
+
+<span class="sentence"><span data-start="624.0" data-end="624.0"> 
+come from.</span></span>
+
+<span class="sentence"><span data-start="625.0" data-end="626.0"> 
+If you're interested in more </span></span>
+
+<span class="sentence"><span data-start="626.0" data-end="627.0"> 
+details there's these two great </span></span>
+
+<span class="sentence"><span data-start="627.0" data-end="628.0"> 
+talks later this week that dive </span></span>
+
+<span class="sentence"><span data-start="628.0" data-end="630.0"> 
+into how the build process works </span></span>
+
+<span class="sentence"><span data-start="630.0" data-end="631.0"> 
+under the book including more </span></span>
+
+<span class="sentence"><span data-start="631.0" data-end="632.0"> 
+details about where this </span></span>
+
+<span class="sentence"><span data-start="632.0" data-end="634.0"> 
+performance win comes from.</span></span>
+
+<span class="sentence"><span data-start="636.0" data-end="637.0"> 
+Now this big win comes from </span></span>
+
+<span class="sentence"><span data-start="638.0" data-end="640.0"> 
+debug builds.</span></span>
+
+<span class="sentence"><span data-start="641.0" data-end="644.0"> 
+I want to focus on how this is </span></span>
+
+<span class="sentence"><span data-start="644.0" data-end="647.0"> 
+surfacing in the Xcode build </span></span>
+
+<span class="sentence"><span data-start="647.0" data-end="647.0"> 
+settings.</span></span>
+
+<span class="sentence"><span data-start="648.0" data-end="649.0"> 
+Recently we separated out </span></span>
+
+<span class="sentence"><span data-start="649.0" data-end="651.0"> 
+compilation mode from </span></span>
+
+<span class="sentence"><span data-start="651.0" data-end="652.0"> 
+optimization level.</span></span>
+
+<span class="sentence"><span data-start="653.0" data-end="655.0"> 
+Compilation mode is how your </span></span>
+
+<span class="sentence"><span data-start="655.0" data-end="656.0"> 
+project builds.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="657.0" data-end="658.0"> 
+So for release builds the </span></span>
+
+<span class="sentence"><span data-start="658.0" data-end="659.0"> 
+default is whole module </span></span>
+
+<span class="sentence"><span data-start="659.0" data-end="661.0"> 
+compilation that means all the </span></span>
+
+<span class="sentence"><span data-start="661.0" data-end="662.0"> 
+files within your target are </span></span>
+
+<span class="sentence"><span data-start="662.0" data-end="664.0"> 
+always built together.</span></span>
+
+<span class="sentence"><span data-start="664.0" data-end="665.0"> 
+This is to enable maximum </span></span>
+
+<span class="sentence"><span data-start="665.0" data-end="667.0"> 
+opportunities for optimization.</span></span>
+
+<span class="sentence"><span data-start="667.0" data-end="668.0"> 
+It's not the amount of </span></span>
+
+<span class="sentence"><span data-start="668.0" data-end="669.0"> 
+optimization done but the </span></span>
+
+<span class="sentence"><span data-start="669.0" data-end="671.0"> 
+opportunities for optimization.</span></span>
+
+<span class="sentence"><span data-start="672.0" data-end="674.0"> 
+And for Debug builds the default </span></span>
+
+<span class="sentence"><span data-start="674.0" data-end="675.0"> 
+is incremental.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="675.0" data-end="676.0"> 
+That means not all the files are </span></span>
+
+<span class="sentence"><span data-start="676.0" data-end="678.0"> 
+all built, re-built always all </span></span>
+
+<span class="sentence"><span data-start="678.0" data-end="678.0"> 
+together.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="679.0" data-end="680.0"> 
+So this is a tradeoff in </span></span>
+
+<span class="sentence"><span data-start="680.0" data-end="682.0"> 
+performance for build times.</span></span>
+
+<span class="sentence"><span data-start="683.0" data-end="684.0"> 
+Optimization level for Debug </span></span>
+
+<span class="sentence"><span data-start="684.0" data-end="685.0"> 
+builds continues to be no </span></span>
+
+<span class="sentence"><span data-start="685.0" data-end="686.0"> 
+optimization by default.</span></span>
+
+<span class="sentence"><span data-start="686.0" data-end="687.0"> 
+This is for faster builds and </span></span>
+
+<span class="sentence"><span data-start="687.0" data-end="689.0"> 
+better Debug information and the </span></span>
+
+<span class="sentence"><span data-start="689.0" data-end="691.0"> 
+release builds are optimized for </span></span>
+
+<span class="sentence"><span data-start="691.0" data-end="692.0"> 
+speed.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="692.0" data-end="693.0"> 
+We'll get back to the </span></span>
+
+<span class="sentence"><span data-start="693.0" data-end="695.0"> 
+optimization level in a few </span></span>
+
+<span class="sentence"><span data-start="695.0" data-end="695.0"> 
+minutes.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="698.0" data-end="701.0"> 
+All right so this separation of </span></span>
+
+<span class="sentence"><span data-start="701.0" data-end="702.0"> 
+compilation mode and </span></span>
+
+<span class="sentence"><span data-start="702.0" data-end="705.0"> 
+optimization level nicely </span></span>
+
+<span class="sentence"><span data-start="705.0" data-end="706.0"> 
+highlights and interesting </span></span>
+
+<span class="sentence"><span data-start="706.0" data-end="708.0"> 
+stopgap measure that various </span></span>
+
+<span class="sentence"><span data-start="708.0" data-end="710.0"> 
+folds discovered that when they </span></span>
+
+<span class="sentence"><span data-start="710.0" data-end="711.0"> 
+combined whole module </span></span>
+
+<span class="sentence"><span data-start="711.0" data-end="713.0"> 
+compilation with no optimization </span></span>
+
+<span class="sentence"><span data-start="713.0" data-end="714.0"> 
+that they sometimes would get </span></span>
+
+<span class="sentence"><span data-start="715.0" data-end="716.0"> 
+faster Debug builds.</span></span>
+
+<span class="sentence"><span data-start="716.0" data-end="718.0"> 
+And this is because that </span></span>
+
+<span class="sentence"><span data-start="718.0" data-end="720.0"> 
+combination reduces a lot of </span></span>
+
+<span class="sentence"><span data-start="720.0" data-end="722.0"> 
+that redundant work that I </span></span>
+
+<span class="sentence"><span data-start="722.0" data-end="724.0"> 
+talked about before that we have </span></span>
+
+<span class="sentence"><span data-start="724.0" data-end="725.0"> 
+no made great efforts to </span></span>
+
+<span class="sentence"><span data-start="726.0" data-end="728.0"> 
+eliminate or significantly </span></span>
+
+<span class="sentence"><span data-start="728.0" data-end="728.0"> 
+reduce.</span></span>
+
+<span class="sentence"><span data-start="730.0" data-end="730.0"> 
+The problem with this </span></span>
+
+<span class="sentence"><span data-start="730.0" data-end="732.0"> 
+combination is, is it impedes </span></span>
+
+<span class="sentence"><span data-start="732.0" data-end="733.0"> 
+incremental builds.</span></span>
+
+<span class="sentence"><span data-start="733.0" data-end="734.0"> 
+So anytime you touch a file </span></span>
+
+<span class="sentence"><span data-start="734.0" data-end="736.0"> 
+within a target the whole target </span></span>
+
+<span class="sentence"><span data-start="736.0" data-end="736.0"> 
+gets rebuilt.</span></span>
+
+<span class="sentence"><span data-start="737.0" data-end="738.0"> 
+Now with the improvements in </span></span>
+
+<span class="sentence"><span data-start="738.0" data-end="740.0"> 
+Xcode 10 to Debug builds, we </span></span>
+
+<span class="sentence"><span data-start="740.0" data-end="741.0"> 
+feel you no longer need to use </span></span>
+
+<span class="sentence"><span data-start="741.0" data-end="744.0"> 
+the stopgap measure and we have </span></span>
+
+<span class="sentence"><span data-start="744.0" data-end="745.0"> 
+observed that the default </span></span>
+
+<span class="sentence"><span data-start="745.0" data-end="747.0"> 
+incremental builds are at least </span></span>
+
+<span class="sentence"><span data-start="747.0" data-end="749.0"> 
+as good as this combination or </span></span>
+
+<span class="sentence"><span data-start="749.0" data-end="749.0"> 
+better.</span></span>
+
+<span class="sentence"><span data-start="749.0" data-end="750.0"> 
+Especially since they support </span></span>
+
+<span class="sentence"><span data-start="750.0" data-end="750.0"> 
+incremental builds.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="754.0" data-end="755.0"> 
+Let's talk about some important </span></span>
+
+<span class="sentence"><span data-start="755.0" data-end="757.0"> 
+under the hood runtime </span></span>
+
+<span class="sentence"><span data-start="757.0" data-end="758.0"> 
+optimizations and this is all </span></span>
+
+<span class="sentence"><span data-start="758.0" data-end="759.0"> 
+part of that march towards </span></span>
+
+<span class="sentence"><span data-start="759.0" data-end="760.0"> 
+binary compatibility.</span></span>
+
+<span class="sentence"><span data-start="763.0" data-end="765.0"> 
+Swift uses automatic memory </span></span>
+
+<span class="sentence"><span data-start="765.0" data-end="767.0"> 
+management and it uses reference </span></span>
+
+<span class="sentence"><span data-start="767.0" data-end="769.0"> 
+counting just like Objective-C </span></span>
+
+<span class="sentence"><span data-start="769.0" data-end="771.0"> 
+for managing object instances.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="771.0" data-end="773.0"> 
+On this slide I've illustrated </span></span>
+
+<span class="sentence"><span data-start="773.0" data-end="774.0"> 
+in comments where the compiler </span></span>
+
+<span class="sentence"><span data-start="774.0" data-end="776.0"> 
+inserts, retains, and releases.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="777.0" data-end="778.0"> 
+This is how it behaved in Swift </span></span>
+
+<span class="sentence"><span data-start="778.0" data-end="782.0"> 
+4.1.</span></span>
+
+<span class="sentence"><span data-start="782.0" data-end="783.0"> 
+When an object is created </span></span>
+
+<span class="sentence"><span data-start="783.0" data-end="784.0"> 
+there's a +1 reference account </span></span>
+
+<span class="sentence"><span data-start="784.0" data-end="785.0"> 
+associated with it.</span></span>
+
+<span class="sentence"><span data-start="785.0" data-end="788.0"> 
+What the convention was if the </span></span>
+
+<span class="sentence"><span data-start="788.0" data-end="789.0"> 
+object is passed off as an </span></span>
+
+<span class="sentence"><span data-start="789.0" data-end="790.0"> 
+argument to another function, </span></span>
+
+<span class="sentence"><span data-start="791.0" data-end="792.0"> 
+it's the obligation of that </span></span>
+
+<span class="sentence"><span data-start="792.0" data-end="794.0"> 
+function call to release the </span></span>
+
+<span class="sentence"><span data-start="794.0" data-end="794.0"> 
+object.</span></span>
+
+<span class="sentence"><span data-start="794.0" data-end="796.0"> 
+So it's basically you're passing </span></span>
+
+<span class="sentence"><span data-start="796.0" data-end="798.0"> 
+off the responsibility to the </span></span>
+
+<span class="sentence"><span data-start="798.0" data-end="799.0"> 
+call to release it.</span></span>
+
+<span class="sentence"><span data-start="800.0" data-end="801.0"> 
+This provided some performance </span></span>
+
+<span class="sentence"><span data-start="801.0" data-end="802.0"> 
+opportunities to shrink the </span></span>
+
+<span class="sentence"><span data-start="802.0" data-end="805.0"> 
+lifetime of some objects to like </span></span>
+
+<span class="sentence"><span data-start="805.0" data-end="806.0"> 
+their smallest range of use.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="807.0" data-end="809.0"> 
+However, code often looks more </span></span>
+
+<span class="sentence"><span data-start="810.0" data-end="812.0"> 
+like this where you're passing </span></span>
+
+<span class="sentence"><span data-start="812.0" data-end="813.0"> 
+the object off several times to </span></span>
+
+<span class="sentence"><span data-start="814.0" data-end="815.0"> 
+different APIs.</span></span>
+
+<span class="sentence"><span data-start="815.0" data-end="817.0"> 
+And because you have this </span></span>
+
+<span class="sentence"><span data-start="817.0" data-end="818.0"> 
+calling convention, you still </span></span>
+
+<span class="sentence"><span data-start="818.0" data-end="820.0"> 
+have this dance where the </span></span>
+
+<span class="sentence"><span data-start="820.0" data-end="821.0"> 
+initial reference count is </span></span>
+
+<span class="sentence"><span data-start="821.0" data-end="822.0"> 
+balanced out with the final </span></span>
+
+<span class="sentence"><span data-start="822.0" data-end="823.0"> 
+call.</span></span>
+
+<span class="sentence"><span data-start="823.0" data-end="824.0"> 
+But the intermediate calls are </span></span>
+
+<span class="sentence"><span data-start="824.0" data-end="825.0"> 
+expected to have these extra </span></span>
+
+<span class="sentence"><span data-start="825.0" data-end="828.0"> 
+retains and releases because </span></span>
+
+<span class="sentence"><span data-start="828.0" data-end="829.0"> 
+that's what a convention is.</span></span>
+
+<span class="sentence"><span data-start="830.0" data-end="832.0"> 
+This is really wasteful because </span></span>
+
+<span class="sentence"><span data-start="832.0" data-end="833.0"> 
+the object is really just going </span></span>
+
+<span class="sentence"><span data-start="833.0" data-end="835.0"> 
+to be alive during the entire </span></span>
+
+<span class="sentence"><span data-start="835.0" data-end="837.0"> 
+duration of this function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="837.0" data-end="839.0"> 
+So in Swift 4.2 we changed the </span></span>
+
+<span class="sentence"><span data-start="839.0" data-end="841.0"> 
+calling convention so that it </span></span>
+
+<span class="sentence"><span data-start="841.0" data-end="842.0"> 
+was no longer the callee's </span></span>
+
+<span class="sentence"><span data-start="842.0" data-end="844.0"> 
+obligation to release the </span></span>
+
+<span class="sentence"><span data-start="844.0" data-end="844.0"> 
+object.</span></span>
+
+<span class="sentence"><span data-start="845.0" data-end="846.0"> 
+This means all these retains and </span></span>
+
+<span class="sentence"><span data-start="846.0" data-end="850.0"> 
+releases go away, which is a </span></span>
+
+<span class="sentence"><span data-start="850.0" data-end="852.0"> 
+significant reduction in </span></span>
+
+<span class="sentence"><span data-start="852.0" data-end="853.0"> 
+retained release traffic.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="853.0" data-end="855.0"> 
+This has two implications.</span></span>
+
+<span class="sentence"><span data-start="855.0" data-end="856.0"> 
+It's both a code size win </span></span>
+
+<span class="sentence"><span data-start="856.0" data-end="859.0"> 
+because those calls are gone and </span></span>
+
+<span class="sentence"><span data-start="859.0" data-end="860.0"> 
+it has a runtime improvement.</span></span>
+
+<span class="sentence"><span data-start="861.0" data-end="864.0"> 
+Another important optimization </span></span>
+
+<span class="sentence"><span data-start="864.0" data-end="865.0"> 
+we did was to string.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="866.0" data-end="868.0"> 
+And Swift 4.2 string is now 16 </span></span>
+
+<span class="sentence"><span data-start="868.0" data-end="869.0"> 
+bytes big where it as previously </span></span>
+
+<span class="sentence"><span data-start="869.0" data-end="870.0"> 
+24.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="870.0" data-end="871.0"> 
+We feel this is a good tradeoff </span></span>
+
+<span class="sentence"><span data-start="871.0" data-end="873.0"> 
+between memory usage and </span></span>
+
+<span class="sentence"><span data-start="873.0" data-end="873.0"> 
+performance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="875.0" data-end="877.0"> 
+It's also, however, still large </span></span>
+
+<span class="sentence"><span data-start="877.0" data-end="878.0"> 
+enough to do an important small </span></span>
+
+<span class="sentence"><span data-start="878.0" data-end="880.0"> 
+string optimization.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="880.0" data-end="882.0"> 
+If the string fits within 15 </span></span>
+
+<span class="sentence"><span data-start="882.0" data-end="885.0"> 
+bytes then the actual string is </span></span>
+
+<span class="sentence"><span data-start="885.0" data-end="886.0"> 
+represented directly in the </span></span>
+
+<span class="sentence"><span data-start="886.0" data-end="888.0"> 
+string type without going to the </span></span>
+
+<span class="sentence"><span data-start="888.0" data-end="889.0"> 
+heap to allocate a separate </span></span>
+
+<span class="sentence"><span data-start="889.0" data-end="890.0"> 
+buffer to represent the string.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="891.0" data-end="893.0"> 
+This is obviously also a memory </span></span>
+
+<span class="sentence"><span data-start="893.0" data-end="895.0"> 
+win and a performance win.</span></span>
+
+<span class="sentence"><span data-start="895.0" data-end="896.0"> 
+This is as similar to an </span></span>
+
+<span class="sentence"><span data-start="896.0" data-end="897.0"> 
+optimization that exists within </span></span>
+
+<span class="sentence"><span data-start="897.0" data-end="898.0"> 
+a string.</span></span>
+
+<span class="sentence"><span data-start="898.0" data-end="899.0"> 
+We can actually represent larger </span></span>
+
+<span class="sentence"><span data-start="899.0" data-end="900.0"> 
+strings.</span></span>
+
+<span class="sentence"><span data-start="903.0" data-end="905.0"> 
+Finally before I hand it off to </span></span>
+
+<span class="sentence"><span data-start="905.0" data-end="906.0"> 
+Slava we'll talk about the </span></span>
+
+<span class="sentence"><span data-start="906.0" data-end="907.0"> 
+language improvements.</span></span>
+
+<span class="sentence"><span data-start="907.0" data-end="908.0"> 
+I want to talk a little bit more </span></span>
+
+<span class="sentence"><span data-start="908.0" data-end="910.0"> 
+about the efforts to reduce code </span></span>
+
+<span class="sentence"><span data-start="910.0" data-end="910.0"> 
+size.</span></span>
+
+<span class="sentence"><span data-start="912.0" data-end="913.0"> 
+I talked a little bit about that </span></span>
+
+<span class="sentence"><span data-start="913.0" data-end="914.0"> 
+calling convention change, which </span></span>
+
+<span class="sentence"><span data-start="914.0" data-end="915.0"> 
+reduces code size.</span></span>
+
+<span class="sentence"><span data-start="915.0" data-end="917.0"> 
+But we've also introduced a new </span></span>
+
+<span class="sentence"><span data-start="917.0" data-end="919.0"> 
+optimization level, Optimize for </span></span>
+
+<span class="sentence"><span data-start="919.0" data-end="920.0"> 
+Size.</span></span>
+
+<span class="sentence"><span data-start="921.0" data-end="922.0"> 
+This can be useful for </span></span>
+
+<span class="sentence"><span data-start="922.0" data-end="923.0"> 
+applications that care very much </span></span>
+
+<span class="sentence"><span data-start="924.0" data-end="925.0"> 
+about app size limits such as </span></span>
+
+<span class="sentence"><span data-start="925.0" data-end="927.0"> 
+from cellular over the air </span></span>
+
+<span class="sentence"><span data-start="927.0" data-end="928.0"> 
+download limits.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="929.0" data-end="930.0"> 
+Swift is a very powerful </span></span>
+
+<span class="sentence"><span data-start="930.0" data-end="933.0"> 
+language with static knowledge </span></span>
+
+<span class="sentence"><span data-start="933.0" data-end="934.0"> 
+about what your program does.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="935.0" data-end="936.0"> 
+And so compiler has many </span></span>
+
+<span class="sentence"><span data-start="936.0" data-end="938.0"> 
+opportunities to do performance </span></span>
+
+<span class="sentence"><span data-start="938.0" data-end="940.0"> 
+optimizations such as function </span></span>
+
+<span class="sentence"><span data-start="940.0" data-end="941.0"> 
+call inlining, speculative </span></span>
+
+<span class="sentence"><span data-start="941.0" data-end="943.0"> 
+devirtualization, which trade </span></span>
+
+<span class="sentence"><span data-start="943.0" data-end="944.0"> 
+off a little bit of code size </span></span>
+
+<span class="sentence"><span data-start="944.0" data-end="945.0"> 
+for more performance, but </span></span>
+
+<span class="sentence"><span data-start="945.0" data-end="946.0"> 
+sometimes that more performance </span></span>
+
+<span class="sentence"><span data-start="947.0" data-end="949.0"> 
+isn't really needed in practice.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="949.0" data-end="951.0"> 
+This is the result of applying </span></span>
+
+<span class="sentence"><span data-start="951.0" data-end="952.0"> 
+Osize to the Swift Source </span></span>
+
+<span class="sentence"><span data-start="952.0" data-end="954.0"> 
+Compatibility Suite, which </span></span>
+
+<span class="sentence"><span data-start="954.0" data-end="955.0"> 
+contains an assortment of </span></span>
+
+<span class="sentence"><span data-start="955.0" data-end="957.0"> 
+projects from GitHub, frameworks </span></span>
+
+<span class="sentence"><span data-start="957.0" data-end="958.0"> 
+and applications.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="959.0" data-end="960.0"> 
+And what you'll see is a wide </span></span>
+
+<span class="sentence"><span data-start="960.0" data-end="961.0"> 
+range depending on what language </span></span>
+
+<span class="sentence"><span data-start="961.0" data-end="963.0"> 
+features are used about 10% to </span></span>
+
+<span class="sentence"><span data-start="963.0" data-end="965.0"> 
+30% reduction in code size.</span></span>
+
+<span class="sentence"><span data-start="965.0" data-end="967.0"> 
+Now this, when I talk about code </span></span>
+
+<span class="sentence"><span data-start="967.0" data-end="967.0"> 
+size I'm talking about the </span></span>
+
+<span class="sentence"><span data-start="967.0" data-end="969.0"> 
+machine code that is generated </span></span>
+
+<span class="sentence"><span data-start="969.0" data-end="971.0"> 
+as a result of compiling your </span></span>
+
+<span class="sentence"><span data-start="971.0" data-end="972.0"> 
+Swift code, not the overall app </span></span>
+
+<span class="sentence"><span data-start="972.0" data-end="972.0"> 
+size.</span></span>
+
+<span class="sentence"><span data-start="972.0" data-end="974.0"> 
+The overall app size depends on </span></span>
+
+<span class="sentence"><span data-start="974.0" data-end="975.0"> 
+assets and all sorts of other </span></span>
+
+<span class="sentence"><span data-start="975.0" data-end="975.0"> 
+stuff.</span></span>
+
+<span class="sentence"><span data-start="977.0" data-end="979.0"> 
+In practice we observe that </span></span>
+
+<span class="sentence"><span data-start="979.0" data-end="980.0"> 
+runtime performance is usually </span></span>
+
+<span class="sentence"><span data-start="980.0" data-end="981.0"> 
+about 5% slower.</span></span>
+
+<span class="sentence"><span data-start="981.0" data-end="983.0"> 
+So you're trading off for a </span></span>
+
+<span class="sentence"><span data-start="983.0" data-end="983.0"> 
+little bit of performance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="984.0" data-end="985.0"> 
+For many applications this is </span></span>
+
+<span class="sentence"><span data-start="985.0" data-end="986.0"> 
+totally fine.</span></span>
+
+<span class="sentence"><span data-start="986.0" data-end="988.0"> 
+So it really depends on your use </span></span>
+
+<span class="sentence"><span data-start="988.0" data-end="988.0"> 
+case.</span></span>
+
+<span class="sentence"><span data-start="989.0" data-end="990.0"> 
+But if this is something you're </span></span>
+
+<span class="sentence"><span data-start="990.0" data-end="991.0"> 
+interested in we encourage you </span></span>
+
+<span class="sentence"><span data-start="991.0" data-end="993.0"> 
+to give it a try.</span></span>
+
+<span class="sentence"><span data-start="994.0" data-end="995.0"> 
+With that I'd like to hand it </span></span>
+
+<span class="sentence"><span data-start="995.0" data-end="996.0"> 
+off to Slava who will talk about </span></span>
+
+<span class="sentence"><span data-start="996.0" data-end="997.0"> 
+all the great language and </span></span>
+
+<span class="sentence"><span data-start="997.0" data-end="999.0"> 
+improvements with Swift 4.2 </span></span>
+
+<span class="sentence"><span data-start="1000.0" data-end="1005.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1006.0" data-end="1007.0"> 
+ Hey everybody, I'm Slava </span></span>
+
+<span class="sentence"><span data-start="1007.0" data-end="1007.0"> 
+Pestov.</span></span>
+
+<span class="sentence"><span data-start="1007.0" data-end="1009.0"> 
+I work on the Swift Compiler and </span></span>
+
+<span class="sentence"><span data-start="1009.0" data-end="1010.0"> 
+today I'm going to talk about </span></span>
+
+<span class="sentence"><span data-start="1010.0" data-end="1012.0"> 
+how the new language features in </span></span>
+
+<span class="sentence"><span data-start="1012.0" data-end="1014.0"> 
+Swift 4.2 allow you to write </span></span>
+
+<span class="sentence"><span data-start="1014.0" data-end="1015.0"> 
+simpler and more maintainable </span></span>
+
+<span class="sentence"><span data-start="1015.0" data-end="1015.0"> 
+code.</span></span>
+
+<span class="sentence"><span data-start="1017.0" data-end="1019.0"> 
+So before we start talking about </span></span>
+
+<span class="sentence"><span data-start="1019.0" data-end="1020.0"> 
+the new language changes, let's </span></span>
+
+<span class="sentence"><span data-start="1020.0" data-end="1022.0"> 
+review the process for making </span></span>
+
+<span class="sentence"><span data-start="1022.0" data-end="1023.0"> 
+improvements to the language.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1024.0" data-end="1026.0"> 
+So as Ted mentioned, Swift is an </span></span>
+
+<span class="sentence"><span data-start="1026.0" data-end="1028.0"> 
+open source project, but it also </span></span>
+
+<span class="sentence"><span data-start="1028.0" data-end="1029.0"> 
+has an open design.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1030.0" data-end="1031.0"> 
+This means that if you have an </span></span>
+
+<span class="sentence"><span data-start="1031.0" data-end="1033.0"> 
+idea for improving the language, </span></span>
+
+<span class="sentence"><span data-start="1033.0" data-end="1034.0"> 
+you can go and pitch it on the </span></span>
+
+<span class="sentence"><span data-start="1034.0" data-end="1036.0"> 
+forums and if the idea gains </span></span>
+
+<span class="sentence"><span data-start="1036.0" data-end="1038.0"> 
+enough traction and crystalizes </span></span>
+
+<span class="sentence"><span data-start="1038.0" data-end="1040.0"> 
+into draft proposal, you can </span></span>
+
+<span class="sentence"><span data-start="1040.0" data-end="1041.0"> 
+submit it together with </span></span>
+
+<span class="sentence"><span data-start="1041.0" data-end="1043.0"> 
+implementation to the core team </span></span>
+
+<span class="sentence"><span data-start="1043.0" data-end="1044.0"> 
+for review.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1044.0" data-end="1046.0"> 
+At this point a formal review </span></span>
+
+<span class="sentence"><span data-start="1046.0" data-end="1047.0"> 
+period allows members of the </span></span>
+
+<span class="sentence"><span data-start="1047.0" data-end="1048.0"> 
+community to give additional </span></span>
+
+<span class="sentence"><span data-start="1049.0" data-end="1050.0"> 
+feedback and then the core team </span></span>
+
+<span class="sentence"><span data-start="1050.0" data-end="1052.0"> 
+makes a decision as to whether </span></span>
+
+<span class="sentence"><span data-start="1052.0" data-end="1053.0"> 
+to accept the proposal.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1054.0" data-end="1056.0"> 
+If you go to the Swift Evolution </span></span>
+
+<span class="sentence"><span data-start="1056.0" data-end="1058.0"> 
+website, you can see a list of </span></span>
+
+<span class="sentence"><span data-start="1058.0" data-end="1059.0"> 
+all the proposals that were </span></span>
+
+<span class="sentence"><span data-start="1059.0" data-end="1061.0"> 
+accepted and implemented in </span></span>
+
+<span class="sentence"><span data-start="1061.0" data-end="1062.0"> 
+Swift 4.2.</span></span>
+
+<span class="sentence"><span data-start="1063.0" data-end="1064.0"> 
+And if you look at this list of </span></span>
+
+<span class="sentence"><span data-start="1064.0" data-end="1066.0"> 
+proposals there's a lot here.</span></span>
+
+<span class="sentence"><span data-start="1066.0" data-end="1067.0"> 
+There's more than I can cover </span></span>
+
+<span class="sentence"><span data-start="1067.0" data-end="1068.0"> 
+today.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1068.0" data-end="1070.0"> 
+But one thing I really wanted to </span></span>
+
+<span class="sentence"><span data-start="1070.0" data-end="1071.0"> 
+emphasize was the large number </span></span>
+
+<span class="sentence"><span data-start="1071.0" data-end="1073.0"> 
+of proposals that were both </span></span>
+
+<span class="sentence"><span data-start="1073.0" data-end="1075.0"> 
+designed and implemented by the </span></span>
+
+<span class="sentence"><span data-start="1075.0" data-end="1076.0"> 
+community.</span></span>
+
+<span class="sentence"><span data-start="1076.0" data-end="1078.0"> 
+What this means is that these </span></span>
+
+<span class="sentence"><span data-start="1078.0" data-end="1079.0"> 
+proposals address common </span></span>
+
+<span class="sentence"><span data-start="1079.0" data-end="1081.0"> 
+pinpoints in the language that </span></span>
+
+<span class="sentence"><span data-start="1081.0" data-end="1083.0"> 
+came up in the real world and </span></span>
+
+<span class="sentence"><span data-start="1083.0" data-end="1085.0"> 
+you came up with the idea for </span></span>
+
+<span class="sentence"><span data-start="1085.0" data-end="1087.0"> 
+fixing these pinpoints and you </span></span>
+
+<span class="sentence"><span data-start="1087.0" data-end="1089.0"> 
+contributed these improvements </span></span>
+
+<span class="sentence"><span data-start="1089.0" data-end="1091.0"> 
+back to Swift so that everybody </span></span>
+
+<span class="sentence"><span data-start="1091.0" data-end="1091.0"> 
+benefits.</span></span>
+
+<span class="sentence"><span data-start="1092.0" data-end="1092.0"> 
+Thank you.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1094.0" data-end="1099.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1099.0" data-end="1100.0"> 
+So for the first improvement </span></span>
+
+<span class="sentence"><span data-start="1101.0" data-end="1102.0"> 
+we're going to see how to </span></span>
+
+<span class="sentence"><span data-start="1102.0" data-end="1103.0"> 
+eliminate a common source of </span></span>
+
+<span class="sentence"><span data-start="1103.0" data-end="1105.0"> 
+boilerplate when working with </span></span>
+
+<span class="sentence"><span data-start="1105.0" data-end="1105.0"> 
+enum's.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1106.0" data-end="1107.0"> 
+So let's say I have to find an </span></span>
+
+<span class="sentence"><span data-start="1107.0" data-end="1108.0"> 
+enum.</span></span>
+
+<span class="sentence"><span data-start="1108.0" data-end="1110.0"> 
+And I want to print every </span></span>
+
+<span class="sentence"><span data-start="1110.0" data-end="1112.0"> 
+possible value that this data </span></span>
+
+<span class="sentence"><span data-start="1112.0" data-end="1112.0"> 
+type can have.</span></span>
+
+<span class="sentence"><span data-start="1113.0" data-end="1116.0"> 
+So in Swift 4, I had to define a </span></span>
+
+<span class="sentence"><span data-start="1116.0" data-end="1118.0"> 
+property perhaps with a list of </span></span>
+
+<span class="sentence"><span data-start="1119.0" data-end="1120.0"> 
+all the possible cases.</span></span>
+
+<span class="sentence"><span data-start="1121.0" data-end="1124.0"> 
+And if I add a new case then I </span></span>
+
+<span class="sentence"><span data-start="1124.0" data-end="1126.0"> 
+have to remember to update that </span></span>
+
+<span class="sentence"><span data-start="1126.0" data-end="1128.0"> 
+property, otherwise I just get </span></span>
+
+<span class="sentence"><span data-start="1128.0" data-end="1129.0"> 
+incorrect behavior or runtime.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1130.0" data-end="1133.0"> 
+And this is just not very good </span></span>
+
+<span class="sentence"><span data-start="1133.0" data-end="1134.0"> 
+because you're repeating </span></span>
+
+<span class="sentence"><span data-start="1134.0" data-end="1136.0"> 
+yourself to the compiler.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1136.0" data-end="1139.0"> 
+So in Swift 4.2 we've added a </span></span>
+
+<span class="sentence"><span data-start="1139.0" data-end="1141.0"> 
+new CaseIterable protocol and if </span></span>
+
+<span class="sentence"><span data-start="1141.0" data-end="1143.0"> 
+you state a conformance to this </span></span>
+
+<span class="sentence"><span data-start="1143.0" data-end="1144.0"> 
+protocol, the compiler will </span></span>
+
+<span class="sentence"><span data-start="1144.0" data-end="1146.0"> 
+synthesize an all cases property </span></span>
+
+<span class="sentence"><span data-start="1146.0" data-end="1147.0"> 
+for you.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1147.0" data-end="1148.0"> 
+OK, that was short and sweet.</span></span>
+
+<span class="sentence"><span data-start="1149.0" data-end="1152.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1153.0" data-end="1155.0"> 
+For the next improvement we're </span></span>
+
+<span class="sentence"><span data-start="1155.0" data-end="1156.0"> 
+going to see how to eliminate </span></span>
+
+<span class="sentence"><span data-start="1156.0" data-end="1157.0"> 
+another source of boilerplate.</span></span>
+
+<span class="sentence"><span data-start="1158.0" data-end="1159.0"> 
+This time it's when you're </span></span>
+
+<span class="sentence"><span data-start="1159.0" data-end="1160.0"> 
+unable to make your code </span></span>
+
+<span class="sentence"><span data-start="1160.0" data-end="1161.0"> 
+sufficiently generic.</span></span>
+
+<span class="sentence"><span data-start="1162.0" data-end="1164.0"> 
+So in Swift 4 we have this </span></span>
+
+<span class="sentence"><span data-start="1164.0" data-end="1166.0"> 
+contains method on sequence.</span></span>
+
+<span class="sentence"><span data-start="1167.0" data-end="1168.0"> 
+And this requires that the </span></span>
+
+<span class="sentence"><span data-start="1168.0" data-end="1170.0"> 
+element type of the sequence is </span></span>
+
+<span class="sentence"><span data-start="1170.0" data-end="1172.0"> 
+Equatable so that it can find </span></span>
+
+<span class="sentence"><span data-start="1172.0" data-end="1173.0"> 
+the element that it's looking </span></span>
+
+<span class="sentence"><span data-start="1173.0" data-end="1173.0"> 
+for.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1174.0" data-end="1176.0"> 
+And of course I could call this </span></span>
+
+<span class="sentence"><span data-start="1176.0" data-end="1177.0"> 
+within an array of strings </span></span>
+
+<span class="sentence"><span data-start="1178.0" data-end="1179.0"> 
+because string is Equatable.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1179.0" data-end="1181.0"> 
+But what if I call it within an </span></span>
+
+<span class="sentence"><span data-start="1181.0" data-end="1182.0"> 
+array of arrays.</span></span>
+
+<span class="sentence"><span data-start="1183.0" data-end="1185.0"> 
+Well array of Int, the element </span></span>
+
+<span class="sentence"><span data-start="1185.0" data-end="1187.0"> 
+type here is not equitable, </span></span>
+
+<span class="sentence"><span data-start="1188.0" data-end="1189.0"> 
+which meant that I would just </span></span>
+
+<span class="sentence"><span data-start="1189.0" data-end="1190.0"> 
+get a compile time error.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1191.0" data-end="1193.0"> 
+And you might ask, well why </span></span>
+
+<span class="sentence"><span data-start="1193.0" data-end="1195.0"> 
+doesn't the standard library </span></span>
+
+<span class="sentence"><span data-start="1195.0" data-end="1196.0"> 
+make all arrays Equatable.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1197.0" data-end="1198.0"> 
+But that doesn't make sense </span></span>
+
+<span class="sentence"><span data-start="1198.0" data-end="1200.0"> 
+either because if the element </span></span>
+
+<span class="sentence"><span data-start="1200.0" data-end="1201.0"> 
+type of the array is not </span></span>
+
+<span class="sentence"><span data-start="1201.0" data-end="1203.0"> 
+Equatable, like a function </span></span>
+
+<span class="sentence"><span data-start="1203.0" data-end="1205.0"> 
+perhaps, then you can't really </span></span>
+
+<span class="sentence"><span data-start="1205.0" data-end="1206.0"> 
+make the array Equatable either.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1207.0" data-end="1209.0"> 
+But certainly if the element </span></span>
+
+<span class="sentence"><span data-start="1209.0" data-end="1210.0"> 
+type of the array is Equatable </span></span>
+
+<span class="sentence"><span data-start="1210.0" data-end="1212.0"> 
+then I can define an equality </span></span>
+
+<span class="sentence"><span data-start="1212.0" data-end="1214.0"> 
+operation on arrays that just </span></span>
+
+<span class="sentence"><span data-start="1214.0" data-end="1216.0"> 
+compares the elements pair wise.</span></span>
+
+<span class="sentence"><span data-start="1217.0" data-end="1218.0"> 
+And this is what conditional </span></span>
+
+<span class="sentence"><span data-start="1218.0" data-end="1220.0"> 
+conformance allows a standard </span></span>
+
+<span class="sentence"><span data-start="1220.0" data-end="1221.0"> 
+library to do.</span></span>
+
+<span class="sentence"><span data-start="1221.0" data-end="1223.0"> 
+So now array gets an </span></span>
+
+<span class="sentence"><span data-start="1223.0" data-end="1224.0"> 
+implementation of Equatable for </span></span>
+
+<span class="sentence"><span data-start="1224.0" data-end="1226.0"> 
+the case where the element type </span></span>
+
+<span class="sentence"><span data-start="1226.0" data-end="1227.0"> 
+is equitable.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1227.0" data-end="1229.0"> 
+And in Swift 4.2 this example we </span></span>
+
+<span class="sentence"><span data-start="1229.0" data-end="1231.0"> 
+saw earlier now works.</span></span>
+
+<span class="sentence"><span data-start="1231.0" data-end="1234.0"> 
+And in addition to arrays being </span></span>
+
+<span class="sentence"><span data-start="1234.0" data-end="1236.0"> 
+Equatable the standard library </span></span>
+
+<span class="sentence"><span data-start="1236.0" data-end="1237.0"> 
+defines a number of other </span></span>
+
+<span class="sentence"><span data-start="1237.0" data-end="1238.0"> 
+conditional conformance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1239.0" data-end="1241.0"> 
+For example, optional and </span></span>
+
+<span class="sentence"><span data-start="1241.0" data-end="1242.0"> 
+dictionaries are now Equatable </span></span>
+
+<span class="sentence"><span data-start="1242.0" data-end="1244.0"> 
+when their element type is </span></span>
+
+<span class="sentence"><span data-start="1244.0" data-end="1246.0"> 
+Equatable and the same works for </span></span>
+
+<span class="sentence"><span data-start="1246.0" data-end="1249.0"> 
+Hashable, Encodable, and </span></span>
+
+<span class="sentence"><span data-start="1249.0" data-end="1251.0"> 
+Decodable conformances.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1252.0" data-end="1257.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1258.0" data-end="1259.0"> 
+And this allows you to compose </span></span>
+
+<span class="sentence"><span data-start="1259.0" data-end="1261.0"> 
+collections in ways that were </span></span>
+
+<span class="sentence"><span data-start="1261.0" data-end="1262.0"> 
+not possible before.</span></span>
+
+<span class="sentence"><span data-start="1262.0" data-end="1265.0"> 
+So here I have a set of arrays </span></span>
+
+<span class="sentence"><span data-start="1265.0" data-end="1268.0"> 
+of optional integers and </span></span>
+
+<span class="sentence"><span data-start="1269.0" data-end="1270.0"> 
+everything just works.</span></span>
+
+<span class="sentence"><span data-start="1270.0" data-end="1273.0"> 
+If you want to learn more </span></span>
+
+<span class="sentence"><span data-start="1273.0" data-end="1274.0"> 
+there's a session later this </span></span>
+
+<span class="sentence"><span data-start="1274.0" data-end="1277.0"> 
+week where you can learn about </span></span>
+
+<span class="sentence"><span data-start="1277.0" data-end="1278.0"> 
+conditional conformance and some </span></span>
+
+<span class="sentence"><span data-start="1278.0" data-end="1279.0"> 
+other generics improvements in </span></span>
+
+<span class="sentence"><span data-start="1279.0" data-end="1281.0"> 
+Swift 4.2 that I won't be </span></span>
+
+<span class="sentence"><span data-start="1281.0" data-end="1282.0"> 
+covering today.</span></span>
+
+<span class="sentence"><span data-start="1283.0" data-end="1285.0"> 
+So what about defining your own </span></span>
+
+<span class="sentence"><span data-start="1285.0" data-end="1286.0"> 
+Equatable and Hashable </span></span>
+
+<span class="sentence"><span data-start="1286.0" data-end="1287.0"> 
+conformances.</span></span>
+
+<span class="sentence"><span data-start="1288.0" data-end="1290.0"> 
+Well, a common pattern in Swift </span></span>
+
+<span class="sentence"><span data-start="1290.0" data-end="1292.0"> 
+is that I have a struct with a </span></span>
+
+<span class="sentence"><span data-start="1292.0" data-end="1294.0"> 
+bunch of stored properties and </span></span>
+
+<span class="sentence"><span data-start="1294.0" data-end="1296.0"> 
+all those stored properties are </span></span>
+
+<span class="sentence"><span data-start="1296.0" data-end="1297.0"> 
+themselves Equatable.</span></span>
+
+<span class="sentence"><span data-start="1297.0" data-end="1298.0"> 
+And then I want to make the </span></span>
+
+<span class="sentence"><span data-start="1298.0" data-end="1300.0"> 
+struct Equatable just by </span></span>
+
+<span class="sentence"><span data-start="1300.0" data-end="1302.0"> 
+comparing those properties of </span></span>
+
+<span class="sentence"><span data-start="1302.0" data-end="1303.0"> 
+the two values.</span></span>
+
+<span class="sentence"><span data-start="1303.0" data-end="1305.0"> 
+In Swift 4 previously you had to </span></span>
+
+<span class="sentence"><span data-start="1305.0" data-end="1306.0"> 
+write this out by hand.</span></span>
+
+<span class="sentence"><span data-start="1307.0" data-end="1308.0"> 
+And this is just boilerplate.</span></span>
+
+<span class="sentence"><span data-start="1308.0" data-end="1310.0"> 
+If I add a new stored property </span></span>
+
+<span class="sentence"><span data-start="1310.0" data-end="1311.0"> 
+to my struct, I have to remember </span></span>
+
+<span class="sentence"><span data-start="1311.0" data-end="1313.0"> 
+to update this implementation of </span></span>
+
+<span class="sentence"><span data-start="1313.0" data-end="1314.0"> 
+Equatable and it's easy to make </span></span>
+
+<span class="sentence"><span data-start="1314.0" data-end="1316.0"> 
+a copy and paste error or some </span></span>
+
+<span class="sentence"><span data-start="1316.0" data-end="1317.0"> 
+other mistake.</span></span>
+
+<span class="sentence"><span data-start="1317.0" data-end="1319.0"> 
+So in Swift 4.1 we introduce </span></span>
+
+<span class="sentence"><span data-start="1319.0" data-end="1321.0"> 
+this ability to synthesize the </span></span>
+
+<span class="sentence"><span data-start="1321.0" data-end="1322.0"> 
+implementation of equality.</span></span>
+
+<span class="sentence"><span data-start="1323.0" data-end="1324.0"> 
+If you emit the implementation </span></span>
+
+<span class="sentence"><span data-start="1325.0" data-end="1326.0"> 
+than the compiler will fill it </span></span>
+
+<span class="sentence"><span data-start="1326.0" data-end="1328.0"> 
+in for you as long as all those </span></span>
+
+<span class="sentence"><span data-start="1328.0" data-end="1329.0"> 
+stored properties are themselves </span></span>
+
+<span class="sentence"><span data-start="1329.0" data-end="1330.0"> 
+Equatable.</span></span>
+
+<span class="sentence"><span data-start="1331.0" data-end="1332.0"> 
+This also works for Hashable.</span></span>
+
+<span class="sentence"><span data-start="1333.0" data-end="1335.0"> 
+Now what about generic types? </span></span>
+
+<span class="sentence"><span data-start="1336.0" data-end="1337.0"> 
+So here I have a data type whose </span></span>
+
+<span class="sentence"><span data-start="1337.0" data-end="1339.0"> 
+values are either instances of </span></span>
+
+<span class="sentence"><span data-start="1339.0" data-end="1341.0"> 
+the left type or instances of </span></span>
+
+<span class="sentence"><span data-start="1341.0" data-end="1342.0"> 
+the right type.</span></span>
+
+<span class="sentence"><span data-start="1342.0" data-end="1344.0"> 
+And I might now want to make </span></span>
+
+<span class="sentence"><span data-start="1344.0" data-end="1346.0"> 
+left and right constrained to </span></span>
+
+<span class="sentence"><span data-start="1346.0" data-end="1347.0"> 
+Equatable because again, I want </span></span>
+
+<span class="sentence"><span data-start="1347.0" data-end="1348.0"> 
+to be able to use this either </span></span>
+
+<span class="sentence"><span data-start="1348.0" data-end="1351.0"> 
+type with functions, errors, and </span></span>
+
+<span class="sentence"><span data-start="1351.0" data-end="1352.0"> 
+other non Equatable types.</span></span>
+
+<span class="sentence"><span data-start="1352.0" data-end="1354.0"> 
+But certainly I can define a </span></span>
+
+<span class="sentence"><span data-start="1354.0" data-end="1356.0"> 
+conditional conformance so that </span></span>
+
+<span class="sentence"><span data-start="1356.0" data-end="1357.0"> 
+if left and right are both </span></span>
+
+<span class="sentence"><span data-start="1357.0" data-end="1359.0"> 
+Equatable then either is </span></span>
+
+<span class="sentence"><span data-start="1359.0" data-end="1359.0"> 
+Equatable.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1360.0" data-end="1361.0"> 
+But I can do even better than </span></span>
+
+<span class="sentence"><span data-start="1361.0" data-end="1361.0"> 
+this.</span></span>
+
+<span class="sentence"><span data-start="1362.0" data-end="1363.0"> 
+Notice how the implementation of </span></span>
+
+<span class="sentence"><span data-start="1363.0" data-end="1365.0"> 
+equality here there's only </span></span>
+
+<span class="sentence"><span data-start="1365.0" data-end="1367.0"> 
+really one obviously correct way </span></span>
+
+<span class="sentence"><span data-start="1367.0" data-end="1367.0"> 
+to do it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1367.0" data-end="1369.0"> 
+You have to check that both </span></span>
+
+<span class="sentence"><span data-start="1369.0" data-end="1371.0"> 
+values have the same case and if </span></span>
+
+<span class="sentence"><span data-start="1371.0" data-end="1373.0"> 
+they do you check their payloads </span></span>
+
+<span class="sentence"><span data-start="1373.0" data-end="1373.0"> 
+for equality.</span></span>
+
+<span class="sentence"><span data-start="1374.0" data-end="1376.0"> 
+So you might guess, well the </span></span>
+
+<span class="sentence"><span data-start="1376.0" data-end="1377.0"> 
+compiler should be able to </span></span>
+
+<span class="sentence"><span data-start="1377.0" data-end="1378.0"> 
+synthesize this for you and it </span></span>
+
+<span class="sentence"><span data-start="1378.0" data-end="1380.0"> 
+can in Swift 4.2.</span></span>
+
+<span class="sentence"><span data-start="1381.0" data-end="1382.0"> 
+And this also works for </span></span>
+
+<span class="sentence"><span data-start="1382.0" data-end="1383.0"> 
+Hashable.</span></span>
+
+<span class="sentence"><span data-start="1384.0" data-end="1387.0"> 
+So now I can have a set of </span></span>
+
+<span class="sentence"><span data-start="1387.0" data-end="1389.0"> 
+either Int's or strings as one </span></span>
+
+<span class="sentence"><span data-start="1389.0" data-end="1389.0"> 
+example.</span></span>
+
+<span class="sentence"><span data-start="1391.0" data-end="1391.0"> 
+OK.</span></span>
+
+<span class="sentence"><span data-start="1392.0" data-end="1395.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1396.0" data-end="1398.0"> 
+Now, there are cases where you </span></span>
+
+<span class="sentence"><span data-start="1398.0" data-end="1399.0"> 
+really do have to implement </span></span>
+
+<span class="sentence"><span data-start="1399.0" data-end="1402.0"> 
+equality and Hashing by hand.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1403.0" data-end="1405.0"> 
+So let's look at one example of </span></span>
+
+<span class="sentence"><span data-start="1405.0" data-end="1405.0"> 
+that.</span></span>
+
+<span class="sentence"><span data-start="1406.0" data-end="1407.0"> 
+Let's say I have a data type </span></span>
+
+<span class="sentence"><span data-start="1408.0" data-end="1410.0"> 
+that represents a city and it's </span></span>
+
+<span class="sentence"><span data-start="1410.0" data-end="1412.0"> 
+got a name, it's got the state </span></span>
+
+<span class="sentence"><span data-start="1412.0" data-end="1413.0"> 
+that it's located in, and it has </span></span>
+
+<span class="sentence"><span data-start="1413.0" data-end="1414.0"> 
+the population.</span></span>
+
+<span class="sentence"><span data-start="1414.0" data-end="1415.0"> 
+And let's say that for the </span></span>
+
+<span class="sentence"><span data-start="1415.0" data-end="1418.0"> 
+purposes of this example I only </span></span>
+
+<span class="sentence"><span data-start="1418.0" data-end="1419.0"> 
+have to compare the name and the </span></span>
+
+<span class="sentence"><span data-start="1419.0" data-end="1421.0"> 
+state for equality and if I know </span></span>
+
+<span class="sentence"><span data-start="1421.0" data-end="1422.0"> 
+those are equal I don't have to </span></span>
+
+<span class="sentence"><span data-start="1422.0" data-end="1423.0"> 
+check the population.</span></span>
+
+<span class="sentence"><span data-start="1424.0" data-end="1426.0"> 
+So if I let the compiler </span></span>
+
+<span class="sentence"><span data-start="1426.0" data-end="1428.0"> 
+synthesize the implementation of </span></span>
+
+<span class="sentence"><span data-start="1428.0" data-end="1429.0"> 
+equality here it's going to do </span></span>
+
+<span class="sentence"><span data-start="1429.0" data-end="1431.0"> 
+unnecessary work because it's </span></span>
+
+<span class="sentence"><span data-start="1431.0" data-end="1432.0"> 
+going to be comparing that </span></span>
+
+<span class="sentence"><span data-start="1432.0" data-end="1433.0"> 
+population field.</span></span>
+
+<span class="sentence"><span data-start="1433.0" data-end="1435.0"> 
+But I certainly write it out by </span></span>
+
+<span class="sentence"><span data-start="1435.0" data-end="1436.0"> 
+hand and maybe in this case it's </span></span>
+
+<span class="sentence"><span data-start="1436.0" data-end="1437.0"> 
+not too bad.</span></span>
+
+<span class="sentence"><span data-start="1438.0" data-end="1439.0"> 
+But what about Hashable? </span></span>
+
+<span class="sentence"><span data-start="1441.0" data-end="1442.0"> 
+So if I want to calculate the </span></span>
+
+<span class="sentence"><span data-start="1442.0" data-end="1444.0"> 
+Hash code of the city object, </span></span>
+
+<span class="sentence"><span data-start="1445.0" data-end="1446.0"> 
+then I'm going to calculate the </span></span>
+
+<span class="sentence"><span data-start="1447.0" data-end="1448.0"> 
+Hash code of the name and the </span></span>
+
+<span class="sentence"><span data-start="1448.0" data-end="1449.0"> 
+Hash code of the state and I </span></span>
+
+<span class="sentence"><span data-start="1449.0" data-end="1451.0"> 
+have to combine them somehow.</span></span>
+
+<span class="sentence"><span data-start="1451.0" data-end="1452.0"> 
+But how do I do that? </span></span>
+
+<span class="sentence"><span data-start="1453.0" data-end="1455.0"> 
+Well, I can use an exclusive or </span></span>
+
+<span class="sentence"><span data-start="1455.0" data-end="1458.0"> 
+operation or I could use some </span></span>
+
+<span class="sentence"><span data-start="1458.0" data-end="1460.0"> 
+random math formula that I found </span></span>
+
+<span class="sentence"><span data-start="1460.0" data-end="1461.0"> 
+on the Internet or just came up </span></span>
+
+<span class="sentence"><span data-start="1461.0" data-end="1462.0"> 
+with myself.</span></span>
+
+<span class="sentence"><span data-start="1463.0" data-end="1464.0"> 
+But neither one of these is very </span></span>
+
+<span class="sentence"><span data-start="1464.0" data-end="1467.0"> 
+satisfying and it feels like </span></span>
+
+<span class="sentence"><span data-start="1467.0" data-end="1468.0"> 
+these Hash combining functions </span></span>
+
+<span class="sentence"><span data-start="1469.0" data-end="1470.0"> 
+have a lot of magic to them.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1470.0" data-end="1472.0"> 
+And the cost of getting it wrong </span></span>
+
+<span class="sentence"><span data-start="1472.0" data-end="1474.0"> 
+is pretty high because the </span></span>
+
+<span class="sentence"><span data-start="1474.0" data-end="1475.0"> 
+performance properties that you </span></span>
+
+<span class="sentence"><span data-start="1475.0" data-end="1477.0"> 
+expect to get from a dictionary </span></span>
+
+<span class="sentence"><span data-start="1477.0" data-end="1479.0"> 
+or a set really rely on having a </span></span>
+
+<span class="sentence"><span data-start="1479.0" data-end="1481.0"> 
+good high-quality Hash function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1482.0" data-end="1483.0"> 
+There's also a security angle </span></span>
+
+<span class="sentence"><span data-start="1484.0" data-end="1484.0"> 
+here.</span></span>
+
+<span class="sentence"><span data-start="1484.0" data-end="1486.0"> 
+So if an attacker is able to </span></span>
+
+<span class="sentence"><span data-start="1486.0" data-end="1489.0"> 
+craft inputs that all Hash to </span></span>
+
+<span class="sentence"><span data-start="1489.0" data-end="1491.0"> 
+the same value and send them to </span></span>
+
+<span class="sentence"><span data-start="1491.0" data-end="1492.0"> 
+your app over the Internet </span></span>
+
+<span class="sentence"><span data-start="1492.0" data-end="1494.0"> 
+somehow, then it might slow your </span></span>
+
+<span class="sentence"><span data-start="1494.0" data-end="1495.0"> 
+app down to the point where it </span></span>
+
+<span class="sentence"><span data-start="1495.0" data-end="1496.0"> 
+becomes unusable creating a </span></span>
+
+<span class="sentence"><span data-start="1496.0" data-end="1498.0"> 
+denial of service attack.</span></span>
+
+<span class="sentence"><span data-start="1498.0" data-end="1501.0"> 
+So in Swift 4.2 we've added a </span></span>
+
+<span class="sentence"><span data-start="1501.0" data-end="1502.0"> 
+better API for this.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1503.0" data-end="1505.0"> 
+Now recall the Hashable protocol </span></span>
+
+<span class="sentence"><span data-start="1505.0" data-end="1506.0"> 
+in Swift 4 and 4.1.</span></span>
+
+<span class="sentence"><span data-start="1507.0" data-end="1509.0"> 
+It has a single Hash value </span></span>
+
+<span class="sentence"><span data-start="1509.0" data-end="1510.0"> 
+requirement that produces a </span></span>
+
+<span class="sentence"><span data-start="1510.0" data-end="1511.0"> 
+single integer value.</span></span>
+
+<span class="sentence"><span data-start="1512.0" data-end="1514.0"> 
+In Swift 4.2 we've redesigned </span></span>
+
+<span class="sentence"><span data-start="1514.0" data-end="1516.0"> 
+the Hashable protocol so now </span></span>
+
+<span class="sentence"><span data-start="1517.0" data-end="1519.0"> 
+there's a different Hash into </span></span>
+
+<span class="sentence"><span data-start="1519.0" data-end="1519.0"> 
+requirement.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1520.0" data-end="1521.0"> 
+And instead of producing a </span></span>
+
+<span class="sentence"><span data-start="1521.0" data-end="1523.0"> 
+single Hash code value, Hash </span></span>
+
+<span class="sentence"><span data-start="1523.0" data-end="1526.0"> 
+into takes a Hasher instance and </span></span>
+
+<span class="sentence"><span data-start="1526.0" data-end="1527.0"> 
+then you can feed multiple </span></span>
+
+<span class="sentence"><span data-start="1527.0" data-end="1529.0"> 
+values into the Hasher, which </span></span>
+
+<span class="sentence"><span data-start="1529.0" data-end="1531.0"> 
+will combine them into one Hash </span></span>
+
+<span class="sentence"><span data-start="1531.0" data-end="1531.0"> 
+code.</span></span>
+
+<span class="sentence"><span data-start="1532.0" data-end="1534.0"> 
+So going back to our example of </span></span>
+
+<span class="sentence"><span data-start="1534.0" data-end="1536.0"> 
+the city data type, all we have </span></span>
+
+<span class="sentence"><span data-start="1536.0" data-end="1538.0"> 
+to do is implement Hash into by </span></span>
+
+<span class="sentence"><span data-start="1538.0" data-end="1540.0"> 
+recursively calling Hash into on </span></span>
+
+<span class="sentence"><span data-start="1540.0" data-end="1542.0"> 
+the name and the state passing </span></span>
+
+<span class="sentence"><span data-start="1542.0" data-end="1544.0"> 
+in the Hasher object instance </span></span>
+
+<span class="sentence"><span data-start="1544.0" data-end="1545.0"> 
+that we were given.</span></span>
+
+<span class="sentence"><span data-start="1546.0" data-end="1549.0"> 
+And the Hash combining algorithm </span></span>
+
+<span class="sentence"><span data-start="1549.0" data-end="1551.0"> 
+in the Hasher, it does a good </span></span>
+
+<span class="sentence"><span data-start="1551.0" data-end="1553.0"> 
+job of balancing the quality of </span></span>
+
+<span class="sentence"><span data-start="1553.0" data-end="1555.0"> 
+the Hash code with performance </span></span>
+
+<span class="sentence"><span data-start="1555.0" data-end="1556.0"> 
+and as an added layer of </span></span>
+
+<span class="sentence"><span data-start="1556.0" data-end="1557.0"> 
+protection against denial of </span></span>
+
+<span class="sentence"><span data-start="1557.0" data-end="1559.0"> 
+service attacks, it uses a </span></span>
+
+<span class="sentence"><span data-start="1559.0" data-end="1561.0"> 
+random preprocess seed, which is </span></span>
+
+<span class="sentence"><span data-start="1561.0" data-end="1563.0"> 
+generated when your app starts.</span></span>
+
+<span class="sentence"><span data-start="1565.0" data-end="1567.0"> 
+And we think that it should be </span></span>
+
+<span class="sentence"><span data-start="1567.0" data-end="1569.0"> 
+pretty easy to migrate your code </span></span>
+
+<span class="sentence"><span data-start="1569.0" data-end="1570.0"> 
+to using the new Hashable </span></span>
+
+<span class="sentence"><span data-start="1570.0" data-end="1572.0"> 
+protocol and we encourage you to </span></span>
+
+<span class="sentence"><span data-start="1572.0" data-end="1572.0"> 
+do so.</span></span>
+
+<span class="sentence"><span data-start="1573.0" data-end="1575.0"> 
+The one caveat to watch out for </span></span>
+
+<span class="sentence"><span data-start="1575.0" data-end="1576.0"> 
+is you might have some code </span></span>
+
+<span class="sentence"><span data-start="1576.0" data-end="1578.0"> 
+where you're expecting that Hash </span></span>
+
+<span class="sentence"><span data-start="1578.0" data-end="1580.0"> 
+values remain constant from </span></span>
+
+<span class="sentence"><span data-start="1580.0" data-end="1582.0"> 
+different runs of your app or </span></span>
+
+<span class="sentence"><span data-start="1582.0" data-end="1583.0"> 
+that if you iterate over a </span></span>
+
+<span class="sentence"><span data-start="1583.0" data-end="1585.0"> 
+dictionary or a set you're going </span></span>
+
+<span class="sentence"><span data-start="1585.0" data-end="1586.0"> 
+to get the elements in the same </span></span>
+
+<span class="sentence"><span data-start="1586.0" data-end="1586.0"> 
+order.</span></span>
+
+<span class="sentence"><span data-start="1587.0" data-end="1588.0"> 
+And this is no longer the case </span></span>
+
+<span class="sentence"><span data-start="1588.0" data-end="1589.0"> 
+because of that random </span></span>
+
+<span class="sentence"><span data-start="1589.0" data-end="1590.0"> 
+preprocess seed.</span></span>
+
+<span class="sentence"><span data-start="1590.0" data-end="1591.0"> 
+So you will need to fix your </span></span>
+
+<span class="sentence"><span data-start="1591.0" data-end="1592.0"> 
+code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1592.0" data-end="1595.0"> 
+And to make this easier we've </span></span>
+
+<span class="sentence"><span data-start="1595.0" data-end="1597.0"> 
+added a build setting, the Swift </span></span>
+
+<span class="sentence"><span data-start="1597.0" data-end="1598.0"> 
+Deterministic Hashing </span></span>
+
+<span class="sentence"><span data-start="1598.0" data-end="1599.0"> 
+Environment Variable, which you </span></span>
+
+<span class="sentence"><span data-start="1599.0" data-end="1601.0"> 
+can enable in the scheme editor </span></span>
+
+<span class="sentence"><span data-start="1602.0" data-end="1603.0"> 
+to temporarily disable that </span></span>
+
+<span class="sentence"><span data-start="1603.0" data-end="1605.0"> 
+preprocess random seed.</span></span>
+
+<span class="sentence"><span data-start="1605.0" data-end="1609.0"> 
+OK, so let's talk about </span></span>
+
+<span class="sentence"><span data-start="1609.0" data-end="1611.0"> 
+generating random numbers.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1612.0" data-end="1613.0"> 
+So how do you generate random </span></span>
+
+<span class="sentence"><span data-start="1613.0" data-end="1614.0"> 
+numbers in Swift today? </span></span>
+
+<span class="sentence"><span data-start="1615.0" data-end="1617.0"> 
+Well, you have to use imported C </span></span>
+
+<span class="sentence"><span data-start="1617.0" data-end="1618.0"> 
+APIs.</span></span>
+
+<span class="sentence"><span data-start="1618.0" data-end="1619.0"> 
+And this is really not ideal </span></span>
+
+<span class="sentence"><span data-start="1619.0" data-end="1621.0"> 
+because they are different </span></span>
+
+<span class="sentence"><span data-start="1621.0" data-end="1623.0"> 
+between platforms and they have </span></span>
+
+<span class="sentence"><span data-start="1623.0" data-end="1624.0"> 
+different names, different </span></span>
+
+<span class="sentence"><span data-start="1624.0" data-end="1626.0"> 
+behavior, so you have to use </span></span>
+
+<span class="sentence"><span data-start="1626.0" data-end="1628.0"> 
+build configuration checks.</span></span>
+
+<span class="sentence"><span data-start="1628.0" data-end="1630.0"> 
+But also they're quite low level </span></span>
+
+<span class="sentence"><span data-start="1630.0" data-end="1632.0"> 
+and these common operations that </span></span>
+
+<span class="sentence"><span data-start="1632.0" data-end="1634.0"> 
+are not quite so obvious to </span></span>
+
+<span class="sentence"><span data-start="1634.0" data-end="1634.0"> 
+implement.</span></span>
+
+<span class="sentence"><span data-start="1635.0" data-end="1636.0"> 
+For example, if I want to get a </span></span>
+
+<span class="sentence"><span data-start="1636.0" data-end="1639.0"> 
+random number between 1 and 6, </span></span>
+
+<span class="sentence"><span data-start="1639.0" data-end="1641.0"> 
+then I might think to just call </span></span>
+
+<span class="sentence"><span data-start="1641.0" data-end="1643.0"> 
+this Darwin arc4random function </span></span>
+
+<span class="sentence"><span data-start="1643.0" data-end="1645.0"> 
+and then calculate the remainder </span></span>
+
+<span class="sentence"><span data-start="1645.0" data-end="1646.0"> 
+of dividing by 6.</span></span>
+
+<span class="sentence"><span data-start="1646.0" data-end="1647.0"> 
+But that actually gives you a </span></span>
+
+<span class="sentence"><span data-start="1647.0" data-end="1649.0"> 
+result that is not uniformly </span></span>
+
+<span class="sentence"><span data-start="1649.0" data-end="1651.0"> 
+distributed between 1 and 6.</span></span>
+
+<span class="sentence"><span data-start="1652.0" data-end="1655.0"> 
+So in Swift 4.2 we've added a </span></span>
+
+<span class="sentence"><span data-start="1655.0" data-end="1657.0"> 
+new set of APIs to make this </span></span>
+
+<span class="sentence"><span data-start="1657.0" data-end="1658.0"> 
+kind of thing easier.</span></span>
+
+<span class="sentence"><span data-start="1659.0" data-end="1661.0"> 
+First of all, all the numeric </span></span>
+
+<span class="sentence"><span data-start="1661.0" data-end="1663.0"> 
+types now define a random method </span></span>
+
+<span class="sentence"><span data-start="1663.0" data-end="1665.0"> 
+that takes a range and returns a </span></span>
+
+<span class="sentence"><span data-start="1665.0" data-end="1667.0"> 
+number uniformly distributed in </span></span>
+
+<span class="sentence"><span data-start="1667.0" data-end="1667.0"> 
+that range.</span></span>
+
+<span class="sentence"><span data-start="1668.0" data-end="1669.0"> 
+This uses the correct algorithm </span></span>
+
+<span class="sentence"><span data-start="1669.0" data-end="1671.0"> 
+and it even works for floats.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1672.0" data-end="1678.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1679.0" data-end="1680.0"> 
+For higher level code we've </span></span>
+
+<span class="sentence"><span data-start="1680.0" data-end="1683.0"> 
+added a random element method to </span></span>
+
+<span class="sentence"><span data-start="1683.0" data-end="1684.0"> 
+the collection protocol.</span></span>
+
+<span class="sentence"><span data-start="1684.0" data-end="1687.0"> 
+And just like min and max this </span></span>
+
+<span class="sentence"><span data-start="1687.0" data-end="1688.0"> 
+returns an optional so that if </span></span>
+
+<span class="sentence"><span data-start="1688.0" data-end="1690.0"> 
+you pass in an empty collection </span></span>
+
+<span class="sentence"><span data-start="1690.0" data-end="1691.0"> 
+you get back no.</span></span>
+
+<span class="sentence"><span data-start="1692.0" data-end="1694.0"> 
+And finally there's a shuffled </span></span>
+
+<span class="sentence"><span data-start="1694.0" data-end="1697.0"> 
+method on collection where this </span></span>
+
+<span class="sentence"><span data-start="1697.0" data-end="1698.0"> 
+gives you an array with a random </span></span>
+
+<span class="sentence"><span data-start="1698.0" data-end="1700.0"> 
+permutation of the elements of </span></span>
+
+<span class="sentence"><span data-start="1700.0" data-end="1701.0"> 
+that collection.</span></span>
+
+<span class="sentence"><span data-start="1702.0" data-end="1705.0"> 
+And we think the default Random </span></span>
+
+<span class="sentence"><span data-start="1705.0" data-end="1706.0"> 
+Number Generator is a good </span></span>
+
+<span class="sentence"><span data-start="1706.0" data-end="1707.0"> 
+choice for most apps.</span></span>
+
+<span class="sentence"><span data-start="1708.0" data-end="1709.0"> 
+But you can also implement your </span></span>
+
+<span class="sentence"><span data-start="1709.0" data-end="1709.0"> 
+own.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1710.0" data-end="1711.0"> 
+So there's a random number </span></span>
+
+<span class="sentence"><span data-start="1711.0" data-end="1714.0"> 
+generator protocol and once you </span></span>
+
+<span class="sentence"><span data-start="1714.0" data-end="1715.0"> 
+write a type that conforms to </span></span>
+
+<span class="sentence"><span data-start="1715.0" data-end="1717.0"> 
+this protocol you can pass it to </span></span>
+
+<span class="sentence"><span data-start="1717.0" data-end="1719.0"> 
+all these APIs that I talked </span></span>
+
+<span class="sentence"><span data-start="1719.0" data-end="1720.0"> 
+about which have an additional </span></span>
+
+<span class="sentence"><span data-start="1720.0" data-end="1723.0"> 
+overload with a using parameter </span></span>
+
+<span class="sentence"><span data-start="1723.0" data-end="1724.0"> 
+that takes a random number </span></span>
+
+<span class="sentence"><span data-start="1724.0" data-end="1725.0"> 
+generator.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1726.0" data-end="1729.0"> 
+OK, so we saw these build </span></span>
+
+<span class="sentence"><span data-start="1729.0" data-end="1731.0"> 
+configuration checks earlier.</span></span>
+
+<span class="sentence"><span data-start="1731.0" data-end="1734.0"> 
+Let's talk some more about them.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1734.0" data-end="1735.0"> 
+Well, this is a pretty common </span></span>
+
+<span class="sentence"><span data-start="1735.0" data-end="1736.0"> 
+pattern in Swift.</span></span>
+
+<span class="sentence"><span data-start="1737.0" data-end="1738.0"> 
+You have a little piece of Swift </span></span>
+
+<span class="sentence"><span data-start="1738.0" data-end="1740.0"> 
+code that is shared between iOS </span></span>
+
+<span class="sentence"><span data-start="1740.0" data-end="1743.0"> 
+and macOS and on iOS you want to </span></span>
+
+<span class="sentence"><span data-start="1743.0" data-end="1745.0"> 
+do something with UIKit.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1745.0" data-end="1746.0"> 
+On macOS you want to do </span></span>
+
+<span class="sentence"><span data-start="1746.0" data-end="1748.0"> 
+something similar in AppKit.</span></span>
+
+<span class="sentence"><span data-start="1748.0" data-end="1750.0"> 
+So if you want to do this today </span></span>
+
+<span class="sentence"><span data-start="1750.0" data-end="1751.0"> 
+you're going to write a #if </span></span>
+
+<span class="sentence"><span data-start="1752.0" data-end="1754.0"> 
+compile time condition check and </span></span>
+
+<span class="sentence"><span data-start="1754.0" data-end="1755.0"> 
+then you have to list out those </span></span>
+
+<span class="sentence"><span data-start="1755.0" data-end="1757.0"> 
+operating systems where UIKit is </span></span>
+
+<span class="sentence"><span data-start="1757.0" data-end="1757.0"> 
+available.</span></span>
+
+<span class="sentence"><span data-start="1758.0" data-end="1760.0"> 
+So but what you really care </span></span>
+
+<span class="sentence"><span data-start="1760.0" data-end="1761.0"> 
+about is not that you're running </span></span>
+
+<span class="sentence"><span data-start="1761.0" data-end="1763.0"> 
+on this particular operating </span></span>
+
+<span class="sentence"><span data-start="1763.0" data-end="1764.0"> 
+system, but that you can import </span></span>
+
+<span class="sentence"><span data-start="1764.0" data-end="1765.0"> 
+UIKit.</span></span>
+
+<span class="sentence"><span data-start="1765.0" data-end="1767.0"> 
+So on Swift 4.2 we've added a </span></span>
+
+<span class="sentence"><span data-start="1767.0" data-end="1770.0"> 
+has import Build Configuration </span></span>
+
+<span class="sentence"><span data-start="1770.0" data-end="1772.0"> 
+Directive so you can better </span></span>
+
+<span class="sentence"><span data-start="1772.0" data-end="1773.0"> 
+express your intent.</span></span>
+
+<span class="sentence"><span data-start="1774.0" data-end="1776.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1776.0" data-end="1778.0"> 
+And with the new features of </span></span>
+
+<span class="sentence"><span data-start="1778.0" data-end="1779.0"> 
+Swift 4.2, I can actually </span></span>
+
+<span class="sentence"><span data-start="1779.0" data-end="1780.0"> 
+improve this code further.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1781.0" data-end="1783.0"> 
+So let's say that I'm also going </span></span>
+
+<span class="sentence"><span data-start="1783.0" data-end="1784.0"> 
+to explicitly check for AppKit </span></span>
+
+<span class="sentence"><span data-start="1785.0" data-end="1787.0"> 
+and then if neither UIKit nor </span></span>
+
+<span class="sentence"><span data-start="1787.0" data-end="1788.0"> 
+AppKit is available, for example </span></span>
+
+<span class="sentence"><span data-start="1788.0" data-end="1790.0"> 
+if I'm building on Linux, I'm </span></span>
+
+<span class="sentence"><span data-start="1790.0" data-end="1792.0"> 
+going to use the new #error </span></span>
+
+<span class="sentence"><span data-start="1792.0" data-end="1793.0"> 
+build directive to produce a </span></span>
+
+<span class="sentence"><span data-start="1793.0" data-end="1795.0"> 
+friendly compile time error </span></span>
+
+<span class="sentence"><span data-start="1795.0" data-end="1795.0"> 
+message.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1797.0" data-end="1799.0"> 
+OK, now here's another similar </span></span>
+
+<span class="sentence"><span data-start="1799.0" data-end="1800.0"> 
+source of boilerplate.</span></span>
+
+<span class="sentence"><span data-start="1801.0" data-end="1803.0"> 
+So if I want to compile </span></span>
+
+<span class="sentence"><span data-start="1803.0" data-end="1805.0"> 
+something conditionally when I'm </span></span>
+
+<span class="sentence"><span data-start="1805.0" data-end="1806.0"> 
+in the simulator environment, </span></span>
+
+<span class="sentence"><span data-start="1806.0" data-end="1809.0"> 
+then today in Swift 4 I have to </span></span>
+
+<span class="sentence"><span data-start="1809.0" data-end="1811.0"> 
+copy and paste this ugly thing </span></span>
+
+<span class="sentence"><span data-start="1811.0" data-end="1812.0"> 
+everywhere I want to perform </span></span>
+
+<span class="sentence"><span data-start="1812.0" data-end="1813.0"> 
+that check.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1814.0" data-end="1816.0"> 
+In Swift 4.2 you can use the new </span></span>
+
+<span class="sentence"><span data-start="1816.0" data-end="1818.0"> 
+hasTargetEnvironment condition, </span></span>
+
+<span class="sentence"><span data-start="1818.0" data-end="1821.0"> 
+to again better state your </span></span>
+
+<span class="sentence"><span data-start="1821.0" data-end="1823.0"> 
+intent and just explicitly ask </span></span>
+
+<span class="sentence"><span data-start="1823.0" data-end="1825.0"> 
+the compiler, am I compiling for </span></span>
+
+<span class="sentence"><span data-start="1825.0" data-end="1826.0"> 
+the simulator or not? </span></span>
+
+<span class="sentence"><span data-start="1826.0" data-end="1828.0"> 
+And while we're at it, let's </span></span>
+
+<span class="sentence"><span data-start="1828.0" data-end="1830.0"> 
+replace that FIXME with a </span></span>
+
+<span class="sentence"><span data-start="1830.0" data-end="1832.0"> 
+#warning build directive to </span></span>
+
+<span class="sentence"><span data-start="1832.0" data-end="1833.0"> 
+produce a message or compile </span></span>
+
+<span class="sentence"><span data-start="1834.0" data-end="1835.0"> 
+time so that I don't forget to </span></span>
+
+<span class="sentence"><span data-start="1835.0" data-end="1838.0"> 
+fix my FIXME.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1838.0" data-end="1840.0"> 
+OK, so that about wraps up all </span></span>
+
+<span class="sentence"><span data-start="1840.0" data-end="1842.0"> 
+the features that I'm going to </span></span>
+
+<span class="sentence"><span data-start="1842.0" data-end="1843.0"> 
+discuss today, but I have a </span></span>
+
+<span class="sentence"><span data-start="1843.0" data-end="1844.0"> 
+couple more things to talk </span></span>
+
+<span class="sentence"><span data-start="1844.0" data-end="1844.0"> 
+about.</span></span>
+
+<span class="sentence"><span data-start="1846.0" data-end="1847.0"> 
+Let's unwrap, Implicitly </span></span>
+
+<span class="sentence"><span data-start="1847.0" data-end="1848.0"> 
+Unwrapped Optionals.</span></span>
+
+<span class="sentence"><span data-start="1848.0" data-end="1849.0"> 
+That's a horrible pun.</span></span>
+
+<span class="sentence"><span data-start="1850.0" data-end="1852.0"> 
+OK, so Implicitly Unwrapped </span></span>
+
+<span class="sentence"><span data-start="1852.0" data-end="1854.0"> 
+Optionals can be a little bit </span></span>
+
+<span class="sentence"><span data-start="1854.0" data-end="1857.0"> 
+confusing and let's first review </span></span>
+
+<span class="sentence"><span data-start="1857.0" data-end="1859.0"> 
+the mental model for Implicitly </span></span>
+
+<span class="sentence"><span data-start="1859.0" data-end="1860.0"> 
+Unwrapped Optionals.</span></span>
+
+<span class="sentence"><span data-start="1860.0" data-end="1861.0"> 
+How do I think about them? </span></span>
+
+<span class="sentence"><span data-start="1861.0" data-end="1864.0"> 
+Well, so since Swift 3 they're </span></span>
+
+<span class="sentence"><span data-start="1864.0" data-end="1866.0"> 
+not the type of an expression.</span></span>
+
+<span class="sentence"><span data-start="1866.0" data-end="1868.0"> 
+Don't think of it as a type.</span></span>
+
+<span class="sentence"><span data-start="1868.0" data-end="1869.0"> 
+Instead, think of Implicitly </span></span>
+
+<span class="sentence"><span data-start="1869.0" data-end="1871.0"> 
+Unwrapped Optionals as an </span></span>
+
+<span class="sentence"><span data-start="1871.0" data-end="1873.0"> 
+attribute of a declaration.</span></span>
+
+<span class="sentence"><span data-start="1873.0" data-end="1875.0"> 
+And what the compiler does when </span></span>
+
+<span class="sentence"><span data-start="1875.0" data-end="1877.0"> 
+you reference such a declaration </span></span>
+
+<span class="sentence"><span data-start="1877.0" data-end="1879.0"> 
+is it will first try to type </span></span>
+
+<span class="sentence"><span data-start="1879.0" data-end="1881.0"> 
+check it as a plain optional and </span></span>
+
+<span class="sentence"><span data-start="1881.0" data-end="1883.0"> 
+then if that doesn't make sense </span></span>
+
+<span class="sentence"><span data-start="1883.0" data-end="1884.0"> 
+in the context where it's used, </span></span>
+
+<span class="sentence"><span data-start="1884.0" data-end="1886.0"> 
+it goes ahead and unwraps it and </span></span>
+
+<span class="sentence"><span data-start="1886.0" data-end="1888.0"> 
+then type checks it as the </span></span>
+
+<span class="sentence"><span data-start="1888.0" data-end="1888.0"> 
+underlined type.</span></span>
+
+<span class="sentence"><span data-start="1890.0" data-end="1891.0"> 
+So let's look at an example of </span></span>
+
+<span class="sentence"><span data-start="1891.0" data-end="1892.0"> 
+the first case.</span></span>
+
+<span class="sentence"><span data-start="1893.0" data-end="1894.0"> 
+So here I have two functions, </span></span>
+
+<span class="sentence"><span data-start="1894.0" data-end="1896.0"> 
+the first of which produces and </span></span>
+
+<span class="sentence"><span data-start="1896.0" data-end="1897.0"> 
+implicitly unwrapped optional </span></span>
+
+<span class="sentence"><span data-start="1897.0" data-end="1899.0"> 
+integer and the second of which </span></span>
+
+<span class="sentence"><span data-start="1899.0" data-end="1901.0"> 
+takes a value of any type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1901.0" data-end="1903.0"> 
+And I'm going to call the second </span></span>
+
+<span class="sentence"><span data-start="1903.0" data-end="1904.0"> 
+function with the result of the </span></span>
+
+<span class="sentence"><span data-start="1904.0" data-end="1905.0"> 
+first function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1905.0" data-end="1907.0"> 
+Now in this case I can store an </span></span>
+
+<span class="sentence"><span data-start="1907.0" data-end="1910.0"> 
+optional Int inside of an Any </span></span>
+
+<span class="sentence"><span data-start="1910.0" data-end="1912.0"> 
+and so no forced unwrapping is </span></span>
+
+<span class="sentence"><span data-start="1912.0" data-end="1913.0"> 
+performed.</span></span>
+
+<span class="sentence"><span data-start="1913.0" data-end="1915.0"> 
+The value simply becomes a plain </span></span>
+
+<span class="sentence"><span data-start="1915.0" data-end="1915.0"> 
+optional.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1915.0" data-end="1919.0"> 
+Let's look at an example of the </span></span>
+
+<span class="sentence"><span data-start="1919.0" data-end="1919.0"> 
+second case now.</span></span>
+
+<span class="sentence"><span data-start="1920.0" data-end="1922.0"> 
+Here, the first function now </span></span>
+
+<span class="sentence"><span data-start="1922.0" data-end="1925.0"> 
+produces -- sorry, the second </span></span>
+
+<span class="sentence"><span data-start="1925.0" data-end="1927.0"> 
+function now takes an integer.</span></span>
+
+<span class="sentence"><span data-start="1927.0" data-end="1929.0"> 
+So when I call the second </span></span>
+
+<span class="sentence"><span data-start="1929.0" data-end="1930.0"> 
+function with the result of the </span></span>
+
+<span class="sentence"><span data-start="1930.0" data-end="1933.0"> 
+first function then I cannot </span></span>
+
+<span class="sentence"><span data-start="1933.0" data-end="1934.0"> 
+pass an optional Int where an </span></span>
+
+<span class="sentence"><span data-start="1934.0" data-end="1936.0"> 
+Int was expected.</span></span>
+
+<span class="sentence"><span data-start="1936.0" data-end="1938.0"> 
+So the compiler has to insert a </span></span>
+
+<span class="sentence"><span data-start="1938.0" data-end="1941.0"> 
+force unwrap and then it all </span></span>
+
+<span class="sentence"><span data-start="1941.0" data-end="1942.0"> 
+works because now I have an Int </span></span>
+
+<span class="sentence"><span data-start="1942.0" data-end="1946.0"> 
+and an Int And this mental model </span></span>
+
+<span class="sentence"><span data-start="1946.0" data-end="1947.0"> 
+makes Implicitly Unwrapped </span></span>
+
+<span class="sentence"><span data-start="1947.0" data-end="1949.0"> 
+Optionals very easy to reason </span></span>
+
+<span class="sentence"><span data-start="1949.0" data-end="1949.0"> 
+about.</span></span>
+
+<span class="sentence"><span data-start="1950.0" data-end="1952.0"> 
+But until recently the compiler </span></span>
+
+<span class="sentence"><span data-start="1952.0" data-end="1954.0"> 
+had some edge cases where it did </span></span>
+
+<span class="sentence"><span data-start="1954.0" data-end="1955.0"> 
+not always follow this model.</span></span>
+
+<span class="sentence"><span data-start="1956.0" data-end="1958.0"> 
+So recall that you cannot have </span></span>
+
+<span class="sentence"><span data-start="1958.0" data-end="1960.0"> 
+an implicitly unwrapped optional </span></span>
+
+<span class="sentence"><span data-start="1960.0" data-end="1961.0"> 
+that is part of another type.</span></span>
+
+<span class="sentence"><span data-start="1962.0" data-end="1963.0"> 
+And this is still the case in </span></span>
+
+<span class="sentence"><span data-start="1963.0" data-end="1964.0"> 
+Swift 4.2.</span></span>
+
+<span class="sentence"><span data-start="1964.0" data-end="1966.0"> 
+I cannot have an array of </span></span>
+
+<span class="sentence"><span data-start="1966.0" data-end="1968.0"> 
+implicitly unwrapped Int's.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1969.0" data-end="1971.0"> 
+However, in Swift 4 previously, </span></span>
+
+<span class="sentence"><span data-start="1971.0" data-end="1973.0"> 
+there is some edge cases like </span></span>
+
+<span class="sentence"><span data-start="1973.0" data-end="1973.0"> 
+this.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1973.0" data-end="1975.0"> 
+I could define a type alias </span></span>
+
+<span class="sentence"><span data-start="1975.0" data-end="1977.0"> 
+where the underlying type was </span></span>
+
+<span class="sentence"><span data-start="1977.0" data-end="1979.0"> 
+implicitly unwrapped Int and </span></span>
+
+<span class="sentence"><span data-start="1979.0" data-end="1980.0"> 
+then I could make an array of </span></span>
+
+<span class="sentence"><span data-start="1981.0" data-end="1983.0"> 
+this type alias and I would get </span></span>
+
+<span class="sentence"><span data-start="1983.0" data-end="1984.0"> 
+very confusing behavior from the </span></span>
+
+<span class="sentence"><span data-start="1984.0" data-end="1986.0"> 
+compiler that made code hard to </span></span>
+
+<span class="sentence"><span data-start="1986.0" data-end="1986.0"> 
+understand.</span></span>
+
+<span class="sentence"><span data-start="1987.0" data-end="1989.0"> 
+So in Swift 4.2 we've </span></span>
+
+<span class="sentence"><span data-start="1989.0" data-end="1990.0"> 
+re-implemented Implicitly </span></span>
+
+<span class="sentence"><span data-start="1990.0" data-end="1992.0"> 
+Unwrapped Optional so that it </span></span>
+
+<span class="sentence"><span data-start="1992.0" data-end="1994.0"> 
+exactly matches the mental model </span></span>
+
+<span class="sentence"><span data-start="1994.0" data-end="1997.0"> 
+I outlined earlier and this </span></span>
+
+<span class="sentence"><span data-start="1997.0" data-end="1999.0"> 
+confusing code example now </span></span>
+
+<span class="sentence"><span data-start="1999.0" data-end="2000.0"> 
+generates a compile time warning </span></span>
+
+<span class="sentence"><span data-start="2001.0" data-end="2003.0"> 
+and the compiler parses that as </span></span>
+
+<span class="sentence"><span data-start="2003.0" data-end="2005.0"> 
+if it was just a plain array of </span></span>
+
+<span class="sentence"><span data-start="2005.0" data-end="2007.0"> 
+integers, of optional integers.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2008.0" data-end="2010.0"> 
+Now, most code will not be </span></span>
+
+<span class="sentence"><span data-start="2010.0" data-end="2012.0"> 
+affected by this change to </span></span>
+
+<span class="sentence"><span data-start="2012.0" data-end="2013.0"> 
+Implicitly Unwrapped Optional, </span></span>
+
+<span class="sentence"><span data-start="2014.0" data-end="2015.0"> 
+but if you were accidentally </span></span>
+
+<span class="sentence"><span data-start="2015.0" data-end="2017.0"> 
+relying on these edge cases I </span></span>
+
+<span class="sentence"><span data-start="2017.0" data-end="2018.0"> 
+encourage you to check out this </span></span>
+
+<span class="sentence"><span data-start="2018.0" data-end="2021.0"> 
+blog post on Swift.org that goes </span></span>
+
+<span class="sentence"><span data-start="2021.0" data-end="2022.0"> 
+into a lot of detail and has a </span></span>
+
+<span class="sentence"><span data-start="2022.0" data-end="2024.0"> 
+lot of examples about what </span></span>
+
+<span class="sentence"><span data-start="2024.0" data-end="2027.0"> 
+changed and how.</span></span>
+
+<span class="sentence"><span data-start="2027.0" data-end="2029.0"> 
+OK, now there's only one more </span></span>
+
+<span class="sentence"><span data-start="2029.0" data-end="2030.0"> 
+thing here today.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2030.0" data-end="2032.0"> 
+Let's talk about memory </span></span>
+
+<span class="sentence"><span data-start="2032.0" data-end="2033.0"> 
+exclusivity checking.</span></span>
+
+<span class="sentence"><span data-start="2035.0" data-end="2037.0"> 
+So if you recall, in Swift 4 we </span></span>
+
+<span class="sentence"><span data-start="2037.0" data-end="2039.0"> 
+introduced something called </span></span>
+
+<span class="sentence"><span data-start="2039.0" data-end="2041.0"> 
+Memory Exclusivity Checking, </span></span>
+
+<span class="sentence"><span data-start="2041.0" data-end="2042.0"> 
+which was a combination of </span></span>
+
+<span class="sentence"><span data-start="2042.0" data-end="2045.0"> 
+compile time and runtime checks </span></span>
+
+<span class="sentence"><span data-start="2045.0" data-end="2046.0"> 
+that restricted certain </span></span>
+
+<span class="sentence"><span data-start="2046.0" data-end="2048.0"> 
+operations from being performed.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2049.0" data-end="2050.0"> 
+In particular we banned </span></span>
+
+<span class="sentence"><span data-start="2051.0" data-end="2053.0"> 
+overlapping access to the same </span></span>
+
+<span class="sentence"><span data-start="2053.0" data-end="2054.0"> 
+memory location.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2054.0" data-end="2055.0"> 
+What does this mean? </span></span>
+
+<span class="sentence"><span data-start="2055.0" data-end="2057.0"> 
+Well, let's look at an example.</span></span>
+
+<span class="sentence"><span data-start="2057.0" data-end="2060.0"> 
+So here's a piece of code that </span></span>
+
+<span class="sentence"><span data-start="2060.0" data-end="2061.0"> 
+implements a data type for </span></span>
+
+<span class="sentence"><span data-start="2061.0" data-end="2063.0"> 
+operating system paths.</span></span>
+
+<span class="sentence"><span data-start="2063.0" data-end="2065.0"> 
+And this is represented as an </span></span>
+
+<span class="sentence"><span data-start="2065.0" data-end="2067.0"> 
+array of path components.</span></span>
+
+<span class="sentence"><span data-start="2067.0" data-end="2068.0"> 
+And there's a withAppended </span></span>
+
+<span class="sentence"><span data-start="2068.0" data-end="2069.0"> 
+method.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2070.0" data-end="2071.0"> 
+This method adds an element to </span></span>
+
+<span class="sentence"><span data-start="2071.0" data-end="2073.0"> 
+the array, then in calls a </span></span>
+
+<span class="sentence"><span data-start="2073.0" data-end="2075.0"> 
+closure that you pass in and </span></span>
+
+<span class="sentence"><span data-start="2075.0" data-end="2077.0"> 
+then it removes that element </span></span>
+
+<span class="sentence"><span data-start="2077.0" data-end="2077.0"> 
+from the array.</span></span>
+
+<span class="sentence"><span data-start="2078.0" data-end="2080.0"> 
+And this code is totally fine, </span></span>
+
+<span class="sentence"><span data-start="2080.0" data-end="2081.0"> 
+it's a valid Swift 4 code.</span></span>
+
+<span class="sentence"><span data-start="2082.0" data-end="2084.0"> 
+But let's look at this usage of </span></span>
+
+<span class="sentence"><span data-start="2084.0" data-end="2085.0"> 
+our path data type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2086.0" data-end="2087.0"> 
+So here I have a path that's </span></span>
+
+<span class="sentence"><span data-start="2087.0" data-end="2089.0"> 
+stored and a local variable and </span></span>
+
+<span class="sentence"><span data-start="2090.0" data-end="2091.0"> 
+then I call withAppended on it </span></span>
+
+<span class="sentence"><span data-start="2092.0" data-end="2094.0"> 
+and inside the closure I access </span></span>
+
+<span class="sentence"><span data-start="2094.0" data-end="2096.0"> 
+that local variable again </span></span>
+
+<span class="sentence"><span data-start="2096.0" data-end="2097.0"> 
+printing it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2097.0" data-end="2098.0"> 
+So what the problem here? </span></span>
+
+<span class="sentence"><span data-start="2099.0" data-end="2101.0"> 
+Well, it turns out this code is </span></span>
+
+<span class="sentence"><span data-start="2101.0" data-end="2103.0"> 
+actually ambiguous because when </span></span>
+
+<span class="sentence"><span data-start="2103.0" data-end="2105.0"> 
+I access that local variable </span></span>
+
+<span class="sentence"><span data-start="2106.0" data-end="2108.0"> 
+inside the closure, it's already </span></span>
+
+<span class="sentence"><span data-start="2108.0" data-end="2110.0"> 
+being modified by this </span></span>
+
+<span class="sentence"><span data-start="2110.0" data-end="2111.0"> 
+withAppended method, which is a </span></span>
+
+<span class="sentence"><span data-start="2111.0" data-end="2112.0"> 
+mutating method.</span></span>
+
+<span class="sentence"><span data-start="2113.0" data-end="2116.0"> 
+So the ambiguity is that do I </span></span>
+
+<span class="sentence"><span data-start="2116.0" data-end="2118.0"> 
+mean the original value of path </span></span>
+
+<span class="sentence"><span data-start="2118.0" data-end="2120.0"> 
+as it was before I called </span></span>
+
+<span class="sentence"><span data-start="2120.0" data-end="2122.0"> 
+withAppended or do I mean the </span></span>
+
+<span class="sentence"><span data-start="2122.0" data-end="2124.0"> 
+current value that is being </span></span>
+
+<span class="sentence"><span data-start="2124.0" data-end="2125.0"> 
+modified whatever that means.</span></span>
+
+<span class="sentence"><span data-start="2126.0" data-end="2128.0"> 
+Well, in Swift 4 this was a </span></span>
+
+<span class="sentence"><span data-start="2128.0" data-end="2130.0"> 
+compile time error because it </span></span>
+
+<span class="sentence"><span data-start="2130.0" data-end="2132.0"> 
+was an exclusivity violation.</span></span>
+
+<span class="sentence"><span data-start="2132.0" data-end="2134.0"> 
+And one way to address this is </span></span>
+
+<span class="sentence"><span data-start="2134.0" data-end="2135.0"> 
+to resolve the ambiguity by </span></span>
+
+<span class="sentence"><span data-start="2135.0" data-end="2137.0"> 
+telling the complier, hey I </span></span>
+
+<span class="sentence"><span data-start="2137.0" data-end="2140.0"> 
+really want the new value so I'm </span></span>
+
+<span class="sentence"><span data-start="2140.0" data-end="2141.0"> 
+going to just pass it in as a </span></span>
+
+<span class="sentence"><span data-start="2141.0" data-end="2143.0"> 
+parameter to the closure instead </span></span>
+
+<span class="sentence"><span data-start="2143.0" data-end="2144.0"> 
+of capturing it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2145.0" data-end="2147.0"> 
+OK, but now look at this </span></span>
+
+<span class="sentence"><span data-start="2147.0" data-end="2147.0"> 
+example.</span></span>
+
+<span class="sentence"><span data-start="2148.0" data-end="2149.0"> 
+So this is almost the same </span></span>
+
+<span class="sentence"><span data-start="2149.0" data-end="2151.0"> 
+function except that it's </span></span>
+
+<span class="sentence"><span data-start="2151.0" data-end="2153.0"> 
+generic, it's prioritized by the </span></span>
+
+<span class="sentence"><span data-start="2153.0" data-end="2154.0"> 
+return type of the closure.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2155.0" data-end="2157.0"> 
+And in this case we can have the </span></span>
+
+<span class="sentence"><span data-start="2157.0" data-end="2159.0"> 
+same kind of ambiguity by </span></span>
+
+<span class="sentence"><span data-start="2159.0" data-end="2161.0"> 
+accessing the path value from </span></span>
+
+<span class="sentence"><span data-start="2161.0" data-end="2162.0"> 
+inside the closure.</span></span>
+
+<span class="sentence"><span data-start="2162.0" data-end="2164.0"> 
+But previously Swift 4 did not </span></span>
+
+<span class="sentence"><span data-start="2164.0" data-end="2166.0"> 
+catch this error at compile </span></span>
+
+<span class="sentence"><span data-start="2166.0" data-end="2166.0"> 
+time.</span></span>
+
+<span class="sentence"><span data-start="2168.0" data-end="2170.0"> 
+In Swift 4.2 we've improved the </span></span>
+
+<span class="sentence"><span data-start="2170.0" data-end="2172.0"> 
+static exclusivity checking to </span></span>
+
+<span class="sentence"><span data-start="2172.0" data-end="2174.0"> 
+catch ambiguities like this in </span></span>
+
+<span class="sentence"><span data-start="2174.0" data-end="2175.0"> 
+more cases.</span></span>
+
+<span class="sentence"><span data-start="2176.0" data-end="2178.0"> 
+And in addition to improving -- </span></span>
+
+<span class="sentence"><span data-start="2179.0" data-end="2180.0"> 
+OK, and you can also fix the </span></span>
+
+<span class="sentence"><span data-start="2180.0" data-end="2182.0"> 
+ambiguity in the same way by </span></span>
+
+<span class="sentence"><span data-start="2182.0" data-end="2183.0"> 
+passing it as a parameter to the </span></span>
+
+<span class="sentence"><span data-start="2183.0" data-end="2184.0"> 
+closure.</span></span>
+
+<span class="sentence"><span data-start="2184.0" data-end="2186.0"> 
+In addition to improving the </span></span>
+
+<span class="sentence"><span data-start="2186.0" data-end="2188.0"> 
+static checks, we've also added </span></span>
+
+<span class="sentence"><span data-start="2188.0" data-end="2190.0"> 
+the ability to use the runtime </span></span>
+
+<span class="sentence"><span data-start="2190.0" data-end="2192.0"> 
+exclusivity checks and release </span></span>
+
+<span class="sentence"><span data-start="2192.0" data-end="2192.0"> 
+builds.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2193.0" data-end="2195.0"> 
+And this has some overhead but </span></span>
+
+<span class="sentence"><span data-start="2195.0" data-end="2196.0"> 
+if your app is not performance </span></span>
+
+<span class="sentence"><span data-start="2196.0" data-end="2198.0"> 
+critical, we encourage you to </span></span>
+
+<span class="sentence"><span data-start="2198.0" data-end="2199.0"> 
+try this out and leave it on all </span></span>
+
+<span class="sentence"><span data-start="2199.0" data-end="2200.0"> 
+the time.</span></span>
+
+<span class="sentence"><span data-start="2200.0" data-end="2202.0"> 
+In the future, we will get the </span></span>
+
+<span class="sentence"><span data-start="2202.0" data-end="2204.0"> 
+overhead of these dynamic checks </span></span>
+
+<span class="sentence"><span data-start="2204.0" data-end="2206.0"> 
+down to the point where we can </span></span>
+
+<span class="sentence"><span data-start="2206.0" data-end="2208.0"> 
+leave this enabled all the time </span></span>
+
+<span class="sentence"><span data-start="2208.0" data-end="2209.0"> 
+and it will give you an extra </span></span>
+
+<span class="sentence"><span data-start="2209.0" data-end="2210.0"> 
+level of protection just like </span></span>
+
+<span class="sentence"><span data-start="2210.0" data-end="2213.0"> 
+array bounce checking or integer </span></span>
+
+<span class="sentence"><span data-start="2213.0" data-end="2214.0"> 
+overflow checking today.</span></span>
+
+<span class="sentence"><span data-start="2215.0" data-end="2218.0"> 
+And there's a lot more in Swift </span></span>
+
+<span class="sentence"><span data-start="2218.0" data-end="2220.0"> 
+4.2 that I didn't talk about </span></span>
+
+<span class="sentence"><span data-start="2221.0" data-end="2221.0"> 
+today.</span></span>
+
+<span class="sentence"><span data-start="2222.0" data-end="2223.0"> 
+And we encourage you to try it </span></span>
+
+<span class="sentence"><span data-start="2223.0" data-end="2225.0"> 
+out on your existing apps.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2225.0" data-end="2226.0"> 
+We also want you to try out the </span></span>
+
+<span class="sentence"><span data-start="2226.0" data-end="2228.0"> 
+new features and if you have any </span></span>
+
+<span class="sentence"><span data-start="2228.0" data-end="2230.0"> 
+questions please come to the </span></span>
+
+<span class="sentence"><span data-start="2230.0" data-end="2231.0"> 
+labs and ask us.</span></span>
+
+<span class="sentence"><span data-start="2232.0" data-end="2232.0"> 
+Thank you.</span></span>
+
+<span class="sentence"><span data-start="2234.0" data-end="2239.0"> 
+</span></span>
+
+</p>
+							</section>
+						</li>
+
+						<!-- search -->
+						<li class="supplement search active" data-supplement-id="search">
+
+							<section class="transcript-results-summary">
+								<p class="message smaller lighter"><!-- to be populated --></p>
+								<p class="instructions smaller lighter text-center">Looking for something specific? Enter a topic above and jump straight to the good stuff.</p>
+								<p class="error smaller lighter italic text-center" style="display:none;">An error occurred when submitting your query. Please check your Internet connection and try again.</p>
+							</section>
+
+							<!-- search results -->
+							<ul class="transcript-results row">
+															</ul>
+
+						</li>
+
+					</ul>
+
+				</section>
+
+			</section>
+
+		</section>
+
+		<input id="analytics-meta" type="hidden" data-event-name="WWDC 2018" 
+		data-event-id="wwdc2018-401" 
+		data-session-id="401" 
+		data-video-name="What's New in Swift" 
+		data-session-response-id="">
+	</main>
+
+	<div id="globalfooter-wrapper">
+		<footer id="globalfooter" role="contentinfo">
+			<nav class="footer-breadory">
+				<a href="/" class="home breadcrumbs-home"><span aria-hidden="true"></span><span class="breadcrumbs-home-label">Developer</span></a>
+				<section class="breadcrumbs">
+					<ol class="breadcrumbs-list">
+						<li><a href="/videos/">Videos</a></li>
+						<li><a href="/videos/wwdc2018/">WWDC 2018</a></li>						<li>What's New in Swift</li>
+					</ol>
+				</section>
+				<div id="directorynav" class="directorynav">
+	<div id="dn-cola" class="column">
+		<h3><a href="/discover/">Discover</a></h3>
+		<ul>
+			<li><a href="/macos/">macOS</a></li>
+			<li><a href="/ios/">iOS</a></li>
+			<li><a href="/watchos/">watchOS</a></li>
+			<li><a href="/tvos/">tvOS</a></li>
+			<li><a href="/safari/">Safari and Web</a></li>
+			<li><a href="/games/">Games</a></li>
+			<li><a href="/business/">Business</a></li>
+			<li><a href="/education/">Education</a></li>
+			<li><a href="/wwdc/">WWDC</a></li>
+		</ul>
+	</div>
+	<div id="dn-colb" class="column">
+		<h3><a href="/design/">Design</a></h3>
+		<ul>
+			<li><a href="/design/human-interface-guidelines/">Human Interface Guidelines</a></li>
+			<li><a href="/design/resources/">Resources</a></li>
+			<li><a href="/videos/design/">Videos</a></li>
+			<li><a href="/design/awards/">Apple Design Awards</a></li>
+			<li><a href="/accessibility/">Accessibility</a></li>
+			<li><a href="/internationalization/">Internationalization</a></li>
+			<li><a href="/accessories/">Accessories</a></li>
+		</ul>
+	</div>
+	<div id="dn-colc" class="column">
+		<h3><a href="/develop/">Develop</a></h3>
+		<ul>
+			<li><a href="/xcode/">Xcode</a></li>
+			<li><a href="/swift/">Swift</a></li>
+			<li><a href="/swift-playgrounds/">Swift Playgrounds</a></li>
+			<li><a href="/testflight/">TestFlight</a></li>
+			<li><a href="/documentation/">Documentation</a></li>
+			<li><a href="/videos/">Videos</a></li>
+			<li><a href="/download/">Downloads</a></li>
+		</ul>
+	</div>
+	<div id="dn-cold" class="column">
+		<h3><a href="/distribute/">Distribute</a></h3>
+		<ul>
+			<li><a href="/programs/">Developer Program</a></li>
+			<li><a href="/app-store/">App Store</a></li>
+			<li><a href="/app-store/review/">App Review</a></li>
+			<li><a href="/macos/distribution/">Mac Software</a></li>
+			<li><a href="/business/distribute/">Apps for Business</a></li>
+			<li><a href="/safari/extensions/">Safari Extensions</a></li>
+			<li><a href="/app-store/marketing/guidelines/">Marketing Resources</a></li>
+			<li><a href="/softwarelicensing/">Trademark Licensing</a></li>
+		</ul>
+	</div>
+	<div id="dn-cole" class="column">
+		<h3><a href="/support/">Support</a></h3>
+		<ul>
+			<li><a href="https://forums.developer.apple.com">Developer Forums</a></li>
+			<li><a href="/bug-reporting/">Bug Reporting</a></li>
+			<li><a href="/terms/">License Agreements</a></li>
+			<li><a href="/system-status/">System Status</a></li>
+			<li><a href="/contact/">Contact Us</a></li>
+		</ul>
+		<h3><a href="/account/">Account</a></h3>
+		<ul>
+			<li><a href="/account/ios/certificate/">Certificates, IDs &amp; Profiles</a></li>
+			<li><a href="https://appstoreconnect.apple.com/">App Store Connect</a></li>
+		</ul>
+	</div>
+</div>
+
+			</nav>
+			<div class="ac-gf-footer-legal">
+  <div class="ac-gf-footer-news"> To receive the latest developer news, visit and subscribe to our <a href="/news/">News and Updates</a>. </div>
+  <div class="ac-gf-footer-legal-copyright">Copyright ©  2019 Apple Inc. All rights reserved.</div>
+  <div class="ac-gf-footer-legal-links">
+    <a href="https://www.apple.com/legal/internet-services/terms/site.html" class="first">Terms of Use</a>
+    <a href="https://www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="/bug-reporting/">Report Bugs</a>
+    <a href="/contact/submit/?subject=website-feedback">Feedback</a>
+  </div>
+  <div class="ac-gf-footer-language-links">
+    <a href="/cn/" lang="zh" class="first">简体中文</a>
+    <a href="/jp/" lang="ja">日本語</a>
+    <a href="/kr/" lang="ko">한국어</a>
+  </div>
+</div>
+
+		</footer>
+	</div>
+
+	<script src="/assets/scripts/params.js"></script>
+	<script src="/assets/scripts/watchable.js"></script>
+	<script src="/assets/scripts/timeout.js"></script>
+
+	<script src="/videos/scripts/play/play.js?2"></script>
+	<script src="/videos/scripts/hls/hls.min.js"></script>
+	
+</body>
+</html>

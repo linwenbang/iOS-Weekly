@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+<link rel="shortcut icon" type="image/x-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
+<link rel="mask-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/MjliNWVm.svg" color="#4C4C4C">
+<link rel="apple-touch-icon-precomposed" href="//res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+
+
+        <script nonce="48665569" type="text/javascript">
+            window.logs = {
+                pagetime: {}
+            };
+            window.logs.pagetime['html_begin'] = (+new Date());
+        </script>
+        <title>
+ CodeHub#1 回顾 | 敏捷开发与动态更新在支付宝 App 内的实践
+</title>
+        
+<style>.radius_avatar{display:inline-block;background-color:#fff;padding:3px;border-radius:50%;-moz-border-radius:50%;-webkit-border-radius:50%;overflow:hidden;vertical-align:middle}.radius_avatar img{display:block;width:100%;height:100%;border-radius:50%;-moz-border-radius:50%;-webkit-border-radius:50%;background-color:#eee}.rich_media_inner{word-wrap:break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}.rich_media_area_primary{padding:20px 16px 12px;background-color:#fafafa}.rich_media_area_primary.voice{padding-top:66px}.rich_media_area_primary .weui-loadmore_line .weui-loadmore__tips{color:rgba(0,0,0,0.3);background-color:#fafafa}.rich_media_area_extra{padding:0 16px 24px}.rich_media_extra{padding-top:30px}.mpda_bottom_container .rich_media_extra{padding-top:24px}.mpda_bottom_container .rich_media_extra .mpad_more_list{right:-10px}.code-snippet{margin:10px 0;display:block;overflow-x:auto;font-size:14px;padding:1em 1em 1em 3em;color:#333;position:relative;background-color:#fafafa;border:1px solid #f0f0f0;border-radius:2px;counter-reset:line;white-space:normal;-webkit-overflow-scrolling:touch}.code-snippet code{text-align:left;font-size:14px;display:block;white-space:pre-wrap;position:relative;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace}.code-snippet code::before{position:absolute;min-width:1.5em;text-align:right;left:-2.5em;counter-increment:line;content:counter(line);display:inline;margin-right:12px;color:rgba(0,0,0,0.15)}.code-snippet_nowrap code{white-space:pre;display:flex}.code-snippet__fix{font-size:14px;margin:10px 0;display:block;color:#333;position:relative;background-color:rgba(0,0,0,0.03);border:1px solid #f0f0f0;border-radius:2px;display:flex;line-height:26px}.code-snippet__fix pre{overflow-x:auto;padding:1em;padding-left:0;white-space:normal;flex:1;-webkit-overflow-scrolling:touch}.code-snippet__fix code{text-align:left;font-size:14px;display:block;white-space:pre;display:flex;position:relative;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace}.code-snippet__fix .code-snippet__line-index{counter-reset:line;flex-shrink:0;height:100%;padding:1em;list-style-type:none}.code-snippet__fix .code-snippet__line-index li{list-style-type:none;text-align:right}.code-snippet__fix .code-snippet__line-index li::before{min-width:1.5em;text-align:right;left:-2.5em;counter-increment:line;content:counter(line);display:inline;color:rgba(0,0,0,0.15)}.code-snippet__comment,.code-snippet__quote{color:#afafaf;font-style:italic}.code-snippet__keyword,.code-snippet__selector-tag,.code-snippet__subst{color:#ca7d37}.code-snippet__number,.code-snippet__literal,.code-snippet__variable,.code-snippet__template-variable,.code-snippet__tag .code-snippet__attr{color:#0e9ce5}.code-snippet__string,.code-snippet__doctag{color:#d14}.code-snippet__title,.code-snippet__section,.code-snippet__selector-id{color:#d14}.code-snippet__subst{font-weight:normal}.code-snippet__type,.code-snippet__class .code-snippet__title{color:#0e9ce5}.code-snippet__tag,.code-snippet__name,.code-snippet__attribute{color:#0e9ce5;font-weight:normal}.code-snippet__regexp,.code-snippet__link{color:#ca7d37}.code-snippet__symbol,.code-snippet__bullet{color:#d14}.code-snippet__built_in,.code-snippet__builtin-name{color:#ca7d37}.code-snippet__meta{color:#afafaf}.code-snippet__deletion{background:#fdd}.code-snippet__addition{background:#dfd}.code-snippet__emphasis{font-style:italic}.code-snippet__strong{font-weight:bold}html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;line-height:1.6}body{-webkit-touch-callout:none;font-family:-apple-system-font,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei UI","Microsoft YaHei",Arial,sans-serif;color:#333;background-color:#f2f2f2;letter-spacing:.034em}h1,h2,h3,h4,h5,h6{font-weight:400;font-size:16px}*{margin:0;padding:0}a{color:#576b95;text-decoration:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}.rich_media_title{font-size:22px;line-height:1.4;margin-bottom:14px}@supports(-webkit-overflow-scrolling:touch){.rich_media_title{font-weight:700}}.rich_media_meta_list{margin-bottom:22px;line-height:20px;font-size:0;word-wrap:break-word;word-break:break-all}.rich_media_meta_list em{font-style:normal}.rich_media_meta{display:inline-block;vertical-align:middle;margin:0 10px 10px 0;font-size:15px;-webkit-tap-highlight-color:rgba(0,0,0,0)}.rich_media_meta.icon_appmsg_tag{margin-right:4px}.rich_media_meta.meta_tag_text{margin-right:0}.rich_media_meta_primary{display:block;margin-bottom:10px;font-size:15px}.meta_original_tag{padding:0 .5em;font-size:12px;line-height:1.4;background-color:#f2f2f2;color:#888}.meta_enterprise_tag img{width:30px;height:30px!important;display:block;position:relative;margin-top:-3px;border:0}.rich_media_meta_link{color:#576b95}.rich_media_meta_text{color:rgba(0,0,0,0.3)}.rich_media_meta_text.rich_media_meta_split{padding-left:10px}.rich_media_meta_text.rich_media_meta_split:before{position:absolute;top:50%;left:0;margin-top:-6px;content:' ';display:block;border-left:1px solid #888;width:200%;height:130%;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-webkit-transform:scale(0.5);transform:scale(0.5);-webkit-transform-origin:0 0;transform-origin:0 0}.rich_media_meta_text.article_modify_tag{position:relative}.rich_media_meta_nickname{position:relative}.rich_media_thumb_wrp{margin-bottom:6px}.rich_media_thumb_wrp .original_img_wrp{display:block}.rich_media_thumb{display:block;width:100%}.rich_media_content{overflow:hidden;color:#333;font-size:17px;word-wrap:break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto;text-align:justify;position:relative;z-index:0}.rich_media_content *{max-width:100%!important;box-sizing:border-box!important;-webkit-box-sizing:border-box!important;word-wrap:break-word!important}.rich_media_content p{clear:both;min-height:1em}.rich_media_content em{font-style:italic}.rich_media_content fieldset{min-width:0}.rich_media_content .list-paddingleft-1,.rich_media_content .list-paddingleft-2,.rich_media_content .list-paddingleft-3{padding-left:2.2em}.rich_media_content .list-paddingleft-1 .list-paddingleft-2,.rich_media_content .list-paddingleft-2 .list-paddingleft-2,.rich_media_content .list-paddingleft-3 .list-paddingleft-2{padding-left:30px}.rich_media_content .list-paddingleft-1{padding-left:1.2em}.rich_media_content .list-paddingleft-3{padding-left:3.2em}.rich_media_content .code-snippet,.rich_media_content .code-snippet__fix{max-width:1000%!important}.rich_media_content .code-snippet *,.rich_media_content .code-snippet__fix *{max-width:1000%!important}img{height:auto!important}@media only screen and (device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait){.rich_media_area_extra{padding-bottom:34px}}@media only screen and (device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) and (orientation:landscape){.rich_media_area_primary{padding:20px 60px 15px 60px}.rich_media_area_extra{padding:0 60px 21px 60px}}@media screen and (min-width:1024px){.rich_media_area_primary_inner,.rich_media_area_extra_inner{max-width:677px;margin-left:auto;margin-right:auto}.rich_media_area_primary{padding-top:32px}}blockquote{padding-left:10px;border-left:3px solid #dbdbdb;color:rgba(0,0,0,0.5);font-size:15px;padding-top:4px;margin:1em 0}.blockquote_info{color:rgba(0,0,0,0.3);margin-top:1.1764705882352942em;word-wrap:break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}.blockquote_article{display:block}.appmsg_share_notice{font-size:16px;color:#888;position:relative;padding:1.25em 0;margin-bottom:1.75em}.appmsg_share_notice:before{content:" ";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #dfdfdf;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(0.5);transform:scaleY(0.5)}.appmsg_share_notice:after{content:" ";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #dfdfdf;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(0.5);transform:scaleY(0.5)}.appmsg_share_notice_hd{font-weight:700;padding-bottom:.2em}.cell{padding:.8em 0;display:block;position:relative}.cell_hd,.cell_bd,.cell_ft{display:table-cell;vertical-align:middle;word-wrap:break-word;word-break:break-all;white-space:nowrap}.cell_primary{width:2000px;white-space:normal}.flex_cell{padding:10px 0;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.flex_cell_primary{width:100%;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;box-flex:1;flex:1}.original_tool_area{display:block;padding:.75em 1em 0;-webkit-tap-highlight-color:rgba(0,0,0,0);color:#333;border:1px solid #eaeaea;margin:20px 0}.original_tool_area .tips_global{position:relative;padding-bottom:.5em;font-size:15px}.original_tool_area .tips_global:after{content:" ";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #dbdbdb;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(0.5);transform:scaleY(0.5)}.original_tool_area .radius_avatar{width:27px;height:27px;padding:0;margin-right:.5em}.original_tool_area .radius_avatar img{height:100%!important}.original_tool_area .flex_cell_bd{width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal}.original_tool_area .flex_cell_ft{font-size:14px;color:#888;padding-left:1em;white-space:nowrap}.original_tool_area .icon_access:after{content:" ";display:inline-block;height:8px;width:8px;border-width:1px 1px 0 0;border-color:#cbcad0;border-style:solid;transform:matrix(0.71,0.71,-0.71,0.71,0,0);-ms-transform:matrix(0.71,0.71,-0.71,0.71,0,0);-webkit-transform:matrix(0.71,0.71,-0.71,0.71,0,0);position:relative;top:-2px;top:-1px}.rich_media_global_msg{position:fixed;top:0;left:0;right:0;padding:.85em 35px .85em 15px;z-index:2;background-color:#c6e0f8;color:#888;font-size:12px}.rich_media_global_msg .icon_closed{position:absolute;right:15px;top:50%;margin-top:-5px;line-height:300px;overflow:hidden;-webkit-tap-highlight-color:rgba(0,0,0,0);background:transparent url(//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/icon_appmsg_msg_closed_sprite.2x42f400.png) no-repeat 0 0;width:11px;height:11px;vertical-align:middle;display:inline-block;-webkit-background-size:100% auto;background-size:100% auto}.rich_media_global_msg .icon_closed:active{background-position:0 -17px}.rich_media_global_msg.voice{color:#1aad19;background-color:#e8f6e8;padding-left:43.3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rich_media_global_msg.voice .ic_voice{position:absolute;top:50%;margin-top:-10px;left:15px;display:inline-block;width:13.3px;height:18.3px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAA3CAYAAAB+fggjAAAAAXNSR0IArs4c6QAACb9JREFUaAW9WX9wVMUd3917d5cf/Agp1OTuQgIlQqUoI1JI1Noojg2I+VU7hVrtDDpadRypgzKjU52x09KOdsS20ypSO/WPWttcAqhTOlSoU4FIoRUn0wEZIMndBUkwGEhyv97bfvaS97L77t3lHYUuc+z3935397vf/e4LJZfQnuPPsW0d25ZQzr9mELKSUnIVzHxB/Dh+lBOKf4OEk0FOyQAl/CyltIt5tL29d/V2FzIkLUQ4FA7dwon+KCF0Fee8rBBdS5aSs/D+PUrYbyKtkb9b9BzAlA7CERrqDN1DOH8C8HU57FwSGat6kBGypbcluhMwFj+75XWwemf1vHQqtZ0T3pCtelkp73uJ79s9bT39dqs5HQyFK79jcPIKFErtSgLHjPvQHQB0EFt2hDE2QHU6RMvpkODrw3o50Uk5p3w2N/SlUKhHTNZjskHBz2pi6ylbH22J/k3mOToYCAceIYT/AgYVPhxJQTkMQ792Ez/yQCY8d0fgRl0nj8J2G5z1mvSJ3qCMrYOTb5l0xQFBDIUDjxmcbzUFJnu621/kf/DUmlM9k7RLh4LtwRChxquck0bFCqWjxENuijXF/iXoioNVnZU36wZ5D7PTTCWsWhyp4uFYa+x1k3Y5ezj6oNgtdTVpL0Lo+mhr9BwO0Xib+/bcWYZB35Sdg/sXsOSNV8o5MXK0LfoKYXQDxpJOMZ8L1g8E33JQT6aeQRoJCOJEMxjxfCvSEtlnEq5Uj5h7Ayv2I8U+5w9du/va0oyD896ZV004RQKebIzQ53EQ/jJJubJQhUa2YBXPmqNgy8vPjZ67N+NgMh6/HwSfyURgniwqLvmJif8/+sNrY6O4XV5WxjKMuvHDQOl9uCksHmX0xydWn0hYBJfAgncXzBhNjjZSnX8Fq3ENdmWWUMUhS2Ebv5HrtjDNg/+B5IY4wos0cVukUskqUwj9xfKS2W9GSEwi5QdxFS5BMn54dGzkHkhOy0x18j9COY1O5VxmhGJylIxMjgUTC7WUkfrqJAkQpfuP3nFUElO4WUgwHHza0HU1wG1SGOi0jeSI+kf92hgZlXg0yajBV0gUwri4vqZud/O7PbhxkGiNvM5NWHKV3NN8LGQbuVdDsYIVzOzHOI+ygzYhR/RAxwdbELcPZDEp+Q+2YQcS2L+Zwc4gdSUQS7Oz5BwIKUqWyq5ApEdDsVmhBKaHnHDQVUg1uwKLkkm+USEScsbjId/ra+7fbaMThMHVdpoTjuyxXloqcUg+Eqe4WBb26/5hGXeCkynyfdA9Fo/SQeZlN/StjUQtmgQUFxVnKhyJlAUGOgP13OC3ygxGWZhhSYtkYqIicUHGnWCUluoFz8mzkRzOCf14Wfyikx2ThvQ0B6XZdvhi1QaoAfZHmiMf40xMJmih4BvxWQnbNCD3i/cunoYab4FMQwr5o4zb4Uh9ZMxOM3Fsf91YfPQfOAeLTJrouYc8K3rEII0ikBcKRLTEhUQNuo8E7NSGh4dnyDOFzIioOpxkZdqyXYGSAV2rMYjhIUamkL2ZcANvG+MWWS4DU/parDm2R8AiBj/Bz3IQe14DPKeDRho1hNyonFplhgp/mmaNhpH6s0VVToNFxR7TPcVFJVZdgMG4cNBq0LvRQhyA2vLaMyDrFouTL169KzBlGkEofdnScQYMXBI/raiuXC1fs4wz2iXLI+U0y7gd3tewL41IVhLvmM6X2eWycM7nZ9EEAXWgWDWPpjWg7tx8+IbD4llhNTadTn8XcWgVBphprbhbLQkngJK/ymTdoE/IuDPME5jYSYx1HLn3EH6/B77Rq/m+FG2L3d7X1Pe+kx5kCBJp4G0clDWmAJTD0db+NhO398GO4G3cMDJBbPIY9bShfgyb+OXqMwGPV9rrskFsc6t4fck0GRZPQ5GnZBpO4x/wvrAmKfP+FzjjYF9zn5i58s0ET8MX8hnGc+BxOGnFi8innBg7UUBsFaV6Pt1CeBMrKD73qG8CbPnKUHvg/lzG+tr6DlGWufJkEWQp/tjgyMBJPF+fWrhj4XSZeSlwJgaFIhyioY7gHvS3moYyK6TRO6JN0b0mzd6HOgIbEBK/gp7fzsOBGMLUX2Z+bWvvnb1T3sd2fYFbDgoET8/56UTqKEBrizDIeY1463tae1BGObeq9qrlBtXb4aRcmVvCmOjneFq+UFZW9lJ3Q3fee9lSmgAUBwUNd+N9CPjfTfDHO0pO+z1FK081nfpUoUuIuKPPD322Gav5OMjWBCURRBGN4GH0QCGvxSwHhcFguPLnGEip97AKXd5y39dPN5yOy4PaYXGrjKToRsTMIzg4M+38cZz+LNYWe8qZp1Izh0QlEVLfctMmzNb6gCP4GGxFcij5W7usHT++NjaI4uHpadr0KkbpZvAH7DKw9iRi98lsejbFcQWF2LJ/LvOe6Yl14m5eLavhU8gqkQdlWj5YnOSL+sXNWNFNmKT1NQsLkGAez3zcIHmfj44rKAYUd2Jxcek6HCP1cHD+Ig5DzonZnT3WdOyCWFGukRUIwkGTL069kdYz319MmlOf00EhjKpiWKPku7IiDF9X3RHMecvIsjIsPqdh1ewO3SXLOMF5HRQKvS39h5GNOmVlnZP1Mu4W9pZ5/4TDZh0ybHkt3iKOqcm0OaWDQpB52DZTQfQo+Vtl3C08kQGO2OStYtlGz6CuHJxZO3MPYnHYMsDJVSKpW3ghAOXKsxaPoup86q4c7F7cncSyHZANGen0Shl3C+PSPy/L4qmZ97525aAwiMLgQ8Uwp8tl3C2MASff00KJMRW3GXLtIFbwY1kXp/kaGXcL42AoDqHit6p5JxuuHfQwj1IvIhFO9QhyGk/QpskM/C3Gyo0y3YRdOzgnNOcTHJS0qYgVrBIfLE28gF75ToN3bySfrmsHM68tTo7JxuKJ+PUyPhWcqbQ5XarI+TRlZxQeENcOjitS5dMc5/oqu8F8+ODI4FrEoPVpBTfL8akK2YIc9DCiFAkoyTbUdNSU5XPK5Im/MQPeZOKZnpNdCu6AFOTgrJLZO2FDrogrUjyxPbQ/VOxgWyG9Fn71h6hoJkMC8exlvl8qQg6I66rE1A22Vz6PEuwZExe92CrQtmmU72U+fzQ9K/15XV1dsuudrhlc50t0XX8Izq1TdAh5I9rWf69Mc4ILdlCU9kNDn32ICvZS0wySAY2W+shSUdw6OSXTCtpioSgePZrPeydWTUncstF8MPRw1dFvunFO2CnYQaGEk3cSn8iWYyVeBGoImqtG6RHxQsQfEJVskE+34C22GxOfb8fiY40owtaAJ0qnciTxcvSlE7VfBPX3IQ8lb/U2R3dgBRGu7tt/AYJkZEGv/oaXAAAAAElFTkSuQmCC) no-repeat center;background-size:contain}.rich_media_global_msg.voice .icon_more{position:absolute;right:15px;top:50%;margin-top:-6.5px;width:8px;height:13px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAmCAYAAADeB1slAAAAAXNSR0IArs4c6QAAA49JREFUSA2tVk1IVFEUPveOmhQk1ibfvLFZSJtACqJIIpCIoB+imcFV2Z9ZUVnRomgRGFn2i6mFf5XVotCZMYmgIMhlq6BFENFiwjfPAosgFzXOvNu5o3fmeue98Y16F3PP+c453/fu/xCQmvZSWwwJaC0G6P8WND9IoTmbVFRycpqAdgBWkwRo94V960RsPn1aoPpN9RI6CR0WsDWcjAErtUiqTR/S18+HnNcSTv5zYrwDSatVMgLkH6aciwfj79WYW5+OT4xfsyPnBIgvwt872qBW45ZQzaMlJXCfMPJbDQgfRUoIhduVUW2TwArpaWyX+bnYU9JAAH44FaJIccqCW76Ib7NTjhOOvFPN/8q/IvE3cR+npFJgao9rkiSUXjD2GCNqzMnPbNPYjth3mqINlJAvTsk4kiJmWa3eQe8WpxwVzwjwgFFn/CorL29EkY9qovC5CFDrKq7JVoHl6zNTJCf53/lLk78SN/FcbJRx2cZCixC4ZATGXsu4as8YgQjGamN/q5atOotn4K3A1J4BUMbgsh7Wt6sx2bcV4AkjtSPJxkDjRQL0hVwg21zEglSzN+rdKeOybTtFcgK39ajWZDFWr+IZHxfGQ8mV0YA5nMGmDVcCPNcb8R5gYJ1UCWQfp6PFCI4NyZhrAV6EIiHGrPOAB0ImkW2c0la8u8ICc0wUCWrvC1dsw+3TnN6uanDaJ4zeiIfiA9wtWIAX8XspxeA6iuBlaN88hNzCNXk+JwFOuXJYW5tMQmc+EcqgzXGb2n9XFk1NstX5yKczl89JAF+6vRaBM1m5XAu//qkRGrtb8BThTtqH2/V0LmUWwbvsiREw8X0vcJHxxNbjNm3KUuVaMjmPFuWm2CPesHc/kp+yj06hFMhj/PIOOcfVFLk6xZT0G3vMTpmc27MusityZk/OBfKOwA05MPLIDJn3OJldcxTQotpBYOyEXVEWIw/NoInvuHOznSJfVDs0GzneNw9mI+eyOSPQI9phfCqPO38TFhHaFw/Eu/LliNiMESB5w6zkzD05F8mMYJr8mFC263Fa+vAadvXloj4toEcrjlgMjgrQrseHpBcfkm67WD6M6MN6lTWZeoZjyYxGLcB57MGnsEfF3fjU2G189QBpcUqmBLrnSs4504s8GjLxrwm5qYrg3dKFf6x6VbwQ3yOS/wz8+bS0ruwfELaBY2nyoNkn4gvW65GKRn4WForwP+dONHDaOHeZAAAAAElFTkSuQmCC) no-repeat center;background-size:contain}.preview_appmsg .rich_media_title{margin-top:2.3em}@media screen and (min-width:1024px){.rich_media_global_msg{position:relative;margin-bottom:32px}.preview_appmsg .rich_media_title.rich_media_title{margin-top:0}}.pages_reset{color:#333;line-height:1.6;font-size:16px;font-weight:400;font-style:normal;text-indent:0;letter-spacing:normal;text-align:left;text-decoration:none;white-space:normal}.weapp_element,.weapp_display_element,.mp-miniprogram{display:block;margin:1em 0}.share_audio_context{margin:16px 0}.weapp_text_link{font-size:17px}.weapp_text_link:before{content:'';display:inline-block;line-height:1;background-size:contain;background-repeat:no-repeat;background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAB4RJREFUWAm1WUuMFGUQnn7szL5mdvbh7GwgEQUlS1weiagxxpigiUZeJgY1cMMDcDCGG8GLCWZvxHjh4BWUeDEsejBBEzWYKBBEiHAABBfCMOwsuzvszrvb+v6Zb7amt1ce0Up6qv6q+qq+/rv778dYkUeUqamp5dFodJPv++ts205blpX2PG8I5cTOiLol44zYZ8vl8vFkMnnlUVpZDwPK5/MpIbWrVqttFlLD0jwiBEHIaNbCGKJjQvai+I9Xq9VD8Xg8y9z76QcimM1mu3t6ej4UYh84jtOFxhBNJGxskhp5xIielZ37bHp6+tNUKnWPOYvp+xKcm5t7S4gclKIpFNGzsmjRkBnUOwNbZjQrtfZ2dnZ+vVgd+O1/CVqlUukjIXZYCqZADBuEJIllc4xh61zmaB9s7LDkHkYPwJgX1KEEx8fHO2TmjkjyPgLQmERIAjHajGnyjDGPOfQ3xvvQCz3ZS+sw5hYAsodbWBhNw4SNGCMBnR/MYS60jskhPyaHe7u4W5otmEGZ8v0gx2YsyDE0bc4Wx8glOe2Dn2No2hqPnuiNXC0tM9i4IA5LcksjNm0BNs417aMNAsRom3HoMD8wsu3QF06TIJaSRCJxXrDmamUBrVEYRejDmDY0JEgsLE4f8mkTj6tb1tsRLkEukiBY56Q4rizThI2okaNtjFlUx+Cr1vzIyTMz7uW/ik4mV7Yd24oMDrR5q1Z01Nav6a5yVsLwcvRS4CI1D5ge+MEdQhbgC1yECSQhjMNsYCGMQ2dzFeuLYxOxibuVBec3cpekY7XtWwZK8a75sMajj2yzcsd5BnccM4PCeg/JoQjJwAY4TFgUMeRjXK54kS/H6uR6e1xvw4vJyuNLYh5yrt8s2d//MtV2M1Nyvvo2F9u5LVUSJEJNPPtKrS7XdXdL6GOzG+LYqIJNUiShYyRDjRw2OXnmnntnsmInE663e3u6uHZVZy2ZsH1sa4Y7ant2DBURu3aj6Jz9c9YBVuNRhz6pvwlju1gsPikzaG78CKIxNgh1sAj91MhFztXrRQf2C+vi1Y721tMC/vZYPQb78rWCE8Tr/uCEJyZbrprNAAST4QOAIGj6qBnDGPjZgmeS0gNRc1jD8D1xx+y978/XJh4awl54nHOl8Do6STKoDarxg5gmxpj2yTEwbtZhDvSlKwUzy+lU1NPxFvz8EcSzpnnYXDCD3AtqFtOFGNM+kMBYx+DzPD/y86m8e+7SnBON2v7qlR01ncP6Gg9uriSlGSSAYyTDhl/7bmTK9tXxkj3ydFetL4lTqT5jyIdgTB/0qT9m3R9/zbvT+Yottfw3XuktJxP1Q61rh/QfcuUcHBKmzcIwdCILQE/crVpHj9+JZe7U17hSyau89lJPxYDVD3KJm5qpWWMnJqMIY+nZvKGv/NQT7ebwcicI5RhYiHBLYx30WQxObWNMyQm5Q0cy7ULK6up0/PUj3dWXn48bckEMGrGZkPJ3bhssunLmLR2qXzyIacxitvT2XZm9jABWMEmD6QPJYzILILdyeWf13Y39ZTSEMAeaQpuxZUujHn26fhCPmI6Dmy0OvIE1AyyqfYWiH7n6d9GJxWz/7df7FpBjLjQETag1Me1HPKxXwJfByXeLRViUYGiI3F/NSYr1raPdNoXh594S75nVT1Z/mUz6kAfhGJp2EI887gRy5Bw0M/g7ndQI0gZISJkpyU6WbTm7m8RYELnFkh+ZnK4/qCTiWF4XXtk6X5NkLjX7iz4rh9keAxBODaKNWKrf9Qd627yC3Cm++2m6DbHWYpHI2Im7UfFZqf6oN9DrmAsPWIquH8QjR8dRG2O88JszW56kTwvRYSayOYtD37xdsT8/ejtWq/nWsqXttdXDHdW+RNTHY9Vv5/IuTgPHtfxd7w0V04/V1ziND5IiCeTofsyTw3tRnqyfNY9b8qg1JkktXwo0EKAlg23eO2/2l7/5YaoNTyPYNIFEt6xxr/aVQQ75QTxJkEBYnDFocEKOqYQHVnn+uiCBLji1IBnCBiVZ+U6fv+dmshV7cqpq9fY4/tBg1HtudXe1zeyuRs9fHMRrEvQBQT9smb1Z+YphHljr3cWJF2gB7NOENAhAjrWGP9iIPuZhDOFYa/hD8KOxWOyAweAHEnxpqnvrvyyofbQZg4boZsEcjrUO4mX2Wl6a6jdhQeAtSoJ70YDNoIMFwmJoqImF5Wgf8jHGRhx0Y9vLNzrkNQligPdRuZpHgyDEKIixMPMQow82/dC04YdgzFwdg0+2Uf1OjPzmOYhBQ6xCoYCX9626WDOo9pqNqHUO7IfBy0XxYJ8+UHdiYuJ9AHQT2GGiycHmmLNDkmFY+JCPXrlcbqcMW28/iCNpEcHnt/3SwHzhQiEIG5JAGDYsN8yHGjil5Ir9BKVDa4U5ta/xveagNDCfRBhDQ5JczEaujhHb0FlclMFzLpDTepEEgxijAL6VSCNcPLPw6aa0oSEgTZsx+GFjwyIsenRmZmbkfuQMDj8PKrjjyCHZIw02im7eGokHAQhnFjZ8GAux/+8jOhoFhX9DCIG1EsPfD9jMC5j4/rO/If4BCiyOk7IAfLMAAAAASUVORK5CYII=');vertical-align:middle;font-size:11px;color:#888;margin-right:6px;margin-top:-3px;background-position:center;height:20px;width:20px}.flex_context{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center}.flex_bd{-webkit-box-flex:1;-webkit-flex:1;flex:1;word-wrap:break-word;word-break:break-all}.original_page{background-color:#fff;font-size:16px}.account_info{padding:0 0 20px}.account_info .flex_bd{padding-left:.85em}.radius_avatar.account_avatar{width:40px;height:40px;padding:0}.account_nickname{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;line-height:1.2;color:#576b95;font-size:14px}.account_nickname_inner{font-weight:400;vertical-align:top}.account_desc{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;color:#b2b2b2;font-size:13px;line-height:1.2;padding-top:.3em}.account_desc_inner{display:inline;vertical-align:top}.share_notice{margin-bottom:20px;word-wrap:break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}.share_media{padding-bottom:18px}.original_panel{padding:20px;background-color:#fcfcfc;word-wrap:break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto;overflow:hidden;position:relative}.original_panel:after{content:" ";border:1px solid #d8d8d8;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;position:absolute;top:0;left:0;width:200%;height:200%;-webkit-transform:scale(0.5);transform:scale(0.5);-webkit-transform-origin:0 0;transform-origin:0 0;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}.original_panel .original_account{margin-bottom:18px;position:relative;z-index:1}.original_panel .original_account_avatar{width:28px;height:28px;padding:0}.original_panel .original_account_nickname{padding-left:.85em;font-size:15px;color:#576b95}.original_panel_title{font-size:23px;color:#000;margin:0 0 16px}.original_panel_content{color:#333}.original_panel_tool{padding-top:20px;position:relative;z-index:1}.original_tool_area.disabled{padding:0}.original_tool_area.disabled .flex_cell_bd{-webkit-box-flex:initial;-webkit-flex:initial;-ms-flex:initial;box-flex:initial;flex:initial}.original_tool_area.disabled .flex_cell_ft{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;box-flex:1;flex:1;padding:0}.original_tool_area.disabled .original_tool_tips:after{content:"："}.original_tool_area.disabled .original_cell_nickname{color:rgba(0,0,0,0.3);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;white-space:normal;max-width:none;min-height:1.6em}.original_tool_area.disabled:before,.original_tool_area.disabled:after,.original_tool_area.disabled .radius_avatar,.original_tool_area.disabled .icon_access:after{display:none}.original_cell_nickname{display:inline-block;vertical-align:middle;font-weight:400;width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;max-width:8em;color:#000}.original_tool_area{padding:1.17em 0;border-width:0;position:relative}.original_tool_area:before{content:" ";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #dfdfdf;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(0.5);transform:scaleY(0.5)}.original_tool_area:after{content:" ";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #dfdfdf;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(0.5);transform:scaleY(0.5)}.original_tool_area .radius_avatar{width:20px;height:20px;margin-right:.2em}.original_tool_area .flex_cell{padding:0;font-size:14px}.original_tool_area .icon_access:after{margin-right:4px;top:0}.preview_appmsg .rich_media_title{margin-top:1.5em}.preview_appmsg .account_info{padding-top:3em}.original_page{background-color:transparent}.account_info{-webkit-tap-highlight-color:rgba(0,0,0,0);outline:0;padding-bottom:20px;font-size:14px}.account_info.appmsg_account_info{padding-bottom:32px}.account_info .radius_avatar img{background-color:transparent}.share_notice{font-size:16px;word-wrap:break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}.original_panel{background-color:#fafafa}.original_panel:after{border-color:#e6e6e6}.original_panel .original_account_avatar{width:30px;height:30px}.original_panel_tool{font-size:14px}.original_panel_tool a{color:#576b95}.original_panel_content{font-size:17px}.share_media{padding-bottom:30px}.icon_appmsg_tag{display:inline-block;vertical-align:middle;padding:0 .5em;font-size:12px;line-height:1.5;background-color:#c3c3c3;color:#fff;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;max-width:70%}.icon_appmsg_tag.primary{color:#3bb638;padding:4px .78em;background-color:rgba(9,187,7,0.08);font-size:12px;border-top-left-radius:.95em 50%;-moz-border-radius-topleft:.95em 50%;-webkit-border-top-left-radius:.95em 50%;border-top-right-radius:.95em 50%;-moz-border-radius-topright:.95em 50%;-webkit-border-top-right-radius:.95em 50%;border-bottom-left-radius:.95em 50%;-moz-border-radius-bottomleft:.95em 50%;-webkit-border-bottom-left-radius:.95em 50%;border-bottom-right-radius:.95em 50%;-moz-border-radius-bottomright:.95em 50%;-webkit-border-bottom-right-radius:.95em 50%}.icon_appmsg_tag.default{border:1px solid rgba(0,0,0,0.1);color:rgba(0,0,0,0.3);background-color:transparent;padding:0 .54em;font-size:15px;line-height:1.3;border-top-left-radius:.67em 50%;-moz-border-radius-topleft:.67em 50%;-webkit-border-top-left-radius:.67em 50%;border-top-right-radius:.67em 50%;-moz-border-radius-topright:.67em 50%;-webkit-border-top-right-radius:.67em 50%;border-bottom-left-radius:.67em 50%;-moz-border-radius-bottomleft:.67em 50%;-webkit-border-bottom-left-radius:.67em 50%;border-bottom-right-radius:.67em 50%;-moz-border-radius-bottomright:.67em 50%;-webkit-border-bottom-right-radius:.67em 50%}.rich_media_meta_list .icon_appmsg_tag.default{margin-top:-1px}.icon_appmsg_tag.title_tag{background-color:#d04b4e}.icon_global_tag_wrp{text-align:right;padding-bottom:12px}.icon_global_tag{background-color:rgba(118,118,118,0.16);color:rgba(0,0,0,0.41);line-height:2.2;border-top-left-radius:1em 50%;-moz-border-radius-topleft:1em 50%;-webkit-border-top-left-radius:1em 50%;border-bottom-left-radius:1em 50%;-moz-border-radius-bottomleft:1em 50%;-webkit-border-bottom-left-radius:1em 50%;padding:0 1.8em 0 1.34em;font-size:12px;margin-right:-24px;display:inline-block;vertical-align:top}.global_plain_btn{display:inline-block;vertical-align:middle;padding:0 1em;line-height:2;font-size:14px;-webkit-tap-highlight-color:rgba(0,0,0,0);border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}.global_plain_btn.primary{color:#1aad19;border:1px solid currentColor}.global_plain_btn.primary:active{color:rgba(26,173,25,0.6)}.wx_video_context{color:#fefefe;position:relative;background-color:#000}.wx_video_thumb,.wx_video_thumb_primary{position:absolute;left:0;width:100%;height:100%!important;top:0}.wx_video_thumb_primary{-webkit-background-size:cover;background-size:cover;background-position:50% 50%;background-repeat:no-repeat}.wx_video_play_btn{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);margin-top:-2px;font-size:0;border-width:0;background-color:transparent;padding:0;outline:0;z-index:2}.wx_video_play_btn:before{content:" ";display:inline-block;width:0;height:0;border-width:14px 0 14px 25px;border-color:transparent transparent transparent #fff;border-style:dotted dotted dotted solid}.wx_video_mask{position:absolute;top:0;left:0;right:0;bottom:0;z-index:1;background-color:rgba(0,0,0,0.5)}.place_audio_area{min-height:100px;background-color:#fdfdfd;display:block;margin:16px 0}.place_music_area{min-height:68px;background-color:#fdfdfd;display:block;margin:17px 0 16px}.rich_media_empty_extra{background-color:#fafafa}.appmsg_skin_default.rich_media_empty_extra{background-color:#fff}.appmsg_skin_default .rich_media_area_primary{background-color:#fff}.appmsg_skin_default .rich_media_area_primary .weui-loadmore_line .weui-loadmore__tips{background-color:#fff}.appmsg_style_default .rich_media_tool{padding-top:15px}.rich_media_title_ios{font-weight:700}.read-more__area{margin:30px 0}.read-more__desc{margin-bottom:10px}.read-more__article__extra{font-size:14px;color:rgba(0,0,0,0.5)}.read-more__article__item{margin-bottom:10px}</style>
+<style>
+        </style>
+<!--[if lt IE 9]>
+<link rel="stylesheet" type="text/css" href="//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/pc435ee6.css">
+<![endif]-->
+
+    </head>
+    <body id="activity-detail" class="zh_CN mm_appmsg  appmsg_skin_default appmsg_style_default">
+        
+<script nonce="48665569" type="text/javascript">
+    var biz = ""||"MzUyMDk2MzUzMQ==";
+    var sn = "" || ""|| "abaa941ecbb10dfeb053a79c9392c75a";
+    var mid = "" || ""|| "2247484143";
+    var idx = "" || "" || "1";
+    window.__allowLoadResFromMp = true; 
+    
+        
+</script>
+<script nonce="48665569" type="text/javascript">
+var page_begintime=+new Date,is_rumor="",norumor="";
+1*is_rumor&&!(1*norumor)&&biz&&mid&&(document.referrer&&-1!=document.referrer.indexOf("mp.weixin.qq.com/mp/rumor")||(location.href="http://mp.weixin.qq.com/mp/rumor?action=info&__biz="+biz+"&mid="+mid+"&idx="+idx+"&sn="+sn+"#wechat_redirect"));
+</script>
+<script nonce="48665569" type="text/javascript">
+var MutationObserver=window.WebKitMutationObserver||window.MutationObserver||window.MozMutationObserver,isDangerSrc=function(t){
+if(t){
+var e=t.match(/http(?:s)?:\/\/([^\/]+?)(\/|$)/);
+if(e&&!/qq\.com(\:8080)?$/.test(e[1])&&!/weishi\.com$/.test(e[1]))return!0;
+}
+return!1;
+},ishttp=0==location.href.indexOf("http://");
+-1==location.href.indexOf("safe=0")&&ishttp&&"function"==typeof MutationObserver&&"mp.weixin.qq.com"==location.host&&(window.__observer_data={
+count:0,
+exec_time:0,
+list:[]
+},window.__observer=new MutationObserver(function(t){
+window.__observer_data.count++;
+var e=new Date,r=[];
+t.forEach(function(t){
+for(var e=t.addedNodes,o=0;o<e.length;o++){
+var n=e[o];
+if("SCRIPT"===n.tagName){
+var i=n.src;
+isDangerSrc(i)&&(window.__observer_data.list.push(i),r.push(n)),!i&&window.__nonce_str&&n.getAttribute("nonce")!=window.__nonce_str&&(window.__observer_data.list.push("inlinescript_without_nonce"),
+r.push(n));
+}
+}
+});
+for(var o=0;o<r.length;o++){
+var n=r[o];
+n.parentNode&&n.parentNode.removeChild(n);
+}
+window.__observer_data.exec_time+=new Date-e;
+}),window.__observer.observe(document,{
+subtree:!0,
+childList:!0
+})),function(){
+if(-1==location.href.indexOf("safe=0")&&Math.random()<.01&&ishttp&&HTMLScriptElement.prototype.__lookupSetter__&&"undefined"!=typeof Object.defineProperty){
+window.__danger_src={
+xmlhttprequest:[],
+script_src:[],
+script_setAttribute:[]
+};
+var t="$"+Math.random();
+HTMLScriptElement.prototype.__old_method_script_src=HTMLScriptElement.prototype.__lookupSetter__("src"),
+HTMLScriptElement.prototype.__defineSetter__("src",function(t){
+t&&isDangerSrc(t)&&window.__danger_src.script_src.push(t),this.__old_method_script_src(t);
+});
+var e="element_setAttribute"+t;
+Object.defineProperty(Element.prototype,e,{
+value:Element.prototype.setAttribute,
+enumerable:!1
+}),Element.prototype.setAttribute=function(t,r){
+"SCRIPT"==this.tagName&&"src"==t&&isDangerSrc(r)&&window.__danger_src.script_setAttribute.push(r),
+this[e](t,r);
+};
+}
+}();
+</script>
+
+        <link rel="dns-prefetch" href="//res.wx.qq.com">
+<link rel="dns-prefetch" href="//mmbiz.qpic.cn">
+<link rel="shortcut icon" type="image/x-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
+<link rel="mask-icon" href="//res.wx.qq.com/a/wx_fed/assets/res/MjliNWVm.svg" color="#4C4C4C">
+<link rel="apple-touch-icon-precomposed" href="//res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png">
+<script nonce="48665569" type="text/javascript">
+    String.prototype.html = function(encode) {
+        var replace =["&#39;", "'", "&quot;", '"', "&nbsp;", " ", "&gt;", ">", "&lt;", "<", "&yen;", "¥", "&amp;", "&"];
+        
+		
+		
+		
+		
+        
+        var replaceReverse = ["&", "&amp;", "¥", "&yen;", "<", "&lt;", ">", "&gt;", " ", "&nbsp;", '"', "&quot;", "'", "&#39;"];
+	    var target;
+	    if (encode) {
+	    	target = replaceReverse;
+	    } else {
+	    	target = replace;
+	    }
+        for (var i=0,str=this;i< target.length;i+= 2) {
+             str=str.replace(new RegExp(target[i],'g'),target[i+1]);
+        }
+        return str;
+    };
+
+    window.isInWeixinApp = function() {
+        return /MicroMessenger/.test(navigator.userAgent);
+    };
+
+    window.getQueryFromURL = function(url) {
+        url = url || 'http://qq.com/s?a=b#rd'; 
+        var tmp = url.split('?'),
+            query = (tmp[1] || "").split('#')[0].split('&'),
+            params = {};
+        for (var i=0; i<query.length; i++) {
+            var arg = query[i].split('=');
+            params[arg[0]] = arg[1];
+        }
+        if (params['pass_ticket']) {
+        	params['pass_ticket'] = encodeURIComponent(params['pass_ticket'].html(false).html(false).replace(/\s/g,"+"));
+        }
+        return params;
+    };
+
+    (function() {
+	    var params = getQueryFromURL(location.href);
+        window.uin = params['uin'] || "" || '';
+        window.key = params['key'] || "" || '';
+        window.wxtoken = params['wxtoken'] || '';
+        window.pass_ticket = params['pass_ticket'] || '';
+        window.appmsg_token = "";
+    })();
+
+    function wx_loaderror() {
+        if (location.pathname === '/bizmall/reward') {
+            new Image().src = '/mp/jsreport?key=96&content=reward_res_load_err&r=' + Math.random();
+        }
+    }
+
+</script>
+
+<script nonce="48665569" type="text/javascript">
+        window.__moon_report_uin = "0";
+            window.no_moon_ls = 0;
+    </script>
+
+        
+<script nonce="48665569" type="text/javascript">
+    var write_sceen_time = (+new Date());
+</script>
+
+<div id="js_article" class="rich_media">
+    
+    <div id="js_top_ad_area" class="top_banner"></div>
+    
+    <div class="rich_media_inner">
+
+        
+        
+        <div id="page-content" class="rich_media_area_primary">
+          <div class="rich_media_area_primary_inner">
+                                    
+                        
+
+            <div id="img-content">
+
+                
+                <h2 class="rich_media_title" id="activity-name">
+                    
+                    
+                    CodeHub#1 回顾 | 敏捷开发与动态更新在支付宝 App 内的实践
+
+                                                                                </h2>
+                <div id="meta_content" class="rich_media_meta_list">
+                                                            <span id="copyright_logo" class="rich_media_meta rich_media_meta_text meta_tag_text">原创：</span>
+                                                            <span class="rich_media_meta rich_media_meta_text">
+                                                古塘
+                                            </span>
+                                        
+                                        <span class="rich_media_meta rich_media_meta_nickname" id="profileBt">
+                      <a href="javascript:void(0);" id="js_name">
+                        mPaaS                      </a>
+                      <div id="js_profile_qrcode" class="profile_container" style="display:none;">
+                          <div class="profile_inner">
+                              <strong class="profile_nickname">mPaaS</strong>
+                              <img class="profile_avatar" id="js_profile_qrcode_img" src="" alt="">
+
+                              <p class="profile_meta">
+                              <label class="profile_meta_label">微信号</label>
+                              <span class="profile_meta_value">ant_mpaas</span>
+                              </p>
+
+                              <p class="profile_meta">
+                              <label class="profile_meta_label">功能介绍</label>
+                              <span class="profile_meta_value">mPaaS (https://tech.antfin.com/mobile-service) 源于蚂蚁金服金融科技，致力于提供高效、灵活、稳定的移动研发、管理平台。</span>
+                              </p>
+                              
+                          </div>
+                          <span class="profile_arrow_wrp" id="js_profile_arrow_wrp">
+                              <i class="profile_arrow arrow_out"></i>
+                              <i class="profile_arrow arrow_in"></i>
+                          </span>
+                      </div>
+                    </span>
+
+
+                    <em id="publish_time" class="rich_media_meta rich_media_meta_text"></em>
+
+
+
+
+
+                </div>
+                
+                
+                
+                
+                                                
+                                                                
+                                
+                
+                <div class="rich_media_content " id="js_content">
+                    
+
+                    
+
+                    
+                    
+                    <blockquote style="margin-bottom: 1.2em;padding: 15px 15px 15px 1rem;border-left-width: 6px;border-left-color: rgb(220, 230, 240);color: rgb(129, 145, 152);line-height: 18px;white-space: normal;box-sizing: border-box;background: rgb(242, 247, 251);text-align: start;"><p><strong style="white-space: pre-line;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 14px;box-sizing: border-box;color: rgb(0, 0, 0);">作者介绍</strong><span style="color: rgb(51, 51, 51);white-space: pre-line;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 14px;">：古塘，目前主要负责支付宝框架和各个组件通过移动开发平台 mPaaS 对外输出工作，今天给大家分享的主题是敏捷开发与动态更新在支付宝 App 内的深度实践。</span></p><p style="box-sizing: border-box;white-space: pre-line;line-height: 1.75em;color: rgb(51, 51, 51);"><strong><span style="font-size: 14px;">活动推荐：</span></strong><span style="font-size: 14px;">CodeDay#1 线下沙龙杭州站已上线，具体活动信息及报名地址见文章尾部。</span></p></blockquote><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">0</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;"><span style="font-size: 14px;">支付宝 App 架构演进</span></p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">首先来快速看一下支付宝的架构演进，支付宝在移动端躬耕多年，从简单的工具型 App 到平台型、到现在的超级 App。与目前市面上大部分 App 的发展路线类似，目前我们构建平台的同时，做了更多服务化、模块化的工作。<br  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">针对支付宝在超级 App 方面方向下的架构优势，我们总结了如下特点：</p><p style="text-align: center;"><img class="" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN82OrhO0icgyyoReHpibvEZXVibk4D0Htz6mU3C9chXzWVKpY5KGB4uOWw/0?wx_fmt=png" data-cropx1="3.338129496402878" data-cropx2="1856" data-cropy1="120.1726618705036" data-cropy2="844.5467625899281" data-ratio="0.390625" data-s="300,640" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNIpicibYakjK4yQE0mv6H1HBwMxZHMRT9UNEZGR1OUynHkXs4ZE1f6hibQ/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="width: 555px;height: 217px;"  /></p><ul class=" list-paddingleft-2" style="list-style-type: disc;"><li><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 51);font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;text-align: justify;">多应用的生态：不限于形式，原生模块、离线包、小程序。</span></p></li><li><p><span style="font-size: 14px;">开放：底层同一个架构，业务很方便的迁移。</span></p></li><li><p><span style="font-size: 14px;">动态化：业务可以随时在线更新，无需发版，随时响应线上活动，比如双十一、双十二，春节扫福等活动</span></p></li><li><p><span style="font-size: 14px;">高可用、高性能、高灵敏度：完善的监控运维体系、发现问题后多层次的修复技术、客户端良好的性能启动体验，强大的网络性能，防刷抗流量等。</span></p></li></ul><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">1</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">工程化挑战</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box;">从工程化的角度来看，业务和团队的快速发展也会带来巨大的挑战。</span><span style="letter-spacing: 0.7px;">支付宝的业务量在 15、16 年后有一个指数级的增长，包括团队人数、模块数量，大家看现在的支付宝也不仅仅是一个简单的支付工具了，而是包含了各种各样的业务，服务我们的生活的方方面面。</span></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">所以我们需要一个灵活开放的架构来支撑多团队的快速协同开发，需要建立超级 App 的运维体系。</p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">2</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">业务复杂性带来的技术挑战</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">下面我们快速看一下业务复杂性会带来怎样的技术挑战，总体来说，分为 4 个方面。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNTfaMLu8icicVaCicb2r24FiaeD72v6WRYN22yiaqSqf5VAeYFibHqkmgSacA/0?wx_fmt=png" data-cropx1="0" data-cropx2="1819" data-cropy1="193.02338129496403" data-cropy2="781.908273381295" data-ratio="0.32421875" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN7KpYNkvFjLQ6B27ZOTbfkm9qqUgqNppbiavyKMS1gBkHHuB0hnj2xJg/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 180px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片04.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><strong>1、基础能力要求更高：</strong></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">比如支付宝的核心场景扫码支付，有更好的识别率和识别速度，push 就是大家听到的萌妹子语音：“<span style="box-sizing: border-box;">支付宝到账多少多少元</span>”，这就涉及到要求我们的框架怎么做保活，怎么提高推送到达率。</span></p></li><li><p><span style="font-size: 14px;">移动安全方面，作为金融级的 App，要做到防范黑产，各种羊毛党。</span></p></li><li><p><span style="font-size: 14px;">应急和快速修复方面，这是我们已经提到过的，框架需要快速响应线上问题，并提供相应的修复方案，能做到动态更新，最大程度的保证线上的稳定性。</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><strong>2&amp;3、性能和环境方面：</strong></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">随着业务体量的不断增大，如果业务同学无脑的把初始化放到启动过程中，必然会造成启动时间的不断增加，在使用过程中，也很容易会产生电量、流量、内存、存储等各种问题，造成线上舆情，网络环境也是一样，因为现在还在一些偏远地区可能网络不太好，弱网优化也是需要的，同时我们也需要对千元机、低端机器保持友好，保证低端机的用户体验，于是乎，我们急需良好的框架运维机制来支撑业务的快速发展和敏捷发布</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><strong>4、多 App 生态</strong></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">这也正是我们基于 mPaaS 做的对外输出。支付宝这套框架不止是支付宝自己用，也需要快速赋能我们的合作伙伴，大家都是统一的架构底层，支持业务之间的灵活联动和快速扩张，这也是前面提到的超级 App 的技术特点。</span></p></li></ul><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">3</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">架构现状</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">接下来我们来具体看一下支付App的架构现状：</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">从下到上，分别是「<span style="box-sizing: border-box;">容器层、组件层、框架层、服务层和应用层</span>」</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNlGhtdU2DRiaKkKmpqxOUycdb1NtHDiauH8iafoT6GEaOw9frpuT644OLg/0?wx_fmt=png" data-cropx1="6.471223021582734" data-cropx2="1799" data-cropy1="110.01079136690646" data-cropy2="880.0863309352517" data-ratio="0.4296875" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNPZl1gicmMBA82f9rAGWuE8RZMuSg4A0oVibicvfGPLXvNCvfKLCC7HmUQ/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 238px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 554px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片05.png"  /></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><strong><span style="font-size: 14px;">容器层：</span></strong><span style="font-size: 14px;">最底层的基础层，管理这每个模块 bundle 的加载和资源的处理，在 Android 上和现在流行的插件化框架类似</span></p></li><li><p><strong><span style="font-size: 14px;">组件层：</span></strong><span style="font-size: 14px;">是我们抽离出来的通用组件，提供一些通用能力，比如网络、缓存、日志、图像加载等等</span></p></li><li><p><strong><span style="font-size: 14px;">框架层：</span></strong><span style="font-size: 14px;">这层和原生的 Android,iOS 系统 SDK 类似，是我们定制的用来做每个模块 bundle 之间解耦、交互和通信的基础层，有 Native,H5 和图上没提到的小程序</span></p></li><li><p><strong><span style="font-size: 14px;">服务层：</span></strong><span style="font-size: 14px;">我们基于框架封装的一些业务服务层，提供登录、支付、LBS 等服务</span></p></li><li><p><span style="font-size: 14px;">最上面的就是<strong>应用层</strong>了：即用户可见的具体业务，对于支付宝来说就是扫码、转账、余额宝等</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">所以说支付宝的框架有着明显的分层结构，除了支付宝本身，蚂蚁系内部的 App 也都是依托于此，比如网商银行、蚂蚁财富、口碑等，大家的 App 是底下这 4 层可以做到几乎一样，唯一区别就是在应用层搭建不同的业务，而且因为是同样的架构底层，同一个业务很方便的做多端迁移，比如大家比较喜爱的余额宝业务在支付宝里有，在蚂蚁财富App 里也能看到，这套框架也依托于 mPaaS 平台对外输出，也欢迎大家体验。</p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">4</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">多种框架支撑</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">正如刚才所说的，在支付宝内部会有多种框架支撑不同业务的并发开发和快速发布，大致可分为“Native 开发框架”、“Kylin H5 开发框架”以及“小程序开发框架”，具体的内容我们会在后续展开。</p><ul class=" list-paddingleft-2" style=""><li><h3 style="padding-top: 7px;padding-bottom: 7px;font-weight: 700;font-size: 20px;box-sizing: border-box;color: rgb(38, 38, 38);word-spacing: 1px;line-height: 28px;font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-size: 14px;color: rgb(56, 161, 247);">灵活的开发框架</span><br  /></h3></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">我们认为在支付宝内部开发业务，就像搭积木一样轻松，具有很多特点：灵活性、扩展性等等</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNkZaseyfIElCfvKfXibYia74s96LfWWhwnQicKQrUJhVVQa07A9pq1mEUA/0?wx_fmt=png" data-cropx1="0" data-cropx2="1828" data-cropy1="144.66187050359713" data-cropy2="871.2589928057554" data-ratio="0.39765625" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN28tQNxxxKCmK8Ejmibm5Hcc5ak7CbNrhVU1hFzjZBQWjuRSuT3bTQqw/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 221px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片07.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">总体来说，大家都是并行开发，互相不影响，谁的版本有问题，可以随时回滚到稳定版本：因此积木和积木之间可以做到很好的解耦，之间的交互就是通过前面讲到的定制的框架层来通信，同样你也很方便地增加一块新积木，自由扩展业务。</p><ul class=" list-paddingleft-2" style=""><li><p style="box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-weight: 700;letter-spacing: 0.7px;word-spacing: 1px;color: rgb(56, 161, 247);">OSGI</span><br  /></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">OSGI 是 Java 做动态化模块化的一系列思想规范，支付宝的框架设计也是借鉴了这个思想。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="313" data-ratio="0.5625" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN4CvWib1hGK6JsyUcybANTC4rCeuuBgHoticQh4OT3Z7SApibCXn0BicMwA/640?wx_fmt=png" data-type="png" data-w="1920" style="height: 313px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片08.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">总体来说，在支付宝内部的每个模块工程我们都称之为 bundle，在 Android 上的产物其实已经是一个完整的 APK 安装包了，只不过不能独立运行，需要依赖底层框架和其他模块，在 iOS 上的产物也是一个具体的二进制 Framework 包，这样打最终安装包的过程其实就是前面提到的把各个积木搭起来的过程，只是二进制级别的合并，比较耗时的编译的过程已经分散到各种积木的产生过程中了，这样做也能大大加快整个安装包的打包速度。</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">以支付宝为例，打完整的安装包包含几百个 bundle 的，在我这台 14 年版的 Mac 上耗时也在 1 分钟之内。</p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">5</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">微应用与 service</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">接下来我们来看看积木和积木之间，业务上是怎样做交互的。我们通过封装 MicroApplication 和 service 来实现。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5625" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNWvCdx0libZrJRf3mYeeZVn2VcOykMl3nekH9dFTmWibQPCicckbibdoiaAQ/640?wx_fmt=png" data-type="png" data-w="1920" style="height: 313px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片09.png"  /></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><strong><span style="font-size: 14px;">MicroApplication：</span></strong><span style="font-size: 14px;">我们认为每一个独立的 bundle 其实就是一个小的 App，所以我们也赋予了和系统 SDK 类似的生命周期代理方法，类似于 iOS 的应用 delegate 和 Android 的 application，通过 AppId 标识，可以随意跳转到不同业务的 App，MicroApplication 相关的生命周期事件也会有相应的回调，不同的 bundle 之间完全不用知道你有什么 Activity 或者 viewController，只需要告诉我你的 AppId 标识，就可以跳转过去，就是说框架提供了全局的路由管理功能。</span></p></li><li><p><strong><span style="font-size: 14px;">Service：</span></strong><span style="font-size: 14px;">这个不同于 Android 上原生的 service 组件，通过框架中接口包的概念思想，很方便的实现对外暴露功能接口，有点类似于单例类的感觉，区别是框架提供了完整的加载和调用管理，不用开发自己重复写单例类造轮子。</span></p></li><li><h3 style="padding-top: 7px;padding-bottom: 7px;font-weight: 700;font-size: 20px;box-sizing: border-box;color: rgb(38, 38, 38);word-spacing: 1px;line-height: 28px;font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-size: 14px;color: rgb(56, 161, 247);">Nebula</span></h3></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">和市面上流行的 phoneGap (cordova)类似，都是 H5 混合开发解决方案，特点如图所示：</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5136017410228509" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNncicMNXYoCqMNFVtA9nl2PglRuBC4Ror95JYcVmg1bXhdIzNq49PWIw/640?wx_fmt=png" data-type="png" data-w="1838" style="height: 286px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片10.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">除了提供基本的 H5 页面的加载管理、和 Native 做通信的 JSAPI 机制，还具备一些他们可能不具备的特点：</p><ol class=" list-paddingleft-2" style=""><li><p style="box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 51);font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;text-align: justify;">离线包机制，解决 H5 加载的性能问题</span></p></li><li><p style="box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 51);font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;text-align: justify;">统一的 UC 内核，解决 Android 上恶心的兼容性问题</span></p></li></ol><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><h3 style="padding-top: 7px;padding-bottom: 7px;font-weight: 700;font-size: 20px;box-sizing: border-box;color: rgb(38, 38, 38);word-spacing: 1px;line-height: 28px;font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-size: 14px;color: rgb(56, 161, 247);">体验改善</span></h3></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">首先，我们来看H5加载，传统意义上的H5，在进入的时候上面会有进度条或者转菊花，体验会不太好，我们的容器是怎么解决这个问题的呢？</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5398277717976319" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNuoZBxZ7Lp73ka9V1gooMCArKjT3Ae16cH8XxdtmjDJXssSF4unmiaqQ/640?wx_fmt=png" data-type="png" data-w="1858" style="height: 300px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片11.png"  /></p><ul class=" list-paddingleft-2" style=""><li><h3 style="padding-top: 7px;padding-bottom: 7px;font-weight: 700;font-size: 20px;box-sizing: border-box;color: rgb(38, 38, 38);word-spacing: 1px;line-height: 28px;font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-size: 14px;color: rgb(56, 161, 247);">离线包</span></h3></li></ul><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5101592531576057" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNeTJYataicMhAtjIx9rcwicaYkgicwMCu60skDJX36giazs2A6BwhAANNjQ/640?wx_fmt=png" data-type="png" data-w="1821" style="height: 284px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片12.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">离线包是将 HTML、JavaScript、CSS 等页面内的静态资源打包到一个压缩包内，Nebula 使用一套基于 AppId 维度的本地文件管理方式，对离线包进行管理。这和前面提到的框架「<span style="box-sizing: border-box;">积木的概念</span>」如出一辙，每一个离线包都是一个小积木，这个小积木可以很方便的做到热插拔，实现动态更新。</p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">6</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">小程序</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">接下来让我们来看看小程序，看看标题还是很唬人的，面向未来的研发方式。</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">大家有没有想过这样一个问题，为什么 H5 技术已经发展的相对来说比较成熟了，我们还要推出小程序技术？</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.533013844515442" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNib5yyv29IQxcb3iaWZOdbYC4fLRqfbxHQHJicFiacyeibw7hrJX9M080IkA/640?wx_fmt=png" data-type="png" data-w="1878" style="height: 296px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片13.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">因为小程序可以完美解决现在 H5 存在的一些问题：安全、性能、开发效率等各个方面。</p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">拿性能举例，虽然已经有了离线包技术可以大大提升 H5 的加载性能，但是始终渲染出来的还是 H5 页面，受限于 webView，而小程序就完全不一样了，最终渲染的页面，可以是 H5，也可以是 Native 页面，可以集成 RN、weex 类似的技术，实现原生渲染，而且小程序有自己的框架，可以实现报活、资源预加载等各种优化手段，这些都是 H5 很难办到的</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">大家可以看现在支付宝里的蚂蚁森林，抢能量种树那个，大家应该都玩过吧，当前的版本就是小程序实现，可以体验一下页面的加载速度和滑动的效率等等，这已经是一个比较复杂的带动画的业务了，都可以做到很好的用户体验。</p><ul class=" list-paddingleft-2" style=""><li><p style="box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-weight: 700;letter-spacing: 0.7px;word-spacing: 1px;color: rgb(56, 161, 247);">小程序 IDE</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">同时小程序还有自己的 IDE，帮助开发者能够实现「编码实时预览、自动补全、语法提示」等，从而大大提升了开发效率：</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.48789473684210527" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNrLIwibGJbK39sEEZoIt9KQEReIiaQO7NWrBvgKoDib6Yzq22UicO2MA81g/640?wx_fmt=png" data-type="png" data-w="1900" style="height: 271px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片14.png"  /></p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">7</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">研发流程</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">因此，基于前面介绍的各种开发框架，这里可以分享一下支付宝的研发流程，分为「<span style="box-sizing: border-box;">开发、测试、集成发布</span>」这些过程：</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="311" data-ratio="0.6059957173447538" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgla9cXymq9VPS496ibsW639vW1CyT8ibjhYhibmcHjqJQPlibdGZOu8ibA7g/640?wx_fmt=png" data-type="png" data-w="1401" style="height: 337px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片15.png"  /></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">开发：创建自己的小积木</span></p></li><li><p><span style="font-size: 14px;">测试：验证，通过和不通过</span></p></li><li><p><span style="font-size: 14px;">发布：会有发布经理这个角色，简单的理解就是最终搭积木的那个人，会审批每个积木到底能不能进最终的大架子，然后再进行各种灰度和发布流程</span></p></li><li><h3 style="padding-top: 7px;padding-bottom: 7px;font-weight: 700;font-size: 20px;box-sizing: border-box;color: rgb(38, 38, 38);word-spacing: 1px;line-height: 28px;font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-size: 14px;color: rgb(56, 161, 247);">高效交付：并行研发流程 + 动态更新</span></h3></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">从大版本集中发布到每个小产品迭代开发，每个小产品线维护自己的小版本，可以控制自己的研发和发布流程。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5625" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN8KeicBDuRChaltmb8IlY7ibvOrChLd13LXiaMAYgBL0lPSWAsGlLVjviag/640?wx_fmt=png" data-type="png" data-w="1920" style="height: 313px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片16.png"  /></p><ul class=" list-paddingleft-2" style=""><li><p><span style="font-size: 14px;background-color: rgb(255, 255, 255);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-weight: 700;letter-spacing: 0.7px;text-align: start;word-spacing: 1px;color: rgb(56, 161, 247);">打包平台</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">内部也会有 CI/CD 打包平台的支撑，支撑着内部完成「<span style="box-sizing: border-box;">多模块并行开发、业务功能动态部署、线上问题热修复</span>」。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNazDmVQKqXyTzICCKm2IdrvpUKcVc1icXLP5ObsibuYPV8o1VPTQTiaOBw/0?wx_fmt=png" data-cropx1="0" data-cropx2="1822" data-cropy1="131.0791366906475" data-cropy2="760.2589928057554" data-ratio="0.34453125" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN2N0VicK3Gr5GvHoib2hDib7bWR5LJ7kR6me4onmTHH6JticscBaibpUpnKA/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 192px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片17.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">对于发布平台，我们是怎么做的呢？</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5047923322683706" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN05Ev4QCOaOhic4Wu6f2E8W4q34wO9KVQictwDMOic8WKDdmtrJSDSt33A/640?wx_fmt=png" data-type="png" data-w="1878" style="height: 281px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片18.png"  /></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">不同的业务，可以创建不同的发布任务，可以发布到不同的版本</span></p></li><li><p><span style="font-size: 14px;">发布产物：支持原生的升级包、热修复包、离线包、小程序</span></p></li><li><p><span style="font-size: 14px;">发布类型：内部灰度、外部灰度、正式发布的维度展开灰度测试？</span></p></li><li><p><span style="font-size: 14px;">人群过滤：支持不同维度的人群过滤，按白名单、机型、rom 版本等</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">这里还可以说一下的是，我们对于离线包这种发布产物是支持差分机制。举个例子，我们有一个业务原先是 200K，改个背景逻辑变 210K 了，没必要因为这 210K 去完整下发覆盖，通过差分得到补丁。当然，这里的补丁大小不是 210K-200K 这样简单，但至少我们可以通过补丁机制从而达到最大程度地减少数据冗余，提高整体覆盖率。</p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">8</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">总结：技术架构升级驱动研发方式转变</p></section></section></section><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNOgc00JdiaUJYn9VnQ7hhYhloAanicZsv2ShobeFnyz7icg4wUucQpWgicg/0?wx_fmt=png" data-cropx1="13.366906474820144" data-cropx2="1858" data-cropy1="193.82014388489208" data-cropy2="892.2410071942445" data-ratio="0.37734375" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNLPCLBJeveNg4VjQia7L2K2vkv8yJkNGp5qfyZhZ6yGKgOPovVicoCWfw/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 209px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 552px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片19.png"  /><span style="font-size: 14px;">&nbsp;</span></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">总结来说，技术升级驱动研发方式产生转变，从 Native 为主的研发方式向动态化的研发方式进行转变：</p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><strong><span style="font-size: 14px;">技术选型：</span></strong><span style="font-size: 14px;">原先我们以 Native 为主，少量独立页面使用 H5；现在我们更推荐核心组件使用 Native（用户高频使用的场景），二级业务尽量使用 H5 或者小程序；</span></p></li><li><p><strong><span style="font-size: 14px;">发布方式：</span></strong><span style="font-size: 14px;">目前基于“小步迭代”的选择，不依赖客户端发布点，从而达到随时发布的能力；</span></p></li><li><p><strong><span style="font-size: 14px;">研发效率：</span></strong><span style="font-size: 14px;">目前使用 Web 技术能够达到更开放的效果，一套 Web 代码即可实现跨平台的能力；</span></p></li><li><p><strong><span style="font-size: 14px;">安装包大小：</span></strong><span style="font-size: 14px;">相较于 Native，H5 能够有效地控制安装包的大小。</span></p></li></ul><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">9</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">敏捷发布、保障稳定性</p></section></section></section><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.520338087691495" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNdr3mzicQQMw3lGv8YSyQkGSnjJFRzLVjmAYyM2ExNIvFq33ia3D24bBg/640?wx_fmt=png" data-type="png" data-w="1893" style="height: 289px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片20.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">那么总结一下，支付宝是怎么敏捷发布，并保障稳定性的呢？</p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">开发测试：通过接口解耦与业务解耦，开发者只需关心自己的业务做好业务迭代和测试，集成之后验证跑通即可。</span></p></li><li><p><span style="font-size: 14px;">灰度发布：提供多方位的灰度策略：白名单、时间窗、应用版本号、系统版本号、手机型号等。</span></p></li><li><p><span style="font-size: 14px;">监控：监控主要聚焦稳定性的问题，包括“闪退、卡顿、卡死、业务异常”等情况，当问题产生后我们会基于动态修复的手段进行快速修复。<span style="box-sizing: border-box;">相关的埋点监控模块近期也在支付宝开放平台开放出来，欢迎体验。</span></span></p></li><li><p><span style="font-size: 14px;">动态修复：进行 Native 热修复和配置下发。具体内容见后续展开。</span></p></li></ul><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">10</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">超级 App 运维体系</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">因此我们通过发布、监控、诊断协同作战，支持体系化运维，形成了所谓的超级 App 运维体系。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN90oHzssJcicCxvcNVxTpkxwn62lJKyWRn0XZeYWOx8RPvXKiazFqfIRA/0?wx_fmt=png" data-cropx1="0" data-cropx2="1808.0000000000002" data-cropy1="136.57553956834533" data-cropy2="897.4964028776978" data-ratio="0.4203125" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNmgYFbaIm3crWGyUAuXmt2K4sPibynaZyL710jUbRDV4fIs14iaj965xA/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 234px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片21.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">接下来我们针对「诊断」展开，前面我们提到的「监控」更多的是发现问题，而如何定位问题发生的原因，是需要通过诊断来进行核验的。</p><ul class=" list-paddingleft-2" style=""><li><h3 style="padding-top: 7px;padding-bottom: 7px;font-weight: 700;font-size: 20px;box-sizing: border-box;color: rgb(38, 38, 38);word-spacing: 1px;line-height: 28px;font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-size: 14px;color: rgb(56, 161, 247);">诊断定位</span></h3></li></ul><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNyBqBRbiavNlD30uAFM3vZ39n6jF4Qp6zJrjZzPoiawaHqJagIKzQCBkw/0?wx_fmt=png" data-cropx1="0" data-cropx2="1902" data-cropy1="109.46762589928058" data-cropy2="954.4208633093525" data-ratio="0.44296875" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNAbgfghHwy7eQ5DiclBWuEBFrwogdF3CyY69RabUDPBUzV1logZlXLLw/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 247px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片22.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">参考这张图，我们能够清晰地了解支付宝内部是如何进行问题诊断与定位：从“端到端的信息打通”到“全链路辅助到人”，“详细信息拉取”后在进行相应的“诊断分析”，同时会配备具体的诊断策略。</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">因此，我们可以实现一键诊断用户 App 日志，具体界面如下：</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: center;background-color: rgb(255, 255, 255);"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="268" data-ratio="0.7393715341959335" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgfb0lFMmAqPIpR6XPoo79yStNYAWxmVPFIKx0R1DJULkryEia4GDaR7g/640?wx_fmt=png" data-type="png" data-w="1082" style="height: 326px;color: rgb(51, 51, 51);font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 17px;text-align: justify;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 441px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片23.png"  /></p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">11</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">AndFix</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">发现问题后，怎么去修复问题，就要用到一些热修复的手段了，比如这里提到的 AndFix。</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">在 Android 上，AndFix 完全是支付宝同学自研的一套 Android 热修复技术，15 年的时候已经在 GitHub 上开源。现在 star 数大概有 6000 多个，相信应该有同学也接触了解过，不过开源的版本略老，但是原理不变。</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNpibnkZSia6icXYB6q8vbJ3Ap9d2QcGdplYNricaFrdTrSOsY4xciabGEDug/0?wx_fmt=png" data-cropx1="0" data-cropx2="1773" data-cropy1="153.06474820143887" data-cropy2="841.8561151079138" data-ratio="0.38828125" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNnShOtepStJOH89e4xfwNibsLExobJC4vREXj2e0edMR5R0Tv2o8vM8Q/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 216px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片25.png"  /></p><p style="white-space: normal;"><span style="font-size: 14px;background-color: rgb(255, 255, 255);color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;letter-spacing: 0.7px;text-align: start;">AndFix 可以认为是开创了 Android 热修复 2 个流派之一的 Native 修复，原理是通过在 Native 端方法指针替换实现，修复的粒度是针对于方法，这样从原理上来说至少有 2 大好处：</span></p><ul class=" list-paddingleft-2" style="margin-left: 3px;"><li><p><span style="font-size: 14px;">1 是补丁包比较小，因为是方法粒度；</span></p></li><li><p><span style="font-size: 14px;">2 是可以做到实时生效，比较适合修复紧急 bug 这种热修复场景；</span></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">另一种比较流行的技术是通过类加载的机制，因为粒度是类级别，所以补丁包会相对来说大一点，且可能存在 dex 合并的性能损耗，而且因为 Android 虚拟机没有类卸载机制，所以无法做到实时生效，一定要重启。</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">当然，没有一种技术是万能的，我们内部也会存在着 dexPatch、instantRun 这种原理的修复技术，应对不同的场景</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">在 iOS 上，从最早的 lua 脚本到大名鼎鼎的 JSPatch，我们内部都会有类似的方案，这个在 iOS 上其实最重要的我觉得不是技术问题，而是苹果爸爸的政策问题，这里就不多说了，你懂的。</p><ul class=" list-paddingleft-2" style=""><li><p style="box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><span style="font-weight: 700;letter-spacing: 0.7px;word-spacing: 1px;color: rgb(56, 161, 247);">多层次的修复技术</span><br  /></p></li></ul><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">最后总结一下，一定要有多层次的修复技术，适应不同的业务场景。如图所示：</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><img class="image lake-drag-image" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN26kxTBlW14pIJPFVy0smlwoWglpvZI7zsJ79Wb1PMCdLibQ12YoMXYA/0?wx_fmt=png" data-cropx1="0" data-cropx2="1835" data-cropy1="178.21942446043167" data-cropy2="930.7014388489209" data-ratio="0.409375" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUN5zvO4HwlyC8nFvEM5U61fV4ibwGpnHwTxAibEiaRVlpR7PbpYuHiak69QA/640?wx_fmt=jpeg" data-type="jpeg" data-w="1280" style="height: 228px;color: rgb(51, 51, 51);font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 17px;text-align: justify;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片26.png"  /></p><section class="RankEditor" data-indent="0" style="margin-right: 0em;margin-left: 0em;white-space: normal;border-width: 0px;border-style: initial;border-color: initial;box-sizing: border-box;"><section style="margin-top: 0.8em;margin-bottom: 0.5em;line-height: 32px;"><section style="display: inline-block;width: 32px;height: 32px;border-radius: 32px;vertical-align: top;text-align: center;border-color: rgb(0, 162, 255);background-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table;width: 32px;border-color: rgb(0, 162, 255);box-sizing: border-box;"><section style="display: table-cell;vertical-align: middle;border-color: rgb(0, 162, 255);box-sizing: border-box;"><p class="count white" style="color: rgb(255, 255, 255);min-width: 1px;font-weight: bold;font-size: 14px;">12</p></section></section></section><section style="margin-left: 16px;display: inline-block;"><p class="active title" style="color: rgb(0, 162, 255);min-width: 1px;font-weight: bold;font-size: 16px;">移动开发平台 mPaaS：对外输出</p></section></section></section><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">最后，到了 One More Thing 的时候。前面我们分享所涉及的所有技术手段目前已通过 mPaaS 平台对外输出：</p><p style="white-space: normal;text-align: center;"><img class="image lake-drag-image" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="109" data-ratio="0.5256764218663722" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNl3OFsYXhe72jRFrdF2kgUNflhntMTF9nJTq6V69Sgsn7m476pJbh2u8xr0s6UPls04Xf3WzQhicMg/640?wx_fmt=png" data-type="png" data-w="1811" style="height: 292px;box-sizing: border-box;vertical-align: middle;border-style: none;border-radius: 2px;display: inline-block;width: 556px;opacity: 1;cursor: pointer;transition: opacity 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;user-select: all;" title="幻灯片27.png"  /></p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);">「移动<span style="color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;letter-spacing: 0.7px;text-align: start;background-color: rgb(255, 255, 255);">分析、消息推送、热修复</span>」三款组件近期在支付宝开放平台上已独立放出。如果你是移动开发者，且对 mPaaS 感兴趣，赶紧上手试用吧：http://t.cn/ExXJGkP</p><p style="white-space: normal;box-sizing: border-box;min-height: 24px;line-height: 24px;letter-spacing: 0.7px;color: rgb(38, 38, 38);font-family: &quot;Tahoma For Number&quot;, &quot;Chinese Quote&quot;, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size: 14px;text-align: start;background-color: rgb(255, 255, 255);"><br  /></p><p style="white-space: normal;max-width: 100%;min-height: 1em;letter-spacing: 0.544px;background-color: rgb(255, 255, 255);box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;color: rgb(68, 165, 227);box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">| mPaaS 第一期线下沙龙 CodeDay#1 开放报名中：</span></strong></span></p><ul class=" list-paddingleft-2" style=""><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong><span style="font-size: 14px;">活动主题：<span style="box-sizing: border-box;font-weight: bolder;color: rgb(32, 32, 32);text-align: start;background-color: rgb(255, 255, 255);">移动端高性能架构演进与跨平台开发实践</span></span></strong></p><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong><span style="font-size: 14px;"></span></strong><span style="font-size: 14px;">本期</span><span style="font-size: 14px;"><span style="color: rgb(32, 32, 32);text-align: start;background-color: rgb(255, 255, 255);">邀请<span style="color: rgb(32, 32, 32);text-align: start;background-color: rgb(255, 255, 255);">支付宝移动端技术专家，与大家面对面一同探讨在跨平台开发下的高可用、高性能架构演进与跨平台开发、动态化更新实践。</span></span></span></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="font-size: 14px;"><span style="color: rgb(32, 32, 32);text-align: start;background-color: rgb(255, 255, 255);"><span style="color: rgb(32, 32, 32);text-align: start;background-color: rgb(255, 255, 255);"><strong style="white-space: normal;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">报名方式：</span></strong><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">点击「阅读原文」进入活动页进行报名；无法到现场的同学可</span><span style="font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 14px;">通过</span><strong style="font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: normal;font-size: 14px;">钉钉</strong><span style="font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 14px;">搜索群号“23124039”立即加入技术交流群，届时获取直播地址，并有机会与讲师在群内深度交流。</span></span></span></span></p></li></ul><p style="white-space: normal;max-width: 100%;min-height: 1em;letter-spacing: 0.544px;background-color: rgb(255, 255, 255);box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">期待你的参与。</span></p><p style="text-align: center;"><img class="" data-backh="988" data-backw="556" data-before-oversubscription-url="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgC4qVVCmjwFLVOSaibQicqsHRB8zGUiaDGDNncw2XlxBckZzlfpzlwicAjQ/0?wx_fmt=png" data-copyright="0" data-cropselx1="0" data-cropselx2="556" data-cropsely1="0" data-cropsely2="988" data-ratio="1.7777777777777777" data-s="300,640" data-src="https://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgrct30980xMibOjv15H179k6UTicCHicS1b6yClIJHK8ZBJricIicPTmscAg/640?wx_fmt=png" data-type="png" data-w="1080" style="width: 556px;height: 988px;"  /></p><section class="" style="margin: 1em auto;white-space: normal;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;background-color: rgb(255, 255, 255);border-width: 0px;border-style: none;border-color: initial;text-align: center;width: 558px;overflow-wrap: break-word !important;"><span class="" style="max-width: 100%;width: 558px;border-bottom: 1px solid rgb(0, 162, 255);display: inline-block;box-sizing: border-box !important;overflow-wrap: break-word !important;"><section class="" style="margin-bottom: -3px;padding-top: 5px;padding-right: 10px;padding-left: 10px;max-width: 100%;box-sizing: border-box;min-height: 32px;display: inline-block;border-bottom: 5px solid rgb(0, 162, 255);font-size: 20px;color: rgb(0, 162, 255);overflow-wrap: break-word !important;"><p class="" style="max-width: 100%;min-height: 1em;min-width: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;">往期阅读</span></strong></p></section></span></section><p style="white-space: normal;max-width: 100%;min-height: 1em;letter-spacing: 0.544px;background-color: rgb(255, 255, 255);box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"  /></p><ul class=" list-paddingleft-2"><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="font-size: 14px;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;">《</span><a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247483924&amp;idx=1&amp;sn=c8a0382e06adf2aef38cc8343680b6a8&amp;chksm=f9e316b0ce949fa6c5e90b94ab7c42868a602d590aa69c0c9d61ea128a1f860e8ace16c87bbe&amp;scene=21#wechat_redirect" target="_blank" data-linktype="2" style="font-size: 14px;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;">开篇 | mPaaS 服务端核心组件体系概述</a><span style="font-size: 14px;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;">》</span><br  /></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">《<a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247483939&amp;idx=1&amp;sn=cd779ebeeacba6f4a0e48e67e3fe4d00&amp;chksm=f9e31687ce949f910b6f4a46451fa1cc337810c1c17ab92d1b4a281a8995f0f1ef52cace31b9&amp;scene=21#wechat_redirect" target="_blank" data-linktype="2">mPaaS 服务端核心组件体系概述：移动 API 网关 MGS</a>》</span></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">《<a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247483947&amp;idx=1&amp;sn=fab0ff57d8fa62a774769c949827f2bd&amp;chksm=f9e3168fce949f99d3db765be720c5d03e36826bbf4f338f691b53978afcb54070003335c718&amp;scene=21#wechat_redirect" target="_blank" data-linktype="2">蚂蚁金服 mPaaS 服务端核心组件：亿级并发下的移动端到端网络接入架构解析</a>》</span></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="font-size: 14px;">《<a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247483994&amp;idx=1&amp;sn=4d3d0672116fda364241cf86cfacb15e&amp;chksm=f9e316fece949fe86274226116a36d891473e9a7551e572a8afe61f2035a40881c87028593e8&amp;scene=21#wechat_redirect" target="_blank" data-linktype="2">mPaaS 3.0 多媒体组件发布 | 支付宝百亿级图片组件 xMedia 锤炼之路 （图片缓存篇）</a>》</span></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="font-size: 14px;">《<a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247484060&amp;idx=1&amp;sn=f36d9d620c6f98bee09d19463d101d77&amp;chksm=f9e31638ce949f2e5e86d653957324512bbf21be2c4f2ee1ebde191e6fa4cce17a208de43fbf&amp;scene=21#wechat_redirect" target="_blank" data-itemshowtype="0" data-linktype="2">mPaaS 服务端核心组件：移动分析服务 MAS 架构解析</a>》<br  /></span></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">《<a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247483804&amp;idx=1&amp;sn=026f386cc88d07044735cde5206c1de0&amp;chksm=f9e31538ce949c2e28118eb9b36d410a0de347c9e80bd3ed4fd80114916b7604727eb6f7fa3e&amp;scene=21#wechat_redirect" target="_blank" data-linktype="2">支付宝 App 构建优化解析：通过安装包重排布优化 Android 端启动性能</a>》</span></p></li><li><p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="font-size: 14px;">《<a href="http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247483815&amp;idx=1&amp;sn=c3872d2e1b86d6eb48b8665fbf6f6fa4&amp;chksm=f9e31503ce949c15fef53092725780a89015122d6fb72f000fd37d8784707204b76c0710e70f&amp;scene=21#wechat_redirect" target="_blank" data-linktype="2">支付宝 App 构建优化解析：Android 包大小极致压缩</a>》</span></p><section class="" style="margin-top: 20px;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;background-color: rgb(255, 255, 255);border-width: 0px;border-style: none;border-color: initial;overflow-wrap: break-word !important;"><section style="padding-bottom: 27.8906px;max-width: 100%;box-sizing: border-box;text-align: center;overflow-wrap: break-word !important;"><section style="margin-left: 223.188px;max-width: 100%;box-sizing: border-box;width: 15px;height: 15px;border-radius: 100%;opacity: 0.5;background: rgb(0, 162, 255);overflow-wrap: break-word !important;"></section><section style="margin-top: -15px;margin-left: 379.438px;max-width: 100%;box-sizing: border-box;width: 60px;height: 60px;border-radius: 100%;background: rgb(0, 162, 255);overflow-wrap: break-word !important;"></section><section style="margin-top: -36px;max-width: 100%;width: 150px;height: 150px;display: inline-block;box-sizing: border-box !important;overflow-wrap: break-word !important;"><img class="" data-copyright="0" data-cropselx1="0" data-cropselx2="150" data-cropsely1="0" data-cropsely2="150" data-ratio="1" data-type="jpeg" data-w="258" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNlmVnP0azZdbxeSN5tUHbOnvibMNynYoK4CCAQX9ROV4OhG8vz1QA36JQJH5IOBLEs1eFiaia7dEv7dg/640?wx_fmt=jpeg" style="vertical-align: middle;box-sizing: border-box !important;overflow-wrap: break-word !important;width: 150px !important;visibility: visible !important;"  /></section><section style="margin-top: -60px;margin-left: 94.8594px;max-width: 100%;box-sizing: border-box;width: 50px;height: 50px;border-radius: 100%;background: rgb(0, 162, 255);overflow-wrap: break-word !important;"></section><section style="margin-top: -125px;margin-right: 66.9531px;max-width: 100%;box-sizing: border-box;width: 30px;height: 30px;border-radius: 100%;opacity: 0.5;background: rgb(0, 162, 255);float: right;overflow-wrap: break-word !important;"></section></section><section style="max-width: 100%;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><p class="" style="letter-spacing: 0.544px;max-width: 100%;min-height: 1em;font-size: 18px;color: rgb(0, 162, 255);min-width: 1px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">长按识别二维码关注我们！</span></strong></p></section></section></li></ul>
+                </div>
+                <script nonce="48665569" type="text/javascript">
+                    var first_sceen__time = (+new Date());
+
+                    if ("" == 1 && document.getElementById('js_content')) {
+                        document.getElementById('js_content').addEventListener("selectstart",function(e){ e.preventDefault(); });
+                    }
+
+                    
+                    (function(){
+                        if (navigator.userAgent.indexOf("WindowsWechat") != -1){
+                            var link = document.createElement('link');
+                            var head = document.getElementsByTagName('head')[0];
+                            link.rel = 'stylesheet';
+                            link.type = 'text/css';
+                            link.href = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/winwx435ee6.css";
+                            head.appendChild(link);
+                        }
+                    })();
+                </script>
+
+                
+                <div class="ct_mpda_wrp" id="js_sponsor_ad_area" style="display:none;"></div>
+
+                
+                <div class="read-more__area" id="js_more_read_area" style="display:none;">
+                    
+                </div>
+
+                
+                                <div class="reward_area tc reward_area_primary" id="js_preview_reward_author" style="display:none;">
+                    <div class="reward-avatar" style="display: none;" id="js_preview_reward_author_avatar">
+                        <img src="" alt="" id="js_preview_reward_author_head">
+                    </div>
+                    
+                                        <div class="reward-author" id="js_preview_reward_author_name">古塘</div>
+                                        <p class="reward_tips" id="js_preview_reward_author_wording" style="display:none;"></p>
+                    <p>
+                        <a class="reward_button" id='js_preview_reward_author_link' href="##"><span id="js_preview_reward_link_text">赞赏</span></a>
+                    </p>
+                </div>
+
+                <div class="reward_qrcode_area reward_area tc" id="js_preview_reward_qrcode" style="display:none;">
+                    <p class="tips_global">长按二维码向我转账</p>
+                    <p id="js_preview_reward_ios_wording" class="reward_tips" style="display:none;"></p>
+                    <span class="reward_qrcode_img_wrp"><img class="reward_qrcode_img" src="//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/pic/appmsg/pic_reward_qrcode.2x42f400.png"></span>
+                    <p class="tips_global">受苹果公司新规定影响，微信 iOS 版的赞赏功能被关闭，可通过二维码转账支持公众号。</p>
+                </div>
+                                
+                
+                            </div>
+                                    
+                        
+
+
+                        
+            <ul id="js_hotspot_area" class="article_extend_area"></ul>
+
+
+            
+
+            
+
+
+<div class="rich_media_tool" id="js_toobar3">
+
+        <a class="media_tool_meta meta_primary" id="js_view_source" href="##">阅读原文</a>
+        <div id="js_read_area3" class="media_tool_meta tips_global_primary meta_primary" style="display:none;">阅读 <span id="readNum3"></span></div>
+
+    <span style="display:none;" class="media_tool_meta meta_extra meta_praise" id="like_old">
+        <i class="icon_praise_gray"></i><span class="praise_num" id="likeNum_old"></span>
+    </span>
+
+    <span style="display:none;" class="media_tool_meta meta_extra meta_like" id="like3">
+        <button class="like_btn" id="js_like_btn"> 
+          <span id="js_like_wording"> 在看</span><span class="like_num" id="likeNum3"></span>
+        </button>
+    </span>
+
+    <div id="js_like_educate" style="display:none">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-dialog_haokan">
+        <div class="weui-dialog__hd"><strong class="weui-dialog__title" id="educate_title">已同步到看一看</strong></div>
+        <div class="weui-dialog__bd">
+          <img class="pic_haokan" src="//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/pic/appmsg/pic_haokan42f400.png">
+            你的朋友会在“发现-看一看”看到你点击“在看”的内容        </div>
+        <div class="weui-dialog__ft" id="educate_btn" style="display: none">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="js_cancel">取消</a>
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="js_confirm">发送</a>
+        </div>
+        <div class="weui-dialog__ft" id="educate_btn2" style="display: none">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="js_acknowledge">我知道了</a>
+        </div>
+        </div>
+    </div>
+
+    <div id="js_unlike_educate" style="display:none">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+        
+        <div class="weui-dialog__bd">
+            已取消，想法已同步删除        </div>
+        <div class="weui-dialog__ft">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="js_unlike_know">知道了</a>
+        </div>
+        </div>
+    </div>
+
+    
+    </div>
+
+
+<div class="like_comment_wrp" id="js_a_like_comment" style="display: none;">
+  <div class="like_comment_inner">
+    <div class="like_comment_hd" style="display:none" id="js_like_title"></div>
+    <div class="like_comment_bd">
+      <div class="tips_global_primary like_comment_tips">
+        <i class="weui-icon-success"></i>已同步到看一看<a href="javascript:;" class="like_comment_share_link" id="js_a_like_comment_share">写下你的想法</a>
+      </div>
+    </div>
+    <div class="like_comment_ft">
+      <span id="js_a_like_comment_msg" class="like_comment_msg" style="visibility:hidden">最多200字，当前共<span id="js_a_like_current_cnt"></span>字</span>
+      <button class="like_comment_btn" disabled="disabled" id="js_a_like_confirm">发送</button>
+    </div>
+  </div>
+</div>
+
+<div id="js_like_toast" style="display: none;">
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast">
+    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+    <p class="weui-toast__content" id="js_toast_msg">已发送</p>
+  </div>
+</div>
+
+
+<div style="display: none;" id="js_b_comment_panel" class="like_comment_primary_pop">
+  <div class="like_comment_primary_wrp" id="js_b_wrp">
+    <div class="like_comment_primary_inner">
+      <div class="like_comment_primary_hd">
+        <h4 class="like_comment_primary_title">
+          朋友将在看一看看到        </h4>
+        <button id="js_b_like_confirm" class="like_comment_primary_btn">确定</button>
+      </div>
+      <div id='js_b_comment_text_first' class="like_comment_primary_bd">
+        <span class="tips_global_primary">
+          写下你的想法...        </span>
+      </div>
+    </div>
+  </div>
+  <div class="like_comment_primary_mask" id="js_mask_1"></div>
+</div>
+
+<div style="display: none;" id="js_b_comment_final">
+  <div class="like_comment_primary_wrp editing" id="js_comment_wrp">
+    <div class="like_comment_primary_inner">
+      <div class="like_comment_primary_hd">
+        <button class="like_comment_primary_cancel" id="js_b_comment_cancel">取消</button>
+        <h4 class="like_comment_primary_title"> 发布到看一看 </h4>
+        <button class="like_comment_primary_btn" id="js_b_comment_confirm">确定</button>
+      </div>
+      <div class="like_comment_primary_bd">
+        <textarea class="like_comment_textarea weui-textarea" placeholder="写下你的想法..." id="js_b_comment_text_second"></textarea>
+      </div>
+      <span class="like_comment_msg" id="js_b_like_comment_msg" style="visibility: hidden;">最多200字，当前共<span id="js_b_like_current_cnt"></span>字</span>
+    </div>
+  </div>
+  <div class="like_comment_primary_mask" id="js_mask_2"></div>
+</div>
+
+<div id="js_loading" style=" display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">发送中</p>
+    </div>
+</div>
+
+<div id="js_fail" style="display:none">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+    <div class="weui-dialog__bd">
+        网络异常，请稍后重试    </div>
+    <div class="weui-dialog__ft">
+      <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="js_fail_inform">知道了</a>
+    </div>
+    </div>
+</div>
+
+
+
+                      </div>
+        </div>
+
+        <div class="rich_media_area_primary sougou" id="sg_tj" style="display:none"></div>
+
+
+        
+        <div class="rich_media_area_extra">
+          <div class="rich_media_area_extra_inner">
+              
+              <div id="js_share_appmsg">
+              </div>
+
+              
+                            <div class="mpda_bottom_container" id="js_bottom_ad_area"></div>
+                            
+              <div id="js_iframetest" style="display:none;"></div>
+                            
+              <div class="rich_media_extra rich_media_extra_discuss" id="js_cmt_container" style="display:none">
+                
+
+                
+                <div class="discuss_mod" id="js_friend_cmt_area" style="display:none">
+                  
+                  
+                  
+                </div>
+
+                                <div class="discuss_mod" id="js_preview_cmt" style="display:none">
+                  <div class="discuss_container">
+                    <div class="mod_title_context">
+                        <p class="discuss_icon_tips tc">
+                            <a href="javascript:;" id="js_preview_cmt_write">留言</a>
+                        </p>
+                    </div>
+                  </div>
+                </div>
+                              </div>
+          </div>
+        </div>
+
+        
+        <div id="js_pc_qr_code" class="qr_code_pc_outer" style="display:none;">
+            <div class="qr_code_pc_inner">
+                <div class="qr_code_pc">
+                    <img id="js_pc_qr_code_img" class="qr_code_pc_img">
+                    <p>微信扫一扫<br>关注该公众号</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="js_pc_weapp_code" class="weui-desktop-popover weui-desktop-popover_pos-up-center weui-desktop-popover_img-text" style="display: none;">
+    <div class="weui-desktop-popover__content">
+        <div class="weui-desktop-popover__desc">
+            <img id="js_pc_weapp_code_img">
+            微信扫一扫<br>使用小程序<span id="js_pc_weapp_code_des"></span>        </div>
+    </div>
+</div>
+<div id="js_minipro_dialog" style="display:none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd">即将打开"<span id="js_minipro_dialog_name"></span>"小程序</div>
+        <div class="weui-dialog__ft">
+            <a id="js_minipro_dialog_cancel" href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+            <a id="js_minipro_dialog_ok" href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_primary">打开</a>
+        </div>
+    </div>
+</div>
+
+        
+        <script nonce="48665569">
+    var __DEBUGINFO = {
+        debug_js : "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/debug/console42f400.js",
+        safe_js : "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/safe/moonsafe42f400.js",
+        res_list: []
+    };
+</script>
+
+<script nonce="48665569" type="text/javascript">
+(function() {
+	var totalCount = 0,
+			finishCount = 0;
+
+	function _loadVConsolePlugin() {
+		window.vConsole = new window.VConsole();
+		while (window.vConsolePlugins.length > 0) {
+			var p = window.vConsolePlugins.shift();
+			window.vConsole.addPlugin(p);
+		}
+	}
+	
+	function _addVConsole(uri, cb) {
+		totalCount++;
+		var node = document.createElement('SCRIPT');
+		node.type = 'text/javascript';
+		node.src = uri;
+		node.setAttribute('nonce', '48665569');
+		if (cb) {
+			node.onload = cb;
+		}
+		document.getElementsByTagName('head')[0].appendChild(node);
+	}
+	if (
+		(document.cookie && document.cookie.indexOf('vconsole_open=1') > -1)
+		|| location.href.indexOf('vconsole=1') > -1
+	) {
+		window.vConsolePlugins = [];
+		_addVConsole('//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.2.2/vconsole.min440203.js', function() {
+			
+			_addVConsole('//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/plugin/vconsole-mpopt/1.0.1/vconsole-mpopt42f400.js', _loadVConsolePlugin);
+		});
+	}
+})();
+</script>
+        
+<script nonce="48665569" type="text/javascript">
+if (location.href.match(/fontScale=\d+/) && /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+
+    var m=location.href.match(/fontScale=(\d*)/);
+    var map={
+        "94":1,
+        "100":2,
+        "109":3,
+        "119":4,
+        "131":5,
+    }
+    if(m&&m[1]&&map[m[1]]){
+        document.getElementsByTagName("body")[0].className+=" appmsg_skin_fontscale_"+map[m[1]];
+        console.log("appmsg_skin_fontscale_:"+map[m[1]]);
+    }
+}
+
+
+(function(){
+    if (window.__second_open__) return; 
+
+    
+
+    var first_js_time = +new Date();
+
+    var showDate="";
+    var svrDate=new Date("1554224593"*1000);
+    var createDate=new Date("1553040524"*1000);
+    var ct="1553040524"*1;
+    var publish_time = "2019-03-20" || "";
+    var cD={
+      year:createDate.getYear(),
+      month:createDate.getMonth()+1,
+      date:createDate.getDate()
+    };
+    
+    svrDate.setHours(0);
+    svrDate.setMinutes(0);
+    svrDate.setSeconds(0);
+    var todayDate=svrDate.getTime()/1000;
+    svrDate.setDate(1);
+    svrDate.setMonth(0);
+    var yearDate=svrDate.getTime()/1000;
+    
+    if(ct>=todayDate){
+      showDate="今天";
+    
+    }else if(ct>=todayDate-60*60*24){
+       showDate="昨天";
+    
+    }else if(ct>=todayDate-2*60*60*24){
+      showDate="前天";
+    }else if(ct>=todayDate-3*60*60*24){
+      showDate="3天前";
+    }else if(ct>=todayDate-4*60*60*24){
+      showDate="4天前";
+    }else if(ct>=todayDate-5*60*60*24){
+      showDate="5天前";
+    }else if(ct>=todayDate-6*60*60*24){
+      showDate="6天前";
+    }else if(ct>=todayDate-2*7*60*60*24){
+      showDate="1周前";
+    }else if(ct>=yearDate){
+      
+      
+      
+      showDate="%s月%s日".replace("%s",cD.month).replace("%s",cD.date);
+    }else{
+      showDate=publish_time;
+    };
+    if(document.getElementById("publish_time")){
+      document.getElementById("publish_time").innerText=showDate;
+    }
+})();
+</script>
+<script nonce="48665569" type="text/javascript">
+
+if (!window.console) window.console = { log: function() {} };
+
+if (typeof getComputedStyle == 'undefined') {
+    if (document.body.currentStyle) {
+        window.getComputedStyle = function(el) {
+            return el.currentStyle;
+        }
+    } else {
+        window.getComputedStyle = {};
+    }
+}
+(function(){
+    window.__zoom = 1;
+    
+    (function(){
+        var validArr = ","+([0.875, 1, 1.125, 1.25, 1.375]).join(",")+",";
+        var match = window.location.href.match(/winzoom=(\d+(?:\.\d+)?)/);
+        if (match && match[1]) {
+            var winzoom = parseFloat(match[1]);
+            if (validArr.indexOf(","+winzoom+",")>=0) {
+                window.__zoom = winzoom;
+            }
+        }
+    })();
+
+    var ua = navigator.userAgent.toLowerCase();
+    var re = new RegExp("msie ([0-9]+[\.0-9]*)");
+    var version;
+    if (re.exec(ua) != null) {
+        version = parseInt(RegExp.$1);
+    }
+    var isIE = false;
+    if (typeof version != 'undefined' && version >= 6 && version <= 9) {
+        isIE = true;
+    }
+    var getMaxWith=function(){
+        var container = document.getElementById('img-content');
+        var max_width = container.offsetWidth;
+        var container_padding = 0;
+        var container_style = getComputedStyle(container);
+        container_padding = parseFloat(container_style.paddingLeft) + parseFloat(container_style.paddingRight);
+        max_width -= container_padding;
+        if (!max_width) {
+            max_width = window.innerWidth - 30;      
+        }
+        return max_width;
+    };
+    var getParentWidth = function(dom){
+        var parent_width = 0;
+        var parent = dom.parentNode;
+        var outerWidth = 0;
+        while (true) {
+            if(!parent||parent.nodeType!=1) break;
+            var parent_style = getComputedStyle(parent);
+            if (!parent_style) break;
+            parent_width = parent.clientWidth - parseFloat(parent_style.paddingLeft) - parseFloat(parent_style.paddingRight) - outerWidth;
+            if (parent_width > 0) break;
+            outerWidth += parseFloat(parent_style.paddingLeft) + parseFloat(parent_style.paddingRight) + parseFloat(parent_style.marginLeft) + parseFloat(parent_style.marginRight) + parseFloat(parent_style.borderLeftWidth) + parseFloat(parent_style.borderRightWidth);
+            parent = parent.parentNode;
+        }
+        return parent_width;
+    }
+    var getOuterW=function(dom){
+        var style=getComputedStyle(dom),
+            w=0;
+        if(!!style){
+            w = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+        }
+        return w;
+    };
+    var getOuterH =function(dom){
+        var style=getComputedStyle(dom),
+            h=0;
+        if(!!style){
+            h = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+        }
+        return h;
+    };
+    var insertAfter = function(dom,afterDom){
+        var _p = afterDom.parentNode;
+        if(!_p){
+            return;
+        }
+        if(_p.lastChild === afterDom){
+            _p.appendChild(dom);
+        }else{
+            _p.insertBefore(dom,afterDom.nextSibling);
+        }
+    };
+    var getQuery = function(name,url){
+        
+        var u  = arguments[1] || window.location.search,
+            reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"),
+            r = u.substr(u.indexOf("\?")+1).match(reg);
+        return r!=null?r[2]:"";
+    };
+
+    
+    function setImgSize(item, widthNum, widthUnit, ratio, breakParentWidth) {
+        setTimeout(function () {
+            var img_padding_border = getOuterW(item) || 0;
+            var img_padding_border_top_bottom = getOuterH(item) || 0;
+            
+            if (widthNum > getParentWidth(item) && !breakParentWidth) {
+                widthNum = getParentWidth(item);
+            }
+
+            height = (widthNum - img_padding_border) * ratio + img_padding_border_top_bottom;
+
+            if (isIE) {
+                var url = item.getAttribute('data-src');
+                item.src = url;
+            } else {
+                if(parseFloat(widthNum, 10) > 40 && height > 40 && breakParentWidth) {
+                    item.className += ' img_loading';
+                }
+                item.src = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==";
+            }
+            item.style.cssText += ";width: " + widthNum + widthUnit + " !important;";
+            item.style.cssText += ";height: " + height + widthUnit + " !important;";
+        }, 10);
+    }
+
+    (function(){
+        var images = document.getElementsByTagName('img');
+        var length = images.length;
+        var max_width = getMaxWith();
+        for (var i = 0; i < length; ++i) {
+            if (window.__second_open__ && images[i].getAttribute('__sec_open_place_holder__')) {
+                continue;
+            }
+            var imageItem = images[i];
+            var src_ = imageItem.getAttribute('data-src');
+            var realSrc = imageItem.getAttribute('src');
+            if (!src_ || realSrc) continue;
+            
+            var originWidth = imageItem.getAttribute('data-w');
+            var ratio_ = 1 * imageItem.getAttribute('data-ratio');
+
+            var height = 100;
+            if (ratio_ && ratio_ > 0) {
+                var parent_width = getParentWidth(imageItem) || max_width;
+                var initWidth = imageItem.style.width || imageItem.getAttribute('width') || originWidth || parent_width;
+                initWidth = parseFloat(initWidth, 10) > max_width ? max_width : initWidth;
+                
+                if (initWidth) {
+                    imageItem.setAttribute('_width', !isNaN(initWidth * 1) ? initWidth + 'px' : initWidth);
+                }
+                
+                if (typeof initWidth === 'string' && initWidth.indexOf('%') !== -1) {
+                    initWidth = parseFloat(initWidth.replace('%', ''), 10) / 100 * parent_width;
+                }
+                
+                if (initWidth === 'auto') {
+                    initWidth = originWidth;
+                }
+
+                var res = /^(\d+(?:\.\d+)?)([a-zA-Z%]+)?$/.exec(initWidth);
+                var widthNum = res && res.length >= 2 ? res[1] : 0;
+                var widthUnit = res && res.length >= 3 && res[2] ? res[2] : 'px';
+
+                
+                setImgSize(imageItem, widthNum, widthUnit, ratio_, true);
+                
+                (function (item, widthNumber, unit, ratio) {
+                    setTimeout(function () {
+                        setImgSize(item, widthNumber, unit, ratio, false);
+                    });
+                })(imageItem, widthNum, widthUnit, ratio_);
+            } else {
+                imageItem.style.cssText += ";visibility: hidden !important;";
+            }
+
+        }
+    })();
+    window.__videoDefaultRatio=16/9;
+    window.__getVideoWh = function(dom){
+        var max_width = getMaxWith(),
+            width = max_width,
+            ratio_ = dom.getAttribute('data-ratio')*1,
+            arr = [4/3, 16/9],
+            ret = arr[0],
+            abs = Math.abs(ret - ratio_);
+        if (!ratio_) { 
+            if (dom.getAttribute("data-mpvid")) { 
+                ratio_ = 16/9;
+            } else { 
+                ratio_ = 4/3;
+            }
+        } else { 
+            for (var j = 1, jl = arr.length; j < jl; j++) {
+                var _abs = Math.abs(arr[j] - ratio_);
+                if (_abs < abs) {
+                    abs = _abs;
+                    ret = arr[j];
+                }
+            }
+            ratio_ = ret;
+        }
+
+        var parent_width = getParentWidth(dom)||max_width,
+            width = width > parent_width ? parent_width : width,
+            outerW = getOuterW(dom)||0,
+            outerH = getOuterH(dom)||0,
+            videoW = width - outerW,
+            videoH = videoW/ratio_,
+            height = videoH + outerH;
+        return {w:Math.ceil(width),h:Math.ceil(height),vh:videoH,vw:videoW,ratio:ratio_};
+    };
+
+
+    (function(){
+        var iframe = document.getElementsByTagName('iframe');
+        for (var i=0,il=iframe.length;i<il;i++) {
+            if (window.__second_open__ && iframe[i].getAttribute('__sec_open_place_holder__')) {
+                continue;
+            }
+            var a = iframe[i];
+            var src_ = a.getAttribute('src')||a.getAttribute('data-src')||"";
+            if(!/^http(s)*\:\/\/v\.qq\.com\/iframe\/(preview|player)\.html\?/.test(src_)
+                && !/^http(s)*\:\/\/mp\.weixin\.qq\.com\/mp\/readtemplate\?t=pages\/video_player_tmpl/.test(src_)
+            ){
+                continue;
+            }
+            var vid = getQuery("vid",src_);
+            if(!vid){
+                continue;
+            }
+            vid=vid.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,"");
+            a.removeAttribute('src');
+            a.style.display = "none";
+            var obj = window.__getVideoWh(a),
+                videoPlaceHolderSpan = document.createElement('span'),
+                videoPlayerIconSpan = document.createElement('span'),
+                mydiv = document.createElement('img');
+
+            videoPlaceHolderSpan.className = "js_img_loading db";
+            videoPlaceHolderSpan.setAttribute("data-vid", vid);
+            
+
+            videoPlayerIconSpan.className = 'wx_video_context db'; 
+            videoPlayerIconSpan.style.display = 'none';
+            videoPlayerIconSpan.innerHTML = '<span class="wx_video_thumb_primary"></span><button class="wx_video_play_btn">播放</button><span class="wx_video_mask"></span>'; 
+
+            mydiv.className = "img_loading";
+
+            mydiv.src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==";
+            
+            
+            videoPlaceHolderSpan.style.cssText = "width: " + obj.w + "px !important;";
+            mydiv.style.cssText += ";width: " + obj.w + "px";
+            videoPlaceHolderSpan.appendChild(videoPlayerIconSpan);
+            videoPlaceHolderSpan.appendChild(mydiv);
+            insertAfter(videoPlaceHolderSpan, a); 
+
+            a.style.cssText += ";width: " + obj.w + "px !important;";
+            a.setAttribute("width",obj.w);
+            if(window.__zoom!=1){
+                a.style.display = "block";
+                videoPlaceHolderSpan.style.display = "none";
+                a.setAttribute("_ratio",obj.ratio);
+                a.setAttribute("_vid",vid);
+            }else{
+                videoPlaceHolderSpan.style.cssText += "height: " + obj.h + "px !important;";
+                mydiv.style.cssText += "height: " + obj.h + "px !important;";
+                a.style.cssText += "height: " + obj.h + "px !important;";
+                a.setAttribute("height",obj.h);
+            }
+            a.setAttribute("data-vh",obj.vh);
+            a.setAttribute("data-vw",obj.vw);
+            if(a.getAttribute("data-mpvid")){
+                a.setAttribute("data-src",location.protocol+"//mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&auto=0&vid="+vid);
+            }else{
+                a.setAttribute("data-src",location.protocol+"//v.qq.com/iframe/player.html?vid="+ vid + "&width="+obj.vw+"&height="+obj.vh+"&auto=0");
+            }
+        }
+    })();
+
+    (function(){
+        if(window.__zoom!=1){
+            if (!window.__second_open__) {
+                document.getElementById('page-content').style.zoom = window.__zoom;
+                var a = document.getElementById('activity-name');
+                var b = document.getElementById('meta_content');
+                if(!!a){
+                    a.style.zoom = 1/window.__zoom;
+                }
+                if(!!b){
+                    b.style.zoom = 1/window.__zoom;
+                }
+            }
+            var images = document.getElementsByTagName('img');
+            for (var i = 0,il=images.length;i<il;i++) {
+                if (window.__second_open__ && images[i].getAttribute('__sec_open_place_holder__')) {
+                    continue;
+                }
+                images[i].style.zoom = 1/window.__zoom;
+            }
+            var iframe = document.getElementsByTagName('iframe');
+            for (var i = 0,il=iframe.length;i<il;i++) {
+                if (window.__second_open__ && iframe[i].getAttribute('__sec_open_place_holder__')) {
+                    continue;
+                }
+                var a = iframe[i];
+                a.style.zoom = 1/window.__zoom;
+                var src_ = a.getAttribute('data-src')||"";
+                if(!/http(s)*\:\/\/v\.qq\.com\/iframe\/(preview|player)\.html\?/.test(src_)){
+                    continue;
+                }
+                var ratio = a.getAttribute("_ratio");
+                var vid = a.getAttribute("_vid");
+                a.removeAttribute("_ratio");
+                a.removeAttribute("_vid");
+                var vw = a.offsetWidth - (getOuterW(a)||0);
+                var vh = vw/ratio;
+                var h = vh + (getOuterH(a)||0)
+                a.style.cssText += "height: " + h + "px !important;"
+                a.setAttribute("height",h);
+                a.setAttribute("data-src",location.protocol+"//v.qq.com/iframe/player.html?vid="+ vid + "&width="+vw+"&height="+vh+"&auto=0");
+                a.style.display = "none";
+                var parent = a.parentNode;
+                if(!parent){
+                    continue;
+                }
+                for(var j=0,jl=parent.children.length;j<jl;j++){
+                    var child = parent.children[j];
+                    if(child.className.indexOf("img_loading")>=0 && child.getAttribute("data-vid")==vid){
+                        child.style.cssText += "height: " + h + "px !important;";
+                        child.style.display = "";
+                    }
+                }
+            }
+        }
+    })();
+})();
+</script>
+<script nonce="48665569" type="text/javascript">
+    var new_appmsg = 1;
+    var item_show_type = "0";
+    var can_see_complaint = "0";
+    var not_in_mm_css = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/not_in_mm435ee6.css";
+    var windowwx_css = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/winwx435ee6.css";
+    var article_improve_combo_css = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/combo44c130.css";
+    var tid = "";
+    var aid = "";
+    var clientversion = "";
+    var appuin = ""||"MzUyMDk2MzUzMQ==";
+
+    var source = "";
+    var ascene = "";
+    var subscene = "";
+    var sessionid = ""||"svr_d01629bfd98";
+    var abtest_cookie = "";
+
+    var scene = 75;
+
+    var itemidx = "";
+    var appmsg_token   = "";
+    var _copyright_stat = "1";
+    var _ori_article_type = "科技互联网";
+
+    var is_follow = "";
+    var nickname = "mPaaS";
+    var appmsg_type = "9";
+    var ct = "1553040524";
+    var publish_time = "2019-03-20" || "";
+    var user_name = "gh_e7c89aa791f0";
+    var user_name_new = "";
+    var fakeid   = "";
+    var version   = "";
+    var is_limit_user   = "0";
+    var round_head_img = "http://mmbiz.qpic.cn/mmbiz_png/Ly9fQtHVgNmOcHJqN5k9woPac0g41QjQ6XI4RibYfsCasrCljou4GY4XUYxeEvicpHhO2wbgE6PFkonaKibCicYZPQ/0?wx_fmt=png";
+    var hd_head_img = "http://wx.qlogo.cn/mmhead/Q3auHgzwzM6BicS67ZnaOTVPia3XEq2mUznoiapw578aH1M5stWxYnTDw/0"||"";
+    var ori_head_img_url = "http://wx.qlogo.cn/mmhead/Q3auHgzwzM6BicS67ZnaOTVPia3XEq2mUznoiapw578aH1M5stWxYnTDw/132";
+    var msg_title = "CodeHub#1 回顾 | 敏捷开发与动态更新在支付宝 App 内的实践";
+    var msg_desc = "本章节针对「敏捷开发与动态更新在支付宝 App 内的深度实践」展开深度解析。";
+    var msg_cdn_url = "http://mmbiz.qpic.cn/mmbiz_jpg/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgeyakRLb7Dhhecs98Sqia970Xna55ic1K3KAu5t3RQ3DDJvdpv6KknrPA/0?wx_fmt=jpeg"; 
+    var cdn_url_1_1  = "https://mmbiz.qlogo.cn/mmbiz_jpg/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgZgia2dd76y7Hp17T43YiavGa15Yj7iacQRxFRIliakGr4yxQS9z3SpicuuQ/0?wx_fmt=jpeg"; 
+    var cdn_url_235_1 = "https://mmbiz.qlogo.cn/mmbiz_jpg/Ly9fQtHVgNnBTy8ibGCrySUp3exEVaSLgeyakRLb7Dhhecs98Sqia970Xna55ic1K3KAu5t3RQ3DDJvdpv6KknrPA/0?wx_fmt=jpeg"; 
+    
+    var msg_link = "http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247484143&amp;idx=1&amp;sn=abaa941ecbb10dfeb053a79c9392c75a&amp;chksm=f9e3164bce949f5d9aacdd8c81ba58a2ef3a4b42b237fa978f78655ec30d5ee5055f1e96f8e9#rd"; 
+    var user_uin = "0"*1;
+    var msg_source_url = 'https://tech.antfin.com/activities/388?chInfo=wxgzh';
+    var img_format = 'jpeg';
+    var srcid = '';
+    var req_id = '0301Hs2aNvMJ08k2SalxsvN5';
+    var networkType;
+    var appmsgid = '' || ''|| "2247484143";
+    var comment_id = "0" || "0" * 1;
+    var comment_enabled = "" * 1;
+    var is_need_reward = "0" * 1;
+    var is_https_res = ("" * 1) && (location.protocol == "https:");
+    var msg_daily_idx = "1" || "";
+    var profileReportInfo = "" || "";
+
+    var devicetype = "";
+    var source_encode_biz = "";
+    var source_username = "";
+    
+    var reprint_ticket = "";
+    var source_mid = "";
+    var source_idx = "";
+    var source_biz = "";
+    var author_id = "";
+
+    
+    var optimizing_flag = "0" * 1;
+    var ad_abtest_padding = "0" * 1;
+
+    var show_comment = "";
+    var __appmsgCgiData = {
+        wxa_product : ""*1,
+        wxa_cps : ""*1,
+        show_msg_voice: "0"*1,
+        can_use_page : "0"*1,
+        is_wxg_stuff_uin : "0"*1,
+        card_pos : "",
+        copyright_stat : "1",
+        source_biz : "",
+        hd_head_img : "http://wx.qlogo.cn/mmhead/Q3auHgzwzM6BicS67ZnaOTVPia3XEq2mUznoiapw578aH1M5stWxYnTDw/0"||(window.location.protocol+"//"+window.location.host + "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/pic/appmsg/pic_rumor_link.2x42f400.jpg")
+    };
+    var _empty_v = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/pic/pages/voice/empty42f400.mp3";
+
+    var copyright_stat = "1" * 1;
+
+    var pay_fee = "" * 1;
+    var pay_timestamp = "";
+    var need_pay = "" * 1;
+
+    var need_report_cost = "0" * 1;
+    var use_tx_video_player = "0" * 1;
+    var appmsg_fe_filter = "contenteditable";
+
+    var friend_read_source = "" || "";
+    var friend_read_version = "" || "";
+    var friend_read_class_id = "" || "";
+
+    var is_only_read = "1" * 1;
+    var read_num = "" * 1;
+    var like_num = "" * 1;
+    var liked = "" == 'true' ? true : false;
+    var is_temp_url = "" ? 1 : 0;
+    var send_time = "";
+    var icon_emotion_switch = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/emotion/icon_emotion_switch.2x42f400.png";
+    var icon_emotion_switch_active = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/emotion/icon_emotion_switch_active.2x42f400.png";
+    var icon_loading_white = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/common/icon_loading_white42f400.gif";
+    var icon_audio_unread = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/audio/icon_audio_unread42f400.png";
+    var icon_qqmusic_default = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/qqmusic/icon_qqmusic_default.2x42f400.png";
+    var icon_qqmusic_source = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/qqmusic/icon_qqmusic_source42f400.png";
+    var icon_kugou_source = "//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/kugou/icon_kugou_source42f400.png";
+
+    var topic_default_img = '//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg/topic/pic_book_thumb.2x42f400.png';
+    var comment_edit_icon = '//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/appmsg_new/icon_edit42f400.png';
+    var comment_loading_img = '//res.wx.qq.com/mmbizwap/zh_CN/htmledition/images/icon/common/icon_loading_white42f400.gif';
+
+    var voice_in_appmsg = {
+        "1":"1"
+            };
+
+    var reprint_style = ''*1;
+    var wxa_img_alert = "" != 'false';
+
+    
+    var more_read_type = '0'*1;
+
+    
+    
+    
+    
+
+    
+    var weapp_sn_arr_json = "" || "";
+
+    
+    var ban_scene = "0" * 1;
+
+    var svr_time = "1554224593" * 1;
+    
+    var is_transfer_msg = ""*1||0;
+
+    var malicious_title_reason_id = "0" * 1; 
+    var malicious_content_type = "0" * 1; 
+
+    
+    var modify_time = "";
+
+    
+    var isprofileblock = "0";
+
+    
+    var hotspotInfoList = [
+                    ];
+
+        window.wxtoken = "777";
+        
+    
+    
+    
+    
+    window.is_login = '0' * 1; 
+
+    window.__moon_initcallback = function(){
+        if(!!window.__initCatch){
+            window.__initCatch({
+                idkey : 27611+2,
+                startKey : 0,
+                limit : 128,
+                badjsId: 43,
+                reportOpt : {
+                    uin : uin,
+                    biz : biz,
+                    mid : mid,
+                    idx : idx,
+                    sn  : sn
+                },
+                extInfo : {
+                    network_rate : 0.01,    
+                    badjs_rate: 0.1 
+                }
+            });
+        }
+    }
+        
+    var title ="mPaaS";
+
+    var is_new_msg=true;
+    
+    
+
+    var is_wash = '' * 1;
+</script>
+
+<script nonce="48665569" type="text/javascript">
+(function(_g){
+    _g.appmsg_like_type = "2" * 1 ? "2" * 1 : 1;
+    
+    _g.clientversion = "";
+    _g.passparam = ""; 
+    if(!_g.msg_link) {
+      _g.msg_link = "http://mp.weixin.qq.com/s?__biz=MzUyMDk2MzUzMQ==&amp;mid=2247484143&amp;idx=1&amp;sn=abaa941ecbb10dfeb053a79c9392c75a&amp;chksm=f9e3164bce949f5d9aacdd8c81ba58a2ef3a4b42b237fa978f78655ec30d5ee5055f1e96f8e9#rd";
+    }
+    _g.appmsg_type = "9"; 
+    _g.devicetype = ""; 
+})(window);
+
+</script>
+
+
+        <script nonce="48665569">window.__moon_host = 'res.wx.qq.com';window.__moon_mainjs = 'appmsg/index.js';window.moon_map = {"pages/iframe_communicate.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/iframe_communicate42f400.js","new_video/player.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/new_video/player.html433882.js","biz_wap/zepto/touch.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/zepto/touch42f400.js","biz_wap/zepto/event.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/zepto/event42f400.js","biz_wap/zepto/zepto.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/zepto/zepto440203.js","page/pages/video.css":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/pages/video.css435ee6.js","a/tpl/smallbanner_msg_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/smallbanner_msg_tpl.html42f400.js","a/tpl/smallbanner_info_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/smallbanner_info_tpl.html44c2e3.js","a/tpl/banner_info_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/banner_info_tpl.html42f400.js","a/tpl/promote_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/promote_tpl.html42f400.js","a/tpl/smallcard_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/smallcard_tpl.html42f400.js","a/tpl/info_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/info_tpl.html42f400.js","a/tpl/cardticket_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/cardticket_tpl.html42f400.js","a/tpl/banner_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/banner_tpl.html44c2e3.js","a/tpl/sponsor_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/sponsor_tpl.html42f400.js","a/tpl/new_cpc_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/new_cpc_tpl.html44c2e3.js","appmsg/emotion/caret.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/caret42f400.js","pages/audition_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/audition_tpl.html44ccb4.js","biz_wap/utils/localstorage.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/localstorage42f400.js","appmsg/friend_comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/friend_comment_tpl.html42f400.js","appmsg/comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/comment_tpl.html42f400.js","biz_wap/utils/fakehash.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/fakehash42f400.js","appmsg/comment_report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/comment_report42f400.js","a/appdialog_confirm.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/appdialog_confirm.html42f400.js","widget/wx_profile_dialog_primary.css":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/widget/wx_profile_dialog_primary.css42f400.js","new_video/player.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/new_video/player44cddd.js","a/tpl/mpda_bottom_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/mpda_bottom_tpl.html42f400.js","a/tpl/crt_size_map.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/crt_size_map42f400.js","biz_wap/jsapi/cardticket.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/jsapi/cardticket42f400.js","biz_common/jquery.md5.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/jquery.md542f400.js","biz_common/utils/emoji_panel_data.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/emoji_panel_data42f400.js","biz_common/utils/emoji_data.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/emoji_data42f400.js","appmsg/emotion/textarea.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/textarea42f400.js","appmsg/emotion/nav.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/nav42f400.js","appmsg/emotion/common.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/common42f400.js","appmsg/emotion/slide.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/slide42f400.js","appmsg/emotion/dom.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/dom42f400.js","pages/player_tips.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/player_tips44ccb4.js","pages/music_report_conf.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/music_report_conf42f400.js","pages/report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/report4306fd.js","pages/player_adaptor.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/player_adaptor42f400.js","pages/music_player.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/music_player42f400.js","appmsg/more_read_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/more_read_tpl.html42f400.js","appmsg/retry_ajax.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/retry_ajax42f400.js","complain/tips.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/complain/tips42f400.js","pages/loadscript.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/loadscript42f400.js","biz_wap/utils/ajax_load_js.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/ajax_load_js42f400.js","appmsg/comment.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/comment445789.js","a/ios.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/ios42f400.js","a/android.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/android42f400.js","a/profile.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/profile42f400.js","a/app_card.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/app_card44c2e3.js","a/sponsor.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/sponsor42f400.js","a/tpl/cpc_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/cpc_tpl.html42f400.js","a/appdialog_confirm.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/appdialog_confirm44c2e3.js","biz_common/dom/offset.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/dom/offset4402ec.js","a/video.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/video42f400.js","a/tpl/crt_tpl_manager.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/tpl/crt_tpl_manager42f400.js","a/cpc_a_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/cpc_a_tpl.html42f400.js","a/sponsor_a_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/sponsor_a_tpl.html42f400.js","a/a_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/a_tpl.html42f400.js","a/mpshop.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/mpshop42f400.js","a/wxopen_card.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/wxopen_card42f400.js","a/card.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/card42f400.js","biz_wap/utils/position.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/position42f400.js","a/a_report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/a_report4402ec.js","biz_wap/utils/show_time.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/show_time445789.js","biz_common/utils/get_para_list.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/get_para_list42f400.js","biz_wap/utils/openUrl.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/openUrl4402ec.js","a/a_sign.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/a_sign438181.js","appmsg/my_comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/my_comment_tpl.html42f400.js","appmsg/cmt_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/cmt_tpl.html42f400.js","sougou/a_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/sougou/a_tpl.html42f400.js","appmsg/emotion/emotion.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/emotion/emotion42f400.js","biz_common/base64.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/base6442f400.js","biz_common/utils/report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/report42f400.js","appmsg/articleReport.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/articleReport42f400.js","biz_wap/utils/hand_up_state.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/hand_up_state42f400.js","biz_common/utils/http.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/http42f400.js","biz_common/utils/cookie.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/cookie42f400.js","appmsg/topic_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/topic_tpl.html42f400.js","pages/weapp_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/weapp_tpl.html42f400.js","biz_common/utils/monitor.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/monitor42f400.js","pages/voice_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/voice_tpl.html42f400.js","pages/kugoumusic_ctrl.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/kugoumusic_ctrl42f400.js","pages/qqmusic_ctrl.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/qqmusic_ctrl44df7a.js","pages/voice_component.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/voice_component44df7a.js","pages/qqmusic_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/qqmusic_tpl.html42f400.js","new_video/ctl.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/new_video/ctl444d40.js","appmsg/open_url_with_webview.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/open_url_with_webview440203.js","appmsg/more_read.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/more_read42f400.js","appmsg/reward_entry.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/reward_entry42f400.js","appmsg/like.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/like44c2e3.js","pages/version4video.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/version4video42f400.js","biz_wap/utils/storage.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/storage42f400.js","appmsg/share_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/share_tpl.html42f400.js","appmsg/appmsgext.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/appmsgext430b95.js","appmsg/img_copyright_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/img_copyright_tpl.html42f400.js","pages/video_ctrl.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/video_ctrl42f400.js","pages/create_txv.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/create_txv42f400.js","appmsg/comment_utils.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/comment_utils42f400.js","biz_common/ui/imgonepx.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/ui/imgonepx42f400.js","appmsg/malicious_wording.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/malicious_wording42f400.js","biz_common/utils/wxgspeedsdk.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/wxgspeedsdk42f400.js","a/a_config.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/a_config44c130.js","a/a_utils.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/a_utils44dfba.js","a/a.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/a44cddd.js","rt/appmsg/getappmsgext.rt.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/rt/appmsg/getappmsgext.rt42f400.js","pages/video_communicate_adaptor.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/pages/video_communicate_adaptor433882.js","biz_wap/utils/ajax_wx.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/ajax_wx42f400.js","biz_common/utils/respTypes.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/respTypes42f400.js","biz_wap/utils/log.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/log42f400.js","sougou/index.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/sougou/index42f400.js","biz_wap/safe/mutation_observer_report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/safe/mutation_observer_report42f400.js","appmsg/fereport.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/fereport438bee.js","appmsg/fereport_without_localstorage.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/fereport_without_localstorage438bee.js","appmsg/report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/report42f400.js","appmsg/report_and_source.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/report_and_source4380a9.js","appmsg/page_pos.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/page_pos44c130.js","appmsg/cdn_speed_report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/cdn_speed_report42f400.js","appmsg/wxtopic.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/wxtopic42f400.js","appmsg/weapp.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/weapp433882.js","appmsg/weproduct.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/weproduct42f400.js","appmsg/voicemsg.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/voicemsg42f400.js","appmsg/autoread.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/autoread42f400.js","appmsg/voice.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/voice42f400.js","appmsg/qqmusic.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/qqmusic43440b.js","appmsg/iframe.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/iframe433882.js","appmsg/product.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/product42f400.js","appmsg/review_image.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/review_image435a90.js","appmsg/outer_link.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/outer_link44c2e3.js","appmsg/copyright_report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/copyright_report42f400.js","appmsg/async.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/async4402ec.js","biz_wap/ui/lazyload_img.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/ui/lazyload_img42f400.js","biz_common/log/jserr.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/log/jserr42f400.js","appmsg/share.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/share42f50a.js","appmsg/cdn_img_lib.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/cdn_img_lib42f400.js","appmsg/finance_communicate.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/finance_communicate440906.js","page/appmsg_new/not_in_mm.css":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/not_in_mm.css435ee6.js","page/appmsg_new/combo.css":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/style/page/appmsg_new/combo.css44c130.js","biz_wap/utils/wapsdk.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/wapsdk44c130.js","a/mpAdAsync.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/a/mpAdAsync44dfba.js","biz_common/utils/url/parse.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/url/parse440451.js","appmsg/appmsg_report.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/appmsg_report435ac2.js","biz_common/moment.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/moment42f400.js","biz_wap/jsapi/core.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/jsapi/core42f400.js","biz_common/dom/event.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/dom/event445789.js","appmsg/test.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/test42f400.js","biz_wap/utils/mmversion.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/mmversion42f400.js","appmsg/max_age.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/max_age42f400.js","biz_common/dom/attr.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/dom/attr42f400.js","biz_wap/utils/ajax.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/ajax42f400.js","appmsg/log.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/log42f400.js","biz_common/dom/class.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/dom/class42f400.js","biz_wap/utils/device.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/utils/device42f400.js","appmsg/weapp_common.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/weapp_common42f400.js","biz_common/utils/string/html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/utils/string/html42f400.js","cps/tpl/list_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/cps/tpl/list_tpl.html42f400.js","cps/tpl/card_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/cps/tpl/card_tpl.html42f400.js","cps/tpl/banner_tpl.html.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/cps/tpl/banner_tpl.html42f400.js","biz_common/tmpl.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_common/tmpl42f400.js","appmsg/index.js":"//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/appmsg/index44c130.js"};</script><script nonce="48665569" type="text/javascript" id="moon_inline" > window.__mooninline=1; window.setTimeout(function() {  function __moonf__(){
+if(!window.__moonhasinit){
+window.__moonhasinit=!0,window.__moonclientlog=[],window.__wxgspeeds&&(window.__wxgspeeds.moonloadedtime=+new Date),
+"object"!=typeof JSON&&(window.JSON={
+stringify:function(){
+return"";
+},
+parse:function(){
+return{};
+}
+});
+var e=function(){
+function e(e){
+try{
+var o;
+/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)?o="writeLog":/(Android)/i.test(navigator.userAgent)&&(o="log"),
+o&&t(o,e);
+}catch(n){
+throw console.error(n),n;
+}
+}
+function t(e,o){
+var n,r,i={};
+n=top!=window?top.window:window;
+try{
+r=n.WeixinJSBridge,i=n.document;
+}catch(a){}
+e&&r&&r.invoke?r.invoke(e,{
+level:"info",
+msg:"[WechatFe][moon]"+o
+}):setTimeout(function(){
+i.addEventListener?i.addEventListener("WeixinJSBridgeReady",function(){
+t(e,o);
+},!1):i.attachEvent&&(i.attachEvent("WeixinJSBridgeReady",function(){
+t(e,o);
+}),i.attachEvent("onWeixinJSBridgeReady",function(){
+t(e,o);
+}));
+},0);
+}
+var n;
+localStorage&&JSON.parse(localStorage.getItem("__WXLS__moonarg"))&&"fromls"==JSON.parse(localStorage.getItem("__WXLS__moonarg")).method&&(n=!0),
+e(" moon init, moon_inline:"+window.__mooninline+", moonls:"+n),function(){
+var e={},o={},t={};
+e.COMBO_UNLOAD=0,e.COMBO_LOADING=1,e.COMBO_LOADED=2;
+var n=function(e,t,n){
+if(!o[e]){
+o[e]=n;
+for(var r=3;r--;)try{
+moon.setItem(moon.prefix+e,n.toString()),moon.setItem(moon.prefix+e+"_ver",moon_map[e]);
+break;
+}catch(i){
+moon.clear();
+}
+}
+},r=window.alert;
+window.__alertList=[],window.alert=function(e){
+r(e),window.__alertList.push(e);
+};
+var i=function(e){
+if(!e||!o[e])return null;
+var n=o[e];
+if("function"==typeof n&&!t[e]){
+var a={},s={
+exports:a
+},c=n(i,a,s,r);
+n=o[e]=c||s.exports,t[e]=!0;
+}
+if(".css"===e.substr(-4)){
+var d=document.getElementById(e);
+if(!d){
+d=document.createElement("style"),d.id=e;
+var _=/url\s*\(\s*\/(\"(?:[^\\\"\r\n\f]|\\[\s\S])*\"|'(?:[^\\'\n\r\f]|\\[\s\S])*'|[^)}]+)\s*\)/g,m=window.testenv_reshost||window.__moon_host||"res.wx.qq.com";
+n=n.replace(_,"url(//"+m+"/$1)"),d.innerHTML=n,document.getElementsByTagName("head")[0].appendChild(d);
+}
+}
+return n;
+};
+e.combo_status=e.COMBO_UNLOAD,e.run=function(){
+var o=e.run.info,t=o&&o[0],n=o&&o[1];
+if(t&&e.combo_status==e.COMBO_LOADED){
+var r=i(t);
+n&&n(r);
+}
+},e.use=function(o,t){
+window.__wxgspeeds&&(window.__wxgspeeds.seajs_use_time=+new Date),e.run.info=[o,t],
+e.run();
+},window.define=n,window.seajs=e;
+}(),function(){
+if(window.__nonce_str){
+var e=document.createElement;
+document.createElement=function(o){
+var t=e.apply(this,arguments);
+return"object"==typeof o&&(o=o.toString()),"string"==typeof o&&"script"==o.toLowerCase()&&t.setAttribute("nonce",window.__nonce_str),
+t;
+};
+}
+window.addEventListener&&window.__DEBUGINFO&&Math.random()<.01&&window.addEventListener("load",function(){
+var e=document.createElement("script");
+e.src=__DEBUGINFO.safe_js,e.type="text/javascript",e.async=!0;
+var o=document.head||document.getElementsByTagName("head")[0];
+o.appendChild(e);
+});
+}(),function(){
+function t(e){
+return"[object Array]"===Object.prototype.toString.call(e);
+}
+function n(e){
+return"[object Object]"===Object.prototype.toString.call(e);
+}
+function r(e){
+var t=e.stack+" "+e.toString()||"";
+try{
+if(window.testenv_reshost){
+var n="http(s)?://"+window.testenv_reshost,r=new RegExp(n,"g");
+t=t.replace(r,"");
+}else t=t.replace(/http(s)?:\/\/res\.wx\.qq\.com/g,"");
+for(var r=/\/([^.]+)\/js\/(\S+?)\.js(\,|:)?/g;r.test(t);)t=t.replace(r,function(e,o,t,n){
+return t+n;
+});
+}catch(e){
+t=e.stack?e.stack:"";
+}
+var i=[];
+for(o in u)u.hasOwnProperty(o)&&i.push(o+":"+u[o]);
+return i.push("STK:"+t.replace(/\n/g,"")),i.join("|");
+}
+function i(e){
+if(!e){
+var o=window.onerror;
+window.onerror=function(){},f=setTimeout(function(){
+window.onerror=o,f=null;
+},50);
+}
+}
+function a(e,o,t){
+if(!/^mp\.weixin\.qq\.com$/.test(location.hostname)){
+var n=[];
+t=t.replace(location.href,(location.origin||"")+(location.pathname||"")).replace("#wechat_redirect","").replace("#rd","").split("&");
+for(var r=0,i=t.length;i>r;r++){
+var a=t[r].split("=");
+a[0]&&a[1]&&n.push(a[0]+"="+encodeURIComponent(a[1]));
+}
+var s=new window.Image;
+return void(s.src=(o+n.join("&")).substr(0,1024));
+}
+var c;
+if(window.ActiveXObject)try{
+c=new ActiveXObject("Msxml2.XMLHTTP");
+}catch(d){
+try{
+c=new ActiveXObject("Microsoft.XMLHTTP");
+}catch(_){
+c=!1;
+}
+}else window.XMLHttpRequest&&(c=new XMLHttpRequest);
+c&&(c.open(e,o,!0),c.setRequestHeader("cache-control","no-cache"),c.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"),
+c.setRequestHeader("X-Requested-With","XMLHttpRequest"),c.send(t));
+}
+function s(e){
+return function(o,t){
+if("string"==typeof o)try{
+o=new Function(o);
+}catch(n){
+throw n;
+}
+var r=[].slice.call(arguments,2),a=o;
+return o=function(){
+try{
+return a.apply(this,r.length&&r||arguments);
+}catch(e){
+throw e.stack&&console&&console.error&&console.error("[TryCatch]"+e.stack),_&&window.__moon_report&&(window.__moon_report([{
+offset:j,
+log:"timeout_error;host:"+location.host,
+e:e
+}]),i(f)),e;
+}
+},e(o,t);
+};
+}
+function c(e){
+return function(o,t,n){
+if("undefined"==typeof n)var n=!1;
+var r=this,a=t||function(){};
+return t=function(){
+try{
+return a.apply(r,arguments);
+}catch(e){
+throw e.stack&&console&&console.error&&console.error("[TryCatch]"+e.stack),_&&window.__moon_report&&(window.__moon_report([{
+offset:x,
+log:"listener_error;type:"+o+";host:"+location.host,
+e:e
+}]),i(f)),e;
+}
+},a.moon_lid=E,b[E]=t,E++,e.call(r,o,t,n);
+};
+}
+function d(e){
+return function(o,t,n){
+if("undefined"==typeof n)var n=!1;
+var r=this;
+return t=b[t.moon_lid],e.call(r,o,t,n);
+};
+}
+var _,m,l,w,u,p,f,h=/MicroMessenger/i.test(navigator.userAgent),g=/MPAPP/i.test(navigator.userAgent),v=window.define,y=0,x=2,O=4,j=9,D=10;
+if(window.__initCatch=function(e){
+_=e.idkey,m=e.startKey||0,l=e.limit,w=e.badjsId,u=e.reportOpt||"",p=e.extInfo||{},
+p.rate=p.rate||.5;
+},window.__moon_report=function(e,o){
+var i=!1,s="";
+try{
+s=top.location.href;
+}catch(c){
+i=!0;
+}
+var d=.5;
+if(p&&p.rate&&(d=p.rate),o&&"number"==typeof o&&(d=o),!(!/mp\.weixin\.qq\.com/.test(location.href)&&!/payapp\.weixin\.qq\.com/.test(location.href)||Math.random()>d||!h&&!g||top!=window&&!i&&!/mp\.weixin\.qq\.com/.test(s))&&(n(e)&&(e=[e]),
+t(e)&&""!=_)){
+var u="",f=[],v=[],y=[],x=[];
+"number"!=typeof l&&(l=1/0);
+for(var j=0;j<e.length;j++){
+var D=e[j]||{};
+if(!(D.offset>l||"number"!=typeof D.offset||D.offset==O&&p&&p.network_rate&&Math.random()>=p.network_rate)){
+var b=1/0==l?m:m+D.offset;
+f[j]="[moon]"+_+"_"+b+";"+D.log+";"+r(D.e||{})||"",v[j]=b,y[j]=1;
+}
+}
+for(var E=0;E<v.length;E++)x[E]=_+"_"+v[E]+"_"+y[E],u=u+"&log"+E+"="+f[E];
+if(x.length>0){
+a("POST",location.protocol+"//mp.weixin.qq.com/mp/jsmonitor?","idkey="+x.join(";")+"&r="+Math.random()+"&lc="+f.length+u);
+var d=1;
+if(p&&p.badjs_rate&&(d=p.badjs_rate),w&&Math.random()<d){
+u=u.replace(/uin\:(.)*\|biz\:(.)*\|mid\:(.)*\|idx\:(.)*\|sn\:(.)*\|/,"");
+var S=new Image,I="https://badjs.weixinbridge.com/badjs?id="+w+"&level=4&from="+encodeURIComponent(location.host)+"&msg="+encodeURIComponent(u);
+S.src=I.slice(0,1024);
+}
+}
+}
+},window.setTimeout=s(window.setTimeout),window.setInterval=s(window.setInterval),
+Math.random()<.01&&window.Document&&window.HTMLElement){
+var b={},E=0;
+Document.prototype.addEventListener=c(Document.prototype.addEventListener),Document.prototype.removeEventListener=d(Document.prototype.removeEventListener),
+HTMLElement.prototype.addEventListener=c(HTMLElement.prototype.addEventListener),
+HTMLElement.prototype.removeEventListener=d(HTMLElement.prototype.removeEventListener);
+}
+var S=window.navigator.userAgent;
+if((/ip(hone|ad|od)/i.test(S)||/android/i.test(S))&&!/windows phone/i.test(S)&&window.localStorage&&window.localStorage.setItem){
+var I=window.localStorage.setItem,L=0;
+window.localStorage.setItem=function(e,o){
+if(!(L>=10))try{
+I.call(window.localStorage,e,o);
+}catch(t){
+t.stack&&console&&console.error&&console.error("[TryCatch]"+t.stack),window.__moon_report([{
+offset:D,
+log:"localstorage_error;"+t.toString(),
+e:t
+}]),L++,L>=3&&window.moon&&window.moon.clear&&moon.clear();
+}
+};
+}
+window.seajs&&v&&(window.define=function(){
+for(var o,t=[],n=arguments&&arguments[0],a=0,s=arguments.length;s>a;a++){
+var c=o=arguments[a];
+"function"==typeof o&&(o=function(){
+try{
+return c.apply(this,arguments);
+}catch(o){
+throw"string"==typeof n&&console.error("[TryCatch][DefineeErr]id:"+n),o.stack&&console&&console.error&&console.error("[TryCatch]"+o.stack),
+_&&window.__moon_report&&(window.__moon_report([{
+offset:y,
+log:"define_error;id:"+n+";",
+e:o
+}]),i(f)),e(" [define_error]"+JSON.stringify(r(o))),o;
+}
+},o.toString=function(e){
+return function(){
+return e.toString();
+};
+}(arguments[a])),t.push(o);
+}
+return v.apply(this,t);
+});
+}(),function(o){
+function t(e,o,t){
+return window.__DEBUGINFO?(window.__DEBUGINFO.res_list||(window.__DEBUGINFO.res_list=[]),
+window.__DEBUGINFO.res_list[e]?(window.__DEBUGINFO.res_list[e][o]=t,!0):!1):!1;
+}
+function n(e){
+var o=new TextEncoder("utf-8").encode(e),t=crypto.subtle||crypto.webkitSubtle;
+return t.digest("SHA-256",o).then(function(e){
+return r(e);
+});
+}
+function r(e){
+for(var o=[],t=new DataView(e),n=0;n<t.byteLength;n+=4){
+var r=t.getUint32(n),i=r.toString(16),a="00000000",s=(a+i).slice(-a.length);
+o.push(s);
+}
+return o.join("");
+}
+function i(e,o,t){
+if("object"==typeof e){
+var n=Object.prototype.toString.call(e).replace(/^\[object (.+)\]$/,function(e,o){
+return o;
+});
+if(t=t||e,"Array"==n){
+for(var r=0,i=e.length;i>r;++r)if(o.call(t,e[r],r,e)===!1)return;
+}else{
+if("Object"!==n&&a!=e)throw"unsupport type";
+if(a==e){
+for(var r=e.length-1;r>=0;r--){
+var s=a.key(r),c=a.getItem(s);
+if(o.call(t,c,s,e)===!1)return;
+}
+return;
+}
+for(var r in e)if(e.hasOwnProperty(r)&&o.call(t,e[r],r,e)===!1)return;
+}
+}
+}
+var a=o.localStorage,s=document.head||document.getElementsByTagName("head")[0],c=1,d=11,_=12,m=13,l=window.__allowLoadResFromMp?1:2,w=window.__allowLoadResFromMp?1:0,u=l+w,p=window.testenv_reshost||window.__moon_host||"res.wx.qq.com",f=new RegExp("^(http(s)?:)?//"+p);
+window.__loadAllResFromMp&&(p="mp.weixin.qq.com",l=0,u=l+w);
+var h={
+prefix:"__MOON__",
+loaded:[],
+unload:[],
+clearSample:!0,
+hit_num:0,
+mod_num:0,
+version:1003,
+cacheData:{
+js_mod_num:0,
+js_hit_num:0,
+js_not_hit_num:0,
+js_expired_num:0,
+css_mod_num:0,
+css_hit_num:0,
+css_not_hit_num:0,
+css_expired_num:0
+},
+init:function(){
+h.loaded=[],h.unload=[];
+var e,t,r;
+if(window.no_moon_ls&&(h.clearSample=!0),a){
+var s="_moon_ver_key_",c=a.getItem(s);
+c!=h.version&&(h.clear(),a.setItem(s,h.version));
+}
+if((-1!=location.search.indexOf("no_moon1=1")||-1!=location.search.indexOf("no_lshttps=1"))&&h.clear(),
+a){
+var d=1*a.getItem(h.prefix+"clean_time"),_=+new Date;
+if(_-d>=1296e6){
+h.clear();
+try{
+!!a&&a.setItem(h.prefix+"clean_time",+new Date);
+}catch(m){}
+}
+}
+i(moon_map,function(i,s){
+if(t=h.prefix+s,r=!!i&&i.replace(f,""),e=!!a&&a.getItem(t),version=!!a&&(a.getItem(t+"_ver")||"").replace(f,""),
+h.mod_num++,r&&-1!=r.indexOf(".css")?h.cacheData.css_mod_num++:r&&-1!=r.indexOf(".js")&&h.cacheData.js_mod_num++,
+h.clearSample||!e||r!=version)h.unload.push(r.replace(f,"")),r&&-1!=r.indexOf(".css")?e?r!=version&&h.cacheData.css_expired_num++:h.cacheData.css_not_hit_num++:r&&-1!=r.indexOf(".js")&&(e?r!=version&&h.cacheData.js_expired_num++:h.cacheData.js_not_hit_num++);else{
+if("https:"==location.protocol&&window.moon_hash_map&&window.moon_hash_map[s]&&window.crypto)try{
+n(e).then(function(e){
+window.moon_hash_map[s]!=e&&console.log(s);
+});
+}catch(c){}
+try{
+var d="//# sourceURL="+s+"\n//@ sourceURL="+s;
+o.eval.call(o,'define("'+s+'",[],'+e+")"+d),h.hit_num++,r&&-1!=r.indexOf(".css")?h.cacheData.css_hit_num++:r&&-1!=r.indexOf(".js")&&h.cacheData.js_hit_num++;
+}catch(c){
+h.unload.push(r.replace(f,""));
+}
+}
+}),h.load(h.genUrl());
+},
+genUrl:function(){
+var e=h.unload;
+if(!e||e.length<=0)return[];
+var o,t,n="",r=[],i={},a=-1!=location.search.indexOf("no_moon2=1"),s="//"+p;
+-1!=location.href.indexOf("moon_debug2=1")&&(s="//mp.weixin.qq.com");
+for(var c=0,d=e.length;d>c;++c){
+/^\/(.*?)\//.test(e[c]);
+var _=/^\/(.*?)\//.exec(e[c]);
+_.length<2||!_[1]||(t=_[1],n=i[t],n?(o=n+","+e[c],o.length>1e3||a?(r.push(n+"?v="+h.version),
+n=location.protocol+s+e[c],i[t]=n):(n=o,i[t]=n)):(n=location.protocol+s+e[c],i[t]=n));
+}
+for(var m in i)i.hasOwnProperty(m)&&r.push(i[m]);
+return r;
+},
+load:function(e){
+if(window.__wxgspeeds&&(window.__wxgspeeds.mod_num=h.mod_num,window.__wxgspeeds.hit_num=h.hit_num),
+!e||e.length<=0)return seajs.combo_status=seajs.COMBO_LOADED,seajs.run(),console.debug&&console.debug("[moon] load js complete, all in cache, cost time : 0ms, total count : "+h.mod_num+", hit num: "+h.hit_num),
+void window.__moonclientlog.push("[moon] load js complete, all in cache, cost time : 0ms, total count : "+h.mod_num+", hit num: "+h.hit_num);
+seajs.combo_status=seajs.COMBO_LOADING;
+var o=0,t=+new Date;
+window.__wxgspeeds&&(window.__wxgspeeds.combo_times=[],window.__wxgspeeds.combo_times.push(t)),
+i(e,function(n){
+h.request(n,u,function(){
+if(window.__wxgspeeds&&window.__wxgspeeds.combo_times.push(+new Date),o++,o==e.length){
+var n=+new Date-t;
+window.__wxgspeeds&&(window.__wxgspeeds.mod_downloadtime=n),seajs.combo_status=seajs.COMBO_LOADED,
+seajs.run(),console.debug&&console.debug("[moon] load js complete, url num : "+e.length+", total mod count : "+h.mod_num+", hit num: "+h.hit_num+", use time : "+n+"ms"),
+window.__moonclientlog.push("[moon] load js complete, url num : "+e.length+", total mod count : "+h.mod_num+", hit num: "+h.hit_num+", use time : "+n+"ms");
+}
+});
+});
+},
+request:function(o,n,r){
+if(o){
+n=n||0,o.indexOf("mp.weixin.qq.com")>-1&&((new Image).src=location.protocol+"//mp.weixin.qq.com/mp/jsmonitor?idkey=27613_32_1&r="+Math.random(),
+window.__moon_report([{
+offset:_,
+log:"load_script_from_mp: "+o
+}],1));
+var i=-1;
+window.__DEBUGINFO&&(__DEBUGINFO.res_list||(__DEBUGINFO.res_list=[]),__DEBUGINFO.res_list.push({
+type:"js",
+status:"pendding",
+start:+new Date,
+end:0,
+url:o
+}),i=__DEBUGINFO.res_list.length-1),-1!=location.search.indexOf("no_lshttps=1")&&(o=o.replace("http://","https://"));
+var a=document.createElement("script");
+a.src=o,a.type="text/javascript",a.async=!0,a.down_time=+new Date,a.onerror=function(s){
+t(i,"status","error"),t(i,"end",+new Date);
+var _=new Error(s);
+if(n>=0)if(w>n){
+var l=o.replace("res.wx.qq.com","mp.weixin.qq.com");
+h.request(l,n,r);
+}else h.request(o,n,r);else window.__moon_report&&window.__moon_report([{
+offset:c,
+log:"load_script_error: "+o,
+e:_
+}],1);
+if(n==w-1&&window.__moon_report([{
+offset:d,
+log:"load_script_error: "+o,
+e:_
+}],1),-1==n){
+var u="ua: "+window.navigator.userAgent+", time="+(+new Date-a.down_time)+", load_script_error -1 : "+o;
+window.__moon_report([{
+offset:m,
+log:u
+}],1);
+}
+window.__moonclientlog.push("moon load js error : "+o+", error -> "+_.toString()),
+e("moon_request_error url:"+o);
+},"undefined"!=typeof moon_crossorigin&&moon_crossorigin&&a.setAttribute("crossorigin",!0),
+a.onload=a.onreadystatechange=function(){
+t(i,"status","loaded"),t(i,"end",+new Date),!a||a.readyState&&!/loaded|complete/.test(a.readyState)||(t(i,"status","200"),
+a.onload=a.onreadystatechange=null,"function"==typeof r&&r());
+},n--,s.appendChild(a),e("moon_request url:"+o+" retry:"+n);
+}
+},
+setItem:function(e,o){
+!!a&&a.setItem(e,o);
+},
+clear:function(){
+a&&(i(a,function(e,o){
+~o.indexOf(h.prefix)&&a.removeItem(o);
+}),console.debug&&console.debug("[moon] clear"));
+},
+idkeyReport:function(e,o,t){
+t=t||1;
+var n=e+"_"+o+"_"+t;
+(new Image).src="/mp/jsmonitor?idkey="+n+"&r="+Math.random();
+}
+};
+seajs&&seajs.use&&"string"==typeof window.__moon_mainjs&&seajs.use(window.__moon_mainjs),
+window.moon=h;
+}(window),function(){
+try{
+Math.random()<1;
+}catch(e){}
+}(),window.moon.init();
+};
+e(),!!window.__moon_initcallback&&window.__moon_initcallback(),window.__wxgspeeds&&(window.__wxgspeeds.moonendtime=+new Date);
+}
+}
+__moonf__(); }, 25);</script><script nonce="48665569" type="text/javascript">
+    var real_show_page_time = +new Date();
+    if (!!window.addEventListener){
+        window.addEventListener("load", function(){
+            window.onload_endtime = +new Date();
+        });
+    }
+
+    
+</script>
+
+    </body>
+    <script nonce="48665569" type="text/javascript">document.addEventListener("touchstart", function() {},false);</script>
+</html>
+

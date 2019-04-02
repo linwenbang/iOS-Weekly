@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Atomic Properties in Swift</title>
+
+  <meta name="author" content="Vadim Bulavin" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="YASB - A blog about Swift development by Vadim Bulavin" href="/feed.xml" />
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+
+  
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W67XF7Z');</script>
+    <!-- End Google Tag Manager -->
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+  <meta property="fb:app_id" content="200980057336922" />
+  
+
+  
+  <meta property="og:title" content="Atomic Properties in Swift" />
+  
+
+   
+  <meta property="og:description" content="Although Swift has no language features for defining atomic properties, their lack is compensated with the diversity of locking APIs available in Apple’s frameworks. In this article let’s take a look at different ways of designing atomic properties in Swift. First off, make sure we understand the core concepts related...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://www.vadimbulavin.com/atomic-properties/" />
+  <link rel="canonical" href="http://www.vadimbulavin.com/atomic-properties/" />
+  
+
+  
+  <meta property="og:image" content="http://www.vadimbulavin.com/img/atomic-properties-share.png" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@V8tr" />
+  <meta name="twitter:creator" content="@V8tr" />
+
+  
+  <meta name="twitter:title" content="Atomic Properties in Swift" />
+  
+
+  
+  <meta name="twitter:description" content="Although Swift has no language features for defining atomic properties, their lack is compensated with the diversity of locking APIs available in Apple’s frameworks. In this article let’s take a look at different ways of designing atomic properties in Swift. First off, make sure we understand the core concepts related...">
+  
+
+  
+  <meta name="twitter:image" content="http://www.vadimbulavin.com/img/atomic-properties-share.png" />
+  
+
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Atomic Properties in Swift | YASB</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Atomic Properties in Swift" />
+<meta name="author" content="Vadim Bulavin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Although Swift has no language features for defining atomic properties, their lack is compensated with the diversity of locking APIs available in Apple’s frameworks. In this article let’s take a look at different ways of designing atomic properties in Swift." />
+<meta property="og:description" content="Although Swift has no language features for defining atomic properties, their lack is compensated with the diversity of locking APIs available in Apple’s frameworks. In this article let’s take a look at different ways of designing atomic properties in Swift." />
+<link rel="canonical" href="http://www.vadimbulavin.com/atomic-properties/" />
+<meta property="og:url" content="http://www.vadimbulavin.com/atomic-properties/" />
+<meta property="og:site_name" content="YASB" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-09T00:00:00+03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"Atomic Properties in Swift","dateModified":"2018-07-09T00:00:00+03:00","url":"http://www.vadimbulavin.com/atomic-properties/","datePublished":"2018-07-09T00:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.vadimbulavin.com/atomic-properties/"},"author":{"@type":"Person","name":"Vadim Bulavin"},"description":"Although Swift has no language features for defining atomic properties, their lack is compensated with the diversity of locking APIs available in Apple’s frameworks. In this article let’s take a look at different ways of designing atomic properties in Swift.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+  <body>
+
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W67XF7Z"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://www.vadimbulavin.com">Vadim Bulavin</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="http://www.vadimbulavin.com">Home</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Atomic Properties in Swift</h1>
+		  
+		  
+		  
+      <span class="post-meta">
+          Posted on July 9, 2018 by
+          <a href="https://twitter.com/V8tr" target="_blank">@V8tr</a>
+        </span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+      
+      <article role="main" class="blog-post">
+        <p>Although Swift has no language features for defining atomic properties, their lack is compensated with the diversity of locking APIs available in Apple’s frameworks. In this article let’s take a look at different ways of designing atomic properties in Swift.</p>
+
+<p>First off, make sure we understand the core concepts related to <em>concurrent programming</em> and <em>atomicity</em>.</p>
+
+<h3 id="concurrency-and-multitasking">Concurrency and Multitasking</h3>
+
+<p><strong>Concurrency</strong> refers to the ability of different parts of a program to be executed out-of-order or in partial order, without affecting the final outcome.</p>
+
+<p>This allows for <strong>multitasking</strong> which is a parallel execution of the concurrent units that significantly boosts performance of a program in multi-processor systems.</p>
+
+<h3 id="synchronization">Synchronization</h3>
+
+<p>In common sense, <strong>synchronization</strong> means making two things happen at the same time.</p>
+
+<p>In programming, <strong>synchronization</strong> has broader definition: it refers to relationships among events — any number of events, and any kind of relationship (before, during, after).</p>
+
+<p>As programmers, we are often concerned with <em>synchronization constraints</em>, which are requirements pertaining to the order of events.</p>
+
+<p>Example of a constraint: <em>Events A and B must not happen at the same time</em>.</p>
+
+<h3 id="what-is-atomicity">What is Atomicity</h3>
+
+<p>An operation is <strong>atomic</strong> if it appears to the rest of the system to occur at a single instant without being interrupted. An <em>atomic</em> operation can either complete or return to its original state.</p>
+
+<p><em>Atomicity</em> is a safety measure which enforces that operations do not complete in an unpredictable way when accessed by multiple threads or processes simultaneously.</p>
+
+<p>On a software level, a common tool to enforce <em>atomicity</em> is <em>lock</em>.</p>
+
+<h3 id="locks">Locks</h3>
+
+<p>When dealing with iOS apps, we are always sandboxed to their <em>processes</em>. A process creates and manages <em>threads</em>, which are the main building blocks in multitasking iOS applications.</p>
+
+<p><strong>Lock</strong> is an abstract concept for threads synchronization. The main idea is to protect access to a given region of code at a time. Different kinds of locks exist:</p>
+<ol>
+  <li><strong>Semaphore</strong> — allows up to <em>N</em> threads to access a given region of code at a time.</li>
+  <li><strong>Mutex</strong> — ensures that only one thread is active in a given region of code at a time. You can think of it as a <em>semaphore</em> with a <em>maximum count of 1</em>.</li>
+  <li><strong>Spinlock</strong> — causes a thread trying to acquire a lock to wait in a loop while checking if the lock is available. It is efficient if waiting is rare, but wasteful if waiting is common.</li>
+  <li><strong>Read-write lock</strong> — provides concurrent access for <em>read-only</em> operations, but exclusive access for <em>write</em> operations. Efficient when reading is common and writing is rare.</li>
+  <li><strong>Recursive lock</strong> — a <em>mutex</em> that can be acquired by the same thread many times.</li>
+</ol>
+
+<h3 id="overview-of-apple-locking-apis">Overview of Apple Locking APIs</h3>
+
+<h4 id="lock">Lock</h4>
+
+<p><code class="highlighter-rouge">NSLock</code> and its companion <code class="highlighter-rouge">NSRecursiveLock</code> are Objective-C lock classes. They correspond to <em>Mutex</em> and <em>Recursive Lock</em> and don’t have their Swift counterparts.</p>
+
+<p>A lower-level C <code class="highlighter-rouge">pthread_mutex_t</code> is also available in Swift. It can be configured both as a mutex and a recursive lock.</p>
+
+<h4 id="spinlock">Spinlock</h4>
+
+<p><code class="highlighter-rouge">OSSpinLock</code> has been deprecated in iOS 10 and now there is no exact match to a spinlock in Swift. The closest replacement is <code class="highlighter-rouge">os_unfair_lock</code> which doesn’t spin on contention, but instead waits in the kernel to be awoken by an unlock. Thus, it has lower CPU impact than the spinlock does, but makes <a href="https://en.wikipedia.org/wiki/Dining_philosophers_problem">starvation of waiters</a> a possibility.</p>
+
+<h4 id="read-write-lock">Read-write lock</h4>
+
+<p><code class="highlighter-rouge">pthread_rwlock_t</code> is a lower-level read-write lock that can be used in Swift.</p>
+
+<h3 id="semaphore">Semaphore</h3>
+
+<p><code class="highlighter-rouge">DispatchSemaphore</code> provides an implementation of a semaphore. It is listed here for the sake of completeness, as it makes little sense to use semaphore for designing atomic properties.</p>
+
+<h3 id="implementing-atomic-property-using-locks">Implementing Atomic Property using Locks</h3>
+
+<p>After learning about concurrent programming and locks, let’s implement our own atomic properties by means of Apple’s locking APIs.</p>
+
+<script src="https://gist.github.com/V8tr/57c7c6a79b51185005862a40d246117d.js"></script>
+
+<script src="https://gist.github.com/V8tr/5d079c49693d62b75e0885d686806f6e.js"></script>
+
+<p>The main bullet points from the above code are:</p>
+<ol>
+  <li>Instead of using different locking APIs directly, we wrap them into classes conforming to the <code class="highlighter-rouge">Lock</code> interface: <code class="highlighter-rouge">SpinLock</code> and <code class="highlighter-rouge">Mutex</code>.</li>
+  <li><code class="highlighter-rouge">AtomicProperty</code> is a simple class that has atomic property <code class="highlighter-rouge">foo</code> backed by <code class="highlighter-rouge">underlyingFoo</code> under the hood.</li>
+  <li>By means of lock / unlock dance we create a critical section that accesses <code class="highlighter-rouge">underlyingFoo</code>.</li>
+  <li>We create separate wrapper for read-write lock, as it needs different locking APIs to be used for setter and getter.</li>
+</ol>
+
+<p class="box-note"><em>Despite POSIX pthread locks are value types, you should not copy them both explicitly with the assignment operator or implicitly by capturing them in a closure or embedding in another value type. In POSIX, the behavior of the copy is undefined. That’s why locks are wrapped into Class, not Struct.</em></p>
+
+<h3 id="implementing-atomic-property-using-queues">Implementing Atomic Property using queues</h3>
+
+<p>Besides locks, Swift has <code class="highlighter-rouge">DispatchQueue</code> and <code class="highlighter-rouge">OperationQueue</code> that also can be used to design an atomic property.</p>
+
+<p>Both queues are used to manage the execution of work items and they can configured to achieve lock behavior. The examples are below.</p>
+
+<script src="https://gist.github.com/V8tr/3db48858a62ebc15796c032c8ff68b6f.js"></script>
+
+<h3 id="wrapping-up">Wrapping Up</h3>
+
+<p>Atomic operations appear to be instant from the perspective of all other threads in the app.</p>
+
+<p>Despite Swift lacks default language traits for creating atomic property, it can be easily achieved with a number of available locking APIs. <code class="highlighter-rouge">NSLock</code>, dispatch and operation queues and multiple POSIX types are the most notable ones.</p>
+
+<p>When dealing with POSIX locks, a rule of thumb is not to copy them and wrap in Swift APIs hiding implementation details.</p>
+
+<p>If you are interested in performance characteristics of discussed locking APIs, I recommend checking <a href="http://www.vadimbulavin.com/benchmarking-locking-apis/">Benchmarking Swift Locking APIs</a>.</p>
+
+<hr />
+
+<p><em>I’d love to meet you in Twitter: <a href="https://twitter.com/V8tr">@V8tr</a>. And don’t forget to share this article if you find it useful.</em></p>
+
+<hr />
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Atomic+Properties+in+Swift+http://www.vadimbulavin.com/atomic-properties/ via @V8tr"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.vadimbulavin.com/atomic-properties/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://www.vadimbulavin.com/atomic-properties/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/initialization-with-literals/" data-toggle="tooltip" data-placement="top" title="Using Initialization with Literals to Design Richer API">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/benchmarking-locking-apis/" data-toggle="tooltip" data-placement="top" title="Benchmarking Swift Locking APIs">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'v8tr-github-io';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/vadim.bulavin" title="Facebook">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Facebook</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="https://github.com/V8tr" title="GitHub">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">GitHub</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/V8tr" title="Twitter">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Twitter</span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:vadymbulavin@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Email me</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://linkedin.com/in/vadim-bulavin" title="LinkedIn">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">LinkedIn</span>
+            </a>
+          </li>
+          
+		  
+		  
+          <li>
+            <a href="https://stackoverflow.com/users/6870041/vadim-bulavin" title="StackOverflow">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">StackOverflow</span>
+            </a>
+          </li>
+          
+      
+      
+      
+      
+      
+		  
+      
+      
+      
+        </ul>
+        <p class="copyright text-muted">
+		  Vadim Bulavin
+		  &nbsp;&bull;&nbsp;
+		  2019
+
+		  
+	    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-115440667-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>

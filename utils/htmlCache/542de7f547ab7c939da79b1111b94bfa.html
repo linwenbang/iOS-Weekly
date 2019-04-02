@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Migrating to Unified Logging, Swift Edition</title>
+  <meta name="description" content="Thinking of migrating your iOS or macOS app from a bunch of `NSLog` or `print` statements to the new(ish) Unified Logging system? Read this for some facts and tidbits that might surprise you, along with a few suggestions for how to make the most of your transition.">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PGM76X');</script>
+  <!-- End Google Tag Manager -->
+  <!--search console verification -->
+  <meta name="google-site-verification" content="H40-10N9dGef0iE5_TglolHtLhoH0GlW8-C6Uiu5OW4" />
+
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4849423.js"></script>
+<!-- End of HubSpot Embed Code -->
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1220301374685946'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+
+
+
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1220301374685946&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+  <!-- Twitter universal website tag code -->
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+// Insert Twitter Pixel ID and Standard Event data below
+twq('init','nw3dj');
+twq('track','PageView');
+</script>
+<!-- End Twitter universal website tag code -->
+
+  <!-- LinkedIn insight Code -->
+  <script type="text/javascript">
+  _linkedin_data_partner_id = "25576";
+  </script>
+  <script type="text/javascript">
+  (function(){var s = document.getElementsByTagName("script")[0]; var b = document.createElement("script"); b.type = "text/javascript";b.async = true; b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js"; s.parentNode.insertBefore(b, s);})();
+  </script>
+  <!-- End LinkedIn insight Code -->
+
+  <!-- LinkedIn retargeting Code -->
+  <script type="text/javascript">
+  _linkedin_data_partner_id = "47500";
+  </script><script type="text/javascript">
+  (function(){var s = document.getElementsByTagName("script")[0];
+  var b = document.createElement("script");
+  b.type = "text/javascript";b.async = true;
+  b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+  s.parentNode.insertBefore(b, s);})();
+  </script>
+  <noscript>
+  <img height="1" width="1" style="display:none;" alt="" src="https://dc.ads.linkedin.com/collect/?pid=47500&fmt=gif" />
+  </noscript>
+  <!-- End LinkedIn retargeting Code -->
+
+  <link rel="stylesheet" href="/assets/styles/index.min.css?v=1554217401787467266">
+
+  
+  <link rel="canonical" href="https://www.bignerdranch.com/blog/migrating-to-unified-logging-swift-edition/">
+
+  <link rel="alternate" type="application/rss+xml" title="Big Nerd Ranch" href="https://www.bignerdranch.com/feed.xml">
+
+  
+
+  <meta property="fb:app_id" content="955221924617701">
+  <meta property="og:url" content="https://www.bignerdranch.com/blog/migrating-to-unified-logging-swift-edition/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Migrating to Unified Logging, Swift Edition">
+  <meta property="og:description" content="Thinking of migrating your iOS or macOS app from a bunch of `NSLog` or `print` statements to the new(ish) Unified Logging system? Read this for some facts and tidbits that might surprise you, along with a few suggestions for how to make the most of your transition.">
+  <meta property="og:image" content="https://www.bignerdranch.com/assets/img/blog/2018/09/log.jpg">
+  <meta property="og:site_name" content="Big Nerd Ranch">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@bignerdranch">
+  <meta name="twitter:title" content="Migrating to Unified Logging, Swift Edition">
+  <meta name="twitter:description" content="Thinking of migrating your iOS or macOS app from a bunch of `NSLog` or `print` statements to the new(ish) Unified Logging system? Read this for some facts and tidbits that might surprise you, along with a few suggestions for how to make the most of your transition.">
+  <meta name="twitter:image" content="https://www.bignerdranch.com/assets/img/blog/2018/09/log.jpg">
+
+  <style type="text/css">
+    @font-face{
+        font-family:"Slate W01 Bk";
+        src:url("/assets/fonts/slate/Fonts/8770f5ba-b290-4c39-8053-fa62b4504af6.eot?#iefix");
+        src:url("/assets/fonts/slate/Fonts/8770f5ba-b290-4c39-8053-fa62b4504af6.eot?#iefix") format("eot"),url("/assets/fonts/slate/Fonts/27bac2f4-abde-44e8-8ad8-1328f155ebc6.woff2") format("woff2"),url("/assets/fonts/slate/Fonts/f0e21b22-be82-4646-8834-929f21697b8b.woff") format("woff"),url("/assets/fonts/slate/Fonts/e34fcf36-14df-42f7-b779-2715c5e4cf48.ttf") format("truetype"),url("/assets/fonts/slate/Fonts/cee327ea-b14e-45be-860f-f5d226b92bf3.svg#cee327ea-b14e-45be-860f-f5d226b92bf3") format("svg");
+    }
+    @font-face{
+        font-family:"Slate W01 Bk Italic";
+        src:url("/assets/fonts/slate/Fonts/66595dce-119d-40ee-8845-c922b798f51c.eot?#iefix");
+        src:url("/assets/fonts/slate/Fonts/66595dce-119d-40ee-8845-c922b798f51c.eot?#iefix") format("eot"),url("/assets/fonts/slate/Fonts/10f7936b-3da7-45fa-a247-49b976d77a5b.woff2") format("woff2"),url("/assets/fonts/slate/Fonts/da19e923-e1a4-4125-b571-aaec1eaea1f1.woff") format("woff"),url("/assets/fonts/slate/Fonts/c5b18de6-b98d-4176-95ec-280edc1ecbc9.ttf") format("truetype"),url("/assets/fonts/slate/Fonts/5bd800fd-d759-4593-85b2-2ae5f3b34571.svg#5bd800fd-d759-4593-85b2-2ae5f3b34571") format("svg");
+    }
+    @font-face{
+        font-family:"Slate W01 Medium";
+        src:url("/assets/fonts/slate/Fonts/6c114a84-aeac-4533-a8f3-798922cc0300.eot?#iefix");
+        src:url("/assets/fonts/slate/Fonts/6c114a84-aeac-4533-a8f3-798922cc0300.eot?#iefix") format("eot"),url("/assets/fonts/slate/Fonts/8df29452-77ca-4e75-9e4b-d1783379751b.woff2") format("woff2"),url("/assets/fonts/slate/Fonts/90807bcf-e7e3-43ac-9ebb-a96364087325.woff") format("woff"),url("/assets/fonts/slate/Fonts/389822d1-6f97-438c-a4a1-5f97d1005a3f.ttf") format("truetype"),url("/assets/fonts/slate/Fonts/e2bc308f-8bfe-48a1-89d7-a5a8ac370ff0.svg#e2bc308f-8bfe-48a1-89d7-a5a8ac370ff0") format("svg");
+    }
+    @font-face{
+        font-family:"Slate W01 Medium Italic";
+        src:url("/assets/fonts/slate/Fonts/7ebd6be5-d902-4431-9798-f02eb003d771.eot?#iefix");
+        src:url("/assets/fonts/slate/Fonts/7ebd6be5-d902-4431-9798-f02eb003d771.eot?#iefix") format("eot"),url("/assets/fonts/slate/Fonts/03034b79-99a1-4817-9fba-d50f4737fbf2.woff2") format("woff2"),url("/assets/fonts/slate/Fonts/2be5690c-8be4-41d9-90f1-bda9a497f4a5.woff") format("woff"),url("/assets/fonts/slate/Fonts/914a7465-15fb-4335-b053-d51347db7f70.ttf") format("truetype"),url("/assets/fonts/slate/Fonts/a310d281-7e9b-4b19-a94a-6a109a390385.svg#a310d281-7e9b-4b19-a94a-6a109a390385") format("svg");
+    }
+    @font-face{
+        font-family:"Slate W01 Bold";
+        src:url("/assets/fonts/slate/Fonts/fce4d9fd-68c9-4ad9-b540-f7f958aaa7c7.eot?#iefix");
+        src:url("/assets/fonts/slate/Fonts/fce4d9fd-68c9-4ad9-b540-f7f958aaa7c7.eot?#iefix") format("eot"),url("/assets/fonts/slate/Fonts/297d76b2-c035-4282-9d9a-1a2b677efbeb.woff2") format("woff2"),url("/assets/fonts/slate/Fonts/2ba90e1d-8ec8-4aa3-b82d-e77ab3f6fdda.woff") format("woff"),url("/assets/fonts/slate/Fonts/56e9b083-e986-47d7-bfc8-da81847feb7a.ttf") format("truetype"),url("/assets/fonts/slate/Fonts/db978b75-1d87-4a94-98f8-4f05471202da.svg#db978b75-1d87-4a94-98f8-4f05471202da") format("svg");
+    }
+    @font-face{
+        font-family:"Slate W01 Bold Italic";
+        src:url("/assets/fonts/slate/Fonts/be249883-41a5-454f-8593-fce01bf1e9ef.eot?#iefix");
+        src:url("/assets/fonts/slate/Fonts/be249883-41a5-454f-8593-fce01bf1e9ef.eot?#iefix") format("eot"),url("/assets/fonts/slate/Fonts/039f9566-b2c6-4b0f-893b-25cc317067aa.woff2") format("woff2"),url("/assets/fonts/slate/Fonts/f5df482d-4cec-496d-b389-467bca12f319.woff") format("woff"),url("/assets/fonts/slate/Fonts/37170a44-cf5f-438f-8847-85970dbbfe7d.ttf") format("truetype"),url("/assets/fonts/slate/Fonts/5f106acc-9f2c-41cb-8023-add909e6b9d2.svg#5f106acc-9f2c-41cb-8023-add909e6b9d2") format("svg");
+    }
+</style>
+<script type="text/javascript">
+var MTIProjectId='8d0567d2-6e0b-448f-94a1-cd478d1411a6';
+ (function() {
+        var mtiTracking = document.createElement('script');
+        mtiTracking.type='text/javascript';
+        mtiTracking.async='true';
+         mtiTracking.src='/assets/fonts/slate/Fonts/mtiFontTrackingCode.js';
+        (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild( mtiTracking );
+   })();
+</script>
+</head>
+
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGM76X"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="header">
+  <a class="header__logo" href="/">
+    <img src="/assets/img/header/logo.svg" alt="Big Nerd Ranch Logo">
+  </a>
+
+  <a class="js-header-dropdown header__dropdown">
+    <span class="header__dropdown-bullet">&bull;</span>
+    <span class="header__dropdown-bullet">&bull;</span>
+    <span class="header__dropdown-bullet">&bull;</span>
+  </a>
+
+  <nav>
+    <ul class="header__nav-main">
+      <li><a  href="/work">work</a></li>
+      <li><a  href="/training">team training</a></li>
+      <li><a  href="/bootcamps">bootcamps</a></li>
+      <li><a  href="/books">books</a></li>
+      
+      <li><a href="https://thefrontier.bignerdranch.com" target="_blank">screencasts</a></li>
+      
+      <li><a  href="/resources">resources</a></li>
+      <li><a  class="header__nav-main--is-active"  href="/blog">blog</a></li>
+    </ul>
+  </nav>
+
+  <nav class="js-mobile-nav header__nav-mobile">
+    <ul>
+      <li><a href="/work"><span class="header__nav-mobile-item">work</span></a></li>
+      <li><a href="/training"><span class="header__nav-mobile-item">team training</span></a></li>
+      <li><a href="/bootcamps"><span class="header__nav-mobile-item">bootcamps</span></a></li>
+      <li><a href="/books"><span class="header__nav-mobile-item">books</span></a></li>
+      <li><a href="https://thefrontier.bignerdranch.com/" target="_blank"><span class="header__nav-mobile-item">screencasts</span></a></li>
+      
+      <li><a href="/resources"><span class="header__nav-mobile-item">resources</span></a></li>
+      <li><a href="/blog"><span class="header__nav-mobile-item header__nav-mobile--is-active ">blog</span></a></li>
+    </ul>
+  </nav>
+</header>
+
+      
+      <div class="modal__wrapper">
+        <section class="s-background-white">
+  <div class="blog__landing-hero"></div>
+
+  <div class="l-container">
+    <div class="blog__card">
+      <div class="l-padding-bottom-lg">
+        <h1 class="t-heading">Migrating to Unified Logging, Swift Edition</h1>
+      </div>
+
+      <header class="blog__author">
+        <img class="blog__author-img" src="/assets/img/about/the-team/headshots/jared-sinclair.jpg" alt="Jared Sinclair">
+        <div class="blog__author-details">
+
+          <div class="blog__author-spacer">
+            <div>
+              <div><a class="blog__author-link" href="/about/the-team/jared-sinclair">Jared Sinclair</a></div>
+
+              <time class="blog__author-date" datetime="2018-09-18">
+                Sep
+                18,
+                2018
+              </time>
+              <span> &bull; </span>
+              
+                <a class="blog__author-category" href="/blog/categories/ios">iOS</a>
+                <span class="blog__author-category-spacer">|</span>
+              
+                <a class="blog__author-category" href="/blog/categories/mac">Mac</a>
+                
+              
+            </div>
+
+            <ul class="social-icons ">
+  <li>
+    <a href="https://twitter.com/intent/tweet?text=Migrating%20to%20Unified%20Logging,%20Swift%20Edition&url=https://www.bignerdranch.com/blog/migrating-to-unified-logging-swift-edition/&via=bignerdranch&related=bignerdranch" rel="nofollow" target="_blank" title="Share on Twitter">
+      <svg width="24" height="19" viewBox="0 0 24 19" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M20.608 2.923c1.023-.585 1.754-1.608 2.046-2.63-.877.584-1.9.876-3.07 1.17C18.71.584 17.393 0 16.078 0c-2.63 0-4.823 2.192-4.823 4.823 0 .44 0 .73.146 1.023C7.454 5.7 3.8 3.8 1.462.876c-.44.732-.585 1.61-.585 2.486 0 1.607.877 3.07 2.192 3.946-.732 0-1.462-.293-2.193-.585 0 2.34 1.608 4.24 3.8 4.677-.292 0-.73.146-1.17.146-.292 0-.584 0-.876-.146.585 1.9 2.34 3.362 4.532 3.362-1.608 1.315-3.654 2.046-5.993 2.046H0C2.046 18.123 4.385 18.854 6.87 19h1.168c8.33-.438 13.008-7.454 13.008-13.592v-.585c.877-.73 1.754-1.46 2.34-2.485-.878.147-1.755.44-2.778.585z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="https://facebook.com/sharer.php?u=" target="_blank" title="Share on Facebook">
+      <svg width="11" height="23" viewBox="0 0 11 23" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M7.188 5.03c0-.43.287-.718.718-.718h2.875V0H5.75a3.56 3.56 0 0 0-3.594 3.594v4.312H0v4.313h2.156V23h5.03l.002-10.78h2.875l.718-4.314H7.19V5.03z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.bignerdranch.com/blog/migrating-to-unified-logging-swift-edition/&title=Migrating%20to%20Unified%20Logging,%20Swift%20Edition&source=http://www.bignerdranch.com" target="_blank" title="Share on LinkedIn">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M22.228 0H1.773C.793 0 0 .77 0 1.72v20.56C0 23.23.794 24 1.773 24h20.455c.98 0 1.772-.77 1.772-1.72V1.72C24 .77 23.207 0 22.228 0zM7.276 20.09H3.65V9.254h3.626V20.09zM5.463 7.774H5.44c-1.217 0-2.005-.832-2.005-1.873 0-1.06.81-1.87 2.05-1.87 1.24 0 2.004.808 2.028 1.87 0 1.042-.786 1.874-2.05 1.874zM20.347 20.09h-3.625v-5.798c0-1.457-.525-2.45-1.836-2.45-1.003 0-1.598.67-1.86 1.317-.096.23-.12.554-.12.877v6.052H9.28s.05-9.82 0-10.836h3.626v1.536c.48-.738 1.34-1.79 3.266-1.79 2.386 0 4.175 1.547 4.175 4.876v6.214zm-7.464-9.236c.01-.02.028-.042.044-.064v.064h-.044z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false" title="Share on Reddit">
+      <svg width="31" height="27" viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg"><title>Reddit</title><path d="M7.553 15.107a1.888 1.888 0 1 1 3.777 0 1.888 1.888 0 0 1-3.777 0zm11.33 0a1.888 1.888 0 1 1 3.777 0 1.888 1.888 0 0 1-3.776 0zm.093 4.036a1.12 1.12 0 0 1 1.387 1.762c-1.354 1.066-3.418 1.756-5.256 1.756-1.84 0-3.903-.688-5.257-1.755a1.12 1.12 0 0 1 1.388-1.762c.78.614 2.323 1.275 3.87 1.275 1.545 0 3.088-.66 3.868-1.275zm11.238-7.812a3.777 3.777 0 0 0-7.077-1.834c-1.942-1.062-4.307-1.748-6.883-1.906l2.254-5.062 4.313 1.246A2.833 2.833 0 1 0 23 1.49L18.19.103a1.12 1.12 0 0 0-1.334.62L13.794 7.6c-2.512.177-4.817.856-6.716 1.895a3.777 3.777 0 1 0-4.824 5.29 6.917 6.917 0 0 0-.366 2.21c0 5.215 5.918 9.442 13.22 9.442 7.3 0 13.218-4.227 13.218-9.44 0-.763-.127-1.502-.365-2.21a3.776 3.776 0 0 0 2.254-3.456zm-4.72-9.56a1.062 1.062 0 1 1 0 2.126 1.062 1.062 0 0 1 0-2.125zM1.887 11.33a1.89 1.89 0 0 1 1.89-1.888 1.89 1.89 0 0 1 1.706 1.08c-.987.75-1.805 1.613-2.41 2.56a1.892 1.892 0 0 1-1.186-1.75zm13.22 12.865c-6.063 0-10.977-3.223-10.977-7.2 0-3.975 4.915-7.2 10.977-7.2s10.976 3.224 10.976 7.2c0 3.977-4.914 7.2-10.976 7.2zM27.14 13.083c-.605-.948-1.423-1.81-2.41-2.56a1.89 1.89 0 0 1 1.707-1.08 1.89 1.89 0 0 1 1.89 1.887 1.89 1.89 0 0 1-1.187 1.753z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="mailto:?subject=Migrating%20to%20Unified%20Logging,%20Swift%20Edition&body=https://www.bignerdranch.com/blog//blog/migrating-to-unified-logging-swift-edition/" title="Share by Email">
+      <svg width="27" height="20" viewBox="0 0 27 20" xmlns="http://www.w3.org/2000/svg"><title>Email</title><path d="M13.5 14.933a2.75 2.75 0 0 1-1.95-.804l-.025-.028-1.512-1.643a.968.968 0 0 0-1.39-.05l-7.066 6.898c-.39.382-.27.692.284.692H25.17c.548 0 .67-.315.283-.692l-7.072-6.9a.966.966 0 0 0-1.388.046l-1.54 1.675a2.75 2.75 0 0 1-1.95.803zM25.453.733C25.825.327 25.69 0 25.12 0H1.88c-.557 0-.7.333-.333.732L12.77 12.934c.393.38 1.067.38 1.46 0L25.453.732zM.683 2.314C.306 1.905 0 2.025 0 2.577v14.86c0 .555.32.692.71.31l6.754-6.592c.392-.384.41-1.02.028-1.437L.682 2.315zM26.29 17.74c.392.383.71.243.71-.31V2.577c0-.555-.3-.678-.683-.262l-6.81 7.402a1.04 1.04 0 0 0 .03 1.436l6.752 6.587z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+</ul>
+
+          </div>
+
+        </div>
+
+      </header>
+      <hr>
+
+      <div class="blog__landing-content"><p>Thinking of migrating your iOS or macOS app from a bunch of <code class="highlighter-rouge">NSLog</code> or <code class="highlighter-rouge">print</code> statements to the new(ish) Unified Logging system? Keep reading for some facts and tidbits that might surprise you, along with a few suggestions for how to make the most of your transition.</p>
+
+<p>If you’re not sure why you’d want to use Unified Logging, here’s a quick run-down of some key benefits:</p>
+
+<ol>
+  <li>
+    <p><strong>It’s the new standard.</strong> The Unified Logging system is the biggest change to logging on Apple Platforms in years. It has all the telltale signs of something that Apple intends as <em>the</em> way to do logging going forward.</p>
+  </li>
+  <li>
+    <p><strong>Improve your app’s performance without sacrificing log coverage.</strong> The new logging system is designed from the ground up to limit the <a href="https://en.wikipedia.org/wiki/Observer_effect_(physics)">observer effect</a> that logging has traditionally had on production code. You can now have it both ways: thorough log coverage <em>and</em> great performance.</p>
+  </li>
+  <li>
+    <p><strong>Upgrade your debugging workflow.</strong> Messages logged with the new APIs can be “tagged” with customized subsystems and categories which empowers Console.app to show or hide messages with expressive search filters. This can save you oodles of time when debugging complex issues that span more than one module or process.</p>
+  </li>
+</ol>
+
+<p>I could go on with other benefits, but those will become apparent as we explore the differences between Unified Logging and what it replaces.</p>
+
+<h2 id="four-ways-unified-logging-is-different-than-legacy-logging-techniques">Four Ways Unified Logging is Different Than Legacy Logging Techniques</h2>
+
+<p>The following is not an exhaustive list of everything that’s new or different with Unified Logging, but rather a few key differences that may have a tremendous impact on how you go about migrating away from legacy logging functions.</p>
+
+<h3 id="1-oslog-isnt-a-function-its-a-data-type">1: OSLog isn’t a function. It’s a data type.</h3>
+
+<p>You will sometimes hear folks refer colloquially to Unified Logging as “oh-ess-log”, which might send you on a goose chase through the Foundation docs for an <code class="highlighter-rouge">OSLog</code> function. There isn’t one. The true analog to <code class="highlighter-rouge">NSLog</code> is any of the various functions like <code class="highlighter-rouge">os_log</code> that are defined in <code class="highlighter-rouge">&lt;os/log.h&gt;</code>, most of which take an <code class="highlighter-rouge">os_log_t</code> (a.k.a. <code class="highlighter-rouge">OSLog</code> via the Swift overlay) as an argument. The <code class="highlighter-rouge">OSLog</code> type is used to associate related messages so they can participate in Console.app’s search and filter features.</p>
+
+<h3 id="2-consoleapp-is-mandatory">2: Console.app is mandatory.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></h3>
+
+<p>Unified Logging doesn’t serialize log messages in plain text, nor to a human-readable file format. Instead all messages are written to disk in an opaque data format that can only be read by opening a log archive (see below for how to obtain one) in Console.app. Console.app can unpack the archived messages, displaying them in a manner that is easy to search and filter. The opaqueness of the data format is a major departure from logging systems you may be familiar with. It was undertaken by Apple in an effort to limit the deleterious effects that logging traditionally has on performance and disk space.</p>
+
+<h3 id="3-from-swift-you-can-only-pass-a-staticstring-as-a-log-message">3: From Swift, you can only pass a StaticString as a log message.</h3>
+
+<p>The following Swift code will not compile:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">foo</span> <span class="o">=</span> <span class="s">"Something happened."</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span> 
+
+<span class="c1">// Error: Cannot convert value of type 'String' to expected argument type 'StaticString'</span>
+</code></pre>
+</div>
+
+<p>That’s because the Swift compiler resolves the implicit type of an otherwise unconstrained string literal to <code class="highlighter-rouge">String</code>, but the <code class="highlighter-rouge">os_log</code> function requires a <code class="highlighter-rouge">StaticString</code>. You can fix it either by giving the variable an explicit type:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">foo</span><span class="p">:</span> <span class="kt">StaticString</span> <span class="o">=</span> <span class="s">"Something happened."</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>or by eliminating the variable:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"Something happened."</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The static string string can also be a C-style format string:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"We bolster %ld husk nuts to each girdle jerry."</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Please note that you cannot use Swift’s pleasant string interpolation when logging a message:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"We bolster </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> husk nuts to each girdle jerry."</span><span class="p">)</span>
+
+<span class="c1">// Error: Cannot convert value of type 'String' to expected argument type 'StaticString'</span>
+</code></pre>
+</div>
+
+<p>This is probably the most significant departure you will encounter when migrating your Swift code from NSLog to Unified Logging. Be prepared for much dirt in your git working directory as you slog your way through substituting <code class="highlighter-rouge">os_log</code> calls for each <code class="highlighter-rouge">NSLog</code> or <code class="highlighter-rouge">print</code> call.</p>
+
+<p>It is possible to log a <code class="highlighter-rouge">String</code>, but only as an argument to a static format string:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="s">"We bolster </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> husk nuts to each girdle jerry."</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"%@"</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This workaround comes with a big gotcha, as we will see next.</p>
+
+<h3 id="4-barring-exceptions-your-format-arguments-will-be-redacted">4: Barring exceptions, your format arguments will be &lt;redacted&gt;.</h3>
+
+<p>By default when you log a <code class="highlighter-rouge">String</code> as a format argument:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"What is %@?"</span><span class="p">,</span> <span class="s">"threeve"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>the message will be rendered like this in Console.app:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Process</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MyApp</td>
+      <td>What is &lt;redacted&gt;?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To reveal the full log message in production logs, you have to explicitly mark that format argument as <code class="highlighter-rouge"><span class="p">{</span><span class="err">public</span><span class="p">}</span></code>:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"What is %{public}@?"</span><span class="p">,</span> <span class="s">"threeve"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Then the log message will appear unredacted in your production logs:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Process</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MyApp</td>
+      <td>What is threeve?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Alternatively, you can achieve the same effect on a temporary basis without the <code class="highlighter-rouge"><span class="p">{</span><span class="err">public</span><span class="p">}</span></code> scope modifier by doing either of the following before running the app:</p>
+
+<ul>
+  <li>Connecting the device to the Xcode debugger.</li>
+  <li>Installing a <a href="https://developer.apple.com/documentation/os/logging#2878594?language=objc">special logging profile</a>.</li>
+</ul>
+
+<p>Some argument types do not require these workarounds. Scalar values — bools, integers, etc. — will default to an implied public scope when used as format arguments. You can also mark a scalar argument as <code class="highlighter-rouge"><span class="p">{</span><span class="err">private</span><span class="p">}</span></code> if you need to ensure that the value will be redacted in production, overriding the default public scope:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"My secret ID is %{private}ld."</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">secretId</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="dos--donts">Dos &amp; Don’ts</h2>
+
+<p>Here are some things I consider best practices, in no particular order:</p>
+
+<h3 id="do-pay-attention-to-log-levels-types">Do: Pay attention to log levels (types).</h3>
+
+<p>There are five standard log types, which mostly correspond to what used to be called “levels”, that are defined by the Unified Logging system. Here they are along with brief summaries cribbed directly from the official documentation:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">default</code>: Use this level to capture information about things that might result in a failure.</li>
+  <li><code class="highlighter-rouge">info</code>: Use this level to capture information that may be helpful, but isn’t essential, for troubleshooting errors.</li>
+  <li><code class="highlighter-rouge">debug</code>: Use this level to capture information that may be useful during development or while troubleshooting a specific problem.</li>
+  <li><code class="highlighter-rouge">error</code>: Use this log level to capture process-level information to report errors in the process.</li>
+  <li><code class="highlighter-rouge">fault</code>: Use this level to capture system-level or multi-process information to report system errors.</li>
+</ul>
+
+<p>Choose the most appropriate type on a case-by-case basis, as any two given types are not treated equally by the logging system. <a href="https://developer.apple.com/videos/play/wwdc2016/721/">This WWDC video</a> has a helpful deep-dive into these differences.</p>
+
+<h3 id="dont-use-oslogdefault-in-shipping-code">Don’t: Use OSLog.default in shipping code.</h3>
+
+<p>You are not obligated to initialize your own OSLog instances. The <code class="highlighter-rouge">OSLog.default</code> value is available as a bare-bones alternative and is the default value for functions like <code class="highlighter-rouge">os_log</code> which require an <code class="highlighter-rouge">OSLog</code> argument. However, when you use <code class="highlighter-rouge">OSLog.default</code>, your ability to filter your log messages is limited because no values are provided for subsystem or category:</p>
+
+<p><img src="/assets/img/blog/2018/09/unifiedlogging-1.png" alt="Image of a log message using the default log." /></p>
+
+<p>When you initialize your own <code class="highlighter-rouge">OSLog</code>, you provide it with a subsystem and a category. This makes it a snap to filter the visible output in Console.app:</p>
+
+<p><img src="/assets/img/blog/2018/09/unifiedlogging-2.png" alt="Image of a log message using a custom log." /></p>
+
+<h3 id="do-name-your-subsystems-and-categories-consistently">Do: Name your subsystems and categories consistently.</h3>
+
+<p>Adhere to a consistent naming convention across your application. It’s worth spending some time looking at how Apple chooses their values for these for logs emanating from their own processes as this should inform your own conventions. Here are my recommendations, which are drawn from Apple’s established patterns:</p>
+
+<ol>
+  <li>
+    <p>Always name your subsystems using a reverse domain name style. All of Apple’s own logs have subsystems prefixed with <code class="highlighter-rouge">com.apple</code>, such as <code class="highlighter-rouge">com.apple.Siri</code> or <code class="highlighter-rouge">com.apple.coredata</code>.</p>
+  </li>
+  <li>
+    <p>If your code is organized into frameworks, use the bundle ID of the calling module as the subsystem for all logs in that module, e.g. <code class="highlighter-rouge">com.company.MyApp</code> for application-level logs and <code class="highlighter-rouge">com.company.MyApp.SomeFramework</code> for framework-level logs.</p>
+  </li>
+  <li>
+    <p>Do not use a reverse domain name style for a category name. Instead use a short, human-readable name like “Web Service”.</p>
+  </li>
+  <li>
+    <p>Choose category names that help narrow the scope of the calling code within its module or that can associate related logs that span multiple files or subsystems. For example, if you have logs that are specific to only one <code class="highlighter-rouge">Authenticator</code> class within a custom framework, you might give its logs the category name <code class="highlighter-rouge">Authenticator</code> to be used exclusively by that class. Alternatively, if you have lots of authentication-related work spanning more than one class or more than one framework, you could have them all use a category name like <code class="highlighter-rouge">Authentication</code>, which would help you see authentication activity across your entire application.</p>
+  </li>
+</ol>
+
+<h3 id="dont-hide-your-logs-behind-conditionals">Don’t: Hide your logs behind conditionals.</h3>
+
+<p>Because the rendering of the logs is done after the fact by Console.app, there’s no need to filter your log messages programmatically through <code class="highlighter-rouge">#if</code> directives or other conditionals. Log everything simply and directly, using an appropriate type, and let the system take care of the rest.</p>
+
+<h3 id="do-practice-gathering-a-sysdiagnose">Do: Practice gathering a sysdiagnose.</h3>
+
+<p>Get really good at obtaining a sysdiagnose from hardware out in the wild. Full instructions are <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/">available here</a>, but the gist of the process is:</p>
+
+<ul>
+  <li>Press and hold a bunch of buttons.</li>
+  <li>Wait ten minutes.</li>
+  <li>Navigate to a screen deep inside Settings.app</li>
+  <li>Tap the zipped sysdiagnose and AirDrop it to your Mac (it’ll be ~300MB in size).</li>
+</ul>
+
+<p>Once you have the sysdiagnose on your Mac, you can open the <code class="highlighter-rouge">.logarchive</code> file it contains in Console.app and see a dump of all the logs on that device. If you’ve heeded my advice on categories and subsystems, you should be able to filter down to the information you need in short order.</p>
+
+<p><em>[record needle scratch] Hold on. Did you say I have to wait ten minutes?</em></p>
+
+<p>Yes, it can take up to ten minutes for sysdiagnose to appear after one has been requested. Because of that delay, you don’t want to make sysdiagnoses part of a daily debugging routine. Instead, sysdiagnoses are useful in situations like this:</p>
+
+<ul>
+  <li>
+    <p>A minimally tech-savvy customer reports a bug in production within a few minutes of the event. Walk them through the sysdiagnose steps and find a way for them to send it to you.</p>
+  </li>
+  <li>
+    <p>You or someone on your team encounters a bug while away-from-keyboard. Trigger a sysdiagnose immediately, and then grab it from the device once it’s back in the office.</p>
+  </li>
+</ul>
+
+<h3 id="dont-force-all-format-arguments-to-a-public-scope">Don’t: Force all format arguments to a public scope.</h3>
+
+<p>If you are used to reading all your log output in plain text, it can be a real jolt to have to deal with the Unified Logging system’s private-by-default policy. Resist the temptation to force all your format arguments to a <code class="highlighter-rouge"><span class="p">{</span><span class="err">public</span><span class="p">}</span></code> scope. Not only does that risk disclosing your customers’ private information (say, if they send a sysdiagnose to another company), but it also risks exposing your company’s secrets. It’s not difficult to imagine a scenario where an error log accidentally reveals your OAuth credentials in plain text in production logs.</p>
+
+<h3 id="do-watch-these-wwdc-videos">Do: Watch these WWDC videos.</h3>
+
+<p>Both of these are required material for anyone interested in Unified Logging:</p>
+
+<ul>
+  <li><a href="https://developer.apple.com/videos/play/wwdc2016/721/">Unified Logging and Activity Tracing</a></li>
+  <li><a href="https://developer.apple.com/videos/play/wwdc2018/405/">Measuring Performance Using Logging</a></li>
+</ul>
+
+<h2 id="departing-note">Departing Note</h2>
+
+<p><img src="/assets/img/blog/2018/09/unifiedlogging-thanks.png" alt="Image of a log message thanking the reader." /></p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Okay, <em>technically</em> you can also use Xcode’s console pane to view the output, but only if your app is connected to the debugger at the time. Xcode’s console pane has far fewer features than Console.app, so it’s not particularly useful for a deep examination of your logs. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+</div>
+
+      <div class="l-padding-vert-lg">
+        <ul class="social-icons  social-icons--center">
+  <li>
+    <a href="https://twitter.com/intent/tweet?text=Migrating%20to%20Unified%20Logging,%20Swift%20Edition&url=https://www.bignerdranch.com/blog/migrating-to-unified-logging-swift-edition/&via=bignerdranch&related=bignerdranch" rel="nofollow" target="_blank" title="Share on Twitter">
+      <svg width="24" height="19" viewBox="0 0 24 19" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M20.608 2.923c1.023-.585 1.754-1.608 2.046-2.63-.877.584-1.9.876-3.07 1.17C18.71.584 17.393 0 16.078 0c-2.63 0-4.823 2.192-4.823 4.823 0 .44 0 .73.146 1.023C7.454 5.7 3.8 3.8 1.462.876c-.44.732-.585 1.61-.585 2.486 0 1.607.877 3.07 2.192 3.946-.732 0-1.462-.293-2.193-.585 0 2.34 1.608 4.24 3.8 4.677-.292 0-.73.146-1.17.146-.292 0-.584 0-.876-.146.585 1.9 2.34 3.362 4.532 3.362-1.608 1.315-3.654 2.046-5.993 2.046H0C2.046 18.123 4.385 18.854 6.87 19h1.168c8.33-.438 13.008-7.454 13.008-13.592v-.585c.877-.73 1.754-1.46 2.34-2.485-.878.147-1.755.44-2.778.585z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="https://facebook.com/sharer.php?u=" target="_blank" title="Share on Facebook">
+      <svg width="11" height="23" viewBox="0 0 11 23" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M7.188 5.03c0-.43.287-.718.718-.718h2.875V0H5.75a3.56 3.56 0 0 0-3.594 3.594v4.312H0v4.313h2.156V23h5.03l.002-10.78h2.875l.718-4.314H7.19V5.03z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.bignerdranch.com/blog/migrating-to-unified-logging-swift-edition/&title=Migrating%20to%20Unified%20Logging,%20Swift%20Edition&source=http://www.bignerdranch.com" target="_blank" title="Share on LinkedIn">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M22.228 0H1.773C.793 0 0 .77 0 1.72v20.56C0 23.23.794 24 1.773 24h20.455c.98 0 1.772-.77 1.772-1.72V1.72C24 .77 23.207 0 22.228 0zM7.276 20.09H3.65V9.254h3.626V20.09zM5.463 7.774H5.44c-1.217 0-2.005-.832-2.005-1.873 0-1.06.81-1.87 2.05-1.87 1.24 0 2.004.808 2.028 1.87 0 1.042-.786 1.874-2.05 1.874zM20.347 20.09h-3.625v-5.798c0-1.457-.525-2.45-1.836-2.45-1.003 0-1.598.67-1.86 1.317-.096.23-.12.554-.12.877v6.052H9.28s.05-9.82 0-10.836h3.626v1.536c.48-.738 1.34-1.79 3.266-1.79 2.386 0 4.175 1.547 4.175 4.876v6.214zm-7.464-9.236c.01-.02.028-.042.044-.064v.064h-.044z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false" title="Share on Reddit">
+      <svg width="31" height="27" viewBox="0 0 31 27" xmlns="http://www.w3.org/2000/svg"><title>Reddit</title><path d="M7.553 15.107a1.888 1.888 0 1 1 3.777 0 1.888 1.888 0 0 1-3.777 0zm11.33 0a1.888 1.888 0 1 1 3.777 0 1.888 1.888 0 0 1-3.776 0zm.093 4.036a1.12 1.12 0 0 1 1.387 1.762c-1.354 1.066-3.418 1.756-5.256 1.756-1.84 0-3.903-.688-5.257-1.755a1.12 1.12 0 0 1 1.388-1.762c.78.614 2.323 1.275 3.87 1.275 1.545 0 3.088-.66 3.868-1.275zm11.238-7.812a3.777 3.777 0 0 0-7.077-1.834c-1.942-1.062-4.307-1.748-6.883-1.906l2.254-5.062 4.313 1.246A2.833 2.833 0 1 0 23 1.49L18.19.103a1.12 1.12 0 0 0-1.334.62L13.794 7.6c-2.512.177-4.817.856-6.716 1.895a3.777 3.777 0 1 0-4.824 5.29 6.917 6.917 0 0 0-.366 2.21c0 5.215 5.918 9.442 13.22 9.442 7.3 0 13.218-4.227 13.218-9.44 0-.763-.127-1.502-.365-2.21a3.776 3.776 0 0 0 2.254-3.456zm-4.72-9.56a1.062 1.062 0 1 1 0 2.126 1.062 1.062 0 0 1 0-2.125zM1.887 11.33a1.89 1.89 0 0 1 1.89-1.888 1.89 1.89 0 0 1 1.706 1.08c-.987.75-1.805 1.613-2.41 2.56a1.892 1.892 0 0 1-1.186-1.75zm13.22 12.865c-6.063 0-10.977-3.223-10.977-7.2 0-3.975 4.915-7.2 10.977-7.2s10.976 3.224 10.976 7.2c0 3.977-4.914 7.2-10.976 7.2zM27.14 13.083c-.605-.948-1.423-1.81-2.41-2.56a1.89 1.89 0 0 1 1.707-1.08 1.89 1.89 0 0 1 1.89 1.887 1.89 1.89 0 0 1-1.187 1.753z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+  <li>
+    <a href="mailto:?subject=Migrating%20to%20Unified%20Logging,%20Swift%20Edition&body=https://www.bignerdranch.com/blog//blog/migrating-to-unified-logging-swift-edition/" title="Share by Email">
+      <svg width="27" height="20" viewBox="0 0 27 20" xmlns="http://www.w3.org/2000/svg"><title>Email</title><path d="M13.5 14.933a2.75 2.75 0 0 1-1.95-.804l-.025-.028-1.512-1.643a.968.968 0 0 0-1.39-.05l-7.066 6.898c-.39.382-.27.692.284.692H25.17c.548 0 .67-.315.283-.692l-7.072-6.9a.966.966 0 0 0-1.388.046l-1.54 1.675a2.75 2.75 0 0 1-1.95.803zM25.453.733C25.825.327 25.69 0 25.12 0H1.88c-.557 0-.7.333-.333.732L12.77 12.934c.393.38 1.067.38 1.46 0L25.453.732zM.683 2.314C.306 1.905 0 2.025 0 2.577v14.86c0 .555.32.692.71.31l6.754-6.592c.392-.384.41-1.02.028-1.437L.682 2.315zM26.29 17.74c.392.383.71.243.71-.31V2.577c0-.555-.3-.678-.683-.262l-6.81 7.402a1.04 1.04 0 0 0 .03 1.436l6.752 6.587z" fill-rule="evenodd"/></svg>
+    </a>
+  </li>
+</ul>
+
+      </div>
+
+      <div class="blog__more-posts">
+        <div class="blog__author">
+          <img class="blog__author-img" src="/assets/img/about/the-team/headshots/jared-sinclair.jpg" alt="Jared Sinclair">
+          <div class="blog__author-details">
+            <div class="blog__author-spacer">
+              <div>
+                <div class="t-label">more by</div>
+                <a class="blog__author-link" href="/about/the-team/jared-sinclair">Jared Sinclair</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blog_callouts">
+  
+    
+    <section class="blog__modules">
+      <div class="l-container">
+        <div class="frontier__card">          
+          <h2 class="t-heading-no-line">Big Nerd Ranch iOS Courses</h2>
+          <p class="t-body-copy">Interested in learning more about our basic and advanced iOS Courses?<br>Learn from the experts at a Big Nerd Ranch Bootcamp!</p>
+          <p><a class="t-link-caps" href="https://www.bignerdranch.com/bootcamps/" target="_blank">LEARN MORE</a></p>
+        </div>
+      </div>
+    </section>
+    
+
+  <section class="blog__modules">
+    <div class="l-container">
+      <div class="frontier__card">          
+        <h2 class="t-heading-no-line">Big Nerd Ranch Screencasts</h2>
+        <p class="t-body-copy">Interested in leveling up your coding skills from the same authors of the Big Nerd Ranch Guide? Subscribe to The Frontier today!</p>
+        <p><a class="t-link-caps" href="https://thefrontier.bignerdranch.com" target="_blank">LEARN MORE</a></p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section>
+  <div class="l-container">
+    <div class="l-padding-vert-lg">
+      <div class="l-padding-top-sm l-padding-bottom-sm">
+        <h2 class="t-small-caps">Related Posts:</h2>
+      </div>
+        
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+            
+              
+                
+                <article class="blog__related-posts">
+                  <a href="/blog/using-graphql-in-production-ios-applications-part-2/">Using GraphQL in Production iOS Applications - Part 2</a>
+                  <p>Chris Downie and Sam Landfried</p>
+                </article>
+                
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+            
+              
+                
+                <article class="blog__related-posts">
+                  <a href="/blog/using-graphql-in-production-ios-applications-part-1/">Using GraphQL in Production iOS Applications - Part 1</a>
+                  <p>Chris Downie and Sam Landfried</p>
+                </article>
+                
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+            
+          
+          
+        
+          
+            
+              
+                
+                <article class="blog__related-posts">
+                  <a href="/blog/macos-machine-learning-in-2019/">macOS Machine Learning in 2019</a>
+                  <p>Nicholas Ollis</p>
+                </article>
+                
+          
+        
+          
+            
+              
+                
+                <article class="blog__related-posts">
+                  <a href="/blog/it-looks-like-you're-still-trying-to-use-a-framework/">It Looks Like You're Still Trying to Use a Framework</a>
+                  <p>Nick Teissler</p>
+                </article>
+                
+          
+        
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+                
+                <article class="blog__related-posts">
+                  <a href="/blog/to-2019-and-beyond/">To 2019, and beyond!</a>
+                  <p>Chris Guzman</p>
+                </article>
+                
+          
+            
+      </div>
+    </div>
+</section>
+
+<section class="s-background-white">
+  <div class="l-container">
+    <div class="l-padding-vert-lg">
+      <h2>Recent Comments</h2>
+      <div id="disqus_thread"></div>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</section>
+
+      </div>
+    <footer class="footer">
+  <div class="l-container">
+    <div class="footer__layout">
+      <div class="footer__mega-nav">
+        <nav>
+          <ul class="footer__icons">
+            <li><a href="https://twitter.com/bignerdranch" target="_blank" title="Twitter"><svg width="24" height="19" viewBox="0 0 24 19" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M20.608 2.923c1.023-.585 1.754-1.608 2.046-2.63-.877.584-1.9.876-3.07 1.17C18.71.584 17.393 0 16.078 0c-2.63 0-4.823 2.192-4.823 4.823 0 .44 0 .73.146 1.023C7.454 5.7 3.8 3.8 1.462.876c-.44.732-.585 1.61-.585 2.486 0 1.607.877 3.07 2.192 3.946-.732 0-1.462-.293-2.193-.585 0 2.34 1.608 4.24 3.8 4.677-.292 0-.73.146-1.17.146-.292 0-.584 0-.876-.146.585 1.9 2.34 3.362 4.532 3.362-1.608 1.315-3.654 2.046-5.993 2.046H0C2.046 18.123 4.385 18.854 6.87 19h1.168c8.33-.438 13.008-7.454 13.008-13.592v-.585c.877-.73 1.754-1.46 2.34-2.485-.878.147-1.755.44-2.778.585z" fill="#CBCDD0" fill-rule="evenodd"/></svg></a></li>
+            <li><a href="https://www.facebook.com/bignerdranch" target="_blank" title="Facebook"><svg width="11" height="23" viewBox="0 0 11 23" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M7.188 5.03c0-.43.287-.718.718-.718h2.875V0H5.75a3.56 3.56 0 0 0-3.594 3.594v4.312H0v4.313h2.156V23h5.03l.002-10.78h2.875l.718-4.314H7.19V5.03z" fill="#CBCDD0" fill-rule="evenodd"/></svg></a></li>
+            <li><a href="https://instagram.com/bignerdranch" target="_blank" title="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M7 11.5A4.5 4.5 0 0 1 11.5 7 4.5 4.5 0 1 1 7 11.5zm12.304-.528c.05.337.08.68.08 1.03a7.385 7.385 0 0 1-14.767 0c0-.35.032-.693.082-1.03a7.37 7.37 0 0 1 .2-.97H3v10.077c0 .508.412.92.924.92h16.153c.51 0 .923-.412.923-.922V10h-1.898c.088.316.154.64.202.972zM20.08 3H17.92c-.51 0-.918.41-.918.918V6.08c0 .508.41.92.918.92h2.163a.92.92 0 0 0 .92-.92V3.92A.917.917 0 0 0 20.08 3zM24 2.77A2.77 2.77 0 0 0 21.23 0H2.77A2.77 2.77 0 0 0 0 2.77v18.46A2.77 2.77 0 0 0 2.77 24H21.23A2.77 2.77 0 0 0 24 21.23V2.77z" fill="#CBCDD0" fill-rule="evenodd"/></svg></a></li>
+            <li><a href="https://github.com/bignerdranch" target="_blank" title="Github"><svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><title>Github</title><path d="M13 0C5.822 0 0 5.82 0 13c0 5.744 3.725 10.617 8.89 12.336.65.12.86-.283.86-.625v-2.42c-3.616.787-4.37-1.533-4.37-1.533-.59-1.503-1.443-1.903-1.443-1.903-1.18-.807.09-.79.09-.79 1.305.092 1.992 1.34 1.992 1.34 1.158 1.988 3.04 1.413 3.782 1.08.116-.84.453-1.413.825-1.737-2.887-.33-5.922-1.445-5.922-6.425 0-1.42.508-2.58 1.34-3.49-.135-.328-.58-1.65.126-3.44 0 0 1.093-.35 3.577 1.332A12.468 12.468 0 0 1 13 6.287c1.105.005 2.218.15 3.256.437 2.482-1.68 3.572-1.332 3.572-1.332.708 1.79.262 3.113.128 3.44.834.91 1.338 2.07 1.338 3.49 0 4.993-3.04 6.092-5.936 6.414.466.403.892 1.194.892 2.407v3.568c0 .346.208.753.868.625C22.28 23.613 26 18.742 26 13c0-7.18-5.82-13-13-13z" fill="#CBCDD0" fill-rule="evenodd"/></svg></a></li>
+            <li><a href="https://www.linkedin.com/company/bignerdranch" target="_blank" title="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedI</title><path d="M22.228 0H1.773C.793 0 0 .77 0 1.72v20.56C0 23.23.794 24 1.773 24h20.455c.98 0 1.772-.77 1.772-1.72V1.72C24 .77 23.207 0 22.228 0zM7.276 20.09H3.65V9.254h3.626V20.09zM5.463 7.774H5.44c-1.217 0-2.005-.832-2.005-1.873 0-1.06.81-1.87 2.05-1.87 1.24 0 2.004.808 2.028 1.87 0 1.042-.786 1.874-2.05 1.874zM20.347 20.09h-3.625v-5.798c0-1.457-.525-2.45-1.836-2.45-1.003 0-1.598.67-1.86 1.317-.096.23-.12.554-.12.877v6.052H9.28s.05-9.82 0-10.836h3.626v1.536c.48-.738 1.34-1.79 3.266-1.79 2.386 0 4.175 1.547 4.175 4.876v6.214zm-7.464-9.236c.01-.02.028-.042.044-.064v.064h-.044z" fill="#CBCDD0" fill-rule="evenodd"/></svg></a></li>
+            <li><a href="https://www.youtube.com/user/BigNerdRanchVideo" target="_blank" title="Youtube"><svg width="26" height="21" viewBox="0 0 26 21" xmlns="http://www.w3.org/2000/svg"><title>Youtube</title><path d="M22.75 0H3.25C1.463 0 0 1.684 0 3.742v13.1c0 2.057 1.463 3.74 3.25 3.74h19.5c1.788 0 3.25-1.683 3.25-3.74V3.74C26 1.684 24.538 0 22.75 0zm-13 5.417v9.953l8.294-4.977L9.75 5.417z" fill="#CBCDD0" fill-rule="evenodd"/></svg></a></li>
+          </ul>
+        </nav>
+        <a class="footer__subscribe" href="http://www2.bignerdranch.com/newsletter_signup">Subscribe to Our Newsletter</a>
+      </div>
+      <div class="footer__mega-nav">
+        <nav>
+          <h2 class="footer__mega-nav-heading t-small-caps">App Development</h2>
+          <ul class="footer__mega-nav-list">
+            <li><a href="/work">Work</a></li>
+            
+          </ul>
+        </nav>
+        <nav>
+          <h2 class="footer__mega-nav-heading t-small-caps">Books</h2>
+          <ul class="footer__mega-nav-list">
+            <li><a href="/books">All books</a></li>
+            <li><a href="/books/front-end-web-development/">Front-end</a></li>
+            <li><a href="/books/swift-programming/">Swift</a></li>
+            <li><a href="/books/ios-programming/">iOS</a></li>
+            <li><a href="/books/android-programming/">Android</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__mega-nav">
+        <nav>
+          <h2 class="footer__mega-nav-heading t-small-caps">Team Training</h2>
+          <ul class="footer__mega-nav-list">
+            <li><a href="/training">Team Training Overview</a></li>
+            
+            <li><a href="/training/platforms/ios">iOS</a></li>
+            <li><a href="/training/platforms/android">Android</a></li>
+            <li><a href="/training/platforms/web">Web</a></li>
+            <li><a href="/training/platforms/design">Design</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__mega-nav">
+        <nav>
+          <h2 class="footer__mega-nav-heading t-small-caps">Bootcamps</h2>
+          <ul class="footer__mega-nav-list">
+            <li><a href="/bootcamps">Bootcamp Overview</a></li>
+            <li><a href="/bootcamps/platforms/ios/">iOS</a></li>
+            <li><a href="/bootcamps/platforms/android/">Android</a></li>
+            <li><a href="/bootcamps/platforms/web/">Web</a></li>
+            <li><a href="/bootcamps/schedule">Schedule</a></li>
+            <li><a href="/bootcamps/stone-mountain/">Georgia Ranch</a></li>
+            <li><a href="https://training.bignerdranch.com/sessions/new">Sign In</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__mega-nav">
+        <nav>
+          <h2 class="footer__mega-nav-heading t-small-caps">Company</h2>
+          <ul class="footer__mega-nav-list">
+            <li><a href="/about/">Who We Are</a></li>
+            <li><a href="/about/news">News</a></li>
+            <li><a href="/resources">Resources</a></li>
+            <li><a href="/about/careers">Careers</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <p class="footer__copyright">Copyright&copy; 1998 - 2019 Big Nerd Ranch, LLC. All Rights Reserved. |&nbsp;<a href="/privacy-policy">Privacy&nbsp;Policy</a></p>
+    </div>
+  </div>
+</footer>
+
+    
+      
+        <script type="text/javascript">
+  var disqus_shortname = 'bignerdranch';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+      
+    
+    <script src="/assets/js/environment.js?v=1554217401787467266"></script>
+    <script src="/assets/js/dest/index.min.js?v=1554217401787467266"></script>
+  </body>
+</html>

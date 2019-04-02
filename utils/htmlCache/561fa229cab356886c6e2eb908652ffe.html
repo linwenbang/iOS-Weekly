@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Hiding Implementation Details Using internal Properties – Arek Holko</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/public/css/main.css">
+	<link rel="icon" href="/public/images/favicon.png" type="image/png">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/ArkadiuszHolko">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@arekholko">
+  <meta name="twitter:creator" content="@arekholko">
+  <meta name="twitter:image:src" content="https://holko.pl/public/images/logo.png">
+  <meta property="og:title" content="Hiding Implementation Details Using internal Properties" >
+  <meta property="og:description" content="In this article, we’ll see how to provide an ability to inject a framework’s data structure into the framework’s classes, while at the same time keeping its internals hidden." >
+  <meta property="og:url" content="https://holko.pl/2018/10/08/internal-modifier/" >
+
+</head>
+<body>
+
+	<header class="masthead">
+		<div class="masthead-inner">
+			<h1><a href="/">Arek Holko</a></h1>
+			<nav>
+					<a href="/archive/">All Articles</a>
+          /
+					<a href="/hire/">About Me</a>
+          /
+					<a href="https://twitter.com/arekholko">Twitter</a>
+			</nav>
+		</div>
+	</header>
+	<div class="content container">
+		<div class="single-post">
+  <div class="post">
+    <h1>
+      
+      Hiding Implementation Details Using internal Properties
+      
+    </h1>
+    <span class="post-meta">October 8, 2018</span>
+    
+    
+    
+    <p>Swift comes with <a href="https://docs.swift.org/swift-book/LanguageGuide/AccessControl.html">five access-level modifiers</a>: <code>open</code>, <code>public</code>, <code>internal</code>, <code>fileprivate</code> and <code>private</code>. The <code>internal</code> modifier leads to entities being available for use only within their defining module. It’s a default modifier but it starts getting interesting only once we split our codebase into modules.</p>
+
+<p>In this article, we’ll see how to provide an ability to inject a framework’s data structure into the framework’s classes, while at the same time keeping its <em>internals</em> hidden.</p>
+
+<!-- break -->
+
+<h2 id="problem-statement">Problem Statement</h2>
+
+<p>Most apps these days need some kind of local persistence of data. There are many choices: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/index.html">Core Data</a>, <a href="https://realm.io">Realm</a>, <a href="https://www.sqlite.org/index.html">SQLite</a> <a href="https://github.com/groue/GRDB.swift">with</a> or without wrappers, etc. No matter what we choose, once our project exceeds 10K, 50K, or 100K lines of code we’ll inevitably start thinking about splitting it up into modules.</p>
+
+<p>One of the modules we can consider extracting from the main target would contain the database access code. Let’s call it PersistenceKit, following Apple’s naming convention. We can implement the module either as a <a href="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/OverviewOfDynamicLibraries.html">dynamic framework</a> or a <a href="https://www.bignerdranch.com/blog/it-looks-like-you-are-trying-to-use-a-framework/">static library</a>. </p>
+
+<p>Let’s assume that PersistenceKit will contain many <a href="https://en.wikipedia.org/wiki/Data_access_object">repositories</a>, such as: <code>ArticleRepository</code>, <code>UserRepository</code>, etc that we’ll use to fetch and store data. A repository can be implemented as follows:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">struct</span> <span class="n">Article</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="k">let</span> <span class="kt">id</span><span class="o">:</span> <span class="n">ArticleID</span>
+    <span class="n">public</span> <span class="k">let</span> <span class="nl">title</span><span class="p">:</span> <span class="n">String</span>
+    <span class="n">public</span> <span class="k">let</span> <span class="nl">content</span><span class="p">:</span> <span class="n">String</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">ArticleRepository</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="k">func</span> <span class="n">article</span><span class="p">(</span><span class="k">for</span> <span class="kt">id</span><span class="o">:</span> <span class="n">ArticleID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Article</span><span class="o">?</span> <span class="p">{</span>
+        <span class="c1">// finds a row in the database and maps it to a struct</span>
+        <span class="c1">//</span>
+        <span class="c1">// missing implementation</span>
+    <span class="p">}</span>
+
+    <span class="c1">// other methods...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>To be able to perform an actual database access in implementations of repositories’ methods, we need some kind of reference to the database, be it:</p>
+
+<ul>
+<li>Core Data: <a href="https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext">NSManagedObjectContext</a></li>
+<li>Realm: <a href="https://realm.io/docs/swift/latest/#opening-realms">Realm object</a></li>
+<li>SQLite in C: <a href="https://www.sqlite.org/c3ref/sqlite3.html">sqlite3 pointer</a></li>
+<li>GRDB.swift: <a href="https://github.com/groue/GRDB.swift/blob/6c7ac25fb8a75396774260b96e3a149d4ba92310/GRDB/Core/DatabasePool.swift">DatabasePool</a></li>
+</ul>
+
+<p>Being good engineers we strive to be, we want to:</p>
+
+<ol>
+<li>Avoid keeping any of these references in a singleton or as a shared global variable.</li>
+<li>Don’t let users of PersistenceKit know about its implementation details, i.e. we want the fact that we use <code>NSManagedObjectContext</code> or <code>DatabasePool</code> internally stay hidden.</li>
+</ol>
+
+<h2 id="solution">Solution</h2>
+
+<p>I recently spent some time thinking about these two goals and came up with an approach that I’m happy with. It’s based on a mix of public and internal modifiers. Let’s introduce a new struct:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">struct</span> <span class="n">Connection</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nl">pool</span><span class="p">:</span> <span class="n">DatabasePool</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>This way <code>Connection</code> struct is accessible outside of PersistenceKit but <code>pool</code> property isn’t. It’s not even possible to initialize this struct outside of PersistenceKit because its <a href="https://docs.swift.org/swift-book/LanguageGuide/AccessControl.html#ID21">memberwise initializer is in this case internal</a>.</strong></p>
+
+<p>Now, since users of our framework won’t be able to initialize <code>Connection</code>, we have to provide them with an instance. We can do that in an entry point to PersistenceKit:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">struct</span> <span class="n">AppDatabase</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="k">func</span> <span class="n">setup</span><span class="p">(</span><span class="n">with</span> <span class="nl">path</span><span class="p">:</span> <span class="n">URL</span><span class="p">)</span> <span class="n">throws</span> <span class="o">-&gt;</span> <span class="n">Connection</span> <span class="p">{</span>
+        <span class="c1">// performs the setup and returns a connection instance</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>What’s left, is injecting <code>Connection</code> to our <code>ArticleRepository</code>, by changing its implementation to:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">class</span> <span class="n">ArticleRepository</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="k">func</span> <span class="n">article</span><span class="p">(</span><span class="k">for</span> <span class="kt">id</span><span class="o">:</span> <span class="n">ArticleID</span><span class="p">,</span> <span class="nl">connection</span><span class="p">:</span> <span class="n">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Article</span><span class="o">?</span> <span class="p">{</span>
+        <span class="c1">// we can access `pool` property here because it’s accessible in this module</span>
+        <span class="k">return</span> <span class="n">connection</span><span class="p">.</span><span class="n">pool</span><span class="p">.</span><span class="n">read</span> <span class="p">{</span> <span class="p">(</span><span class="n">db</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Article</span><span class="o">?</span> <span class="k">in</span>
+            <span class="k">return</span> <span class="n">Article</span><span class="p">.</span><span class="n">fetchOne</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="nl">key</span><span class="p">:</span> <span class="kt">id</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Users can now set up PersistenceKit as follows:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">class</span> <span class="n">AppCoordinator</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nl">connection</span><span class="p">:</span> <span class="n">PersistenceKit</span><span class="p">.</span><span class="n">Connection</span>
+    <span class="p">...</span>
+
+    <span class="k">init</span><span class="p">()</span> <span class="n">throws</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">database</span> <span class="o">=</span> <span class="n">AppDatabase</span><span class="p">()</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="n">try</span> <span class="n">database</span><span class="p">.</span><span class="n">setup</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="n">path</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then, when they want to fetch something, they can simply pass <code>connection</code> to <code>ArticleRepository</code>’s methods:</p>
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">repository</span> <span class="o">=</span> <span class="n">ArticleRepository</span><span class="p">()</span>
+<span class="k">let</span> <span class="n">article</span> <span class="o">=</span> <span class="n">repository</span><span class="p">.</span><span class="n">article</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="kt">id</span><span class="p">,</span> <span class="nl">connection</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span>
+</code></pre></div>
+<p>Even if users of our framework wanted to access <code>Connection.pool</code> here directly, they couldn’t because it’s not accessible outside of PersistenceKit. We can be sure that database access code stays in <code>PersistenceKit</code> leading to <a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">a cleaner overall architecture</a>.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Public types with internal properties are a powerful tool. We showed how to allow users to own and pass an object we need – as the framework’s authors – without exposing any of the internals. Are you aware of any other cool uses of <code>public</code> types with <code>internal</code> properties?</p>
+
+  </div>
+</div>
+
+<div id="mailing-list">
+  <form action="https://holko.us3.list-manage.com/subscribe/post?u=9ae8ef98dc1c177a858d4ade2&amp;id=747fbdaa96" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+      <h3>Subscribe to my newsletter</h2>
+      <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" placeholder="Email address" id="mce-EMAIL"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_9ae8ef98dc1c177a858d4ade2_747fbdaa96" tabindex="-1" value=""></div>
+  </form>
+</div>  
+
+<div id="follow-me">
+  <div class="photo">
+    <a href="/hire/"><img src="/public/images/me.jpg" width="80" height="80" /></a>
+  </div>
+  <div class="short-about">
+    I'm Arek Holko, an iOS engineer in Warsaw, Poland. <a href="https://twitter.com/arekholko">Follow me on Twitter</a> or subscribe to my newsletter above to stay updated.
+    Learn more <a href="/hire/">about me</a>.
+  </div>
+</div>
+
+<div id="recent-articles">
+  <h3>Recent Articles:</h3>
+  <ul>
+    
+    
+    
+    
+    <li><a href="/2018/09/24/compilation-directives-in-libraries/">Why #if DEBUG Conditional Should Be Avoided in Library Code</a></li>
+    
+    
+    
+    <li><a href="/2017/12/06/future-proof-dependency-injection/">Future-Proof Dependency Injection for Storyboard-Based View Controllers</a></li>
+    
+    
+    
+    <li><a href="/2017/11/15/rebuilding-ibdesignables/">Stop Xcode from constantly rebuilding your project because of @IBDesignable</a></li>
+    
+    
+  </ul>
+</div>
+
+		<footer>
+			Copyright &copy; Arek Holko
+		</footer>
+	</div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-8860201-5', 'holko.pl');
+    ga('send', 'pageview');
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>String’s ABI and UTF-8 - Standard Library - Swift Forums</title>
+    <meta name="description" content="String’s ABI and UTF-8
+We just landed String’s proposed final ABI on master. This ABI includes some significant changes, the primary one being that native Swift strings are stored as UTF-8 where they were previously stor&amp;hellip;">
+    <meta name="author" content="">
+<meta name="generator" content="Discourse 2.3.0.beta5 - https://github.com/discourse/discourse version b9ab393d70a682b9249d0642e1f59c02f6a28f7c">
+<link rel="icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/6/610ef4c64700c53fad713dda8c9563c461d82e41.ico">
+<link rel="apple-touch-icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="canonical" href="https://forums.swift.org/t/string-s-abi-and-utf-8/17676" />
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","url":"https://forums.swift.org","potentialAction":{"@type":"SearchAction","target":"https://forums.swift.org/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<link rel="search" type="application/opensearchdescription+xml" href="https://forums.swift.org/opensearch.xml" title="Swift Forums Search">
+
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_fc38bc1627f273b322141d8e39871e8f1a4ed2f7.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop" data-theme-id="2"/>
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_theme_2_059b9cade5b9070983e4a1b8712b96266620ec9d.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="2"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS feed of &#39;String’s ABI and UTF-8&#39;" href="https://forums.swift.org/t/string-s-abi-and-utf-8/17676.rss" />
+  <meta property="og:site_name" content="Swift Forums" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:url" content="https://forums.swift.org/t/string-s-abi-and-utf-8/17676" />
+<meta name="twitter:url" content="https://forums.swift.org/t/string-s-abi-and-utf-8/17676" />
+<meta property="og:title" content="String’s ABI and UTF-8" />
+<meta name="twitter:title" content="String’s ABI and UTF-8" />
+<meta property="og:description" content="String’s ABI and UTF-8 We just landed String’s proposed final ABI on master. This ABI includes some significant changes, the primary one being that native Swift strings are stored as UTF-8 where they were previously stored either as ASCII or UTF-16 depending on their contents. NSStrings are still lazily bridged in to String without copying.  This does not immediately surface in the API, but allows for some important performance wins and gives a more consistent basis for future APIs providing eff..." />
+<meta name="twitter:description" content="String’s ABI and UTF-8 We just landed String’s proposed final ABI on master. This ABI includes some significant changes, the primary one being that native Swift strings are stored as UTF-8 where they were previously stored either as ASCII or UTF-16 depending on their contents. NSStrings are still lazily bridged in to String without copying.  This does not immediately surface in the API, but allows for some important performance wins and gives a more consistent basis for future APIs providing eff..." />
+<meta name="twitter:label1" value="Reading time" />
+<meta name="twitter:data1" value="9 mins 🕑" />
+<meta name="twitter:label2" value="Likes" />
+<meta name="twitter:data2" value="177 ❤" />
+<meta property="article:published_time" content="2018-11-05T23:17:09+00:00" />
+<meta property="og:ignore_canonical" content="true" />
+
+      <link rel="next" href="/t/string-s-abi-and-utf-8/17676?page=2">
+
+
+    
+  </head>
+  <body class="crawler">
+    
+    <header>
+      <a href="/">
+          <img src="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/0/0d7ab3b633e07bf8ec99bdc18e22ad89d8934801.png" alt="Swift Forums" id="site-logo" style="max-width: 150px;">
+      </a>
+    </header>
+    <div id="main-outlet" class="wrap">
+      <h1>
+  <a href="/t/string-s-abi-and-utf-8/17676">String’s ABI and UTF-8</a>
+</h1>
+
+<div id='breadcrumbs'>
+    <div id="breadcrumb-0" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+        itemref="breadcrumb-1"
+      >
+      <a href="/c/development" itemprop="url">
+        <span itemprop="title">Development</span>
+      </a>
+    </div>
+    <div id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+>
+      <a href="/c/development/stdlib" itemprop="url">
+        <span itemprop="title">Standard Library</span>
+      </a>
+    </div>
+</div>
+
+
+
+
+
+<hr>
+
+
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Michael_Ilseman'><b itemprop='author'>Michael_Ilseman</b></a>
+          (Michael Ilseman)
+            <meta itemprop='datePublished' content='2018-11-05T23:17:09Z'>
+            <time itemprop='dateModified' datetime='2018-11-26T21:51:07Z'>
+              2018-11-26 21:51:07 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#1</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <h1>String’s ABI and UTF-8</h1>
+<p>We just landed String’s proposed final ABI on master. This ABI includes some significant changes, the primary one being that native Swift strings are stored as UTF-8 where they were previously stored either as ASCII or UTF-16 depending on their contents. NSStrings are still lazily bridged in to String without copying.</p>
+<p>This does not immediately surface in the API, but allows for some important performance wins and gives a more consistent basis for future APIs providing efficient and direct access to the underlying code units. UTF-8 is a one-byte Unicode encoding and is the preferred encoding for interoperating with C, systems programming, server-side programming, scripting, client-side programming, and tools that process source code and textual formats.</p>
+<h2>Performance</h2>
+<p>Unifying the storage representation for ASCII and Unicode-rich strings gives us a lot of performance wins. These wins are an effect of several compounding factors including a simpler model with less branching, on-creation encoding validation of native Strings (enabled by a faster validator), a unified implementation code path, a more efficient allocation and use of various bits in the struct, etc.</p>
+<h4>C Interoperability</h4>
+<p>By maintaining nul-termination in our storage, interoperability with C is basically free: we just use our pointer. This means that <code>myString.withCString { ... }</code> no longer needs to allocate, transcode, and later free its contents in order to supply the closure with a C-compatible string.</p>
+<p>Quantifying this improvement as an <em>n</em>x faster ratio: it’s either millions of times faster or <code>error: division by zero</code> times faster, depending on how you measure.</p>
+<h4>Decoding</h4>
+<p>Walking over and decoding the Unicode scalar values that comprise a string is much more efficient now.</p>
+<p>Strings of Chinese characters are traditionally a worst-case scenario for UTF-8 decoding performance relative to UTF-16, as UTF-8 resorts to a multi-byte encoding sequence while UTF-16 just stores the scalar value directly as a code unit. This is even worse in reverse, because a continuation-byte in UTF-8 does not communicate the distance to the start of the scalar.</p>
+<p>But, this isn’t really an issue: on modern CPUs this increase in encoding complexity is more than offset by the decrease in model complexity by having a unified storage representation.</p>
+<p>Walking the Unicode scalar values forwards on Chinese text is now over 3x faster than before and walking in reverse (harder) is now over 2x faster. ASCII benefits even more, despite the old model having a dedicated storage representation and fast paths for ASCII-only strings.</p>
+<h4>Small UTF-8 Strings</h4>
+<p>Swift 4.2 introduced a small-string representation on 64-bit platforms for strings of up to 15 ASCII code units in length that stores the value directly in the String struct without requiring an allocation or memory management. With a unified code path that supports UTF-8, we’re able to enhance small strings to support up to 15 UTF-8 code units in length. This means your most important non-ASCII strings such as <code>"smol 🐶! 😍"</code> , can in fact, be smol.</p>
+<p>We also added small-string support on 32-bit platforms, where we pack in strings of up to 10 UTF-8 code units directly into the String struct.</p>
+<h4>Miscellaneous</h4>
+<p>Operations over the UTF-8 view are (obviously) dramatically faster on native Swift strings: ~10x depending on the nature of the operation.</p>
+<p><code>Character</code>-based String modifications, such as <code>String.insert(_:Character)</code> are around 5-10x faster.</p>
+<p>Improved normality checking makes String hashing 2-4x faster when the contents are already in NFC (which is the case most of the time).</p>
+<p>Creating a String from UTF-8 contents ala <code>String(decoding: codeUnits, as: UTF8.self)</code> is around 5-6x faster.</p>
+<h4>Efficient Cocoa Interoperability</h4>
+<p>Efficient interoperability with Cocoa is a huge selling point for Swift, and strings are lazily bridged to Objective-C. String’s storage class is a subclass of NSString at runtime, and thus has to answer APIs assuming constant-time access to UTF-16 code units. We solved this with a breadcrumbing strategy: upon first request from one of these APIs on large strings, we perform a fast scan of the contents to check the UTF-16 length, leaving behind breadcrumbs at regular intervals. This allows us to provide amortized constant-time access to transcoded UTF-16 contents by scanning between breadcrumbs.</p>
+<p>This is leveraged by <code>String.UTF16View</code>, so Swift code that imports Foundation and assumes constant-time access to the view also benefits.</p>
+<p>We’ll be tweaking and tuning the granularity of these breadcrumbs and improving the scanning time, but this strategy has been proving sufficient for maintaining performance in realistic use cases.</p>
+<p>For performance improvements in Cocoa interoperability, we’re working on some sweet bridging optimizations (simpler on a unified storage representation), but it’s too early to report back findings. We expect wins here to be far more important than a higher constant-factor on UTF-16 access.</p>
+<h4>Current Microbenchmark Issues</h4>
+<p>We landed with some <a href="https://bugs.swift.org/browse/SR-9184" rel="nofollow noopener">known microbenchmark regressions</a> that we knew we could fix with some elbow grease. We’re now applying elbow grease. Since this is such a substantial model change, it is far more important from a risk-management perspective to land this now to expose any unknown issues. Even so, net performance is substantially better.</p>
+<p>We also have <a href="https://bugs.swift.org/browse/SR-8905" rel="nofollow noopener">known gaps</a> in our String benchmarking, which we will be closing and addressing any issues exposed.</p>
+<h2>Code Size</h2>
+<p>We haven’t started to tweak and tune code size, but this change already carries in some nice wins. A simpler model means less code and less reliance on heroic inlining for performance.</p>
+<p>The stdlib binary is around 13% smaller with this change, which is a big win for Swift 5.0 applications that will back-deploy to pre-Swift-5 OSes. This also reduces memory usage and provides other system-wide benefits for post-Swift-5 OSes. The Foundation overlay is also around 5% smaller, as are others.</p>
+<p>The source compatibility suite saw modest improvements, with an overall 2-3% shrinkage in total binary size. As I said, we haven’t started to tweak and tune, so this may improve more.</p>
+<h2>The Future of String Performance</h2>
+<h4>Internal Improvements</h4>
+<p>We have many ideas for further performance enhancements to the internal implementation of String, such as:</p>
+<ul>
+<li>
+<p>Check for (or even guaranteeing) NFC-normalized contents upon creation, making canonical-equivalence comparison super fast</p>
+</li>
+<li>
+<p>Cache more information on the storage class’s subsequent tail allocations, such as grapheme count and hash value</p>
+</li>
+<li>
+<p>Perform fast single-scalar-grapheme checks and set relevant performance flags</p>
+</li>
+<li>
+<p>Vectorize all the things, especially small strings</p>
+</li>
+</ul>
+<h4>Low Level APIs</h4>
+<p>The most exciting aspect of the future of String performance is exposing low-level performant APIs. The unified storage representation allows us to expose low-level APIs on String that directly accessing the underlying storage. Previously, we’d have to expose a pair of each, one for ASCII storage and one for UTF-16 storage, and hope the developer remembers to test both paths. Now, we can expose something akin to the following (details/spellings for demonstration purposes only):</p>
+<pre><code class="lang-swift">myString.withCodeUnits { codeUnitBuffer in 
+  // Access the contents as a contiguous buffer of `UInt8`
+  // Awesome synergy with the character litarals pitch
+  ...
+}
+
+let str = String(withInitialCapacity: 42) { contentsPtr in 
+  // Initialize the string directly
+  ...
+
+  // Return the actual size we wrote in UTF-8 code units
+  return actualSize
+
+  // (UTF-8 validation is performed by String after closure is finished)
+}
+</code></pre>
+<p>Of course, we need to figure out a strategy for communicating whether some existing String is native or a lazily-bridged NSString that does not provide contiguous UTF-8 contents. There are approaches with various tradeoffs: do the eager bridge, make everything optional, throw, trap, etc. Figuring this out will be the most important part of designing these APIs.</p>
+<h4>Shared Strings</h4>
+<p>The branch also introduces support in the ABI (but currently not exposed in any APIs) for <em>shared strings</em>, which provide contiguous UTF-8 code units through some externally-managed storage. These enable future APIs allowing developers to create a String with shared storage from a [UInt8], Data, ByteBuffer, or Substring without actually copying the contents. Reads would be slightly slower as it will require an extra level of pointer-indirection, but avoiding the copy could be a big win depending on the situation.</p>
+<h2>How You Can Help</h2>
+<p>While we are attacking our known-unknowns (regressions and gaps in the benchmark suite), we would really like to get early feedback on the new String ABI. If you encounter any issues or performance regressions, please <a>let us know</a>.</p>
+<p>Toolchains are available at <a href="https://swift.org/download/#releases" rel="nofollow noopener">https://swift.org/download/#releases</a>, try out a "Trunk Development (master)" toolchain.</p>
+<hr>
+<p>Huge thanks to <a class="mention" href="/u/lorentey">@lorentey</a>, <a class="mention" href="/u/lancep">@lancep</a> , <a class="mention" href="/u/johannesweiss">@johannesweiss</a> , <a class="mention" href="/u/david_smith">@David_Smith</a>, <a class="mention" href="/u/erik_eckstein">@Erik_Eckstein</a>, and <a class="mention" href="/u/scanon">@scanon</a> for helping make this happen!</p>
+<p>edit: Explicitly mentioned that NSStrings are still lazily-bridged in without copy.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:110'>
+      <meta itemprop='interactionCount' content='UserComments:3'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+            <a href="https://forums.swift.org/t/more-representative-string-benchmarks/18793">More Representative String Benchmarks</a>
+            <hr>
+            <a href="https://forums.swift.org/t/se-0241-explicit-encoded-offsets-for-string-indices/19929/23">SE-0241: Explicit Encoded Offsets for String Indices</a>
+            <hr>
+            <a href="https://forums.swift.org/t/pitch-contiguous-strings/21206">Pitch: Contiguous Strings</a>
+            <hr>
+            <a href="https://forums.swift.org/t/se-0247-contiguous-strings/21483/12">SE-0247: Contiguous Strings</a>
+            <hr>
+            <a href="https://forums.swift.org/t/revisiting-the-pointer-conversions/19363/5">Revisiting the pointer conversions</a>
+            <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/tanner0101'><b itemprop='author'>tanner0101</b></a>
+          (Tanner)
+            <time itemprop='datePublished' datetime='2018-11-05T23:50:30Z'>
+              2018-11-05 23:50:30 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#2</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Amazing work on this. I'm super excited to check it out as soon as the toolchains are ready.</p>
+<p>Thanks <a class="mention" href="/u/michael_ilseman">@Michael_Ilseman</a> et al!</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:7'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/ddunbar'><b itemprop='author'>ddunbar</b></a>
+          (Daniel Dunbar)
+            <time itemprop='datePublished' datetime='2018-11-06T00:22:40Z'>
+              2018-11-06 00:22:40 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#3</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Thanks <a class="mention" href="/u/michael_ilseman">@Michael_Ilseman</a> for your amazing work to make this happen!!</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/taylorswift'><b itemprop='author'>taylorswift</b></a>
+          (^)
+            <time itemprop='datePublished' datetime='2018-11-06T00:37:04Z'>
+              2018-11-06 00:37:04 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#4</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group quote-modified" data-post="1" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/michael_ilseman/40/928_1.png" class="avatar"> Michael_Ilseman:</div>
+<blockquote>
+<p>myString.withCodeUnits { codeUnitBuffer in // Access the contents as a contiguous buffer of <code>UInt8</code> // Awesome synergy with the character litarals pitch ... }</p>
+</blockquote>
+</aside>
+<p>Any movement on this? <a href="https://github.com/apple/swift-evolution/pull/939">https://github.com/apple/swift-evolution/pull/939</a></p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Michael_Ilseman'><b itemprop='author'>Michael_Ilseman</b></a>
+          (Michael Ilseman)
+            <meta itemprop='datePublished' content='2018-11-06T00:41:41Z'>
+            <time itemprop='dateModified' datetime='2018-11-06T00:41:59Z'>
+              2018-11-06 00:41:59 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#5</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="4" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/taylorswift/40/1037_1.png" class="avatar"> taylorswift:</div>
+<blockquote>
+<p>Any movement on this? <a href="https://github.com/apple/swift-evolution/pull/939" rel="nofollow noopener">https://github.com/apple/swift-evolution/pull/939 </a></p>
+</blockquote>
+</aside>
+<p>Off topic for this thread. Has it entered review? If you want it scheduled for review, ping a core team member.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Chris_Lattner3'><b itemprop='author'>Chris_Lattner3</b></a>
+          (Chris Lattner)
+            <time itemprop='datePublished' datetime='2018-11-06T00:45:00Z'>
+              2018-11-06 00:45:00 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#6</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Great work <a class="mention" href="/u/michael_ilseman">@Michael_Ilseman</a>, congratulations on landing this!</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:4'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/compnerd'><b itemprop='author'>compnerd</b></a>
+          (Saleem Abdulrasool)
+            <time itemprop='datePublished' datetime='2018-11-06T02:37:50Z'>
+              2018-11-06 02:37:50 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#7</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Congratulations on getting this merged <a class="mention" href="/u/michael_ilseman">@Michael_Ilseman</a>!  It was quite an achievement.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/anandabits'><b itemprop='author'>anandabits</b></a>
+          (Matthew Johnson)
+            <time itemprop='datePublished' datetime='2018-11-06T02:45:45Z'>
+              2018-11-06 02:45:45 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#8</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Very impressive!  It’s exciting to see this land.  Thanks for your hard work <a class="mention" href="/u/michael_ilseman">@Michael_Ilseman</a>!</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/duan'><b itemprop='author'>duan</b></a>
+          (Daniel Duan)
+            <time itemprop='datePublished' datetime='2018-11-06T05:44:36Z'>
+              2018-11-06 05:44:36 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#9</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Frickin amazing. Congratulations Michael.</p>
+<p>I look forward to diving into past projects where I used <code>UTF16View</code> for performance and fix them :)</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/xavier.lowmiller'><b itemprop='author'>xavier.lowmiller</b></a>
+          (Xavier Lowmiller)
+            <time itemprop='datePublished' datetime='2018-11-06T06:39:50Z'>
+              2018-11-06 06:39:50 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#10</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Really looking forward to this landing in Swift 5!</p>
+<p>Will this also benefit regex performance? Swift has some room for improvement in that area: <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/faster/swift.html" rel="nofollow noopener">https://benchmarksgame-team.pages.debian.net/benchmarksgame/faster/swift.html</a> (see <code>regex-redux</code>)</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/SDGGiesbrecht'><b itemprop='author'>SDGGiesbrecht</b></a>
+          (Jeremy David Giesbrecht)
+            <meta itemprop='datePublished' content='2018-11-06T09:00:09Z'>
+            <time itemprop='dateModified' datetime='2018-11-06T09:05:28Z'>
+              2018-11-06 09:05:28 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#11</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Most of this sounds awesome. I do have one concern though:</p>
+<aside class="quote no-group" data-post="1" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/michael_ilseman/40/928_1.png" class="avatar"> Michael_Ilseman:</div>
+<blockquote>
+<p>Check for (or even guaranteeing) NFC-normalized contents upon creation</p>
+</blockquote>
+</aside>
+<p>What does “guaranteeing” mean? Are you thinking of force‐normalizing every <code>String</code> to <strong>NFC</strong>?!?</p>
+<p>Please don’t. I depend on a wrapper structure that enforces <strong>NFD</strong> in order to do reliable and efficient searches for combining scalars.</p>
+<pre><code class="lang-swift">let string = "café"
+let acute = "\u{301}"
+
+let nfd = string.decomposedStringWithCanonicalMapping.unicodeScalars
+print(nfd.firstIndex(of: acute))
+// 4th scalar (→ part of 3rd cluster)
+// (✓: The expected answer.)
+
+let nfc = string.precomposedStringWithCanonicalMapping.unicodeScalars
+print(nfc.firstIndex(of: acute))
+// nil
+// (✗: Illogical side effect of legacy encoding designs.)
+</code></pre>
+<p>If “guarantee” means <code>String</code> becomes locked to NFC, then this sort of thing will become impossible, and I will have to write my own <code>String</code> type from scratch.</p>
+<p>If “guarantee” means <code>String</code> still allows NFD, but is guaranteed to start in NFC when first initialized, then things will still work but it will be inefficient, because composition and decomposition will happen back and forth unnecessarily.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/IanPartridge'><b itemprop='author'>IanPartridge</b></a>
+          (Ian Partridge)
+            <time itemprop='datePublished' datetime='2018-11-06T10:51:29Z'>
+              2018-11-06 10:51:29 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#12</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Congratulations on landing this, <a class="mention" href="/u/michael_ilseman">@Michael_Ilseman</a> - it's an amazing achievement.  I am keen to bench various Kitura workloads against these changes.  Do you have a Linux toolchain available or should I wait for one to appear on <a href="http://swift.org" rel="nofollow noopener">swift.org</a>?  Thanks.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/dimpiax'><b itemprop='author'>dimpiax</b></a>
+          (Dmytro Pylypenko)
+            <time itemprop='datePublished' datetime='2018-11-06T12:32:05Z'>
+              2018-11-06 12:32:05 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#13</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Great improvement! Thanks for your work!</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Michael_Ilseman'><b itemprop='author'>Michael_Ilseman</b></a>
+          (Michael Ilseman)
+            <meta itemprop='datePublished' content='2018-11-06T16:40:07Z'>
+            <time itemprop='dateModified' datetime='2018-11-06T16:42:38Z'>
+              2018-11-06 16:42:38 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#14</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="11" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/sdggiesbrecht/40/4768_1.png" class="avatar"> SDGGiesbrecht:</div>
+<blockquote>
+<p>What does “guaranteeing” mean? Are you thinking of force‐normalizing every <code>String</code> to <strong>NFC</strong> ?!?</p>
+</blockquote>
+</aside>
+<p>No, this will not be a 100%-case guarantee. ABI stability (and lazily bridged NSString on Darwin platforms) dictates that String will always need to handle non-NFC-normalized contents. String has <a href="https://github.com/apple/swift/blob/e272ece309ce710c8d778ce691ddc17a8ec0e653/stdlib/public/core/StringObject.swift#L851" rel="nofollow noopener">a performance flag</a> that can be set when the contents are known to be NFC. If the bit is not set, the standard library has to treat the contents as non-NFC. ABI stability means that all future versions of the standard library have to handle strings with and without that bit set.</p>
+<p>The performance goal is to find more ways to set that bit when we want performant comparison, but your example code won't break. There will always be ways of creating a String with a "leave my bits alone!" option. Whether that is the default, an explicit option, new or repurposed initializers, or it varies by use case, it's totally open to future change.</p>
+<p>edit: grammar</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:8'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+            <a href="https://forums.swift.org/t/hassuffix/19699/14">.hasSuffix</a>
+            <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/SDGGiesbrecht'><b itemprop='author'>SDGGiesbrecht</b></a>
+          (Jeremy David Giesbrecht)
+            <time itemprop='datePublished' datetime='2018-11-06T16:44:02Z'>
+              2018-11-06 16:44:02 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#15</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Thanks for answering. Sounds good.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/dabrahams'><b itemprop='author'>dabrahams</b></a>
+          (Dave Abrahams)
+            <time itemprop='datePublished' datetime='2018-11-11T01:29:54Z'>
+              2018-11-11 01:29:54 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#16</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="1" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/michael_ilseman/40/928_1.png" class="avatar"> Michael_Ilseman:</div>
+<blockquote>
+<p>But, this isn’t really an issue: on modern CPUs this increase in encoding complexity is more than offset by the decrease in model complexity by having a unified storage representation.</p>
+<p>Walking the Unicode scalar values forwards on Chinese text is now over 3x faster than before and walking in reverse (harder) is now over 2x faster. ASCII benefits even more, despite the old model having a dedicated storage representation and fast paths for ASCII-only strings.</p>
+</blockquote>
+</aside>
+<p>This is really exciting, but can you explain where the speedups come from?  I wrote both the decoders, and they haven't changed AFAICS. The inherent complexity of decoding UTF-8 always made it measurably slower than decoding ASCII or UTF16.  The cost of branching on the representation doesn't seem like it should show up in a test of the speed of walking scalar values on Chinese text.</p>
+<p>Also, with regard to NSString bridging; is it lazy even for strings that could be represented in 15 utf-8 code units?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Michael_Ilseman'><b itemprop='author'>Michael_Ilseman</b></a>
+          (Michael Ilseman)
+            <time itemprop='datePublished' datetime='2018-11-12T01:20:04Z'>
+              2018-11-12 01:20:04 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#17</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote group-core-team" data-post="16" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/dabrahams/40/2207_1.png" class="avatar"> dabrahams:</div>
+<blockquote>
+<p>This is really exciting, but can you explain where the speedups come from? I wrote both the decoders, and they haven't changed AFAICS. The inherent complexity of decoding UTF-8 always made it measurably slower than decoding ASCII or UTF16. The cost of branching on the representation doesn't seem like it should show up in a test of the speed of walking scalar values on Chinese text.</p>
+</blockquote>
+</aside>
+<p>Yes, they are still unchanged.</p>
+<p>As I mentioned above, this is the result of many small but compounding simplifications to the model, whose net effect is greater than the cost of decoding a scalar from UTF-8 on modern CPUs. Some, but definitely not all, of them could have been retrofitted on the old model, but they would not have had the same degree of payoff and/or introduced even more performance issues and complexity.</p>
+<p>A big one is simply that what was 2 different backing storage representations and behavior inlined into user code is now just one. Under a 2-word String like we have in Swift 4.1 and later, String APIs handling lazily-bridged Cocoa strings (in general) will involve uninlinable function calls to compute their result. With UTF-8 native Strings, we no longer have two paths inlined into call sites with out-of-lines calls to facilitate Cocoa strings. We just have the UTF-8 path in-line and one call to out-of-line support for (non-ASCII) Cocoa strings, since they cannot be fully inlined anyways.</p>
+<p>These effects are greater than the cost of just a branch on read and also allow for more optimizable code (no heroic guessing at intractable problems).</p>
+<aside class="quote group-core-team" data-post="16" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/dabrahams/40/2207_1.png" class="avatar"> dabrahams:</div>
+<blockquote>
+<p>Also, with regard to NSString bridging; is it lazy even for strings that could be represented in 15 utf-8 code units?</p>
+</blockquote>
+</aside>
+<p>The strategy is unchanged from 4.2 where only ASCII small strings exist: only tagged-pointer NSStrings are eagerly bridged.</p>
+<p>Any arbitrary subclass of NSString can carry important associated information with it besides its contents (e.g. localized strings), so eagerly bridging them in would lose that information. Also, there would be performance issues with creating an object when ping-ponging between ObjC and Swift. But, tagged pointer NSStrings have the advantage of just being values indistinguishable from their contents, and there are no object allocations when ping-ponging between ObjC and Swift.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:6'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Karl'><b itemprop='author'>Karl</b></a>
+          (❌)
+            <meta itemprop='datePublished' content='2018-11-12T11:48:39Z'>
+            <time itemprop='dateModified' datetime='2018-11-12T12:03:23Z'>
+              2018-11-12 12:03:23 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#18</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Wow, this is amazing. Much better than I ever hoped for.</p>
+<ul>
+<li>
+<p>Switching to UTF8 is great; it's the typical transmission and persistence encoding. Avoiding those transcoding overheads and awkward index translations will be great, and makes it more practical to read files and network pipes directly in to String buffers or to have them share storage.</p>
+</li>
+<li>
+<p>The shared string stuff sounds like magic. I love it. I remember the pitch that Swift was aiming to be as fast (if not faster) than C - and, IMO, an important part of that is to make it as close to zero-cost as possible to layer a convenient, unicode-safe text API on top of some memory. I think this is going to let us do that.</p>
+</li>
+<li>
+<p>Creating a String which shares storage with a Substring sounds interesting, since Substring is itself a kind-of workaround to have 2 Strings which share storage. What if slicing a String produced a borrowed String? Would mean we don't have to make everything generic on StringProtocol.</p>
+</li>
+<li>
+<p>I'm interested how much overhead we need to pay for this "breadcrumb" system. Even if it is created lazily, <code>NSString</code> doesn't have an ObjC API which doesn't assume UTF16 code units, so even trivial user code which could be made encoding-agnostic with a more opaque indexing/range API will still face an impedance mismatch. ObjC Foundation is under Apple's control - so would you consider adding that?</p>
+</li>
+<li>
+<p>I have one small nit before String's API/ABI is finalised: we need a mutating version of this function which returns the number of matches:</p>
+<pre><code class="lang-swift">public func replacingOccurrences&lt;Target, Replacement&gt;(of target: Target, with replacement: Replacement, options: String.CompareOptions = default, range searchRange: Range&lt;Self.Index&gt;? = default) -&gt; String
+  where Target : StringProtocol, Replacement : StringProtocol
+</code></pre>
+<p>Currently you have to go through <code>NSMutableString</code> and back, and I'm guessing that will get more costly if transcoding is involved when bridging. It looks like a simple oversight.</p>
+</li>
+</ul>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:2'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/benrimmington'><b itemprop='author'>benrimmington</b></a>
+          (Ben Rimmington)
+            <time itemprop='datePublished' datetime='2018-11-12T15:59:23Z'>
+              2018-11-12 15:59:23 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#19</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="17" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/michael_ilseman/40/928_1.png" class="avatar"> Michael_Ilseman:</div>
+<blockquote>
+<p>The strategy is unchanged from 4.2 where only ASCII small strings exist: only tagged-pointer NSStrings are eagerly bridged.</p>
+</blockquote>
+</aside>
+<p>Can tagged pointers have <a href="https://developer.apple.com/documentation/objectivec/1418509-objc_setassociatedobject">associated values</a>, and if so, does the bridging preserve them?</p>
+<p>For example, some of the <a href="https://developer.apple.com/documentation/uikit/accessibility">accessibility</a> APIs can be used with any object, including <code>NSString</code> instances.</p>
+<pre><code class="lang-swift">import Foundation
+import ObjectiveC
+import UIKit
+
+// Create a tagged pointer.
+let str = NSString(string: "str")
+object_getClass(str) //-&gt; __C.NSTaggedPointerString.Type
+
+// Insert an associated value.
+str.accessibilityHint = "hint"
+assert(str.accessibilityHint == "hint")
+
+// Remove all associated values.
+objc_removeAssociatedObjects(str)
+assert(str.accessibilityHint == nil)
+</code></pre>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Michael_Ilseman'><b itemprop='author'>Michael_Ilseman</b></a>
+          (Michael Ilseman)
+            <meta itemprop='datePublished' content='2018-11-16T18:01:18Z'>
+            <time itemprop='dateModified' datetime='2018-11-16T18:14:21Z'>
+              2018-11-16 18:14:21 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#20</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="18" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/karl/40/476_1.png" class="avatar"> Karl:</div>
+<blockquote>
+<p>Creating a String which shares storage with a Substring sounds interesting, since Substring is itself a kind-of workaround to have 2 Strings which share storage. What if slicing a String produced a borrowed String? Would mean we don't have to make everything generic on StringProtocol.</p>
+</blockquote>
+</aside>
+<p>Currently, we could (not necessarily arguing we should) add an API like:</p>
+<pre><code class="lang-swift">mySubstring.withSharedString { str: String in
+  ... call some API that requires String
+  ... I don't care about persisting the entire string if it's copied
+}
+</code></pre>
+<p>You would pay for an object allocation (and ARC) for shared storage, but avoid paying for copying the contents themselves, in exchange for the shared storage potentially persisting the whole string allocation. In general, this potential to persist the whole string is a huge risk, but there are obviously circumstances where it is worth it or the risk is minimal.</p>
+<p>I think where ownership could come in would be trying to avoid the cost of the object allocation and ARC on the shared storage String. For example, if you could reason about the lifetime or escapability, then the shared-string object could be stack-allocated (and effectively-immortal) for the closure. Or, you could imagine something analogous to <code>withoutActuallyEscaping</code> that would stack allocate and trap on escape.</p>
+<p>Since we probably won't have anything like lifetime variables in our type system, I don't think we'd have the means to change slicing to produce a borrowed String. We can of course add subscript overloads that have different behavior, e.g. <code>myString = str[copying: a..&lt;b]</code>, <code>myString = str[sharing: a..&lt;b]</code>, etc.</p>
+<aside class="quote no-group" data-post="18" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/karl/40/476_1.png" class="avatar"> Karl:</div>
+<blockquote>
+<p>I'm interested how much overhead we need to pay for this "breadcrumb" system. Even if it is created lazily, <code>NSString</code> doesn't have an ObjC API which doesn't assume UTF16 code units, so even trivial user code which could be made encoding-agnostic with a more opaque indexing/range API will still face an impedance mismatch. ObjC Foundation is under Apple's control - so would you consider adding that?</p>
+</blockquote>
+</aside>
+<p>Sorry, I got lost in the double negatives and I'm not sure what the question is. Yes, NSString APIs are heavy on assumed random-access to UTF-16 contents. For strings of a sufficient size that are bridged out and then operated on with these APIs, they will have to populate these breadcrumbs. Note that NSString does have properties such as <code>utf8String</code> and other ways of asking for contents in their current encoding. <a class="mention" href="/u/david_smith">@David_Smith</a> can speak further on those details and how String can answer these.</p>
+<p>Beyond that, I can't really speculate on future APIs outside of the standard library.</p>
+<aside class="quote no-group" data-post="18" data-topic="17676">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/karl/40/476_1.png" class="avatar"> Karl:</div>
+<blockquote>
+<p>I have one small nit before String's API/ABI is finalised: we need a mutating version of this function which returns the number of matches:</p>
+<pre><code class="lang-swift">public func replacingOccurrences&lt;Target, Replacement&gt;(of target: Target, with replacement: Replacement, options: String.CompareOptions = default, range searchRange: Range&lt;Self.Index&gt;? = default) -&gt; String
+  where Target : StringProtocol, Replacement : StringProtocol
+</code></pre>
+<p>Currently you have to go through <code>NSMutableString</code> and back, and I'm guessing that will get more costly if transcoding is involved when bridging. It looks like a simple oversight.</p>
+</blockquote>
+</aside>
+<p>Right, this is from the Foundation overlay and operates on NSString (on Darwin platforms). I think it's clear that the standard library should provide simple find/replace operations on <code>BidirectionalCollection</code> and subsume this functionality (this will be part of an ergonomics push after ABI stability settles a bit).</p>
+<p>As for transcoding overhead, that would only be when a native non-ASCII String becomes a NSMutableString. Since the vast majority of our contents for native Swift strings start out as UTF-8, you could view this as deferring the transcoding until absolutely necessary. The situations where this is necessary is becoming more rare over time.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='String’s ABI and UTF-8'>
+      <hr>
+  </div>
+
+  <div role='navigation' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+      <span itemprop='name'><b><a rel="next" itemprop="url" href="/t/string-s-abi-and-utf-8/17676?page=2">next page →</a></b></span>
+  </div>
+
+
+
+
+
+    </div>
+    <footer class="container">
+      <nav class='crawler-nav' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <a href='/'>Home</a>
+        <a href="/categories">Categories</a>
+        <a href="/guidelines">FAQ/Guidelines</a>
+        <a href="/tos">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+      </nav>
+      <p class='powered-by-link'>Powered by <a href="https://www.discourse.org">Discourse</a>, best viewed with JavaScript enabled</p>
+    </footer>
+    
+  </body>
+  
+</html>

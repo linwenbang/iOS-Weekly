@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>@dynamicCallable Part 2: Swift/ObjC Bridge – The Always Right Institute – Almost always sometimes definitely right.</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="In December we demonstrated how to use the new Swift 5
+Dynamic Callable
+feature to 
+run Unix commands as Swift functions,
+like shell.ls().
+Today we implement our very own Swift / Objective-C bridge using the same!
+
+" />
+    <meta property="og:description" content="In December we demonstrated how to use the new Swift 5
+Dynamic Callable
+feature to 
+run Unix commands as Swift functions,
+like shell.ls().
+Today we implement our very own Swift / Objective-C bridge using the same!
+
+" />
+    
+    <meta name="author" content="The Always Right Institute" />
+
+    
+    <meta property="og:title" content="@dynamicCallable Part 2: Swift/ObjC Bridge" />
+    <meta property="twitter:title" content="@dynamicCallable Part 2: Swift/ObjC Bridge" />
+    
+
+    
+    <meta property="article:tag" content="swift" />
+    
+    <meta property="article:tag" content="objectivec" />
+    
+    <meta property="article:tag" content="objc" />
+    
+    <meta property="article:tag" content="bridge" />
+    
+    <meta property="article:tag" content="runtime" />
+    
+    <meta property="article:tag" content="dynamicCallable" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="The Always Right Institute - Almost always sometimes definitely right." href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://pbs.twimg.com/profile_images/639743704429785088/S3ABe3uX.png" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">The Always Right Institute</a></h1>
+            <p class="site-description">Almost always sometimes definitely right.</p>
+          </div>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>@dynamicCallable Part 2: Swift/ObjC Bridge</h1>
+
+  <div class="entry">
+    <p>In December we demonstrated how to use the new Swift 5
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>
+feature to 
+<a href="http://www.alwaysrightinstitute.com/swift-dynamic-callable/">run Unix commands as Swift functions</a>,
+like <code class="highlighter-rouge">shell.ls()</code>.
+Today we implement our very own Swift / Objective-C bridge using the same!</p>
+
+<p>Of course Swift already has Objective-C integrated on the Apple platforms,
+directly supported by the compiler, as well as the associated
+bridging runtime.
+<br />
+Yet using 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>
+you can actually build something similar at the library level,
+and we want to show you how that would look like.</p>
+
+<blockquote>
+  <p>Swift also runs on Linux, but it doesn’t come with the
+Objective-C runtime and bridging features.
+Using the approach shown here with either
+<a href="https://github.com/AlwaysRightInstitute/libFoundation">libFoundation</a>
+or
+<a href="http://gnustep.org">GNUstep</a>
+you could also combine Swift and Objective-C on Linux.</p>
+</blockquote>
+
+<p>This is what we want to end up with:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ma</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSMutableArray</span><span class="p">()</span>
+<span class="n">ma</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+  <span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"World"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"Array:"</span><span class="p">,</span> <span class="n">ma</span><span class="o">.</span><span class="nf">description</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>Again inspired by the 🐍: This is very similar how Python/Objective-C
+bridges like <a href="https://pythonhosted.org/pyobjc/">PyObjC</a> or NGPython work
+(how Python is able to access Objective-C objects and message them).</p>
+
+<p><strong>For demonstration purposes only</strong>: 
+This is just a demo showing what you can do with 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">@dynamicCallable</a>,
+nothing more!
+(<em>we also cheat a few times and silently rely on builtin bridging.</em>)</p>
+
+<p>You can follow along, or you can go ahead and grab 
+<a href="https://github.com/AlwaysRightInstitute/SwiftObjCBridge"><code class="highlighter-rouge">SwiftObjCBridge</code></a>
+from GitHub.
+We recommend to read Part 1 first:
+<a href="http://www.alwaysrightinstitute.com/swift-dynamic-callable/">Unix Tools as Swift Functions</a>
+to get the basics, though not strictly required.</p>
+
+<p><strong>Important</strong>: Remember that you need to have Swift 5 via 
+<a href="https://developer.apple.com/xcode/">Xcode 10.2</a>.</p>
+
+<h2 id="1-looking-up-objective-c-classes">1. Looking up Objective-C Classes</h2>
+
+<p>The first thing we want to do is expose Objective-C classes to Swift. Like
+this:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">anObjCArray</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSArray</span>
+</code></pre></div></div>
+
+<p>To accomplish that, we create two things:</p>
+<ul>
+  <li>a Swift struct which represents the class on the Swift side</li>
+  <li>a global trampoline struct, which uses 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">Dynamic Member Lookup</a>
+to lookup the class</li>
+</ul>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@dynamicMemberLookup</span>
+<span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ObjCRuntime</span> <span class="p">{</span>
+  
+  <span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Class</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">handle</span> <span class="p">:</span> <span class="kt">AnyClass</span><span class="p">?</span>
+  <span class="p">}</span>
+  
+  <span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="n">dynamicMember</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Class</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Class</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="nf">objc_lookUpClass</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+  <span class="p">}</span>  
+<span class="p">}</span>
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">ObjC</span> <span class="o">=</span> <span class="kt">ObjCRuntime</span><span class="p">()</span> <span class="c1">// global</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSUserDefaults</span><span class="p">)</span>
+<span class="c1">// Class(handle: Optional(NSUserDefaults))</span>
+</code></pre></div></div>
+
+<p>This
+<a href="https://developer.apple.com/documentation/objectivec/1418760-objc_lookupclass"><code class="highlighter-rouge">objc_lookUpClass</code></a>
+function (a regular C API from the Objective-C runtime library)
+returns a pointer representing the Objective-C class.
+Which we just wrap in our <code class="highlighter-rouge">Class</code> Swift struct.<br />
+We then create a single global instance (<code class="highlighter-rouge">ObjC</code>),
+representing our Objective-C bridge.
+Due to the magic of 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">Dynamic Member Lookup</a>
+we can now just type <code class="highlighter-rouge">ObjC.Anything</code> and receive our struct wrapping
+the class runtime handle.</p>
+
+<blockquote>
+  <p>Since the Darwin Swift compiler knows about ObjC, it represents the 
+handle directly as <code class="highlighter-rouge">AnyClass</code>.
+On Linux, we would use the GNU ObjC runtime C structure, i.e.
+<a href="https://code.woboq.org/gcc/libobjc/objc-private/module-abi-8.h.html#objc_class">struct objc_class *</a>
+aka <code class="highlighter-rouge">Class</code>.</p>
+</blockquote>
+
+<p>That wasn’t very exciting, but we can already grab handles to Objective-C 
+classes using something which looks like plain Swift: <code class="highlighter-rouge">ObjC.NSWorkspace</code>.</p>
+
+<h2 id="2-sending-messages-to-objective-c">2. Sending Messages to Objective-C</h2>
+
+<p>In Objective-C, to invoke a method, you <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithObjects/WorkingwithObjects.html#//apple_ref/doc/uid/TP40011210-CH4-SW1">send a <em>message</em></a>
+to an Objective-C object. 
+A message is a combination of a so called selector (like <code class="highlighter-rouge">addObject:</code>) and an 
+optional list of arguments.<br />
+The neat thing is that all Objective-C classes are also
+Objective-C (factory) objects!
+For example to allocate a new <code class="highlighter-rouge">NSMutableArray</code> instance, you would do this:</p>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">id</span> <span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">];</span>
+</code></pre></div></div>
+<p>and we want to do the same using our bridge:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">array</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSMutableArray</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>This is a little more work. What we need to do is:</p>
+<ul>
+  <li>we need a Swift struct representing an Objective-C object on the Swift side</li>
+  <li>again use 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">Dynamic Member Lookup</a>
+to return an object representing the <code class="highlighter-rouge">alloc</code> message send:
+the <code class="highlighter-rouge">NSMutableArray.alloc</code> part</li>
+  <li>use 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>
+to invoke the message on the object:
+the <code class="highlighter-rouge">()</code> part.</li>
+</ul>
+
+<blockquote>
+  <p>From an Objective-C perspective this is a little weird, because
+the messaging operation usually does both in a single step: 
+method lookup and method invocation
+(in fact in Objective-C there doesn’t even have to be a method backing the
+ selector, the object can dynamically decide how to react to messages,
+ e.g. invoke a shell command instead 🤓).<br />
+As the name <code class="highlighter-rouge">@dynamicCallable</code> suggests, Swift follows the Python <em>Callables</em> 
+model which distinguishes between lookup and call.</p>
+</blockquote>
+
+<p>Let us add the struct representing an arbitrary Objective-C object (including 
+classes!), and one which represents the selector invocation:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@dynamicMemberLookup</span>
+<span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ObjCRuntime</span> <span class="p">{</span>
+  
+  <span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Callable</span> <span class="p">{</span> <span class="c1">// `object.doIt`</span>
+    <span class="k">let</span> <span class="nv">instance</span> <span class="p">:</span> <span class="kt">Object</span>
+    <span class="k">let</span> <span class="nv">baseName</span> <span class="p">:</span> <span class="kt">String</span>
+  <span class="p">}</span>
+  
+  <span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Object</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">handle</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?</span>
+  <span class="p">}</span>
+  
+  <span class="kd">@dynamicMemberLookup</span>
+  <span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Class</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">handle</span> <span class="p">:</span> <span class="kt">AnyClass</span><span class="p">?</span>
+    
+    <span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="n">dynamicMember</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Callable</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kt">Callable</span><span class="p">(</span><span class="nv">instance</span><span class="p">:</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">handle</span><span class="p">),</span>
+                      <span class="nv">baseName</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="n">dynamicMember</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Class</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Class</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="nf">objc_lookUpClass</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">call</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="n">alloc</span> <span class="c1">// &lt;= No () yet!</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"Callable:"</span><span class="p">,</span> <span class="n">call</span><span class="p">)</span>
+<span class="c1">// Callable: Callable(instance: </span>
+<span class="c1">//   X.ObjCRuntime.Object(handle: Optional(NSUserDefaults)), </span>
+<span class="c1">//                        baseName: "alloc")</span>
+</code></pre></div></div>
+
+<p>So what is happening here: To refresh <code class="highlighter-rouge">@dynamicMember</code> knoff-hoff from 
+<a href="http://www.alwaysrightinstitute.com/swift-dynamic-callable/">Unix Tools in Swift</a>,
+the compiler translates the
+<code class="highlighter-rouge">ObjC.NSUserDefaults.alloc</code>
+into:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">ObjC</span><span class="p">[</span><span class="nv">dynamicMember</span><span class="p">:</span> <span class="s">"NSUserDefaults"</span><span class="p">]</span> <span class="c1">// yields our `Class`</span>
+    <span class="p">[</span><span class="nv">dynamicMember</span><span class="p">:</span> <span class="s">"alloc"</span><span class="p">]</span>          <span class="c1">// yields our `Callable`</span>
+</code></pre></div></div>
+
+<p>Notice that when we do <code class="highlighter-rouge">NSUserDefaults.alloc</code>, we turn the class handle into a
+regular <code class="highlighter-rouge">Object</code> handle (because a class is also a regular object):
+<code class="highlighter-rouge">Object(handle: self.handle)</code>.</p>
+
+<p>Finally to actually <em>invoke</em> the <code class="highlighter-rouge">alloc</code> method 
+(to allocate a NSUserDefaults instance), 
+we need to implement <code class="highlighter-rouge">@dynamicCallable</code> on our <code class="highlighter-rouge">Callable</code> struct:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">@dynamicCallable</span>         <span class="c1">// &lt;===</span>
+  <span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Callable</span> <span class="p">{</span> <span class="c1">// `object.doIt`</span>
+    <span class="k">let</span> <span class="nv">instance</span> <span class="p">:</span> <span class="kt">Object</span>
+    <span class="k">let</span> <span class="nv">baseName</span> <span class="p">:</span> <span class="kt">String</span>
+    
+    <span class="kd">@discardableResult</span>
+    <span class="kd">func</span> <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="n">withKeywordArguments</span> <span class="nv">arguments</span><span class="p">:</span> <span class="kt">Args</span><span class="p">)</span>
+         <span class="o">-&gt;</span> <span class="kt">Object</span>
+    <span class="p">{</span>
+      <span class="k">guard</span> <span class="k">let</span> <span class="nv">target</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">handle</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="n">instance</span> <span class="p">}</span>
+      <span class="k">let</span> <span class="nv">stringSelector</span> <span class="o">=</span> <span class="n">baseName</span>
+      <span class="k">let</span> <span class="nv">selector</span> <span class="o">=</span> <span class="nf">sel_getUid</span><span class="p">(</span><span class="n">stringSelector</span><span class="p">)</span>
+	  
+      <span class="k">guard</span> <span class="k">let</span> <span class="nv">isa</span> <span class="o">=</span> <span class="nf">object_getClass</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+            <span class="k">let</span> <span class="nv">m</span> <span class="o">=</span> <span class="nf">class_getMethodImplementation</span><span class="p">(</span><span class="n">isa</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+      <span class="p">}</span>
+      <span class="kd">typealias</span> <span class="kt">M0</span> <span class="o">=</span> <span class="kd">@convention(c)</span> 
+	  	<span class="p">(</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="kt">Selector</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="p">?</span>
+      <span class="k">let</span> <span class="nv">typedMethod</span> <span class="o">=</span> <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">M0</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+      <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">typedMethod</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="n">result</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">ud</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span> <span class="c1">// &lt;= Now with () !</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"instance:"</span><span class="p">,</span> <span class="n">ud</span><span class="p">)</span>
+<span class="c1">// instance: Object(handle: </span>
+<span class="c1">//   Optional(&lt;NSUserDefaults: 0x103510930&gt;))</span>
+</code></pre></div></div>
+<p>Yay! We got an object allocated at address <code class="highlighter-rouge">0x103510930</code>!
+To refresh what the compiler does when he sees <code class="highlighter-rouge">ObjC.NSUserDefaults.alloc()</code>:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">ObjC</span><span class="p">[</span><span class="nv">dynamicMember</span><span class="p">:</span> <span class="s">"NSUserDefaults"</span><span class="p">]</span> <span class="c1">// yields our `Class`</span>
+    <span class="p">[</span><span class="nv">dynamicMember</span><span class="p">:</span> <span class="s">"alloc"</span><span class="p">]</span>          <span class="c1">// yields our `Callable`</span>
+    <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="nv">withKeywordArguments</span><span class="p">:</span> <span class="p">[])</span>
+</code></pre></div></div>
+
+<p>Let’s step through the <code class="highlighter-rouge">dynamicallyCall(withKeywordArguments:)</code>:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">target</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">handle</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="n">instance</span> <span class="p">}</span>
+</code></pre></div></div>
+<p>This is to support <em>nil messaging</em>. A message sent to <code class="highlighter-rouge">nil</code> just yields <code class="highlighter-rouge">nil</code>,
+it doesn’t crash or anything. The instance we return already is <code class="highlighter-rouge">nil</code>.
+If we wouldn’t do this, we would have to use Swift optional chaining, like:
+<code class="highlighter-rouge">ObjC.NSUserDefaults?.alloc?()</code>.</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">stringSelector</span> <span class="o">=</span> <span class="n">baseName</span> <span class="c1">// 'alloc'</span>
+<span class="k">let</span> <span class="nv">selector</span> <span class="o">=</span> <span class="nf">sel_getUid</span><span class="p">(</span><span class="n">stringSelector</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We turn the “alloc” string into a proper Objective-C runtime selector using
+the
+<a href="https://developer.apple.com/documentation/objectivec/1418625-sel_getuid"><code class="highlighter-rouge">sel_getUid</code></a> 
+C function.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">isa</span> <span class="o">=</span> <span class="nf">object_getClass</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+      <span class="k">let</span> <span class="nv">m</span> <span class="o">=</span> <span class="nf">class_getMethodImplementation</span><span class="p">(</span><span class="n">isa</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Getting the class (the <code class="highlighter-rouge">isa</code>) of the Objective-C object
+using
+<a href="https://developer.apple.com/documentation/objectivec/1418629-object_getclass?preferredLanguage=occ"><code class="highlighter-rouge">object_getClass</code></a>.</p>
+
+<blockquote>
+  <p>Remember: The object we are working is itself a class object!, 
+so we are retrieving the class of the class aka the 
+<a href="https://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html">“meta class”</a>.</p>
+</blockquote>
+
+<p>Then the method is looked up in the class using
+<a href="https://developer.apple.com/documentation/objectivec/1418811-class_getmethodimplementation"><code class="highlighter-rouge">class_getMethodImplementation</code></a>,
+which returns a pointer to the method implementation.</p>
+
+<p>What is this pointer?
+Objective-C methods are implemented as kinda regular C functions. The method
+arguments and return types are reflected in the “C” generated by the compiler.
+In addition to that, all methods receive two extra arguments:
+<code class="highlighter-rouge">self</code> and <code class="highlighter-rouge">_cmd</code>. <code class="highlighter-rouge">self</code> should be self explanatory, and <code class="highlighter-rouge">_cmd</code> is the
+message selector that was used to invoke the function (<code class="highlighter-rouge">alloc</code> in our case).
+<br />
+In short, our <code class="highlighter-rouge">+alloc</code> method looks kinda like this in plain C:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">id</span> <span class="nf">NSObject_alloc</span><span class="p">(</span><span class="n">id</span> <span class="n">self</span><span class="p">,</span> <span class="n">SEL</span> <span class="n">_cmd</span><span class="p">)</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<p>It takes no arguments on the Objective-C side, and returns an object pointer.
+To invoke it from Swift, we need to cast the OpaquePointer (<code class="highlighter-rouge">IMP</code>) we got 
+from 
+<a href="https://developer.apple.com/documentation/objectivec/1418811-class_getmethodimplementation"><code class="highlighter-rouge">class_getMethodImplementation</code></a>
+to a Swift function:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">M0</span> <span class="o">=</span> <span class="kd">@convention(c)</span> 
+  <span class="p">(</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="kt">Selector</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UnsafeRawPointer</span><span class="p">?</span>
+<span class="k">let</span> <span class="nv">typedMethod</span> <span class="o">=</span> <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">M0</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We can then just call the method as a Swift function:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">typedMethod</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span>
+<span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+<p>And we return the result back, wrapped in our <code class="highlighter-rouge">Object</code> struct.
+Phew. Quite some things to understand, but it works 🤓
+The techniques are the same used for
+<a href="https://nshipster.com/method-swizzling/">method swizzling</a>.</p>
+
+<blockquote>
+  <p>The attentive reader might wonder about
+<a href="https://en.wikipedia.org/wiki/Automatic_Reference_Counting">ARC</a>.
+Stay tuned!</p>
+</blockquote>
+
+<p>Hurray. We can now send unary messages to class objects and thereby allocate new
+Objective-C instances:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ud</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="3-sending-messages-to-instances">3. Sending Messages to Instances</h2>
+
+<p>Now that we have an allocated instance, we’d like to send messages to it!
+That is trivial to add based on our <code class="highlighter-rouge">Class</code> implementation,
+just add the same 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">Dynamic Member Lookup</a>
+to the <code class="highlighter-rouge">Object</code> struct:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@dynamicMemberLookup</span>
+<span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Object</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">handle</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?</span>
+  <span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="n">dynamicMember</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Callable</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Callable</span><span class="p">(</span><span class="nv">instance</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span>
+                    <span class="nv">baseName</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Try it:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ud</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">domains</span> <span class="o">=</span> <span class="n">ud</span><span class="o">.</span><span class="nf">volatileDomainNames</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"domains:"</span><span class="p">,</span> <span class="n">domains</span><span class="p">)</span>
+<span class="c1">// domains: Object(handle: Optional(&lt;__NSArrayI 0x100f11010&gt;(</span>
+<span class="c1">//   NSRegistrationDomain, NSArgumentDomain)))</span>
+</code></pre></div></div>
+
+<p>Works!</p>
+
+<h2 id="4-sending-messages-with-arguments">4. Sending Messages with Arguments</h2>
+
+<p>All this lets us invoke unary methods, that is, methods w/o any arguments.
+Next thing to fix. We want to do this:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ma</span>  <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSArray</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span><span class="o">.</span><span class="err">`</span><span class="kd">init</span><span class="err">`</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">ma2</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="nf">arrayByAddingObject</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>With our current bridge, you’ll get the typical
+<code class="highlighter-rouge">unrecognized selector sent to instance</code>
+exception. Why? Because we just send a message with no arguments and with the
+<code class="highlighter-rouge">arrayByAddingObject</code> selector to the mutable array.
+But the selector we want to send is <code class="highlighter-rouge">arrayByAddingObject:</code>, notice the colon
+signaling the argument.</p>
+
+<p>For this we need to go back to our <code class="highlighter-rouge">dynamicallyCall</code> implementation. Right now
+we map the selector like this:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">stringSelector</span> <span class="o">=</span> <span class="n">baseName</span>
+</code></pre></div></div>
+
+<p>For <code class="highlighter-rouge">object.doThis(with: "blah", and: "blub")</code> we always just
+send <code class="highlighter-rouge">doThis</code> (the <code class="highlighter-rouge">baseName</code>) instead of the required <code class="highlighter-rouge">doThis:with:and:</code>.
+The other components of the selector need to be derived from the
+<code class="highlighter-rouge">arguments</code> argument of the <code class="highlighter-rouge">dynamicallyCall</code>. Like so:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">stringSelector</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="nf">reduce</span><span class="p">(</span><span class="n">baseName</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$0</span> <span class="o">+</span> <span class="nv">$1</span><span class="o">.</span><span class="n">key</span> <span class="o">+</span> <span class="s">":"</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In addition we need to add additional C function signatures for methods
+with arguments. Lets do it for the variant with one argument, here is the
+whole thing:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@discardableResult</span>
+<span class="kd">func</span> <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="n">withKeywordArguments</span> <span class="nv">arguments</span><span class="p">:</span> <span class="kt">Args</span><span class="p">)</span>
+     <span class="o">-&gt;</span> <span class="kt">Object</span>
+<span class="p">{</span>
+  <span class="k">guard</span> <span class="k">let</span> <span class="nv">target</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">handle</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="n">instance</span> <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">stringSelector</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="nf">reduce</span><span class="p">(</span><span class="n">baseName</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$0</span> <span class="o">+</span> <span class="nv">$1</span><span class="o">.</span><span class="n">key</span> <span class="o">+</span> <span class="s">":"</span>
+  <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">selector</span> <span class="o">=</span> <span class="nf">sel_getUid</span><span class="p">(</span><span class="n">stringSelector</span><span class="p">)</span>
+  
+  <span class="k">guard</span> <span class="k">let</span> <span class="nv">isa</span> <span class="o">=</span> <span class="nf">object_getClass</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+        <span class="k">let</span> <span class="nv">m</span> <span class="o">=</span> <span class="nf">class_getMethodImplementation</span><span class="p">(</span><span class="n">isa</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="kd">typealias</span> <span class="kt">M0</span> <span class="o">=</span> <span class="kd">@convention(c)</span>
+    <span class="p">(</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="kt">Selector</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="p">?</span>
+  <span class="kd">typealias</span> <span class="kt">M1</span> <span class="o">=</span> <span class="kd">@convention(c)</span>
+    <span class="p">(</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="kt">Selector</span><span class="p">,</span> <span class="kt">AnyObject</span><span class="p">?</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="p">?</span>
+  
+  <span class="k">switch</span> <span class="n">arguments</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">let</span> <span class="nv">typedMethod</span> <span class="o">=</span> <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">M0</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+      <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">typedMethod</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">let</span> <span class="nv">typedMethod</span> <span class="o">=</span> <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">M1</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+      <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nf">typedMethod</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span>
+                               <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">as</span> <span class="kt">AnyObject</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">default</span><span class="p">:</span>
+      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"can't do that count yet!"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>All the argument mapping and ptr casting is necessary because we need to
+dynamically produce a proper C ABI function call.
+To be able to call any combination of C base types (instead of just
+sending messages whose arguments are itself objects),
+you’d usually use a FFI library, like
+<a href="http://sourceware.org/libffi/">libffi</a>.</p>
+</blockquote>
+
+<p>Does it run? Yes it does!</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ma</span>  <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSArray</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span><span class="o">.</span><span class="err">`</span><span class="kd">init</span><span class="err">`</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">ma2</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="nf">arrayByAddingObject</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"★:"</span><span class="p">,</span> <span class="n">ma2</span><span class="p">)</span>
+<span class="c1">// ★: Object(handle: Optional(&lt;__NSSingleObjectArrayI 0x103600380&gt;(</span>
+<span class="c1">//  Hello)))</span>
+</code></pre></div></div>
+
+<p>BTW: we have to backtick <code class="highlighter-rouge">init</code>, so that we can use it as a regular Swift
+identifier (otherwise Swift considers it a Swift initializer).</p>
+
+<h2 id="5-fixing-void-results">5. Fixing Void Results</h2>
+
+<p>You may have wondered that <code class="highlighter-rouge">arrayByAddingObject:</code> instead of <code class="highlighter-rouge">addObject:</code> 
+was used to demo the thing. That had a reason 😜<br />
+Our signatures deal with methods returning object values, but <code class="highlighter-rouge">addObject:</code>
+is a <code class="highlighter-rouge">Void</code> method. If we invoke it, we crash, because ARC will attempt to
+release the non-existing result.</p>
+
+<p>First we need to figure out the return type using the
+<a href="https://developer.apple.com/documentation/objectivec/1418591-method_getreturntype">method_getReturnType</a>
+function:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">buf</span> <span class="o">=</span> <span class="p">[</span> <span class="kt">Int8</span> <span class="p">](</span><span class="nv">repeating</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">46</span><span class="p">)</span>
+<span class="nf">method_getReturnType</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="n">buf</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">returnType</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">cString</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">)</span>
+</code></pre></div></div>
+<p>The returnType will be <code class="highlighter-rouge">"@"</code> for an object, <code class="highlighter-rouge">"v"</code> for Void, <code class="highlighter-rouge">"i"</code> for integer,
+etc.
+(checkout <a href="https://developer.apple.com/documentation/foundation/nsmethodsignature">NSMethodSignature</a>, which is not available in Swift).<br />
+For <code class="highlighter-rouge">-(void)addObject:(id)</code> we would get a <code class="highlighter-rouge">"v"</code> and we know that we need to
+hide the result from ARC.
+To support that, the “result” handling needs to be adjusted a little.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@discardableResult</span>
+<span class="kd">func</span> <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="n">withKeywordArguments</span> <span class="nv">arguments</span><span class="p">:</span> <span class="kt">Args</span><span class="p">)</span>
+     <span class="o">-&gt;</span> <span class="kt">Object</span>
+<span class="p">{</span>
+  <span class="o">...</span>
+  <span class="k">guard</span> <span class="k">let</span> <span class="nv">isa</span> <span class="o">=</span> <span class="nf">object_getClass</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+        <span class="k">let</span> <span class="nv">i</span> <span class="o">=</span> <span class="nf">class_getInstanceMethod</span><span class="p">(</span><span class="n">isa</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">m</span> <span class="o">=</span> <span class="nf">method_getImplementation</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+  <span class="k">var</span> <span class="nv">buf</span> <span class="o">=</span> <span class="p">[</span> <span class="kt">Int8</span> <span class="p">](</span><span class="nv">repeating</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">46</span><span class="p">)</span>
+  <span class="nf">method_getReturnType</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span> <span class="n">buf</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+  <span class="k">let</span> <span class="nv">returnType</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">cString</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">)</span>
+
+  <span class="kd">typealias</span> <span class="kt">M0</span> <span class="o">=</span> <span class="kd">@convention(c)</span>
+    <span class="p">(</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="kt">Selector</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UnsafeRawPointer</span><span class="p">?</span>
+  <span class="kd">typealias</span> <span class="kt">M1</span> <span class="o">=</span> <span class="kd">@convention(c)</span>
+    <span class="p">(</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="kt">Selector</span><span class="p">,</span> <span class="kt">AnyObject</span><span class="p">?</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UnsafeRawPointer</span><span class="p">?</span>
+  
+  <span class="k">let</span> <span class="nv">result</span> <span class="p">:</span> <span class="kt">UnsafeRawPointer</span><span class="p">?</span>
+  <span class="k">switch</span> <span class="n">arguments</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">let</span> <span class="nv">typedMethod</span> <span class="o">=</span> <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">M0</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="nf">typedMethod</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span>
+    <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">let</span> <span class="nv">typedMethod</span> <span class="o">=</span> <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">M1</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="nf">typedMethod</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">selector</span><span class="p">,</span>
+                           <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">as</span> <span class="kt">AnyObject</span><span class="p">)</span>
+    <span class="k">default</span><span class="p">:</span>
+      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"can't do that count yet!"</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="k">if</span> <span class="n">returnType</span> <span class="o">==</span> <span class="s">"@"</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> 
+      <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?</span><span class="o">.</span><span class="k">self</span><span class="p">))</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">self</span><span class="o">.</span><span class="n">instance</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Runs:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">mm</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSMutableArray</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span><span class="o">.</span><span class="err">`</span><span class="kd">init</span><span class="err">`</span><span class="p">()</span>
+<span class="n">mm</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"★★:"</span><span class="p">,</span> <span class="n">mm</span><span class="p">)</span>
+<span class="c1">// ★★: Object(handle: Optional(&lt;__NSArrayM 0x103b09740&gt;(</span>
+<span class="c1">//   Hello)))</span>
+</code></pre></div></div>
+
+<p>Notice the fallback “<code class="highlighter-rouge">return self.instance</code>”? That allows us to cascade void
+messages,
+which is not possible in Objective-C
+(but in <a href="http://swifter-lang.org">Swifter</a>):</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ma</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"1"</span><span class="p">)</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"2"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="6-fixing-arc-retain-counts">6. Fixing ARC Retain Counts</h2>
+
+<p>Very nice already. But ARC is actually still not quite right. As you can see
+we are just casting the raw pointer to an ARC Swift object:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">returnType</span> <span class="o">==</span> <span class="s">"@"</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> 
+    <span class="nf">unsafeBitCast</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?</span><span class="o">.</span><span class="k">self</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>The only reason that this doesn’t crash right away is because all methods
+we called so far either return a retained object (<code class="highlighter-rouge">+alloc</code>, <code class="highlighter-rouge">-init</code>),
+or an <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html">autoreleased</a> 
+object (<code class="highlighter-rouge">+arrayByAddingObject</code>), w/o an autorelease pool.</p>
+
+<p>ARC is a relatively new technology for (Apple) Objective-C. With ARC
+the compiler knows the reference counts of the objects,
+and <strong>A</strong>utomatically increases/decreases the <strong>R</strong>eference <strong>C</strong>ounts.
+However, in pre-ARC Objective-C, it was the developers choice whether a method
+returned retained objects (one which needs to be released) or
+autoreleased objects (one which doesn’t need to be released manually).<br />
+To workaround this, ARC ties a 
+<a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html#semantics-of-method-families">convention</a> 
+to the selector. Selectors beginning
+with:</p>
+<ul>
+  <li>new, alloc, copy, mutableCopy, init</li>
+</ul>
+
+<p>return a retained object. All other selectors return autoreleased objects.
+Since we dynamically call our method, we need to check this convention:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">shouldReleaseResult</span><span class="p">(</span><span class="n">of</span> <span class="nv">selector</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">selector</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"alloc"</span><span class="p">)</span>
+      <span class="o">||</span> <span class="n">selector</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"init"</span><span class="p">)</span>
+      <span class="o">||</span> <span class="n">selector</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"new"</span><span class="p">)</span>
+      <span class="o">||</span> <span class="n">selector</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"copy"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once we have that, we can produce a proper <code class="highlighter-rouge">AnyObject</code> reference instead of
+bitcasting the raw pointer:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">returnType</span> <span class="o">==</span> <span class="s">"@"</span> <span class="p">{</span>
+  <span class="k">guard</span> <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">result</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">let</span> <span class="nv">p</span> <span class="o">=</span> <span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">AnyObject</span><span class="o">&gt;.</span><span class="nf">fromOpaque</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nf">shouldReleaseResult</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">stringSelector</span><span class="p">)</span>
+       <span class="p">?</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="nf">takeRetainedValue</span><span class="p">())</span>
+       <span class="p">:</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="nf">takeUnretainedValue</span><span class="p">())</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>First we check for <code class="highlighter-rouge">nil</code>. If it is not, we create an
+<a href="https://developer.apple.com/documentation/swift/unmanaged">Unmanaged</a>
+reference from the pointer. And subsequently grab the 
+object reference with the proper ARC retain count.</p>
+
+<h2 id="7-making-classes-callable">7. Making Classes Callable</h2>
+
+<p>A final convenience. To create objects we do this Objective-C flow:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ma</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSMutableArray</span><span class="o">.</span><span class="nf">alloc</span><span class="p">()</span><span class="o">.</span><span class="err">`</span><span class="kd">init</span><span class="err">`</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Not nice, we want:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ma</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSMutableArray</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Remember that <code class="highlighter-rouge">ObjC.NSMutableArray</code> returns us our <code class="highlighter-rouge">Class</code> struct.
+So all we need to do is make that 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">@dynamicCallable</a>!
+(in addition to <code class="highlighter-rouge">@dynamicMemberLookup</code>, i.e. they work together just fine):</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@dynamicCallable</span>
+<span class="kd">@dynamicMemberLookup</span>
+<span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Class</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">handle</span> <span class="p">:</span> <span class="kt">AnyClass</span><span class="p">?</span>
+  
+  <span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="n">dynamicMember</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Callable</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Callable</span><span class="p">(</span><span class="nv">instance</span><span class="p">:</span> <span class="kt">Object</span><span class="p">(</span><span class="nv">handle</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">handle</span><span class="p">),</span>
+                    <span class="nv">baseName</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="kd">@discardableResult</span>
+  <span class="kd">func</span> <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="n">withKeywordArguments</span> <span class="nv">args</span><span class="p">:</span> <span class="kt">Args</span><span class="p">)</span>
+       <span class="o">-&gt;</span> <span class="kt">Object</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="k">self</span>
+      <span class="o">.</span><span class="nf">alloc</span><span class="p">()</span>
+      <span class="o">.</span><span class="err">`</span><span class="kd">init</span><span class="err">`</span>
+      <span class="o">.</span><span class="nf">dynamicallyCall</span><span class="p">(</span><span class="nv">withKeywordArguments</span><span class="p">:</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Notice how we use <code class="highlighter-rouge">@dynamicMemberLookup</code>s and the <code class="highlighter-rouge">@dynamicCallable</code>
+<em>within</em> our own implementation (to find &amp; call alloc and to find init).
+Also note that we don’t call <code class="highlighter-rouge">init()</code> but pass along the arguments
+we got!<br />
+Makes this thing happen: <code class="highlighter-rouge">NSMutableArray(WithContentsOfURL:)</code> (calling
+<code class="highlighter-rouge">initWithContentsOfURL:</code>).</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">ms</span> <span class="o">=</span> <span class="kt">ObjC</span><span class="o">.</span><span class="kt">NSMutableArray</span><span class="p">()</span>
+<span class="n">ms</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"Happy"</span><span class="p">)</span>
+<span class="n">ms</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="s">"Birthday"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"★★★:"</span><span class="p">,</span> <span class="n">ms</span><span class="p">)</span>
+<span class="c1">// ★★★: Object(handle: Optional(&lt;__NSArrayM 0x1032022c0&gt;(</span>
+<span class="c1">//   Happy,Birthday)))</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<p>You can find the “finished” bridge over here:
+<a href="https://github.com/AlwaysRightInstitute/SwiftObjCBridge/blob/master/Sources/SwiftObjCBridge/SwiftObjCBridge.swift">SwiftObjCBridge.swift</a>.
+It even comes with tests! ⛑</p>
+
+<p><strong>Again</strong>:
+For demonstration purposes only: 
+This is just a demo showing what you can do with @dynamicCallable, nothing more!</p>
+
+<p>The code didn’t have any <a href="https://github.com/AlwaysRightInstitute/cows">cows</a>,
+so let’s at least have this one: 🐄</p>
+
+<h3 id="links">Links</h3>
+
+<ul>
+  <li><a href="http://www.alwaysrightinstitute.com/swift-dynamic-callable/">@dynamicCallable: Unix Tools as Swift Functions</a></li>
+  <li><a href="http://www.alwaysrightinstitute.com/mustachable/">@dynamicCallable Part 3: Mustacheable</a>,</li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">SE-0195 Dynamic Member Lookup</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">SE-0216 Dynamic Callable</a></li>
+</ul>
+
+  </div>
+
+  <div class="date">
+    Written on January 30, 2019
+  </div>
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:wrong@alwaysrightinstitute.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/AlwaysRightInstitute"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/ar_institute"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+
+  </body>
+</html>

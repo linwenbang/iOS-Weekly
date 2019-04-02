@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Swift.org - Swift 4.2 Released!</title>
+  <meta name="author" content="Apple Inc." />
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <link rel="license" href="/LICENSE.txt" />
+  <link rel="stylesheet" media="all" href="/assets/stylesheets/application.css" />
+  <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+  <link rel="mask-icon" href="/assets/images/icon-swift.svg" color="#F05339" />
+  
+
+  
+  <link rel="canonical" href="https://swift.org/blog/swift-4-2-released/" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@SwiftLang" />
+  
+  <meta name="twitter:title" content="Swift 4.2 Released!" />
+  <meta name="twitter:description" content="Swift 4.2 is now officially released!  Swift 4.2 builds on the strengths of Swift 4, delivering faster compile times, improving the debugging experience, updating the standard library, and converging on binary compatibility.
+
+" />
+  
+
+  <meta property="og:site_name" content="Swift.org" />
+  <meta property="og:image" content="https://swift.org/touch-icon-ipad-180x180.png" />
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Swift 4.2 Released!" />
+  <meta property="og:url" content="https://swift.org/blog/swift-4-2-released/" />
+  <meta property="og:description" content="Swift 4.2 is now officially released!  Swift 4.2 builds on the strengths of Swift 4, delivering faster compile times, improving the debugging experience, updating the standard library, and converging on binary compatibility.
+
+" />
+  <meta property="article:published_time" content="2018-09-17T03:00:00-07:00" />
+  <meta property="article:modified_time" content="2019-04-02T09:54:08-07:00" />
+  
+</head>
+
+<body>
+
+<nav role="navigation">
+  <header role="banner">
+    <h1 id="logo">
+      <a href="/" title="Swift.org" role="img" aria-label="Swift.org">
+        Swift.org
+      </a>
+    </h1>
+  </header>
+
+  <div id="menu-toggle" class="menu-toggle open"></div>
+
+  <ul>
+    
+    
+    <li>
+    
+      <a href="/about/">About Swift</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/blog/">Blog</a>
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/download/">Download</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/getting-started/">Getting Started</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/documentation/">Documentation</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/source-code/">Source Code</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/community/">Community</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/contributing/">Contributing</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/continuous-integration/">Continuous Integration</a>
+      
+    </li>
+
+    
+    
+    <li>
+    
+      <a href="/source-compatibility/">Source Compatibility</a>
+      
+    </li>
+  </ul>
+
+
+    <h2>Focus Areas</h2>
+    <ul>
+      
+      
+      <li>
+      
+        <a href="/gsoc2019/">GSoC 2019</a>
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/server/">Server Work Group</a>
+      </li>
+    </ul>
+
+  <h2>Projects</h2>
+  <ul>
+      
+      
+      <li>
+      
+        <a href="/compiler-stdlib/">Compiler and Standard Library</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/package-manager/">Package Manager</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/core-libraries/">Core Libraries</a>
+        
+      </li>
+
+      
+      
+      <li>
+      
+        <a href="/lldb/">REPL, Debugger &amp; Playgrounds</a>
+        
+      </li>
+
+  </ul>
+</nav>
+
+
+<main role="main">
+<article class="post">
+  <header>
+    <h1>Swift 4.2 Released!</h1>
+
+    <time pubdate datetime="2018-09-17T03:00:00-07:00">September 17, 2018</time>
+    
+    
+    
+      <div class="byline">
+        
+          <img src="https://s.gravatar.com/avatar/b6520643611a05fd040d0abcee3c883c?s=64" alt="Ted Kremenek"/>
+        
+
+        <span class="author">
+          
+            <a href="https://github.com/tkremenek/" rel="nofollow" title="Ted Kremenek (@tkremenek) on GitHub">Ted Kremenek</a>
+          
+        </span>
+      </div>
+    
+    
+  </header>
+
+  <p>Swift 4.2 is now officially released!  Swift 4.2 builds on the strengths of Swift 4, delivering faster compile times, improving the debugging experience, updating the standard library, and converging on binary compatibility.</p>
+
+<p>You can watch a quick overview of it by watching the <a href="https://developer.apple.com/videos/play/wwdc2018/401/">WWDC 2018: What’s New in Swift</a> presentation, and try out some of the new features in this <a href="https://oleb.net/blog/2018/06/whats-new-in-swift-4-2-playground/">playground</a> put together by Ole Begemann.</p>
+
+<h3 id="language-updates">Language updates</h3>
+
+<p>Swift 4.2 is a major language release and contains the following language changes and updates that went through the Swift Evolution process:</p>
+
+<h4 id="generics-improvements">Generics improvements</h4>
+
+<p>With the completion of conditional conformance support, Swift 4.2 makes significant progress in implementing the vision of generics in the language.  Better support for generics ultimately reduces the amount of boilerplate needed in your code and make more of your code reusable.  To learn more about conditional conformance, see more at:</p>
+
+<ul>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0143-conditional-conformances.md">SE-0143 Conditional conformances</a></li>
+</ul>
+
+<p>Watch the <a href="https://developer.apple.com/videos/play/wwdc2018/406/">Swift Generics</a> WWDC 2018 presentation for more details.</p>
+
+<h4 id="standard-library-updates">Standard Library updates</h4>
+
+<p>The standard library in Swift 4.2 includes a number of new features, including improvements to the Hashable protocol as well as a new unified set of randomization functions and protocols.</p>
+
+<p>See more at:</p>
+
+<ul>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0197-remove-where.md">SE-0197 Adding in-place removeAll(where:) to the Standard Library</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0199-bool-toggle.md">SE-0199 Adding toggle to Bool</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0202-random-unification.md">SE-0202 Random Unification</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0204-add-last-methods.md">SE-0204 Add last(where:) and lastIndex(where:) Methods</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0206-hashable-enhancements.md">SE-0206 Hashable Enhancements</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0207-containsOnly.md">SE-0207 Add an allSatisfy algorithm to Sequence</a></li>
+</ul>
+
+<h4 id="binary-compatibility">Binary compatibility</h4>
+
+<p>Swift 4.2 brings the language closer towards a stabilized ABI, enabling binary compatibility for future releases of Swift.  Visit the <a href="https://swift.org/abi-stability/">ABI Dashboard</a> for more details on the current progress of this effort.</p>
+
+<h4 id="additional-language-and-compiler-updates">Additional language and compiler updates</h4>
+
+<p>Swift 4.2 includes a number of improvements that have a noticable impact on developer experience, including:</p>
+
+<ul>
+  <li>Support for batch mode compilation resulting in faster build times</li>
+  <li>Change in calling convention for retain/release cycle to reduce code size and improve runtime performance</li>
+  <li>Lazier SIL deserialization with -Onone</li>
+  <li>Recursive metadata support</li>
+  <li>More compact reflection metadata</li>
+  <li>Default arguments are inlined at call sites</li>
+  <li>Some long-standing bug fixes, including init declname, switch with multiple case labels per block, inheritance of generic initializers, and more</li>
+</ul>
+
+<p>Swift 4.2 also implements the following language proposals from the Swift Evolution process:</p>
+
+<ul>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md">SE-0054 Abolish ImplicitlyUnwrappedOptional type</a>.  Read even more details about the reimplementation <a href="https://swift.org/blog/iuo/">here</a>.</li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0079-upgrade-self-from-weak-to-strong.md">SE-0079 Allow using optional binding to upgrade self from a weak to strong reference</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0193-cross-module-inlining-and-specialization.md">SE-0193 Cross-module inlining and specialization</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0194-derived-collection-of-enum-cases.md">SE-0194 Derived Collection of Enum Cases</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">SE-0195 Introduce User-defined “Dynamic Member Lookup” Types</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0196-diagnostic-directives.md">SE-0196 Compiler Diagnostic Directives</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0205-withUnsafePointer-for-lets.md">SE-0205 withUnsafePointer(to:_:) and withUnsafeBytes(of:_:) for immutable values</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0210-key-path-offset.md">SE-0210 Add an offset(of:) method to MemoryLayout</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0212-compiler-version-directive.md">SE-0212 Compiler Version Directive</a></li>
+</ul>
+
+<h3 id="package-manager-updates">Package Manager Updates</h3>
+
+<p>Swift 4.2 introduces new features for the Swift Package Manager:</p>
+
+<ul>
+  <li>
+    <p><strong>Support for batch mode.</strong> Swift targets will be now compiled using the Swift compiler’s batch mode.</p>
+  </li>
+  <li>
+    <p><strong>Automatic Xcode project generation.</strong> The generate-xcodeproj has a new –watch option to watch the file system and automatically regenerate the Xcode project if needed. This uses the watchman tool to watch the required files.</p>
+  </li>
+  <li>
+    <p><strong>Improved scheme generation logic.</strong> The scheme generation logic is improved and generates schemes as follows:</p>
+    <ul>
+      <li>One scheme containing all regular and test targets of the root package.</li>
+      <li>One scheme per executable target containing the test targets whose dependencies intersect with the dependencies of the executable target.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Swift 4.2 also implements the following Package Manager proposals from the Swift Evolution process:</p>
+
+<ul>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0201-package-manager-local-dependencies.md">SE-0201 Package Manager Local Dependencies</a>. SwiftPM now supports declaring dependency on a package using its path on disk instead of the git URL. This requires updating the package’s tools version to 4.2.</li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0208-package-manager-system-library-targets.md">SE-0208 Package Manager System Library Targets</a>. The PackageDescription API in tools version 4.2 supports a new type of target “system library target”, which moves the current system-module packages feature from package to target level.</li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0209-package-manager-swift-lang-version-update.md">SE-0209 Package Manager Swift Language Version API Update</a>. <code class="highlighter-rouge">swiftLanguageVersions</code> property in PackageDescription manifest API for tools version 4.2 is changed from an array of Integers to an array of SwiftVersion enum.</li>
+</ul>
+
+<h3 id="migrating-to-swift-42">Migrating to Swift 4.2</h3>
+
+<p>Swift 4.2 is source compatible with Swift 4, Swift 4.1 and Swift 3.  Swift 4.2 will be the last release to provide source compatibility with Swift 3.</p>
+
+<p>To help with moving to Swift 4.2 from earlier releases of Swift, Apple’s Xcode 10 contains a code migrator that can automatically handle many of the needed source changes. There is also a <a href="https://swift.org/migration-guide-swift4.2">migration guide</a> available to guide you through many of the changes — especially through the ones that are less mechanical and require more direct scrutiny.</p>
+
+<h3 id="documentation">Documentation</h3>
+
+<p>An updated version of <a href="https://docs.swift.org/swift-book/">The Swift Programming Language</a> for Swift 4.2 is now available on Swift.org. It is also available for free on the <a href="https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11">Apple Books store</a>.</p>
+
+<h3 id="platforms">Platforms</h3>
+
+<h4 id="linux">Linux</h4>
+
+<p>Official binaries for Ubuntu 18.04, Ubuntu 16.04 and Ubuntu 14.04 are
+<a href="https://swift.org/download/">available for download</a>.</p>
+
+<h4 id="apple-xcode">Apple (Xcode)</h4>
+
+<p>For development on Apple’s platforms, Swift 4.2 ships as part of <a href="https://itunes.apple.com/app/xcode/id497799835">Xcode 10</a>.</p>
+
+<p>A toolchain is also <a href="https://swift.org/download/">available for download</a> from Swift.org.</p>
+
+<h3 id="sources">Sources</h3>
+
+<p>Development on Swift 4.2 was tracked in the swift-4.2-branch on the following repositories on GitHub:</p>
+
+<ul>
+  <li><a href="https://github.com/apple/swift">swift</a></li>
+  <li><a href="https://github.com/apple/swift-llvm">swift-llvm</a></li>
+  <li><a href="https://github.com/apple/swift-clang">swift-clang</a></li>
+  <li><a href="https://github.com/apple/swift-lldb">swift-lldb</a></li>
+  <li><a href="https://github.com/apple/swift-cmark">swift-cmark</a></li>
+  <li><a href="https://github.com/apple/swift-corelibs-foundation">swift-corelibs-foundation</a></li>
+  <li><a href="https://github.com/apple/swift-corelibs-libdispatch">swift-corelibs-libdispatch</a></li>
+  <li><a href="https://github.com/apple/swift-corelibs-xctest">swift-corelibs-xctest</a></li>
+  <li><a href="https://github.com/apple/swift-llbuild">swift-llbuild</a></li>
+  <li><a href="https://github.com/apple/swift-package-manager">swift-package-manager</a></li>
+  <li><a href="https://github.com/apple/swift-xcode-playground-support">swift-xcode-playground-support</a></li>
+  <li><a href="https://github.com/apple/swift-compiler-rt">swift-compiler-rt</a></li>
+  <li><a href="https://github.com/apple/swift-integration-tests">swift-integration-tests</a></li>
+</ul>
+
+<p>The tag <code class="highlighter-rouge">swift-4.2-RELEASE</code> designates the specific revisions in those repositories that make up the final version of Swift 4.2.</p>
+
+<p>The <code class="highlighter-rouge">swift-4.2-branch</code> will remain open, but under the same release management process, to accumulate changes for a potential future bug-fix “dot” release.</p>
+
+
+
+  
+  <footer>
+    <nav>
+      
+      <a href="/blog/related-projects/" rel="prev" title="Previous: Introducing Related Projects to Swift Forums">Introducing Related Projects to Swift Forums</a>
+      
+
+      
+      <a href="/blog/5-0-release-process/" rel="next" title="Next: Swift 5.0 Release Process">Swift 5.0 Release Process</a>
+      
+    </nav>
+  </footer>
+  
+</article>
+</main>
+
+<footer role="contentinfo">
+  <aside>
+    <a href="/atom.xml" title="Subscribe to Site Updates"><i class="feed"></i></a>
+    <a href="https://twitter.com/swiftlang" rel="nofollow" title="Follow @SwiftLang on Twitter"><i class="twitter"></i></a>
+  </aside>
+
+  <p>Except where otherwise noted, all content on this blog is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International license</a>.</p>
+  
+  
+  <p class="copyright">Copyright © 2019 Apple Inc. All rights reserved.</p>
+  <p class="trademark">Swift and the Swift logo are trademarks of Apple Inc.</p>
+    <p class="privacy">
+    <a href="//www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="//www.apple.com/legal/privacy/en-ww/cookies/">Cookies</a>
+  </p>
+</footer>
+
+
+<script src="/assets/javascripts/application.js"></script>
+<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdswiftorg"
+</script>   
+<script src="https://developer.apple.com/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->
+</body>
+</html>

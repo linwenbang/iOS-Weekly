@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>It’s wrappers all the way down – Ole Begemann</title>
+  <link href="/stylesheets/stylesheet-82c59095.css" rel="stylesheet" />
+  <link rel="alternate" type="application/atom+xml" href="/blog/atom.xml">
+  <link rel="index" title="Ole Begemann" href="/">
+    <meta name="description" content="Swift 4.2 comes with a <code>lastIndex(of:)</code> method. I explore how one might implement this method manually and why this is a good exercise to understand the standard library’s collection design." />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script src="/js/jquery-2.2.4/jquery.min-69bb69e2.js"></script>
+  <script src="/js/bigfoot-2.1.4/bigfoot.min-d33e8719.js"></script>
+  <script type="text/javascript">
+    var bigfoot = $.bigfoot(
+    {
+      positionContent: true,
+      actionOriginalFN: "ignore",
+      numberResetSelector: ".article-content",
+    });
+  </script>
+  <script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  (function() {
+    var u="//s.oleb.net/p/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+  <script type="text/javascript">
+    function loadFonts(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var style = document.createElement('style');
+          style.innerHTML = xhr.responseText;
+          document.head.appendChild(style);
+        }
+      };
+      xhr.send();
+    }
+    var url = "/stylesheets/fonts-1cfeca82.css";
+    loadFonts(url);
+  </script>
+</head>
+
+
+  <body class="article">
+    <header>
+  <div class="header-bar">
+    <div class="site-id">
+      <h1><a href="/">Ole Begemann</a></h1>
+    </div>
+
+    <ol class="links">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/blog/">Articles</a>
+      </li>
+      <li>
+        <a href="/advanced-swift/">Book</a>
+      </li>
+      <li>
+        <a href="/about/">About</a>
+      </li>
+    </ol>
+  </div>
+</header>
+
+
+    <main class="content-container">
+      <article>
+        <header>
+          <h1>It’s wrappers all the way down</h1>
+        </header>
+
+        <footer>
+          <div class="metadata">
+              <p class="author">
+                By Ole Begemann
+                <span class="author-info" style="display: none;"><a href="#fn:_" rel="footnote">…</a></span>
+                <script type="text/javascript">
+                  $(".author-info").css("display", "initial");
+                </script>
+              </p>
+                <!-- Contents of author info popover. Should be hidden in CSS -->
+                <ol class="author-footnotes">
+                  <li class="footnote" id="fn:_">
+                    <p>Twitter: <a href='https://twitter.com/olebegemann'>@olebegemann</a><br>Email: <a href='mailto:ole@oleb.net'>ole@oleb.net</a><br><a href='/about/'>More about me</a></p>
+                  </li>
+                </ol>
+
+              <p>
+                <span class="date"><time datetime="2018-09-25T18:09:06Z">September 25, 2018</time></span>
+              </p>
+
+          </div>
+
+        </footer>
+
+        <div class="article-content">
+          <p>Suppose we have a string that ends in a specific pattern, like this one:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="k">let</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"abc,def,…[many fields]…,1234"</span>
+</code></pre></div>
+<p>We want to extract the last field, i.e. the <a href="https://developer.apple.com/documentation/swift/substring">substring</a> <em>after the last comma</em>, i.e. <code>"1234"</code>.</p>
+
+<h1 id="splitting-the-entire-string">Splitting the entire string</h1>
+
+<p>One solution might be to split the string at every comma and take the last element of the resulting array:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="k">if</span> <span class="k">let</span> <span class="nv">lastField</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">","</span><span class="p">)</span><span class="o">.</span><span class="n">last</span> <span class="p">{</span>
+    <span class="c1">// lastField is "1234" ✅</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>But this is quite wasteful if the string is potentially very long.</p>
+
+<h1 id="finding-the-index-of-the-last-comma">Finding the index of the last comma</h1>
+
+<p>It would be more efficient to find the index of last comma in the string and then take a substring from there to the end. It makes sense to start the search from the back, not only for performance reasons (assume the last field is known to be short), but also because the first portion of the string may contain commas we’re not interested in.</p>
+
+<h1 id="lastindexof"><code>lastIndex(of:)</code></h1>
+
+<p>Solving this task is trivial in Swift 4.2, thanks to the new <a href="https://developer.apple.com/documentation/swift/bidirectionalcollection/2994840-lastindex"><code>last​Index​(of:)</code></a> method, introduced with <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0204-add-last-methods.md">Swift Evolution proposal SE-0204</a>:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="k">if</span> <span class="k">let</span> <span class="nv">lastCommaIndex</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="nf">lastIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">","</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">lastField</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="n">lastCommaIndex</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">dropFirst</span><span class="p">()</span>
+    <span class="c1">// → "1234" ✅</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Note the call to <a href="https://developer.apple.com/documentation/swift/sequence/1641008-dropfirst"><code>dropFirst</code></a>. The substring <code>str[lastCommaIndex...]</code> includes the comma.</p>
+
+<h1 id="manual-implementation">Manual implementation</h1>
+
+<p>But let’s assume for a minute that <code>lastIndex(of:)</code> isn’t available to us. We could write a loop to accomplish the task, manually traversing through the string (from the back) until we find a match.</p>
+
+<p>Let’s wrap the algorithm in an extension on <a href="https://developer.apple.com/documentation/swift/string"><code>String</code></a> to make it reusable:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">lastIndex1</span><span class="p">(</span><span class="n">of</span> <span class="nv">char</span><span class="p">:</span> <span class="kt">Character</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">.</span><span class="kt">Index</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">cursor</span> <span class="o">=</span> <span class="n">endIndex</span>
+        <span class="k">while</span> <span class="n">cursor</span> <span class="o">&gt;</span> <span class="n">startIndex</span> <span class="p">{</span>
+            <span class="nf">formIndex</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">cursor</span><span class="p">)</span>
+            <span class="k">if</span> <span class="k">self</span><span class="p">[</span><span class="n">cursor</span><span class="p">]</span> <span class="o">==</span> <span class="n">char</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">cursor</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This code is essentially the same as <a href="https://github.com/apple/swift/blob/be8849978a8761c766d35e8517d0bff422d2511d/stdlib/public/core/CollectionAlgorithms.swift#L184-L196">the standard library’s implementation for <code>last​Index​(of:)</code></a>, if not quite as generic (the standard library version is implemented on <a href="https://developer.apple.com/documentation/swift/bidirectionalcollection"><code>Bidirectional​Collection</code></a>). And it does the job:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="k">if</span> <span class="k">let</span> <span class="nv">lastCommaIndex</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="nf">lastIndex1</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">","</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">lastField</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="n">lastCommaIndex</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">dropFirst</span><span class="p">()</span>
+    <span class="c1">// → "1234" ✅</span>
+<span class="p">}</span>
+</code></pre></div>
+<h1 id="by-composing-reversed-and-firstindexof">By composing <code>reversed</code> and <code>firstIndex(of:)</code></h1>
+
+<p>This is all well and good, but there’s another way to solve this task, and it’s what I want to talk about in this article — not because it’s a particularly practical example, but because I believe it can teach a lot about the design of the Swift standard library.</p>
+
+<p>We could also implement our own version of <code>last​Index​(of:)</code> by composing other <a href="https://developer.apple.com/documentation/swift/collection"><code>Collection</code></a> APIs as follows:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">lastIndex2</span><span class="p">(</span><span class="n">of</span> <span class="nv">char</span><span class="p">:</span> <span class="kt">Character</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">.</span><span class="kt">Index</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">reversedIndex</span> <span class="o">=</span> <span class="nf">reversed</span><span class="p">()</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">char</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">nil</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nf">index</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="n">reversedIndex</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>It may not be immediately apparent why this works, so let’s go through it step by step. The <code>guard</code> statement reverses the string before looking up the index of the search character:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">reversedIndex</span> <span class="o">=</span> <span class="nf">reversed</span><span class="p">()</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">char</span><span class="p">)</span>
+</code></pre></div>
+<p>Reversing the string makes intuitive sense because we want to search it from the back, but it raises two questions:</p>
+
+<ol>
+  <li>
+    <p>Isn’t reversing the whole string expensive?</p>
+  </li>
+  <li>
+    <p>What can we do with an index into the reversed string? Is there a way to turn it back into an index for the original string?</p>
+  </li>
+</ol>
+
+<h2 id="isnt-reversing-the-whole-string-expensive">1. Isn’t reversing the whole string expensive?</h2>
+
+<p>Answer: no, because <a href="https://developer.apple.com/documentation/swift/bidirectionalcollection/1782128-reversed"><code>reversed</code></a> is implemented <a href="https://en.wikipedia.org/wiki/Lazy_evaluation"><em>lazily</em></a>. The <code>reversed</code> method doesn’t perform any work. <a href="https://github.com/apple/swift/blob/01644d5854023cb00bd191a0bc813fdf6f5f9470/stdlib/public/core/Reverse.swift#L292-L294">All it does</a> is wrap its input in a <code>Reversed​Collection</code> value:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">BidirectionalCollection</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">reversed2</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">ReversedCollection2</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">ReversedCollection2</span><span class="p">(</span><span class="nv">base</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>(The code I show here and in the following is my own reimplementation of <code>ReversedCollection</code>. I named it <code>Reversed​Collection2</code> to avoid conflicts with the standard library type, but both implementations are more or less the same.)</p>
+
+<p>At its most basic, <code>Reversed​Collection</code> is a simple generic wrapper for any <code>Bidirectional​Collection</code>:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ReversedCollection2</span><span class="o">&lt;</span><span class="kt">Base</span><span class="p">:</span> <span class="kt">BidirectionalCollection</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">base</span><span class="p">:</span> <span class="kt">Base</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Even if the input string is many megabytes long, calling <code>reversed()</code> on it is effectively free because <a href="https://developer.apple.com/documentation/swift/string"><code>String</code></a> uses <a href="https://en.wikipedia.org/wiki/Copy-on-write">copy-on-write</a>. The actual string data isn’t copied until one of the copies is mutated.</p>
+
+<h3 id="conforming-to-collection">Conforming to <code>Collection</code></h3>
+
+<p>Next, the code calls <a href="https://developer.apple.com/documentation/swift/collection/2995095-firstindex"><code>first​Index​(of:)</code></a><sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> on the <code>Reversed​Collection</code>. <code>first​Index​(of:)</code> is part of the <a href="https://developer.apple.com/documentation/swift/collection"><code>Collection</code></a> protocol, so <code>Reversed​Collection</code> must conform to <code>Collection</code>. Let’s walk through a reimplementation of this conformance.</p>
+
+<h4 id="index-type">Index type</h4>
+
+<p>Every <code>Collection</code> must have an <a href="https://developer.apple.com/documentation/swift/collection/2943866-index">index type</a>. For <code>Reversed​Collection</code>, we can use the same idea for our index that we used for the collection itself: the index type should be a simple wrapper around the base collection’s index:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ReversedCollection2</span> <span class="p">{</span>
+    <span class="kd">struct</span> <span class="kt">Index</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">base</span><span class="p">:</span> <span class="kt">Base</span><span class="o">.</span><span class="kt">Index</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Collection indices must be <a href="https://developer.apple.com/documentation/swift/comparable"><code>Comparable</code></a>, so we have to add that conformance as well. Since we know that the <code>base</code> value is also <code>Comparable</code>, we can forward to it in our implementation. But note that we have to invert the logic since our index type must model the reversed relationship: the <em>greatest</em> <code>base</code> index represents the <em>smallest</em> reversed index, and vice versa:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ReversedCollection2</span><span class="o">.</span><span class="kt">Index</span><span class="p">:</span> <span class="kt">Comparable</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">ReversedCollection2</span><span class="o">.</span><span class="kt">Index</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">ReversedCollection2</span><span class="o">.</span><span class="kt">Index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="c1">// Inverted logic compared to base</span>
+        <span class="k">return</span> <span class="n">lhs</span><span class="o">.</span><span class="n">base</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="o">.</span><span class="n">base</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="collection-implementation"><code>Collection</code> implementation</h4>
+
+<p>Having laid the groundwork, we can add the <code>Collection</code> conformance. The idea is to base our implementation on the base collection, remembering that we have to invert everything: the reversed collection’s <a href="https://developer.apple.com/documentation/swift/collection/2946080-startindex"><code>startIndex</code></a> is the base’s <a href="https://developer.apple.com/documentation/swift/collection/2944204-endindex"><code>endIndex</code></a> (and vice versa), <a href="https://developer.apple.com/documentation/swift/collection/2943746-index"><code>index(after:)</code></a> should call <a href="https://developer.apple.com/documentation/swift/bidirectionalcollection/1783013-index"><code>base​.index​(before:)</code></a>, and so on.</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ReversedCollection2</span><span class="p">:</span> <span class="kt">Collection</span> <span class="p">{</span>
+    <span class="kd">typealias</span> <span class="kt">Element</span> <span class="o">=</span> <span class="kt">Base</span><span class="o">.</span><span class="kt">Element</span>
+
+    <span class="k">var</span> <span class="nv">startIndex</span><span class="p">:</span> <span class="kt">Index</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Index</span><span class="p">(</span><span class="nv">base</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">endIndex</span><span class="p">:</span> <span class="kt">Index</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Index</span><span class="p">(</span><span class="nv">base</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">startIndex</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">index</span><span class="p">(</span><span class="n">after</span> <span class="nv">idx</span><span class="p">:</span> <span class="kt">Index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Index</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Index</span><span class="p">(</span><span class="nv">base</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="n">idx</span><span class="o">.</span><span class="n">base</span><span class="p">))</span>
+    <span class="p">}</span>
+
+    <span class="nf">subscript</span><span class="p">(</span><span class="nv">position</span><span class="p">:</span> <span class="kt">Index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Element</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">base</span><span class="p">[</span><span class="n">base</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="n">position</span><span class="o">.</span><span class="n">base</span><span class="p">)]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>By the way, our reliance on <code>base​.index​(before:)</code> is the reason why <code>Reversed​Collection</code>’s generic parameter must be constrained to <code>Bidirectional​Collection</code>. A plain <code>Collection</code> has no <code>index(before:)</code> method and thus cannot be traversed in reverse.</p>
+
+<p>There’s one more thing to consider: a collection’s <code>endIndex</code> signifies the “one past the end” position, not the position of the last element. By using <code>base​.endIndex</code> as the reversed collection’s <code>startIndex</code>, we have effectively shifted all reversed indices one element to the right. This is why the subscript implementation accesses the element at <code>base.index(before: position.base)</code> rather than <code>position.base</code>.</p>
+
+<h3 id="its-wrappers-all-the-way-down">It’s wrappers all the way down</h3>
+
+<p>Going back to the snippet we were discussing in our <code>lastIndex2</code> implementation, the expression:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="n">str</span><span class="o">.</span><span class="nf">reversed</span><span class="p">()</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">char</span><span class="p">)</span>
+<span class="c1">// type: Reversed​Collection​&lt;String&gt;​.Index?</span>
+</code></pre></div>
+<p>returns an optional <code>Reversed​Collection​&lt;String&gt;​.Index</code>, which as we’ve seen is a wrapper around the corresponding index in the unreversed string.</p>
+
+<h2 id="is-there-a-way-to-turn-it-back-into-an-index-for-the-original-string">2. Is there a way to turn it back into an index for the original string?</h2>
+
+<p>Answer: yes, because the standard library implements <code>Reversed​Collection</code> pretty much in the same way I have shown here, only with a few more bells and whistles. <a href="https://github.com/apple/swift/blob/01644d5854023cb00bd191a0bc813fdf6f5f9470/stdlib/public/core/Reverse.swift#L205-L250">Read the code here</a>.</p>
+
+<p>And luckily, <a href="https://developer.apple.com/documentation/swift/reversedcollection/index/2965437-base"><code>Reversed​Collection​.Index​.base</code></a> is public<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, which allows us to get back from the reversed index an index in the underlying base collection. Just as above, we have to remember to shift the index back, as the documentation reminds us:</p>
+
+<blockquote>
+  <p>To find the position that corresponds with this index in the original, underlying collection, use that collection’s <code>index(before:)</code> method with the base property.</p>
+</blockquote>
+
+<p>Which is why the last line of our <code>lastIndex2</code> implementation returns the index <em>before</em> the match:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="k">return</span> <span class="nf">index</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="n">reversedIndex</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Arguably, the above is a pointless exercise without much practical relevance. However, I believe that understanding how and why this works can teach you a lot about the design of collection types and protocol hierarchy in the standard library. The <a href="https://developer.apple.com/documentation/swift/sequence"><code>Sequence</code></a> and <code>Collection</code> APIs are designed to be composable, and to provide useful operations for implementing your own algorithms. Dave Abrahams’s <a href="https://developer.apple.com/videos/play/wwdc2018/223/">WWDC 2018 talk Embracing Algorithms</a> gives some great examples how to do this. It’s my favorite WWDC 2018 session.</p>
+
+<p><code>Reversed​Collection</code> isn’t the only lazy sequence/collection wrapper in the standard library. <a href="https://developer.apple.com/documentation/swift/sequence/1641222-enumerated"><code>enumerated</code></a>, <a href="https://developer.apple.com/documentation/swift/sequence/2431985-joined"><code>joined</code></a>, and <a href="https://developer.apple.com/documentation/swift/1541125-zip"><code>zip</code></a> all work in exactly the same way.</p>
+
+<p>And by using <a href="https://developer.apple.com/documentation/swift/sequence/1641562-lazy"><code>lazy</code></a> you can apply the same general pattern of returning a wrapper value that defers the actual work to <a href="https://developer.apple.com/documentation/swift/lazysequence/2905499-map"><code>map</code></a>, <a href="https://developer.apple.com/documentation/swift/lazysequence/2908552-filter"><code>filter</code></a>, and other normally eager operations — the difference is that these wrappers store not only the base collection, but also the transformation function you pass in.</p>
+
+<p>Why are some operation always lazy and others eager by default? The standard library’s policy is to <a href="https://forums.swift.org/t/add-various-zip-related-types-and-operations/13806/9">make things lazy by default if the laziness is <q>unambiguously <q>free</q></q></a>. If, on the other hand, <a href="https://forums.swift.org/t/add-various-zip-related-types-and-operations/13806/40">there’s a significant downside to the lazy implementation</a>, provide the lazy version under the <code>lazy</code> property. Ben Cohen:</p>
+
+<blockquote>
+  <p>For example, <code>lazy.map</code> performs the mapping every time you iterate, which could be very costly on multiple iteration, and also captures and stores the mapping closure, which can be risky if it is stateful.</p>
+</blockquote>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><code>firstIndex(of:)</code> was called <code>index(of:)</code> <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0204-add-last-methods.md#detailed-design">before Swift 4.2</a>. <a href="#fnref:1" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://github.com/apple/swift/blob/01644d5854023cb00bd191a0bc813fdf6f5f9470/stdlib/public/core/Reverse.swift#L54"><code>ReversedCollection​._base</code></a> is public, too, though hidden from code completion. <a href="#fnref:2" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+      </article>
+      
+      <div id="related-pages">
+  <div id="related-page-previous">
+    <p class="related-page-heading">Previous</p>
+    <p class="related-page-title"><a href="/2018/macbook-pro/">The 2018 Macbook Pro</a></p>
+    <p class="related-page-date"><time datetime="2018-09-07T14:59:26Z">September  7, 2018</time></p>
+  </div>
+
+  <div id="related-page-next">
+    <p class="related-page-heading">Next</p>
+    <p class="related-page-title"><a href="/2018/photos-data-model/">PhotoKit’s data model</a></p>
+    <p class="related-page-date"><time datetime="2018-09-28T15:36:36Z">September 28, 2018</time></p>
+  </div>
+</div>
+      
+        <div id="advanced-swift-promo">
+  <div id="advanced-swift-promo-text-container">
+    <p class="advanced-swift-promo-text-essential"><strong>If you liked this article, I bet you’ll also like <a href="https://gumroad.com/a/507458675" title="Advanced Swift at objc.io">Advanced Swift</a></strong>, the book I wrote together with Chris Eidhof and Airspeed Velocity.</p>
+    <p class="advanced-swift-promo-text-extra">The third edition has been fully updated for Swift 4.</p>
+    <p class="advanced-swift-promo-text-extra"><a href="https://gumroad.com/a/507458675" title="Advanced Swift at objc.io">Advanced Swift</a> is available as a DRM-free e-book (including Xcode playgrounds) and in print.
+</p>
+  </div>
+  <div id="advanced-swift-promo-image-container">
+    <a href="https://gumroad.com/a/507458675" title="Advanced Swift e-book"><img src="/media/advanced-swift-3.0-cover-300px.png"></a>
+  </div>
+</div>
+
+    </main>
+
+    <footer>
+  <div class="left">
+    <p><strong>Ole Begemann</strong></p>
+    <p>2009–2019</p>
+    <p>Made in Berlin.</p>
+  </div>
+  <div class="right">
+    <p><a href="/privacy-policy/">Privacy Policy</a></p>
+    <p><a href="/impressum/">Impressum</a></p>
+  </div>
+</footer>
+
+  </body>
+</html>

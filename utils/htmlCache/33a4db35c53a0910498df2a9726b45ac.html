@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>XcodeKit and Xcode Source Editor Extensions - NSHipster</title>
+    <meta name="description" content="When we last wrote about extending Xcode,  we were living in a golden age, and didn't even know it. Plugins allowed us to tweak pretty much everything about Xcode; Source Editor Extensions? Not so much."/>
+    <link rel="canonical" href="https://nshipster.com/xcode-source-extensions/"/>
+    <meta name="revisit-after" content="7 days"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="alternate" type="application/atom+xml" title="NSHipster Atom Feed" href="/feed.xml"/>
+    <link rel="preload" as="font" href="/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2" type="font/woff2" crossorigin="anonymous" />
+    <style rel="stylesheet" type="text/css" integrity="sha256-GB6zv4eY5LHAXnwka4XIuiynYq1dPsuvZJezWwfWZdQ=" crossorigin="anonymous">
+      ﻿html{border-top:3px #ff8000 solid}html body{background-color:#fefefe;color:#282a36}#logo #ns{fill:#ff8000}a,a:visited{color:#ff8000}a:hover,a:visited:hover{text-decoration:none}@keyframes twirl{0%{transform:scale(1) rotate(0)}10%,20%{transform:scale(0.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.1) rotate(3deg)}40%,60%,80%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1) rotate(0)}}@font-face{font-family:"Merriweather";src:local("Merriweather Regular"),local("Merriweather-Regular"),url(/assets/Merriweather-Regular-e50fe78e902ad7649d2a9ec69a67c9a941657604540b0b077b720a0562072915.woff2) format("woff2"),url(/assets/Merriweather-Regular-4549033d084e479d2c53500851ca2e5fd43fd83ac4ae26445e0974ae73cd3d05.woff) format("woff");font-weight:normal;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light"),local("Merriweather-Light"),url(/assets/Merriweather-Light-c2ef5188a3d41db369bfec98586cacc22c1aefa23a02333101c05b6c7e35ed59.woff2) format("woff2"),url(/assets/Merriweather-Light-5d5f2b4aac0254b3ef80c3e04bcbbd021ab468e6205dade23a9943277ed2f15b.woff) format("woff");font-weight:300;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black"),local("Merriweather-Black"),url(/assets/Merriweather-Black-fd0c4da3e1b331a0f3c05ca30ef2f73d3248c19377f0e347bbd27f5ca3ace049.woff2) format("woff2"),url(/assets/Merriweather-Black-0abb3a596dcef7e60a0ce4000352ae834fa7e6f49f48f1f568dd1b16db037faa.woff) format("woff");font-weight:900;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold"),local("Merriweather-Bold"),url(/assets/Merriweather-Bold-66b60fab0c23051945cad3a206665130e9a8742ad25afc03675df8e30f9bd1f1.woff2) format("woff2"),url(/assets/Merriweather-Bold-91e91f3c9d8e79d7f50076508c711118d17335ad0d8adaaed9e82e7e0c88f2a3.woff) format("woff");font-weight:bold;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black Italic"),local("Merriweather-BlackItalic"),url(/assets/Merriweather-BlackItalic-78fadd58be94cb66b7b96e9368a431cb7ba39853c24dfbac96af11b2566cc80a.woff2) format("woff2"),url(/assets/Merriweather-BlackItalic-25d34bcb442b873300a27a1fda06b53db76b343b21b1d2967ebf8d50fc98820c.woff) format("woff");font-weight:900;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Italic"),local("Merriweather-Italic"),url(/assets/Merriweather-Italic-c8cb2c6ad2cb79fd515ac3eef6b70c481f0641f344e3e7154324eab0d9b442e7.woff2) format("woff2"),url(/assets/Merriweather-Italic-2ff5301c0bc5e6bb36aa90461a2778925615296b30cb68de03adfbe30f3ba034.woff) format("woff");font-weight:normal;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold Italic"),local("Merriweather-BoldItalic"),url(/assets/Merriweather-BoldItalic-6555d0e597bb610c9885788f6ea9fcc1bdc2cdb1a27d6fa789b26286f0236d96.woff2) format("woff2"),url(/assets/Merriweather-BoldItalic-c5af58f9b3ca849796e320463efb479012c8da669fade00fb76169e37ec6b408.woff) format("woff");font-weight:bold;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light Italic"),local("Merriweather-LightItalic"),url(/assets/Merriweather-LightItalic-83b26b2f59b0bbd312f3f4b8551f5295a64cbc9645711d6b006faaa79c7753d3.woff2) format("woff2"),url(/assets/Merriweather-LightItalic-1f79f78c181a7a35d38ed8a5bee789c2680726e3b74ddaebc3486af3af749235.woff) format("woff");font-weight:300;font-style:italic;font-display:optional}@font-face{font-family:'Batang';src:url(/assets/Batang-bbbbbe277f4e2bd33819a38b51e599824aed97db7b51b0aa6bf683bf40b171ce.woff2) format("woff2"),url(/assets/Batang-d1c9b135751404713e2fdc6fcd9f6d9d534d2a8bfc11e57fe05a7aa13e883838.woff) format("woff");font-weight:normal;font-style:normal;font-display:auto;unicode-range:U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF}html,body{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-size:15pt;line-height:1.5;font-weight:300;font-kerning:normal;-webkit-font-kerning:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}html[lang="ko-KR"] body{font-family:"Batang", "Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:lighter}html[lang="ko-KR"] a.readmore,html[lang="ko-KR"] section>h1,html[lang="ko-KR"] article p em,html[lang="ko-KR"] article p dfn,html[lang="ko-KR"] cite,html[lang="zh-Hans"] a.readmore,html[lang="zh-Hans"] section>h1,html[lang="zh-Hans"] article p em,html[lang="zh-Hans"] article p dfn,html[lang="zh-Hans"] cite{font-style:normal;font-weight:bold}html[lang="ko-KR"] [role="article"] header .byline,html[lang="zh-Hans"] [role="article"] header .byline{font-style:normal}html[lang="ko-KR"] .archive ol li time,html[lang="ko-KR"] .archive ul li time,html[lang="zh-Hans"] .archive ol li time,html[lang="zh-Hans"] .archive ul li time{font-style:normal;font-weight:bold}html[lang="ko-KR"] #promotion h4,html[lang="zh-Hans"] #promotion h4{font-style:normal;font-weight:bold}html[lang="ko-KR"] .highlight span,html[lang="zh-Hans"] .highlight span{font-style:normal !important}h1,h2,h3,h4,h5,h6{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";line-height:1.1em;margin:0 0 1rem 0}h1{font-size:2.5em}h2{font-size:2em}h3{font-size:1.5em}h4{font-size:1.25em}h5{font-size:1.125em}h6{font-size:1em}p{margin:0 0 1rem 0}a{-webkit-transition:color 0.1s linear;-moz-transition:color 0.1s linear;transition:color 0.1s linear;text-decoration:none}a:hover{text-decoration:underline}a:active,a:focus{outline:none}a code{white-space:nowrap}p>small{font-size:inherit;font-variant:small-caps;text-transform:lowercase}:not(pre)>code{user-select:all}a code,p code,li code,dd code,td code{background:#f8f8f2;padding:.25em;font-size:smaller;border-radius:3px}p code,li code,dd code,td code{color:#49178f}ol li,ul li{margin-bottom:0.5em}pre{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}code,samp{font-family:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace}pre code,samp{font-size:smaller;line-height:1.1em}samp{white-space:pre;overflow:scroll;-webkit-overflow-scrolling:touch;display:block;padding:0.5em 0}section>h1{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:300;font-size:1.5em;text-align:center;margin-bottom:2rem;margin-top:2rem}article.excerpt h1{font-size:1.5em}a.readmore{font-style:italic}a:hover{text-decoration:underline}kbd{color:#282a36;background-color:#f8f8f2;border-radius:3px;border:1px solid #747683;box-shadow:0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin:0 .1em;padding:.1em .6em;text-transform:lowercase}.placeholder{background:#f8f8f2;display:inline-block;padding:0 0.25em;border:1px #282a36 solid;border-radius:5px;font-style:normal}.highlight .placeholder{background:transparent;border-color:#f8f8f2}h1:hover .anchor::before,h2:hover .anchor::before,h3:hover .anchor::before,h4:hover .anchor::before,h5:hover .anchor::before,h6:hover .anchor::before{opacity:1}.title{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700}.anchor::before{content:"#";opacity:0;transition:300ms opacity;position:absolute;float:left;margin-left:-1.5em;padding:0 0.5em;color:#747683 !important;text-decoration:none}.anchor::before :focus{outline:none}.tagline{font-size:1.5em}#latest small,#announcement small{font-style:italic}[role="article"] header h1{font-size:3.5em;line-height:1;margin-bottom:0.5rem;padding:0.5rem 0}#archive dd{font-size:smaller;display:list-item;list-style:circle}.admonition{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";border-left-width:4px;border-left-style:solid;padding:5px 40px;margin:1.5em 0;display:block;clear:both;overflow:visible}.admonition p{margin:0.5em 0;font-size:smaller}.admonition pre code{font-size:small}.admonition.info{background:#edf5fa;border-color:#4DAAFC}.admonition.info a{color:#0088ff}.admonition.info:before{content:" ";background-image:url(/assets/info-f73d3a68c0c3bfa07e64909be26a8d512c2d50bf2729bf30f76d8b63250d0671.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.warning{background:#fcfaf6;border-color:#F9D780}.admonition.warning a{color:#f0b112}.admonition.warning:before{content:" ";background-image:url(/assets/warning-47e47a5723ab3badf6c9352852c0acbe46a94b493175685797a01b7a2c832fc4.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.error{background:#fcf2f6;border-color:#f5569d}.admonition.error a{color:#e62279}.admonition.error:before{content:" ";background-image:url(/assets/error-0950677a2585decd810c2737096155b036dee719e35feb1c0c6ade04202daafc.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}@font-face{font-family:"NSHipster Icons";font-style:normal;font-weight:700;font-display:block;src:url(/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2) format("woff2"),url(/assets/nshipster-743868430209628f9d7933ea65c7e31cdf597e9a27d01d372c33fc501f4c6722.woff) format("woff")}[class^="icon-"],[class*=" icon-"]{font-family:"NSHipster Icons" !important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-warning:before{content:"\e900"}.icon-error:before{content:"\e901"}.icon-info:before{content:"\e902"}.icon-podcasts:before{content:"\e903"}.icon-wechat:before{content:"\e904"}.icon-sinaweibo:before{content:"\e905"}.icon-feed:before{content:"\e906"}.icon-youtube:before{content:"\e908"}.icon-apple:before{content:"\f8ff"}.icon-facebook:before{content:"\e90a"}.icon-github:before{content:"\e90b"}.icon-twitter:before{content:"\e90c"}.icon-googleplus:before{content:"\e90d"}.icon-swift:before{content:"\e90e"}.icon-nc:before{content:"\e90f"}.icon-cc:before{content:"\e907"}.icon-by:before{content:"\e911"}.icon-command:before{content:"\2318"}.icon-shift:before{content:"\21e7"}.icon-ctrl:before{content:"\2303"}.icon-opt:before{content:"\2325"}html,body{margin:0}body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);border-top:3px #ff8000 solid}hr{border:none;margin:1em 0;padding:1em 0;display:block}img{margin:0;max-width:100%}video{margin:0 auto;max-width:100%;display:block}blockquote{border-left:2px solid #ddd;color:#595959;margin:1.5em 0;padding-left:0.75em}cite{color:#737373;font-style:italic}cite:before{content:"— "}table{border-collapse:collapse;margin:0.75em 0;table-layout:fixed;width:100%}th{border-bottom:1px solid #b7b7b7;font-weight:bold;padding:0.75em 0;text-align:left}td{border-bottom:1px solid #ddd;padding:0.75em 0}tr,td,th{vertical-align:middle}ul,ol{margin:0;padding:0;list-style-type:none}dl{margin-bottom:0.75em}dl dt{font-weight:bold;margin:1em 0}dl dd{margin:0 0 0.25rem 1em}.container{max-width:100%;margin-left:auto;margin-right:auto;max-width:960px;margin:0 auto;padding:2em}.container:after{content:"";display:table;clear:both}.container section{display:block;max-width:100%;margin-left:auto;margin-right:auto;margin-bottom:2em;padding-bottom:1em}.container section:after{content:"";display:table;clear:both;content:"";display:table;clear:both}html[lang="fr-FR"] [role="banner"] #logo{margin-right:5.5em}html[lang="fr-FR"] [role="banner"] .tagline{font-size:1.33em}html[lang="zh-Hans"] [role="banner"] #logo{margin-right:9.5em}html[lang="zh-Hans"] [role="banner"] .tagline{font-size:1.75em;padding-bottom:1em}html[lang="ko-KR"] [role="banner"] .tagline{font-size:1.4em}[role="banner"]{display:flex;margin-bottom:1.5em;padding-bottom:1.5em}[role="banner"] #logo{display:block;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:1em;height:6em;margin:0.25em 6em 0 0}[role="banner"] #logo a{display:block}[role="banner"] #logo svg{width:146px;height:84px;overflow:visible;margin-left:-3px}[role="banner"] #logo svg #mustache{position:absolute;transform:rotate(0) scale(1);transform-origin:50% 70% 0;transition:transform 1s}[role="banner"] #logo svg:hover,[role="banner"] #logo svg.animated{position:relative;z-index:2}[role="banner"] #logo svg:hover #mustache,[role="banner"] #logo svg.animated #mustache{animation:twirl 1s ease-in-out}[role="banner"] .tagline{flex:1}#latest h1,#announcement h1{margin-bottom:0.5rem}#announcement{background-color:rgba(255,128,0,0.2);margin-left:-1em;margin-right:-1em;padding:1em}#recent ul{display:grid;grid-template-columns:repeat(3, 1fr);gap:1em 2em}#recent ul li{min-height:15em}#recent ul li .title{height:4em;font-size:1.75em;display:table-cell;line-height:1;vertical-align:bottom;padding-bottom:1em}#recent ul li p{font-size:smaller;display:-webkit-box;overflow:hidden;max-lines:5;-webkit-line-clamp:5;-webkit-box-orient:vertical;text-overflow:ellipsis}#merchandise{margin-top:-30px}#merchandise h1{margin-bottom:15px}#follow ul{float:left;display:block;margin-right:2.35765%;width:31.76157%}#follow ul:last-child{margin-right:0}#follow ul li{float:left;display:block;margin-right:7.42297%;width:19.43277%;font-size:2em}#follow ul li:last-child,#follow ul li:nth-of-type(4n){margin-right:0}#follow ul li a:hover{text-decoration:none}#follow form{float:left;display:block;margin-right:2.35765%;width:57.35098%;margin-left:8.5298%;margin-right:0}#follow form:last-child{margin-right:0}#follow form input[type="email"]{float:left;display:block;margin-right:3.57866%;width:61.158%}#follow form input[type="email"]:last-child{margin-right:0}#follow form input[type="submit"]{float:left;display:block;margin-right:3.57866%;width:35.26334%;border-radius:10px;background:#ff8000;font-size:0.75em;padding:15px 0}#follow form input[type="submit"]:last-child{margin-right:0}article.author,article.translator{padding-top:2em}article.author header,article.translator header{display:grid;grid-template:"avatar . title" "avatar . description";grid-template-columns:1fr 1em 3fr;grid-template-rows:1fr 2fr;gap:1em 1em;margin-bottom:1em;padding-bottom:1em}article.author header .avatar,article.translator header .avatar{grid-area:avatar}article.author header h1,article.translator header h1{grid-area:title}article.author header p,article.translator header p{grid-area:description}[role="article"]{margin-bottom:1em;overflow-x:hidden}[role="article"] table{overflow:scroll;-webkit-overflow-scrolling:touch;margin:2em 0}[role="article"] table caption{margin:2em 0 1em 0}[role="article"] header{display:block;text-align:center;margin-bottom:3em}[role="article"] header .byline{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;color:#a3a39e}[role="article"] header .byline a,[role="article"] header .byline span,[role="article"] header .byline time{white-space:nowrap}[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" — "}[role="article"] .content{margin-bottom:4em}[role="article"] .content h1,[role="article"] .content h2,[role="article"] .content h3,[role="article"] .content h4,[role="article"] .content h5{margin-top:2.5rem}[role="article"] .content object,[role="article"] .content embed,[role="article"] .content figure,[role="article"] .content svg{margin:1em auto;display:block;width:auto}[role="article"] .content img{margin:1em auto;display:block}[role="article"] .content ul,[role="article"] .content ol{margin:1.5em 0;padding:0 3em}[role="article"] .content ul ul,[role="article"] .content ul ol,[role="article"] .content ol ul,[role="article"] .content ol ol{margin-top:0.5em}[role="article"] .content ul li,[role="article"] .content ol li{list-style:disc}[role="article"] .content figure{text-align:center}[role="article"] .content ins{background-color:rgba(255,128,0,0.2);text-decoration:none}[role="article"] .content dl{padding:1em 0}[role="article"] .content blockquote{margin:2em;margin-right:4em;border-left:3px #ff8000 solid}[role="article"] .content blockquote cite{margin-top:1em;display:block}[role="article"] .content table thead th{text-align:center}[role="article"] .content table td{padding:1em}[role="article"] sup{font-size:50%;margin-right:-0.5em}[role="article"] footer .contributor{float:left;display:block;margin-right:2.35765%;width:48.82117%;padding:1em 0}[role="article"] footer .contributor:last-child,[role="article"] footer .contributor:nth-child(2n){margin-right:0}[role="article"] footer .contributor:nth-child(2n+1){clear:left}[role="article"] footer .contributor:only-child{width:100%}[role="article"] footer .contributor:only-child .avatar{padding:0 1em}[role="article"] footer .contributor .avatar{float:left;display:block;margin-right:4.82916%;width:30.11389%}[role="article"] footer .contributor .avatar:last-child{margin-right:0}[role="article"] footer .contributor .details{float:left;display:block;margin-right:4.82916%;width:65.05695%;margin-right:0;margin-top:1em}[role="article"] footer .contributor .details:last-child{margin-right:0}[role="article"] footer .contributor .details span{font-weight:700}[role="article"] footer .contributor .details p{font-size:0.75em;margin-top:1em}[role="article"] footer small{display:block;font-size:1em;font-weight:700;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin-bottom:1em}[role="complementary"]{border-top:1px #ddd solid;padding-top:2em}[role="contentinfo"]{text-align:center;margin-top:2em;padding:1em}[role="contentinfo"] section{margin-bottom:0;padding-bottom:0}.avatar{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;max-width:200px;max-height:200px;border-radius:50%;pointer-events:none;user-select:none}#contributors ul{display:flex;justify-content:center;align-content:space-between;flex-flow:row wrap}#contributors ul li{flex:0;display:block;margin-bottom:1em;flex-basis:20%}#contributors ul li .avatar{display:block;margin:0 auto 1em auto;width:70%}#contributors ul li a{text-align:center;display:block}.archive dl{float:left;display:block;margin-right:2.5%;width:30%}.archive dl:last-child,.archive dl:nth-of-type(3),.archive dl:nth-of-type(4),.archive dl:nth-of-type(6){margin-right:0}.archive ol,.archive ul{list-style:none}.archive ol li,.archive ul li{margin:2em 0}.archive ol span,.archive ol time,.archive ul span,.archive ul time{display:block}.archive ol time,.archive ul time{white-space:nowrap;font-style:italic;font-weight:300;margin-bottom:1em}#sharing ul{display:block;float:right}#sharing ul:after{content:"";display:table;clear:both}#sharing li{font-size:1.5em;display:block;margin:0.5em;float:left}#sharing li a:hover{text-decoration:none;color:#4c3150 !important}#publications .books{display:flex}#publications .book{flex:1}#publications .book img{display:block;margin:0 auto;width:200px;border:4px transparent solid;transition:0.25s ease-in-out border-color;filter:none !important}#publications .book img:hover{padding:0;border:4px #ff8000 solid}.tagline{clear:both;font-weight:300}.highlight-group{margin-top:1em}[role="tablist"]{display:flex;flex-direction:row;justify-content:flex-end;padding-right:3px}[role="tablist"] button{cursor:pointer;flex:0;padding-left:0.5em;color:#282a36 !important;text-decoration:none;transition:opacity 0.5s;background:transparent !important;padding:0;margin:0 0 0 0.5em}[role="tablist"] button:not([aria-selected="true"]){opacity:0.25}[role="tablist"] button:not([aria-selected="true"]):hover{opacity:0.5}[role="tablist"] button.active{opacity:1}[role="tablist"] button:focus{outline:thin dotted;outline-offset:2px}[role="tabpanel"]{margin-top:0.25em}[role="tabpanel"]:focus{outline:0}#promotion .book img{margin:0}#promotion h3{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}#promotion h4{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;margin-bottom:1em}#promotion p{font-size:0.75em}#promotion a.buy{background:#ff8000;border-radius:10px;color:#fff !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700;margin-top:1em;padding:15px;text-align:center;display:inline-block}#promotion a.buy:hover{text-decoration:none !important}#promotion.home{margin-top:-15px;padding:35px 44px;background:#eee;border-radius:20px}#promotion.home p{font-size:1em}#promotion.home small{display:block;font-size:1.2em;font-weight:700;margin-left:5px;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps}table#status{table-layout:fixed;margin-top:2em}table#status caption{padding:1em 0;color:#777}table#status .version{text-align:center}table#status .version em{color:#777}table#customplaygrounddisplayconvertible-categories{table-layout:auto}table#customplaygrounddisplayconvertible-categories tbody th{padding-left:10px;text-align:center}table#customplaygrounddisplayconvertible-categories ul{padding:0 0 0 20px}table#customplaygrounddisplayconvertible-categories ul li{margin:0}table#customplaygrounddisplayconvertible-categories td img{margin:0}@media screen and (max-width: 600px){table#customplaygrounddisplayconvertible-categories thead tr th:last-child,table#customplaygrounddisplayconvertible-categories tbody tr td:last-child{display:none}}.conversation{margin:1em auto;max-width:650px}.conversation:after{content:" ";display:block;clear:both}.conversation ruby{ruby-align:start;ruby-position:over;display:block;clear:both;max-width:550px}.conversation ruby.boke{float:left;text-align:left;margin-bottom:0.5em}.conversation ruby.tsukkomi{float:right;color:#ff8000;text-align:right;margin-bottom:1.5em}.highlight{background:#282a36;border:1px transparent solid;border-radius:5px;overflow:auto;padding:0.5em 1em;margin-bottom:1em}.highlight code{color:#f8f8f2;background:transparent !important}.highlight ::selection{color:inherit}.highlight ::-moz-selection{color:inherit}.highlight .hll,.highlight .s,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .dl,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx,.highlight .sr,.highlight .s1,.highlight .ss{color:#f1fa8c}.highlight .go{color:#747683}.highlight .err,.highlight .g,.highlight .l,.highlight .n,.highlight .x,.highlight .p,.highlight .ge,.highlight .gr,.highlight .gh,.highlight .gi,.highlight .gp,.highlight .gs,.highlight .gu,.highlight .gt,.highlight .ld,.highlight .no,.highlight .nd,.highlight .ni,.highlight .ne,.highlight .nn,.highlight .nx,.highlight .py,.highlight .w,.highlight .bp{color:#f8f8f2}.highlight .gh,.highlight .gi,.highlight .gu{font-weight:bold}.highlight .ge{text-decoration:underline}.highlight .c,.highlight .ch,.highlight .cm,.highlight .cpf,.highlight .c1,.highlight .cs{color:#bfc6d8}.highlight .kd,.highlight .kt,.highlight .nb,.highlight .nl,.highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#8be9fd}.highlight .na,.highlight .nc,.highlight .nf,.highlight .fm{color:#ff8000}.highlight .k,.highlight .o,.highlight .cp,.highlight .kc,.highlight .kn,.highlight .kp,.highlight .kr,.highlight .nt,.highlight .ow{color:#ff79c6}.highlight .m,.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#bd93f9}.highlight .gd{color:#ff5555}.highlight[data-lang="JWT"]{white-space:pre-wrap}button,input[type="submit"]{-moz-appearance:none;-ms-appearance:none;-o-appearance:none;-webkit-appearance:none;-webkit-font-smoothing:antialiased;appearance:none;background-color:#ff8000;border-radius:5px;border:none;color:white;cursor:pointer;display:inline-block;font-size:1em;font-weight:bold;line-height:1;padding:0.75em 1em;text-decoration:none;transition:background-color 0.25s;user-select:none;vertical-align:middle;white-space:nowrap}button:hover,input[type="submit"]:hover{background-color:#cc6600;color:white}@media screen and (max-width: 768px){[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" ";display:block}.container{padding:1em}#recent ul{display:block}#recent ul li{min-height:auto;margin-bottom:2em}#recent ul li .title{display:block;height:auto;padding-bottom:0.5rem}#follow ul{width:100%}#follow form{width:100%;margin-left:0;margin-top:2em}[role="article"]{font-size:smaller}[role="article"] .content{overflow:hidden}[role="article"] .content blockquote{margin:1em 0}[role="article"] footer .contributor{width:100%;margin-bottom:1em}[role="article"] footer .contributor:not(:first-child){border-top:none}[role="article"] footer .contributor .avatar{padding:0}[role="article"] footer .contributor .details{margin-top:0}[role="complementary"] #continue,[role="complementary"] #related{width:100%}[role="complementary"] #related{margin-top:1em}[role="complementary"] #related li{font-size:1em}#sharing ul{width:100%}#sharing li{display:none !important;margin:0;float:left;display:block;margin-right:2.35765%;width:23.23176%}#sharing li:last-child,#sharing li:nth-child(4){margin-right:0}#sharing li:nth-child(5){clear:left}#sharing li a,#sharing li i{display:block;margin:0 auto;font-size:1.25em}#promotion .book img{margin:0 auto}#contributors ul li{flex-basis:33%}#recent article{float:none;display:block;width:100%}#recent article:last-child,#recent article:nth-of-type(2n){margin-right:0}.archive dl{width:100%;margin:0;float:none}.archive dl dt{margin:2em 0 0.5em 0}}@media screen and (max-width: 960px){[role="banner"]{display:block;margin-bottom:0;padding-bottom:0}[role="banner"] #logo{margin:0 !important;height:auto;padding-bottom:0.5em}[role="banner"] #logo svg{width:25vw;display:block;margin:0 auto 1.5em auto}[role="banner"] .tagline{font-size:4.4vw;padding-bottom:2em}#recent ul{grid-template-columns:repeat(2, 1fr)}.anchor{font-size:smaller}#announcement{margin-left:0;margin-right:0}article.author header,article.translator header{display:block}article.author header .avatar,article.translator header .avatar{margin:0 auto 1em auto;display:block}article.author header h1,article.translator header h1{text-align:center}}@media (hover: none){#logo #mustache{animation-iteration-count:1}}@media (inverted-colors){*{text-shadow:none !important;box-shadow:none !important}img{filter:invert(100%)}}@media (monochrome) and (false), print and (false), (prefers-contrast: high), screen and (-ms-high-contrast: active){html{border-top-color:black}html body{background:white}html body #logo a:hover{background:transparent !important}html body #logo #ns{fill:white;stroke:black;stroke-width:10px}html body #logo #mustache{fill:black}html body a{transition:none}html body a,html body a:visited{text-decoration:underline;color:black !important}html body a:hover{text-decoration:none}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6,html body p,html body li,html body dt,html body dd,html body span{color:black !important}html body div.highlight{color:black;background:#fff !important;border:2px black solid}html body div.highlight code,html body div.highlight code span{color:black !important}html body div.highlight .c,html body div.highlight .ch,html body div.highlight .cm,html body div.highlight .cpf,html body div.highlight .c1,html body div.highlight .cs,html body div.highlight .ge,html body div.highlight .s,html body div.highlight .sa,html body div.highlight .sb,html body div.highlight .sc,html body div.highlight .dl,html body div.highlight .sd,html body div.highlight .s2,html body div.highlight .sh,html body div.highlight .sx,html body div.highlight .sr,html body div.highlight .s1,html body div.highlight .ss{font-style:italic}html body div.highlight .k,html body div.highlight .gh,html body div.highlight .gp,html body div.highlight .gs,html body div.highlight .gu,html body div.highlight .kc,html body div.highlight .kd,html body div.highlight .kn,html body div.highlight .kr,html body div.highlight .nc,html body div.highlight .ni,html body div.highlight .ne,html body div.highlight .nn,html body div.highlight .nt,html body div.highlight .ow{font-weight:bold}html body div.highlight .se,html body div.highlight .si{font-weight:bold;font-style:italic}html body .admonition{background:white !important;border:2px black solid !important;border-radius:5px}html body .admonition:before{visibility:hidden}html body blockquote{border-left-color:black !important;color:black}}@media (prefers-color-scheme: dark){body{background:#2c2a28 !important;color:#f8f8f2 !important}body blockquote{color:#f8f8f2 !important}body div.highlight{border:1px #f8f8f2 solid !important}body .language-toggle a{color:#f8f8f2 !important}body .info{background:#333c44 !important}body .warning{background:#484131 !important}body .error{background:#592e41 !important}article img[src$=".svg"],i img[src$=".svg"]{filter:invert(100%)}kbd{color:#f8f8f2;background-color:#282a36;box-shadow:0 1px 0 rgba(255,255,255,0.2),0 0 0 2px #222 inset}.placeholder{color:#f8f8f2;background-color:#282a36;border-color:#f8f8f2}a>code,p>code,li>code,dd>code,td>code{background:#282a36}p code,li code,dd code,td code{color:#bd93f9}}@media (prefers-contrast: high), screen and (-ms-high-contrast: active){a{transition:none}a,a:visited{text-decoration:underline;color:black !important}h1,h2,h3,h4,h5,h6,p,li,dt,dd,span{color:black !important}h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,p a:hover,li a:hover,dt a:hover,dd a:hover,span a:hover{text-decoration:none;background:black;color:white !important}}@media (prefers-reduced-motion: reduce){#logo #mustache{animation:none !important}}@media print{@page{margin:0.5in}@page{@bottom-center{content:"Page " counter(page) " of " counter(pages);font-size:small}@footnote{border-top:1pt black solid;padding-top:1em;font-size:smaller;padding-left:1.5em}}html{border-top:none}html body{font-size:12pt !important}#logo{height:3em !important}#logo svg{transform:scale(0.5);transform-origin:top left}img,p,blockquote,aside,ul,ol,table,figure,.highlight-group{page-break-inside:avoid}.highlight-group{page-break-before:avoid}h1,h2,h3,h4,h5,h6{page-break-before:avoid;page-break-after:avoid}img{max-width:100% !important}p a{word-wrap:break-word}p a[href^="#"]:after{display:none}p a[href^="http://"]:after,p a[href^="https://"]:after{content:attr(href);float:footnote;color:#333;text-decoration:none;text-align:left;page-break-inside:avoid;page-break-before:avoid}article [title]::after{content:" (" attr(title) ") ";float:footnote}.highlight-group a{font-size:50%}div.highlight{border-radius:5px;border:2px black solid}[role="article"] .content{margin-bottom:1em !important}[role="complementary"]{display:none}[role="contentinfo"]{page-break-inside:avoid;font-size:small}.admonition{padding:0 0 0 1em}.admonition::before{visibility:hidden}}@media print and (color){*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}::selection{background:rgba(76,49,80,0.5);color:#ffffff}::-moz-selection{background:rgba(76,49,80,0.5);color:#ffffff}#type-encodings tr>td:first-child,#method-encodings tr>td:first-child{width:12em;padding-left:3em}@media screen and (max-width: 480px){#gpuimage table{font-size:50%}}#gpuimage #gpuimage-benchmarks td{text-align:center}#gpuimage #gpuimage-benchmarks td:first-child{text-align:left}#gpuimage #gpuimage-benchmarks td:last-child{text-align:right}#gpuimage #gpuimage-filters td{vertical-align:top;font-size:75%}#gpuimage blockquote{font-size:75%}table.core-data-versus-nskeyedarchiver td{text-align:center}table.core-data-versus-nskeyedarchiver td:first-child{text-align:left;font-weight:bold}table#xcode-key-bindings-modifiers{width:100%}table#xcode-key-bindings-modifiers td,table#xcode-key-bindings-modifiers th{width:20%;text-align:center}#cfstringtransform table{display:block}#cfstringtransform table td:first-child{width:60%}#icloud header time{background-color:rgba(255,128,0,0.2)}
+      /*# sourceMappingURL=/assets/source-maps/screen.scss.map */
+      /*# sourceURL=assets/css/screen.scss */
+    </style>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#292724"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="NSHipster"/>
+    <meta name="application-name" content="NSHipster"/>
+    <meta name="msapplication-TileColor" content="#f8f7f5"/>
+    <meta name="theme-color" content="#f8f7f5"/>
+    <link rel="author" type="text/plain" href="/humans.txt"/>
+    <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@NSHipster"/>
+    <meta name="twitter:title" content="XcodeKit and Xcode Source Editor Extensions"/>
+    <meta name="twitter:description" content="When we last wrote about extending Xcode,  we were living in a golden age, and didn’t even know it. Plugins allowed us to tweak pretty much everything about Xcode; Source Editor Extensions? Not so much.
+"/>
+    <meta name="twitter:label1" value="Category" />
+    <meta name="twitter:data1" value="Xcode" />
+    <meta name="twitter:account_id" content="629523445"/>
+    <meta property="og:site_name" content="NSHipster"/>
+    <meta property="og:image" content="https://nshipster.com/logo.png"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="XcodeKit and Xcode Source Editor Extensions"/>
+    <meta property="og:url" content="https://nshipster.com/xcode-source-extensions/"/>
+    <meta property="og:description" content="When we last wrote about extending Xcode,  we were living in a golden age, and didn’t even know it. Plugins allowed us to tweak pretty much everything about Xcode; Source Editor Extensions? Not so much.
+"/>
+    <meta property="article:published_time" content="2019-03-25T00:00:00-07:00"/>
+    <meta property="article:modified_time" content="2019-04-02T08:39:53-07:00"/>
+    <meta property="article:tag" content="Xcode"/>
+    <meta property="article:publisher" content="https://www.facebook.com/NSHipster">
+    <link rel="prev" href="https://nshipster.com/swift-foundation-error-protocols/" />
+  </head>
+  <body>
+    <div class="container">
+      <header role="banner">
+        <h1 id="logo">
+          <a href="/" title="NSHipster">
+            <?xml version="1.0"?>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.4 266.34">
+                <g id="ns">
+                  <path d="M16.05 5.37h68.38l88.78 157.52h.72V5.37h62.64V261H168.2L79.42 101.67h-.72V261H16.05z"/>
+                  <path d="M294.78 175.06c1.43 30.07 20 39.73 48.33 39.73 20 0 40.81-7.16 40.81-26.13 0-22.55-36.52-26.85-73.39-37.23-36.52-10.38-74.82-26.85-74.82-73.75C235.71 21.84 291.91 0 339.88 0c50.84 0 102 24.7 102.39 82.34h-66.59c1.08-23.27-20.76-30.79-41.17-30.79-14.32 0-32.21 5-32.21 21.84 0 19.69 36.87 23.27 74.1 33.65 36.87 10.38 74.1 27.56 74.1 73.74 0 64.8-55.13 85.56-111.33 85.56-58.71 0-110.62-25.77-111-91.28z"/>
+                </g>
+                <g id="mustache">
+                  <path d="M168.07 104.61c-59.6 3-113.84 79.27-168.07 12.52 0 90 141.25 181.77 237.2 97.14 95.36 84 237.2-7.75 237.2-97.14-74.5 91.78-149-85.83-237.2 26.81-23.84-31.58-47.08-40.52-69.13-39.33z"/>
+                </g>
+              </svg>
+            </a>
+          </h1>
+        </header>
+        <main>
+          <article role="article" itemscope itemtype="https://schema.org/Article">
+            <header role="heading">
+              <h1 class="title" itemprop="name">
+                <a href="/xcode-source-extensions/">Xcode​Kit and Xcode Source Editor Extensions</a>
+              </h1>
+              <div class="byline">
+                Written by
+                <span class="authors">
+                  <a class="author" href="/authors/zoe-smith/">Zoë Smith</a>
+                </span>
+                <time datetime="2019-03-25T00:00:00-07:00" itemprop="datePublished">March 25<sup>th</sup>, 2019</time>
+                <time datetime="2019-03-25T00:00:00-07:00" itemprop="dateModified" hidden aria-hidden="true">March 25<sup>th</sup>, 2019</time>
+              </div>
+              <link itemprop="image" href="https://nshipster.com/logo.png"/>
+              <meta itemprop="headline" content="XcodeKit and Xcode Source Editor Extensions"/>
+              <div itemprop="publisher" itemscope itemtype="http://schema.org/Organization" hidden aria-hidden="true">
+                <meta itemprop="name" content="NSHipster"/>
+                <meta itemprop="logo" content="https://nshipster.com/logo.png"/>
+              </div>
+            </header>
+            <div class="content" itemprop="articleBody">
+              <p>When we last <a href="/xcode-plugins/">wrote about extending Xcode</a> in 2014,
+                we were living in a golden age, and didn’t even know it.</p>
+              <p>Back then,
+                Xcode was a supposedly impenetrable castle that we’d leaned a couple of ladders against.
+                Like a surprisingly considerate horde,
+                we scaled the walls and got to work on some much-needed upkeep.
+                Those were heady days of
+                in-process code injection, an informally sanctioned and thriving ecosystem of third-party plugins —
+                all backed up by an in-app package manager.
+                For a while, Apple tolerated it all.
+                But with the introduction of <a href="https://support.apple.com/en-us/HT204899" rel="noopener noreferrer">System Integrity Protection</a> in 2016,
+                the ladders were abruptly kicked away.
+                (Pour one out for <a href="https://github.com/alcatraz/Alcatraz" rel="noopener noreferrer">Alcatraz</a> why don’t we,
+                with a chaser for <a href="https://github.com/robbiehanson/XcodeColors" rel="noopener noreferrer">XcodeColors</a>.
+                Miss you buddy.)</p>
+              <p>Plugins allowed us to tweak pretty much everything about Xcode:
+                window layout, syntactic and semantic highlighting, changing UI elements,
+                boilerplate generation, project analysis, bindings for something called Vim (?).
+                Looking back at NSHipster’s favorites, some are now thankfully included as a standard feature:
+                inserting documentation comments,
+                <code>switch</code> statement autocompletion
+                or — astonishingly — line breaks in the issue navigator.
+                Most of the inventive functionality that plugins added, though, has just plain gone.</p>
+              <aside class="admonition info">
+                <p>While you <em>can</em> re-sign Xcode to load compatible plugins today,
+                  you can’t use this copy to distribute on the App Store.
+                  And besides, the plugin party is now well over.</p>
+              </aside>
+              <p>Xcode 8 proposed a solution for the missing plugins in the form of <a href="https://developer.apple.com/videos/play/wwdc2016/414/" rel="noopener noreferrer">Source Editor Extensions</a>.
+                Like other macOS extensions, they can be sold via the App Store or distributed independently.
+                But some bad, if old, news:
+                unlike plugins, these new extensions are seriously limited in scope.
+                They allow
+                <strong>pure text manipulation, instigated by the user from a menu command, on one source file at a time</strong> —
+                none of the fun stuff, in other words.</p>
+              <p>Source Editor Extensions have remained unchanged since introduction.
+                We’ll discuss signs that <em>might</em> point to interesting future developments.
+                But if IDEs with an open attitude are more your thing,
+                there’s not much to see here yet.</p>
+              <p>Let’s start, though, by looking at the official situation today:</p>
+              <h2>
+                <a class="anchor" aria-hidden="true" id="source-editor-extensions" href="#source-editor-extensions"></a>Source Editor Extensions</h2>
+              <p>By now, Apple platform developers will be familiar with extension architecture:
+                separate binaries, sandboxed and running in their own process,
+                but not distributable without a containing app.</p>
+              <p>Compared to using a tool like Homebrew, installation is undoubtedly a pain:</p>
+              <p><img alt="Flow diagram for extension installation process" integrity="sha256-MBNLCqnQmVY8toJEGIBObkry7unBVjl/SoLzmkSo+fM=" crossorigin="anonymous" src="/assets/xcode-source-editor-extension-installation-flow-30134b0aa9d099563cb6824418804e6e4af2eee9c156397f4a82f39a44a8f9f3.png"></p>
+              <p>After finding, downloading and launching the containing app,
+                the extension shows up in the Extensions pane of System Preferences.
+                You can then activate it,
+                restart Xcode
+                and it should manifest itself as a menu item.<br>
+                (App Store reviewers <em>love</em> this process.)</p>
+              <p>That’s the finished result.
+                To understand how you get to that point,
+                let’s create a simple extension of our own.
+                This <a href="https://github.com/zoejessica/marked" rel="noopener noreferrer">sample project</a>
+                transforms <code>TODO</code>, <code>FIXME</code> and <code>MARK</code> code marks to be uppercased with a trailing colon,
+                so Xcode can recognize them and add them to the quick navigation bar.
+                (It’s just one of the rules more fully implemented by the <a href="https://github.com/nicklockwood/SwiftFormat" rel="noopener noreferrer">SwiftFormat</a> extension.)</p>
+              <h2>
+                <a class="anchor" aria-hidden="true" id="creating-a-source-editor-extension" href="#creating-a-source-editor-extension"></a>Creating a Source Editor Extension</h2>
+              <p>Create a new Cocoa app as the containing app,
+                and add a new target using the Xcode Source Editor Extension template.</p>
+              <p><img alt="Screenshot of adding Source Editor Extension target to Xcode project" integrity="sha256-VhxwEpXoIr24qhOnEvI+sxxQg7w8DAsWAkw61VyFT+U=" crossorigin="anonymous" src="/assets/xcode-source-editor-add-extension-target-561c701295e822bdb8aa13a712f23eb31c5083bc3c0c0b16024c3ad55c854fe5.png"></p>
+              <aside class="admonition info">
+                <p>In <a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW2" rel="noopener noreferrer">Apple’s terminology</a>,
+                  the <dfn>host</dfn> app is
+                  the application that <em>calls</em> your extension to do some useful work:
+                  in this case,
+                  the host is Xcode.
+                  The <dfn>containing</dfn> app is
+                  the new application that <em>you</em> create to wrap extensions
+                  which can’t stand by themselves.</p>
+              </aside>
+              <p>The target contains ready-made <code>XCSource<wbr></wbr>Editor<wbr></wbr>Extension</code> and <code>XCSource<wbr></wbr>Editor<wbr></wbr>Command</code> subclasses,
+        with a configured property list.</p>
+      <p>Both of those superclasses are part of the <a href="https://developer.apple.com/documentation/xcodekit" rel="noopener noreferrer">XcodeKit framework</a>
+        (hence the <code>XC</code> prefix),
+        which provides extensions the ability to modify the text and selections of a source file.</p>
+      <h3>
+        <a class="anchor" aria-hidden="true" id="display-names" href="#display-names"></a>Display Names</h3>
+      <p>User-facing strings for an extension are sprinkled around the extension’s <code>Info.plist</code> or defined at runtime:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Display text</th>
+            <th>Property</th>
+            <th>Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Extension name, as shown in System Preferences</td>
+            <td><code>Bundle Display Name</code></td>
+            <td>Info.plist</td>
+          </tr>
+          <tr>
+            <td>Top level menu item for extension</td>
+            <td><code>Bundle Name</code></td>
+            <td>Info.plist</td>
+          </tr>
+          <tr>
+            <td>Individual menu command</td>
+            <td><code>XCSource<wbr></wbr>Editor<wbr></wbr>Command<wbr></wbr>Name</code></td>
+      <td>Info.plist</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td><code>XCSource<wbr></wbr>Editor<wbr></wbr>Command<wbr></wbr>Definition<wbr></wbr>Key.name<wbr></wbr>Key</code></td>
+<td>Runtime</td>
+</tr>
+</tbody>
+</table>
+<h3>
+  <a class="anchor" aria-hidden="true" id="menu-items" href="#menu-items"></a>Menu Items</h3>
+<p>The only way a user can interact with an extension is by selecting one of its menu items.
+  These show up at the bottom of the Editor menu when viewing a source code file.
+  Xcode’s one affordance to users is that keybindings can be assigned to extension commands,
+  just as for other menu items.</p>
+<p>Each command gets a stringly-typed identifier, display text, and a class to handle it,
+  which are each defined in the extension target’s <code>Info.plist</code>.
+  Alternatively,
+  we can override these at runtime
+  by providing a <code>command<wbr></wbr>Definitions</code> property on the <code>XCSource<wbr></wbr>Editor<wbr></wbr>Extension</code> subclass.
+The commands can all be funneled to a single <code>XCSource<wbr></wbr>Editor<wbr></wbr>Command</code> subclass
+or split up to be handled by multiple classes — whichever you prefer.</p>
+<p>In our extension, we just define a single “Format Marks” menu item:</p>
+<pre class="highlight" data-lang="Swift"><code>    <span class="k">var</span> <span class="nv">command<wbr></wbr>Definitions</span><span class="p">:</span> <span class="p">[[</span><span class="kt">XCSource<wbr></wbr>Editor<wbr></wbr>Command<wbr></wbr>Definition<wbr></wbr>Key</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]]</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">namespace</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="nf">type</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="k">self</span><span class="p">))</span><span class="o">.</span><span class="n">bundle<wbr></wbr>Identifier</span><span class="o">!</span>
+        <span class="k">let</span> <span class="nv">marker</span> <span class="o">=</span> <span class="kt">Marker<wbr></wbr>Command</span><span class="o">.</span><span class="nf">class<wbr></wbr>Name</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="o">.</span><span class="nv">identifier<wbr></wbr>Key</span><span class="p">:</span> <span class="n">namespace</span> <span class="o">+</span> <span class="n">marker</span><span class="p">,</span>
+                 <span class="o">.</span><span class="nv">class<wbr></wbr>Name<wbr></wbr>Key</span><span class="p">:</span> <span class="n">marker</span><span class="p">,</span>
+                 <span class="o">.</span><span class="nv">name<wbr></wbr>Key</span><span class="p">:</span> <span class="kt">NSLocalized<wbr></wbr>String</span><span class="p">(</span><span class="s">"Format Marks"</span><span class="p">,</span>
+                 <span class="nv">comment</span><span class="p">:</span> <span class="s">"format marks menu item"</span><span class="p">)]]</span>
+    <span class="p">}</span>
+</code></pre>
+<aside class="admonition warning">
+  <p>There is no way to dynamically <em>disable</em> individual menu commands,
+    for example, if an extension wanted to offer different functionality according to the type of source file.
+    The extension is kept running for Xcode’s lifetime,
+    and menu items are determined at launch.
+    Nor is there a way to suggest default key bindings.</p>
+</aside>
+<p>When the user chooses one of the menu commands defined by the extension,
+  the handling class is called with
+  <a href="https://developer.apple.com/documentation/xcodekit/xcsourceeditorcommand/2097278-perform" rel="noopener noreferrer"><code>perform(with:completion<wbr></wbr>Handler:)</code></a>.
+The extension finally gets access to something useful,
+namely the contents of the current source code file.</p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="inputs-and-outputs" href="#inputs-and-outputs"></a>Inputs and Outputs</h3>
+<p>The passed <code>XCSource<wbr></wbr>Editor<wbr></wbr>Command<wbr></wbr>Invocation</code> argument holds a reference to the <code>XCSource<wbr></wbr>Text<wbr></wbr>Buffer</code>,
+which gives us access to:</p>
+<ul>
+  <li>
+    <code>complete<wbr></wbr>Buffer</code>, containing the entire text of the file as a single <code>String</code>
+</li>
+<li>another view on the same text, separated into <code>lines</code> of code</li>
+<li>an array of current <code>selections</code> in terms of lines and columns, supporting multiple cursors</li>
+<li>various indentation settings</li>
+<li>the type of source file</li>
+</ul>
+<aside class="admonition error">
+  <p>Despite all of that sandboxing, Apple has carelessly left open a serious attack vector,
+    whereby an unscrupulous extension developer could easily inflict their chosen tab/space fetish on unsuspecting users.
+    🙀, indeed.</p>
+</aside>
+<p>With text and selections in hand, we get to do the meaty work of the extension.
+  Then XcodeKit provides two ways to write back to the same source file,
+  by mutating either the <code>complete<wbr></wbr>Buffer</code> or the more performant <code>lines</code> property.
+Mutating one changes the other,
+and Xcode applies those changes once the completion handler is called.
+Modifying the <code>selections</code> property updates the user’s selection in the same way.</p>
+<p>In our example,
+  we first loop over the <code>lines</code> of code.
+  For each line,
+  we use a <a href="/swift-regular-expressions/">regular expression</a>
+  to determine if it has a code mark that needs reformatting.
+  If so, we note the index number and the replacement line.
+  Finally we mutate the <code>lines</code> property to update the source file,
+  and call the completion handler to signal that we’re done:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span><span class="n">with</span> <span class="nv">invocation</span><span class="p">:</span> <span class="kt">XCSource<wbr></wbr>Editor<wbr></wbr>Command<wbr></wbr>Invocation</span><span class="p">,</span>
+             <span class="nv">completion<wbr></wbr>Handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">{</span>
+    <span class="nf">replace<wbr></wbr>Lines</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="n">invocation</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="nv">by</span><span class="p">:</span> <span class="n">formatting<wbr></wbr>Marks</span><span class="p">)</span>
+    <span class="nf">completion<wbr></wbr>Handler</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">replace<wbr></wbr>Lines</span><span class="p">(</span><span class="k">in</span> <span class="nv">lines</span><span class="p">:</span> <span class="kt">NSMutable<wbr></wbr>Array</span><span class="p">,</span>
+                  <span class="n">by</span> <span class="nv">replacing</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?)</span>
+<span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">strings</span> <span class="o">=</span> <span class="n">lines</span> <span class="k">as?</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="k">let</span> <span class="nv">new<wbr></wbr>Strings</span><span class="p">:</span> <span class="p">[(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">String</span><span class="p">)]</span> <span class="o">=</span> <span class="n">strings</span><span class="o">.</span><span class="nf">enumerated</span><span class="p">()</span><span class="o">.</span><span class="n">compact<wbr></wbr>Map</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="p">(</span><span class="nv">index</span><span class="p">,</span> <span class="nv">line</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$0</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">replacement<wbr></wbr>Line</span> <span class="o">=</span> <span class="nf">replacing</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">nil</span>
+        <span class="p">}</span>
+        <span class="nf">return</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">replacement<wbr></wbr>Line</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">new<wbr></wbr>Strings</span><span class="o">.</span><span class="n">for<wbr></wbr>Each</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="p">(</span><span class="nv">index</span><span class="p">,</span> <span class="nv">new<wbr></wbr>String</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$0</span>
+        <span class="n">lines</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">new<wbr></wbr>String</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">formatting<wbr></wbr>Marks</span><span class="p">(</span><span class="k">in</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span>
+  <span class="cm">/* Regex magic transforms:
+     "// fixme here be 🐉"
+     to
+     "// FIXME: here be 🐉"
+  */</span>
+<span class="p">}</span>
+</code></pre>
+<aside class="admonition info">
+  <p>It’s worth remembering that extensions can deal with all sorts of text, not just Swift or Objective-C.
+    Even files that ordinarily open with specialized viewers in Xcode can instead be viewed as Source Code,
+    which makes extension commands available.
+    So if we need a transformation of Metal, Markdown, GPX, string dictionaries and the like,
+    this is possible via an extension.
+    The buffer’s <code>content<wbr></wbr>UTI</code> property reports back specific file types,
+  which can be interrogated for conformance to more abstract types with <a href="https://developer.apple.com/documentation/coreservices/1444079-uttypeconformsto" rel="noopener noreferrer"><code>UTType<wbr></wbr>Conforms<wbr></wbr>To</code></a>.</p>
+</aside>
+<h2>
+  <a class="anchor" aria-hidden="true" id="development-tips" href="#development-tips"></a>Development Tips</h2>
+<h3>
+  <a class="anchor" aria-hidden="true" id="debugging" href="#debugging"></a>Debugging</h3>
+<p>Debugging the extension target launches it in a separate Xcode instance, with a dark status bar and icon:</p>
+<p><img alt="Screenshot showing macOS dock with blue and grey Xcode icons" integrity="sha256-d0zOqJ/mkcVrrWr5aLOKhHMSx4khvqZNPXZWiKz2WH4=" crossorigin="anonymous" src="/assets/xcode-source-editor-dark-xcode-dock-774ccea89fe691c56bad6af968b38a847312c78921bea64d3d765688acf6587e.png"></p>
+<p>Sometimes attaching to the debugger fails silently,
+  and it’s a <a href="https://ericasadun.com/2016/07/21/explorations-into-the-xcode-source-editor-extensions-underbelly-part-1/" rel="noopener noreferrer">good idea</a>
+  to set a log or audible breakpoint to track this:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">func</span> <span class="nf">extension<wbr></wbr>Did<wbr></wbr>Finish<wbr></wbr>Launching</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nf">os_log</span><span class="p">(</span><span class="s">"Extension ready"</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<h4>
+  <a class="anchor" aria-hidden="true" id="extension-scheme-setup" href="#extension-scheme-setup"></a>Extension Scheme Setup</h4>
+<p><a href="https://academy.realm.io/posts/jalkut-extending-xcode-8/#hot-tips-1532" rel="noopener noreferrer">Two suggestions from Daniel Jalkut</a> to make life easier.<br>
+  Firstly add Xcode as the default executable in the Extension scheme’s Run/Info pane:</p>
+<p><img alt="Screenshot showing Xcode set as default executable in extension scheme" integrity="sha256-6PVsIO2gT10vpRYHQ8zfGZzcllBdWGeVZVvnF1Ah4co=" crossorigin="anonymous" src="/assets/xcode-source-editor-extension-target-default-executable-e8f56c20eda04f5d2fa5160743ccdf199cdc96505d586795655be7175021e1ca.png"></p>
+<p>Secondly, add a path to a file or project containing some good code to test against,
+  in the Run/Arguments panel of the extension’s scheme, under Arguments Passed On Launch:</p>
+<p><img alt="Screenshot showing path to sample code under argument passed on launch in extension scheme" integrity="sha256-gkCQaBDw/ervgHmvoaJRpGCx/WwKOj4t4h1RhnHps94=" crossorigin="anonymous" src="/assets/xcode-source-editor-extension-target-launch-arguments-8240906810f0fdeaef8079afa1a251a460b1fd6c0a3a3e2de21d518671e9b3de.png"></p>
+<h4>
+  <a class="anchor" aria-hidden="true" id="testing-xcodekit" href="#testing-xcodekit"></a>Testing XcodeKit</h4>
+<p>Make sure the test target knows how to find the XcodeKit framework,
+  if you need to write tests against it.
+  Add <code>${DEVELOPER_FRAMEWORKS_DIR}</code> as both a Runpath and a Framework Search Path in Build Settings:</p>
+<p><img alt="Screenshot showing Developer Frameworks Directory added to Runpath and Framework Search Paths in test target's build settings" integrity="sha256-DKfGg4Qs9lOZHbvqJnM8Obk+m8cHCDlUY//ks4GT9hE=" crossorigin="anonymous" src="/assets/xcode-source-editor-test-target-build-settings-0ca7c683842cf653991dbbea26733c39b93e9bc70708395463ffe4b38193f611.png"></p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="using-pluginkit" href="#using-pluginkit"></a>Using <code>pluginkit</code>
+</h3>
+<p>During development, Xcode can become confused as to which extensions it sees.
+  It can be useful to get an overview of installed extensions using the <code>pluginkit</code> tool.
+  This allows us to query the private PluginKit framework that manages all system extensions.</p>
+<p>Here we’re matching by the <code>NSExtension<wbr></wbr>Point<wbr></wbr>Identifier</code> for Source Editor extensions:</p>
+<pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> pluginkit <span class="nt">-m</span> <span class="nt">-p</span> com.apple.dt.Xcode.extension.source-editor
+<span class="go">
++    com.apple.dt.XCDocumenter.XCDocumenter<wbr></wbr>Extension(1.0)
++    com.apple.dt.Xcode<wbr></wbr>Built<wbr></wbr>In<wbr></wbr>Extensions(10.2)
+     com.Swiftify.Xcode.Extension(4.6.1)
++    com.charcoaldesign.Swift<wbr></wbr>Format-for-Xcode.Source<wbr></wbr>Editor<wbr></wbr>Extension(0.40.3)
+!    com.hotbeverage.accesscontrolkitty.extension(1.0.1)
+</span></code></pre>
+<p>The leading flags in the output can give you some clues as to what might be happening:</p>
+<ul>
+  <li>
+    <code>+</code> <a href="https://openradar.appspot.com/radar?id=4976827063861248" rel="noopener noreferrer">seems to indicate</a>
+    a specifically enabled extension</li>
+  <li>
+    <code>-</code> indicates a disabled extension</li>
+  <li>
+    <code>!</code> indicates some form of conflict</li>
+</ul>
+<p>For extra verbose output that lists any duplicates:</p>
+<pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> pluginkit <span class="nt">-m</span> <span class="nt">-p</span> com.apple.dt.Xcode.extension.source-editor <span class="nt">-A</span> <span class="nt">-D</span> <span class="nt">-vvv</span>
+</code></pre>
+<p>If you spot an extension that might be causing an issue, you can try manually removing it:</p>
+<pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> pluginkit <span class="nt">-r</span> path/to/extension
+</code></pre>
+<p>Finally, when multiple copies of Xcode are on the same machine, extensions can stop working completely.
+  In this case, Apple Developer Relations suggests re-registering your main copy of Xcode with Launch Services
+  (it’s easiest to temporarily add <code>lsregister</code>’s location to <code>PATH</code> first):</p>
+<pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> <span class="nv">PATH</span><span class="o">=</span>/System/Library/Frameworks/Core<wbr></wbr>Services.framework/Frameworks/Launch<wbr></wbr>Services.framework/Support:<span class="s2">"</span><span class="nv">$PATH</span><span class="s2">"</span>
+<span class="gp">$</span> lsregister <span class="nt">-f</span> /Applications/Xcode.app
+</code></pre>
+<aside class="admonition info">
+  <p>What are those two <code>com.apple.dt...</code> plugins in the output above?
+    Well, it seems like the Developer Tools team are using Source Editor extensions inside Xcode itself.
+    Looking at the <a href="https://github.com/keith/Xcode.app-strings/tree/master/Xcode.app/Contents/PlugIns" rel="noopener noreferrer">strings in the binaries</a>
+    we get confirmation of information found elsewhere:</p>
+  <p><code>Xcode<wbr></wbr>Built<wbr></wbr>In<wbr></wbr>Extensions</code> handles comment toggling, and
+<code>XCDocumenter<wbr></wbr>Extension</code> inserts documentation comments
+(and turns out to be the former Alcatraz plugin
+<a href="https://github.com/onevcat/VVDocumenter-Xcode" rel="noopener noreferrer">VVDocumenter</a>,
+slurped into Xcode).
+Some sort of internal privileging must then happen as they get more appropriate menu locations,
+but the basic mechanism looks the same.</p>
+</aside>
+<h2>
+  <a class="anchor" aria-hidden="true" id="features-and-caveats" href="#features-and-caveats"></a>Features and Caveats</h2>
+<h3>
+  <a class="anchor" aria-hidden="true" id="transforming-source-code" href="#transforming-source-code"></a>Transforming Source Code</h3>
+<p>Given how limited XcodeKit’s text API is, what sorts of things are people making?
+  And can it entice tool creators away from the command line?
+  (Hint: 😬)</p>
+<ul>
+  <li>Linting and style extensions (<a href="https://github.com/nicklockwood/SwiftFormat" rel="noopener noreferrer">reformatting based on rules</a>, wrapping comments, alignment, whitespace adjustment, code organization, <a href="https://itunes.apple.com/us/app/dirtywords-for-xcode/id1447526628?mt=12" rel="noopener noreferrer">profanity removal</a>)</li>
+  <li>Coding helpers (insert and remove caveman <a href="https://github.com/twostraws/Sharpshooter/" rel="noopener noreferrer">debugging statements</a> at function calls; <a href="https://github.com/markohlebar/Import" rel="noopener noreferrer">moving import statements</a> up to the top of the file from any location)</li>
+  <li>Translators, from one language to another (<a href="https://github.com/quicktype/quicktype-xcode" rel="noopener noreferrer">JSON</a> or <a href="https://swiftify.com" rel="noopener noreferrer">Objective-C to Swift</a>)</li>
+  <li>Boilerplate generators (<a href="https://github.com/Atimca/SwiftInitGenerator" rel="noopener noreferrer">init statements</a>, <a href="https://itunes.apple.com/us/app/protocol-for-xcode/id1212245111?mt=12" rel="noopener noreferrer">extraction of a protocol from a class</a>, <a href="https://github.com/wleii/TrickerX" rel="noopener noreferrer">coding keys</a>)</li>
+  <li>Extracting code to put in a different context (<a href="https://github.com/insidegui/PlayAlways" rel="noopener noreferrer">a playground</a>; <a href="https://github.com/Bunn/Xgist" rel="noopener noreferrer">a gist</a>)</li>
+</ul>
+<p>All the tools mentioned above are clearly transforming source code in various ways.
+  They’ll need some information about the structure of that code to do useful work.
+  Could they be using SourceKit directly?
+  Well, where the extension is on the App Store, we know that they’re not.
+  <strong>The extension must be sandboxed just to be loaded by Xcode</strong>,
+  whereas calls to SourceKit needs to be un-sandboxed,
+  which of course won’t fly in the App Store.
+  We <em>could</em> distribute independently and use an un-sandboxed <a href="/inter-process-communication/">XPC service</a> embedded in the extension.
+  Or more likely, we can write our own single-purpose code to get the job done.
+  The power of Xcode’s compiler is tantalizingly out of reach here.
+  An opportunity, though, if writing a mini-parser sounds like fun
+  (🙋🏼,
+  and check out <a href="https://github.com/nicklockwood/SwiftFormat" rel="noopener noreferrer">SwiftFormat</a>’s beautiful lexer implementation for Swift).</p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="context-free-source-code" href="#context-free-source-code"></a>Context-free Source Code</h3>
+<p>Once we have some way to analyze source code,
+  how sophisticated an extension can we then write?
+  Let’s remember that the current API gives us access to a file of text,
+  but not any of its <em>context</em> within a project.</p>
+<p>As an example,
+  say we want to implement an extension that quickly modifies the access level of Swift code to make it part of a framework’s API.
+  So an <code>internal</code> class’s <code>internal</code> properties and functions get changed to <code>public</code>,
+  but <code>private</code> or <code>fileprivate</code> implementation details are left alone.</p>
+<p>We can get most of the way there,
+  lexing and parsing the file to figure out where to make appropriate changes,
+  taking into account Swift’s rules about access inheritance.
+  But what happens if one of these transformed methods turns out to have a parameter with an <code>internal</code> type?
+  If that type is declared in a different file, there’s no way for our extension to know,
+  and making the method <code>public</code> will cause a build error:
+  “Method cannot be declared public because its parameter uses an internal type”.</p>
+<p>In this example, we’re missing type declarations in other files.
+  But complex refactorings can need information about how an entire codebase fits together.
+  Metadata could also be useful,
+  for example,
+  what version of Swift the project uses, or a file path to save per-project configuration.</p>
+<p>This is a frustrating trade-off for safety.
+  While it’s feasible to transform the purely <em>syntactic</em> parts of isolated code,
+  once any <em>semantics</em> come into play we quickly bump up against that missing context.</p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="output" href="#output"></a>Output</h3>
+<p>You can only output transformed text back <em>to the same source file</em> using the extension API.
+  If you were hoping to generate extensive boilerplate and insert project files automatically,
+  this isn’t supported and would be fragile to manage via the containing app.
+  Anonymous source file in/out sure is secure, but it isn’t powerful.</p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="heavyweight-architecture-lightweight-results" href="#heavyweight-architecture-lightweight-results"></a>Heavyweight Architecture; Lightweight Results</h3>
+<p>Most extensions’ containing apps are hollow shells
+  with installation instructions and some global preferences.
+  Why?
+  Well, a Cocoa app <em>can</em> do anything,
+  but the extension doesn’t give us a lot to work with:</p>
+<ul>
+  <li>As creators, we must deal with
+    sandboxed communications to the containing app, the limited API and entitlements.
+    Add complete sandboxing when distributing through the App Store.</li>
+  <li>As users we contend with
+    that convoluted installation experience,
+    and managing preferences for each extension separately in the containing apps.</li>
+</ul>
+<p>It’s all, effectively, for the privilege of a menu item.
+  And the upshot is apparent from a prominent example in the Mac App Store,
+  <a href="https://itunes.apple.com/us/story/id1437719440" rel="noopener noreferrer">Swiftify</a>:
+  they suggest no fewer than <a href="https://support.swiftify.com/hc/en-us/articles/360000109571-How-would-this-work-with-the-h-and-m-files-Do-you-have-to-convert-code-piece-by-piece-" rel="noopener noreferrer">four superior ways</a> to access their service,
+  over using their own native extension.</p>
+<h2>
+  <a class="anchor" aria-hidden="true" id="the-handwavy-bit" href="#the-handwavy-bit"></a>The Handwavy Bit</h2>
+<p>To further belabor the Xcode-as-castle metaphor,
+  Apple has opened the gate just very slightly,
+  but also positioned a large gentleman behind it,
+  deterring all but the most innocuous of guests.</p>
+<p>Extensions might have temporarily pacified the horde,
+  but they are no panacea.
+  After nearly three years without expanding the API,
+  it’s no wonder that the App Store is not our destination of choice to augment Xcode.
+  And Apple’s “best software for most” credo doesn’t mean they always get the IDE experience right
+  <em>cough image literals autocompletion cough</em>,
+  or make us optimistic that Xcode will become truly extensible in the style of <a href="https://code.visualstudio.com" rel="noopener noreferrer">VSCode</a>.</p>
+<p>But let’s swirl some tea leaves and see where Apple <em>could</em> take us
+  if they so wished:</p>
+<ul>
+  <li>Imagine a world where Xcode is using <a href="/swiftsyntax/">SwiftSyntax</a> directly to represent the syntax of a file
+    (a <a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20170206/004066.html" rel="noopener noreferrer">stated goal of the project</a>).
+    Let’s imagine that XcodeKit exposes <code>Syntax</code> nodes in some way through the extension API.
+    We would be working with <em>exactly</em> the same representation as Xcode —
+    no hand-written parsers needed.
+    <a href="https://github.com/apple/swift-syntax#some-example-users" rel="noopener noreferrer">Tools are already being written</a> against this library —
+    it would be so neat to get them directly in Xcode.</li>
+  <li>Let’s imagine we have specific <a href="https://openradar.appspot.com/26823522" rel="noopener noreferrer">read</a>/<a href="http://www.openradar.me/35194855" rel="noopener noreferrer">write access</a> to the current project directory and metadata.
+    Perhaps this leverages the robust entitlements system, with approval through App Review.
+    That sounds good to create extensive boilerplate.</li>
+  <li>Let’s expand our vision:
+    there’s a way to access fuller semantic information about our code,
+    maybe driven via the <a href="/language-server-protocol/">LSP protocol</a>.
+    Given a better way to output changes too,
+    we could use that information for complex, custom refactorings.</li>
+  <li>Imagine invoking extensions <a href="http://openradar.appspot.com/27045243" rel="noopener noreferrer">automatically</a>,
+    for example as part of the build.</li>
+  <li>Imagine API calls that add custom UI or <a href="http://www.openradar.me/29660390" rel="noopener noreferrer">Touch Bar items</a>, according to context.</li>
+  <li>Imagine a thriving, vibrant section of the <a href="https://itunes.apple.com/us/story/id1380861178" rel="noopener noreferrer">Mac App Store</a> for developer extensions.</li>
+</ul>
+<hr>
+<p><em>Whew</em>.
+  That magic tea is strong stuff.
+  In <em>that</em> world, extensions look a lot more
+  fun, powerful, and worth the architectural hassles.
+  Of course,
+  this is <a href="https://forums.swift.org/t/new-lsp-language-service-supporting-swift-and-c-family-languages-for-any-editor-and-platform/17024/37?u=zoe" rel="noopener noreferrer">rank speculation</a>,
+  and yet…
+  The open-source projects Apple is committed to working on will — eventually —
+  change the internal architecture of Xcode,
+  and surely stranger things are happening.</p>
+<p>For now, though, if any of this potential excites you,
+  please write or tweet about it,
+  <a href="/bug-reporting/">submit enhancement requests</a>,
+  get involved on the
+  <a href="https://forums.swift.org/c/development/sourcekit-lsp" rel="noopener noreferrer">relevant</a>
+  <a href="https://forums.swift.org/search?q=swiftsyntax" rel="noopener noreferrer">forums</a>
+  or contribute directly.
+  We’re still hoping the Xcode team renders this article comprehensively obsolete,
+  sooner rather than later 🤞.</p>
+</div>
+<footer role="complementary">
+  <section id="revisions">
+    <small>NSMutableHipster</small>
+    <p>
+      Questions? Corrections? <a href="https://github.com/NSHipster/articles/issues">Issues</a> and <a href="https://github.com/NSHipster/articles/blob/master/2019-03-25-xcode-source-extensions.md">pull requests</a> are always welcome.
+    </p>
+    <p class="status">
+      <em>This article uses Swift version 5.0.</em>
+      Find status information for all articles on the <a href="/status/">status page</a>.
+    </p>
+  </section>
+  <section id="attribution">
+    <div class="contributor" itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <small>Written by</small>
+      <img class="avatar" alt="Zoë Smith" itemprop="image" src="/assets/zoe-smith-1cf5238c527ce5f76128d3ade211e168214adee286fd6444f27d4027b124f1cd.jpg" draggable="false"/>
+      <div class="details">
+        <span itemprop="name"><a href="/authors/zoe-smith/">Zoë Smith</a></span>
+        <p><a href="https://zoesmith.io/about" rel="noopener noreferrer">Zoë Smith</a>
+          <a href="https://twitter.com/zoejessica" rel="noopener noreferrer">(@zoejessica)</a>
+          is a software developer for Apple platforms
+          and the creator of
+          <a href="https://github.com/zoejessica/accesscontrolkitty" rel="noopener noreferrer">AccessControlKitty</a> and
+          <a href="http://fuckingifcaseletsyntax.com" rel="noopener noreferrer">F***ingIfCaseLetSyntax.com</a>.</p>
+        <a href="https://plus.google.com/?rel=author" rel="author"></a>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div id="continue">
+      <small>Next Article</small>
+      <article>
+        <h1 class="title">
+          <a rel="next" href="/quick-look-debugging/" title="Quick Look Debugging">Quick Look Debugging</a>
+        </h1>
+        <p>Debugging can be an exercise in irony. We create programs that tell our pint-sized supercomputers to complete infinitely varied and incalculable tasks on our behalf, yet when trying to understand those same programs, we tell the computers to wait for <em>us.</em></p>
+      </article>
+    </div>
+  </section>
+</footer>
+</article>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https://nshipster.com",
+          "name": "Articles"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@id": "https://nshipster.com/xcode-source-extensions/",
+          "name": "XcodeKit and Xcode Source Editor Extensions"
+        }
+      }
+    ]
+  }
+</script>
+</main>
+<footer role="contentinfo">
+  <section class="credits colophon">
+    <p>
+      <i aria-hidden="true" class="icon-cc" title="Creative Commons"></i>
+      <i aria-hidden="true" class="icon-by" title="Attribution"></i>
+      <i aria-hidden="true" class="icon-nc" title="Non-Commercial"></i>
+      NSHipster.com is released under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">Creative Commons BY-NC License</a>.
+    </p>
+    <p>
+      NSHipster is also available in
+      <a href="https://nshipster.cn" hreflang="zh-Hans">Chinese (Simplified)</a>,
+      <a href="https://nshipster.co.kr" hreflang="ko">Korean</a>,
+      <a href="https://nshipster.fr" hreflang="fr">French</a>, and
+      <a href="https://nshipster.es" hreflang="es">Spanish</a>
+      .
+    </p>
+    <a href="https://plus.google.com/105091289906267717942" rel="publisher" hidden aria-hidden="true"></a>
+  </section>
+</footer>
+</div>
+<script async="async" src="/assets/application-7c59b22d22e826c0d17fc358aa9a2008daa8b396741ab2ef1a854e4780b0c624.js" integrity="sha256-fFmyLSLoJsDRf8NYqpogCNqos5Z0GrLvGoVOR4CwxiQ=" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NSHipster",
+    "legalName": "NSHipster, LLC",
+    "url": "https://nshipster.com",
+    "logo": "https://nshipster.com/logo.png",
+    "foundingDate": "2012",
+    "founders": [{
+      "@type": "Person",
+      "name": "Mattt"
+    }],
+    "sameAs": [
+      "https://twitter.com/nshipster",
+      "https://github.com/nshipster",
+      "https://plus.google.com/+NSHipster",
+      "https://www.facebook.com/NSHipster"
+    ]
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://nshipster.com",
+    "name": "NSHipster",
+    "author": {
+      "@type": "Person",
+      "name": "Mattt"
+    },
+    "description": "NSHipster is a journal of the overlooked bits in Objective-C, Swift, and Cocoa. Updated weekly.
+  ",
+    "publisher": "Read Evaluate Press, LLC"
+  }
+</script>
+<script type="application/cereal+json">
+    {
+        "endpoint": "https://analytics.nshipster.com/",
+        "property": 1
+    }
+</script>
+<script async defer src="https://analytics.nshipster.com/tracker.js"></script></body>
+</html>

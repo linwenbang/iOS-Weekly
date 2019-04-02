@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      打造高可拓展的 iOS KeyValueStore &middot; 阿毛的蛋疼地
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-0d">
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>阿毛的蛋疼地</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/about/">About</a>
+        
+      
+    
+      
+    
+      
+        
+      
+    
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+
+
+    <span class="sidebar-nav-item">Currently v1.0.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2019. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">阿毛的蛋疼地</a>
+            <small></small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">打造高可拓展的 iOS KeyValueStore</h1>
+  <span class="post-date">20 Jan 2017</span>
+  <h1 id="前言">前言</h1>
+
+<p>众所周知，在 <code class="highlighter-rouge">iOS</code> 端做持久化无非两种方式 （习惯性忽略 <code class="highlighter-rouge">CoreData</code>）</p>
+
+<ul>
+  <li>文档存储</li>
+  <li>数据库存储</li>
+</ul>
+
+<p>前者以 <code class="highlighter-rouge">plist</code>，<code class="highlighter-rouge">NSUserDefautls</code>，<code class="highlighter-rouge">NSKeyedArchiver</code> 等为代表，优点是使用简单，但序列化和反序列化时往往需要操作整个文件，性能较差，且不适合大量数据存储。</p>
+
+<p>后者以 <code class="highlighter-rouge">SQLite</code> 为代表，优点是性能高，适宜大数据和复杂结构的存储，缺点是使用较繁琐，拓展和兼容老数据时较为复杂。</p>
+
+<p>而目前 <code class="highlighter-rouge">iOS</code> 社区对这种情况的改进方向无非是提供性能不错的 <code class="highlighter-rouge">NoSQL</code> 存储，如 <code class="highlighter-rouge">Realm</code>，简易 <code class="highlighter-rouge">KeyValueStore</code>。而后者就是今天探讨的重点。</p>
+
+<h1 id="问题">问题</h1>
+
+<p>一个简易的 <code class="highlighter-rouge">KeyValueStore</code>，如 <a href="https://github.com/yuantiku/YTKKeyValueStore">YTKKeyValueStore</a> 刨去其具体实现细节，核心就是使用 <code class="highlighter-rouge">SQLite</code> 创建一张只有 <code class="highlighter-rouge">Key</code> (<code class="highlighter-rouge">TEXT</code>，主键) 和 <code class="highlighter-rouge">Value</code> (<code class="highlighter-rouge">BLOB/TEXT</code>) 的数据库表。思路很简单，能够适应很多场景，但也有它的局限性：</p>
+
+<ul>
+  <li>无内建缓存</li>
+  <li>存储信息无法分类</li>
+  <li>额外信息无法存储 (非特例化的额外数据)</li>
+  <li>不支持复杂查询</li>
+</ul>
+
+<h1 id="解决方案">解决方案</h1>
+
+<h2 id="内建缓存">内建缓存</h2>
+
+<p>缓存永远是加速 <code class="highlighter-rouge">I/O</code> 请求的最快途径，这毋庸置疑，关键问题是怎么做。</p>
+
+<p>从理论上来讲，<code class="highlighter-rouge">SQLite</code> 其实已经提供了缓存支持，但问题在于他提供的缓存内容是裸数据：上层使用时不可避免的需要做反序列化的操作。出于对业务方调用友好和性能考虑，最好的做法自然是在 <code class="highlighter-rouge">I/O</code> 读取 <code class="highlighter-rouge">Value</code> 时自动将 <code class="highlighter-rouge">NSData</code> 转换为对应的 <code class="highlighter-rouge">Model</code>。然而数据库并不知道怎么做反序列化，存储的 <code class="highlighter-rouge">NSData</code> 到底是 <code class="highlighter-rouge">JSON</code>，<code class="highlighter-rouge">ProtoBuf</code>，<code class="highlighter-rouge">XML</code>还是别的什么，这一切都只有上层应用知晓。</p>
+
+<p>那么这里的处理就可以变成通过数据库对象向外提供注入序列化和反序列化方法的接口，由业务方自定义转换过程。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">(</span><span class="o">^</span><span class="n">Serializer</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">id</span> <span class="n">object</span><span class="p">);</span>
+<span class="k">typedef</span> <span class="n">id</span><span class="p">(</span><span class="o">^</span><span class="n">Deserializer</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span><span class="p">);</span>
+
+
+<span class="k">@interface</span> <span class="nc">KeyValueStore</span> <span class="p">:</span> <span class="nc">NSObject</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">copy</span><span class="p">)</span>  <span class="n">Serializer</span>  <span class="n">serializer</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">copy</span><span class="p">)</span>  <span class="n">Deserializer</span> <span class="n">deserializer</span><span class="p">;</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>当数据库从表中根据 <code class="highlighter-rouge">Key</code> 获取到对应 <code class="highlighter-rouge">NSData</code> 对象后，调用自定义 <code class="highlighter-rouge">Deserializer</code> 方法进行反序列化，同时缓存解析完毕的 <code class="highlighter-rouge">Model</code> 到内存。存储过程也是同样，通过自定义的 <code class="highlighter-rouge">Serializer</code> 方法，将传入对象按照自定义规则转换为 <code class="highlighter-rouge">NSData</code> 并最终持久化。</p>
+
+<h2 id="元数据支持">元数据支持</h2>
+
+<p>当我们进行存储时，除去原始数据外，往往会需要存储部分元数据，即 <code class="highlighter-rouge">metadata</code>。举个例子，我们从服务器上拿到一个 <code class="highlighter-rouge">JSON</code> 对象，随后将它放入 <code class="highlighter-rouge">Value</code> 字段。但我们往往还需要存储一些额外信息，比如当前对象是什么时候下载，当前对象是什么时候创建的，当前对象是什么时候过期等，这些数据和 <code class="highlighter-rouge">JSON</code> 对象有关系，却不能强行填入到原 <code class="highlighter-rouge">JSON</code> 对象中，最好的方式是使用额外的 <code class="highlighter-rouge">metadata</code> 字段进行存储。</p>
+
+<p>这样我们的数据库表就可以表示为</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">dbname</span> <span class="p">(</span><span class="k">key</span> <span class="n">TEXT</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span><span class="n">value</span> <span class="n">BLOB</span><span class="p">,</span><span class="n">metadata</span> <span class="n">BLOB</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>而我们的存储接口也从 <code class="highlighter-rouge">setObject:forKey:</code> 变成了 <code class="highlighter-rouge">setObject:forKey:metadata:</code>。</p>
+
+<h2 id="分组支持">分组支持</h2>
+
+<p>在某些复杂情况下，单一 <code class="highlighter-rouge">Key</code> 并不能很好支撑复杂需求。比如我们使用 <code class="highlighter-rouge">KeyValueStore</code> 做朋友圈动态存储，当我们拿到一个 <code class="highlighter-rouge">Key = 1000</code> 时，我们怎么区别这到底是动态 <code class="highlighter-rouge">Id</code> 还是评论 <code class="highlighter-rouge">Id</code> 呢？也就是所谓的 <code class="highlighter-rouge">Key Conflict</code>。常见的处理方法有三种：</p>
+
+<ul>
+  <li>分多个数据库文件存储</li>
+  <li>为 <code class="highlighter-rouge">Key</code> 添加前缀/后缀  (<code class="highlighter-rouge">"feed_id_1000"</code> vs <code class="highlighter-rouge">"comment_id_1000"</code>)</li>
+  <li>使用复合 <code class="highlighter-rouge">Key</code>，即支持分组</li>
+</ul>
+
+<p>第一种过于繁琐，为了完成简单存储需求引入过多零散文件，而第二种则略显原始，同时将实现细节暴露给上层：上层需要关心如何组装。最好的办法自然使用数据库 <code class="highlighter-rouge">unique</code> 特性，直接加入分组：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">dbname</span> <span class="p">(</span><span class="n">rowid</span> <span class="n">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span><span class="n">bucket</span> <span class="n">TEXT</span><span class="p">,</span> <span class="k">key</span> <span class="n">TEXT</span> <span class="p">,</span><span class="n">value</span> <span class="n">BLOB</span><span class="p">,</span><span class="n">metadata</span> <span class="n">BLOB</span><span class="p">,</span><span class="k">UNIQUE</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span><span class="k">key</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>那么我们的存储接口也从 <code class="highlighter-rouge">setObject:forKey:metadata:</code> 变成了 <code class="highlighter-rouge">setObject:forKey:metadata:inBucket:</code>。</p>
+
+<p>上面提到的自定义序列化和反序列化过程也需要做相应的调整，变成如下定义</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">(</span><span class="o">^</span><span class="n">Serializer</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">bucket</span><span class="p">,</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">id</span> <span class="n">object</span><span class="p">);</span>
+<span class="k">typedef</span> <span class="n">id</span><span class="p">(</span><span class="o">^</span><span class="n">Deserializer</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">bucket</span><span class="p">,</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>还需要注意的是这里我们引入了 <code class="highlighter-rouge">rowid</code> 这个 <code class="highlighter-rouge">integer</code> 型作为自增主键，是为了下面在加入索引支持时能够更加好的支持查询。</p>
+
+<h2 id="索引支持">索引支持</h2>
+
+<p>这是限制 <code class="highlighter-rouge">KeyValueStore</code> 使用场景的的最大因素。前面提到的场景中，<code class="highlighter-rouge">KeyValueStore</code> 可以获取单条动态或评论的信息，却没办法支持复杂查询：动态流场景往往需要以时间为锚点，向上或向下翻页。</p>
+
+<p>解决方法自然是添加业务方所需要的索引，同时尽量不增加复杂度。我们可以在建立主表的同时建立一个索引表，专门用于支持查询。为支持这种行为，我们同样需要注入由外界提供的生成索引内容的接口。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSDictionary</span><span class="o">*</span><span class="p">(</span><span class="o">^</span><span class="n">KeyValueStoreIndexBlock</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">collection</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">id</span> <span class="n">object</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>这样整个存储过程就变成</p>
+
+<ul>
+  <li><code class="highlighter-rouge">KeyValueStore</code> 初始化</li>
+  <li>传入索引表 <code class="highlighter-rouge">scheme</code> 信息 （索引名，索引数据类型集合）</li>
+  <li>建立主表，内容为 <code class="highlighter-rouge">rowId</code>，<code class="highlighter-rouge">key</code>，<code class="highlighter-rouge">value</code>，<code class="highlighter-rouge">metadata</code></li>
+  <li>建立索引表，主键为主表的 <code class="highlighter-rouge">rowId</code>，其他列为前面传入的索引信息</li>
+  <li>写入数据
+    <ul>
+      <li>调用 <code class="highlighter-rouge">setObject:forKey:inBucket</code> 写入数据</li>
+      <li>调用 <code class="highlighter-rouge">KeyValueStoreIndexBlock</code> 获取当前对象的索引信息 <code class="highlighter-rouge">NSDictionary</code></li>
+      <li>将 <code class="highlighter-rouge">NSDictioanry</code> 按照 <code class="highlighter-rouge">key</code> 和 <code class="highlighter-rouge">column</code> 一一对应的规则写入索引表</li>
+    </ul>
+  </li>
+</ul>
+
+<p>而整个查询过程则可以简单的变成调用如下方法</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">query</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">condition</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>当传入 <code class="highlighter-rouge">condition = "where timetag &gt; 0"</code> 时 <code class="highlighter-rouge">KeyValueStore</code> 自动将对应请求转换为可执行的 <code class="highlighter-rouge">SQL</code> 语句，并从索引表中获取对应的 <code class="highlighter-rouge">rowId</code> 列表，再通过 <code class="highlighter-rouge">rowId</code> 在主表中进行反查出所有的信息。</p>
+
+<h1 id="结论">结论</h1>
+
+<p>如上就是对一个简易 <code class="highlighter-rouge">KeyValueStore</code> 进行拓展的方案：内建缓存，添加分组，元数据，索引支持，经过以上拓展，相信可以覆盖 <code class="highlighter-rouge">99%</code> 以上的 <code class="highlighter-rouge">iOS App</code> 存储需求。</p>
+
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2018/05/18/iOS-%E8%AE%BF%E9%97%AE%E4%BD%BF%E7%94%A8%E8%87%AA%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E6%9C%8D%E5%8A%A1/">
+            iOS 访问使用自签名证书服务
+            <small>18 May 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/01/08/WCDB-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            WCDB 源码解析
+            <small>08 Jan 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/11/20/%E6%8A%93%E5%A8%83%E5%A8%83%E6%9C%BA%E5%92%8C%E5%B0%8F%E7%B1%B3-AI-%E9%9F%B3%E7%AE%B1/">
+            抓娃娃机和小米 AI 音箱
+            <small>20 Nov 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+  </body>
+</html>

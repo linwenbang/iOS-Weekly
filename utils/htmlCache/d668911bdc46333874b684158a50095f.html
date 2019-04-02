@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>iOS UI Testing - Correctly accessing views</title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/output.css?v=64dd2b1b5f" />
+
+    <meta name="description" content="This is a series on issues you might run into with iOS UI tests. In the second part we will will explain how to correctly access views in tests." />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://blog.novoda.com/ui-testing-part-2/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://blog.novoda.com/ui-testing-part-2/amp/" />
+    
+    <meta property="og:site_name" content="The Labs | Novoda" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="iOS UI Testing - Correctly accessing views" />
+    <meta property="og:description" content="This series will cover a couple of obstacles or complications you might run into when writing UI tests for iOS and will give advice on how to write cleaner tests. The second part will explain how to correctly access views in tests." />
+    <meta property="og:url" content="https://blog.novoda.com/ui-testing-part-2/" />
+    <meta property="og:image" content="https://blog.novoda.com/content/images/2018/10/green_diamond_small-2.png" />
+    <meta property="article:published_time" content="2018-10-30T12:20:00.000Z" />
+    <meta property="article:modified_time" content="2018-10-31T10:05:13.000Z" />
+    <meta property="article:tag" content="iOS" />
+    <meta property="article:tag" content="testing" />
+    <meta property="article:tag" content="mobile apps testing" />
+    <meta property="article:tag" content="mobile testing" />
+    <meta property="article:tag" content="engineering" />
+    <meta property="article:tag" content="iOSMobileTesting" />
+    <meta property="article:tag" content="swift" />
+    <meta property="article:tag" content="best practices" />
+    <meta property="article:tag" content="accessibility label" />
+    <meta property="article:tag" content="accessibility identifier" />
+    <meta property="article:tag" content="testing &amp;amp; QA" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="iOS UI Testing - Correctly accessing views" />
+    <meta name="twitter:description" content="This series will cover a couple of obstacles or complications you might run into when writing UI tests for iOS and will give advice on how to write cleaner tests. The second part will explain how to correctly access views in tests." />
+    <meta name="twitter:url" content="https://blog.novoda.com/ui-testing-part-2/" />
+    <meta name="twitter:image" content="https://blog.novoda.com/content/images/2018/10/green_diamond_small-2.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Fabia Schäufele (IOS SOFTWARE CRAFTER)" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="iOS, testing, mobile apps testing, mobile testing, engineering, iOSMobileTesting, swift, best practices, accessibility label, accessibility identifier, testing &amp; QA" />
+    <meta name="twitter:site" content="@novoda" />
+    <meta property="og:image:width" content="1500" />
+    <meta property="og:image:height" content="1500" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "The Labs | Novoda",
+        "logo": "https://blog.novoda.com/content/images/2018/05/novodalogo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Fabia Schäufele (IOS SOFTWARE CRAFTER)",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://blog.novoda.com/content/images/2017/10/AAEAAQAAAAAAAAfPAAAAJDA1MjM0MjljLThjYmQtNGYxNy04NjI2LWRlZjNlMWYwMmJiMQ.jpg",
+            "width": 200,
+            "height": 200
+        },
+        "url": "https://blog.novoda.com/author/fabia-schaufele/",
+        "sameAs": []
+    },
+    "headline": "iOS UI Testing - Correctly accessing views",
+    "url": "https://blog.novoda.com/ui-testing-part-2/",
+    "datePublished": "2018-10-30T12:20:00.000Z",
+    "dateModified": "2018-10-31T10:05:13.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://blog.novoda.com/content/images/2018/10/green_diamond_small-2.png",
+        "width": 1500,
+        "height": 1500
+    },
+    "keywords": "iOS, testing, mobile apps testing, mobile testing, engineering, iOSMobileTesting, swift, best practices, accessibility label, accessibility identifier, testing & QA",
+    "description": "This series will cover a couple of obstacles or complications you might run into when writing UI tests for iOS and will give advice on how to write cleaner tests. The second part will explain how to correctly access views in tests.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://blog.novoda.com/"
+    }
+}
+    </script>
+
+    <script src="/public/ghost-sdk.min.js?v=64dd2b1b5f"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "92f7edd74908"
+});
+</script>
+    <meta name="generator" content="Ghost 1.25" />
+    <link rel="alternate" type="application/rss+xml" title="The Labs | Novoda" href="https://blog.novoda.com/rss/" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/themes/prism.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js" ></script>
+<meta name="google-site-verification" content="JKbm3uKt2siIi1AEzimVWbiyVbNt9-djoMsp35iCDfM" />
+  </head>
+  <body class="post-template tag-ios tag-testing tag-mobile-apps-testing tag-mobile-testing tag-engineering tag-xcuitestframework tag-iosmobiletesting tag-iostesting tag-uitesting tag-xcuitest tag-swift tag-best-practices tag-accessibility-label tag-accessibility-identifier tag-testing-qa">
+
+    <div class="main-nav">
+  <div class="btn-mobile-nav icon-menu"></div>
+  <a href="/" class="logo">
+    <img src="/content/images/2018/05/novodalogo.png" alt="Novoda" />
+  </a>
+  <nav>
+    <ul>
+        <li class="nav-work-with-us" role="presentation">
+          <a href="https://novoda.com/how-we-work">Work with us</a>
+        </li>
+        <li class="nav-clients" role="presentation">
+          <a href="https://novoda.com/clients">Clients</a>
+        </li>
+        <li class="nav-inspire" role="presentation">
+          <a href="https://novoda.com/inspire">Inspire</a>
+        </li>
+        <li class="nav-blog" role="presentation">
+          <a href="https://blog.novoda.com/">Blog</a>
+        </li>
+        <li class="nav-join-us" role="presentation">
+          <a href="https://novoda.com/hiring">Join us</a>
+        </li>
+        <li class="nav-contact" role="presentation">
+          <a href="https://novoda.com/contact">Contact</a>
+        </li>
+    </ul>
+  </nav>
+
+  <a href="http://novoda.com/contact" class="btn-mobile-mail icon-mail"></a>
+</div>
+
+<sidebar class="mobile-nav">
+  <div class="btn-mobile-nav icon-close"></div>
+  <nav>
+    <ul>
+        <li class="nav-work-with-us" role="presentation">
+          <a href="https://novoda.com/how-we-work">Work with us</a>
+        </li>
+        <li class="nav-clients" role="presentation">
+          <a href="https://novoda.com/clients">Clients</a>
+        </li>
+        <li class="nav-inspire" role="presentation">
+          <a href="https://novoda.com/inspire">Inspire</a>
+        </li>
+        <li class="nav-blog" role="presentation">
+          <a href="https://blog.novoda.com/">Blog</a>
+        </li>
+        <li class="nav-join-us" role="presentation">
+          <a href="https://novoda.com/hiring">Join us</a>
+        </li>
+        <li class="nav-contact" role="presentation">
+          <a href="https://novoda.com/contact">Contact</a>
+        </li>
+    </ul>
+  </nav>
+</sidebar>
+<div class="mobile-nav-overlay"></div>
+
+<div class="main-nav-spacer"></div>
+
+
+    <div class="wrapper">
+      <section class="post-meta">
+            <a href="/tag/ios/" title="iOS" class="tag tag- ios">iOS</a>
+      </section>
+    <div class="post single">
+      <h1 data-date="on October 30th, 2018">Tricks &amp; treats to make UI testing less terrifying (part 2)</h1>
+      <div class="author">
+        <div class="author-details">
+            <a href="/author/fabia-schaufele/" class="author-image">
+              <span style="background-image: url(/content/images/2017/10/AAEAAQAAAAAAAAfPAAAAJDA1MjM0MjljLThjYmQtNGYxNy04NjI2LWRlZjNlMWYwMmJiMQ.jpg);"></span>
+            </a>
+            <div class="author-name">
+              <a href="/author/fabia-schaufele/" data-format-author>Fabia Schäufele (IOS SOFTWARE CRAFTER)</a>
+              <span class="author-job"></span>
+            </div>
+        </div>
+        <div class="author-bio">
+            ... on a quest to get to the bottom of and promote mobile application security issues.
+        </div>
+      </div>
+
+      <div class="kg-card-markdown"><p><strong>This series will cover a couple of obstacles or complications you might run into when writing UI tests for iOS and will give advice on how to write cleaner tests. In the first part we will look into possible issues with testing custom views; <a href="https://blog.novoda.com/ui-testing-part-2/">the second part</a> will explain how to correctly access views in tests; <a href="https://blog.novoda.com/ui-testing-part-3/">the last part</a> will finally show how you can use page objects to structure your tests in a sustainable way.</strong></p>
+<h1 id="accessibilitylabelsvsidentifiers">Accessibility labels vs. identifiers</h1>
+<p>In this second part of the article we want to look into how to correctly access view elements in UI tests. As shortly mentioned in part 1, there is one very common mistake developers make here: using the <code>accessibilityLabel</code> attribute of a view to uniquely identify UI elements. This should not be done. Let’s see why.</p>
+<h2 id="accessibilitylabelsasidentifiers">Accessibility labels as “identifiers”</h2>
+<p>Accessibility labels are used by features like VoiceOver to determine what is read to the user. They should be localized, so users that rely on assistive technologies can use the app in different languages, too. This requirement makes them very poor identifiers – however, as UI tests are often only run in one language, this shortcoming does not always manifest itself. But even then, using accessibility labels as identifiers in tests makes your live harder than necessary! Texts in apps can change quite a bit from release to release. Every time a string that is also used as an identifier changes, your tests break. What can we do?</p>
+<h2 id="uniqueidentifiers">Unique identifiers</h2>
+<p>For UI testing purposes Apple provides us with a so-called <code>accessibilityIdentifier</code>. It is meant to &quot;be used to uniquely identify a UI element in the scripts we write using the UI Automation interfaces&quot; (<a href="https://developer.apple.com/documentation/uikit/uiaccessibilityidentification/1623132-accessibilityidentifier?language=objc">Apple's documentation</a>). Accessibility identifiers aren't accessed by e.g. <em>VoiceOver</em>. They are part of the <code>UIAccessibilityIdentification</code> protocol, which consists of (a) method(s) that associate a unique identifier with elements in a user interface. The only strict requirement for adhering to this protocol is defining the <code>accessibilityIdentifier</code> property.</p>
+<p>Setting accessibility identifiers is very easy. In our view's initializer we simply do:</p>
+<pre><code>someView.accessibilityIdentifier = &quot;some_string&quot;
+</code></pre>
+<p>In UI tests, we can then find our view like this</p>
+<pre><code>let someView = XCUIApplication().otherElements[&quot;some_string&quot;]
+</code></pre>
+<p>or maybe like this</p>
+<pre><code>let someView = XCUIApplication().buttons[&quot;some_string&quot;]
+</code></pre>
+<p>... depending on what type of UI element <code>someView</code> is.</p>
+<p>To avoid typos and confusion we suggest using <code>static</code> strings as identifiers.</p>
+<pre><code>public struct AccessibilityIdentifier {
+    static let someString = &quot;some_string&quot;
+}
+</code></pre>
+<p>Just have a <code>struct</code> somewhere with all identifiers</p>
+<pre><code>let someView = XCUIApplication().otherElements[AccessibilityIdentifier.someString]
+</code></pre>
+<p>... which will then be accessible from inside all UI tests.</p>
+<h2 id="accessibilityidentifiersforsystemviews">Accessibility identifiers for system views</h2>
+<p>Problems start when trying to set identifiers on views we only have limited control over, meaning view classes that the system (at least partly) manages for us, like bar button items. Let's have a look at some system UI elements.</p>
+<h3 id="systemuielementsintabbarsnavigationbarsandsearchbars">System UI elements in tab bars, navigation bars, and search bars</h3>
+<p>All three bar classes – tab bars, navigation bars, and search bars – are UI elements provided by Apple. They are accessible by default and conform to the <code>UIAccessibilityIdentification</code> protocol so we can set an identifier like this:</p>
+<pre><code>tabViewController.tabBar.accessibilityIdentifier =
+    AccessibilityIdentifier.mainTabBar
+navigationController.navigationBar.accessibilityIdentifier =
+    AccessibilityIdentifier.featureNavigationBar
+searchController.searchBar.accessibilityIdentifier =
+    AccessibilityIdentifier.listSearchBar
+</code></pre>
+<p>Navigation bars differ slightly from the other two classes insofar as they manifest special behavior if no custom accessibility identifier is set. If no custom identifier is set, the default identifier of the navigation bar automatically becomes the same as the title of the bar. (Keep in mind that in this special case the identifier changes if the title is changed.)</p>
+<p>Tab bars and navigation bars are treated as special UI elements in tests. So in addition to the above mentioned approach they are also accessible by group:</p>
+<pre><code>let app = XCUIApplication()
+let mainTabBar = app.tabBars[AccessibilityIdentifier.mainTabBar]
+let mainNavigationBar =
+    app.navigationBars[AccessibilityIdentifier.featureNavigationBar]
+</code></pre>
+<p>For some reason we do not get <code>searchBars</code> as a group; interestingly Apple provides us with <code>searchFields</code>, though.</p>
+<p>The fun starts when trying to access system UI elements in those bars. Let's first look into navigation bar titles.</p>
+<h4 id="navigationbartitles">Navigation bar titles</h4>
+<p>Navigation bar title views come with the bar itself and do not need to be managed by us, except for being given a value. Unfortunately, we can neither set a custom accessibility identifier on them, nor do they come with a default one. Simply setting an accessibility identifier will compile (because title views are just <code>UIViews</code> when it comes down to it)</p>
+<pre><code>navigationItem.titleView?.accessibilityIdentifier =
+    AccessibilityIdentifier.featureNavigationBarTitle
+</code></pre>
+<p>... it will however have no effect. The problem with that behavior is that we cannot easily assert on the title of a view controller in tests. As navigation bars cannot have more than one title, that problem can be worked around by setting an identifier on the bar and then asking it for its title.</p>
+<pre><code>let identifier = AccessibilityIdentifier.featureNavigationBar
+let navigationBar = XCUIApplication().navigationBars[identifier]
+navigationBar.title
+</code></pre>
+<p>The buttons that come with the bar are more complicated, though, as there can be several and different types.</p>
+<h4 id="barbuttonitemsandtabbarbuttons">Bar button items and tab bar buttons</h4>
+<p>Bar button items can mostly be found on navigation bars, but also for example on search bars. They inherit from <code>UIBarItem</code>; both classes theoretically conform to <code>UIAccessibilityIdentification</code>. Like with the title views, it is possible to set an accessibility identifier on such an item</p>
+<pre><code>navigationItem.backBarButtonItem?.accessibilityIdentifier =
+    AccessibilityIdentifier.featureNavigationBarBackButton
+navigationItem.leftBarButtonItem?.accessibilityIdentifier =
+    AccessibilityIdentifier.featureNavigationBarBackButton
+</code></pre>
+<p>... but again with no effect. To access the bar buttons we have two (or maybe three) possibilities. We can either use the button label, e.g. <code>Cancel</code>, to find it.</p>
+<pre><code>let navigationBarButtons = XCUIApplication().navigationBars.buttons
+let cancelButton = navigationBarButtons[&quot;Cancel&quot;]
+</code></pre>
+<p>However, as mentioned above, this solution is not very stable as the title label can change, e.g. when we switch the app's language. If we need a solution that works for several localizations we can use <code>XCUIElementQuery.element(boundBy: 0)</code> instead.</p>
+<p>Both approaches also work for search bar buttons (which technically are <code>UIBarButtonItems</code>, too) and for tab bar buttons (which also inherit from <code>UIBarItem</code>).</p>
+<pre><code>let tabBarButtons = XCUIApplication().tabBars.buttons
+let homeButton = tabBarButtons[&quot;Home&quot;]
+// or
+let homeButton = tabBarButtons.element(boundBy: 0)
+</code></pre>
+<p>A third solution would be creating and setting customs items as bar buttons items, as this gives us more control over those items.</p>
+<pre><code>let backButton = UIBarButtonItem(
+                    title: String.Localized.back,
+                    style: .plain,
+                    target: self,
+                    action: #selector(goBack)
+backButton.accessibilityIdentifier =
+    AccessibilityIdentifier.featureNavigationBarBackButton`
+navigationItem.leftBarButtonItem = backButton
+</code></pre>
+<p>The third approach is far more work, though as we do not need to create custom bar buttons most of the time.</p>
+<p>In this part of the article we covered the topic on how to mark UI elements with unique identifiers and how to access them. In the next part of this series we will take a look at the wider context of UI tests, namely how to best use UI elements in automated test flows.</p>
+<p>Read the <a href="https://blog.novoda.com/ui-testing-part-3/">next part</a> of this series.</p>
+</div>
+
+    </div>
+
+  <!-- Begin MailChimp Signup Form -->
+  <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+
+  <div class="newsletter-form">
+    <h1>Enjoyed this article? There's more...</h1>
+    <p>We send out a small, valuable newsletter with the best stories, app design &amp; development resources every month.</p>
+
+    <form action="//novoda.us5.list-manage.com/subscribe/post?u=803a1e28f6a20342c9949246e&amp;id=a94b089038" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Your E-Mail" />
+
+      <button type="submit" id="submit" name="submit" value="Subscribe" class="icon-send"> Subscribe</button>
+
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_803a1e28f6a20342c9949246e_a94b089038" tabindex="-1" value=""></div>
+    </form>
+
+    <p>No spam, no giving your data away, unsubscribe anytime.</p>
+  </div>
+
+
+</div>
+
+
+        <div class="related-posts">
+          <div class="related-posts-wrapper">
+              <a href="/ui-testing-part-1/" class="prev-post">
+                &larr; Previous Post<br />
+                <span>Tricks &amp; treats to make UI testing less terrifying (part 1)</span>
+              </a>
+              <a href="/5-ways-to-make-use-of-flight-time/" class="next-post">
+                Next Post &rarr;<br />
+                <span>5 ways to make use of flight time: LPL&gt;SFO Hackathon</span>
+              </a>
+          </div>
+        </div>
+
+      <div class="about-panel">
+        <div class="about-panel-wrapper">
+          <h2>About Novoda</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 758 414"><path fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="2" d="M335.873 196.975h-47.082l-3.879-120.276c8.858-2.159 15.096-10.095 15.107-19.219 0-10.938-8.861-19.805-19.79-19.805-10.93 0-19.79 8.867-19.79 19.805.011 9.123 6.248 17.058 15.106 19.218l-3.879 120.277h-37.04v30.138h-30.612m336.515-19.397v-75.062h4v-49l-9.194-5.377V62l-10.529-4.16-6.777-17.271-6.778 17.271L500.722 62v16.277l-9.193 5.377v49h4v124.845H458.83m59.199-167.077c8.874-.001 16.068 7.194 16.068 16.068 0 8.875-7.194 16.069-16.068 16.068-8.875.001-16.069-7.193-16.069-16.068 0-8.874 7.194-16.069 16.069-16.068zm-237.8-53.127V0m477.734 306.602h-24.395v-44.008c0-32.71-26.333-59.043-59.043-59.043-4.753 0-9.367.572-13.789 1.623v-35.565h-9.899v-12.728h-8.486v-14.848h-19.799v14.848h-8.484v12.728h-9.901v37.642m27.808-64.887V97.663"/><path fill="none" stroke="#fff" stroke-width="2" d="M346.358 249.663l10.83-10.829m-85.099 10.829l-10.83-10.829m74.819-9.971V126.2c0-13.504 10.886-24.376 24.408-24.376h73.747c13.522 0 24.408 10.872 24.408 24.376v216.465h-97.739v-57.291c0-28.606-23.068-51.637-51.723-51.637-28.654 0-51.723 23.031-51.723 51.637v57.291h-53.571V196.413c0-18.954-25.379-34.211-56.904-34.211-31.525 0-56.905 15.257-56.905 34.211v35.731H65.552v45.61H19.601m262.795 120.039V285.876c0-14.87 11.946-26.842 26.783-26.842 14.837 0 26.781 11.972 26.781 26.842v85.281h293.926v-86.021"/><path fill="none" stroke="#fff" stroke-width="2" d="M103.208 342.665V204.167h87.545v166.99H35.208M629.886 248.56v-28.515c0-8.312-25.379-15.004-56.904-15.004-31.525 0-56.905 6.692-56.905 15.004v86.557l-47.674.001"/><path fill="none" stroke="#fff" stroke-width="2" d="M530.084 342.665v-74.779a10.371 10.371 0 0 1 10.401-10.387h135.5a10.37 10.37 0 0 1 10.4 10.387v74.779h40.897M336.641 137.352h121.915"/><path fill="none" stroke="#fff" stroke-width="2" d="M659.15 286.158a5.828 5.828 0 0 1 5.84 5.84v44.813a5.828 5.828 0 0 1-5.84 5.84 5.827 5.827 0 0 1-5.84-5.84v-44.813a5.827 5.827 0 0 1 5.84-5.84z"/><circle cx="10.34" cy="277.544" r="10.34" fill="#f69c17"/><circle cx="282.326" cy="403.59" r="10.34" fill="#f69c17"/><circle cx="735.605" cy="342.734" r="10.34" fill="#f69c17"/></svg>
+          <p>We plan, design, and develop the world’s most desirable software products. Our team’s expertise helps brands like Sony, Motorola, Tesco, Channel4, BBC, and News Corp build fully customized Android devices or simply make their mobile experiences the best on the market. Since 2008, our full in-house teams work from London, Liverpool, Berlin, Barcelona, and NYC.<br />
+          <br />
+          <a href="http://novoda.com/contact">Let&rsquo;s get in contact</a></p>
+        </div>
+      </div>
+
+
+    <footer class="main-footer">
+      <div class="footer-wrapper">
+        <div class="grid">
+          <div class="col-3">
+            <h2>London</h2>
+            <p>
+              Unit 20, The Ivories<br />
+              6 Northampton Street<br />
+              Islington, London N1 2HY<br />
+              Great Britain<br />
+              <br />
+              <a href="tel:+44 207 359 4709">+44 207 359 4709</a>
+            </p>
+          </div>
+          <div class="col-3">
+            <h2>Berlin</h2>
+            <p>
+              Novoda GmbH<br />
+              Grünberger Str. 44a<br />
+              10245 Berlin-Friedrichshain <br />
+              Germany<br />
+              <br />
+              <a href="tel:+49 30 827 176 49">+49 30 827 176 49</a>
+            </p>
+          </div>
+          <div class="col-3">
+            <h2>New York</h2>
+            <p>
+              Novoda, Dumbo Loft<br />
+              155 Water St<br />
+              New York, NY 11201<br />
+              United States
+            </p>
+          </div>
+          <div class="col-3">
+            <h2>Liverpool</h2>
+            <p>
+              Baltic Creative - Unit C<br />
+              49 Jamaica St<br />
+              Liverpool, Merseyside L1 0AH<br />
+              Great Britain<br />
+              <br />
+              <a href="tel:+44 207 359 4709">+44 207 359 4709</a>
+            </p>
+          </div>
+          <div class="col-3">
+            <h2>Barcelona</h2>
+            <p>
+              Mob&amp;Pau<br />
+              Ronda de Sant Pau 47<br />
+              08015 Barcelona<br />
+              España<br />
+              <br />
+              <a href="tel:+34 936 674 165">+34 936 674 165</a>
+            </p>
+          </div>
+          <div class="col-3">
+            <h2>Novoda</h2>
+            <div class="social-icons">
+              <a href="https://plus.google.com/+Novoda/posts" class="icon-post-gplus"></a>
+              <a href="https://twitter.com/novoda" class="icon-post-twitter"></a>
+              <a href="https://www.facebook.com/pages/Novoda/125349721478" class="icon-post-facebook"></a>
+              <a href="https://github.com/novoda" class="icon-github"></a>
+              <a href="https://blog.novoda.com/rss" class="icon-rss"></a>
+            </div>
+            <p>
+              Copyright &copy; <script>document.write(new Date().getFullYear())</script> Novoda<br />
+              All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript" src="/assets/js/output.js?v=64dd2b1b5f"></script>
+
+        <script type="text/javascript">
+          var isPreview = document.location.pathname.startsWith('/p/');
+          const maxImageSize = 2000;
+
+          if (isPreview) {
+            var isImageTooBig = function(index, image) {
+               return this.naturalWidth > maxImageSize || this.naturalHeight > maxImageSize;
+            };
+
+            $(window).load(function () {
+              $("body > div.wrapper > div.post.single > div.kg-card-markdown img")
+                .filter(isImageTooBig)
+                .addClass('too-big')
+                .after('<p class="too-big-title">⚠️ This image is too big!</p>' +
+                  '<p class="too-big-message">Make sure your images are smaller than 2000px on their biggest dimension, or pages will take a very long time to load.</p>' +
+                  '<p class="too-big-note">Note: this message only appears in previews</p>')
+                .parent()
+                .addClass('too-big-container');
+            });
+          }
+        </script>
+
+    <!-- Start MailChimp -->
+    <script>
+    </script>
+    <!-- End MailChimp -->
+
+    <!-- PrismJS for syntax highlighting of code blocks -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/prism.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-markup.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-css.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-clike.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-javascript.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-bash.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-c.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-dart.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-git.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-groovy.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-haskell.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-java.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-json.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-jsx.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-kotlin.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-markdown.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-objectivec.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-properties.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-protobuf.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-python.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-ruby.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-typescript.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-scala.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-sql.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-swift.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-tsx.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.12.2/components/prism-yaml.min.js"></script>
+
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-6182198-1', 'auto');
+  ga('create', 'UA-6182198-6', 'auto', 'blog');
+
+  // Set the page value on the tracker adding a /blog prefix to the path
+  var page = '/blog' + document.location.pathname;
+  ga('set', 'page', page);
+  
+  ga('send', 'pageview');
+  ga('blog.send', 'pageview');
+</script>
+  </body>
+</html>

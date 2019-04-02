@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+	<meta name="published" content="true">
+  <meta name="dcterms.date" content="2016-03-17">
+	<meta name="summary" content="Documentation about linker flags used for linking Objective-C code">
+	<title>Linking Objective-C Code</title>
+  <style type="text/css">code{white-space: pre;}</style>
+	
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  
+  <link rel="stylesheet" href="/shiny/min.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="alternate" type="application/rss+xml" title="Blog RSS Feed" href="/feed.xml" />
+</head>
+<body>
+
+<header>
+<h1 class="title">Linking Objective-C Code</h1>
+</header>
+<p>Recently a conversation on came up on twitter as to the significance of the <code>-ObjC</code> linker flag and why this is important for us to use when compiling Objective-C code. Before I get into the specifics of those flags and why they are important to understand the difference between them, I am going to briefly explain what linking is and how it fits into the larger picture of building your app.</p>
+<h2 id="building-an-application">Building an Application</h2>
+<p>When you build an application you have to supply at least one source code file. The compiler will take this input and for each file it is given, will output another file called an <a href="https://en.wikipedia.org/wiki/Object_file">object file</a>. These object files contain machine executable code, but are not in a format that can be directly used. When using an IDE such as Xcode, they are considered to be build artifacts. This means they are an intermediate state that is used when converting the raw source files into a executable binary. These object files will typically use the same naming conventions as the original source files did; for example, <code>NSFoobar.m</code> will become <code>NSFoobar.o</code>. On <a href="https://en.wikipedia.org/wiki/Darwin_(operating_system)">Darwin</a>-based systems, these are mach-o files that are given the type <code>MH_OBJECT</code>. This tells the kernel that while they contain runnable code, they are not setup to be executed on their own. After the compiler has finished generating all of these object files, it is the static linker’s job to perform linkage to create an executable binary.</p>
+<h3 id="linkers">Linkers</h3>
+<p>Before we go any further it is important to make of note of the fact that Darwin-based platforms have two types of linkers:</p>
+<ol type="1">
+<li>Static Linker (<code>ld</code>)</li>
+<li>Dynamic Linker (<code>dyld</code>)</li>
+</ol>
+<p>The Static Linker is used to create applications and libraries from object files. This is the linker that is used when performing linkage when building an application.</p>
+<p>The Dynamic Linker is what executes binaries that are on disk. This will dynamically load the application binary into memory, as well as any other frameworks and libraries that the application binary needs to run.</p>
+<h3 id="libraries">Libraries</h3>
+<p>Additionally, there are also two types of libraries:</p>
+<ol type="1">
+<li>Static Libraries (<code>.a</code>)</li>
+<li>Dynamic Libraries (<code>.dylib</code> and <code>.framework</code>)</li>
+</ol>
+<p>For background information as to the differences between these two types of libraries, please check out this <a href="/blog/static_and_dynamic_libraries.html">blog post</a>.</p>
+<h3 id="binaries">Binaries</h3>
+<p>When working on Apple’s platforms there are three common types of targets to build:</p>
+<ol type="1">
+<li>Application Binaries</li>
+<li>Dynamic Libraries</li>
+<li>Static Libraries</li>
+</ol>
+<p>Both Application Binaries and Dynamic Libraries are classified as “executable binaries”. This means that they are setup in such a way that allows the Dynamic Linker to load them into memory and begin executing code.</p>
+<p>Static Libraries are not executable binaries, they are infact archive files (typically <code>.ar</code> but uses <code>.a</code>) that are used to store the object files produced by the compiler when given source code. The files that get stored inside of these archive files are called “members”.</p>
+<h3 id="compiled-code">Compiled Code</h3>
+<p>When source code is turned into machine code that can be run on a computer, the functions and methods that we create must be translated into callable subroutines. These callable subroutines are called “symbols”. These symbols have names that are based on the original function or method name that was defined in the source code file then encoded in a particular manner based on the specification of the language that they are implemented in. This encoding is called “mangling” as the original human-readable names become less human-readable so that they can be uniquely defined in the application’s global symbol table.</p>
+<p>Much of the power and features of the Objective-C language comes from the fact that much of the information needed to execute code can only be determined during runtime. For example, even though an Objective-C class that you create has a method defined and implemented on that class; the code that is run when calling that method can only be determined while the application is executing. This is because the language performs a lookup on the class to find a method based on the name you passed it to look up the selector. This selector has an associated subroutine of executable code that should be run in response to the method call. While your class has a particular method defined and implemented, at runtime the implemenation of that method can be swapped out to point to a different subroutine to be called instead. To support this behavior, when compiling Objective-C code, the compiler also generates data that defines the layout and structure of classes and the methods that are implemented on them as additional data sections that are embedded into the object file. These are parsed at runtime to register the class information with the Objective-C language runtime. It is important to note that while class defintions generate symbols that are part of the object file’s symbol table, an Objective-C category does not cause symbols to be generated for it. This is because a category is only additional supplimental data for an existing defined class.</p>
+<h2 id="linking">Linking</h2>
+<p>Once the compiler has generated all of the object files, these are passed to the static linker to create an executable binary. The way this works is that the linker will go through all of the object files and by using a process of static analysis it will determine which of the object files are needed to create the executable binary based on which symbols are defined on each object. This will create a graph of all of the code dependencies that exist and allow only the necessary objects be used to create the executable binary. If you are using a library that was already compiled as either a static or dynamic library, then this must also be passed to the linker using the <code>-l</code> flag (this says to link a library by name that can be found in the library search paths).</p>
+<ul>
+<li>When the linker is passed a dynamic library, then it adds it to a list of libraries that must be loaded by the dynamic linker at launch time to correctly resolve the symbols it uses. Symbol references are added to your executable that mark them as external references that will be resolvable at runtime.</li>
+<li>When the linker is passed a static library, it will unpack this library based on what architecture is currently being built and then will unpack the members of the archive file (this are object files). It will then add these object files to the pool of object files it already knows about to resolve symbols from.</li>
+</ul>
+<p>As mentioned in the previous section, Objective-C relies heavily on the dynamic runtime it has. Part of this heavy reliance is on the data generated when compiling the Objective-C source code files. Because of this behavior that is governed by the additional runtime data that is defined outside of the symbol table, there needs to be a way to tell the static linker that the certain object files should be loaded even if they don’t seem to be necessary. The linker has three flags dedicated to controling this special type of behavior override.</p>
+<h3 id="all_load"><code>-all_load</code></h3>
+<p>The <code>-all_load</code> flag tell the linker that it should link every object file (member) of every static library that is passed to the linker. This is a rather drastic option and can cause your executable binary to dramatically increase in size. This flag should be avoided if at all possible when using many static libraries.</p>
+<h3 id="objc"><code>-ObjC</code></h3>
+<p>The <code>-ObjC</code> flag controls behavior around Objective-C code. This will tell the linker that it should look through all the object files (members) of each static library to find the object files (members) that contain any additional Objective-C runtime data. This allows developers to link object files that only contain Objective-C catagories, or any other Objective-C code that the static analysis cannot resolve as being called directly (such as creating a class using <code>NSClassFromString()</code>). This is the flag that is typically passed when using static libraries that contain Objective-C code. Keep in mind, this flag means that <strong>ALL</strong> Objective-C code that is passed to the linker will be added to the executable binary regardless of if it gets used or not.</p>
+<h3 id="force_load"><code>-force_load</code></h3>
+<p>The <code>-force_load</code> flag is very similar to the <code>-all_load</code> flag, except that it takes an argument of a path to a static library. When passed to the linker, this flag says that regardless of whatever other flags are passed to the linker, that it should link all of the object files (members) of the specific static library that is specified by the passed argument. This allows for a more controlled behavior of selectively loading all the code from one static library but not having to bloat up the executable binary with unnecessary code from other libraries.</p>
+<hr />
+<center>
+<br/><span>If this blog post was helpful to you, please consider donating to keep this blog alive, thank you!</span><br/><br/><a href="https://cash.me/$samanthademi" target="_blank"><img alt="donate to support this blog" border="0" src="/media/donate_button.gif" width="92" height="26"></a>
+</center>
+</body>
+</html>

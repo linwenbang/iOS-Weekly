@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+  
+
+
+
+
+
+
+
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      High Performance Numeric Programming with Swift: Explorations and Reflections &middot; fast.ai
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="atom.xml">
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', ' UA-89522379-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/"> fast.ai </a>
+      </h1>
+      <p class="lead">Making neural nets uncool again</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">About</a>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+      <a class="sidebar-nav-item" href="http://course.fast.ai">Our MOOC</a>
+      <a class="sidebar-nav-item" href="/topics">Posts by Topic</a> 
+    </nav>
+
+    <p>&copy; fast.ai 2019. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">High Performance Numeric Programming with Swift: Explorations and Reflections </h1>
+  <span class="post-date">Written: 10 Jan 2019 by <i>Jeremy Howard</i></span>
+
+
+  <p>Over the past few weeks I’ve been working on building some numeric programming libraries for <a href="https://developer.apple.com/swift/">Swift</a>. But wait, isn’t Swift just what iOS programmers use for building apps? Not any more! Nowadays Swift runs on Linux and Mac, and can be used for <a href="https://vapor.codes/">web applications</a>, <a href="https://medium.com/quick-code/lets-build-a-command-line-app-in-swift-328ce274f1cc">command line tools</a>, and nearly anything else you can think of.</p>
+
+<p>Using Swift for numeric programming, such as training machine learning models, is not an area that many people are working on. There’s very little information around on the topic. But after a few weeks of research and experimentation I’ve managed to create a couple of libraries that can achieve the same speed as carefully optimized vectorized C code, whilst being concise and easy to use. In this article, I’ll take you through this journey and show you what I’ve learned about how to use Swift effectively for numeric programming. I will include examples mainly from my <a href="https://github.com/jph00/BaseMath">BaseMath</a> library, which provides generic math functions for <code class="highlighter-rouge">Float</code> and <code class="highlighter-rouge">Double</code>, and optimized versions for various collections of them. (Along the way, I’ll have plenty to say, both positive and negative, about both Swift and other languages; if you’re someone who has a deep emotional connection to your favorite programming language and doesn’t like to see any criticism of it, you might want to skip this post!)</p>
+
+<p>In a future post I’ll also show how to get additional speed and functionality by interfacing with Intel’s Performance Libraries for C.</p>
+
+<h2 id="background">Background</h2>
+
+<p>Generally around the new year I try to experiment with a new language or framework. One approach that’s worked particularly well for me is to look at what the people that built some of my favorite languages, books, and libraries are doing now. This approach led me to being a very early user of Delphi, Typescript, and C# (Anders Hejlsberg, after I used his Turbo Pascal), Perl (Larry Wall, after I used <code class="highlighter-rouge">rn</code>), JQuery (John Resig, after I read <em>Modern Javascript</em>), and more. So when I learnt that <a href="https://en.wikipedia.org/wiki/Chris_Lattner">Chris Lattner</a> (who wrote the wonderful LLVM) is creating a new deep learning framework called <a href="https://www.tensorflow.org/swift/">Swift for Tensorflow</a> (which I’ll shorten to <em>S4TF</em> from here), I decided that I should take a look.</p>
+
+<p>Note that S4TF is <em>not</em> just a boring Swift wrapper for Tensorflow! It’s the first <a href="https://github.com/tensorflow/swift/blob/master/docs/DesignOverview.md">serious effort</a> I’ve seen to incorporate <a href="https://techburst.io/deep-learning-est-mort-vive-differentiable-programming-5060d3c55074">differentiable programming</a> deep in to the heart of a widely used language. I’m hoping that S4TF will give us a language and framework that, for the first time, treats differentiable-programming as a first-class citizen of the programming world, and will allow us to do things like:</p>
+
+<ul>
+  <li>Write custom GPU kernels in Swift</li>
+  <li>Provide compile-time checks for <a href="http://nlp.seas.harvard.edu/NamedTensor">named tensor</a> axis name and size matching</li>
+  <li><a href="https://github.com/tensorflow/swift/blob/master/docs/AutomaticDifferentiation.md">Differentiate</a> any arbitrary code, whilst also providing vectorized and fused implementations automatically.</li>
+</ul>
+
+<p>These things are not available in S4TF, at least as yet (in fact, it’s such early days for the project that nearly none of the deep learning functionality works yet). But I fully expect them to happen eventually, and when that happens, I’m confident that using differentiable programming in Swift will be a far better experience in Swift than in any other language.</p>
+
+<p>I was lucky enough to bump in to Chris at a recent conference, and when I told him about my interest in S4TF, he was kind enough to offer to help me get started with Swift. I’ve always found that <em>who</em> I work with matters much more to my productivity and happiness than <em>what</em> I work on, so that was another excellent reason to spend time on this project. Chris has been terrifically helpful, and he’s super-nice as well—so thanks, Chris!</p>
+
+<h2 id="about-swift">About Swift</h2>
+
+<p>Swift is a general-purpose, multi-paradigm, compiled programming language. It was started by Chris Lattner while he was at Apple, and supported many concepts from Objective-C (the main language used for programming for Apple devices). Chris described the language to me as “syntax sugar for <a href="https://www.infoworld.com/article/3247799/development-tools/what-is-llvm-the-power-behind-swift-rust-clang-and-more.html">LLVM</a>”, since it maps so closely to many of the ideas in that compiler framework.</p>
+
+<p>I’ve been coding for around 30 years, and in that time have used dozens of languages (and have even <a href="https://perl6.org/archive/rfc/82.html">contributed to some</a>. I always hope that when I start looking at a new language that there will be some mind-opening new ideas to find, and Swift definitely doesn’t disappoint. Swift tries to be expressive, flexible, concise, safe, easy to use, and fast. Most languages compromise significantly in at least one of these areas. Here’s my personal view of some languages that I’ve used and enjoyed, but all of which have limitations I’ve found frustrating at times:</p>
+
+<ul>
+  <li>Python: Slow at runtime, poor support for parallel processing (but very easy to use)</li>
+  <li>C, C++: hard to use (and C++ is slow at compile time), but fast and (for C++) expressive</li>
+  <li>Javascript: Unsafe (unless you use Typescript); somewhat slow (but easy to use and flexible)</li>
+  <li>Julia: Poor support for general purpose programming, but fast and expressive for numeric programming. ( <em>Edit: this may be a bit unfair to Julia; it’s come a long way since I’ve last looked at it!</em>)</li>
+  <li>Java: verbose (but getting better, particularly if you use Kotlin), less flexible (due to JVM issues), somewhat slow (but overall a language that has many useful application areas)</li>
+  <li>C# and F#: perhaps the fewest compromises of any major programming language, but still requires installation of a runtime, limited flexibility due to garbage collection, and difficulties making code really fast (except on Windows, where you can interface via C++/CLI)</li>
+</ul>
+
+<p>I’d say that Swift actually does a pretty good job of avoiding any major compromises (possibly Rust does too; I haven’t used it seriously so can’t make an informed comment). It’s not the <em>best</em> at any of the areas I’ve mentioned, but it’s not too far off either. I don’t know of another single language that can make that claim (but note that it also has its downsides, which I’ll address in the last section of this article). I’ll look briefly at each in turn:</p>
+
+<ul>
+  <li>Concise: Here’s how to create a new array <code class="highlighter-rouge">b</code> that adds <code class="highlighter-rouge">2</code> to every element of <code class="highlighter-rouge">a</code>: <code class="highlighter-rouge">let b=a.map {$0+2}</code>. Here, <code class="highlighter-rouge">{$0+2}</code> is an anonymous function, with <code class="highlighter-rouge">$0</code> being the automatic name for the first parameter (you can optionally add names and types if you like). The type of <code class="highlighter-rouge">b</code> is inferred automatically. As you can see, there’s a lot we’ve done with just a small amount of code!</li>
+  <li>Expressive: The above line of code works not just for arrays, but for any object that supports certain operations (as defined by <code class="highlighter-rouge">Sequence</code> in the Swift standard library). You can also add support for <code class="highlighter-rouge">Sequence</code> to any of your objects, and even add it to existing Swift types or types in other libraries. As soon as you do so, those objects will get this functionality for free.</li>
+  <li>Flexible: There’s not much that Swift can’t do. You can use it for mobile apps, desktop apps, server code, and even systems programming. It works well for parallel computing, and also can handle (somewhat) small-memory devices.</li>
+  <li>Safe: Swift has a fairly strong type system, which does a good job of noticing when you’ve done something that’s not going to work. It has good support for optional values, without making your code verbose. But when you need extra speed or flexibility, there’s generally ways to bypass Swift’s checks.</li>
+  <li>Fast: Swift avoids the things that can make a language slow; e.g. it doesn’t use garbage collection, allows you to use value types nearly everywhere, and minimizes the need for locking. It uses LLVM behind the scenes, which has excellent support for creating optimized machine code. Swift also makes it easy for the compiler to know when things are immutable, and avoids aliasing, which also helps the compiler optimize. As you’ll see, you can often get the same performance as carefully optimized C code.</li>
+  <li>Easy to use: This is the one area where there is, perhaps, a bit of a compromise. It’s quite easy to write basic Swift programs, but there can be obscure type issues that pop up, mysterious error messages a long way from the real site where the problem occurred, and installing and distributing applications and libraries can be challenging. Also, the language has been changing a lot (for the better!) so most information online is out of date and requires changes to make it work. Having said all that, it’s <em>far</em> easier to use than something like C++.</li>
+</ul>
+
+<h2 id="protocol-oriented-programming">Protocol-oriented programming</h2>
+
+<p>The main trick that lets Swift avoid compromises is its use of <em>Protocol-oriented programming</em>. The basic idea is that we try to use <a href="https://en.wikipedia.org/wiki/Value_type_and_reference_type">value types</a> as much as possible. In most languages where ease-of-use is important, reference types are widely used since they allow the use of garbage collection, virtual functions, overriding super-class behavior, and so forth. Protocol-oriented programming is Swift’s way of getting many of these benefits, whilst avoiding the overhead of reference types. In addition, by avoiding reference types, we avoid all the complex bugs introduced when we have two variables pointing at the same thing.</p>
+
+<p>Value types are also a great match for functional styles of programming, since they allow for better support of immutability and related functional concerns. Many programmers, particularly in the Javascript world, have recently developed an understanding of how code can be more concise, understandable, and correct, by leveraging a functional style.</p>
+
+<p>If you’ve used a language like C#, you’ll already be familiar with the idea that defining something with <code class="highlighter-rouge">struct</code> gives you a value type, and using <code class="highlighter-rouge">class</code> gives you a reference type. This is exactly how Swift handles things too.</p>
+
+<p>Before we get to protocols, let’s mention a couple of other fundamentals: <em>Automatic Reference Counting</em> (ARC), and <em>copy-on-write</em>.</p>
+
+<h3 id="automatic-reference-counting-arc">Automatic Reference Counting (ARC)</h3>
+
+<p>From the docs: “Swift uses Automatic Reference Counting (ARC) to track and manage your app’s memory usage. In most cases, this means that memory management “just works” in Swift, and you do not need to think about memory management yourself. ARC automatically frees up the memory used by class instances when those instances are no longer needed.” Reference counting has traditionally been used by dynamic languages like Perl and Python. Seeing it in a modern compiled language is quite unusual. However, Swift’s compiler works hard to track references carefully, without introducing overhead.</p>
+
+<p>ARC is important both for handling Swift’s reference types (which we still need to use sometimes), and also to handle memory use in value type objects sharing memory with copy-on-write semantics, or which are embedded in a reference type. Chris also mentioned to me a number of other benefits: it provides deterministic destruction, eliminates the <a href="https://www.viva64.com/en/b/0437/">common problems with GC finalizers</a>, allows scaling down to systems that don’t/can’t want a GC, and eliminates unpredictable/unreproducible pauses.</p>
+
+<h3 id="copy-on-write">Copy-on-write</h3>
+
+<p>One major problem with value types in most languages is that if you have something like a big array, you wouldn’t want to pass the whole thing to a function, since that would require a lot of slow memory allocation and copying. So most languages use a pointer or reference in this situation. Swift, however, passes a reference to the original memory, but if the reference mutates the object, only then does it get copied (this is done behind the scenes automatically). So we get the best performance characteristics of value and reference types combined! This is refered to as “copy-on-wrote”, which is rather delightfully refered to in some S4TF docs as “COW 🐮” (yes, with the cow face emoji too!)</p>
+
+<p>COW also helps with programming in a functional style, yet still allowing for mutation when needed—but without the overhead of unnecessary copying or verbosity of manual references.</p>
+
+<h3 id="protocols">Protocols</h3>
+
+<p>With value types, we can’t use inheritance hierarchies to get the benefits of object-oriented programming (although you can still use these if you use reference types, which are also supported by Swift). So instead, Swift gives us <em>protocols</em>. Many languages, such as Typescript, C#, and Java, have the idea of <em>interfaces</em>—metadata which describes what properties and methods an object can contain. At first glance, protocols look a lot like interfaces. For instance, here’s the definition from my BaseMath library of <code class="highlighter-rouge">ComposedStorage</code>, which is a protocol describing a collection that wraps some other collection. It defines two properties, <code class="highlighter-rouge">data</code> and <code class="highlighter-rouge">endIndex</code>, and one method, <code class="highlighter-rouge">subscript</code> (which is a special method in Swift, and provides indexing functionality, like an array). This protocol definition simply says that anything that <em>conforms to this protocol</em> must provide implementations of these three things.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ComposedStorage</span> <span class="p">{</span>
+  <span class="kd">associatedtype</span> <span class="kt">Storage</span><span class="p">:</span><span class="kt">MutableCollection</span> <span class="k">where</span> <span class="kt">Storage</span><span class="o">.</span><span class="kt">Index</span><span class="o">==</span><span class="kt">Int</span>
+  <span class="kd">typealias</span> <span class="kt">Index</span><span class="o">=</span><span class="kt">Int</span>
+
+  <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Storage</span> <span class="p">{</span><span class="k">get</span> <span class="k">set</span><span class="p">}</span>
+  <span class="k">var</span> <span class="nv">endIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span><span class="k">get</span><span class="p">}</span>
+  <span class="nf">subscript</span><span class="p">(</span><span class="nv">i</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Storage</span><span class="o">.</span><span class="kt">Element</span> <span class="p">{</span><span class="k">get</span> <span class="k">set</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is a <em>generic</em> protocol. Generic protocols don’t use <code class="highlighter-rouge">&lt;Type&gt;</code> markers like generic classes, but instead use the <code class="highlighter-rouge">associatedtype</code> keyword. So in this case, <code class="highlighter-rouge">ComposedStorage</code> is saying that the <code class="highlighter-rouge">data</code> attribute contains something of a generic type called <code class="highlighter-rouge">Storage</code> which conforms to the <code class="highlighter-rouge">MutableCollection</code> protocol, and that type in turn has an <code class="highlighter-rouge">associatedtype</code> called <code class="highlighter-rouge">Index</code> which must be of type <code class="highlighter-rouge">Int</code> in order to conform to <code class="highlighter-rouge">ComposedStorage</code>. It also says that the <code class="highlighter-rouge">subscript</code> method returns whatever type the <code class="highlighter-rouge">Storage</code>’s <code class="highlighter-rouge">Element</code> <code class="highlighter-rouge">associatedtype</code> contains. As you can see, protocols provide quite an expressive type system.</p>
+
+<p>Now look further, and you’ll see something else… there are also <em>implementations</em> provided for this protocol!</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">ComposedStorage</span> <span class="p">{</span>
+  <span class="nf">subscript</span><span class="p">(</span><span class="nv">i</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Storage</span><span class="o">.</span><span class="kt">Element</span> <span class="p">{</span>
+    <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>     <span class="p">}</span>
+    <span class="k">set</span> <span class="p">{</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newValue</span> <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">var</span> <span class="nv">endIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">count</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>This is where things get really interesting. By providing implementations, we’re automatically adding functionality to any object that conforms to this protocol. For instance, here is the entire definition from BaseMath of <code class="highlighter-rouge">AlignedStorage</code>, a class provides array-like functionality but internally uses aligned-memory, which is often required for fast vectorized code:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AlignedStorage</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span><span class="kt">SupportsBasicMath</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">BaseVector</span><span class="p">,</span> <span class="kt">ComposedStorage</span> <span class="p">{</span>
+  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Element</span><span class="o">=</span><span class="kt">T</span>
+  <span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">UnsafeMutableBufferPointer</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span>
+
+  <span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">UnsafeMutableBufferPointer</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span><span class="k">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">}</span>
+  <span class="kd">public</span> <span class="kd">required</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span>      <span class="p">{</span> <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="kt">UnsafeMutableBufferPointer</span><span class="p">(</span><span class="n">count</span><span class="p">))</span> <span class="p">}</span>
+  <span class="kd">public</span> <span class="kd">required</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">array</span><span class="p">:</span> <span class="kt">Array</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="kt">UnsafeMutableBufferPointer</span><span class="p">(</span><span class="n">array</span><span class="p">))</span> <span class="p">}</span>
+
+  <span class="kd">deinit</span> <span class="p">{</span> <span class="kt">UnsafeMutableRawBufferPointer</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="nf">deallocate</span><span class="p">()</span> <span class="p">}</span>
+
+  <span class="kd">public</span> <span class="k">var</span> <span class="nv">p</span><span class="p">:</span> <span class="kt">MutPtrT</span> <span class="p">{</span><span class="k">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">p</span><span class="p">}}</span>
+  <span class="kd">public</span> <span class="kd">func</span> <span class="nf">copy</span><span class="p">()</span><span class="o">-&gt;</span><span class="k">Self</span> <span class="p">{</span> <span class="k">return</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="nf">copy</span><span class="p">())</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, there’s not much code at all. And yet this class provides all of the functionality of the protocols <code class="highlighter-rouge">RandomAccessCollection</code>, <code class="highlighter-rouge">MutableCollection</code>, <code class="highlighter-rouge">ExpressibleByArrayLiteral</code>, <code class="highlighter-rouge">Equatable</code>, and <code class="highlighter-rouge">BaseVector</code> (which together include hundreds of methods such as <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">find</code>, <code class="highlighter-rouge">dropLast</code>, and <code class="highlighter-rouge">distance</code>). This is possible because the protocols that this class conforms to, <code class="highlighter-rouge">BaseVector</code> and <code class="highlighter-rouge">ComposedStorage</code>, provide this functionality through <em>protocol extensions</em> (either directly, or by other protocols that they in turn conform to).</p>
+
+<p>Incidentally, you may have noticed that I defined <code class="highlighter-rouge">AlignedStorage</code> as <code class="highlighter-rouge">class</code>, not <code class="highlighter-rouge">struct</code>, despite all my earlier hype about value types! It’s important to realize that there are still some situations where classes are required. Apple’s documentation provides some <a href="https://developer.apple.com/documentation/swift/choosing_between_structures_and_classes">helpful guidance</a> on this topic. One thing that structs don’t (yet) support is <code class="highlighter-rouge">deinit</code>; that is, the ability to run some code when an object is destroyed. In this case, we need to deallocate our memory when we’re all done with our object, so we need deinit, which means we need a class.</p>
+
+<p>One common situation where you’ll find you really need to use protocols is where you want the behavior of <em>abstract classes</em>. Swift doesn’t support abstract classes at all, but you can get the same effect by using protocols (e.g. in the above code <code class="highlighter-rouge">ComposedStorage</code> defines <code class="highlighter-rouge">data</code> but doesn’t implement it in the protocol extension, therefore it acts like an abstract property). The same is true of multiple inheritance: it’s not supported by Swift classes, but you can conform to multiple protocols, each of which can have extensions (this is sometimes refered to as <em>mixins</em> in Swift). Protocol extensions share a lot of ideas with <em>traits</em> in Rust and <em>typeclasses</em> in Haskell.</p>
+
+<h2 id="generics-over-float-and-double">Generics over Float and Double</h2>
+
+<p>For numeric programming, if you’re creating a library then you probably want it to transparently support at least <code class="highlighter-rouge">Float</code> and <code class="highlighter-rouge">Double</code>. However, Swift doesn’t make this easy. There is a protocol called <code class="highlighter-rouge">BinaryFloatingPoint</code> which in theory supports these types, but unfortunately only three math functions in Swift are defined for this protocol (<code class="highlighter-rouge">abs</code>, <code class="highlighter-rouge">max</code>, and <code class="highlighter-rouge">min</code> - and the standard math operators <code class="highlighter-rouge">+-*/</code>).</p>
+
+<p>You could, of course, simply provide separate functionality for each type, but then you’ve got to deal with creating two versions of everything, and your users have to deal with the same problem too. Interestingly enough, I’ve found no discussions of this issue online, and Swift’s own libraries suffer from this issue in multiple places. As discussed below, Swift hasn’t been used much at all for numeric programming, and these are the kinds of issues we have to deal with. BTW, if you search for numerical programming code online, you will often see the use of the <code class="highlighter-rouge">CGFloat</code> type (which suffers from Objective-C’s naming conventions and limitations, which we’ll learn more about later), but that only provides support for <em>one</em> of float or double (depending on the system you’re running on). The fact that <code class="highlighter-rouge">CGFloat</code> exists at all in the Linux port of Swift is rather odd, because it was only created for Apple-specific compatibility reasons; it is almost certainly not something you’ll be wanting to use.</p>
+
+<p>Resolving this problem is actually fairly straightforward, and is a good example of how to use protocols. In BaseMath I’ve created the <code class="highlighter-rouge">SupportsBasicMath</code> protocol, which is extracted below:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SupportsBasicMath</span><span class="p">:</span><span class="kt">BinaryFloatingPoint</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">log2</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+  <span class="kd">func</span> <span class="nf">logb</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+  <span class="kd">func</span> <span class="nf">nearbyint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+  <span class="kd">func</span> <span class="nf">rint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+  <span class="kd">func</span> <span class="nf">sin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+  <span class="err">…</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Then we tell Swift that <code class="highlighter-rouge">Float</code> conforms to this protocol, and we also provide implementations for the methods:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Float</span> <span class="p">:</span> <span class="kt">SupportsBasicMath</span> <span class="p">{</span>
+  <span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">log2</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Float</span> <span class="p">{</span><span class="k">return</span> <span class="kt">Foundation</span><span class="o">.</span><span class="nf">log2</span><span class="p">(</span><span class="k">self</span><span class="p">)}</span>
+  <span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">logb</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Float</span> <span class="p">{</span><span class="k">return</span> <span class="kt">Foundation</span><span class="o">.</span><span class="nf">logb</span><span class="p">(</span><span class="k">self</span><span class="p">)}</span>
+  <span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">nearbyint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Float</span> <span class="p">{</span><span class="k">return</span> <span class="kt">Foundation</span><span class="o">.</span><span class="nf">nearbyint</span><span class="p">(</span><span class="k">self</span><span class="p">)}</span>
+  <span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">rint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Float</span> <span class="p">{</span><span class="k">return</span> <span class="kt">Foundation</span><span class="o">.</span><span class="nf">rint</span><span class="p">(</span><span class="k">self</span><span class="p">)}</span>
+  <span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">sin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Float</span> <span class="p">{</span><span class="k">return</span> <span class="kt">Foundation</span><span class="o">.</span><span class="nf">sin</span><span class="p">(</span><span class="k">self</span><span class="p">)}</span>
+  <span class="err">…</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now in our library code we can simply use <code class="highlighter-rouge">SupportsBasicMath</code> as a constraint on a generic type, and we can call all the usual math functions directly. (Swift already provides support for the basic math operators in a transparent way, so we don’t have to do anything to make that work.)</p>
+
+<p>If you’re thinking that it must have been a major pain to write all those wrapper functions, then don’t worry—there’s a handy trick I used that meant the computer did it for me. The trick is to use <a href="https://github.com/jph00/gyb">gyb</a> templates to auto-generate the methods using python code, like so:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span> <span class="k">for</span> <span class="n">f</span> <span class="k">in</span> <span class="nv">binfs</span><span class="p">:</span>
+  <span class="kd">func</span> <span class="err">$</span><span class="p">{</span><span class="n">f</span><span class="p">}(</span><span class="n">_</span> <span class="nv">b</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+<span class="o">%</span> <span class="n">end</span> <span class="err">#</span> <span class="n">f</span>
+</code></pre></div></div>
+
+<p>If you look at the Swift code base itself, you’ll see that this trick is used liberally, for example to define the <a href="https://github.com/apple/swift/blob/master/stdlib/public/Platform/tgmath.swift.gyb">basic math functions</a> themselves. Hopefully in some future version we’ll see generic math functions in the standard library. In the meantime, just use <code class="highlighter-rouge">SupportsBasicMath</code> from BaseMath.</p>
+
+<h2 id="performance-tricks-and-results">Performance tricks and results</h2>
+
+<p>One of the really cool things about Swift is that wrappers like the above have no run-time overhead. As you see, I’ve marked them with the <code class="highlighter-rouge">inlinable</code> attribute, which tells LLVM that it’s OK to replace calls to this function with the actual function body. This kind of <code class="highlighter-rouge">zero-overhead abstraction</code> is one of the most important features of C++; it’s really amazing to see it in such a concise and expressive language as Swift.</p>
+
+<p>Let’s do some experiments to see how this works, by running a simple benchmark: adding <code class="highlighter-rouge">2.0</code> to every element of an array of 1,000,000 floats in Swift. Assuming we’ve already allocated an array of appropriate size, we can use this code (note: <code class="highlighter-rouge">benchmark</code> is a simple function in BaseMath that times a block of code):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"swift add") { for i in 0..&lt;ar1.count {ar2[i]=ar1[i]+2.0} }
+&gt; swift add: .963 ms
+</code></pre></div></div>
+
+<p>Doing a million floating point additions in a millisecond is pretty impressive! But look what happens if we try one minor tweak:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"swift ptr add") {
+  let (p1,p2) = (ar1.p,ar2.p)
+  for i in 0..&lt;ar1.count {p2[i]=p1[i]+2.0}
+}
+&gt; swift ptr add: .487 ms
+</code></pre></div></div>
+
+<p>It’s nearly the same code, yet twice as fast - so what happened there? BaseMath adds the <code class="highlighter-rouge">p</code> property to <code class="highlighter-rouge">Array</code>, which returns a <em>pointer</em> to the array’s memory; so the above code is using a pointer, instead of the array object itself. Normally, because Swift has to handle the complexities of COW, it can’t fully optimize a loop like this. But by using a pointer instead, we skip those checks, and Swift can run the code at full speed. Note that due to copy-on-write it’s possible for the array to move if you assign to it, and it can also move if you do things such as resize it; therefore, you should only grab the pointer at the time you need it.</p>
+
+<p>The above code is still pretty clunky, but Swift makes it easy for us to provide an elegant and idiomatic interface. I added a new <code class="highlighter-rouge">map</code> method to <code class="highlighter-rouge">Array</code>, which puts the result into a preallocated array, instead of creating a new array. Here’s the definition of <code class="highlighter-rouge">map</code> (it uses some typealiases from BaseMath to make it a bit more concise):</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="n">map</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span><span class="kt">BaseVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="kt">UnaryF</span><span class="p">,</span> <span class="n">_</span> <span class="nv">dest</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">where</span> <span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="o">==</span><span class="kt">T</span><span class="o">.</span><span class="kt">Element</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">pSrc</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span> <span class="k">let</span> <span class="nv">pDest</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">p</span><span class="p">;</span> <span class="k">let</span> <span class="nv">n</span> <span class="o">=</span> <span class="n">count</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="n">n</span> <span class="p">{</span><span class="n">pDest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nf">f</span><span class="p">(</span><span class="n">pSrc</span><span class="p">[</span><span class="n">i</span><span class="p">])}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>As you can see, it’s plain Swift code. The cool thing is that this lets us now use this clear and concise code, and still get the same performance we saw before:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"map add") { ar1.map({$0+2.0}, ar2) }
+&gt; map add: .518 ms
+</code></pre></div></div>
+<p>I think this is quite remarkable; we’ve been able to create a simple API which is just as fast as the pointer code, but to the class user that complexity is entirely hidden away. Of course, we don’t <em>really</em> know how fast this is yet, because we haven’t compared to C. So let’s do that next.</p>
+
+<h3 id="using-c">Using C</h3>
+
+<p>One of the really nice things about Swift is how easy it is to add C code that you write, or use external C libraries. To use our own C code, we simply create a new package with <a href="https://swift.org/package-manager/">Swift Package Manager</a> (<em>SPM</em>), pop a <code class="highlighter-rouge">.c</code> file in its <code class="highlighter-rouge">Sources</code> directory, and a <code class="highlighter-rouge">.h</code> file in its <code class="highlighter-rouge">Sources/include</code> directory. (Oh and BTW, in BaseMath that <code class="highlighter-rouge">.h</code> file is entirely auto-generated from the <code class="highlighter-rouge">.c</code> file using gyb!) This level of C integration is <em>extremely</em> rare, and the implications are huge. It means that every C library out there, including all the functionality built in to your operating system, optimized math libraries, Tensorflow’s underlying C API, and so forth can all be accessed from Swift directly. And if you for any reason need to drop in to C yourself, then you can, without any manual interfacing code or any extra build step.</p>
+
+<p>Here’s our sum function in C (this is the <code class="highlighter-rouge">float</code> version—the <code class="highlighter-rouge">double</code> version is similar, and the two are generated from a single gyb template):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">smAdd_float</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">pSrc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">val</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">pDst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="n">pDst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pSrc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">val</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>To call this, we need to pass in the <code class="highlighter-rouge">count</code> as an <code class="highlighter-rouge">Int32</code>; BaseMath adds the <code class="highlighter-rouge">c</code> property to arrays for this purpose (alternatively you could simply use <code class="highlighter-rouge">numericCast(ar1.count)</code>. Here’s the result:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"C add") {smAdd_float(ar1.p, 2.0, ar2.p, ar1.c)}
+&gt; C add: .488 ms
+</code></pre></div></div>
+
+<p>It’s basically the same speed as Swift. This is a very encouraging result, because it shows that we can get the same performance as optimized C using Swift. And not just any Swift, but idiomatic and concise Swift, which (thanks to methods like <code class="highlighter-rouge">reduce</code> and <code class="highlighter-rouge">map</code> can look much closer to math equations than most languages that are this fast.</p>
+
+<h3 id="reductions">Reductions</h3>
+
+<p>Let now try a different experiment: taking the sum of our array. Here’s the most idiomatic Swift code:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"reduce sum") {a1 = ar1.reduce(0.0, +)}
+&gt; reduce sum: 1.308 ms
+</code></pre></div></div>
+<p>…and here’s the same thing with a loop:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"loop sum") { a1 = 0; for i in 0..&lt;size {a1+=ar1[i]} }
+&gt; loop sum: 1.331 ms
+</code></pre></div></div>
+<p>Let’s see if our earlier pointer trick helps this time too:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"pointer sum") {
+  let p1 = ar1.p
+  a1 = 0; for i in 0..&lt;size {a1+=p1[i]}
+}
+&gt; pointer sum: 1.379 ms
+</code></pre></div></div>
+<p>Well that’s odd. It’s not any faster, which suggests that it isn’t getting the best possible performance. Let’s again switch to C and see how it performs there:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">smSum_float</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="n">pSrc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="n">r</span> <span class="o">+=</span> <span class="n">pSrc</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="p">}</span>
+  <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Here’s the result:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"C sum") {a1 = smSum_float(ar1.p, ar1.c)}
+&gt; C sum: .230 ms
+</code></pre></div></div>
+
+<p>I compared this performance to Intel’s optimized Performance Libraries version of <code class="highlighter-rouge">sum</code> and found this is even faster than their hand-optimized assembler! To get this to perform better than Swift, I did however need to know a little trick (provided by LLVM’s vectorization docs), which is to compile with the <code class="highlighter-rouge">-ffast-math</code> flag. For numeric programming like this, I recommend you always use at least these flags (this is all I’ve used for these experiments, although you can also add <code class="highlighter-rouge">-march=native</code>, and change the optimization level from <code class="highlighter-rouge">O2</code> for <code class="highlighter-rouge">Ofast</code>):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-Xswiftc -Ounchecked -Xcc -ffast-math -Xcc -O2
+</code></pre></div></div>
+
+<p>Why do we need this flag? Because strictly speaking, addition is not associative, due to the quirks of floating point. But this is, in practice, very unlikely to be something that most people will care about! By default, clang will use the “strictly correct” behavior, which means it can’t vectorize the loop with SIMD. But with <code class="highlighter-rouge">-ffast-math</code> we’re telling the compiler that we don’t mind treating addition as associative (amongst other things), so it will vectorize the loop, giving us a 4x improvement in speed.</p>
+
+<p>The other important thing to remember for good performance in C code like this is to ensure you have <code class="highlighter-rouge">const</code> marked on everything that won’t change, as I’ve done in the code above.</p>
+
+<p>Unfortunately, there doesn’t seem to currently be a way to get Swift to vectorize any reduction. So for now at least, we have to use C to get good performance here. This is not a limitation of the language itself, it’s just an optimization that the Swift team hasn’t gotten around to implementing yet.</p>
+
+<p>The good news is: BaseMath adds the <code class="highlighter-rouge">sum</code> method to <code class="highlighter-rouge">Array</code>, which uses this optimized C version, so if you use BaseMath, you get this performance automatically. So the result of test #1 is: failure. We didn’t manage to get pure Swift to reach the same performance as C. But at least we got a nice C version we can call from Swift. Let’s move on to another test and see if we can get better performance by avoiding doing any reductions.</p>
+
+<h3 id="temporary-storage">Temporary storage</h3>
+
+<p>So what if we want to do a function reduction, such as sum-of-squares? Ideally, we’d like to be able to combine our <code class="highlighter-rouge">map</code> style above with <code class="highlighter-rouge">sum</code>, but without getting the performance penalty of Swift’s unoptimized reductions. To make this work, the trick is to use temporary storage. If we use our <code class="highlighter-rouge">map</code> function above to store the result in preallocated memory, we can then pass that to our C <code class="highlighter-rouge">sum</code> implementation. We want something like a static variable for storing our preallocated memory, but then we’d have to deal with locking to handle contention between threads. To avoid that, we can use thread local storage (TLS). Like most languages, Swift provides TLS functionality; however rather than make it part of the core language (like, say, C#), it provides a class, which we can access through <code class="highlighter-rouge">Thread.current.threadDictionary</code>. BaseMath adds the preallocated memory to this dictionary, and makes it available internally as <code class="highlighter-rouge">tempStore</code>; this is then the internal implementation of unary function reduction (there are also binary and ternary versions available):</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@inlinable</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">sum</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="kt">UnaryF</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Element</span> <span class="p">{</span>
+  <span class="k">self</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tempStore</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">tempStore</span><span class="o">.</span><span class="nf">sum</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>We can then use this as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"lib sum(sqr)") {a1 = ar1.sum(Float.sqr)}
+&gt; lib sum(sqr): .786 ms
+</code></pre></div></div>
+
+<p>This provides a nice speedup over the regular Swift <code class="highlighter-rouge">reduce</code> version:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"reduce sumsqr") {a1 = ar1.reduce(0.0, {$0+Float.sqr($1)})}
+&gt; reduce sumsqr: 1.459 ms
+</code></pre></div></div>
+
+<p>Here’s the C version:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">smSum_sqr_float</span><span class="p">(</span><span class="k">const</span> <span class="kt">float</span><span class="o">*</span> <span class="kr">restrict</span> <span class="n">pSrc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="cp">#pragma clang loop interleave_count(8)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="n">r</span> <span class="o">+=</span> <span class="n">sqrf</span><span class="p">(</span><span class="n">pSrc</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="p">}</span>
+  <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Let’s try it out:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"c sumsqr") {a1 = smSum_sqr_float(ar1.p, ar1.c)}
+&gt; c sumsqr: .229 ms
+</code></pre></div></div>
+
+<p>C implementations of sum for all standard unary math functions are made available by BaseMath, so you can call the above implementation by simply using:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark(title:"lib sumsqr") {a1 = ar1.sumsqr()}
+&gt; c sumsqr: .219 ms
+</code></pre></div></div>
+
+<p>In summary: whilst the Swift version using temporary storage (and calling C for just the final sum) was twice as fast as just using <code class="highlighter-rouge">reduce</code>, using C is another 3 or more times faster.</p>
+
+<h2 id="the-warts">The warts</h2>
+
+<p>As you can see, there’s a lot to like about numeric programming in Swift. You can get both the performance of optimized C with the convenience of automatic memory management and elegant syntax.</p>
+
+<p>The most concise and flexible language I’ve used is Python. And the fastest I’ve used is C (well… actually it’s FORTRAN, but let’s not go there.) So how does it stack up against these high bars? The very idea that we could compare a single language to the flexibility of Python and the speed of C is an amazing achievement itself!</p>
+
+<p>Overall, my view is that in general it takes a bit more code in Swift than Python to write the stuff I want to write, and there’s fewer ways to abstract common code out. For instance, I use decorators a lot in Python, and use them to write loads of code for me. I use <code class="highlighter-rouge">*args</code> and <code class="highlighter-rouge">**kwargs</code> a lot (the new <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">dynamic features</a> in Swift can provide some of that functionality, but it doesn’t go as far). I zip multiple variables together at once (in Swift you have to zip pairs of pairs for multiple variables, and then use nested parens to destructure them). And then there’s the code you have to write to get your types all lined up nicely.</p>
+
+<p>I also find Swift’s performance is harder to reason about and optimize than C. C has its own quirks around performance (such as the need to use <code class="highlighter-rouge">const</code> and sometimes even requiring <code class="highlighter-rouge">restrict</code> to help the compiler) but they’re generally better documented, better understood, and more consistent. Also, C compilers such as clang and gcc provide powerful additional capabilities using pragmas such as <code class="highlighter-rouge">omp</code> and <code class="highlighter-rouge">loop</code> which can even auto-parallelize code.</p>
+
+<p>Having said that, Swift closer to achieving the combination of Python’s expressiveness and C’s speed than any other language I’ve used.</p>
+
+<p>There are some issues still to be aware of. One thing to consider is that protocol-oriented programming requires a very different way to doing things to what you’re probably used to. In the long run, that’s probably a good thing, since learning new programming styles can help you become a better programmer; but it could lead to some frustrations for the first few weeks.</p>
+
+<p>This issue is particularly challenging because Swift’s compiler often has no idea where the source of a protocol type problem really is, and its ability to guess types is still pretty flaky. So extremely minor changes, such as changing the name of a type, or changing where a type constraint is defined, can change something that used to work, into something that spits out four screens for error messages. My advice is to try to create minimal versions of your type structures in a standalone test file, and get things working there first.</p>
+
+<p>Note, however, that ease of use generally requires compromises. Python is particularly easy, because it’s perfectly happy for you to shoot yourself in the foot. Swift at least makes sure you first know how to untie your shoelaces. Chris told me: <em>the pitch when building Swift in the first place was that the important thing to optimize for is the “end to end time to get to a correct implementation of whatever you’re trying to do”.  This includes both time to pound out code, time to debug it, and time to refactor/maintain it if you’re making a change to an existing codebase.</em> I don’t have enough experience yet, but I suspect that on this metric Swift will turn out to be a great performer.</p>
+
+<p>There are some parts of Swift which I’m not a fan of: the compromises made due to Apple’s history with Objective-C, it’s packaging system, it’s community, and the lack of C++ support. Or to be more precise: it is largely parts of the <em>Swift ecosystem</em> that I’m not a fan of. The language itself is quite delightful. And the ecosystem can be fixed. But, for now, this is the situation that Swift programmers have to deal with, so let’s look at each of these issues in turn.</p>
+
+<h3 id="objective-c">Objective-C</h3>
+
+<p>Objective-C is a language developed in the 1980’s designed to bring some of the object-oriented features of Smalltalk to C. It was a very successful project, and was picked by NeXT as the basis for programming NeXTSTEP in 1988. With NeXT’s acquisition by Apple, it became the primary language for coding for Apple devices. Today, it’s showing its age, and the constraints imposed by the decision to make it a strict superset of C. For instance, Objective-C doesn’t support true function overloading. Instead, it uses something called <em>selectors</em>, which are simply required keyword arguments. Each function’s full name is defined by the concatenation of the function name with all the selector names. This idea is also used by AppleScript, which provides something very similar to allow the name <code class="highlighter-rouge">print</code> to mean different things in different contexts:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print page 1
+print document 2
+print pages 1 thru 5 of document 2
+</code></pre></div></div>
+<p>AppleScript in turn inherited this idea from HyperTalk, a language created in 1987 for Apple’s much-loved (and missed) <em>HyperCard</em> program. Given all this history, it’s not surprising that today the idea of required named arguments is something that most folks at Apple have quite an attachment to. Perhaps more importantly, it provided a useful compromise for the designers of Objective-C, since they were able to avoid adding true function overloading to the language, keeping close compatibility with C.</p>
+
+<p>Unfortunately, this constraint impacts Swift today, over 40 years after the situation that led to its introduction in Objective-C. Swift <em>does</em> provide true function overloading, which is particularly important in numeric programming, where you really don’t want to have to create whole separate functions for floats, doubles, and complex numbers (and quaternions, etc…). But by default all keyword names are still <em>required</em>, which can lead to verbose and visually cluttered code. And Apple’s style guide strongly promotes this style of coding; their Objective-C and Swift, style guides closely mirror each other, rather than allowing programmers to really leverage Swift’s unique capabilities. You can opt out of requiring named arguments by prefixing a parameter name with <code class="highlighter-rouge">_ </code>, which BaseMath uses everywhere that optional arguments are not needed.</p>
+
+<p>Another area where things get rather verbose is when it comes to working with <code class="highlighter-rouge">Foundation</code>, Apple’s main class library, which is also used by Objective-C. Swift’s standard library is missing a lot of functionality that you’ll need, so you’ll often need to turn to Foundation to get stuff done. But you won’t enjoy it. After the pleasure of using such a elegantly designed language as Swift, there’s something particularly sad about using it to access as unwieldy a library as Foundation. For instance, Swift’s standard library doesn’t provide a builtin way to format floats with fixed precision, so I decided to add that functionality to my <code class="highlighter-rouge">SupportsBasicMath</code> protocol. Here’s the code:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">SupportsBasicMath</span> <span class="p">{</span>
+  <span class="kd">public</span> <span class="kd">func</span> <span class="nf">string</span><span class="p">(</span><span class="n">_</span> <span class="nv">digits</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">fmt</span> <span class="o">=</span> <span class="kt">NumberFormatter</span><span class="p">()</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">minimumFractionDigits</span> <span class="o">=</span> <span class="n">digits</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">maximumFractionDigits</span> <span class="o">=</span> <span class="n">digits</span>
+    <span class="k">return</span> <span class="n">fmt</span><span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">nsNumber</span><span class="p">)</span> <span class="p">??</span> <span class="s">"</span><span class="se">\(</span><span class="k">self</span><span class="se">)</span><span class="s">"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>The fact that we can add this functionality to <code class="highlighter-rouge">Float</code> and <code class="highlighter-rouge">Double</code> by writing such an extension is really cool, as is the ability to handle failed conversions with Swift’s <code class="highlighter-rouge">??</code> operator. But look at the verbosity of the code to actually use the <code class="highlighter-rouge">NumberFormatter</code> class from Foundation! And it doesn’t even accept <code class="highlighter-rouge">Float</code> or <code class="highlighter-rouge">Double</code>, but the awkward <code class="highlighter-rouge">NSNumber</code> type from Objective-C (which is itself a clunky workaround for the lack of generics in Objective-C). So I had to add an <code class="highlighter-rouge">nsNumber</code> property to <code class="highlighter-rouge">SupportsBasicMath</code> to do the casting.</p>
+
+<p>The Swift language itself does help support more concise styles, such as the <code class="highlighter-rouge">{f($0)}</code> style of closures. Concision is important for numeric programming, since it lets us write our code to reflect more closely the math that we’re implementing, and to understand the whole equation at a glance. For a masterful exposition of this (and much more), see Iverson’s Turing Award lecture <a href="https://dl.acm.org/citation.cfm?id=1283935">Notation as a Tool for Thought</a>.</p>
+
+<p>Objective-C also doesn’t have namespaces, which means that each project picks some 2 or 3 letter prefix which it adds to all symbols. Most of the Foundation library still uses names inherited from Objective-C, so you’ll find yourself using types like <code class="highlighter-rouge">CGFloat</code> and functions like <code class="highlighter-rouge">CFAbsoluteTimeGetCurrent</code>. (Every time I type one of these symbols I’m sure a baby unicorn cries out in pain…)</p>
+
+<p>The Swift team made the surprising decision to use an Objective-C implementation of Foundation and other libraries when running Swift on Apple devices, but to use native Swift libraries on Linux. As a result, you will sometimes see different behavior on each platform. For instance, the unit test framework on Apple devices is unable to find and run tests that are written as protocol extensions, but they work fine under Linux.</p>
+
+<p>Overall, I feel like the constraints and history of Objective-C seem to bleed in to Swift programming too often, and each time it happens, there’s a real friction that pops up. Over time, however, these issues seem to be reducing, and I hope that in the future we’ll see Swift break out from the Objective-C shackles more and more. For instance, perhaps we’ll see a real effort to create idiomatic Swift replacements for some of the Objective-C class libraries.</p>
+
+<h3 id="community">Community</h3>
+
+<p>I’ve been using Python a lot over the last couple of years, and one thing that always bothered me is that too many people in the Python community have only ever used that one language (since it’s a great beginners’ language and is widely taught to under-graduates). As a result, there’s a lack of awareness that different languages can do things in different ways, and each choice has its own pros and cons. Instead, in the Python world, there’s a tendency for folks to think that the Python way is the one true way.</p>
+
+<p>I’m seeing something similar in Swift, but in some ways it’s even worse: most Swift programmers got their start as Objective-C programmers. So a lot of the discussion you see online is from Objective-C programmers writing Swift in a style that closely parallels how things are done in Objective-C. And nearly all of them do nearly all of their programming in Xcode (which is almost certainly my least favorite IDE, except for its wonderful <em>Swift Playgrounds</em> feature), so a lot of advice you’ll find online shows how to solve Swift problems by getting Xcode to do things for you, rather than writing the code yourself.</p>
+
+<p>Most Swift programmers are writing iOS apps, so you’ll also find a lot of guidance on how to lay out a mobile GUI, but there’s almost no information about things like how to distribute command line programs for Linux, or how to compile static libraries. In general, because the Linux support for Swift is still so new, there’s not much information available how how to use it, and many libraries and tools don’t work under Linux.</p>
+
+<p>Most of the time when I was tracking down problems with my protocol conformance, or trying to figure out how to optimize some piece of code, the only information I could find would be a mailing list discussion amongst Apple’s Swift language team. These discussions tend to focus on the innards of the compiler and libraries, rather than how to use them. So there’s a big missing middle ground between app developers discussing how to use Xcode and Swift language implementation discussing how to modify the compiler. There is a good community forming now around around the Discorse forums at [https://forums.swift.org/], which hopefully over time will turn in to a useful knowledge base for Swift programmers.</p>
+
+<h3 id="packaging-and-installation">Packaging and installation</h3>
+
+<p>Swift has an officially sanctioned package system, called Swift Package Manager (SPM). Unfortunately, it’s one of the worst packaging systems I’ve ever used. I’ve noticed that nearly every language, when creating a package manager, reinvents everything from scratch, and fails to leverage all the successes and failures of previous attempts. Swift follows this unfortunate pattern.</p>
+
+<p>There are some truly excellent packaging systems out there. The best, perhaps, was and still is Perl’s CPAN, which includes an international automated testing service that tests all packages on a wide range of systems, deeply integrates documentation, has excellent tutorials, and much more. Another terrific (and more modern) system is <code class="highlighter-rouge">conda</code>, which not only handles language-specific libraries (with a focus on Python) but also handles automatically installing compatible system libraries and binaries too—and manages to do everything in your home directory so you don’t even need root access. And it works well on Linux, Mac, and Windows. It can handle distribution of both compiled modules, or source.</p>
+
+<p>SPM, on the other hand, has none of the benefits of any of these systems. Even though Swift is a compiled language, it doesn’t provide a way to create or distribute compiled packages, which means users of your package will have to install all the pre-requisites for building it. And SPM doesn’t let you describe how to build your package, so (for instance) if you use BaseMath it’s up to you to remember to add the flags required for good performance when you build something that uses it.</p>
+
+<p>The way dependencies is handled is really awkward. Git tags or branches are used for dependencies, and there’s no easy way to switch between a local dev build and the packaged version (like, for instance the <code class="highlighter-rouge">-e</code> flag to <code class="highlighter-rouge">pip</code> or the <code class="highlighter-rouge">conda develop</code> command). Instead, you have to modify the package file to change the location of the dependency, and remember to switch it back before you commit.</p>
+
+<p>It would take far too long to document all the deficiencies of SPM; instead, you can work on the assumption that any useful feature you’ve appreciated from whatever packaging system you’re using now probably won’t be in SPM. Hopefully someone will get around to setting up a conda-based system for Swift and we can all just start using that instead…</p>
+
+<p>Also, installation of Swift is a mess. On Linux, for instance, only Ubuntu is supported, and different versions require different installers. On Mac, Swift versions are tied to Xcode versions in a confusing and awkward way, and command line and Xcode versions are somewhat separate, yet somewhat linked, in ways that make my brain hurt. Again, conda seems like it could provide the best option to avoid this, since a single conda package can be used to support any flavor of Linux, and Mac can also be supported in the same way. If the work was done to get Swift on to conda, then it would be possible to say just <code class="highlighter-rouge">conda install swift</code> on any system, and everything would <em>just work</em>. This would also provide a solution for versioning, isolated environments, and complex dependency tracking.</p>
+
+<p>(If you’re on Windows, you are, for now, out of luck. There’s an old unofficial port to Cygwin. And Swift runs fine on the Windows Subsystem for Linux. But no official native Windows Swift as yet, sadly. But there is some excellent news on this front: a hero named Saleem Abdulrasool has made <a href="https://forums.swift.org/t/windows-nightlies/19174">great strides</a> towards making a complete native port entirely indepdently, and in the last few days it has gotten to a point where the vast majority of the Swift test suite passes.)</p>
+
+<h3 id="c">C++</h3>
+
+<p>Whilst Apple went with Objective-C for their “C with objects” solution, the rest of the world went with C++. Eventually, the Objective-C extensions were also added to C++, to create “Objective-C++”, but there was no attempt to unify the concepts across the languages, so the resulting language is a mutant with <a href="https://en.wikipedia.org/wiki/Objective-C#Objective-C++">many significant restrictions</a>. However, there is a nice subset of the language that gets around some of the biggest limitations of C; for instance you can use function overloading, and have access to a rich standard library.</p>
+
+<p>Unfortunately, Swift can’t interface with C++ at all. Even something as simple as a header file containing overloaded functions will cause Swift language interop to fail.</p>
+
+<p>This is a big problem for numeric programmers, because many of the most useful numeric libraries today are written in C++. For instance, the <a href="https://pytorch.org/cppdocs">ATen</a> library at the heart of PyTorch is C++. There are good reasons that numeric programmers lean towards C++: it provides the features that are needed for concise and expressive solutions to numeric programming problems. For example, Julia programmers are (rightly) proud of how easy it is to support the critical broadcasting functionality in their language, which they have documented in <a href="https://nextjournal.com/sdanisch/the-julia-challenge">the Julia challenge</a>. In C++ this challenge has an elegant and fast <a href="https://medium.com/@wolfv/the-julia-challenge-in-c-21272d36c002">solution</a>. You won’t find something like this in pure C, however.</p>
+
+<p>So this means that a large and increasing number of the most important building blocks for numeric programming are out of bounds for Swift programmers. This is a serious problem. (You can write plain C wrappers for a C++ class, and then create a Swift class that uses those wrappers, but that’s a very big and very boring job which I’m not sure many people are likely to embark on.)</p>
+
+<p>Other languages have shown potential ways around this. For instance, C# on Windows provides “It Just Works” (IJW) interfacing with C++/CLI, a superset of C++ with support for .Net. Even more interestingly, the <a href="https://github.com/mono/CppSharp">CPPSharp</a> project leverages LLVM to auto-generate a C# wrapper for C++ code with no calling overhead.</p>
+
+<p>Solving this problem will not be easy for Swift. But because Swift uses LLVM, and already interfaces with C (and Objective-C) it is perhaps better placed to come up with a great solution than nearly any other language. Except, perhaps, for Julia, since they’ve <a href="https://github.com/Keno/Cxx.jl">already done this</a>. <a href="https://github.com/JuliaInterop/CxxWrap.jl">Twice</a>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Swift is a really interesting language which can support fast, concise, expressive numeric programming. The Swift for Tensorflow project may be the best opportunity for creating a programming language where differentiable programming is a first class citizen. Swift also lets us easily interface with C code and libraries.</p>
+
+<p>However, Swift on Linux is still immature, the packaging system is weak, installation is clunky, and the libraries suffer from some rough spots due to the historical ties to Objective-C.</p>
+
+<p>So how does it stack up? In the data science world, we’re mainly stuck using either R (which is the least pleasant language I’ve ever used, but with the most beautifully designed data munging and plotting libraries anywhere) or Python (which is painfully slow, very hard to parallelize, but is extremely expressive and has the best deep learning libraries available). We really need another option. Something that is fast, flexible, and provides good interop with existing libraries.</p>
+
+<p>Overall, the Swift language itself looks to be exactly what we need, but much of the ecosystem needs to be replaced or at least dramatically leveled-up. There is no data science ecosystem to speak of, although the S4TF project seems likely to create some important pieces. This is a really good place to be spending time if you’re interested in being part of something that has a huge amount of potential, and has some really great people working to make that happen, and you are OK with helping smooth out the warts along the way.</p>
+
+
+
+</div>
+
+<div class="related">
+<span>This post is tagged: [
+  
+    
+    <a href="/tag/technical"><code class="highligher-rouge"><nobr>technical</nobr></code></a>
+  
+] (click a tag for more posts in that category).</span>
+
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2019/03/06/fastai-swift/">
+            fast.ai Embracing Swift for Deep Learning
+            <small>06 Mar 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2019/03/04/ethics-framework/">
+            A Conversation about Tech Ethics with the New York Times Chief Data Scientist
+            <small>04 Mar 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2019/02/21/dl-projects/">
+            Dairy farming, solar panels, and diagnosing Parkinson's disease: what can you do with deep learning?
+            <small>21 Feb 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

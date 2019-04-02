@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+	<meta name="published" content="true">
+  <meta name="dcterms.date" content="2016-02-16">
+	<meta name="summary" content="A dive into the Xcode build system">
+	<title>The Xcode Build System</title>
+  <style type="text/css">code{white-space: pre;}</style>
+	
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  
+  <link rel="stylesheet" href="/shiny/min.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="alternate" type="application/rss+xml" title="Blog RSS Feed" href="/feed.xml" />
+</head>
+<body>
+
+<header>
+<h1 class="title">The Xcode Build System</h1>
+</header>
+<p>This post is a dive into Xcode as a system. To fully understand some of these topics you should familiarize yourself with the following:</p>
+<ul>
+<li><a href="http://michele.io/the-project-file-part-1">The Project File: Part 1</a></li>
+<li><a href="http://michele.io/the-project-file-part-2">The Project File: Part 2</a></li>
+<li><a href="https://pewpewthespells.com/blog/managing_xcode.html">Managing Xcode</a></li>
+<li><a href="https://pewpewthespells.com/blog/xcconfig_guide.html">Xcconfig Guide</a></li>
+<li><a href="https://pewpewthespells.com/blog/using_xcode_targets.html">Using Xcode Targets</a></li>
+<li><a href="https://pewpewthespells.com/blog/sparse_sdks.html">Sparse SDKs</a></li>
+<li><a href="https://pewpewthespells.com/blog/buildsettings.html">Build Settings Reference</a></li>
+</ul>
+<p>I would recommend using these posts as reference material while reading this, as there is a lot to cover and I cannot do it all in this post :)</p>
+<h1 id="build-system-components">Build System Components</h1>
+<h2 id="developer_dir">DEVELOPER_DIR</h2>
+<p>At one point, Xcode didn’t install as a “.app” on your system. It installed as a couple separate applications and the majority of the tooling was loaded from a single directory called “Developer”. The path to this directory was set as <code>DEVELOPER_DIR</code> and from there all the components were loaded from the internal structuring of this directory. In modern versions of Xcode this directory still exists, however it is inside the Xcode app bundle instead of in a user-visible place. From this directory Xcode will load a number of bundles.</p>
+<h3 id="plug-ins">Plug-ins</h3>
+<p>Xcode uses plug-ins to dynamically load necessary components, much of the core systems are loaded from these plug-ins. These plug-ins are loaded as necessary depending on loading Xcode GUI or <code>xcodebuild</code>. Because this dynamic loading is so flexible it makes it very easy to build and integrate new components into Xcode without a lot of work. This is made even easier with the help of specification files, which we will get to later in more detail, to the point where adding: new file types, build rules, and tooling can be done without touching any code.</p>
+<h4 id="third-party">Third-Party</h4>
+<p>There are some third party tools that are implemented as Xcode plugins. <a href="http://alcatraz.io">Alcatraz</a> is a good source for exploring what you can do with additional plugins. The only caveat here is that Xcode doesn’t officially support third party plug-ins. You must add some compatibility support to each plug-in yourself by updating value in the plug-in’s <code>Info.plist</code> to let Xcode know that the plug-in supports a specific version of Xcode.</p>
+<h3 id="platforms">Platforms</h3>
+<p>Platform bundles are a core component of the Xcode build system. They define the systems that can be built for and the types of products that can be built. For example: up until iOS 8 Xcode didn’t support building frameworks for iOS as a platform, only static libraries. This didn’t mean iOS was incapable of using them, only that Xcode didn’t have a product definition for them. In addition to defining what can be built, they also provide the parameters of how it can be build. You cannot build a mac app that is targeting the ARM architecture, as OS X doesn’t support running on that. While Xcode uses the default toolchain for most of the tooling used in the build process, there are supplemental tools that are loaded from the platform bundle. These are new or have some platform specific behavior that is desired. You can only use platform specific tools based on the currently selected platform you are targeting.</p>
+<h4 id="sdks">SDKs</h4>
+<p>These are bundles contained within each platform bundle. These define the frameworks and libraries that should be used during compilation, they are a variant of the platform. They should only act as details to the platform definition, and don’t contain tooling. There are two types of SDK bundles, core and sparse. Core SDK bundles are part of a platform bundle. They contain all the necessary components to build against a particular platform. There are also Sparse SDKs, these are not part of a platform bundle and are used to add supplemental libraries that are not part of a Core SDK. Like platform bundles, Xcode will load any SDK bundles that are in the normal search paths. This only applies to Core SDKs (since Xcode will only search within the defined <code>DEVELOPER_DIR</code>), so while it is possible to add new platform and SDK bundles to Xcode this would break the code signature on the application. You can specify paths to Sparse SDKs via the <code>ADDITIONAL_SDKS</code> build setting variable.</p>
+<p>When performing a build, Xcode will create a composited SDK out of the selected SDK and the Spare SDK bundle located at the <code>ADDITIONAL_SDKS</code> path. This composited SDK is stored in a temporary directory that will be be removed by the system after the build is completed.</p>
+<h3 id="toolchains">Toolchains</h3>
+<p>This is where all the primary tools of the build system are stored. Prior to Xcode 7.2, there was only support for the single built-in Toolchain bundle that was shipped with Xcode. With the release of <a href="https://swift.org">Swift</a>, Apple has provided a means to install additional toolchains for building various versions of Swift. Alongside the release of Swift, Apple published Xcode 7.2, which adds the ability to utilize additional toolchains via <code>xcrun --toolchain &lt;name&gt;</code>. Not only does the Toolchain include the binary tools used (compilers, linkers, resource processors, etc), it also contains libraries that the tools may depend upon. This is to provide support for libraries that won’t exist on the target deployment platform. Such as building any code with Swift (versions 1 and 2), or building apps with ARC that are supposed to run on older, legacy systems. When Xcode performs a build, it will use the selected Toolchain to resolve the tools needed as part of the build process.</p>
+<hr />
+<h2 id="build-system-specifications">Build System Specifications</h2>
+<p>Each tool, file type, syntax rule, and even the expected behaviors of how the built products are created are defined by specification files that get loaded from disk. Some of these are always loaded (such as file types and compiler tools), and other will only be loaded if they are needed (platform specific definitions). This makes Xcode’s build system extremely modular and flexible. These specification files named “xcspec” files, due to their file extension.</p>
+<h3 id="builtin-specifications">Builtin Specifications</h3>
+<p>Xcode has many builtin “default” specifications. These include languages, the toolchain, syntax rules, and build rules. These are universal and don’t change regardless of what Platform or SDK is used. These will sometimes change when you install a new version of Xcode, once such example is when the switch from gcc to llvm happened.</p>
+<h3 id="platform-specifications">Platform Specifications</h3>
+<p>Each target on a project file will define a SDK to use when a build should be executed. This defines the type of the built product and is done via the <code>SDKROOT</code> build setting variable. This is going to be one of the SDKs available in the directory set to <code>DEVELOPER_DIR</code> (the path that is set for <code>xcode-select</code>). Xcode will load some additional specs from this SDK and the Platform bundle it is a part of. These will define some rules about the output and tooling that is platform specific (such as iOS binaries must be signed).</p>
+<h3 id="external-specifications">External Specifications</h3>
+<p>Due to the nature of Xcode being plugin-based (Swift support is implemented via an internal plugin), it will load any specification files it finds in the plugins it loads. This allows for the implementation of third party tooling natively in the GUI. Loading additional specifications allows you to define custom build rules, ship your own versions of the tooling, and even add new build settings to appear in the GUI. (If you want to see an example of this in action you can check out the plugin I made here: https://github.com/gwynne/citrus/pull/1)</p>
+<hr />
+<h1 id="the-build-process">The Build Process</h1>
+<h2 id="project-file">Project File</h2>
+<p>The project file is a means of communicating with the build system. The structure is designed to communicate the “what” should be built and the “how” it should be built. The process of going from source files to the built product is serialized to disk in the project file. Each object that is serialized is used by something and the object type (<code>isa</code> identifier on the object) defines the behavior of the object.</p>
+<h3 id="pbxproject">PBXProject</h3>
+<p>Each <code>pbxproj</code> file has a single root object, this contains:</p>
+<ul>
+<li>list of defined targets</li>
+<li>list of targets produced by this project file</li>
+<li>references to the project level build settings</li>
+<li>organizational information used within the project</li>
+<li>references to nested project files</li>
+<li>list of files contained and used by the project file</li>
+</ul>
+<h3 id="target-types">Target Types</h3>
+<p>There are a lot of target types, many are no longer used are still supported for legacy project files. Each target type defines how it interacts with the build system by using Build Phases and Build Rules.</p>
+<h3 id="build-phases">Build Phases</h3>
+<p>Build Phases are how we communicate to the build system what needs to be built. Each target contains a list of build phases, each of which dictates a behavior around a specific aspect of a build (compiling files, copying resources, target dependencies, libraries to link, scripts to run, etc). Since the order of these is significant, it is important to not modify these on disk. Additionally, some phases you see in Xcode aren’t classified as a build phase when serialized. Target dependencies are not classified as a build phase even though they get displayed as such. This is because they must be run before anything on the target is processed by the build system to prevent one target invalidating the build process of another. The ordering of the build phases is crutial to a successful build. The list of build phases on each target is expected to be operated in a serial manner, processing and executing each one before moving onto the next. While this would seem to make simple builds take longer, this behavior exists to support complex builds that require multiple compilation steps and setup phases.</p>
+<h3 id="file-references-vs-build-files">File References vs Build Files</h3>
+<p>There are two ways Xcode will classify files. First being file references (<code>PBXFileReference</code>), these are representations of a file that is expected to be on disk. These are used to create the representation of your files in file navigator in Xcode. These allow you to organize the display of files in Xcode that doesn’t mirror their organization on disk. There are also build files (<code>PBXBuildFile</code>), these are linked to file references but are abstractions that are used exclusively by the build system. Build phases use the build files to indicate which files should be processed.</p>
+<h3 id="build-rules">Build Rules</h3>
+<p>Each phase type contains a list of files that get processed for the action of that particular type of phase. While each phase type has a generic definition of how it works, many use Build Rules to define the processing behavior for each file it contains. Build Rules give phases the ability to contain any types of files, by performing a look up of how each individual file should be processed. The build rules themselves dictate what types of files to look for and what tool to hand that file off to as input. You can create custom build rules that can execute a script to support tooling that isn’t a part of Xcode.</p>
+<p>The actions you see in Xcode’s build log is each file being processed by its build rule. The build rule passes the file has the input to the tool it is associated with. The tool defines the execution behavior based on the build settings defined in the environment.</p>
+<hr />
+<h2 id="environment">Environment</h2>
+<p>Now that the build system has connected a file to the tool that should be used to process it, it is time to setup the build environment it needs. This is where the build settings come in. When setting up to perform a build Xcode will read in the build configuration that is defined on a target.</p>
+<h3 id="build-settings">Build Settings</h3>
+<p>The build setting variables are organized into a couple different levels. These are stored in different layers in the “environment” that is created for the build. You can display a list of build settings used by running <code>xcodebuild MyApp.xcodeproj —showBuildSettings</code>.</p>
+<em>Note</em>
+<blockquote>
+Xcode will inherit values from the user’s shell environment. To see this, if you setup a “Run Script” phase in your build target to execute the <code>env</code> command, it will display all the defined environment variables.
+</blockquote>
+<h4 id="platform">Platform</h4>
+<p>When Xcode loads the available platforms, it will load the platform’s xcspec files. These contain a set of default values that should be used for a particular platform. For example, the iOS platform sets an environmnet variable to say that code signing is a requirement for deployment. The values loaded on the platform level form the base of the build environment that will be used. Settings on this level are not user-configurable.</p>
+<h4 id="project">Project</h4>
+<p>Project level build settings are the lowest level of user-configurable setting that apply on a per-project basis. This introduces a new level of settings that are not applicable on the platform level. In addition to being user-configurable, this level of build setting also allows for custom variables and values to be set. The project level build settings directly inherit the values set on the platform level to give enough information to the build system to operate in. Any build settings that are set in both the project level and the platform level will be over-ridden by the value set on the project level.</p>
+<h4 id="target">Target</h4>
+<p>The target level is the second level of user-configurable build setting, this is also the level that most people are familiar with. This is probably the most heavily used section of all the layers of build settings. When a target is created in an Xcode project file, it gets an associated build setting environment. This is created by taking a template of settings based on the type of target it is. These include values that allow for the configuration of language, compiler, linker, deployment, and packaging options for building a particular product. This level of build setting inherits from values set on the project level, but will over-ride any duplicated values in the same way that the project level does to the platform level.</p>
+<h4 id="xcconfig-file">xcconfig file</h4>
+<p>The last layer of build settings is defined with xcconfig files. Unlike the other build setting levels, this exists outside of the Xcode project file. An xcconfig file is a plain-text file that resides on disk that the build system will read values out of. This level of build settings was added to Xcode 3 to support more complex and conditional behavior in resolving values to use during a build. There is built-in conditional support for variance based on SDK, architecture, and build configuration. These are often used when using the same target to build against multiple platforms. Xcconfig files are also used to consolidate build settings into a single place that can be reused by many targets.</p>
+<hr />
+<h2 id="output">Output</h2>
+<h4 id="build-location">Build Location</h4>
+<p>The build location is one of Xcode’s configurable preferences that dictates the resolution of the directory that will be used to perform a build in. The specifics of this are described in more detail in the “Managing Xcode” post linked at the top of this page. This directory is used to store the output of the build process.</p>
+<h4 id="build-artifacts-and-intermediates">Build Artifacts and Intermediates</h4>
+<p>When performing a build, it doesn’t generate an application binary directly from the source code files. There are many intermediary steps that it must go through first. The build system will produce and store the artifacts and intermediate files inside the build location directory. Xcode breaks this down based on target and build configuration that the build action is performed. Many of the compiler and linker flags that add additional verbosity will write files here to log output of a build. This is useful for debugging a build that fails inconsistantly, and for investigating linker errors.</p>
+<h4 id="built-products">Built Products</h4>
+<p>The final output binary of a build is called a “built product”. This is the app or library that the Xcode project target is setup to build. For Apple platforms this is the .app for an application or .framework/dylib/a for a library. For command line applications or raw executable binaries you will find this as the <code>$(PRODUCT_NAME)</code> file in the directory that has a name corresponding to the build configuration within the build directory.</p>
+<hr />
+<center>
+<br/><span>If this blog post was helpful to you, please consider donating to keep this blog alive, thank you!</span><br/><br/><a href="https://cash.me/$samanthademi" target="_blank"><img alt="donate to support this blog" border="0" src="/media/donate_button.gif" width="92" height="26"></a>
+</center>
+</body>
+</html>

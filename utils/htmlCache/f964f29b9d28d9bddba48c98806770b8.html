@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+	<script type="text/javascript" src="http://use.typekit.com/ldo3bow.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+  <title>Khanlou | Bloom Filters and Swift 4.2</title>
+	<link rel="stylesheet" type="text/css" media="all" href="/styles.css" />
+  <link rel="canonical" href="http://khanlou.com/2018/09/bloom-filters/">
+  <link rel="alternate" type="application/rss+xml" title="Khanlou" href="http://khanlou.com/feed">
+</head>
+
+
+  <body>
+    <div id="page" class="hfeed">
+        <div class="wrapper">
+    <header id="header" role="banner">
+      <h1 id="site-title"><a href="" title="Khanlou" rel="home">Khanlou</a></h1>
+    </header>
+  </div>
+
+      <div id="main" class="clearfix">
+        <div id="primary">
+            <ul id="navigation" class="clearfix">
+    <li ><a href="/">Articles</a></li>
+    
+      <li ><a class="page-link" href="/best/">Best Of</a></li>
+      
+      <li ><a class="page-link" href="/hire/">Hire Me</a></li>
+      
+      <li ><a class="page-link" href="/love/">Things I Love</a></li>
+      
+      <li ><a class="page-link" href="/talks/">Talks</a></li>
+      
+      <li ><a class="page-link" href="/projects/">Projects</a></li>
+      
+  </ul>
+
+          <div id="content" role="main">
+            <div class="blogpost">
+  <div class="post-meta">
+    <time datetime="2018-09-19T00:00:00-04:00" itemprop="datePublished" class="timestamp">September 19, 2018</time>
+    <h2 class="post-title" itemprop="name headline">Bloom Filters and Swift 4.2</h2>
+  </div>
+  
+  <p>Swift 4.2 brings some new changes to how hashing works in Swift. Previously, hashing was fully delegated to the object itself. You would ask an object for its <code class="highlighter-rouge">hashValue</code>, and it would respond with the fully cooked integer representing the hash. Now, objects that conform to <code class="highlighter-rouge">Hashable</code> <em>describe</em> how to combine their constituent components into a <code class="highlighter-rouge">Hasher</code> object that’s passed in as a parameter. This is great for a few reasons.</p>
+
+<ul>
+  <li>Good hashing algorithms are hard to write. End users of Swift shouldn’t be responsible for knowing the best way to combine their constituent components into a good hash value.</li>
+  <li>Hash values should be different for each execution of the program, to discourage users from storing them in any way and <a href="https://twitter.com/jckarter/status/1042453831496327168">for security reasons</a>. Descriptive hashing allows the seeds of the hashing function to change each time you run the program.</li>
+  <li>It makes more interesting data structures possible, which is what we’re going to focus on in this post.</li>
+</ul>
+
+<p>I’ve written here before about <a href="http://khanlou.com/2016/07/implementing-dictionary-in-swift/">how to use Swift’s <code class="highlighter-rouge">Hashable</code> protocol to write a <code class="highlighter-rouge">Dictionary</code> from scratch</a> (and it will help to read that post before this one, but isn’t necessary). Today, I want to talk about a different kind of data structure, one that’s probabilistic rather than definite: the Bloom filter. As we build it, we’ll use a few new features in Swift 4.2, including the new hashing model.</p>
+
+<p>Bloom filters are <em>weird</em>. Imagine a data structure where:</p>
+
+<ul>
+  <li>you can insert values into it</li>
+  <li>you can query it to see if a value is contained in it</li>
+  <li>it can use a tiny amount of storage to a store a huge amount of objects</li>
+</ul>
+
+<p>but:</p>
+
+<ul>
+  <li>you can’t enumerate the objects in it</li>
+  <li>it sometimes has false positives (but never false negatives)</li>
+  <li>you can’t remove values from them</li>
+</ul>
+
+<p>When would you want something like this? Medium uses them <a href="https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff">to keep track of the read status of posts</a>. Bing uses them <a href="https://www.youtube.com/watch?v=80LKF2qph6I">for search indexes</a>. You could use them to build a cache for if a username is valid (in an @-mention, for example) without having to hit the database. They’re particularly useful on the server, where you could have immense scale but not necessarily immense resources.</p>
+
+<p>(If you’ve ever done any graphics work, you might be wondering how this relates to the other <a href="https://en.wikipedia.org/wiki/Bloom_(shader_effect)">bloom filter</a>. The answer is, it doesn’t. That bloom filter is a lowercase b bloom, like a flower. This one is named after a person named Bloom. Total coincidence.)</p>
+
+<p>How do they work?</p>
+
+<p>Putting an object into a Bloom filter is sort of like putting it into a set or a dictionary: you need to calculate a hash value for the object and mod the hash value by the size of your storage array. At that point, instead of storing the value at that position in the index (like you would with a set or a dictionary), you simply flip a bit at that index: change a value from false to true.</p>
+
+<p>Let’s take a simple example to understand how the filter works, and then we’ll crank it up to make it web scale. Imagine a boolean array (sometimes called a <a href="https://gist.github.com/natecook1000/552dc3d23d2fc4a54d2e9fcd309e59e9">bit array</a>) of 8 false values:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+---------------------------------
+|   |   |   |   |   |   |   |   |
+</code></pre>
+</div>
+
+<p>This represents our Bloom filter. I’d like to insert the string “soroush” into it. The string hashes to 9192644045266971309, which, when modded by 8, yields 5. I’ll flip the bit at that index.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+---------------------------------
+|   |   |   |   |   | * |   |   |
+</code></pre>
+</div>
+
+<p>Next, I’d like to insert the string, “swift”. It yields a hash of 7052914221234348788, which we then mod by 8: flip the bit at index 4.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+---------------------------------
+|   |   |   |   | * | * |   |   |
+</code></pre>
+</div>
+
+<p>To test if the Bloom filter contains the string “soroush”, I hash and mod again, yielding 5 again, which is set to true. “soroush” is indeed in the Bloom filter.</p>
+
+<p>You can’t just test the cases where your thing works though, so let’s write some negative tests. Testing the string “khanlou” yields an index of 2, so we know it’s not in the bloom filter. So far, so good. Next test: the string “hashable” yields an index of 5, which…causes a collision! It returns true even though the value was never inserted into the Bloom filter. This is an example of a Bloom filter giving you a false positive.</p>
+
+<p>Since we want to minimize these false positives, there are two main strategies we can use. First, and the more interesting of the two: instead of hashing the value once, we can hash it twice, or three times, with different hashing functions. As long as they are all well-behaved hashing functions (evenly distributed, consistent, minimal collisions), we can generate multiple indices to flip for each value. Now, when we hash “soroush”, we do it twice, and generate two indices, and flip the bools there. But now, when we go to check if “khanlou” is included in the Bloom filter, one of its hashes will collide with one of the hashes for “soroush”, but the chance that <em>both</em> of its hashes will collide has become smaller. You can scale this number up. I’ll use the 3 hashes in the code below, but you could use more.</p>
+
+<p>Of course, if you use more hashes, each element will take up more space in the bit array. However, we’re using practically nothing right now. Our data array is 8 booleans (or bits) which is 1 byte. This is second tactic for minimizing false positives: scale the bit array up. We can make it pretty big before we even start noticing it. We’ll use a default of 512 bits for the code example below.</p>
+
+<p>Now, even using both of these strategies, you’ll still get collisions, and thus false positives, but you’ll get fewer of them. This is one of the downsides of using Bloom filters, but in the right circumstances, the speed and space savings are a worthwhile tradeoff.</p>
+
+<p>I want to touch on three other things to note before we get into code. First, you can’t resize a Bloom filter. When you mod the hash value, you’re destroying information, and you can’t get that information back unless you keep the original hashes around — defeating the dramatic space savings you can get with this data structure.</p>
+
+<p>Secondly, you can see how it would be impossible to enumerate the elements in a Bloom filter. You don’t have them anymore, just some of their artifacts (in the form of hashes).</p>
+
+<p>Lastly, you can also see how you can’t remove elements from a Bloom filter. If you try to flip the bits back to false, you don’t know who had originally flipped them to true. The value you’re trying to remove, or a different value? You’d start causing false negatives as well as false positives. (This may actually be a worthwhile tradeoff for you!) You could get around this by keeping a count at each index instead of a boolean, which would also have storage implications, but again, could be worthwhile depending on your use case.</p>
+
+<p>So, let’s get to some code. There are some choices that I’ll make here that you might choose to make differently, starting with whether or not to make the object generic. I think it makes sense to have the object have a little more metadata about what it’s supposed to be storing, but if you find that too restrictive, you can change it.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>struct BloomFilter&lt;Element: Hashable&gt; {
+	// ...
+}
+</code></pre>
+</div>
+
+<p>We need to store two main things in this type. First, <code class="highlighter-rouge">data</code>, which represents our bit array. This will store all the flags that correspond to the hashes:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>private var data: [Bool]
+</code></pre>
+</div>
+
+<p>Next, we need our different hash functions. Some Bloom filters use actually different methods of computing the hash, but I think it’s easier to use the same algorithm, but mix in one additional randomly generated value.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>private let seeds: [Int]
+</code></pre>
+</div>
+
+<p>When setting up the Bloom filter, we need to set up both instance variables. Our bit array is going to simply repeat the <code class="highlighter-rouge">false</code> value, and our <code class="highlighter-rouge">seeds</code> will use Swift 4.2’s new <code class="highlighter-rouge">Int.random</code> API to generate the seeds we need.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>init(size: Int, hashCount: Int) {
+	data = Array(repeating: false, count: size)
+	seeds = (0..&lt;hashCount).map({ _ in Int.random(in: 0..&lt;Int.max) })
+}
+</code></pre>
+</div>
+
+<p>I also included a convenience initializer with some nice defaults.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>init() {
+	self.init(size: 512, hashCount: 3)
+}
+</code></pre>
+</div>
+
+<p>There are two main functions we need to write: <code class="highlighter-rouge">insert</code> and <code class="highlighter-rouge">contains</code>. They both need to take the element and calculate one hash value for each of the <code class="highlighter-rouge">seeds</code>. Great fodder for a private helper function. We need to create one hash value for each seed, because our seed values represent the “different” hashing functions.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>private func hashes(for element: Element) -&gt; [Int] {
+	return seeds.map({ seed -&gt; Int in
+		// ...
+	})
+}
+</code></pre>
+</div>
+
+<p>To write the body of this function, we need to create a <code class="highlighter-rouge">Hasher</code> (new in Swift 4.2), and pass in the object we want to hash. Mixing in the <code class="highlighter-rouge">seed</code> as well ensures that the hashes won’t collide.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>private func hashes(for element: Element) -&gt; [Int] {
+	return seeds.map({ seed -&gt; Int in
+		var hasher = Hasher()
+		hasher.combine(element)
+		hasher.combine(seed)
+		let hashValue = abs(hasher.finalize())
+		return hashValue
+	})
+}
+</code></pre>
+</div>
+
+<p>Also, note the absolute value on the hash value. Hashes can come back as negative, which will crash our array access later. This removes one bit of entropy, which is probably fine.</p>
+
+<p>Ideally, you’d be able to initialize the <code class="highlighter-rouge">Hasher</code> with a seed, instead of mixing it in. Swift’s <code class="highlighter-rouge">Hasher</code> uses a different seed for each launch of the application (unless you <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0206-hashable-enhancements.md#effect-on-abi-stability">set an environment variable</a> which they added for consistent hashing between launch, mostly for testing purposes), meaning you can’t write these values to disk. If we controlled the seed of the <code class="highlighter-rouge">Hasher</code>, then we could write these values to disk as well. As this Bloom filter currently stands, it should only be used for in-memory caches.</p>
+
+<p>The <code class="highlighter-rouge">hashes(for:)</code> function does a lot of the heavy lifting, and makes our <code class="highlighter-rouge">insert</code> method very straightforward:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mutating func insert(_ element: Element) {
+	hashes(for: element)
+		.forEach({ hash in
+			data[hash % data.count] = true
+		})
+}
+</code></pre>
+</div>
+
+<p>Generate all the hashes, mod each one by the length of the <code class="highlighter-rouge">data</code> array, and set the bit at that index to <code class="highlighter-rouge">true</code>.</p>
+
+<p><code class="highlighter-rouge">contains</code> is likewise simple, and gives us a chance to use another new Swift 4.2 feature, <code class="highlighter-rouge">allSatisfy</code>. This new function tells you if all of the objects in the sequence pass some test, represented by a block:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>func contains(_ element: Element) -&gt; Bool {
+	return hashes(for: element)
+		.allSatisfy({ hash in
+			data[hash % data.count]
+		})
+}
+</code></pre>
+</div>
+
+<p>Because the result of <code class="highlighter-rouge">data[hash % size]</code> is already a boolean, it fits quite nicely into <code class="highlighter-rouge">allSatisfy</code>.</p>
+
+<p>You can also add an <code class="highlighter-rouge">isEmpty</code> method that checks if all of the values in the <code class="highlighter-rouge">data</code> are false.</p>
+
+<p>Bloom filters are one of the weirder data structures. Most of the data structures we deal with are deterministic. When you put an object in a dictionary, you know it’ll be there later. Bloom filters, on the other hand, are probabilistic, sacrificing certainty for space and speed. Bloom filters aren’t something that you’ll use every day, but when you do need them, you’ll be happy to know they exist.</p>
+
+</div>
+
+
+            <div id="nav-below" class="navigation">
+          	</div>
+    			</div><!-- #content -->
+    		</div><!-- #primary -->
+    
+      <div id="secondary" class="widget-area clearfix" role="complementary">
+      <li id="text-3" class="widget widget_text">
+        <div class="textwidget"><img src="/images/khanlou.jpg"></div>
+      </li>
+      <li id="text-2" class="widget widget_text">
+        <div class="textwidget">
+          <p>I am Soroush Khanlou, and this is my blog. I write about programming, primarily Swift and Objective-C and learning what I can from other languages, like Ruby and Haskell. You can rarely catch me talking about things that aren't programming photography, travel, politics, eating, and fonts.</p>
+          <p>Get in touch via Twitter <a href="http://www.twitter.com/khanlou">@khanlou</a> or <a href="mailto:soroush@khanlou.com">email</a>.</p>
+        </div>
+      </li>
+      <li id="text-4" class="widget widget_text">
+        <div class="textwidget">
+          <a href="http://khanlou.com/feed">RSS</a>
+        </div>
+      </li>
+    </div>
+    </div>
+  </body>
+
+</html>

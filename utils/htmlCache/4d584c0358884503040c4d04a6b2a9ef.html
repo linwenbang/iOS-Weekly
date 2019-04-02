@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="The new implementation is faster, simpler, and more secure too.">
+    <meta name="keywords" content="hacking with swift, apple, developer, news, tutorials, swift, ios, macos, watchos, tvos, api, swift 4, swift 3, swift, tutorial, ios, ios 10, ios 11, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, watchkit">
+    <meta name="author" content="Paul Hudson @twostraws">
+    <title>Swift 4.2 improves Hashable with a new Hasher struct – Hacking with Swift</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Swift Developer News RSS feed" href="https://www.hackingwithswift.com/articles/rss" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /* NOTE: This was added October 12th 2018; can be removed safely in 60 days */
+        div.speaking h4 { 
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        /* NOTE: This was added January 21st 2019; can be removed safely in 60 days */
+        div.hws-sponsor {
+            border: 3px solid firebrick;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        div.hws-sponsor p {
+            margin: 0;
+        }
+
+        div.hws-sponsor a {
+            text-decoration: underline;
+        }
+    </style>
+
+    <meta property="og:image" content="https://www.hackingwithswift.com/uploads/matrix.jpg" />
+    <meta property="og:title" content="Swift 4.2 improves Hashable with a new Hasher struct" />
+    <meta property="og:description" content="The new implementation is faster, simpler, and more secure too." />
+    <meta property="og:url" content="https://www.hackingwithswift.com/articles/115/swift-4-2-improves-hashable-with-a-new-hasher-struct" />
+    <meta property="og:site_name" content="Hacking with Swift" />
+    <meta property="og:type" content="article" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twostraws" />
+    <meta name="twitter:title" content="Swift 4.2 improves Hashable with a new Hasher struct" />
+    <meta name="twitter:description" content="The new implementation is faster, simpler, and more secure too." />
+    <meta name="twitter:creator" content="@twostraws" />
+    <meta name="twitter:image" content="https://www.hackingwithswift.com/uploads/matrix.jpg" />
+    <meta name="twitter:domain" content="hackingwithswift.com" />
+    <meta name="twitter:dnt" content="on">
+
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Retina.js - Load first for faster HQ mobile images. -->
+    <script src="/js/plugins/retina/retina.min.js"></script>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/fontawesome-stars.css" />
+
+    <link href="/css/vitality-red.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/hws.css">
+    <!-- IE8 support for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="https://www.hackingwithswift.com/articles/115/swift-4-2-improves-hashable-with-a-new-hasher-struct" />
+</head>
+<!-- Alternate Body Classes: .modern and .vintage -->
+
+<body id="page-top">
+    <!-- Navigation -->
+    <!-- Note: navbar-default and navbar-inverse are both supported with this theme. -->
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+    
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <img src="/img/logo.png" class="img-responsive" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/articles">Articles</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Learn <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/career-guide">Swift Career Guide</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/sixty">Swift in Sixty Seconds</a></li>
+                        <li><a href="/read">Hacking with Swift</a></li>
+                        <li><a href="/example-code">Swift Example Code</a></li>
+                        <li><a href="/store">Buy Books and Videos</a></li>
+                        <li><a href="/playgrounds">Swift Playgrounds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/review">Interactive Review</a></li>
+                        <li><a href="/interview-questions">Interview Questions</a></li>
+                        <li><a href="/test">Test your Swift</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/awards">Swift Community Awards</a></li>
+                        <li><a href="/articles">Latest News</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/glossary">Glossary of terms</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/store">See the range</a></li>
+                        <li><a href="/reviews">Reviews</a></li>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/frequent-flyer">Frequent Flyer Club</a></li>
+                        <li><a href="/update-policy">Update Policy</a></li>
+                        <li><a href="/ibooks">Buy on iBooks</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/about">About Hacking with Swift</a></li>
+                        <li><a href="/speaking">Conference Talks</a></li>
+                      </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+        <skybar id="latestTutorial">
+    <div class="container" style="background-color: firebrick; margin: 0; width: 100%;">
+         <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="/100" style="color: white;" target="_blank"><span class="pure-evil">FREE:</span> <strong>Follow my new 100 Days of Swift challenge!</strong> &gt;&gt;</a></p>
+
+<!--
+        <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="http://anchor.fm/swiftovercoffee" target="_blank" style="color: white;"><span class="pure-evil">NEW:</span> <strong>Check out my podcast with Sean Allen, Swift over Coffee!</strong> &gt;&gt;</a></p>
+-->
+    </div>
+</skybar>
+
+    
+
+    
+    <section class="read">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-top">
+	
+<a href="/store/pro-swift?source=proswift-2"><img src="/assets/notice-proswift-2.png" style="border: 1px solid black;" class="img-responsive center-block" /></a>
+
+
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="9393216522"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style="margin: 10px 0 0 0;">Swift 4.2 improves Hashable with a new Hasher struct</h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="margin: 0;"><a href="/about">Paul Hudson</a> &nbsp;&nbsp; <time itemprop="dateModified" datetime="2019-03-29T13:00:45+00:00">March 29th 2019</time>
+<meta itemprop="datePublished" content="2018-05-28T21:28:55+00:00"> &nbsp;&nbsp; <i class="fa fa-twitter" aria-hidden="true" style="color: #4099ff"></i> <a href="https://twitter.com/twostraws" target="_blank">@twostraws</a></p>
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <img src="/uploads/matrix.jpg" class="img-responsive" style="width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #dcdcdc;" />
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <p>Swift 4.2 improved the <code>Hashable</code> protocol to make it faster, simpler, and more secure, all at the same time. If you currently generate hashes by hand you will almost certainly want to migrate to the new API, but even if you don’t you might still find the behavior of your code changes.</p>
+<p><code>Hashable</code> is one of Swift’s most important protocols, but it often goes unnoticed. You use it every time you create dictionaries or sets, for example, because those types create hashes of your data to figure out where it should be stored.</p>
+<p>Before Swift 4.1, conforming to <code>Hashable</code> was complex because you needed to calculate a <code>hashValue</code> property by hand. In Swift 4.1 this improved so that <code>hashValue</code> could be synthesized on your behalf. So, it turned this kind of code:</p>
+<pre><code class="language-swift">struct Jedi: Hashable {
+    var name: String
+    var darkSideUsage: Int
+
+    var hashValue: Int {
+        return name.hashValue ^ darkSideUsage.hashValue &amp;* 16777619
+    }
+}</code></pre>
+<p>Into this:</p>
+<pre><code class="language-swift">struct Jedi: Hashable {
+    var name: String
+    var darkSideUsage: Int
+}</code></pre>
+<p>However, if you wanted your own hashing implementation – for example, if your type had many properties but you knew that one of them was enough to identify it uniquely – you still needed to implement a <code>hashValue</code> method using whatever algorithm you thought was best.</p>
+<p>Swift 4.2 improved this situation further, thanks to its implementation of <a rel="nofollow" target="_blank" href="https://github.com/apple/swift-evolution/blob/master/proposals/0206-hashable-enhancements.md">SE-0206: Hashable Enhancements</a>. This introduces a new <code>Hasher</code> struct that provides a randomly seeded, universal hash function to make all our lives easier.</p>
+<p>If you’re just relying on automatic synthesis of <code>Hashable</code> your code won’t change at all, although the end result might – more on that later. However, if you’re generating your own hashes then your code gets a lot simpler:</p>
+<pre><code class="language-swift">struct Jedi: Hashable {
+    var name: String
+    var darkSideUsage: Int
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(darkSideUsage)
+    }
+}</code></pre>
+<p>You can also use <code>Hasher</code> as a standalone hash generator: just provide it with whatever values you want to hash, then call <code>finalize()</code> to generate the final value. For example:</p>
+<pre><code class="language-swift">let obiwan = Jedi(name: "Obi-wan Kenobi", darkSideUsage: 0)
+let anakin = Jedi(name: "Anakin Skywalker", darkSideUsage: 90)
+
+var hasher = Hasher()
+hasher.combine(obiwan)
+hasher.combine(anakin)
+let hash = hasher.finalize()</code></pre>
+<p><strong>Note:</strong> You must <em>not</em> call <code>finalize()</code> if you’re writing a custom <code>hash(into:)</code> method for your types.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Hash flooding and you</h3>
+<p>Now, all this might seem academic because the end result is a hash value integer just like we had before, but there is one important difference that <em>might</em> break your code: the <code>Hasher</code> struct uses a random seed to generate its hash values, which means that a given object’s hash value <em>will</em> change between runs of your program.</p>
+<p>Random hash values are an important feature, because having a predictable hash value gives a potential opening to attackers. In particular, there’s a well-known attack called hash flooding: if I know your hashing algorithm ahead of time, I can easily generate a lot of different objects that have the same hash.</p>
+<p>It’s helpful to look at a real example, albeit a deliberately simplified one. We might decide that our <code>Jedi</code> struct should be hashed based just on someone’s name, like this:</p>
+<pre><code class="language-swift">struct Jedi: Hashable {
+    var name: String
+    var darkSideUsage: Int
+
+    var hashValue: Int {
+        return name.hashValue &amp;* 16777619
+    }
+}</code></pre>
+<p>An attacker could look at that code and realize they can generate any number of Jedi objects using the same name and a different <code>darkSideUsage</code> property. These objects are unique enough to added multiple times to the same set or dictionary, but similar enough to generate the same hash.</p>
+<p>For example:</p>
+<pre><code class="language-swift">for _ in 1...100 {
+    set.insert(Jedi(name: "Obi-wan Kenobi", darkSideUsage: Int(arc4random_uniform(UInt32.max))))
+}</code></pre>
+<p>That will generate 100 Jedi called Obi-wan Kenobi, each with their own random <code>darkSideUsage</code> property.</p>
+<p>Now, this matters because of how sets and dictionaries work. It’s a common misconception that hash values must always be unique, but that isn’t the case – it’s <em>strongly preferable</em> that they be unique, but sets and dictionaries are perfectly capable of holding two different objects that have the same hash value.</p>
+<p>In our case, we just inserted 100 unique Jedi objects with the same hash value – I did a quick benchmark, and it took 0.002 seconds on my MacBook Pro. But what if were to insert 10,000 elements in the set – how long would that take?</p>
+<p>You might guess 0.002 x 100, i.e. 0.2 seconds, but you’d be wrong: it actually takes 1.92 seconds. And inserting 30,000 of these objects takes 21.48 seconds – that’s 11 times longer for 3 times the objects.</p>
+<p>A regular set or dictionary has O(1) look up and insertion, which means it can insert new objects and find them again at a constant speed regardless of how many objects you insert. Here, though, we have flooded our set with identical hashes – hence the name “hash flood attack” – which means that the O(1) behavior is no longer possible, and instead we get O(n²) performance. This is what causes the massive time lag: the set can no longer insert objects quickly because they collide.</p>
+<p>Now imagine someone inserting 100,000 pseudo-identical objects – this is the kind of thing that could crash Swift apps or take down Swift-based web servers. This is one of the problems that Swift 4.2’s <code>Hashable</code> struct solves: it uses a pseudorandom function called <a rel="nofollow" target="_blank" href="https://en.wikipedia.org/wiki/SipHash">SipHash</a> that was specifically designed so that attackers can no longer predict what the hash value for a given object will be ahead of time.</p>
+<p>Now that you understand the basics of why hash flooding is dangerous, I want to give you a slightly more real-world example so you can see the threat is real.</p>
+<p>After a busy day of using the force, Jedi naturally want to go home and watch Netflix just like everyone else. So, we’re going to update the <code>Jedi</code> struct so they have an address:</p>
+<pre><code class="language-swift">struct Jedi: Hashable {
+    var name: String
+    var darkSideUsage: Int
+    var address1: String
+    var address2: String
+    var city: String
+    var state: String
+    var postCode: String
+    var country: String
+
+    var hashValue: Int {
+        return name.hashValue ^
+            address1.hashValue ^
+            address2.hashValue ^
+            city.hashValue ^
+            state.hashValue ^
+            postCode.hashValue ^
+            country.hashValue &amp;* 16777619
+    }
+}</code></pre>
+<p>As you can see, that generates the hash value for the Jedi using their name and each of their address properties.</p>
+<p>However, that hash algorithm is trivial for attackers to flood: they can just create <code>Jedi</code> instances with the same text strings in different places, like this:</p>
+<pre><code class="language-swift">let test1 = Jedi(name: "test1", darkSideUsage: 0, address1: "1", address2: "2", city: "3", state: "4", postCode: "5", country: "6")
+let test2 = Jedi(name: "test1", darkSideUsage: 0, address1: "2", address2: "1", city: "3", state: "4", postCode: "5", country: "6")
+let test3 = Jedi(name: "test1", darkSideUsage: 0, address1: "3", address2: "2", city: "1", state: "4", postCode: "5", country: "6")</code></pre>
+<p>That first Jedi uses 1, 2, 3 for its first three address values, the second uses 2, 1, 3, and the third uses 3, 2, 1. Because the actual data being stored is the same, the hash value will also be the same – it doesn’t matter that they appear in different properties, because <code>a ^ b ^ c</code> yields identical results to <code>c ^ a ^ b</code>.</p>
+<p>With seven string properties there are over 5000 such combinations of our properties. If you use eight properties for your hash there are over 40,000, and if you use ten you’ll have over 3.5 million – all trivial for attackers to figure out, because it’s just using the same strings in different places.</p>
+<p>The new <code>Hasher</code> protocol avoids this by maintaining a hash <em>state</em>. This is why you generate hashes using a <code>combine()</code> method: each time you add a new property into your hash, it’s combined with whatever the previous state was, ensuring that the <em>order</em> you add things matters.</p>
+<p>So, we could rewrite our hashing code to use the new Swift 4.2 <code>hash(into:)</code> method, like this:</p>
+<pre><code class="language-swift">func hash(into hasher: inout Hasher) {
+    hasher.combine(name)
+    hasher.combine(address1)
+    hasher.combine(address2)
+    hasher.combine(city)
+    hasher.combine(state)
+    hasher.combine(postCode)
+    hasher.combine(country)
+}</code></pre>
+<p>And now each Jedi will generate completely different hash values even though the strings they store are the same.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Side effects of randomness</h3>
+<p>As you’ve seen, <code>Hasher</code> introduces a random seed every time it hashes an object. This change means the hash value for any object is effectively guaranteed to be different between runs of your app.</p>
+<p>The documentation for the <code>Hashable</code> protocol has always warned that this might be the case:</p>
+<blockquote>
+<p>Hash values are not guaranteed to be equal across different executions of your program. Do not save hash values to use during a future execution.</p>
+</blockquote>
+<p>In Swift 4.2 and later this is now <em>definitely</em> the case, and this has an important side effect: elements that you add to a set or a dictionary are highly likely to have a different order each time you run your app.</p>
+<p>Now, realistically you should never have relied on sets and dictionaries having the same order between runs, but if you <em>did</em> then now is the time to update your code.</p>
+<p>That being said, you <em>can</em> force Swift to use predictable hashing for testing purposes only: set the environment variable <code>SWIFT_DETERMINISTIC_HASHING</code> to 1, and Swift will replace its random hashing seed with a constant value. This will <em>not</em> work in production, but it could in theory be helpful for some very specific tests.</p>
+<p>If you’re excited by the <code>Hasher</code> struct, you should read my article detailing <a href="/articles/77/whats-new-in-swift-4-2">all the other new features in Swift 4.2</a> – there’s a lot of them!</p><!-- <div class="hws-sponsor"><p><strong class="label label-danger">Sponsored</strong> You’re already busy updating your app for Swift 4.2 and iOS 12, so why not let Instabug help you find and fix bugs? <strong>Add just two lines of code</strong> to your project and receive comprehensive reports with all the feedback you need to ship a world-class app – <a href="https://try.instabug.com/ios/?utm_source=hackingwithswift&utm_medium=native_ads&utm_campaign=hackingwithswiftv3">click here to learn more</a>!</div> --><p align="center" style="margin: 30px;"><a href="https://twitter.com/share" data-dnt="true" class="twitter-share-button" data-url="https://www.hackingwithswift.com/articles/115/swift-4-2-improves-hashable-with-a-new-hasher-struct" data-text="Swift 4.2 improves Hashable with a new Hasher struct – The new implementation is faster, simpler, and more secure too." data-via="twostraws" data-size="large" data-hashtags="swiftlang" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p><p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                                <style>
+                    div.books-sidebar {
+                        text-align: center;
+                        padding-top: 5px
+                    }
+
+                    div.books-sidebar img {
+                        border: 1px solid #cccccc;
+                        margin-bottom: 5px;
+                    }
+
+                    @media (max-width: 991px) {
+                        div.books-sidebar {
+                            display: none;
+                        }
+                    }
+                </style>
+
+                <div class="col-md-3" style="padding: 0; padding-top: 20px;">
+                    <div class="books-sidebar" style="text-align: center;">
+                        <strong>MASTER SWIFT NOW</strong>
+                    </div>
+                    <div class="books-sidebar">
+                        <a href="/store/testing-swift"><img src="/img/covers-flat/testing.png" alt="Buy Testing Swift" width="95" /></a>
+                        <a href="/store/practical-ios12"><img src="/img/covers-flat/ios12.png" alt="Buy Practical iOS 12" width="95" /></a>
+                        <a href="/store/pro-swift"><img src="/img/covers-flat/pro-swift.png" alt="Buy Pro Swift" width="95" /></a>
+                        <a href="/store/swift-design-patterns"><img src="/img/covers-flat/patterns.png" alt="Buy Swift Design Patterns" width="95" /></a>
+                        <a href="/store/swift-coding-challenges"><img src="/img/covers-flat/swiftcc.png" alt="Buy Swift Coding Challenges" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/vapor.png" alt="Buy Server-Side Swift (Vapor Edition)" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/kitura.png" alt="Buy Server-Side Swift (Kitura Edition)" width="95" /></a>
+                        <a href="/store/hacking-with-macos"><img src="/img/covers-flat/macos.png" alt="Buy Hacking with macOS" width="95" /></a>
+                        <a href="/store/advanced-ios-1"><img src="/img/covers-flat/advanced-ios-1.png" alt="Buy Advanced iOS Volume One" width="95" /></a>
+                        <a href="/store/advanced-ios-2"><img src="/img/covers-flat/advanced-ios-2.png" alt="Buy Advanced iOS Volume Two" width="95" /></a>                        
+                        <a href="/store/hacking-with-watchos"><img src="/img/covers-flat/watchos.png" alt="Buy Hacking with watchOS" width="95" /></a>
+                        <a href="/store/hacking-with-tvos"><img src="/img/covers-flat/tvos.png" alt="Buy Hacking with tvOS" width="95" /></a>
+                        <a href="/store/hacking-with-swift"><img src="/img/covers-flat/hws.png" alt="Buy Hacking with Swift" width="95" /></a>
+                        <a href="/store/dive-into-spritekit"><img src="/img/covers-flat/spritekit.png" alt="Buy Dive Into SpriteKit" width="95" /></a>
+                        <a href="/sixty"><img src="/img/covers-flat/sixty.png" alt="Buy Swift in Sixty Seconds" width="95" /></a>
+                        <a href="/store/objective-c-for-swift-developers"><img src="/img/covers-flat/objc.png" alt="Buy Objective-C for Swift Developers" width="95" /></a>
+                        <a href="/store/beyond-code"><img src="/img/covers-flat/beyond-code.png" alt="Buy Beyond Code" width="95" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+            <div class="row">
+    <div class="col-sm-1" style="text-align: left;"></div>
+    <div class="col-sm-2">
+        <p style="text-align: center;"><img src="/img/paul.png" class="img-responsive" style="border-radius: 64px; border: 1px solid black; margin: auto;" /></p>
+        <p style="text-align: center;"><a href="https://twitter.com/twostraws">@twostraws</a></p>
+    </div>
+    <div class="col-sm-8" style="text-align: left;"><h3 style="margin: 0">About the author</h3><p>Paul Hudson is the creator of Hacking with Swift, the <a href="/store">most comprehensive series of Swift books</a> in the world. He's also the editor of <a href="/articles">Swift Developer News</a>, the maintainer of the <a href="/example-code">Swift Knowledge Base</a>, and Mario Kart world champion. OK, so that last part isn't true. If you're curious you can <a href="/about">learn more here</a>.</p></div>
+    <div class="col-sm-1" style="text-align: left;"></div>
+</div>            </div>
+
+            <div class="row" style="margin-top: 40px">            
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="margin-bottom: 10px;"><a href="/articles">More articles</a></p>
+                </div>
+
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="text-align: right; margin-bottom: 10px;"><img src="/img/feed.png" style="height: 22px; vertical-align: middle; margin-bottom: 4px;" /> <a href="/articles/rss">
+                    RSS feed</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/183/apple-announces-swift-enterprise-edition">
+                            <img src="/uploads/enterprise.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Apple announces Swift Enterprise Edition</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/182/whats-new-in-swift-5-1">
+                            <img src="/uploads/swift-evolution-1.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>What’s new in Swift 5.1</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/181/why-using-isempty-is-faster-than-checking-count-0">
+                            <img src="/uploads/typography.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Why using isEmpty is faster than checking count == 0</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/180/interview-antoine-van-der-lee">
+                            <img src="/uploads/zz-antoine-van-der-lee.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Interview: Antoine van der Lee</h4>
+                            </div>
+                        </a>
+                    </div>
+                            </div>
+
+            <div class="row" style="margin-bottom: 80px;">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-bottom">
+	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="1869949723"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </section>
+
+
+            <section class="page-rating-container bg-gray">
+        <div class="container text-center">
+            <div class="row">
+                <div id="page-rating-start">
+                  <p>Was this page useful? Let me know!</p>
+                	<select id="page-rating">
+                      <option value=""></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                </div>
+
+                                <p><small>Average rating: 5.0/5</small></p>
+                
+                <div id="page-rating-end" style="display: none">
+                    <p>Thank you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="application/ld+json">{
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "Paul Hudson",
+      "datePublished": "2018-05-28",
+      "dateModified": "2019-03-29",
+      "headline": "Swift 4.2 improves Hashable with a new Hasher struct",
+      "image": {
+        "@type": "imageObject",
+        "url": "https://www.hackingwithswift.com/uploads/matrix.jpg"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "worstRating": "1.0",
+            "bestRating": "5.0",
+            "reviewCount": "8"
+        },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hacking with Swift",
+        "logo": {
+          "@type": "imageObject",
+            "url": "https://www.hackingwithswift.com/files/logo-large.png"
+          }
+        }
+      }
+    </script>
+    
+    
+        <a href="/store" class="btn btn-block btn-full-width" style="white-space: normal;">Click here to visit the Hacking with Swift store &gt;&gt;</a>
+    
+    <footer class="footer" style="background-image: url('/img/bg-footer.jpg')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 contact-details">
+                    <a href="https://twitter.com/twostraws">
+                        <h4><i class="fa fa-twitter fa-4x"></i></h4>
+                        <p>@twostraws</p>
+                    </a>
+                </div>
+                <div class="col-md-6 contact-details">
+                    <a href="mailto:paul@hackingwithswift.com">
+                        <h4><i class="fa fa-envelope-o fa-4x"></i></h4>
+                        <p>paul@hackingwithswift.com
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-lg-12">
+                    <p class="small">Swift, the Swift logo, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright &copy; 1994 Miramax Films. Hacking with Swift &copy;2019 Paul Hudson.</p>
+
+                    <p class="small"><a href="/privacy">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Scripts -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui-custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Plugin Scripts -->
+    <script src="/js/plugins/jquery.easing.min.js"></script>
+    <script src="/js/plugins/classie.js"></script>
+
+    
+    <script src="/js/plugins/jquery.mixitup.js"></script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/vitality.js"></script>
+
+    <script src="/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript">
+       $(function() {
+            $('#page-rating').barrating('show', {
+              theme: 'fontawesome-stars',
+              onSelect: function(value, text, event) {
+                if (typeof(event) !== 'undefined') {
+                  // rating was selected by a user
+                  var rating = $(event.target).data("rating-value");
+
+                    $.ajax({
+                      type: "POST",
+                      url: "/rating",
+                      data: { "url": window.location.pathname, "rating": rating },
+                    });
+
+                  $("#page-rating-start").hide();
+                  $("#page-rating-end").show();
+                } else {
+                  // rating was selected programmatically
+                  // by calling `set` method
+                }
+              }
+            });
+       });
+    </script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58275818-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!--     { { include('house-ads.html') } }
+
+    <script src="/js/ads.js"></script>
+    <script>
+    if(window.areAdsDisplayed === undefined) {
+        var houseAd = createHouseAd();
+        $('.hws-notices-top').html(houseAd);
+        $('.hws-notices-bottom').html(houseAd);
+    }
+    </script> -->
+
+    </body>
+
+</html>

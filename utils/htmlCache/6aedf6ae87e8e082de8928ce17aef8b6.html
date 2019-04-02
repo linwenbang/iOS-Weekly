@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="iOS开发技术分享">
+    <meta name="keywords"  content="iOS,Android">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>员工之间可不可以讨论工资收入？  </title>
+
+    <link rel="canonical" href="http://mrpeak.cn/blog/salary-share/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e6b405f2816498aa750c0e74e05f937b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-image: url('http://mrpeak.cn/images/blogbg.jpg'); background-repeat: repeat; background-position: top left; background-attachment: fixed; }
+</style>
+
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color:rgba(0, 0, 0, 0.5)">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">MrPeak杂货铺</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">首页</a>
+                    </li>
+<!--                    
+                    <li>
+                        <a href="/Android/">Android开发</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/ML/">Machine Learning</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/Other/">其他</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/About/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/Archives/">归档</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/django/">Django</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/github/">Github</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/iOS/">iOS开发</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/icons/">Icons</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/jekyll/">Jekyll</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                      -->
+
+			
+                    
+                                        <li>
+                                                <a class="page-link" href="/iOS">
+                                                        iOS
+                                                </a>
+                                        </li>
+                                        
+                                        <li>
+                                                <a class="page-link" href="/Android">
+                                                        Android
+                                                </a>
+                                        </li>
+                                        
+                                        <li>
+                                                <a class="page-link" href="/Other">
+                                                        其它
+                                                </a>
+                                        </li>
+                                        
+                                        <li>
+                                                <a class="page-link" href="/Archives">
+                                                        归档
+                                                </a>
+                                        </li>
+                                        
+                                        <li>
+                                                <a class="page-link" href="/About">
+                                                        关于
+                                                </a>
+                                        </li>
+                                        
+                                        <li>
+                                                <a class="page-link" href="/feed.xml">
+                                                        RSS
+                                                </a>
+                                        </li>
+                                        
+
+
+
+
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/images/defaultbg.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url(https://coding.net/u/mrpeak/p/mrpeak.coding.me/git/raw/master/images/defaultbg.jpg);
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+            <!--        <div class="tags">
+                        
+                    </div>
+                    <h1>员工之间可不可以讨论工资收入？</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by MrPeak杂货铺 on July 8, 2018</span>
+                </div>
+              -->
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+<div class="post-heading">
+<h1 style="text-align: center;">员工之间可不可以讨论工资收入？</h1>
+</div>
+
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<p>记得早些年我刚加入阿里的时候，HR 在入职头一周三令五申公司的几条高压线，其中之一就是禁止员工之间相互交流薪水收入，其性质等同于公司内部不正当男女关系。不光是阿里，我相信绝大部分公司都秉持着相同的企业文化，而且这么做也非常有其合理性的考量。</p>
+
+<p>对于公司来说，在招聘的旺季或者大年，为了抢夺优秀毕业生，工资互竞会导致应届生的年薪和公司老员工倒挂。公司并非要刻意歧视老员工，存粹是人才储备需求和市场形势之间在较劲。但作为老员工，如果得知组里新来的小弟月薪比你还高，这滋味肯定不好受，轻则情绪低落影响工作把键盘敲的噼里啪啦响，重则从文件夹里翻出久未更新的个人简历。</p>
+
+<p>对于个人来说，知道身边同事工资比你低，你多少该有点沾沾自喜，甚至会不自主的将薪水高低延展到个人能力的评定上，不用羞于承认，这是人性。可惜的是，同事的工资再低，并不能使你现有工资再多出零星半点，绝对值还是不变，增加的只是短暂的虚荣心所带来的快感。如果得知相同资历的同事收入高于你，而你又主观上认定对方能力不如你的时候，这心里头是免不了要翻江倒海的，而且这事不好拿出来和人讨论，掉面子的事再说一遍是二次伤害，最有效的排解方式还是更新简历。所以你看，对于个人来说，知道同事薪资对你也是有害无利。这也是为什么我从不会和同事或朋友主动交流个人收入状况。当然被动的交流过，存粹是出于社交礼仪，对方先说了，然后眼巴巴的看着你，不说出来会出事，不过一般说完之后气氛多少有点微妙的变化。</p>
+
+<p>所以说，我认为员工之间交流工资收入，对个人对公司都无益处。</p>
+
+<p>直到，我来了湾区，进了 FB，加入了一个公司内部公开群，而这个群的名字是：收入分享群。</p>
+
+<p>我开始重新考虑这个问题。</p>
+
+<p>第一次得知 FB 内部有这么一个群的时候，三观有点抖，第一反应当然是将里面的历史信息翻了个遍，都是些员工发的自己的收入信息，匿名的实名的都有，什么级别，薪水多少，股票多少，今年奖金和股票各发了多少，数据详细一览无遗。</p>
+
+<p>第二反应是这个群为什么会存在，它又是怎么活到今天的，以及公司对它是什么立场？我开始脑补一个画面，先是公司各方打压，然后工会组织员工游行罢工，终于通过不懈的努力争取到自由交流薪水的权利，新闻联播式的画风。当然这是我自己加戏了。</p>
+
+<p>这个群存在的依据是美国劳工保护法案（NLRA），其中一项关于自由讨论收入的定义。</p>
+
+<p>和自由民主相关的，一般来说都是正确的，要鼎力支持的，但是呢，这几年的我对于自由的认识有了新的变化，当人们在讨论自由的时候，我更感兴趣自由的边界在哪，以及自由背后的意义和受益群体。看看欧洲是如何秉持绝对人权自由处理难民问题的？所以，不能因为交流收入和自由沾边就认为是合理的。</p>
+
+<p>第二遍翻阅群里信息，我着重看了评论部分，想看看人性的真实反应，比如收入较低者的愤懑和嫉妒，收入较高者的洋洋得意和不可一世。但我满眼望去，只见到一片 1024 论坛「好人一生平安」式的祥和气氛。评论大多是这种风格：「哇塞，X 级收入可以这么高吗？羡慕ing，感谢分享！」，「兄dei，你这年终奖不咋地呀，加油！」，只有鼓励和祝福，人间一片温暖。</p>
+
+<p>公司当然是知道这个群存在的，而且是持认可态度，毕竟法律面前，人和公司皆如草芥。更妙的是，在小扎一周一次的和基层群众的见面会上，有胆肥的还主动提出了这个话题，小扎面带微笑，波澜不惊的做了回答，如果你想和同事讨论薪水，go ahead，但是切记要把数字搞对，比如有些人股票多，有些人现金多，还有行权的时机和价格等等，要严谨！</p>
+
+<p>我需要冷静下，抛开所有这些外部因素，想想对自己的影响和切身感受。知道同事的底细后，我当下主要在想的是，FB 给我的 Offer，相较于美国本地员工，并无任何差别。我并没有因为是来自国内而受到歧视，这也是出国前一些朋友会问我的问题，好奇我会不会因为没在美国本土接受教育而被区别对待？现在答案明了了，不会。当然，这里需要拿起话筒感谢下祖国互联网这些年近乎野蛮的蓬勃生长，让中国的互联网水准在世界上都有了认可度。</p>
+
+<p>理论上，也有另一种可能的结果，就是我的收入远低于公司平均水平，得知后造成我精神奔溃从此一蹶不振，也占 50% 概率，那就退一步保守的说，对我个人的影响是中性的。当一项决策不确定是否利己的时候，我们再看看它是不是有利于一个群体。FB 每年给员工调薪的时候，会参考一个重要因素，就是你的级别在这个行业里同等级公司的平均待遇水平，你知道有时候行业发展快，你不怎么走运没跑过平均线，这个规定就能挽救你，是公司一年一次的送温暖机会。那你自己怎么知道行业的平均值呢？当然靠交流啦，交流后就「你有我有大家有啊！诶嘿！诶嘿！」。</p>
+
+<p>所以说，你现在问我，员工之间交流薪水你支持不支持呀，我当然是支持啦。</p>
+
+<p>这是我现在的认知，欢迎大家在评论区留下自己的看法，兼听则明嘛。</p>
+
+<p>最后，祝大家的收入都能跑赢平均线，跑赢 GDP，跑赢房价，高富帅看了会沉默，丈母娘看了会流泪，你我都有光明的前途。</p>
+
+
+                <hr>
+
+              
+                 
+<!--<div style="height: 200px; width: 233px; margin-left: 0px; float: right top; margin-top: 200px">
+            <img border="0" alt="alt" src="/images/qrcode.png" />
+    </div>  -->
+
+
+<!-- 多说评论框 start -->
+<!--        <div class="ds-thread" data-thread-key=2018-07-08 00:00:00 +0000 data-title=员工之间可不可以讨论工资收入？  data-url=/blog/salary-share/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"mrpeak"};
+        (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                 || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+        </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+<!-- Disqus 
+<div class="comments">
+    <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+
+        s.src = '//peakmobile.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+-->
+
+
+
+
+
+            
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/blog/ios-mistake-cost/" data-toggle="tooltip" data-placement="top" title="程序员应不应该背锅？">
+                        上一篇<br>
+                        <span>程序员应不应该背锅？</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/blog/ios-background-running/" data-toggle="tooltip" data-placement="top" title="iOS App 后台 Crash 调查">
+                        下一篇<br>
+                        <span>iOS App 后台 Crash 调查</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+    <!--    
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+     -->
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Disqus 
+<div class="comments">
+    <div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+
+        s.src = '//peakmobile.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<p style='text-align: center;'>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</body>

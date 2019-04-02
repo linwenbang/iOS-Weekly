@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>When to use UserDefaults, Keychain, or Core Data</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://use.typekit.net/jdx8jgw.css">
+    <link href="/assets/css/global.css?v=94e2e4126e" rel="stylesheet">
+    <link href="/assets/css/theme.css?v=94e2e4126e" rel="stylesheet">
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="https://fluffy.es/persist-data/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    
+    <meta property="og:site_name" content="Fluffy 📱" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="When to use UserDefaults, Keychain, or Core Data" />
+    <meta property="og:description" content="There are many ways to store data locally in iOS app. UserDefaults, Keychain and Core Data are some of the most popular ways to persist data (so that the data is still there the next time user launch your app after quitting). How to decide which approach to use for" />
+    <meta property="og:url" content="https://fluffy.es/persist-data/" />
+    <meta property="og:image" content="https://fluffy.es/content/images/2018/11/cover.png" />
+    <meta property="article:published_time" content="2018-11-28T14:04:58.000Z" />
+    <meta property="article:modified_time" content="2019-01-08T05:52:08.000Z" />
+    <meta property="article:tag" content="swift" />
+    <meta property="article:tag" content="keychain" />
+    <meta property="article:tag" content="overview" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="When to use UserDefaults, Keychain, or Core Data" />
+    <meta name="twitter:description" content="There are many ways to store data locally in iOS app. UserDefaults, Keychain and Core Data are some of the most popular ways to persist data (so that the data is still there the next time user launch your app after quitting). How to decide which approach to use for" />
+    <meta name="twitter:url" content="https://fluffy.es/persist-data/" />
+    <meta name="twitter:image" content="https://fluffy.es/content/images/2018/11/cover.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Axel Kee" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="swift, keychain, overview" />
+    <meta property="og:image:width" content="700" />
+    <meta property="og:image:height" content="336" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Fluffy 📱",
+        "logo": "https://casper.ghost.org/v1.0.0/images/ghost-logo.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Axel Kee",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/2c45ddec665334de89dba55fbb88149c?s=250&d=mm&r=x",
+            "width": 250,
+            "height": 250
+        },
+        "url": "https://fluffy.es/author/axel/",
+        "sameAs": []
+    },
+    "headline": "When to use UserDefaults, Keychain, or Core Data",
+    "url": "https://fluffy.es/persist-data/",
+    "datePublished": "2018-11-28T14:04:58.000Z",
+    "dateModified": "2019-01-08T05:52:08.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://fluffy.es/content/images/2018/11/cover.png",
+        "width": 700,
+        "height": 336
+    },
+    "keywords": "swift, keychain, overview",
+    "description": "There are many ways to store data locally in iOS app. UserDefaults, Keychain and Core Data are some of the most popular ways to persist data (so that the data is still there the next time user launch your app after quitting). How to decide which approach to use for",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://fluffy.es/"
+    }
+}
+    </script>
+
+    <script src="/public/ghost-sdk.min.js?v=94e2e4126e"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "a72ec38e16fc"
+});
+</script>
+    <meta name="generator" content="Ghost 1.25" />
+    <link rel="alternate" type="application/rss+xml" title="Fluffy 📱" href="https://fluffy.es/rss/" />
+    <meta name="google-site-verification" content="euJy_fGrfoSufYt2YTUyQ5s_NFICV10tKVtvisAXviQ" />
+<meta name="google-site-verification" content="HJvr-ZtBxd0hv5_7LufHwBHcVE3ygGY02HYdfng0v9w" />
+
+        <!-- Hightlight JS -->
+    <link href="/assets/css/highlightjs-tomorrow-night.css?v=94e2e4126e" rel="stylesheet">
+    <script src="/assets/js/highlight.pack.js?v=94e2e4126e"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+</head>
+<body class="post-template tag-swift tag-keychain tag-overview">
+
+    
+
+<div class="header">
+  <a href="https://fluffy.es"><h2 class="blog-title">Fluffy 📱</h2></a>
+  <p class="description">Mostly iOS fun stuff</p>
+</div>
+
+<div class="top-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-all-posts" role="menuitem"><a href="https://fluffy.es/archive/">All Posts</a></li>
+    <li class="nav-free-auto-layout-course" role="menuitem"><a href="https://fluffy.es/making-sense-of-auto-layout/">Free Auto Layout Course</a></li>
+    <li class="nav-understanding-optionals" role="menuitem"><a href="https://optionals.fluffy.es">Understanding Optionals</a></li>
+    <li class="nav-about" role="menuitem"><a href="https://fluffy.es/about/">About</a></li>
+    <li class="nav-products" role="menuitem"><a href="https://fluffy.es/products/">Products</a></li>
+    <li class="nav-newsletter" role="menuitem"><a href="https://fluffy.es/newsletter/">Newsletter</a></li>
+</ul>
+
+</div>
+
+ <div class="post-header">
+      <h1 class="post-title">When to use UserDefaults, Keychain, or Core Data</h1>
+      <div class="post-meta-wrapper">
+        <span>by Axel Kee</span> <br/>
+        <time class="post-meta">28 Nov 2018 <br/> <a href="/tag/swift/">swift</a>, <a href="/tag/keychain/">keychain</a>, <a href="/tag/overview/">overview</a> </time>
+      </div>
+    </div>
+    
+    <div class="post-content">
+        <div class="kg-card-markdown"><p>There are many ways to store data locally in iOS app. UserDefaults, Keychain and Core Data are some of the most popular ways to persist data (so that the data is still there the next time user launch your app after quitting). How to decide which approach to use for saving data? 🤔</p>
+<p>Table of Contents:</p>
+<ol>
+<li>
+<p><a href="#userdefaults">UserDefaults</a></p>
+</li>
+<li>
+<p><a href="#keychain">Keychain</a></p>
+</li>
+<li>
+<p><a href="#coredata">Core Data</a></p>
+</li>
+<li>
+<p><a href="#summary">Comparison Summary</a></p>
+</li>
+</ol>
+<p><span id="userdefaults"></span></p>
+<h2 id="userdefaults">UserDefaults</h2>
+<p>As per <a href="">Apple Documentation</a>, UserDefaults is</p>
+<blockquote>
+<p>An interface to the user’s defaults database, where you store key-value pairs persistently across launches of your app.</p>
+</blockquote>
+<p>What type of data can we store in UserDefaults?</p>
+<blockquote>
+<p>A default object must be a property list—that is, an instance of (or for collections, a combination of instances of) <a href="https://developer.apple.com/documentation/foundation/nsdata">NSData</a>, <a href="https://developer.apple.com/documentation/foundation/nsstring">NSString</a>, <a href="https://developer.apple.com/documentation/foundation/nsnumber">NSNumber</a>, <a href="https://developer.apple.com/documentation/foundation/nsdate">NSDate</a>, <a href="https://developer.apple.com/documentation/foundation/nsarray">NSArray</a>, or <a href="https://developer.apple.com/documentation/foundation/nsdictionary">NSDictionary</a>. If you want to store any other type of object, you should typically archive it to create an instance of NSData.</p>
+</blockquote>
+<p>Wait... what is a property list? 🤔 What does &quot;A default object must be a property list&quot; means?</p>
+<p>You might have seen a .plist file before, plist is short for property list. There is usually an <strong>info.plist</strong> file created for you when you start new iOS project :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/infoplist.png" alt="Info Plist"></p>
+<p>When you store data in UserDefaults, the data format is similar to Info.plist as well. The UserDefaults plist is saved in the <strong>Library</strong> folder inside the app folder (<a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW12">Read more on app folder structure here</a>). We can take a peek into the Library folder like this :</p>
+<pre><code class="language-swift">UserDefaults.standard.set(&quot;https://fluffy.es&quot;, forKey: &quot;homepage&quot;)
+UserDefaults.standard.set(false, forKey: &quot;darkmode&quot;)
+
+let library_path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
+
+print(&quot;library path is \(library_path)&quot;)
+</code></pre>
+<br>
+<p>Build and run the app in Simulator, then open Finder and press <kbd>command</kbd> + <kbd>shift</kbd> + <kbd>G</kbd> , paste in the library path and click 'Go' to navigate to the Library folder.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/libraryPath.png" alt="Library Path"></p>
+<p>You will see two folder, 'Caches' and 'Preferences' , the UserDefaults plist file is stored inside the 'Preferences' folder.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/libraryFolders.png" alt="Library folders"></p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/defaultPlist.png" alt="plist"></p>
+<p>If we double click the .plist file, Xcode will show a property list format to us :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/plistContent.png" alt="content of plist"></p>
+<p>As UserDefaults uses .plist format to save data, we can only store data with type of NSString, NSNumber, NSData, NSArray, NSDictionary or NSData. If we want to store custom object into UserDefaults, we can use <a href="https://fluffy.es/saving-custom-object-into-userdefaults/">Codable and PropertyListEncoder</a> to turn the custom object into NSData.</p>
+<p>In the documentation, Apple mentioned few example use cases :</p>
+<blockquote>
+<p>For example, you can allow users to specify their preferred units of measurement or media playback speed. Apps store these preferences by assigning values to a set of parameters in a user’s defaults database.</p>
+</blockquote>
+<p>You can use UserDefaults for storing user settings (eg: settings page in your app with UISwitch, Segmented Control or simple Textfield)</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/settingsView.png" alt="Settings"></p>
+<p>You can also store non-sensitive data such as high score for a game, recently played song etc. In my public transport app <a href="https://komuter.app">Komuter</a>, the last 5 trips are stored in UserDefaults (Array of custom objects encoded into NSData). User can then tap the recent trips when they select station.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/recentTrip.jpg" alt="recent trip"></p>
+<p>Avoid storing large amount of data in a single UserDefaults key such as 50 rows of user's favorite songs.</p>
+<p>And also <strong>avoid storing image data</strong> (conversion of UIImage to NSData) into UserDefaults, as UserDefaults are not meant to store large amount of data. A better way to do this is to save the image file (eg: avatar.png) into the Library folder of app, then store the path to the image (eg: &quot;AppFolder/Library/avatar.png&quot;) into UserDefaults, and show the image using <code>UIImage(contentsOfFile: savedPath)</code>.</p>
+<p>Storing large amount of data into UserDefaults could affect performance of your app significantly as the whole UserDefaults plist file is loaded into memory when your app launches. As mentioned in Apple Documentation :</p>
+<blockquote>
+<p><code>UserDefaults</code> caches the information to avoid having to open the user’s defaults database each time you need a default value.</p>
+</blockquote>
+<p><span id="keychain"></span></p>
+<h2 id="keychain">Keychain</h2>
+<p>Previously, we have explained that UserDefaults saves data into plist. Using apps such as <a href="https://macroplant.com/iexplorer">iExplorer</a>, users can access the Library/Preferences folder of their iPhone and read / modify the UserDefaults plist data easily (eg: Change the boolean value of &quot;boughtProVersion&quot; from false to true, or change the amount of coins). <strong>Don't ever store a boolean for checking if user has bought in-app purchase in UserDefaults</strong>! User can change it very easily (without jailbreaking) and get your goodies for free! 😬</p>
+<p>Other than in-app purchase status, you shouldn't store user password / API Keys in UserDefaults for the same reason as well.</p>
+<p>This is where Keychain comes in, from <a href="https://developer.apple.com/documentation/security/keychain_services">Apple documentation</a> :</p>
+<blockquote>
+<p>The keychain services API helps you solve this problem by giving your app a mechanism to store small bits of user data in an encrypted database called a keychain. When you securely remember the password for them, you free the user to choose a complicated one.</p>
+</blockquote>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/keychain.png" alt="keychain"></p>
+<p>Most of the Keychain services API provided by Apple are written in C language and require some configuration to use 😅. To simplify the usage of keychain, we can use some open source Keychain wrapper library like <a href="https://github.com/kishikawakatsumi/KeychainAccess">Keychain Access</a> .</p>
+<p>Using Keychain Access library, we can save / load password like this :</p>
+<pre><code class="language-swift">// Save the user password into keychain
+let keychain = Keychain(service: &quot;com.yourcompany.yourappbundlename&quot;)
+keychain[&quot;user_password&quot;] = &quot;correcthorsebatterystaple&quot;
+
+// Load the user password
+let keychain = Keychain(service: &quot;com.yourcompany.yourappbundlename&quot;)
+let user_password = keychain[&quot;user_password&quot;]
+</code></pre>
+<br>
+<p>Look easy isn't it? The Keychain Access library has done a lot of under the hood operation for us. 😬</p>
+<p>You should always use Keychain to store sensitive data like password, keys, certificates etc.</p>
+<p>Data saved in Keychain can be accessed by multiple apps, provided that the data are created from the apps from the same developer. This is how SSO (Secure sign on, like you login in one app and then another app will auto login for you) in iOS app works.</p>
+<p><span id="coredata"></span></p>
+<h2 id="coredata">Core Data</h2>
+<p>Core Data is a huge topic in iOS Development, some developers love it, some hate it, but nevertheless it provides a lot of feature on saving/loading/using data. From <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/index.html">Apple documentation</a>,</p>
+<blockquote>
+<p>Core Data is a framework that you use to manage the model layer objects in your application. It provides generalized and automated solutions to common tasks associated with object life cycle and object graph management, including persistence.</p>
+</blockquote>
+<p>From <a href="https://davedelong.com/blog/2018/05/09/the-laws-of-core-data/">Dave DeLong 's blog post on Core Data</a> :</p>
+<blockquote>
+<p>Core Data is an “object graph and persistence framework”, which is basically like a fancy kind of <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">object-relational mapping</a>. That means it is a whole bunch of code to help you maintain a graph (ie, a “network” of related pieces of data with a defined organization) of objects and then persist them in some fashion.</p>
+</blockquote>
+<p>I would like to emphasize that <strong>Core Data is not the database</strong> nor it consists of table of rows and columns. Core Data is a framework for managing object relations, and it can save the data in 4 formats :</p>
+<ol>
+<li>SQLite file</li>
+<li>XML file</li>
+<li>Binary file</li>
+<li>In-memory (RAM)</li>
+</ol>
+<p>An example of object-relational mapping : Order class can have many items (Item class), meaning an Order can have multiple items. The &quot;Order have many Item&quot; is the <strong>relationship</strong> between Order class and Item class.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/coreData.png" alt="core data sample"></p>
+<pre><code class="language-swift">// context of the persistent container of core data (where data is saved)
+let context = appDelegate.persistentContainer.viewContext
+
+// create Item of Macbook Air and Mac Mini
+let macbookAir = NSEntityDescription.insertNewObject(forEntityName: &quot;Item&quot;, into: context) as! Item
+macbookAir.name = &quot;Macbook Air&quot;
+macbookAir.price = NSDecimalNumber(decimal: 1199.00)
+        
+let macMini = NSEntityDescription.insertNewObject(forEntityName: &quot;Item&quot;, into: context) as! Item
+macMini.name = &quot;Mac Mini&quot;
+macMini.price = NSDecimalNumber(decimal: 799.00)
+
+
+// create Order with items Macbook Air and Mac Mini
+let order = NSEntityDescription.insertNewObject(forEntityName: &quot;Order&quot;, into: context) as! Order
+    
+order.items = [macbookAir, macMini]
+
+// save the order and its items , so it persist the next time the app is opened
+do {
+    try context.save()
+} catch let error as NSError {
+    print(&quot;Could not save. \(error), \(error.userInfo)&quot;)
+}
+</code></pre>
+<br>
+<p>Aside from saving / loading object with relationships, Core Data also offer querying function which we can use to filter the data we want to load.</p>
+<p>For example,  we can query for overdue orders (due date is earlier than today's date) using NSPredicate on Core Data :</p>
+<pre><code class="language-swift">let fetchRequest = NSFetchRequest&lt;Person&gt;(entityName: &quot;Order&quot;)
+// get overdue orders, ie. dueDate is earlier than current date
+fetchRequest.predicate = NSPredicate(format: &quot;dueDate &lt; %@&quot;, Date())
+do {
+  overdueOrders = try managedContext.fetch(fetchRequest)
+} catch let error as NSError {
+  print(&quot;Could not fetch. \(error), \(error.userInfo)&quot;)
+}
+</code></pre>
+<br>
+<p>I have built a reference site on using <a href="https://nspredicate.xyz">NSPredicate query</a> here if you are interested. I recommend reading Apple's own <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/index.html">Getting started with Core Data guide</a> on beginning Core Data.</p>
+<p>Core Data is great for when you have a long list of data (eg: to-do list, list of bookmarks etc) to save / load. Especially if your data have some relationships (eg: Order with multiple items) , require custom query / filtering (eg: Getting items below certain price) or require sorting function (sort the retrieved data by price), Core Data can handles these for you out of the box.</p>
+<p><span id="summary"></span></p>
+<h2 id="comparisonsummary">Comparison Summary</h2>
+<p>Here's a simplified guide on choosing which approach for storing data.</p>
+<p><strong>Sensitive data</strong> like passwords, in-app purchase status (paid, unpaid), coins amount, etc? Store it in <strong>Keychain</strong>.</p>
+<p><strong>Preference data</strong> that can be presented in Switch / Action Sheets / Segmented Control ? Store it in <strong>UserDefaults</strong>.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2018/39-persist-data/uitypes.png" alt="UI Types"></p>
+<p><strong>Small amount</strong> of text / number / array <strong>data</strong> that is not sensitive (eg: high score, level, display name) ? Store it in <strong>UserDefaults</strong>.</p>
+<p><strong>Large amount of data</strong>, or potential to be large amount, or <strong>usually in a list</strong> that is expandable (eg: to-do list, posts, comments) ? Store it in <strong>Core Data</strong>.</p>
+<p>Data that might be <strong>queried / filtered often</strong>? Definitely <strong>Core Data</strong>.</p>
+<br>
+<br>
+<br>
+<p>Enjoyed this post and want to get notified when a new post like this is published? Sign up below and I'll send you articles just like this about iOS development to your inbox every one week-ish. 😆</p>
+<div class="post-subscribe">
+    <script async data-uid="444e484e10" src="https://f.convertkit.com/444e484e10/75994f2863.js"></script>
+</div></div>
+    </div>
+
+
+    <!-- Hide post-subscribe -->
+
+
+    <div class="post-comment">
+      <div id="disqus_thread"></div>
+        <script>
+        
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = 'https://fluffy.es/persist-data/' ;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'ghost-5bfc2f4f8da847148d5e5355'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        var disqus_developer = 1;
+        s.src = 'https://fluffy-1.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+
+
+
+
+    <div class="footer">
+      <div class="copyright">
+         <p>
+          Copyright <strong><a href="https://fluffy.es">Fluffy 📱</a></strong> &copy; 2019 <br />
+          Theme created by <a href="https://littlefox.es">soulchild</a> <br /><br /><br />
+          Proudly published with <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+        </p>
+      </div>
+    </div>
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js?v=94e2e4126e"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=11623386; 
+var sc_invisible=1; 
+var sc_security="b2add79b"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="//c.statcounter.com/11623386/0/b2add79b/1/" alt="Web
+Analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+<!-- Drip -->
+<script type="text/javascript">
+  var _dcq = _dcq || [];
+  var _dcs = _dcs || {};
+  _dcs.account = '1066025';
+
+  (function() {
+    var dc = document.createElement('script');
+    dc.type = 'text/javascript'; dc.async = true;
+    dc.src = '//tag.getdrip.com/1066025.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(dc, s);
+  })();
+</script>
+<!-- end Drip -->
+
+</body>
+</html>

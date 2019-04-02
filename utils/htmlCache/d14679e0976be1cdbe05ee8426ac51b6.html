@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RamboCodes">
+<link rel="apple-touch-icon" href="/assets/img/touchicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<script src="/assets/js/themeswitcher.js"></script>
+<meta property="og:image" content="/assets/img/1/opengraph.png">
+
+<title>Unleashing the power of asset catalogs and bundles on iOS | Rambo.codes</title>
+<meta name="generator" content="Jekyll v3.8.4" />
+<meta property="og:title" content="Unleashing the power of asset catalogs and bundles on iOS" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Bundles and asset catalogs are features of Apple’s systems every developer and app is using, even though many developers are probably not aware of their existence or how powerful they can be, especially when used together." />
+<meta property="og:description" content="Bundles and asset catalogs are features of Apple’s systems every developer and app is using, even though many developers are probably not aware of their existence or how powerful they can be, especially when used together." />
+<link rel="canonical" href="https://rambo.codes/ios/2018/10/03/unleashing-the-power-of-asset-catalogs-and-bundles-on-ios.html" />
+<meta property="og:url" content="https://rambo.codes/ios/2018/10/03/unleashing-the-power-of-asset-catalogs-and-bundles-on-ios.html" />
+<meta property="og:site_name" content="Rambo.codes" />
+<meta property="og:image" content="https://rambo.codes/assets/img/1/opengraph.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-03T22:22:19-03:00" />
+<script type="application/ld+json">
+{"description":"Bundles and asset catalogs are features of Apple’s systems every developer and app is using, even though many developers are probably not aware of their existence or how powerful they can be, especially when used together.","@type":"BlogPosting","url":"https://rambo.codes/ios/2018/10/03/unleashing-the-power-of-asset-catalogs-and-bundles-on-ios.html","image":"https://rambo.codes/assets/img/1/opengraph.png","headline":"Unleashing the power of asset catalogs and bundles on iOS","dateModified":"2018-10-03T22:22:19-03:00","datePublished":"2018-10-03T22:22:19-03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rambo.codes/ios/2018/10/03/unleashing-the-power-of-asset-catalogs-and-bundles-on-ios.html"},"@context":"http://schema.org"}</script>
+
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://rambo.codes/feed.xml" title="Rambo.codes" /></head>
+<body class=""><header id="rambo-banner">
+<a href="/">
+<img src="/assets/img/2018header_v2.jpg">
+</a>
+</header>
+<main class="page-content" aria-label="Content">
+<div class="wrapper">
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<header class="post-header">
+<h1 class="post-title p-name" itemprop="name headline">Unleashing the power of asset catalogs and bundles on iOS</h1>
+<p class="post-meta">
+<time class="dt-published" datetime="2018-10-03T22:22:19-03:00" itemprop="datePublished">Oct 3, 2018
+</time></p>
+</header>
+<div class="post-content e-content" itemprop="articleBody">
+<p>Bundles and asset catalogs are features of Apple’s systems every developer and app is using, even though many developers are probably not aware of their existence or how powerful they can be, especially when used together.</p>
+<p>Today, I want to talk about what those two things are, what each one of them is supposed to do and how you can use both of them together to create a theming system for an app.</p>
+<h2 id="bundles">Bundles</h2>
+<p>Apple’s systems, including iOS, use bundles to represent a collection of resources organized in a directory structure. Your app is a bundle, every dynamic framework your app is linked to is also a bundle, storyboards are bundles, there are many examples of bundles used in iOS, macOS, tvOS and watchOS.</p>
+<p>A bundle is basically just a folder with some extension, which is displayed by Finder as if it were a file. Application bundles use the well-known <code class="highlighter-rouge">.app</code> extension. You can inspect the contents of a bundle in Finder by right-clicking and selecting “Show Package Contents”.</p>
+<p><img src="/assets/img/1/1.png" alt="" /></p>
+<h3 id="accessing-a-bundles-resources">Accessing a bundle’s resources</h3>
+<p>You’ve probably used the <code class="highlighter-rouge">url(forResource:withExtension:)</code> at some point while working on an app, the bundle you call this method on is usually the main bundle, represented by <code class="highlighter-rouge">Bundle.main</code>. When running on your app, <code class="highlighter-rouge">Bundle.main</code> will return your app’s bundle (the one that has the <code class="highlighter-rouge">.app</code> extension).</p>
+<p>Accessing your app’s own resources is cool, but you can also access resources from other bundles. Let’s say your app has an embedded framework called <code class="highlighter-rouge">Utilities</code> and it has the bundle identifier <code class="highlighter-rouge">codes.rambo.Utilities</code>. Inside that framework, there’s an image file named <code class="highlighter-rouge">image.png</code>. To access that image from your app, you can instantiate a <code class="highlighter-rouge">Bundle</code> using the identifier <code class="highlighter-rouge">codes.rambo.Utilities</code> and then use <code class="highlighter-rouge">url(forResource:withExtension:)</code> to get the URL for the image file inside that bundle:</p>
+<pre class="splash"><code><span class="keyword">guard</span> <span class="keyword">let</span> bundle = <span class="type">Bundle</span>(identifier: <span class="string">"codes.rambo.Utilities"</span>) <span class="keyword">else</span> { <span class="keyword">return</span> }
+<span class="keyword">guard</span> <span class="keyword">let</span> imageURL = bundle.<span class="call">url</span>(forResource: <span class="string">"image"</span>, withExtension: <span class="string">"png"</span>) <span class="keyword">else</span> { <span class="keyword">return</span> }
+
+<span class="keyword">let</span> image = <span class="type">UIImage</span>(contentsOfFile: imageURL.<span class="property">path</span>)
+
+<span class="call">print</span>(<span class="type">String</span>(describing: image))
+</code></pre>
+<h3 id="custom-bundles-on-ios">Custom bundles on iOS</h3>
+<p>So far I mentioned only standard bundles which can be created using one of Xcode’s built-in templates, but it’s also possible to create your own, custom bundles, you can even do that without using Xcode at all (more on this later).</p>
+<p>Since there’s no Xcode template to create a custom bundle for iOS (only for the Mac), I decided to create my own. You can <a href="/assets/downloads/1/iOS_bundle_template.zip">download the custom Xcode template here</a>. To install the custom template, download it and run the following commands in Terminal:</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ~/Downloads
+unzip iOS_bundle_template.zip
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/Library/Developer/Xcode/Templates/Custom
+<span class="nb">mv</span> <span class="s2">"iOS Resources Bundle.xctemplate"</span> ~/Library/Developer/Xcode/Templates/Custom</code></pre></figure>
+<p>Notice that the bundle template itself is a bundle, with the <code class="highlighter-rouge">.xctemplate</code> extension, how meta 😄. Restart Xcode to be able to access the new template.</p>
+<p>Now that you have the custom template installed, with an iOS app project opened, you can go to <em>File &gt; New &gt; Target</em> and select <em>iOS Resources Bundle</em>.</p>
+<p><img src="/assets/img/1/2.png" alt="" /></p>
+<p>On the next page, you can name the bundle, give it an identifier and optionally change the extension, or just leave the default extension which is <code class="highlighter-rouge">.bundle</code>.</p>
+<p><img src="/assets/img/1/3.png" alt="" /></p>
+<p>That’s it, now you have a custom bundle you can use to store resources. My template is called <em>iOS Resources Bundle</em> because I made it to specifically store resources like images and sound, but bundles can also contain executable code.</p>
+<p>Adding a resource to this bundle is just like adding a resource to any other target, drag the file into its group in Xcode and make sure the target membership is correct.</p>
+<p><img src="/assets/img/1/4.png" alt="" /></p>
+<p>Another important step is to make sure your bundle is being built before the app that’s going to contain it and that it’s going to get copied into your app’s resources when the app is built.</p>
+<p><img src="/assets/img/1/5.png" alt="" /></p>
+<p>That’s it, now you have a custom bundle you can use to store assets, it can be accessed like so:</p>
+<pre class="splash"><code><span class="keyword">guard</span> <span class="keyword">let</span> bundleURL = <span class="type">Bundle</span>.<span class="property">main</span>.<span class="call">url</span>(forResource: <span class="string">"Pictures"</span>, withExtension: <span class="string">"bundle"</span>) <span class="keyword">else</span> { <span class="keyword">return</span> }
+<span class="keyword">guard</span> <span class="keyword">let</span> bundle = <span class="type">Bundle</span>(url: bundleURL) <span class="keyword">else</span> { <span class="keyword">return</span> }
+<span class="keyword">guard</span> <span class="keyword">let</span> imageURL = bundle.<span class="call">url</span>(forResource: <span class="string">"image"</span>, withExtension: <span class="string">"png"</span>) <span class="keyword">else</span> { <span class="keyword">return</span> }
+
+<span class="keyword">let</span> image = <span class="type">UIImage</span>(contentsOfFile: imageURL.<span class="property">path</span>)
+
+<span class="call">print</span>(<span class="type">String</span>(describing: image))
+</code></pre>
+<p>The way you access the custom bundle is a little different from the framework because the custom bundle is not loaded by the runtime, so it can’t be looked up by identifier. To load it, we get a reference to its URL inside our app’s bundle, then initialize it with <code class="highlighter-rouge">Bundle(url:)</code>. After the initialization, accessing its resources works the same way as it did for the framework bundle.</p>
+<h2 id="asset-catalogs">Asset Catalogs</h2>
+<p>Asset catalogs are a way to store app resources by mapping between named assets and files. Each asset can be represented by multiple files, each file targeting a specific set of device attributes such as device class, memory, version of metal and color gamut.</p>
+<p>Most iOS developers are probably familiar with the usage of asset catalogs to store images such as icons, but asset catalogs can be used for more than just that. Since iOS 11, you can also store named colors in asset catalogs. Another lesser known feature of asset catalogs is that you can store arbitrary data assets, which can be literally anything.</p>
+<p>Suppose you have a set of configurations for your app, but you need to change those configurations depending on how much memory the device has. You could do all of that in code, but using asset catalogs is easier. Take this configuration struct as an example:</p>
+<pre class="splash"><code><span class="keyword">struct</span> Configuration: <span class="type">Codable</span> {
+  <span class="keyword">let</span> numberOfParticles: <span class="type">Int</span>
+  <span class="keyword">let</span> isLowEndDevice: <span class="type">Bool</span>
+  <span class="keyword">let</span> enableShadowEffects: <span class="type">Bool</span>
+}</code></pre>
+<p>The above struct can be encoded as a property list for low end and high end devices:</p>
+<p><img src="/assets/img/1/6.png" alt="" /></p>
+<p>Now that you have the configurations, you can add a new data asset to an asset catalog by selecting the + button in the asset catalog editor, adding a new data asset, checking the memory variations and dragging the high end plist to the 3 and 4 GB slots and the low end plist to the 1 and 2 GB slots:</p>
+<p><img src="/assets/img/1/7.png" alt="" /></p>
+<p>To load a data asset, you use the class <code class="highlighter-rouge">NSDataAsset</code>:</p>
+<pre class="splash"><code><span class="keyword">let</span> asset = <span class="type">NSDataAsset</span>(name: <span class="string">"config"</span>)</code></pre>
+<p>To access the underlying data, you can use the <code class="highlighter-rouge">data</code> property of <code class="highlighter-rouge">NSDataAsset</code>, when you do that, the system is going to give you the correct data for the current device’s attributes automatically.</p>
+<p>Note that all methods used to load resources from asset catalogs also have an optional <code class="highlighter-rouge">bundle</code> attribute you can provide in case you want to load assets from a bundle that’s not your app’s main bundle, like so:</p>
+<pre class="splash"><code><span class="keyword">let</span> asset = <span class="type">NSDataAsset</span>(name: <span class="string">"config"</span>, bundle: otherBundle)</code></pre>
+<p>Since <code class="highlighter-rouge">Configuration</code> is <code class="highlighter-rouge">Codable</code>, you can grab the property list from the asset catalog and use it to get the correct configuration for the current device. An extension on <code class="highlighter-rouge">Configuration</code> can make things easier for you:</p>
+<pre class="splash"><code><span class="keyword">extension</span> <span class="type">Configuration</span> {
+
+  <span class="keyword">init</span>?(assetNamed name: <span class="type">String</span>, bundle: <span class="type">Bundle</span> = .<span class="dotAccess">main</span>) {
+    <span class="keyword">guard</span> <span class="keyword">let</span> asset = <span class="type">NSDataAsset</span>(name: name, bundle: bundle) <span class="keyword">else</span> {
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    }
+  
+    <span class="keyword">guard</span> <span class="keyword">let</span> config = <span class="keyword">try</span>? <span class="type">PropertyListDecoder</span>().<span class="call">decode</span>(<span class="type">Configuration</span>.<span class="keyword">self</span>, from: asset.<span class="property">data</span>) <span class="keyword">else</span> {
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    }
+
+    <span class="keyword">self</span> = config
+  }
+
+}
+</code></pre>
+<p>Then you can use the extension to load the configuration from your asset catalog:</p>
+<pre class="splash"><code><span class="keyword">let</span> config = <span class="type">Configuration</span>(assetNamed: <span class="string">"config"</span>)</code></pre>
+<p>Even better: instead of extending <code class="highlighter-rouge">Configuration</code>, you can extend the <code class="highlighter-rouge">Decodable</code> protocol itself so that any <code class="highlighter-rouge">Decodable</code> can be initialized from a data asset:</p>
+<pre class="splash"><code><span class="keyword">extension</span> <span class="type">Decodable</span> {
+
+  <span class="keyword">init</span>?(assetNamed name: <span class="type">String</span>, bundle: <span class="type">Bundle</span> = .<span class="dotAccess">main</span>) {
+    <span class="keyword">guard</span> <span class="keyword">let</span> asset = <span class="type">NSDataAsset</span>(name: name, bundle: bundle) <span class="keyword">else</span> {
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    }
+  
+    <span class="keyword">guard</span> <span class="keyword">let</span> instance = <span class="keyword">try</span>? <span class="type">PropertyListDecoder</span>().<span class="call">decode</span>(<span class="type">Self</span>.<span class="keyword">self</span>, from: asset.<span class="property">data</span>) <span class="keyword">else</span> {
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    }
+
+    <span class="keyword">self</span> = instance
+  }
+
+}</code></pre>
+<p>This is a very simple example, but you can expand from here to take advantage of asset catalogs in your apps.</p>
+<h2 id="case-study-chibistudio">Case study: ChibiStudio</h2>
+<p>With the upcoming release of ChibiStudio 2.0, we’re moving the item packs to bundles and asset catalogs. A very important aspect of ChibiStudio since day one is that we want it to work without an internet connection and we want users to be able to use purchased item packs right away, without having to wait for a download to finish, this means we need to ship every single item pack with the app itself.</p>
+<p>Currently, the packs are stored in three separate files/groups:</p>
+<p>1 - The <code class="highlighter-rouge">chibipackx</code> file, a file containing metadata for the pack, such as its name and availability conditions (some packs are only available during a limited time period, such as the Easter pack).</p>
+<p>2 - Several data files for each item in the pack, the files contain the Core Animation vector data used to draw the item and some metadata such as the color slots and which ones can be customized by the user.</p>
+<p>3 - Several png files for each item in the pack, containing a small preview image of the item which is displayed in the grid. Drawing the vector representation for several items in a collection view is too expensive, so we need those previews.</p>
+<p>With 2.0, this changes to:</p>
+<p>1 - A bundle for each pack, the bundle contains an asset catalog which has an asset for each item’s vector data and another asset for each item’s preview image. <strike>The preview image is compressed using the new HEIF compression available on iOS 12, which makes the files smaller.</strike> We ended up not using the compression because of performance constraints.</p>
+<p>2 - A database with metadata for all packs available and other metadata describing how the items and packs should be organized in the UI. All content is loaded from the corresponding pack bundles when needed, based on the metadata (each item has a unique identifier).</p>
+<p>The new setup has several advantages over the previous one:</p>
+<p>1 - Asset lookup doesn’t involve traversing directories and dealing with paths</p>
+<p>2 - <strike>We can take advantage of the new compression available on iOS 12 and asset catalog thinning based on OS version and device</strike> We ended up not using the compression because it was too slow at runtime for smooth scrolling with hundreds of images in a collection view.</p>
+<p>3 - The project itself doesn’t have to contain all of those files for each item (tens of thousands), improving build times</p>
+<p>4 - Moving the metadata to a database gives us more flexibility as to how we choose to organize the items in the UI</p>
+<p>This is only possible through the use of bundles. You can’t have multiple asset catalogs in a single bundle, if you create multiple catalogs in a single target in Xcode, they all get compiled to a single <code class="highlighter-rouge">Assets.car</code> file at the end. Separating the packs into their own bundles also makes it possible for us to add new features to packs in the future, such as metadata in the <code class="highlighter-rouge">Info.plist</code> file or even executable code.</p>
+<h3 id="generating-asset-catalogs-and-bundles-without-xcode">Generating asset catalogs and bundles without Xcode</h3>
+<p>Packs for ChibiStudio are created in a custom Mac app we made specifically for this task. The artist draws the items in Sketch, exports them to the Chibi Pack Editor using a custom Sketch plugin, the editor then turns the Sketch drawings into Core Animation layers and assigns a category, index and layer for each item based on the layer name in Sketch. From there, the artist can customize aspects of the item such as the layer and color slots.</p>
+<p><img src="/assets/img/1/8.png" alt="" /></p>
+<p>Since packs are created in the editor, it was necessary to add the asset catalog and bundle generator functionality to the app itself, the finished bundles are then imported into Xcode and added to the app’s resources in the build phases.</p>
+<p>Asset catalogs created by Xcode have a specific directory structure and use JSON files to configure their contents. I’m not going to dive into too much detail on this, but you can read <a href="https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format/index.html#//apple_ref/doc/uid/TP40015170-CH18-SW1">Apple’s documentation</a> to understand the format.</p>
+<p>The <code class="highlighter-rouge">.xcassets</code> folder created by Xcode is an editor representation of an asset catalog, which must be compiled in order to be used during runtime. Normally, Xcode compiles it for you, but you can also compile it manually using a command-line tool called <code class="highlighter-rouge">actool</code>.</p>
+<p>To make the process easier in Chibi Pack Editor, I created a framework called <code class="highlighter-rouge">AssetCatalogKit</code>.</p>
+<p>To generate bundles in the Editor, I created a template bundle which is embedded in the editor, after compiling the asset catalog for a pack, the editor copies this bundle template into the destination directory, moves the asset catalog into the bundle and creates its <code class="highlighter-rouge">Info.plist</code> file.</p>
+<p>The result is a bundle with an <code class="highlighter-rouge">Info.plist</code> file and an <code class="highlighter-rouge">Assets.car</code> file, the bundle is located with the technique mentioned before, preview image assets are loaded using <code class="highlighter-rouge">UIImage</code> and vector data assets are loaded using <code class="highlighter-rouge">NSDataAsset</code>.</p>
+<p><img src="/assets/img/1/9.png" alt="" /></p>
+<h2 id="practical-example-theming">Practical example: theming</h2>
+<p><img src="/assets/img/1/10.png" alt="" /></p>
+<p>I didn’t want to end this article without providing some sample code for you to play with, so I made a very simple app that uses bundles for theming. The app has two bundles: <code class="highlighter-rouge">Light.bundle</code> and <code class="highlighter-rouge">Dark.bundle</code>. Each bundle has its own asset catalog with color definitions and a <code class="highlighter-rouge">config</code> asset containing configuration for that theme.</p>
+<p>The app’s <code class="highlighter-rouge">ThemeManager</code> class takes care of loading the correct bundle for the selected theme and applying the colors and properties from that theme to the UI. <a href="https://github.com/insidegui/ThemingWithBundles">You can find the sample app here</a>.</p>
+<p>This is a very simple example, with the same technique you could change more about your app depending on the theme, such as metrics (spacing, sizes, etc), images, or anything else that can be stored in an asset catalog or bundle.</p>
+<p>In the sample app, I created the theme bundles using Xcode, but you could also create a simple Mac app as a theme editor for your iOS app and generate the bundles from that app, this app could then be given to your design team, giving them full flexibility when creating themes, without the need to install Xcode, deal with JSON or property lists and taking full advantage of asset catalogs.</p>
+<p>This is precisely what we’re doing for ChibiStudio 2.0, which will also support theming, I created an app that allows me to define spatial metrics, font metrics and colors for different themes. The app exports a bundle for each theme and it also generates Swift code to make it easier to access the theme’s values. A theme can inherit values from other themes, similar to how CSS rules can be inherited.</p>
+<p>I hope this article gave you some ideas of how to apply the power of bundles and asset catalogs on your projects, if you have any questions or comments, you can always <a href="https://twitter.com/_inside">reach out on Twitter</a>.</p>
+</div><a class="u-url" href="/ios/2018/10/03/unleashing-the-power-of-asset-catalogs-and-bundles-on-ios.html" hidden></a>
+</article>
+</div>
+</main><footer class="site-footer h-card">
+<data class="u-url" href="/"></data>
+<div class="wrapper">
+<h2 class="footer-heading">Rambo.codes</h2>
+<div class="footer-col-wrapper">
+<div class="footer-col footer-col-1"><div id="theme-switcher">
+<p>Theme: <a href="?theme=light" class="theme-switch" data-theme="light">Light</a> | <a href="?theme=dark" class="theme-switch" data-theme="dark">Dark</a></p>
+</div><ul class="contact-list">
+<li class="p-name">Rambo.codes</li>
+</ul>
+</div>
+<div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/insidegui"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">insidegui</span></a></li><li><a href="https://www.twitter.com/_inside"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">_inside</span></a></li></ul>
+</div>
+<div class="footer-col footer-col-3">
+<p>Guilherme Rambo writes about his coding and reverse engineering adventures.</p>
+</div>
+</div>
+</div>
+</footer>
+<script>
+
+</script></body>
+</html>

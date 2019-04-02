@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Mirror / CustomReflectable / CustomLeafReflectable - NSHipster</title>
+    <meta name="description" content="Reflection in Swift is a limited affair, providing read-only access to information about objects. In fact, this functionality might be better described as introspection rather than reflection. But can you really blame them for going with that terminology?"/>
+    <link rel="canonical" href="https://nshipster.com/mirror/"/>
+    <meta name="revisit-after" content="7 days"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="alternate" type="application/atom+xml" title="NSHipster Atom Feed" href="/feed.xml"/>
+    <link rel="preload" as="font" href="/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2" type="font/woff2" crossorigin="anonymous" />
+    <style rel="stylesheet" type="text/css" integrity="sha256-GB6zv4eY5LHAXnwka4XIuiynYq1dPsuvZJezWwfWZdQ=" crossorigin="anonymous">
+      ﻿html{border-top:3px #ff8000 solid}html body{background-color:#fefefe;color:#282a36}#logo #ns{fill:#ff8000}a,a:visited{color:#ff8000}a:hover,a:visited:hover{text-decoration:none}@keyframes twirl{0%{transform:scale(1) rotate(0)}10%,20%{transform:scale(0.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.1) rotate(3deg)}40%,60%,80%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1) rotate(0)}}@font-face{font-family:"Merriweather";src:local("Merriweather Regular"),local("Merriweather-Regular"),url(/assets/Merriweather-Regular-e50fe78e902ad7649d2a9ec69a67c9a941657604540b0b077b720a0562072915.woff2) format("woff2"),url(/assets/Merriweather-Regular-4549033d084e479d2c53500851ca2e5fd43fd83ac4ae26445e0974ae73cd3d05.woff) format("woff");font-weight:normal;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light"),local("Merriweather-Light"),url(/assets/Merriweather-Light-c2ef5188a3d41db369bfec98586cacc22c1aefa23a02333101c05b6c7e35ed59.woff2) format("woff2"),url(/assets/Merriweather-Light-5d5f2b4aac0254b3ef80c3e04bcbbd021ab468e6205dade23a9943277ed2f15b.woff) format("woff");font-weight:300;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black"),local("Merriweather-Black"),url(/assets/Merriweather-Black-fd0c4da3e1b331a0f3c05ca30ef2f73d3248c19377f0e347bbd27f5ca3ace049.woff2) format("woff2"),url(/assets/Merriweather-Black-0abb3a596dcef7e60a0ce4000352ae834fa7e6f49f48f1f568dd1b16db037faa.woff) format("woff");font-weight:900;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold"),local("Merriweather-Bold"),url(/assets/Merriweather-Bold-66b60fab0c23051945cad3a206665130e9a8742ad25afc03675df8e30f9bd1f1.woff2) format("woff2"),url(/assets/Merriweather-Bold-91e91f3c9d8e79d7f50076508c711118d17335ad0d8adaaed9e82e7e0c88f2a3.woff) format("woff");font-weight:bold;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black Italic"),local("Merriweather-BlackItalic"),url(/assets/Merriweather-BlackItalic-78fadd58be94cb66b7b96e9368a431cb7ba39853c24dfbac96af11b2566cc80a.woff2) format("woff2"),url(/assets/Merriweather-BlackItalic-25d34bcb442b873300a27a1fda06b53db76b343b21b1d2967ebf8d50fc98820c.woff) format("woff");font-weight:900;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Italic"),local("Merriweather-Italic"),url(/assets/Merriweather-Italic-c8cb2c6ad2cb79fd515ac3eef6b70c481f0641f344e3e7154324eab0d9b442e7.woff2) format("woff2"),url(/assets/Merriweather-Italic-2ff5301c0bc5e6bb36aa90461a2778925615296b30cb68de03adfbe30f3ba034.woff) format("woff");font-weight:normal;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold Italic"),local("Merriweather-BoldItalic"),url(/assets/Merriweather-BoldItalic-6555d0e597bb610c9885788f6ea9fcc1bdc2cdb1a27d6fa789b26286f0236d96.woff2) format("woff2"),url(/assets/Merriweather-BoldItalic-c5af58f9b3ca849796e320463efb479012c8da669fade00fb76169e37ec6b408.woff) format("woff");font-weight:bold;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light Italic"),local("Merriweather-LightItalic"),url(/assets/Merriweather-LightItalic-83b26b2f59b0bbd312f3f4b8551f5295a64cbc9645711d6b006faaa79c7753d3.woff2) format("woff2"),url(/assets/Merriweather-LightItalic-1f79f78c181a7a35d38ed8a5bee789c2680726e3b74ddaebc3486af3af749235.woff) format("woff");font-weight:300;font-style:italic;font-display:optional}@font-face{font-family:'Batang';src:url(/assets/Batang-bbbbbe277f4e2bd33819a38b51e599824aed97db7b51b0aa6bf683bf40b171ce.woff2) format("woff2"),url(/assets/Batang-d1c9b135751404713e2fdc6fcd9f6d9d534d2a8bfc11e57fe05a7aa13e883838.woff) format("woff");font-weight:normal;font-style:normal;font-display:auto;unicode-range:U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF}html,body{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-size:15pt;line-height:1.5;font-weight:300;font-kerning:normal;-webkit-font-kerning:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}html[lang="ko-KR"] body{font-family:"Batang", "Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:lighter}html[lang="ko-KR"] a.readmore,html[lang="ko-KR"] section>h1,html[lang="ko-KR"] article p em,html[lang="ko-KR"] article p dfn,html[lang="ko-KR"] cite,html[lang="zh-Hans"] a.readmore,html[lang="zh-Hans"] section>h1,html[lang="zh-Hans"] article p em,html[lang="zh-Hans"] article p dfn,html[lang="zh-Hans"] cite{font-style:normal;font-weight:bold}html[lang="ko-KR"] [role="article"] header .byline,html[lang="zh-Hans"] [role="article"] header .byline{font-style:normal}html[lang="ko-KR"] .archive ol li time,html[lang="ko-KR"] .archive ul li time,html[lang="zh-Hans"] .archive ol li time,html[lang="zh-Hans"] .archive ul li time{font-style:normal;font-weight:bold}html[lang="ko-KR"] #promotion h4,html[lang="zh-Hans"] #promotion h4{font-style:normal;font-weight:bold}html[lang="ko-KR"] .highlight span,html[lang="zh-Hans"] .highlight span{font-style:normal !important}h1,h2,h3,h4,h5,h6{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";line-height:1.1em;margin:0 0 1rem 0}h1{font-size:2.5em}h2{font-size:2em}h3{font-size:1.5em}h4{font-size:1.25em}h5{font-size:1.125em}h6{font-size:1em}p{margin:0 0 1rem 0}a{-webkit-transition:color 0.1s linear;-moz-transition:color 0.1s linear;transition:color 0.1s linear;text-decoration:none}a:hover{text-decoration:underline}a:active,a:focus{outline:none}a code{white-space:nowrap}p>small{font-size:inherit;font-variant:small-caps;text-transform:lowercase}:not(pre)>code{user-select:all}a code,p code,li code,dd code,td code{background:#f8f8f2;padding:.25em;font-size:smaller;border-radius:3px}p code,li code,dd code,td code{color:#49178f}ol li,ul li{margin-bottom:0.5em}pre{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}code,samp{font-family:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace}pre code,samp{font-size:smaller;line-height:1.1em}samp{white-space:pre;overflow:scroll;-webkit-overflow-scrolling:touch;display:block;padding:0.5em 0}section>h1{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:300;font-size:1.5em;text-align:center;margin-bottom:2rem;margin-top:2rem}article.excerpt h1{font-size:1.5em}a.readmore{font-style:italic}a:hover{text-decoration:underline}kbd{color:#282a36;background-color:#f8f8f2;border-radius:3px;border:1px solid #747683;box-shadow:0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin:0 .1em;padding:.1em .6em;text-transform:lowercase}.placeholder{background:#f8f8f2;display:inline-block;padding:0 0.25em;border:1px #282a36 solid;border-radius:5px;font-style:normal}.highlight .placeholder{background:transparent;border-color:#f8f8f2}h1:hover .anchor::before,h2:hover .anchor::before,h3:hover .anchor::before,h4:hover .anchor::before,h5:hover .anchor::before,h6:hover .anchor::before{opacity:1}.title{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700}.anchor::before{content:"#";opacity:0;transition:300ms opacity;position:absolute;float:left;margin-left:-1.5em;padding:0 0.5em;color:#747683 !important;text-decoration:none}.anchor::before :focus{outline:none}.tagline{font-size:1.5em}#latest small,#announcement small{font-style:italic}[role="article"] header h1{font-size:3.5em;line-height:1;margin-bottom:0.5rem;padding:0.5rem 0}#archive dd{font-size:smaller;display:list-item;list-style:circle}.admonition{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";border-left-width:4px;border-left-style:solid;padding:5px 40px;margin:1.5em 0;display:block;clear:both;overflow:visible}.admonition p{margin:0.5em 0;font-size:smaller}.admonition pre code{font-size:small}.admonition.info{background:#edf5fa;border-color:#4DAAFC}.admonition.info a{color:#0088ff}.admonition.info:before{content:" ";background-image:url(/assets/info-f73d3a68c0c3bfa07e64909be26a8d512c2d50bf2729bf30f76d8b63250d0671.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.warning{background:#fcfaf6;border-color:#F9D780}.admonition.warning a{color:#f0b112}.admonition.warning:before{content:" ";background-image:url(/assets/warning-47e47a5723ab3badf6c9352852c0acbe46a94b493175685797a01b7a2c832fc4.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.error{background:#fcf2f6;border-color:#f5569d}.admonition.error a{color:#e62279}.admonition.error:before{content:" ";background-image:url(/assets/error-0950677a2585decd810c2737096155b036dee719e35feb1c0c6ade04202daafc.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}@font-face{font-family:"NSHipster Icons";font-style:normal;font-weight:700;font-display:block;src:url(/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2) format("woff2"),url(/assets/nshipster-743868430209628f9d7933ea65c7e31cdf597e9a27d01d372c33fc501f4c6722.woff) format("woff")}[class^="icon-"],[class*=" icon-"]{font-family:"NSHipster Icons" !important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-warning:before{content:"\e900"}.icon-error:before{content:"\e901"}.icon-info:before{content:"\e902"}.icon-podcasts:before{content:"\e903"}.icon-wechat:before{content:"\e904"}.icon-sinaweibo:before{content:"\e905"}.icon-feed:before{content:"\e906"}.icon-youtube:before{content:"\e908"}.icon-apple:before{content:"\f8ff"}.icon-facebook:before{content:"\e90a"}.icon-github:before{content:"\e90b"}.icon-twitter:before{content:"\e90c"}.icon-googleplus:before{content:"\e90d"}.icon-swift:before{content:"\e90e"}.icon-nc:before{content:"\e90f"}.icon-cc:before{content:"\e907"}.icon-by:before{content:"\e911"}.icon-command:before{content:"\2318"}.icon-shift:before{content:"\21e7"}.icon-ctrl:before{content:"\2303"}.icon-opt:before{content:"\2325"}html,body{margin:0}body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);border-top:3px #ff8000 solid}hr{border:none;margin:1em 0;padding:1em 0;display:block}img{margin:0;max-width:100%}video{margin:0 auto;max-width:100%;display:block}blockquote{border-left:2px solid #ddd;color:#595959;margin:1.5em 0;padding-left:0.75em}cite{color:#737373;font-style:italic}cite:before{content:"— "}table{border-collapse:collapse;margin:0.75em 0;table-layout:fixed;width:100%}th{border-bottom:1px solid #b7b7b7;font-weight:bold;padding:0.75em 0;text-align:left}td{border-bottom:1px solid #ddd;padding:0.75em 0}tr,td,th{vertical-align:middle}ul,ol{margin:0;padding:0;list-style-type:none}dl{margin-bottom:0.75em}dl dt{font-weight:bold;margin:1em 0}dl dd{margin:0 0 0.25rem 1em}.container{max-width:100%;margin-left:auto;margin-right:auto;max-width:960px;margin:0 auto;padding:2em}.container:after{content:"";display:table;clear:both}.container section{display:block;max-width:100%;margin-left:auto;margin-right:auto;margin-bottom:2em;padding-bottom:1em}.container section:after{content:"";display:table;clear:both;content:"";display:table;clear:both}html[lang="fr-FR"] [role="banner"] #logo{margin-right:5.5em}html[lang="fr-FR"] [role="banner"] .tagline{font-size:1.33em}html[lang="zh-Hans"] [role="banner"] #logo{margin-right:9.5em}html[lang="zh-Hans"] [role="banner"] .tagline{font-size:1.75em;padding-bottom:1em}html[lang="ko-KR"] [role="banner"] .tagline{font-size:1.4em}[role="banner"]{display:flex;margin-bottom:1.5em;padding-bottom:1.5em}[role="banner"] #logo{display:block;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:1em;height:6em;margin:0.25em 6em 0 0}[role="banner"] #logo a{display:block}[role="banner"] #logo svg{width:146px;height:84px;overflow:visible;margin-left:-3px}[role="banner"] #logo svg #mustache{position:absolute;transform:rotate(0) scale(1);transform-origin:50% 70% 0;transition:transform 1s}[role="banner"] #logo svg:hover,[role="banner"] #logo svg.animated{position:relative;z-index:2}[role="banner"] #logo svg:hover #mustache,[role="banner"] #logo svg.animated #mustache{animation:twirl 1s ease-in-out}[role="banner"] .tagline{flex:1}#latest h1,#announcement h1{margin-bottom:0.5rem}#announcement{background-color:rgba(255,128,0,0.2);margin-left:-1em;margin-right:-1em;padding:1em}#recent ul{display:grid;grid-template-columns:repeat(3, 1fr);gap:1em 2em}#recent ul li{min-height:15em}#recent ul li .title{height:4em;font-size:1.75em;display:table-cell;line-height:1;vertical-align:bottom;padding-bottom:1em}#recent ul li p{font-size:smaller;display:-webkit-box;overflow:hidden;max-lines:5;-webkit-line-clamp:5;-webkit-box-orient:vertical;text-overflow:ellipsis}#merchandise{margin-top:-30px}#merchandise h1{margin-bottom:15px}#follow ul{float:left;display:block;margin-right:2.35765%;width:31.76157%}#follow ul:last-child{margin-right:0}#follow ul li{float:left;display:block;margin-right:7.42297%;width:19.43277%;font-size:2em}#follow ul li:last-child,#follow ul li:nth-of-type(4n){margin-right:0}#follow ul li a:hover{text-decoration:none}#follow form{float:left;display:block;margin-right:2.35765%;width:57.35098%;margin-left:8.5298%;margin-right:0}#follow form:last-child{margin-right:0}#follow form input[type="email"]{float:left;display:block;margin-right:3.57866%;width:61.158%}#follow form input[type="email"]:last-child{margin-right:0}#follow form input[type="submit"]{float:left;display:block;margin-right:3.57866%;width:35.26334%;border-radius:10px;background:#ff8000;font-size:0.75em;padding:15px 0}#follow form input[type="submit"]:last-child{margin-right:0}article.author,article.translator{padding-top:2em}article.author header,article.translator header{display:grid;grid-template:"avatar . title" "avatar . description";grid-template-columns:1fr 1em 3fr;grid-template-rows:1fr 2fr;gap:1em 1em;margin-bottom:1em;padding-bottom:1em}article.author header .avatar,article.translator header .avatar{grid-area:avatar}article.author header h1,article.translator header h1{grid-area:title}article.author header p,article.translator header p{grid-area:description}[role="article"]{margin-bottom:1em;overflow-x:hidden}[role="article"] table{overflow:scroll;-webkit-overflow-scrolling:touch;margin:2em 0}[role="article"] table caption{margin:2em 0 1em 0}[role="article"] header{display:block;text-align:center;margin-bottom:3em}[role="article"] header .byline{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;color:#a3a39e}[role="article"] header .byline a,[role="article"] header .byline span,[role="article"] header .byline time{white-space:nowrap}[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" — "}[role="article"] .content{margin-bottom:4em}[role="article"] .content h1,[role="article"] .content h2,[role="article"] .content h3,[role="article"] .content h4,[role="article"] .content h5{margin-top:2.5rem}[role="article"] .content object,[role="article"] .content embed,[role="article"] .content figure,[role="article"] .content svg{margin:1em auto;display:block;width:auto}[role="article"] .content img{margin:1em auto;display:block}[role="article"] .content ul,[role="article"] .content ol{margin:1.5em 0;padding:0 3em}[role="article"] .content ul ul,[role="article"] .content ul ol,[role="article"] .content ol ul,[role="article"] .content ol ol{margin-top:0.5em}[role="article"] .content ul li,[role="article"] .content ol li{list-style:disc}[role="article"] .content figure{text-align:center}[role="article"] .content ins{background-color:rgba(255,128,0,0.2);text-decoration:none}[role="article"] .content dl{padding:1em 0}[role="article"] .content blockquote{margin:2em;margin-right:4em;border-left:3px #ff8000 solid}[role="article"] .content blockquote cite{margin-top:1em;display:block}[role="article"] .content table thead th{text-align:center}[role="article"] .content table td{padding:1em}[role="article"] sup{font-size:50%;margin-right:-0.5em}[role="article"] footer .contributor{float:left;display:block;margin-right:2.35765%;width:48.82117%;padding:1em 0}[role="article"] footer .contributor:last-child,[role="article"] footer .contributor:nth-child(2n){margin-right:0}[role="article"] footer .contributor:nth-child(2n+1){clear:left}[role="article"] footer .contributor:only-child{width:100%}[role="article"] footer .contributor:only-child .avatar{padding:0 1em}[role="article"] footer .contributor .avatar{float:left;display:block;margin-right:4.82916%;width:30.11389%}[role="article"] footer .contributor .avatar:last-child{margin-right:0}[role="article"] footer .contributor .details{float:left;display:block;margin-right:4.82916%;width:65.05695%;margin-right:0;margin-top:1em}[role="article"] footer .contributor .details:last-child{margin-right:0}[role="article"] footer .contributor .details span{font-weight:700}[role="article"] footer .contributor .details p{font-size:0.75em;margin-top:1em}[role="article"] footer small{display:block;font-size:1em;font-weight:700;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin-bottom:1em}[role="complementary"]{border-top:1px #ddd solid;padding-top:2em}[role="contentinfo"]{text-align:center;margin-top:2em;padding:1em}[role="contentinfo"] section{margin-bottom:0;padding-bottom:0}.avatar{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;max-width:200px;max-height:200px;border-radius:50%;pointer-events:none;user-select:none}#contributors ul{display:flex;justify-content:center;align-content:space-between;flex-flow:row wrap}#contributors ul li{flex:0;display:block;margin-bottom:1em;flex-basis:20%}#contributors ul li .avatar{display:block;margin:0 auto 1em auto;width:70%}#contributors ul li a{text-align:center;display:block}.archive dl{float:left;display:block;margin-right:2.5%;width:30%}.archive dl:last-child,.archive dl:nth-of-type(3),.archive dl:nth-of-type(4),.archive dl:nth-of-type(6){margin-right:0}.archive ol,.archive ul{list-style:none}.archive ol li,.archive ul li{margin:2em 0}.archive ol span,.archive ol time,.archive ul span,.archive ul time{display:block}.archive ol time,.archive ul time{white-space:nowrap;font-style:italic;font-weight:300;margin-bottom:1em}#sharing ul{display:block;float:right}#sharing ul:after{content:"";display:table;clear:both}#sharing li{font-size:1.5em;display:block;margin:0.5em;float:left}#sharing li a:hover{text-decoration:none;color:#4c3150 !important}#publications .books{display:flex}#publications .book{flex:1}#publications .book img{display:block;margin:0 auto;width:200px;border:4px transparent solid;transition:0.25s ease-in-out border-color;filter:none !important}#publications .book img:hover{padding:0;border:4px #ff8000 solid}.tagline{clear:both;font-weight:300}.highlight-group{margin-top:1em}[role="tablist"]{display:flex;flex-direction:row;justify-content:flex-end;padding-right:3px}[role="tablist"] button{cursor:pointer;flex:0;padding-left:0.5em;color:#282a36 !important;text-decoration:none;transition:opacity 0.5s;background:transparent !important;padding:0;margin:0 0 0 0.5em}[role="tablist"] button:not([aria-selected="true"]){opacity:0.25}[role="tablist"] button:not([aria-selected="true"]):hover{opacity:0.5}[role="tablist"] button.active{opacity:1}[role="tablist"] button:focus{outline:thin dotted;outline-offset:2px}[role="tabpanel"]{margin-top:0.25em}[role="tabpanel"]:focus{outline:0}#promotion .book img{margin:0}#promotion h3{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}#promotion h4{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;margin-bottom:1em}#promotion p{font-size:0.75em}#promotion a.buy{background:#ff8000;border-radius:10px;color:#fff !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700;margin-top:1em;padding:15px;text-align:center;display:inline-block}#promotion a.buy:hover{text-decoration:none !important}#promotion.home{margin-top:-15px;padding:35px 44px;background:#eee;border-radius:20px}#promotion.home p{font-size:1em}#promotion.home small{display:block;font-size:1.2em;font-weight:700;margin-left:5px;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps}table#status{table-layout:fixed;margin-top:2em}table#status caption{padding:1em 0;color:#777}table#status .version{text-align:center}table#status .version em{color:#777}table#customplaygrounddisplayconvertible-categories{table-layout:auto}table#customplaygrounddisplayconvertible-categories tbody th{padding-left:10px;text-align:center}table#customplaygrounddisplayconvertible-categories ul{padding:0 0 0 20px}table#customplaygrounddisplayconvertible-categories ul li{margin:0}table#customplaygrounddisplayconvertible-categories td img{margin:0}@media screen and (max-width: 600px){table#customplaygrounddisplayconvertible-categories thead tr th:last-child,table#customplaygrounddisplayconvertible-categories tbody tr td:last-child{display:none}}.conversation{margin:1em auto;max-width:650px}.conversation:after{content:" ";display:block;clear:both}.conversation ruby{ruby-align:start;ruby-position:over;display:block;clear:both;max-width:550px}.conversation ruby.boke{float:left;text-align:left;margin-bottom:0.5em}.conversation ruby.tsukkomi{float:right;color:#ff8000;text-align:right;margin-bottom:1.5em}.highlight{background:#282a36;border:1px transparent solid;border-radius:5px;overflow:auto;padding:0.5em 1em;margin-bottom:1em}.highlight code{color:#f8f8f2;background:transparent !important}.highlight ::selection{color:inherit}.highlight ::-moz-selection{color:inherit}.highlight .hll,.highlight .s,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .dl,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx,.highlight .sr,.highlight .s1,.highlight .ss{color:#f1fa8c}.highlight .go{color:#747683}.highlight .err,.highlight .g,.highlight .l,.highlight .n,.highlight .x,.highlight .p,.highlight .ge,.highlight .gr,.highlight .gh,.highlight .gi,.highlight .gp,.highlight .gs,.highlight .gu,.highlight .gt,.highlight .ld,.highlight .no,.highlight .nd,.highlight .ni,.highlight .ne,.highlight .nn,.highlight .nx,.highlight .py,.highlight .w,.highlight .bp{color:#f8f8f2}.highlight .gh,.highlight .gi,.highlight .gu{font-weight:bold}.highlight .ge{text-decoration:underline}.highlight .c,.highlight .ch,.highlight .cm,.highlight .cpf,.highlight .c1,.highlight .cs{color:#bfc6d8}.highlight .kd,.highlight .kt,.highlight .nb,.highlight .nl,.highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#8be9fd}.highlight .na,.highlight .nc,.highlight .nf,.highlight .fm{color:#ff8000}.highlight .k,.highlight .o,.highlight .cp,.highlight .kc,.highlight .kn,.highlight .kp,.highlight .kr,.highlight .nt,.highlight .ow{color:#ff79c6}.highlight .m,.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#bd93f9}.highlight .gd{color:#ff5555}.highlight[data-lang="JWT"]{white-space:pre-wrap}button,input[type="submit"]{-moz-appearance:none;-ms-appearance:none;-o-appearance:none;-webkit-appearance:none;-webkit-font-smoothing:antialiased;appearance:none;background-color:#ff8000;border-radius:5px;border:none;color:white;cursor:pointer;display:inline-block;font-size:1em;font-weight:bold;line-height:1;padding:0.75em 1em;text-decoration:none;transition:background-color 0.25s;user-select:none;vertical-align:middle;white-space:nowrap}button:hover,input[type="submit"]:hover{background-color:#cc6600;color:white}@media screen and (max-width: 768px){[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" ";display:block}.container{padding:1em}#recent ul{display:block}#recent ul li{min-height:auto;margin-bottom:2em}#recent ul li .title{display:block;height:auto;padding-bottom:0.5rem}#follow ul{width:100%}#follow form{width:100%;margin-left:0;margin-top:2em}[role="article"]{font-size:smaller}[role="article"] .content{overflow:hidden}[role="article"] .content blockquote{margin:1em 0}[role="article"] footer .contributor{width:100%;margin-bottom:1em}[role="article"] footer .contributor:not(:first-child){border-top:none}[role="article"] footer .contributor .avatar{padding:0}[role="article"] footer .contributor .details{margin-top:0}[role="complementary"] #continue,[role="complementary"] #related{width:100%}[role="complementary"] #related{margin-top:1em}[role="complementary"] #related li{font-size:1em}#sharing ul{width:100%}#sharing li{display:none !important;margin:0;float:left;display:block;margin-right:2.35765%;width:23.23176%}#sharing li:last-child,#sharing li:nth-child(4){margin-right:0}#sharing li:nth-child(5){clear:left}#sharing li a,#sharing li i{display:block;margin:0 auto;font-size:1.25em}#promotion .book img{margin:0 auto}#contributors ul li{flex-basis:33%}#recent article{float:none;display:block;width:100%}#recent article:last-child,#recent article:nth-of-type(2n){margin-right:0}.archive dl{width:100%;margin:0;float:none}.archive dl dt{margin:2em 0 0.5em 0}}@media screen and (max-width: 960px){[role="banner"]{display:block;margin-bottom:0;padding-bottom:0}[role="banner"] #logo{margin:0 !important;height:auto;padding-bottom:0.5em}[role="banner"] #logo svg{width:25vw;display:block;margin:0 auto 1.5em auto}[role="banner"] .tagline{font-size:4.4vw;padding-bottom:2em}#recent ul{grid-template-columns:repeat(2, 1fr)}.anchor{font-size:smaller}#announcement{margin-left:0;margin-right:0}article.author header,article.translator header{display:block}article.author header .avatar,article.translator header .avatar{margin:0 auto 1em auto;display:block}article.author header h1,article.translator header h1{text-align:center}}@media (hover: none){#logo #mustache{animation-iteration-count:1}}@media (inverted-colors){*{text-shadow:none !important;box-shadow:none !important}img{filter:invert(100%)}}@media (monochrome) and (false), print and (false), (prefers-contrast: high), screen and (-ms-high-contrast: active){html{border-top-color:black}html body{background:white}html body #logo a:hover{background:transparent !important}html body #logo #ns{fill:white;stroke:black;stroke-width:10px}html body #logo #mustache{fill:black}html body a{transition:none}html body a,html body a:visited{text-decoration:underline;color:black !important}html body a:hover{text-decoration:none}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6,html body p,html body li,html body dt,html body dd,html body span{color:black !important}html body div.highlight{color:black;background:#fff !important;border:2px black solid}html body div.highlight code,html body div.highlight code span{color:black !important}html body div.highlight .c,html body div.highlight .ch,html body div.highlight .cm,html body div.highlight .cpf,html body div.highlight .c1,html body div.highlight .cs,html body div.highlight .ge,html body div.highlight .s,html body div.highlight .sa,html body div.highlight .sb,html body div.highlight .sc,html body div.highlight .dl,html body div.highlight .sd,html body div.highlight .s2,html body div.highlight .sh,html body div.highlight .sx,html body div.highlight .sr,html body div.highlight .s1,html body div.highlight .ss{font-style:italic}html body div.highlight .k,html body div.highlight .gh,html body div.highlight .gp,html body div.highlight .gs,html body div.highlight .gu,html body div.highlight .kc,html body div.highlight .kd,html body div.highlight .kn,html body div.highlight .kr,html body div.highlight .nc,html body div.highlight .ni,html body div.highlight .ne,html body div.highlight .nn,html body div.highlight .nt,html body div.highlight .ow{font-weight:bold}html body div.highlight .se,html body div.highlight .si{font-weight:bold;font-style:italic}html body .admonition{background:white !important;border:2px black solid !important;border-radius:5px}html body .admonition:before{visibility:hidden}html body blockquote{border-left-color:black !important;color:black}}@media (prefers-color-scheme: dark){body{background:#2c2a28 !important;color:#f8f8f2 !important}body blockquote{color:#f8f8f2 !important}body div.highlight{border:1px #f8f8f2 solid !important}body .language-toggle a{color:#f8f8f2 !important}body .info{background:#333c44 !important}body .warning{background:#484131 !important}body .error{background:#592e41 !important}article img[src$=".svg"],i img[src$=".svg"]{filter:invert(100%)}kbd{color:#f8f8f2;background-color:#282a36;box-shadow:0 1px 0 rgba(255,255,255,0.2),0 0 0 2px #222 inset}.placeholder{color:#f8f8f2;background-color:#282a36;border-color:#f8f8f2}a>code,p>code,li>code,dd>code,td>code{background:#282a36}p code,li code,dd code,td code{color:#bd93f9}}@media (prefers-contrast: high), screen and (-ms-high-contrast: active){a{transition:none}a,a:visited{text-decoration:underline;color:black !important}h1,h2,h3,h4,h5,h6,p,li,dt,dd,span{color:black !important}h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,p a:hover,li a:hover,dt a:hover,dd a:hover,span a:hover{text-decoration:none;background:black;color:white !important}}@media (prefers-reduced-motion: reduce){#logo #mustache{animation:none !important}}@media print{@page{margin:0.5in}@page{@bottom-center{content:"Page " counter(page) " of " counter(pages);font-size:small}@footnote{border-top:1pt black solid;padding-top:1em;font-size:smaller;padding-left:1.5em}}html{border-top:none}html body{font-size:12pt !important}#logo{height:3em !important}#logo svg{transform:scale(0.5);transform-origin:top left}img,p,blockquote,aside,ul,ol,table,figure,.highlight-group{page-break-inside:avoid}.highlight-group{page-break-before:avoid}h1,h2,h3,h4,h5,h6{page-break-before:avoid;page-break-after:avoid}img{max-width:100% !important}p a{word-wrap:break-word}p a[href^="#"]:after{display:none}p a[href^="http://"]:after,p a[href^="https://"]:after{content:attr(href);float:footnote;color:#333;text-decoration:none;text-align:left;page-break-inside:avoid;page-break-before:avoid}article [title]::after{content:" (" attr(title) ") ";float:footnote}.highlight-group a{font-size:50%}div.highlight{border-radius:5px;border:2px black solid}[role="article"] .content{margin-bottom:1em !important}[role="complementary"]{display:none}[role="contentinfo"]{page-break-inside:avoid;font-size:small}.admonition{padding:0 0 0 1em}.admonition::before{visibility:hidden}}@media print and (color){*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}::selection{background:rgba(76,49,80,0.5);color:#ffffff}::-moz-selection{background:rgba(76,49,80,0.5);color:#ffffff}#type-encodings tr>td:first-child,#method-encodings tr>td:first-child{width:12em;padding-left:3em}@media screen and (max-width: 480px){#gpuimage table{font-size:50%}}#gpuimage #gpuimage-benchmarks td{text-align:center}#gpuimage #gpuimage-benchmarks td:first-child{text-align:left}#gpuimage #gpuimage-benchmarks td:last-child{text-align:right}#gpuimage #gpuimage-filters td{vertical-align:top;font-size:75%}#gpuimage blockquote{font-size:75%}table.core-data-versus-nskeyedarchiver td{text-align:center}table.core-data-versus-nskeyedarchiver td:first-child{text-align:left;font-weight:bold}table#xcode-key-bindings-modifiers{width:100%}table#xcode-key-bindings-modifiers td,table#xcode-key-bindings-modifiers th{width:20%;text-align:center}#cfstringtransform table{display:block}#cfstringtransform table td:first-child{width:60%}#icloud header time{background-color:rgba(255,128,0,0.2)}
+      /*# sourceMappingURL=/assets/source-maps/screen.scss.map */
+      /*# sourceURL=assets/css/screen.scss */
+    </style>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#292724"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="NSHipster"/>
+    <meta name="application-name" content="NSHipster"/>
+    <meta name="msapplication-TileColor" content="#f8f7f5"/>
+    <meta name="theme-color" content="#f8f7f5"/>
+    <link rel="author" type="text/plain" href="/humans.txt"/>
+    <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@NSHipster"/>
+    <meta name="twitter:title" content="Mirror / CustomReflectable / CustomLeafReflectable"/>
+    <meta name="twitter:description" content="Reflection in Swift is a limited affair, providing read-only access to information about objects. In fact, this functionality might be better described as introspection rather than reflection. But can you really blame them for going with that terminology?
+"/>
+    <meta name="twitter:label1" value="Category" />
+    <meta name="twitter:data1" value="Swift" />
+    <meta name="twitter:account_id" content="629523445"/>
+    <meta property="og:site_name" content="NSHipster"/>
+    <meta property="og:image" content="https://nshipster.com/logo.png"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Mirror / CustomReflectable / CustomLeafReflectable"/>
+    <meta property="og:url" content="https://nshipster.com/mirror/"/>
+    <meta property="og:description" content="Reflection in Swift is a limited affair, providing read-only access to information about objects. In fact, this functionality might be better described as introspection rather than reflection. But can you really blame them for going with that terminology?
+"/>
+    <meta property="article:published_time" content="2015-06-01T00:00:00-07:00"/>
+    <meta property="article:modified_time" content="2019-04-02T08:39:53-07:00"/>
+    <meta property="article:tag" content="Swift"/>
+    <meta property="article:publisher" content="https://www.facebook.com/NSHipster">
+    <link rel="next" href="https://nshipster.com/nshipster-quiz-7/" />
+    <link rel="prev" href="https://nshipster.com/xcplayground/" />
+  </head>
+  <body>
+    <div class="container">
+      <header role="banner">
+        <h1 id="logo">
+          <a href="/" title="NSHipster">
+            <?xml version="1.0"?>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.4 266.34">
+                <g id="ns">
+                  <path d="M16.05 5.37h68.38l88.78 157.52h.72V5.37h62.64V261H168.2L79.42 101.67h-.72V261H16.05z"/>
+                  <path d="M294.78 175.06c1.43 30.07 20 39.73 48.33 39.73 20 0 40.81-7.16 40.81-26.13 0-22.55-36.52-26.85-73.39-37.23-36.52-10.38-74.82-26.85-74.82-73.75C235.71 21.84 291.91 0 339.88 0c50.84 0 102 24.7 102.39 82.34h-66.59c1.08-23.27-20.76-30.79-41.17-30.79-14.32 0-32.21 5-32.21 21.84 0 19.69 36.87 23.27 74.1 33.65 36.87 10.38 74.1 27.56 74.1 73.74 0 64.8-55.13 85.56-111.33 85.56-58.71 0-110.62-25.77-111-91.28z"/>
+                </g>
+                <g id="mustache">
+                  <path d="M168.07 104.61c-59.6 3-113.84 79.27-168.07 12.52 0 90 141.25 181.77 237.2 97.14 95.36 84 237.2-7.75 237.2-97.14-74.5 91.78-149-85.83-237.2 26.81-23.84-31.58-47.08-40.52-69.13-39.33z"/>
+                </g>
+              </svg>
+            </a>
+          </h1>
+        </header>
+        <main>
+          <article role="article" itemscope itemtype="https://schema.org/Article">
+            <header role="heading">
+              <h1 class="title" itemprop="name">
+                <a href="/mirror/">Mirror / Custom​Reflectable / Custom​Leaf​Reflectable</a>
+              </h1>
+              <div class="byline">
+                Written by
+                <span class="authors">
+                  <a class="author" href="/authors/mattt/">Mattt</a>
+                </span>
+                <time datetime="2015-06-01T00:00:00-07:00" itemprop="datePublished" hidden aria-hidden="true">June 1<sup>st</sup>, 2015</time>
+                <time datetime="2018-11-14T00:00:00-08:00" itemprop="dateModified">November 14<sup>th</sup>, 2018</time>
+                (<a href="#revisions">revised</a>)
+              </div>
+              <link itemprop="image" href="https://nshipster.com/logo.png"/>
+              <meta itemprop="headline" content="Mirror / CustomReflectable / CustomLeafReflectable"/>
+              <div itemprop="publisher" itemscope itemtype="http://schema.org/Organization" hidden aria-hidden="true">
+                <meta itemprop="name" content="NSHipster"/>
+                <meta itemprop="logo" content="https://nshipster.com/logo.png"/>
+              </div>
+            </header>
+            <div class="content" itemprop="articleBody">
+              <p>Reflection in Swift is a limited affair,
+                providing read-only access to information about objects.
+                In fact, this functionality might be better described as
+                <dfn>introspection</dfn> rather than reflection.</p>
+              <p>But can you really blame them for going with that terminology?</p>
+              <p>“Introspection” is such a bloviated and acoustically unpleasant word
+                compared to “Reflection.”
+                And how could anyone pass on the nominal slam dunk of
+                calling the type responsible for reflecting an object’s value a <code>Mirror</code>?
+                What equivalent analogy can we impart for the act of introspection?
+                <code>struct Long<wbr></wbr>Dark<wbr></wbr>Tea<wbr></wbr>Time<wbr></wbr>Of<wbr></wbr>The<wbr></wbr>Soul</code>?
+    (As if we didn’t have better things to do than
+    ask our Swift code about the meaning of <code>Self</code>)</p>
+  <p>Without further ado,
+    let’s take a peek inside the inner workings of how Swift exposes
+    that of our own code:
+    <code>Mirror</code>, <code>Custom<wbr></wbr>Reflectable</code>, and <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code>.</p>
+<hr>
+<p>Swift provides a default <dfn>reflection</dfn>, or structured view,
+  for every object.
+  This view is used by <a href="/xcplayground/">Playgrounds</a>
+  (<a href="/customplaygrounddisplayconvertible/">unless a custom description is provided</a>),
+  and also acts as a fallback when describing objects
+  that don’t conform to the
+  <code>Custom<wbr></wbr>String<wbr></wbr>Convertible</code> or <code>Custom<wbr></wbr>Debug<wbr></wbr>String<wbr></wbr>Convertible</code> protocols.</p>
+<p>You can customize how instances of a type are reflected
+  by adopting the <code>Custom<wbr></wbr>Reflectable</code> protocol
+and implementing the required <code>custom<wbr></wbr>Mirror</code> property.</p>
+<p>The computed <code>custom<wbr></wbr>Mirror</code> property returns a <code>Mirror</code> object,
+which is typically constructed by reflecting <code>self</code> and
+passing the properties you wish to expose to the reflected interface.
+Properties may be either
+keyed and passed in a dictionary
+or unkeyed and passed in an array.
+You can optionally specify a display style
+to override the default for the kind of type (<code>struct</code>, <code>class</code>, <code>tuple</code>, etc.);
+if the type is a class,
+you also have the ability to adjust how ancestors are represented.</p>
+<h2>
+  <a class="anchor" aria-hidden="true" id="conforming-to-customreflectable" href="#conforming-to-customreflectable"></a>Conforming to CustomReflectable</h2>
+<p>To get a better understanding of how this looks in practice,
+  let’s look at an example involving an implementation of a data model
+  for the game of chess:</p>
+<p>A chessboard comprises 64 squares,
+  divided into
+  8 rows (called <dfn>ranks</dfn>) and
+  8 columns (called <dfn>files</dfn>).
+  A compact way to represent each location on a board
+  is the <a href="https://en.wikipedia.org/wiki/Board_representation_(chess)#0x88_method" rel="noopener noreferrer">0x88 method</a>,
+  in which the rank and file are encoded into 3 bits of each
+  <a href="https://en.wikipedia.org/wiki/Nibble" rel="noopener noreferrer">nibble</a>
+  of a byte (<code>0b0rrr0fff</code>).</p>
+<p><em>For simplicity, <code>Rank</code> and <code>File</code> are typealias’d to <code>UInt8</code>
+    and use one-based indices;
+    a more complete implementation might use enumerations instead.</em></p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">struct</span> <span class="kt">Chess<wbr></wbr>Board</span> <span class="p">{</span>
+    <span class="kd">typealias</span> <span class="kt">Rank</span> <span class="o">=</span> <span class="kt">UInt8</span>
+    <span class="kd">typealias</span> <span class="kt">File</span> <span class="o">=</span> <span class="kt">UInt8</span>
+
+    <span class="kd">struct</span> <span class="kt">Coordinate</span><span class="p">:</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span> <span class="p">{</span>
+        <span class="kd">private</span> <span class="k">let</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">UInt8</span>
+
+        <span class="k">var</span> <span class="nv">rank</span><span class="p">:</span> <span class="kt">Rank</span> <span class="p">{</span>
+            <span class="nf">return</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">}</span>
+
+        <span class="k">var</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">File</span> <span class="p">{</span>
+            <span class="nf">return</span> <span class="p">(</span><span class="n">value</span> <span class="o">&amp;</span> <span class="mb">0b00000111</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">}</span>
+
+        <span class="nf">init</span><span class="p">(</span><span class="nv">rank</span><span class="p">:</span> <span class="kt">Rank</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">File</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">precondition</span><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">8</span> <span class="o">~=</span> <span class="n">rank</span> <span class="o">&amp;&amp;</span> <span class="mi">1</span><span class="o">...</span><span class="mi">8</span> <span class="o">~=</span> <span class="n">file</span><span class="p">)</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">((</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">file</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>If we were to construct a coordinate for b8 (rank 8, file “b” or 2),
+  its default reflection wouldn’t be particularly helpful:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="k">let</span> <span class="nv">b8</span> <span class="o">=</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">(</span><span class="nv">rank</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
+<span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">b8</span><span class="p">)</span> <span class="c1">// Chess<wbr></wbr>Board.Coordinate(value: 57)</span>
+</code></pre>
+<p><code>57</code> in decimal is equal to <code>0111001</code> in binary,
+  or a value of 7 for rank and 1 for file,
+  which adding the index offset of 1 brings us to
+  rank 8 and file 2.</p>
+<p>The default mirror provided for a structure
+  includes each of an object’s stored properties.
+  However, consumers of this API shouldn’t need to know
+  or even care about the implementation details of how this information is stored.
+  It’s more important to reflect the programmatic surface area of the type,
+  and we can use <code>Custom<wbr></wbr>Reflectable</code> to do just that:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Reflectable</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"rank"</span><span class="p">:</span> <span class="n">rank</span><span class="p">,</span> <span class="s">"file"</span><span class="p">:</span> <span class="n">file</span><span class="p">])</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>Rather than exposing the private stored <code>value</code> property,
+  our custom mirror provides the computed <code>rank</code> and <code>file</code> properties.
+  The result: a much more useful representation
+  that reflects our understanding of the type:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">b8</span><span class="p">)</span> <span class="c1">// Chess<wbr></wbr>Board.Coordinate(rank: 8, file: 2)</span>
+</code></pre>
+<h3>
+  <a class="anchor" aria-hidden="true" id="introspecting-the-custom-mirror" href="#introspecting-the-custom-mirror"></a>Introspecting the Custom Mirror</h3>
+<p>The <code>String(reflecting:)</code> initializer is one way that mirrors are used.
+  But you can also get at them directly through the <code>custom<wbr></wbr>Mirror</code> property
+to access the type metatype and display style,
+and enumerate each of the mirror’s children.</p>
+<pre class="highlight" data-lang="Swift"><code><span class="n">b8</span><span class="o">.</span><span class="n">custom<wbr></wbr>Mirror</span><span class="o">.</span><span class="n">subject<wbr></wbr>Type</span> <span class="c1">// Chess<wbr></wbr>Board.Coordinate.Type</span>
+<span class="n">b8</span><span class="o">.</span><span class="n">custom<wbr></wbr>Mirror</span><span class="o">.</span><span class="n">display<wbr></wbr>Style</span> <span class="c1">// struct</span>
+
+<span class="k">for</span> <span class="n">child</span> <span class="k">in</span> <span class="n">b8</span><span class="o">.</span><span class="n">custom<wbr></wbr>Mirror</span><span class="o">.</span><span class="n">children</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">child</span><span class="o">.</span><span class="n">label</span> <span class="p">??</span> <span class="s">""</span><span class="se">)</span><span class="s">: </span><span class="se">\(</span><span class="n">child</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<h3>
+  <a class="anchor" aria-hidden="true" id="customizing-the-display-of-a-custom-mirror" href="#customizing-the-display-of-a-custom-mirror"></a>Customizing the Display of a Custom Mirror</h3>
+<p>There are differently-shaped mirrors for each kind of Swift value,
+  each with their own particular characteristics.</p>
+<p>For example,
+  the most important information about a class is its identity,
+  so its reflection contains only its fully-qualified type name.
+  Whereas a structure is all about substance
+  and offers up its type name and values.</p>
+<p>If you find this to be less than flattering for your special type
+  you can change up your look by specifying an enumeration value
+  to the <code>display<wbr></wbr>Style</code> attribute in the <code>Mirror</code> initializer.</p>
+<p>Here’s a sample of what you can expect
+  for each of the available display styles
+  when providing both labeled and unlabeled children:</p>
+<h4>
+  <a class="anchor" aria-hidden="true" id="labeled-children" href="#labeled-children"></a>Labeled Children</h4>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Reflectable</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"rank"</span><span class="p">:</span> <span class="n">rank</span><span class="p">,</span> <span class="s">"file"</span><span class="p">:</span> <span class="n">file</span><span class="p">])</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <var class="placeholder">display<wbr></wbr>Style</var><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Style</th>
+      <th>Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>Chess<wbr></wbr>Board.Coordinate</code></td>
+  </tr>
+  <tr>
+    <td><code>struct</code></td>
+    <td><code>Coordinate(rank: 8, file: 2)</code></td>
+  </tr>
+  <tr>
+    <td><code>enum</code></td>
+    <td><code>Coordinate(8)</code></td>
+  </tr>
+  <tr>
+    <td><code>optional</code></td>
+    <td><code>8</code></td>
+  </tr>
+  <tr>
+    <td><code>tuple</code></td>
+    <td><code>(rank: 8, file: 2)</code></td>
+  </tr>
+  <tr>
+    <td><code>collection</code></td>
+    <td><code>[8, 2]</code></td>
+  </tr>
+  <tr>
+    <td><code>set</code></td>
+    <td><code>{8, 2}</code></td>
+  </tr>
+  <tr>
+    <td><code>dictionary</code></td>
+    <td><code>[rank: 8, file: 2]</code></td>
+  </tr>
+</tbody>
+</table>
+<h4>
+  <a class="anchor" aria-hidden="true" id="unlabeled-children" href="#unlabeled-children"></a>Unlabeled Children</h4>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Reflectable</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">unlabeled<wbr></wbr>Children</span><span class="p">:</span> <span class="p">[</span><span class="n">rank</span><span class="p">,</span> <span class="n">file</span><span class="p">],</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <var class="placeholder">display<wbr></wbr>Style</var><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Style</th>
+      <th>Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>Chess<wbr></wbr>Board.Coordinate</code></td>
+  </tr>
+  <tr>
+    <td><code>struct</code></td>
+    <td><code>Coordinate()</code></td>
+  </tr>
+  <tr>
+    <td><code>enum</code></td>
+    <td><code>Coordinate(8)</code></td>
+  </tr>
+  <tr>
+    <td><code>optional</code></td>
+    <td><code>8</code></td>
+  </tr>
+  <tr>
+    <td><code>tuple</code></td>
+    <td><code>(8, 2)</code></td>
+  </tr>
+  <tr>
+    <td><code>collection</code></td>
+    <td><code>[8, 2]</code></td>
+  </tr>
+  <tr>
+    <td><code>set</code></td>
+    <td><code>{8, 2}</code></td>
+  </tr>
+  <tr>
+    <td><code>dictionary</code></td>
+    <td><code>[ 8, 2]</code></td>
+  </tr>
+</tbody>
+</table>
+<aside class="admonition warning">
+  <p>You can’t change how tuples are reflected.
+    As described in our article about <a href="/void/"><code>Void</code></a>,
+    tuples aren’t <dfn>nominal types</dfn>,
+    so you can’t write extensions to add conformance to <code>Custom<wbr></wbr>Reflectable</code></p>
+</aside>
+<h2>
+  <a class="anchor" aria-hidden="true" id="reflection-and-class-hierarchies" href="#reflection-and-class-hierarchies"></a>Reflection and Class Hierarchies</h2>
+<p>Continuing with our chess example,
+  let’s introduce some class by defining an abstract <code>Piece</code> class
+  and subclasses for pawns, knights, bishops, rooks, queens, and kings.
+  (For flavor, let’s add <a href="https://en.wikipedia.org/wiki/Chess_piece_relative_value" rel="noopener noreferrer">standard valuations</a>
+  while we’re at it).</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">class</span> <span class="kt">Piece</span> <span class="p">{</span>
+    <span class="kd">enum</span> <span class="kt">Color</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">case</span> black, white
+    <span class="p">}</span>
+
+    <span class="k">let</span> <span class="nv">color</span><span class="p">:</span> <span class="kt">Color</span>
+    <span class="k">let</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">?</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">color</span><span class="p">:</span> <span class="kt">Color</span><span class="p">,</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="nf">precondition</span><span class="p">(</span><span class="nf">type</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span> <span class="o">!=</span> <span class="kt">Piece</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="s">"Piece is abstract"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Pawn</span><span class="p">:</span>   <span class="kt">Piece</span> <span class="p">{</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="kd">class</span> <span class="kt">Knight</span><span class="p">:</span> <span class="kt">Piece</span> <span class="p">{</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">}</span>
+<span class="kd">class</span> <span class="kt">Bishop</span><span class="p">:</span> <span class="kt">Piece</span> <span class="p">{</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">}</span>
+<span class="kd">class</span> <span class="kt">Rook</span><span class="p">:</span>   <span class="kt">Piece</span> <span class="p">{</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">}</span>
+<span class="kd">class</span> <span class="kt">Queen</span><span class="p">:</span>  <span class="kt">Piece</span> <span class="p">{</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="mi">9</span> <span class="p">}</span>
+<span class="kd">class</span> <span class="kt">King</span><span class="p">:</span>   <span class="kt">Piece</span> <span class="p">{}</span>
+</code></pre>
+<p>So far, so good.
+  Now let’s use the same approach as before to define a custom mirror
+  (setting the <code>display<wbr></wbr>Style</code> to <code>struct</code>
+so that we get more reflected information than we would otherwise for a class):</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Piece</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Reflectable</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                                 <span class="s">"location"</span><span class="p">:</span> <span class="n">location</span> <span class="p">??</span> <span class="s">"N/A"</span><span class="p">],</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <span class="o">.</span><span class="kd">struct</span><span class="p">))</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>Let’s see what happens if we try to reflect a new <code>Knight</code> object:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="k">let</span> <span class="nv">knight</span> <span class="o">=</span> <span class="kt">Knight</span><span class="p">(</span><span class="nv">color</span><span class="p">:</span> <span class="o">.</span><span class="n">black</span><span class="p">,</span> <span class="nv">location</span><span class="p">:</span> <span class="n">b8</span><span class="p">)</span>
+<span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">knight</span><span class="p">)</span> <span class="c1">//</span>
+<span class="kt">Piece</span><span class="p">(</span><span class="nv">color</span><span class="p">:</span> <span class="n">black</span><span class="p">,</span> <span class="nv">location</span><span class="p">:</span> <span class="p">(</span><span class="nv">rank</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre>
+<p>Hmm… that’s no good.
+  What if we try to override that in an extension to <code>Knight</code>?</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Knight</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                                 <span class="s">"location"</span><span class="p">:</span> <span class="n">location</span> <span class="p">??</span> <span class="s">"N/A"</span><span class="p">])</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// ! error: overriding declarations in extensions is not supported</span>
+</code></pre>
+<p><em>No dice</em> (to mix metaphors).</p>
+<p>Let’s look at three different options to get this working with classes.</p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="option-1-conform-to-customleafreflectable" href="#option-1-conform-to-customleafreflectable"></a>Option 1: Conform to CustomLeafReflectable</h3>
+<p>Swift actually provides something for just such a situation —
+  a protocol that inherits from <code>Custom<wbr></wbr>Reflectable</code>
+called <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code>.</p>
+<p>If a class conforms to <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code>,
+its reflections of subclasses will be suppressed
+unless they explicitly override <code>custom<wbr></wbr>Mirror</code> and provide their own <code>Mirror</code>.</p>
+<p>Let’s take another pass at our example from before,
+  this time adopting <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code> in our initial declaration:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">class</span> <span class="kt">Piece</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Knight</span><span class="p">:</span> <span class="kt">Piece</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">override</span> <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                                 <span class="s">"location"</span><span class="p">:</span> <span class="n">location</span> <span class="p">??</span> <span class="s">"N/A"</span><span class="p">,</span>
+                                 <span class="s">"value"</span><span class="p">:</span> <span class="kt">Knight</span><span class="o">.</span><span class="n">value</span><span class="p">],</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <span class="o">.</span><span class="kd">struct</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>Now when go to reflect our knight,
+  we get the correct type — <code>Knight</code> instead of <code>Piece</code>.</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">knight</span><span class="p">)</span>
+<span class="c1">// Knight(color:Piece.Color.black, location: (rank: 8, file: 2), value: 3)</span>
+</code></pre>
+<p>Unfortunately, this approach requires us to do the same
+  for each of the subclasses.
+  Before we suck it up and copy-paste our way to victory,
+  let’s consider our alternatives.</p>
+<aside class="admonition info">
+  <p>Types that wrap a single value like a string or number
+    can improve their reflected representation
+    simply by conforming to the <code>Custom<wbr></wbr>String<wbr></wbr>Convertible</code> protocol.</p>
+<p>For example,
+  the nested <code>Color</code> type can be unambiguously understood
+  by its raw value alone:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Piece</span><span class="o">.</span><span class="kt">Color</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>String<wbr></wbr>Convertible</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">self</span><span class="o">.</span><span class="n">raw<wbr></wbr>Value</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>With this in place,
+  the raw string values will be used
+  anytime <code>Piece.Color</code> is reflected
+  or shows up as a child in a mirror representation.</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="kt">Piece</span><span class="o">.</span><span class="kt">Color</span><span class="o">.</span><span class="n">black</span><span class="p">)</span> <span class="c1">// black</span>
+
+<span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">knight</span><span class="p">)</span>
+<span class="c1">// Knight(color: black, location: (rank: 8, file: 2), value: 3)</span>
+</code></pre>
+</aside>
+<h3>
+  <a class="anchor" aria-hidden="true" id="option-2-encode-type-in-superclass-mirror" href="#option-2-encode-type-in-superclass-mirror"></a>Option 2: Encode Type in Superclass Mirror</h3>
+<p>A simpler alternative to going the <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code> route
+is to include the type information as a child of the mirror
+declared in the base class.</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Piece</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Reflectable</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="nf">type</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="k">self</span><span class="p">),</span>
+                                 <span class="s">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                                 <span class="s">"location"</span><span class="p">:</span> <span class="n">location</span> <span class="p">??</span> <span class="s">"N/A"</span><span class="p">],</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <span class="o">.</span><span class="kd">struct</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">knight</span><span class="p">)</span>
+<span class="c1">// Piece(type: Knight, color: black, location: (rank: 8, file: 2))</span>
+</code></pre>
+<p>This approach is appealing
+  because it allows reflection to be hidden as an implementation detail.
+  However, it can only work if subclasses are differentiated by behavior.
+  If a subclass adds stored members
+  or significantly differs in other ways,
+  it’ll need a specialized representation.</p>
+<p>Which begs the question:
+  <em>why are we using classes in the first place?</em></p>
+<h3>
+  <a class="anchor" aria-hidden="true" id="option-3-avoid-classes-altogether" href="#option-3-avoid-classes-altogether"></a>Option 3: Avoid Classes Altogether</h3>
+<p>Truth be told,
+  we only really introduced classes here
+  as a contrived example of how to use <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code>.
+And what we came up with is kind of a mess, right?
+Ad hoc additions of <code>value</code> type members for only some of the pieces
+(kings don’t have a value in chess because they’re a win condition)?
+An “abstract” base class that crashes if you try to instantiate it
+(for <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0026-abstract-classes-and-methods.md" rel="noopener noreferrer">current lack of a first-class language feature</a>)?
+Yikes.
+These are the kinds of things that give OOP a bad name.</p>
+<p>We can mitigate nearly all of these problems
+  by adopting a protocol-oriented approach like the following:</p>
+<p>First, define a protocol for <code>Piece</code>
+  and a new protocol to encapsulate pieces that have value, called <code>Valuable</code>:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">protocol</span> <span class="kt">Piece</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">color</span><span class="p">:</span> <span class="kt">Color</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">Valuable</span><span class="p">:</span> <span class="kt">Piece</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>Next, define value types —
+  an enum for <code>Color</code> and structures for each piece:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">enum</span> <span class="kt">Color</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">case</span> black, white
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="kd">struct</span> <span class="kt">Knight</span><span class="p">:</span> <span class="kt">Piece</span><span class="p">,</span> <span class="kt">Valuable</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">let</span> <span class="nv">color</span><span class="p">:</span> <span class="kt">Color</span>
+    <span class="k">let</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">?</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+</code></pre>
+<p>Although we can’t provide conformance by protocol through an extension,
+  we can provide a default implementation for the requirements
+  and declare adoption in extensions to each concrete <code>Piece</code> type.
+  As a bonus, <code>Valuable</code> can provide a specialized variant
+  that includes its <code>value</code>:</p>
+<pre class="highlight" data-lang="Swift"><code><span class="kd">extension</span> <span class="kt">Piece</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                                 <span class="s">"location"</span><span class="p">:</span> <span class="n">location</span> <span class="p">??</span> <span class="s">"N/A"</span><span class="p">],</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <span class="o">.</span><span class="kd">struct</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">Valuable</span><span class="p">{</span>
+    <span class="k">var</span> <span class="nv">custom<wbr></wbr>Mirror</span><span class="p">:</span> <span class="kt">Mirror</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Mirror</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+                      <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="s">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                                 <span class="s">"location"</span><span class="p">:</span> <span class="n">location</span> <span class="p">??</span> <span class="s">"N/A"</span><span class="p">,</span>
+                                 <span class="s">"value"</span><span class="p">:</span> <span class="k">Self</span><span class="o">.</span><span class="n">value</span><span class="p">],</span>
+                      <span class="nv">display<wbr></wbr>Style</span><span class="p">:</span> <span class="o">.</span><span class="kd">struct</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+<span class="kd">extension</span> <span class="kt">Knight</span><span class="p">:</span> <span class="kt">Custom<wbr></wbr>Reflectable</span> <span class="p">{}</span>
+<span class="c1">//...</span>
+</code></pre>
+<p>Putting that all together,
+  we get exactly the behavior we want
+  with the advantage of value semantics.</p>
+<pre class="highlight" data-lang="Swift"><code><span class="k">let</span> <span class="nv">b8</span> <span class="o">=</span> <span class="kt">Chess<wbr></wbr>Board</span><span class="o">.</span><span class="kt">Coordinate</span><span class="p">(</span><span class="nv">rank</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">knight</span> <span class="o">=</span> <span class="kt">Knight</span><span class="p">(</span><span class="nv">color</span><span class="p">:</span> <span class="o">.</span><span class="n">black</span><span class="p">,</span> <span class="nv">location</span><span class="p">:</span> <span class="n">b8</span><span class="p">)</span>
+
+<span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">knight</span><span class="p">)</span>
+<span class="c1">// Knight(color: black, location: (rank: 8, file: 2))</span>
+</code></pre>
+<p>Ultimately,
+  <code>Custom<wbr></wbr>Leaf<wbr></wbr>Reflectable</code> is provided mostly for compatibility with
+the classical, hierarchical types in Objective-C frameworks like UIKit.
+If you’re writing new code, you need not follow in their footsteps.</p>
+<hr>
+<p>When Swift first came out,
+  longtime Objective-C developers missed the dynamism provided by that runtime.
+  And — truth be told —
+  truth be told, things weren’t all super great.
+  Programming in Swift could, at times,
+  feel unnecessarily finicky and constraining.
+  <em>“If only we could <a href="https://nshipster.com/method-swizzling/">swizzle</a>…”</em>
+  we’d grumble.</p>
+<p>And perhaps this is still the case for some of us some of the time,
+  but with Swift 4,
+  many of the most frustrating use cases have been solved.</p>
+<p>Codable is a better solution to JSON serialization
+  than was ever available using dynamic introspection.
+  Codable can also provide mechanisms for fuzzing and fixtures
+  to sufficiently enterprising and clever developers.
+  The <code>Case<wbr></wbr>Iterable</code> protocol fills another hole,
+allowing us a first-class mechanism
+for getting an inventory of enumeration cases.
+In many ways,
+Swift has leap-frogged the promise of dynamic programming,
+making APIs like <code>Mirror</code> largely unnecessary beyond logging and debugging.</p>
+<p>That said,
+  should you find the need for introspection,
+  you’ll know just where to look.</p>
+</div>
+<footer role="complementary">
+  <section id="revisions">
+    <small>NSMutableHipster</small>
+    <p>
+      Questions? Corrections? <a href="https://github.com/NSHipster/articles/issues">Issues</a> and <a href="https://github.com/NSHipster/articles/blob/master/2015-06-01-mirror.md">pull requests</a> are always welcome.
+    </p>
+    <p class="status">
+      <em>This article uses Swift version 4.2 and was last reviewed on November 14, 2018.</em>
+      Find status information for all articles on the <a href="/status/">status page</a>.
+    </p>
+  </section>
+  <section id="attribution">
+    <div class="contributor" itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <small>Written by</small>
+      <img class="avatar" alt="Mattt" itemprop="image" src="/assets/mattt-93904827ef54896bb67f3a0d4abf548b9ecc93a51536bbc3326f24630512727d.jpg" draggable="false"/>
+      <div class="details">
+        <span itemprop="name"><a href="/authors/mattt/">Mattt</a></span>
+        <p><a href="https://github.com/mattt" rel="noopener noreferrer">Mattt</a> (<a href="https://twitter.com/mattt" rel="noopener noreferrer">@mattt</a>)
+          is a writer and developer in Portland, Oregon.
+          He is the founder of NSHipster and <a href="https://flight.school" rel="noopener noreferrer">Flight School</a>,
+          and the creator of several open source libraries,
+          including <a href="https://github.com/afnetworking/afnetworking" rel="noopener noreferrer">AFNetworking</a>
+          and <a href="https://github.com/alamofire/alamofire" rel="noopener noreferrer">Alamofire</a>.</p>
+        <a href="https://plus.google.com/106751358503565042647?rel=author" rel="author"></a>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div id="continue">
+      <small>Next Article</small>
+      <article>
+        <h1 class="title">
+          <a rel="next" href="/nshipster-quiz-7/" title="NSHipster Quiz #7">NSHipster Quiz #7</a>
+        </h1>
+        <p>Our third annual WWDC NSHipster Pub Quiz! Scores of developers, dozens of teams, and a down-to-the-wire finish. How will you fare?</p>
+      </article>
+    </div>
+  </section>
+</footer>
+</article>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https://nshipster.com",
+          "name": "Articles"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@id": "https://nshipster.com/mirror/",
+          "name": "Mirror / CustomReflectable / CustomLeafReflectable"
+        }
+      }
+    ]
+  }
+</script>
+</main>
+<footer role="contentinfo">
+  <section class="credits colophon">
+    <p>
+      <i aria-hidden="true" class="icon-cc" title="Creative Commons"></i>
+      <i aria-hidden="true" class="icon-by" title="Attribution"></i>
+      <i aria-hidden="true" class="icon-nc" title="Non-Commercial"></i>
+      NSHipster.com is released under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">Creative Commons BY-NC License</a>.
+    </p>
+    <p>
+      NSHipster is also available in
+      <a href="https://nshipster.cn" hreflang="zh-Hans">Chinese (Simplified)</a>,
+      <a href="https://nshipster.co.kr" hreflang="ko">Korean</a>,
+      <a href="https://nshipster.fr" hreflang="fr">French</a>, and
+      <a href="https://nshipster.es" hreflang="es">Spanish</a>
+      .
+    </p>
+    <a href="https://plus.google.com/105091289906267717942" rel="publisher" hidden aria-hidden="true"></a>
+  </section>
+</footer>
+</div>
+<script async="async" src="/assets/application-7c59b22d22e826c0d17fc358aa9a2008daa8b396741ab2ef1a854e4780b0c624.js" integrity="sha256-fFmyLSLoJsDRf8NYqpogCNqos5Z0GrLvGoVOR4CwxiQ=" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NSHipster",
+    "legalName": "NSHipster, LLC",
+    "url": "https://nshipster.com",
+    "logo": "https://nshipster.com/logo.png",
+    "foundingDate": "2012",
+    "founders": [{
+      "@type": "Person",
+      "name": "Mattt"
+    }],
+    "sameAs": [
+      "https://twitter.com/nshipster",
+      "https://github.com/nshipster",
+      "https://plus.google.com/+NSHipster",
+      "https://www.facebook.com/NSHipster"
+    ]
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://nshipster.com",
+    "name": "NSHipster",
+    "author": {
+      "@type": "Person",
+      "name": "Mattt"
+    },
+    "description": "NSHipster is a journal of the overlooked bits in Objective-C, Swift, and Cocoa. Updated weekly.
+  ",
+    "publisher": "Read Evaluate Press, LLC"
+  }
+</script>
+<script type="application/cereal+json">
+    {
+        "endpoint": "https://analytics.nshipster.com/",
+        "property": 1
+    }
+</script>
+<script async defer src="https://analytics.nshipster.com/tracker.js"></script></body>
+</html>

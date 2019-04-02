@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [swift-evolution] Python Interop with Swift 4+
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:swift-evolution%40swift.org?Subject=Re:%20Re%3A%20%5Bswift-evolution%5D%20Python%20Interop%20with%20Swift%204%2B&In-Reply-To=%3CAA3EF21F-5246-4AE6-A981-7341C2C28841%40nondot.org%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <LINK REL="Previous"  HREF="042047.html">
+   <LINK REL="Next"  HREF="042034.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[swift-evolution] Python Interop with Swift 4+</H1>
+    <B>Chris Lattner</B> 
+    <A HREF="mailto:swift-evolution%40swift.org?Subject=Re:%20Re%3A%20%5Bswift-evolution%5D%20Python%20Interop%20with%20Swift%204%2B&In-Reply-To=%3CAA3EF21F-5246-4AE6-A981-7341C2C28841%40nondot.org%3E"
+       TITLE="[swift-evolution] Python Interop with Swift 4+">clattner at nondot.org
+       </A><BR>
+    <I>Wed Dec  6 11:04:38 CST 2017</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="042047.html">[swift-evolution] [Pitch] Generalized supertype constraints
+</A></li>
+        <LI>Next message: <A HREF="042034.html">[swift-evolution] Core Team vs Random number API discussion
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42029">[ date ]</a>
+              <a href="thread.html#42029">[ thread ]</a>
+              <a href="subject.html#42029">[ subject ]</a>
+              <a href="author.html#42029">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+For anyone interested, here’s another update on this, including a bunch of operators, conformances to standard Swift protocols etc.
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: PythonInterop.playground.zip
+Type: application/zip
+Size: 28706 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.swift.org/pipermail/swift-evolution/attachments/20171206/9103f31e/attachment.zip">https://lists.swift.org/pipermail/swift-evolution/attachments/20171206/9103f31e/attachment.zip</A>&gt;
+-------------- next part --------------
+
+
+
+-Chris
+
+
+&gt;<i> On Dec 1, 2017, at 12:50 AM, Chris Lattner via swift-evolution &lt;<A HREF="https://lists.swift.org/mailman/listinfo/swift-evolution">swift-evolution at swift.org</A>&gt; wrote:
+</I>&gt;<i> 
+</I>&gt;<i> Here’s an updated version of this: Most importantly, I found through the implementation effort for DynamicMemberLookupProtocol that it is better for PyVal to be a struct than it is for it to be an existential.  This implementation shifts the design to that center of gravity, which makes a lot of things feel more natural:
+</I>&gt;<i> 
+</I>&gt;<i> &lt;PythonInterop.playground.zip&gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> There are still lots of open design topics: I’ve listed a few at the bottom of the tutorial page.  This playground is tested with unmodified Xcode 9.
+</I>&gt;<i> 
+</I>&gt;<i> -Chris
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> On Nov 19, 2017, at 6:16 PM, Chris Lattner &lt;<A HREF="https://lists.swift.org/mailman/listinfo/swift-evolution">sabre at nondot.org</A>&gt; wrote:
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> Hi all,
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> As I mentioned on a couple other threads, I’ve been working on improving Swift interoperability with Python.  I have two pitches out: one to improve Python member lookup and one to improve calls to Python values.  While those proposals are important, I think it is also useful to see what can be accomplished with Swift today.
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> To show you how far we can get, here is a Swift playground (tested with Xcode 9) that has an example interoperability layer, and a tutorial for using it.  If you’re interested in the pitches, or in Python, please check it out:
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> In addition to showing how far the interop can go today (which is really quite far) it shows what the future will look like assuming the member lookup and call issues are resolved.  To reiterate what I said on the pitch threads, I am not attached at all to the details of the two pitches themselves, I simply want the problems they address to be solved.
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> Finally, of course I also welcome questions and feedback on the actual approach, naming, and other suggestions to improve the model!  Thanks,
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i> -Chris
+</I>&gt;&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> swift-evolution mailing list
+</I>&gt;<i> <A HREF="https://lists.swift.org/mailman/listinfo/swift-evolution">swift-evolution at swift.org</A>
+</I>&gt;<i> <A HREF="https://lists.swift.org/mailman/listinfo/swift-evolution">https://lists.swift.org/mailman/listinfo/swift-evolution</A>
+</I>
+</PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="042047.html">[swift-evolution] [Pitch] Generalized supertype constraints
+</A></li>
+	<LI>Next message: <A HREF="042034.html">[swift-evolution] Core Team vs Random number API discussion
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42029">[ date ]</a>
+              <a href="thread.html#42029">[ thread ]</a>
+              <a href="subject.html#42029">[ subject ]</a>
+              <a href="author.html#42029">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.swift.org/mailman/listinfo/swift-evolution">More information about the swift-evolution
+mailing list</a><br>
+</body></html>

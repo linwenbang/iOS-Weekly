@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>simctl - NSHipster</title>
+    <meta name="description" content="With a mouse, anyone can use a computer, even if they aren't a "computer person".  ...though, if you _are_ a "computer person", you use keyboard shortcuts for most operations, and automate the rest from the Terminal."/>
+    <link rel="canonical" href="https://nshipster.com/simctl/"/>
+    <meta name="revisit-after" content="7 days"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="alternate" type="application/atom+xml" title="NSHipster Atom Feed" href="/feed.xml"/>
+    <link rel="preload" as="font" href="/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2" type="font/woff2" crossorigin="anonymous" />
+    <style rel="stylesheet" type="text/css" integrity="sha256-GB6zv4eY5LHAXnwka4XIuiynYq1dPsuvZJezWwfWZdQ=" crossorigin="anonymous">
+      ﻿html{border-top:3px #ff8000 solid}html body{background-color:#fefefe;color:#282a36}#logo #ns{fill:#ff8000}a,a:visited{color:#ff8000}a:hover,a:visited:hover{text-decoration:none}@keyframes twirl{0%{transform:scale(1) rotate(0)}10%,20%{transform:scale(0.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.1) rotate(3deg)}40%,60%,80%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1) rotate(0)}}@font-face{font-family:"Merriweather";src:local("Merriweather Regular"),local("Merriweather-Regular"),url(/assets/Merriweather-Regular-e50fe78e902ad7649d2a9ec69a67c9a941657604540b0b077b720a0562072915.woff2) format("woff2"),url(/assets/Merriweather-Regular-4549033d084e479d2c53500851ca2e5fd43fd83ac4ae26445e0974ae73cd3d05.woff) format("woff");font-weight:normal;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light"),local("Merriweather-Light"),url(/assets/Merriweather-Light-c2ef5188a3d41db369bfec98586cacc22c1aefa23a02333101c05b6c7e35ed59.woff2) format("woff2"),url(/assets/Merriweather-Light-5d5f2b4aac0254b3ef80c3e04bcbbd021ab468e6205dade23a9943277ed2f15b.woff) format("woff");font-weight:300;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black"),local("Merriweather-Black"),url(/assets/Merriweather-Black-fd0c4da3e1b331a0f3c05ca30ef2f73d3248c19377f0e347bbd27f5ca3ace049.woff2) format("woff2"),url(/assets/Merriweather-Black-0abb3a596dcef7e60a0ce4000352ae834fa7e6f49f48f1f568dd1b16db037faa.woff) format("woff");font-weight:900;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold"),local("Merriweather-Bold"),url(/assets/Merriweather-Bold-66b60fab0c23051945cad3a206665130e9a8742ad25afc03675df8e30f9bd1f1.woff2) format("woff2"),url(/assets/Merriweather-Bold-91e91f3c9d8e79d7f50076508c711118d17335ad0d8adaaed9e82e7e0c88f2a3.woff) format("woff");font-weight:bold;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black Italic"),local("Merriweather-BlackItalic"),url(/assets/Merriweather-BlackItalic-78fadd58be94cb66b7b96e9368a431cb7ba39853c24dfbac96af11b2566cc80a.woff2) format("woff2"),url(/assets/Merriweather-BlackItalic-25d34bcb442b873300a27a1fda06b53db76b343b21b1d2967ebf8d50fc98820c.woff) format("woff");font-weight:900;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Italic"),local("Merriweather-Italic"),url(/assets/Merriweather-Italic-c8cb2c6ad2cb79fd515ac3eef6b70c481f0641f344e3e7154324eab0d9b442e7.woff2) format("woff2"),url(/assets/Merriweather-Italic-2ff5301c0bc5e6bb36aa90461a2778925615296b30cb68de03adfbe30f3ba034.woff) format("woff");font-weight:normal;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold Italic"),local("Merriweather-BoldItalic"),url(/assets/Merriweather-BoldItalic-6555d0e597bb610c9885788f6ea9fcc1bdc2cdb1a27d6fa789b26286f0236d96.woff2) format("woff2"),url(/assets/Merriweather-BoldItalic-c5af58f9b3ca849796e320463efb479012c8da669fade00fb76169e37ec6b408.woff) format("woff");font-weight:bold;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light Italic"),local("Merriweather-LightItalic"),url(/assets/Merriweather-LightItalic-83b26b2f59b0bbd312f3f4b8551f5295a64cbc9645711d6b006faaa79c7753d3.woff2) format("woff2"),url(/assets/Merriweather-LightItalic-1f79f78c181a7a35d38ed8a5bee789c2680726e3b74ddaebc3486af3af749235.woff) format("woff");font-weight:300;font-style:italic;font-display:optional}@font-face{font-family:'Batang';src:url(/assets/Batang-bbbbbe277f4e2bd33819a38b51e599824aed97db7b51b0aa6bf683bf40b171ce.woff2) format("woff2"),url(/assets/Batang-d1c9b135751404713e2fdc6fcd9f6d9d534d2a8bfc11e57fe05a7aa13e883838.woff) format("woff");font-weight:normal;font-style:normal;font-display:auto;unicode-range:U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF}html,body{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-size:15pt;line-height:1.5;font-weight:300;font-kerning:normal;-webkit-font-kerning:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}html[lang="ko-KR"] body{font-family:"Batang", "Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:lighter}html[lang="ko-KR"] a.readmore,html[lang="ko-KR"] section>h1,html[lang="ko-KR"] article p em,html[lang="ko-KR"] article p dfn,html[lang="ko-KR"] cite,html[lang="zh-Hans"] a.readmore,html[lang="zh-Hans"] section>h1,html[lang="zh-Hans"] article p em,html[lang="zh-Hans"] article p dfn,html[lang="zh-Hans"] cite{font-style:normal;font-weight:bold}html[lang="ko-KR"] [role="article"] header .byline,html[lang="zh-Hans"] [role="article"] header .byline{font-style:normal}html[lang="ko-KR"] .archive ol li time,html[lang="ko-KR"] .archive ul li time,html[lang="zh-Hans"] .archive ol li time,html[lang="zh-Hans"] .archive ul li time{font-style:normal;font-weight:bold}html[lang="ko-KR"] #promotion h4,html[lang="zh-Hans"] #promotion h4{font-style:normal;font-weight:bold}html[lang="ko-KR"] .highlight span,html[lang="zh-Hans"] .highlight span{font-style:normal !important}h1,h2,h3,h4,h5,h6{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";line-height:1.1em;margin:0 0 1rem 0}h1{font-size:2.5em}h2{font-size:2em}h3{font-size:1.5em}h4{font-size:1.25em}h5{font-size:1.125em}h6{font-size:1em}p{margin:0 0 1rem 0}a{-webkit-transition:color 0.1s linear;-moz-transition:color 0.1s linear;transition:color 0.1s linear;text-decoration:none}a:hover{text-decoration:underline}a:active,a:focus{outline:none}a code{white-space:nowrap}p>small{font-size:inherit;font-variant:small-caps;text-transform:lowercase}:not(pre)>code{user-select:all}a code,p code,li code,dd code,td code{background:#f8f8f2;padding:.25em;font-size:smaller;border-radius:3px}p code,li code,dd code,td code{color:#49178f}ol li,ul li{margin-bottom:0.5em}pre{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}code,samp{font-family:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace}pre code,samp{font-size:smaller;line-height:1.1em}samp{white-space:pre;overflow:scroll;-webkit-overflow-scrolling:touch;display:block;padding:0.5em 0}section>h1{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:300;font-size:1.5em;text-align:center;margin-bottom:2rem;margin-top:2rem}article.excerpt h1{font-size:1.5em}a.readmore{font-style:italic}a:hover{text-decoration:underline}kbd{color:#282a36;background-color:#f8f8f2;border-radius:3px;border:1px solid #747683;box-shadow:0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin:0 .1em;padding:.1em .6em;text-transform:lowercase}.placeholder{background:#f8f8f2;display:inline-block;padding:0 0.25em;border:1px #282a36 solid;border-radius:5px;font-style:normal}.highlight .placeholder{background:transparent;border-color:#f8f8f2}h1:hover .anchor::before,h2:hover .anchor::before,h3:hover .anchor::before,h4:hover .anchor::before,h5:hover .anchor::before,h6:hover .anchor::before{opacity:1}.title{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700}.anchor::before{content:"#";opacity:0;transition:300ms opacity;position:absolute;float:left;margin-left:-1.5em;padding:0 0.5em;color:#747683 !important;text-decoration:none}.anchor::before :focus{outline:none}.tagline{font-size:1.5em}#latest small,#announcement small{font-style:italic}[role="article"] header h1{font-size:3.5em;line-height:1;margin-bottom:0.5rem;padding:0.5rem 0}#archive dd{font-size:smaller;display:list-item;list-style:circle}.admonition{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";border-left-width:4px;border-left-style:solid;padding:5px 40px;margin:1.5em 0;display:block;clear:both;overflow:visible}.admonition p{margin:0.5em 0;font-size:smaller}.admonition pre code{font-size:small}.admonition.info{background:#edf5fa;border-color:#4DAAFC}.admonition.info a{color:#0088ff}.admonition.info:before{content:" ";background-image:url(/assets/info-f73d3a68c0c3bfa07e64909be26a8d512c2d50bf2729bf30f76d8b63250d0671.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.warning{background:#fcfaf6;border-color:#F9D780}.admonition.warning a{color:#f0b112}.admonition.warning:before{content:" ";background-image:url(/assets/warning-47e47a5723ab3badf6c9352852c0acbe46a94b493175685797a01b7a2c832fc4.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.error{background:#fcf2f6;border-color:#f5569d}.admonition.error a{color:#e62279}.admonition.error:before{content:" ";background-image:url(/assets/error-0950677a2585decd810c2737096155b036dee719e35feb1c0c6ade04202daafc.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}@font-face{font-family:"NSHipster Icons";font-style:normal;font-weight:700;font-display:block;src:url(/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2) format("woff2"),url(/assets/nshipster-743868430209628f9d7933ea65c7e31cdf597e9a27d01d372c33fc501f4c6722.woff) format("woff")}[class^="icon-"],[class*=" icon-"]{font-family:"NSHipster Icons" !important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-warning:before{content:"\e900"}.icon-error:before{content:"\e901"}.icon-info:before{content:"\e902"}.icon-podcasts:before{content:"\e903"}.icon-wechat:before{content:"\e904"}.icon-sinaweibo:before{content:"\e905"}.icon-feed:before{content:"\e906"}.icon-youtube:before{content:"\e908"}.icon-apple:before{content:"\f8ff"}.icon-facebook:before{content:"\e90a"}.icon-github:before{content:"\e90b"}.icon-twitter:before{content:"\e90c"}.icon-googleplus:before{content:"\e90d"}.icon-swift:before{content:"\e90e"}.icon-nc:before{content:"\e90f"}.icon-cc:before{content:"\e907"}.icon-by:before{content:"\e911"}.icon-command:before{content:"\2318"}.icon-shift:before{content:"\21e7"}.icon-ctrl:before{content:"\2303"}.icon-opt:before{content:"\2325"}html,body{margin:0}body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);border-top:3px #ff8000 solid}hr{border:none;margin:1em 0;padding:1em 0;display:block}img{margin:0;max-width:100%}video{margin:0 auto;max-width:100%;display:block}blockquote{border-left:2px solid #ddd;color:#595959;margin:1.5em 0;padding-left:0.75em}cite{color:#737373;font-style:italic}cite:before{content:"— "}table{border-collapse:collapse;margin:0.75em 0;table-layout:fixed;width:100%}th{border-bottom:1px solid #b7b7b7;font-weight:bold;padding:0.75em 0;text-align:left}td{border-bottom:1px solid #ddd;padding:0.75em 0}tr,td,th{vertical-align:middle}ul,ol{margin:0;padding:0;list-style-type:none}dl{margin-bottom:0.75em}dl dt{font-weight:bold;margin:1em 0}dl dd{margin:0 0 0.25rem 1em}.container{max-width:100%;margin-left:auto;margin-right:auto;max-width:960px;margin:0 auto;padding:2em}.container:after{content:"";display:table;clear:both}.container section{display:block;max-width:100%;margin-left:auto;margin-right:auto;margin-bottom:2em;padding-bottom:1em}.container section:after{content:"";display:table;clear:both;content:"";display:table;clear:both}html[lang="fr-FR"] [role="banner"] #logo{margin-right:5.5em}html[lang="fr-FR"] [role="banner"] .tagline{font-size:1.33em}html[lang="zh-Hans"] [role="banner"] #logo{margin-right:9.5em}html[lang="zh-Hans"] [role="banner"] .tagline{font-size:1.75em;padding-bottom:1em}html[lang="ko-KR"] [role="banner"] .tagline{font-size:1.4em}[role="banner"]{display:flex;margin-bottom:1.5em;padding-bottom:1.5em}[role="banner"] #logo{display:block;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:1em;height:6em;margin:0.25em 6em 0 0}[role="banner"] #logo a{display:block}[role="banner"] #logo svg{width:146px;height:84px;overflow:visible;margin-left:-3px}[role="banner"] #logo svg #mustache{position:absolute;transform:rotate(0) scale(1);transform-origin:50% 70% 0;transition:transform 1s}[role="banner"] #logo svg:hover,[role="banner"] #logo svg.animated{position:relative;z-index:2}[role="banner"] #logo svg:hover #mustache,[role="banner"] #logo svg.animated #mustache{animation:twirl 1s ease-in-out}[role="banner"] .tagline{flex:1}#latest h1,#announcement h1{margin-bottom:0.5rem}#announcement{background-color:rgba(255,128,0,0.2);margin-left:-1em;margin-right:-1em;padding:1em}#recent ul{display:grid;grid-template-columns:repeat(3, 1fr);gap:1em 2em}#recent ul li{min-height:15em}#recent ul li .title{height:4em;font-size:1.75em;display:table-cell;line-height:1;vertical-align:bottom;padding-bottom:1em}#recent ul li p{font-size:smaller;display:-webkit-box;overflow:hidden;max-lines:5;-webkit-line-clamp:5;-webkit-box-orient:vertical;text-overflow:ellipsis}#merchandise{margin-top:-30px}#merchandise h1{margin-bottom:15px}#follow ul{float:left;display:block;margin-right:2.35765%;width:31.76157%}#follow ul:last-child{margin-right:0}#follow ul li{float:left;display:block;margin-right:7.42297%;width:19.43277%;font-size:2em}#follow ul li:last-child,#follow ul li:nth-of-type(4n){margin-right:0}#follow ul li a:hover{text-decoration:none}#follow form{float:left;display:block;margin-right:2.35765%;width:57.35098%;margin-left:8.5298%;margin-right:0}#follow form:last-child{margin-right:0}#follow form input[type="email"]{float:left;display:block;margin-right:3.57866%;width:61.158%}#follow form input[type="email"]:last-child{margin-right:0}#follow form input[type="submit"]{float:left;display:block;margin-right:3.57866%;width:35.26334%;border-radius:10px;background:#ff8000;font-size:0.75em;padding:15px 0}#follow form input[type="submit"]:last-child{margin-right:0}article.author,article.translator{padding-top:2em}article.author header,article.translator header{display:grid;grid-template:"avatar . title" "avatar . description";grid-template-columns:1fr 1em 3fr;grid-template-rows:1fr 2fr;gap:1em 1em;margin-bottom:1em;padding-bottom:1em}article.author header .avatar,article.translator header .avatar{grid-area:avatar}article.author header h1,article.translator header h1{grid-area:title}article.author header p,article.translator header p{grid-area:description}[role="article"]{margin-bottom:1em;overflow-x:hidden}[role="article"] table{overflow:scroll;-webkit-overflow-scrolling:touch;margin:2em 0}[role="article"] table caption{margin:2em 0 1em 0}[role="article"] header{display:block;text-align:center;margin-bottom:3em}[role="article"] header .byline{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;color:#a3a39e}[role="article"] header .byline a,[role="article"] header .byline span,[role="article"] header .byline time{white-space:nowrap}[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" — "}[role="article"] .content{margin-bottom:4em}[role="article"] .content h1,[role="article"] .content h2,[role="article"] .content h3,[role="article"] .content h4,[role="article"] .content h5{margin-top:2.5rem}[role="article"] .content object,[role="article"] .content embed,[role="article"] .content figure,[role="article"] .content svg{margin:1em auto;display:block;width:auto}[role="article"] .content img{margin:1em auto;display:block}[role="article"] .content ul,[role="article"] .content ol{margin:1.5em 0;padding:0 3em}[role="article"] .content ul ul,[role="article"] .content ul ol,[role="article"] .content ol ul,[role="article"] .content ol ol{margin-top:0.5em}[role="article"] .content ul li,[role="article"] .content ol li{list-style:disc}[role="article"] .content figure{text-align:center}[role="article"] .content ins{background-color:rgba(255,128,0,0.2);text-decoration:none}[role="article"] .content dl{padding:1em 0}[role="article"] .content blockquote{margin:2em;margin-right:4em;border-left:3px #ff8000 solid}[role="article"] .content blockquote cite{margin-top:1em;display:block}[role="article"] .content table thead th{text-align:center}[role="article"] .content table td{padding:1em}[role="article"] sup{font-size:50%;margin-right:-0.5em}[role="article"] footer .contributor{float:left;display:block;margin-right:2.35765%;width:48.82117%;padding:1em 0}[role="article"] footer .contributor:last-child,[role="article"] footer .contributor:nth-child(2n){margin-right:0}[role="article"] footer .contributor:nth-child(2n+1){clear:left}[role="article"] footer .contributor:only-child{width:100%}[role="article"] footer .contributor:only-child .avatar{padding:0 1em}[role="article"] footer .contributor .avatar{float:left;display:block;margin-right:4.82916%;width:30.11389%}[role="article"] footer .contributor .avatar:last-child{margin-right:0}[role="article"] footer .contributor .details{float:left;display:block;margin-right:4.82916%;width:65.05695%;margin-right:0;margin-top:1em}[role="article"] footer .contributor .details:last-child{margin-right:0}[role="article"] footer .contributor .details span{font-weight:700}[role="article"] footer .contributor .details p{font-size:0.75em;margin-top:1em}[role="article"] footer small{display:block;font-size:1em;font-weight:700;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin-bottom:1em}[role="complementary"]{border-top:1px #ddd solid;padding-top:2em}[role="contentinfo"]{text-align:center;margin-top:2em;padding:1em}[role="contentinfo"] section{margin-bottom:0;padding-bottom:0}.avatar{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;max-width:200px;max-height:200px;border-radius:50%;pointer-events:none;user-select:none}#contributors ul{display:flex;justify-content:center;align-content:space-between;flex-flow:row wrap}#contributors ul li{flex:0;display:block;margin-bottom:1em;flex-basis:20%}#contributors ul li .avatar{display:block;margin:0 auto 1em auto;width:70%}#contributors ul li a{text-align:center;display:block}.archive dl{float:left;display:block;margin-right:2.5%;width:30%}.archive dl:last-child,.archive dl:nth-of-type(3),.archive dl:nth-of-type(4),.archive dl:nth-of-type(6){margin-right:0}.archive ol,.archive ul{list-style:none}.archive ol li,.archive ul li{margin:2em 0}.archive ol span,.archive ol time,.archive ul span,.archive ul time{display:block}.archive ol time,.archive ul time{white-space:nowrap;font-style:italic;font-weight:300;margin-bottom:1em}#sharing ul{display:block;float:right}#sharing ul:after{content:"";display:table;clear:both}#sharing li{font-size:1.5em;display:block;margin:0.5em;float:left}#sharing li a:hover{text-decoration:none;color:#4c3150 !important}#publications .books{display:flex}#publications .book{flex:1}#publications .book img{display:block;margin:0 auto;width:200px;border:4px transparent solid;transition:0.25s ease-in-out border-color;filter:none !important}#publications .book img:hover{padding:0;border:4px #ff8000 solid}.tagline{clear:both;font-weight:300}.highlight-group{margin-top:1em}[role="tablist"]{display:flex;flex-direction:row;justify-content:flex-end;padding-right:3px}[role="tablist"] button{cursor:pointer;flex:0;padding-left:0.5em;color:#282a36 !important;text-decoration:none;transition:opacity 0.5s;background:transparent !important;padding:0;margin:0 0 0 0.5em}[role="tablist"] button:not([aria-selected="true"]){opacity:0.25}[role="tablist"] button:not([aria-selected="true"]):hover{opacity:0.5}[role="tablist"] button.active{opacity:1}[role="tablist"] button:focus{outline:thin dotted;outline-offset:2px}[role="tabpanel"]{margin-top:0.25em}[role="tabpanel"]:focus{outline:0}#promotion .book img{margin:0}#promotion h3{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}#promotion h4{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;margin-bottom:1em}#promotion p{font-size:0.75em}#promotion a.buy{background:#ff8000;border-radius:10px;color:#fff !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700;margin-top:1em;padding:15px;text-align:center;display:inline-block}#promotion a.buy:hover{text-decoration:none !important}#promotion.home{margin-top:-15px;padding:35px 44px;background:#eee;border-radius:20px}#promotion.home p{font-size:1em}#promotion.home small{display:block;font-size:1.2em;font-weight:700;margin-left:5px;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps}table#status{table-layout:fixed;margin-top:2em}table#status caption{padding:1em 0;color:#777}table#status .version{text-align:center}table#status .version em{color:#777}table#customplaygrounddisplayconvertible-categories{table-layout:auto}table#customplaygrounddisplayconvertible-categories tbody th{padding-left:10px;text-align:center}table#customplaygrounddisplayconvertible-categories ul{padding:0 0 0 20px}table#customplaygrounddisplayconvertible-categories ul li{margin:0}table#customplaygrounddisplayconvertible-categories td img{margin:0}@media screen and (max-width: 600px){table#customplaygrounddisplayconvertible-categories thead tr th:last-child,table#customplaygrounddisplayconvertible-categories tbody tr td:last-child{display:none}}.conversation{margin:1em auto;max-width:650px}.conversation:after{content:" ";display:block;clear:both}.conversation ruby{ruby-align:start;ruby-position:over;display:block;clear:both;max-width:550px}.conversation ruby.boke{float:left;text-align:left;margin-bottom:0.5em}.conversation ruby.tsukkomi{float:right;color:#ff8000;text-align:right;margin-bottom:1.5em}.highlight{background:#282a36;border:1px transparent solid;border-radius:5px;overflow:auto;padding:0.5em 1em;margin-bottom:1em}.highlight code{color:#f8f8f2;background:transparent !important}.highlight ::selection{color:inherit}.highlight ::-moz-selection{color:inherit}.highlight .hll,.highlight .s,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .dl,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx,.highlight .sr,.highlight .s1,.highlight .ss{color:#f1fa8c}.highlight .go{color:#747683}.highlight .err,.highlight .g,.highlight .l,.highlight .n,.highlight .x,.highlight .p,.highlight .ge,.highlight .gr,.highlight .gh,.highlight .gi,.highlight .gp,.highlight .gs,.highlight .gu,.highlight .gt,.highlight .ld,.highlight .no,.highlight .nd,.highlight .ni,.highlight .ne,.highlight .nn,.highlight .nx,.highlight .py,.highlight .w,.highlight .bp{color:#f8f8f2}.highlight .gh,.highlight .gi,.highlight .gu{font-weight:bold}.highlight .ge{text-decoration:underline}.highlight .c,.highlight .ch,.highlight .cm,.highlight .cpf,.highlight .c1,.highlight .cs{color:#bfc6d8}.highlight .kd,.highlight .kt,.highlight .nb,.highlight .nl,.highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#8be9fd}.highlight .na,.highlight .nc,.highlight .nf,.highlight .fm{color:#ff8000}.highlight .k,.highlight .o,.highlight .cp,.highlight .kc,.highlight .kn,.highlight .kp,.highlight .kr,.highlight .nt,.highlight .ow{color:#ff79c6}.highlight .m,.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#bd93f9}.highlight .gd{color:#ff5555}.highlight[data-lang="JWT"]{white-space:pre-wrap}button,input[type="submit"]{-moz-appearance:none;-ms-appearance:none;-o-appearance:none;-webkit-appearance:none;-webkit-font-smoothing:antialiased;appearance:none;background-color:#ff8000;border-radius:5px;border:none;color:white;cursor:pointer;display:inline-block;font-size:1em;font-weight:bold;line-height:1;padding:0.75em 1em;text-decoration:none;transition:background-color 0.25s;user-select:none;vertical-align:middle;white-space:nowrap}button:hover,input[type="submit"]:hover{background-color:#cc6600;color:white}@media screen and (max-width: 768px){[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" ";display:block}.container{padding:1em}#recent ul{display:block}#recent ul li{min-height:auto;margin-bottom:2em}#recent ul li .title{display:block;height:auto;padding-bottom:0.5rem}#follow ul{width:100%}#follow form{width:100%;margin-left:0;margin-top:2em}[role="article"]{font-size:smaller}[role="article"] .content{overflow:hidden}[role="article"] .content blockquote{margin:1em 0}[role="article"] footer .contributor{width:100%;margin-bottom:1em}[role="article"] footer .contributor:not(:first-child){border-top:none}[role="article"] footer .contributor .avatar{padding:0}[role="article"] footer .contributor .details{margin-top:0}[role="complementary"] #continue,[role="complementary"] #related{width:100%}[role="complementary"] #related{margin-top:1em}[role="complementary"] #related li{font-size:1em}#sharing ul{width:100%}#sharing li{display:none !important;margin:0;float:left;display:block;margin-right:2.35765%;width:23.23176%}#sharing li:last-child,#sharing li:nth-child(4){margin-right:0}#sharing li:nth-child(5){clear:left}#sharing li a,#sharing li i{display:block;margin:0 auto;font-size:1.25em}#promotion .book img{margin:0 auto}#contributors ul li{flex-basis:33%}#recent article{float:none;display:block;width:100%}#recent article:last-child,#recent article:nth-of-type(2n){margin-right:0}.archive dl{width:100%;margin:0;float:none}.archive dl dt{margin:2em 0 0.5em 0}}@media screen and (max-width: 960px){[role="banner"]{display:block;margin-bottom:0;padding-bottom:0}[role="banner"] #logo{margin:0 !important;height:auto;padding-bottom:0.5em}[role="banner"] #logo svg{width:25vw;display:block;margin:0 auto 1.5em auto}[role="banner"] .tagline{font-size:4.4vw;padding-bottom:2em}#recent ul{grid-template-columns:repeat(2, 1fr)}.anchor{font-size:smaller}#announcement{margin-left:0;margin-right:0}article.author header,article.translator header{display:block}article.author header .avatar,article.translator header .avatar{margin:0 auto 1em auto;display:block}article.author header h1,article.translator header h1{text-align:center}}@media (hover: none){#logo #mustache{animation-iteration-count:1}}@media (inverted-colors){*{text-shadow:none !important;box-shadow:none !important}img{filter:invert(100%)}}@media (monochrome) and (false), print and (false), (prefers-contrast: high), screen and (-ms-high-contrast: active){html{border-top-color:black}html body{background:white}html body #logo a:hover{background:transparent !important}html body #logo #ns{fill:white;stroke:black;stroke-width:10px}html body #logo #mustache{fill:black}html body a{transition:none}html body a,html body a:visited{text-decoration:underline;color:black !important}html body a:hover{text-decoration:none}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6,html body p,html body li,html body dt,html body dd,html body span{color:black !important}html body div.highlight{color:black;background:#fff !important;border:2px black solid}html body div.highlight code,html body div.highlight code span{color:black !important}html body div.highlight .c,html body div.highlight .ch,html body div.highlight .cm,html body div.highlight .cpf,html body div.highlight .c1,html body div.highlight .cs,html body div.highlight .ge,html body div.highlight .s,html body div.highlight .sa,html body div.highlight .sb,html body div.highlight .sc,html body div.highlight .dl,html body div.highlight .sd,html body div.highlight .s2,html body div.highlight .sh,html body div.highlight .sx,html body div.highlight .sr,html body div.highlight .s1,html body div.highlight .ss{font-style:italic}html body div.highlight .k,html body div.highlight .gh,html body div.highlight .gp,html body div.highlight .gs,html body div.highlight .gu,html body div.highlight .kc,html body div.highlight .kd,html body div.highlight .kn,html body div.highlight .kr,html body div.highlight .nc,html body div.highlight .ni,html body div.highlight .ne,html body div.highlight .nn,html body div.highlight .nt,html body div.highlight .ow{font-weight:bold}html body div.highlight .se,html body div.highlight .si{font-weight:bold;font-style:italic}html body .admonition{background:white !important;border:2px black solid !important;border-radius:5px}html body .admonition:before{visibility:hidden}html body blockquote{border-left-color:black !important;color:black}}@media (prefers-color-scheme: dark){body{background:#2c2a28 !important;color:#f8f8f2 !important}body blockquote{color:#f8f8f2 !important}body div.highlight{border:1px #f8f8f2 solid !important}body .language-toggle a{color:#f8f8f2 !important}body .info{background:#333c44 !important}body .warning{background:#484131 !important}body .error{background:#592e41 !important}article img[src$=".svg"],i img[src$=".svg"]{filter:invert(100%)}kbd{color:#f8f8f2;background-color:#282a36;box-shadow:0 1px 0 rgba(255,255,255,0.2),0 0 0 2px #222 inset}.placeholder{color:#f8f8f2;background-color:#282a36;border-color:#f8f8f2}a>code,p>code,li>code,dd>code,td>code{background:#282a36}p code,li code,dd code,td code{color:#bd93f9}}@media (prefers-contrast: high), screen and (-ms-high-contrast: active){a{transition:none}a,a:visited{text-decoration:underline;color:black !important}h1,h2,h3,h4,h5,h6,p,li,dt,dd,span{color:black !important}h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,p a:hover,li a:hover,dt a:hover,dd a:hover,span a:hover{text-decoration:none;background:black;color:white !important}}@media (prefers-reduced-motion: reduce){#logo #mustache{animation:none !important}}@media print{@page{margin:0.5in}@page{@bottom-center{content:"Page " counter(page) " of " counter(pages);font-size:small}@footnote{border-top:1pt black solid;padding-top:1em;font-size:smaller;padding-left:1.5em}}html{border-top:none}html body{font-size:12pt !important}#logo{height:3em !important}#logo svg{transform:scale(0.5);transform-origin:top left}img,p,blockquote,aside,ul,ol,table,figure,.highlight-group{page-break-inside:avoid}.highlight-group{page-break-before:avoid}h1,h2,h3,h4,h5,h6{page-break-before:avoid;page-break-after:avoid}img{max-width:100% !important}p a{word-wrap:break-word}p a[href^="#"]:after{display:none}p a[href^="http://"]:after,p a[href^="https://"]:after{content:attr(href);float:footnote;color:#333;text-decoration:none;text-align:left;page-break-inside:avoid;page-break-before:avoid}article [title]::after{content:" (" attr(title) ") ";float:footnote}.highlight-group a{font-size:50%}div.highlight{border-radius:5px;border:2px black solid}[role="article"] .content{margin-bottom:1em !important}[role="complementary"]{display:none}[role="contentinfo"]{page-break-inside:avoid;font-size:small}.admonition{padding:0 0 0 1em}.admonition::before{visibility:hidden}}@media print and (color){*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}::selection{background:rgba(76,49,80,0.5);color:#ffffff}::-moz-selection{background:rgba(76,49,80,0.5);color:#ffffff}#type-encodings tr>td:first-child,#method-encodings tr>td:first-child{width:12em;padding-left:3em}@media screen and (max-width: 480px){#gpuimage table{font-size:50%}}#gpuimage #gpuimage-benchmarks td{text-align:center}#gpuimage #gpuimage-benchmarks td:first-child{text-align:left}#gpuimage #gpuimage-benchmarks td:last-child{text-align:right}#gpuimage #gpuimage-filters td{vertical-align:top;font-size:75%}#gpuimage blockquote{font-size:75%}table.core-data-versus-nskeyedarchiver td{text-align:center}table.core-data-versus-nskeyedarchiver td:first-child{text-align:left;font-weight:bold}table#xcode-key-bindings-modifiers{width:100%}table#xcode-key-bindings-modifiers td,table#xcode-key-bindings-modifiers th{width:20%;text-align:center}#cfstringtransform table{display:block}#cfstringtransform table td:first-child{width:60%}#icloud header time{background-color:rgba(255,128,0,0.2)}
+      /*# sourceMappingURL=/assets/source-maps/screen.scss.map */
+      /*# sourceURL=assets/css/screen.scss */
+    </style>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#292724"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="NSHipster"/>
+    <meta name="application-name" content="NSHipster"/>
+    <meta name="msapplication-TileColor" content="#f8f7f5"/>
+    <meta name="theme-color" content="#f8f7f5"/>
+    <link rel="author" type="text/plain" href="/humans.txt"/>
+    <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@NSHipster"/>
+    <meta name="twitter:title" content="simctl"/>
+    <meta name="twitter:description" content="With a mouse, anyone can use a computer, even if they aren’t a “computer person”.  …though, if you are a “computer person”, you use keyboard shortcuts for most operations, and automate the rest from the Terminal.
+"/>
+    <meta name="twitter:label1" value="Category" />
+    <meta name="twitter:data1" value="Xcode" />
+    <meta name="twitter:account_id" content="629523445"/>
+    <meta property="og:site_name" content="NSHipster"/>
+    <meta property="og:image" content="https://nshipster.com/logo.png"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="simctl"/>
+    <meta property="og:url" content="https://nshipster.com/simctl/"/>
+    <meta property="og:description" content="With a mouse, anyone can use a computer, even if they aren’t a “computer person”.  …though, if you are a “computer person”, you use keyboard shortcuts for most operations, and automate the rest from the Terminal.
+"/>
+    <meta property="article:published_time" content="2018-11-26T00:00:00-08:00"/>
+    <meta property="article:modified_time" content="2019-04-02T08:39:53-07:00"/>
+    <meta property="article:tag" content="Xcode"/>
+    <meta property="article:publisher" content="https://www.facebook.com/NSHipster">
+    <link rel="next" href="https://nshipster.com/homebrew/" />
+    <link rel="prev" href="https://nshipster.com/vscode/" />
+  </head>
+  <body>
+    <div class="container">
+      <header role="banner">
+        <h1 id="logo">
+          <a href="/" title="NSHipster">
+            <?xml version="1.0"?>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.4 266.34">
+                <g id="ns">
+                  <path d="M16.05 5.37h68.38l88.78 157.52h.72V5.37h62.64V261H168.2L79.42 101.67h-.72V261H16.05z"/>
+                  <path d="M294.78 175.06c1.43 30.07 20 39.73 48.33 39.73 20 0 40.81-7.16 40.81-26.13 0-22.55-36.52-26.85-73.39-37.23-36.52-10.38-74.82-26.85-74.82-73.75C235.71 21.84 291.91 0 339.88 0c50.84 0 102 24.7 102.39 82.34h-66.59c1.08-23.27-20.76-30.79-41.17-30.79-14.32 0-32.21 5-32.21 21.84 0 19.69 36.87 23.27 74.1 33.65 36.87 10.38 74.1 27.56 74.1 73.74 0 64.8-55.13 85.56-111.33 85.56-58.71 0-110.62-25.77-111-91.28z"/>
+                </g>
+                <g id="mustache">
+                  <path d="M168.07 104.61c-59.6 3-113.84 79.27-168.07 12.52 0 90 141.25 181.77 237.2 97.14 95.36 84 237.2-7.75 237.2-97.14-74.5 91.78-149-85.83-237.2 26.81-23.84-31.58-47.08-40.52-69.13-39.33z"/>
+                </g>
+              </svg>
+            </a>
+          </h1>
+        </header>
+        <main>
+          <article role="article" itemscope itemtype="https://schema.org/Article">
+            <header role="heading">
+              <h1 class="title" itemprop="name">
+                <a href="/simctl/">simctl</a>
+              </h1>
+              <div class="byline">
+                Written by
+                <span class="authors">
+                  <a class="author" href="/authors/mattt/">Mattt</a>
+                </span>
+                <time datetime="2018-11-26T00:00:00-08:00" itemprop="datePublished">November 26<sup>th</sup>, 2018</time>
+                <time datetime="2018-11-26T00:00:00-08:00" itemprop="dateModified" hidden aria-hidden="true">November 26<sup>th</sup>, 2018</time>
+              </div>
+              <link itemprop="image" href="https://nshipster.com/logo.png"/>
+              <meta itemprop="headline" content="simctl"/>
+              <div itemprop="publisher" itemscope itemtype="http://schema.org/Organization" hidden aria-hidden="true">
+                <meta itemprop="name" content="NSHipster"/>
+                <meta itemprop="logo" content="https://nshipster.com/logo.png"/>
+              </div>
+            </header>
+            <div class="content" itemprop="articleBody">
+              <p>At the heart of Apple’s creation myth
+                is the story of Steve Jobs’ visit to Xerox PARC in 1979.
+                So inspired by the prototype for the Alto computer was he, that —
+                like <a href="https://en.wikipedia.org/wiki/Prometheus" rel="noopener noreferrer">Prometheus</a> —
+                Steve Jobs would steal <em>fire from the gods</em> and bring it to the masses
+                by way of the Lisa and Macintosh computers a few years later.</p>
+              <p>Like so many creation myths,
+                this one is based on
+                <a href="https://web.stanford.edu/dept/SUL/sites/mac/parc.html" rel="noopener noreferrer">dubious historical authenticity</a>.
+                But this is the story we like to tell ourselves
+                because the mouse and graphical user interfaces were indeed revolutionary.
+                With a mouse, anyone can use a computer,
+                even if they aren’t a “computer person”.</p>
+              <p>…though, if you <em>are</em> a “computer person”,
+                you probably use keyboard shortcuts for your most frequent operations,
+                like saving with <kbd>⌘</kbd><kbd>S</kbd> instead of File &gt; Save.
+                More adventurous folks may even venture into the Utilities folder
+                and bravely copy-paste commands into Terminal
+                for one-off tasks like bulk renaming.
+                This is how many programmers get their start;
+                once you see the power of automation,
+                it’s hard not to extend that to do more and more.</p>
+              <p>Which brings us to today’s subject:
+                If you make apps,
+                you spend a good chunk of your time in Xcode
+                with Simulator running in the background.
+                After <a href="https://help.apple.com/simulator/mac/current/#/deve44b57b2a" rel="noopener noreferrer">exploring the basic functionality of Simulator</a>,
+                you might feel compelled to automate the more time-consuming tasks.
+                The <code>simctl</code> command-line tool provides you the interface you need
+                to use and configure Simulator in a programmatic way.</p>
+              <hr>
+              <p>If you have Xcode installed,
+                <code>simctl</code> is accessible through the <code>xcrun</code> command
+                (which routes binary executables to the active copy of Xcode on your system).
+                You can get a description of the utility
+                and a complete list of subcommands by running <code>simctl</code>
+                without any arguments:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl
+</code></pre>
+              <p>Many of these subcommands are self-explanatory
+                and offer a command-line interface to functionality
+                accessible through the Simulator app itself.
+                However, the best way to understand how they all work together
+                is to start with the <code>list</code> subcommand.</p>
+              <h2>
+                <a class="anchor" aria-hidden="true" id="managing-simulator-devices" href="#managing-simulator-devices"></a>Managing Simulator Devices</h2>
+              <p>Run the <code>list</code> subcommand to get a list of the available
+                runtimes, device types, devices, and device pairs:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl list
+<span class="go">-- i<wbr></wbr>OS 12.1 --
+    i<wbr></wbr>Phone 5s (CC96B643-067E-41D5-B497-1AFD7B3D0A13) (Shutdown)
+    i<wbr></wbr>Phone 6 (7A27C0B9-411A-4BCD-8A67-68F00DF39C1A) (Shutdown)
+    i<wbr></wbr>Phone 6 Plus (A5918644-8D46-4C67-B21E-68EA25997F91) (Shutdown)
+    i<wbr></wbr>Phone 6s (1AB5A4EB-2434-42E4-9D2C-42E479CE8BDC) (Shutdown)
+…
+</span></code></pre>
+              <p>Each device has an associated
+                <a href="https://nshipster.com/uuid-udid-unique-identifier/">UUID</a>.
+                You pass this to any of the <code>simctl</code> subcommands that take a device parameter.</p>
+              <p>One such subcommand is <code>boot</code>,
+                which starts up the specified device,
+                making it available for interaction:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl boot <span class="nv">$UUID</span>
+</code></pre>
+              <aside class="admonition info">
+                <p>Once you’ve booted a device,
+                  you can pass the string <code>"booted"</code> instead of the UUID
+                  for subcommands that operate on a particular a device.
+                  If you pass <code>"booted"</code> when multiple devices are booted,
+                  <code>simctl</code> chooses one of them.</p>
+              </aside>
+              <p>To see the booted simulator in action,
+                open the Simulator app with the <code>open</code> command, like so:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/
+</code></pre>
+              <p>You can see which devices are booted
+                by redirecting the output of <code>list</code> to a <code>grep</code> search for the term “Booted”:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl list | <span class="nb">grep </span>Booted
+<span class="go">i<wbr></wbr>Phone X (9FED67A2-3D0A-4C9C-88AC-28A9CCA44C60) (Booted)
+</span></code></pre>
+              <p>To isolate the device identifier,
+                you can redirect to <code>grep</code> again to search for a UUID pattern:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl list devices | <span class="se">\</span>
+    <span class="nb">grep</span> <span class="s2">"(Booted)"</span>         | <span class="se">\</span>
+    <span class="nb">grep</span> <span class="nt">-E</span> <span class="nt">-o</span> <span class="nt">-i</span> <span class="s2">"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})"</span>
+<span class="go">9FED67A2-3D0A-4C9C-88AC-28A9CCA44C60
+</span></code></pre>
+              <p>Pass the <code>--json</code> or <code>-j</code> option to <code>list</code> and other subcommands
+                to format output as JSON.
+                Having a structured representation of resources like this is convenient
+                when you’re writing scripts or programs for managing simulators.</p>
+              <div class="highlight-group">
+                <div role="tablist" aria-label="Languages">
+                  <button role="tab" id="code-listing-1-terminal-tab" class="terminal" aria-label="Languages" aria-controls="code-listing-1-terminal" aria-selected="true" tabindex="-1">
+                    Terminal
+                  </button>
+                  <button role="tab" id="code-listing-1-json-tab" class="json" aria-label="Languages" aria-controls="code-listing-1-json" aria-selected="false" tabindex="-1">
+                    JSON
+                  </button>
+                </div>
+                <pre class="highlight" data-lang="Terminal" id="code-listing-1-terminal" role="tabpanel" tabindex="0" aria-labelledby="code-listing-1-terminal-tab"><code><span class="gp">$</span> xcrun simctl list <span class="nt">--json</span>
+</code></pre>
+                <pre class="highlight" data-lang="JSON" id="code-listing-1-json" role="tabpanel" tabindex="0" aria-labelledby="code-listing-1-json-tab" hidden="hidden"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"devicetypes"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="err">…</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"i<wbr></wbr>Phone X"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"bundle<wbr></wbr>Path"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\/</span><span class="s2">Applications</span><span class="se">\/</span><span class="s2">Xcode-beta.app</span><span class="se">\/</span><span class="s2">Contents</span><span class="se">\/</span><span class="s2">Developer</span><span class="se">\/</span><span class="s2">Platforms</span><span class="se">\/</span><span class="s2">i<wbr></wbr>Phone<wbr></wbr>OS.platform</span><span class="se">\/</span><span class="s2">Developer</span><span class="se">\/</span><span class="s2">Library</span><span class="se">\/</span><span class="s2">Core<wbr></wbr>Simulator</span><span class="se">\/</span><span class="s2">Profiles</span><span class="se">\/</span><span class="s2">Device<wbr></wbr>Types</span><span class="se">\/</span><span class="s2">i<wbr></wbr>Phone X.simdevicetype"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"identifier"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"com.apple.Core<wbr></wbr>Simulator.Sim<wbr></wbr>Device<wbr></wbr>Type.i<wbr></wbr>Phone-X"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">…</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+              </div>
+              <p>When you’re finished with a device,
+                you can shut down and erase its contents
+                using the <code>shutdown</code> and <code>erase</code> subcommands:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl shutdown <span class="nv">$UUID</span>
+<span class="gp">$</span> xcrun simctl erase <span class="nv">$UUID</span>
+</code></pre>
+              <aside class="admonition info">
+                <p>If you work a lot with Simulator (and have done so for a while),
+                  you’ve probably accumulated a sizable cache of old devices —
+                  many of which may not be usable in the latest versions of iOS.
+                  If this sounds familiar, running the following command
+                  could save you a few gigabytes of disk space:</p>
+                <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl delete unavailable
+</code></pre>
+              </aside>
+              <h2>
+                <a class="anchor" aria-hidden="true" id="copying--pasting-between-desktop-and-simulator" href="#copying--pasting-between-desktop-and-simulator"></a>Copying &amp; Pasting Between Desktop and Simulator</h2>
+              <p>It’s easy to feel “trapped” when using Simulator,
+                unable to interact directly with the OS as you would any other app.
+                Recent versions of Simulator have improved this
+                by allowing you to automatically synchronize pasteboards
+                between desktop and simulated device.
+                But sometimes it’s more convenient to do this programmatically,
+                which is when you’ll want to break out the <code>pbcopy</code> and <code>pbpaste</code> subcommands.</p>
+              <p>Be aware that the semantics of these subcommands
+                might be opposite of what you’d expect:</p>
+              <ul>
+                <li>
+                  <code>pbpaste</code> takes the pasteboard contents of the Simulator
+                  and copies them to the desktop’s main pasteboard</li>
+                <li>
+                  <code>pbcopy</code> takes the main pasteboard contents from your desktop
+                  and copies them to the pasteboard of the device in the Simulator</li>
+              </ul>
+              <p>For example,
+                if you wanted to copy the contents of a file on my Desktop
+                to the pasteboard of a simulated device,
+                you’d use the <code>pbpaste</code> subcommand like so:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> pbcopy ~/Desktop/file.txt
+<span class="gp">$</span> xcrun simctl pbpaste booted
+</code></pre>
+              <p>After running these commands,
+                the contents of <code>file.txt</code> will be used
+                the next time you paste in Simulator.</p>
+              <h3>
+                <a class="anchor" aria-hidden="true" id="opening-urls-in-simulator" href="#opening-urls-in-simulator"></a>Opening URLs in Simulator</h3>
+              <p>You can use the <code>openurl</code> subcommand
+                to have Simulator open up the specified URL
+                on a particular device.</p>
+              <p>This URL may be a webpage,
+                like <a href="/simctl/">this one</a>:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl openurl booted <span class="s2">"https://nshipster.com/simctl"</span>
+</code></pre>
+              <p>…or it can be a custom scheme associated with an app,
+                such as <code>maps://</code> for Apple Maps:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl openurl booted maps://?s<span class="o">=</span>Apple+Park
+</code></pre>
+              <h3>
+                <a class="anchor" aria-hidden="true" id="add-to-photo-stream" href="#add-to-photo-stream"></a>Add to Photo Stream</h3>
+              <p>We’ve all been there before:
+                developing a profile photo uploader
+                and becoming all-too-familiar with the handful of photos
+                of flora from San Francisco and Iceland that come pre-loaded on Simulator.</p>
+              <p>Fortunately, you can mix things up
+                by using the <code>addmedia</code> subcommand
+                to add a photo or movie to the Photos library of the specified simulator:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl addmedia booted ~/Desktop/mindblown.gif
+</code></pre>
+              <p>Alternatively,
+                you can drag and drop files from Finder into the Photos app in Simulator
+                to achieve the same effect.</p>
+              <h3>
+                <a class="anchor" aria-hidden="true" id="capture-video-recording-from-simulator" href="#capture-video-recording-from-simulator"></a>Capture Video Recording from Simulator</h3>
+              <p>Sure, you can use the global macOS shortcut
+                to capture a screenshot of a simulator
+                (<kbd>⇧</kbd><kbd>⌘</kbd><kbd>4</kbd>),
+                but if you intend to use those for your App Store listing,
+                you’re much better off using the <code>io</code> subcommand:</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl io booted screenshot app-screenshot.png
+</code></pre>
+              <p>You can also use this subcommand to capture a video
+                as you interact with your app from the simulator
+                (or don’t, in the case of automated UI tests):</p>
+              <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> xcrun simctl io booted record<wbr></wbr>Video app-preview.mp4
+</code></pre>
+              <aside class="admonition info">
+                <p>If you’re a detail-oriented person,
+                  you likely have strong feelings about
+                  what shows up in the status bar for your app screenshots.
+                  With
+                  <a href="https://github.com/shinydevelopment/SimulatorStatusMagic" rel="noopener noreferrer">SimulatorStatusMagic</a>,
+                  you can ensure that it’s always 9:41 AM
+                  and your device has 100% battery and full cellular and Wi-Fi signal bars.</p>
+              </aside>
+              <h2>
+                <a class="anchor" aria-hidden="true" id="setting-simulator-locale" href="#setting-simulator-locale"></a>Setting Simulator Locale</h2>
+              <p>One of the most arduous tasks for developers localizing their app
+                is switching back and forth between different locales.
+                This process typically involves manually tapping into the Settings app,
+                navigating to General &gt; Language &amp; Region
+                selecting a region from a long modal list
+                and then waiting for the device to restart.
+                Each time takes about a minute —
+                or maybe longer if you’re switching back from an unfamiliar locale
+                (<span lang="zh-Hans">你懂中文吗？</span>)</p>
+              <p>But knowing how simulators work in Xcode lets you automate this process
+                in ways that don’t directly involve <code>simctl</code>.</p>
+              <p>For example,
+                now that you know that each simulator device has a UUID,
+                you can now find the data directory for a device in <code>~/Library/Developer/Core<wbr></wbr>Simulator/Devices/</code>.
+              The simulator preferences file
+              <code>data/Library/Preferences/.Global<wbr></wbr>Preferences.plist</code>
+            contains a number of global settings
+            including current locale and languages.</p>
+          <p>You can see the contents of this using the <code>plutil</code> command:</p>
+          <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> plutil <span class="nt">-p</span> ~/Library/Developer/Core<wbr></wbr>Simulator/Devices/<span class="nv">$UUID</span>/data/Library/Preferences/.Global<wbr></wbr>Preferences.plist
+</code></pre>
+          <p>Here’s what you might expect, in JSON format:</p>
+          <pre class="highlight" data-lang="JSON"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"Adding<wbr></wbr>Emoji<wbr></wbr>Keybord<wbr></wbr>Handled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Apple<wbr></wbr>Languages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"en"</span><span class="p">],</span><span class="w">
+  </span><span class="s2">"Apple<wbr></wbr>Locale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en_US"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Apple<wbr></wbr>ITunes<wbr></wbr>Store<wbr></wbr>Item<wbr></wbr>Kinds"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">…</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"Apple<wbr></wbr>Keyboards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"en_US@sw=QWERTY;hw=Automatic"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"emoji@sw=Emoji"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"en_US@sw=QWERTY;hw=Automatic"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"Apple<wbr></wbr>Keyboards<wbr></wbr>Expanded"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Apple<wbr></wbr>Passcode<wbr></wbr>Keyboards"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"en_US"</span><span class="p">,</span><span class="w"> </span><span class="s2">"emoji"</span><span class="p">],</span><span class="w">
+  </span><span class="s2">"AKLast<wbr></wbr>IDMSEnvironment"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"PKKeychain<wbr></wbr>Version<wbr></wbr>Key"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+          <p>You can use the <code>plutil</code> command again
+            to modify the preferences programmatically.
+            For example, the following shell script
+            changes the current locale and language to Japanese:</p>
+          <pre class="highlight" data-lang="language-bash highlighter-rouge"><code><span class="nv">PLIST</span><span class="o">=</span>~/Library/Developer/Core<wbr></wbr>Simulator/Devices/<span class="nv">$UUID</span>/data/Library/Preferences/.Global<wbr></wbr>Preferences.plist
+
+<span class="nv">LANGUAGE</span><span class="o">=</span><span class="s2">"ja"</span>
+<span class="nv">LOCALE</span><span class="o">=</span><span class="s2">"ja_JP"</span>
+
+plutil <span class="nt">-replace</span> Apple<wbr></wbr>Locale <span class="nt">-string</span> <span class="nv">$LOCALE</span> <span class="nv">$PLIST</span>
+plutil <span class="nt">-replace</span> Apple<wbr></wbr>Languages <span class="nt">-json</span> <span class="s2">"[ </span><span class="se">\"</span><span class="nv">$LANGUAGE</span><span class="se">\"</span><span class="s2"> ]"</span> <span class="nv">$PLIST</span>
+</code></pre>
+          <p>You can use this same technique to adjust Accessibility settings
+            (<code>com.apple.Accessibility.plist</code>),
+            such as enabling or disabling Voice Over and other assistive technologies.</p>
+          <p>To get the full scope of all the available settings,
+            run <code>plutil -p</code> on all property lists in the preferences directory:</p>
+          <pre class="highlight" data-lang="Terminal"><code><span class="gp">$</span> plutil <span class="nt">-p</span> ~/Library/Developer/Core<wbr></wbr>Simulator/Devices/<span class="nv">$UUID</span>/data/Library/Preferences/<span class="k">*</span>.plist
+</code></pre>
+          <hr>
+          <p>At least some share of the credit for the popularity and success of iOS
+            as a development platform can be given to
+            the power and convenience provided by Simulator.</p>
+          <p>To be able to test your app on dozens of different devices and operating systems
+            is something that we might take for granted,
+            but is an order of magnitude better than the experience on other platforms.
+            And the further ability to script and potentially automate these interactions
+            makes for an even better developer experience.</p>
+        </div>
+        <footer role="complementary">
+          <section id="revisions">
+            <small>NSMutableHipster</small>
+            <p>
+              Questions? Corrections? <a href="https://github.com/NSHipster/articles/issues">Issues</a> and <a href="https://github.com/NSHipster/articles/blob/master/2018-11-26-simctl.md">pull requests</a> are always welcome.
+            </p>
+            <p class="status">
+            </p>
+          </section>
+          <section id="attribution">
+            <div class="contributor" itemprop="author" itemscope itemtype="https://schema.org/Person">
+              <small>Written by</small>
+              <img class="avatar" alt="Mattt" itemprop="image" src="/assets/mattt-93904827ef54896bb67f3a0d4abf548b9ecc93a51536bbc3326f24630512727d.jpg" draggable="false"/>
+              <div class="details">
+                <span itemprop="name"><a href="/authors/mattt/">Mattt</a></span>
+                <p><a href="https://github.com/mattt" rel="noopener noreferrer">Mattt</a> (<a href="https://twitter.com/mattt" rel="noopener noreferrer">@mattt</a>)
+                  is a writer and developer in Portland, Oregon.
+                  He is the founder of NSHipster and <a href="https://flight.school" rel="noopener noreferrer">Flight School</a>,
+                  and the creator of several open source libraries,
+                  including <a href="https://github.com/afnetworking/afnetworking" rel="noopener noreferrer">AFNetworking</a>
+                  and <a href="https://github.com/alamofire/alamofire" rel="noopener noreferrer">Alamofire</a>.</p>
+                <a href="https://plus.google.com/106751358503565042647?rel=author" rel="author"></a>
+              </div>
+            </div>
+          </section>
+          <section>
+            <div id="continue">
+              <small>Next Article</small>
+              <article>
+                <h1 class="title">
+                  <a rel="next" href="/homebrew/" title="Swift Program Distribution with Homebrew">Swift Program Distribution with Homebrew</a>
+                </h1>
+                <p>If you want your software to reach the largest audience on macOS, write and publish a Homebrew formula for it.</p>
+              </article>
+            </div>
+          </section>
+        </footer>
+      </article>
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@id": "https://nshipster.com",
+                "name": "Articles"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@id": "https://nshipster.com/simctl/",
+                "name": "simctl"
+              }
+            }
+          ]
+        }
+      </script>
+    </main>
+    <footer role="contentinfo">
+      <section class="credits colophon">
+        <p>
+          <i aria-hidden="true" class="icon-cc" title="Creative Commons"></i>
+          <i aria-hidden="true" class="icon-by" title="Attribution"></i>
+          <i aria-hidden="true" class="icon-nc" title="Non-Commercial"></i>
+          NSHipster.com is released under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">Creative Commons BY-NC License</a>.
+        </p>
+        <p>
+          NSHipster is also available in
+          <a href="https://nshipster.cn" hreflang="zh-Hans">Chinese (Simplified)</a>,
+          <a href="https://nshipster.co.kr" hreflang="ko">Korean</a>,
+          <a href="https://nshipster.fr" hreflang="fr">French</a>, and
+          <a href="https://nshipster.es" hreflang="es">Spanish</a>
+          .
+        </p>
+        <a href="https://plus.google.com/105091289906267717942" rel="publisher" hidden aria-hidden="true"></a>
+      </section>
+    </footer>
+  </div>
+  <script async="async" src="/assets/application-7c59b22d22e826c0d17fc358aa9a2008daa8b396741ab2ef1a854e4780b0c624.js" integrity="sha256-fFmyLSLoJsDRf8NYqpogCNqos5Z0GrLvGoVOR4CwxiQ=" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "NSHipster",
+      "legalName": "NSHipster, LLC",
+      "url": "https://nshipster.com",
+      "logo": "https://nshipster.com/logo.png",
+      "foundingDate": "2012",
+      "founders": [{
+        "@type": "Person",
+        "name": "Mattt"
+      }],
+      "sameAs": [
+        "https://twitter.com/nshipster",
+        "https://github.com/nshipster",
+        "https://plus.google.com/+NSHipster",
+        "https://www.facebook.com/NSHipster"
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://nshipster.com",
+      "name": "NSHipster",
+      "author": {
+        "@type": "Person",
+        "name": "Mattt"
+      },
+      "description": "NSHipster is a journal of the overlooked bits in Objective-C, Swift, and Cocoa. Updated weekly.
+    ",
+      "publisher": "Read Evaluate Press, LLC"
+    }
+  </script>
+<script type="application/cereal+json">
+    {
+        "endpoint": "https://analytics.nshipster.com/",
+        "property": 1
+    }
+</script>
+<script async defer src="https://analytics.nshipster.com/tracker.js"></script></body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <!-- Meta Tag -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO -->
+    <meta name="author" content="Bruno Rocha">
+    <meta name="keywords" content="iOS, Xcode, Swift, Articles, Tutorials, OBJ-C, Objective-C, Apple">
+    <meta name="description" content="Regular articles about the world of iOS development and the innards of the Swift programming language.">
+    <meta name="title" content="SwiftRocks - NSReverseEngineering">
+    <meta name="url" content="https://swiftrocks.com">
+    <meta name="image" content="https://swiftrocks.com/images/bg/swiftrockswithtext.png">
+    <meta name="copyright" content="Bruno Rocha">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:description" content="Regular articles about the world of iOS development and the innards of the Swift programming language.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://swiftrocks.com">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://swiftrocks.com/images/bg/swiftrockswithtext.png">
+    <meta name="twitter:title" content="SwiftRocks - NSReverseEngineering">
+    <meta name="twitter:description" content="Regular articles about the world of iOS development and the innards of the Swift programming language.">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon/favicon-2.ico">
+    <link rel="mask-icon" href="images/favicon/favicon-2.ico">
+    <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+    
+  <!-- All CSS Plugins --> 
+  <link rel="stylesheet" type="text/css" href="css/plugin.css"> 
+    <!-- Prism CSS Stylesheet --> 
+  <link rel="stylesheet" type="text/css" href="css/prism.css"> 
+  <!-- Main CSS Stylesheet --> 
+  <link rel="stylesheet" type="text/css" href="css/style18.css"> 
+  <!-- PT Sans --> 
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    
+    <!-- HTML5 shiv and Respond.js support IE8 or Older for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+	   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+
+  </head>
+
+ <body>
+      
+    
+    
+  <div id="main"> 
+   <div class="container"> 
+    <div class="row"> 
+     <!-- Blog Header --> 
+     <div class="blog-header">
+     <div class="blog-header-container">
+         <a href="https://swiftrocks.com">
+           <img src="images/bg/swiftrockswithtext.png" alt="SwiftRocks" style="height: 110px; margin-left: -8px; margin-right: 6px; margin-bottom: -18px;"> 
+         </a> 
+     </div> 
+   </div>
+     <!-- Blog Post (Right Sidebar) Start --> 
+                 <div class="col-sm-8">
+                    <div class="col-sm-12 page-body">
+                    	<div class="row">
+
+                            <div class="col-sm-12 content-page" id="writeit_dynamic_content"><title>Running Other Apps' Siri Shortcuts Through Deep Links in Swift - SwiftRocks</title>
+         <div class="col-md-12 blog-post"> 
+          <div class="post-title"> 
+           <h1>Running Other Apps' Siri Shortcuts Through Deep Links in Swift</h1> 
+          </div> 
+          <div class="post-info"> 
+          October 18, 2018
+          </div> 
+          <p>Siri Shortcuts are definitely my favorite iOS 12 feature. Ever since SiriKit first came out I was very disappointed that you couldn't use it for your own custom commands, but the new Shortcuts app solves this problem. Not only it allows you to create your custom commands, but it also provides a very intuitive UI to allow even non-devs to automate tons of kinds of workflows in their iPhones.</p>
+          <p>We've all seen how to create a workflow and make your app expose custom actions, but one thing that I haven't seen people mention is that the Shortcuts app exposes several deep links for opening and running shortcuts - meaning that you can make an app that runs other apps' Siri Shortcuts. <a href="https://twitter.com/rockthebruno/status/1052625467147083777">I used this to make an app run my "Take Picture" shortcut every time I tapped my AirPods.</a></p>
+          <p>The URL Scheme for the Shortcuts app is <code>shortcuts://</code>, and you can test all of them by typing them into Safari.</p>
+          <h2>Running a specific Shortcut</h2>
+          <p><code>shortcuts://run-shortcut?name=[name]&amp;input=[input]</code></p>
+          <p>For this deep link, <code>name</code> is the URL-encoded name of the shortcut you're trying to run, and <code>input</code> is the string input of the shortcut, if applicable. (You can type <code>clipboard</code> as the input to use the clipboard's contents!)</p>
+          <p>To run my "Take Picture" shortcut, we just have to tell iOS to open this deep link:</p>
+<pre>
+<code>let shortcut = URL(string: "shortcuts://run-shortcut?name=Take%20Picture")!</code>
+<code>UIApplication.shared.open(shortcut, options: [:], completionHandler: nil)</code>
+</pre>
+<p><img class="margin-top-40 margin-bottom-40" src="https://i.imgur.com/MS6hRNW.gif"></img></p><br>
+		  <h2>Returning to your app after a Shortcut ends</h2>
+		  <p>Running the shortcut is great, but you might have noticed that the deep link has to open the Shortcuts app in order to work. How can we return to our app after the shortcut ends?</p>
+		  <p>Luckily for us, the Shortcuts app supports the <code>x-callback-url</code> standard, which is a standardized way for you to send data to other apps through URLs and get something back - in the shape of another URL. It looks like this:</p>
+		  <p><code>shortcuts://x-callback-url/run-shortcut?name=[name]&amp;x-success=[url]</code></p>
+		  <p>When the <code>[name]</code> shortcut succeeds, the Shortcuts app will automatically try to open the URL passed to the <code>x-success</code> argument. This can be any url, and we can use this to return to our app by registering a URL scheme of our own. Assuming that our app is listening to a <code>myapp://</code> URL scheme, we can make the Shortcuts app route back to our app by running:</p>
+<pre><code>let shortcut = URL(string: "shortcuts://x-callback-url/run-shortcut?name=Take%20Picture&amp;x-success=myapp://")!</code>
+<code>UIApplication.shared.open(shortcut, options: [:], completionHandler: nil)</code>
+</pre>
+<p><img class="margin-top-40 margin-bottom-40" src="https://i.imgur.com/WLbQrLD.gif"></img></p><br>
+		  <p>Besides <code>x-success</code>, <code>x-cancel</code> and <code>x-error</code> can be used to treat interruptions and errors, respectively.</p>
+		  <h2>Other Deep Links</h2>
+		  <h3>Import a shortcut</h3>
+		  <p><code>shortcuts://import-shortcut?url=[url]&amp;name=[name]</code></p>
+		  <p>For this specific shortcut, <code>url</code> is the URL for a <code>.shortcut</code> file, and <code>name</code> is the name of the shortcut to be imported. You can also pass <code>&amp;silent=true</code> to this deep link to prevent the shortcuts app from opening the imported shortcut.</p>
+		  <p>This deep link also supports <code>x-callback-url</code>.</p>
+		  <h3>Open (not run) a specific shortcut</h3>
+		  <p><code>shortcuts://open-shortcut?name=[name]</code></p>
+		  <h3>Open the Shortcuts app</h3>
+		  <p><code>shortcuts://</code></p>
+		  <h3>Open the Create Shortcut screen</h3>
+		  <p><code>shortcuts://create-shortcut</code></p>
+		  <h3>Open the Shortcuts Gallery</h3>
+		  <p><code>shortcuts://gallery</code></p>
+		  <h3>Search the Shortcuts Gallery</h3>
+		  <p><code>shortcuts://gallery/search?query=[query]</code></p>
+<h2>Conclusion</h2>
+<p>Because there's no way for you to retrieve a list of the user's shortcuts, there are probably not many uses for these deep links in regular apps - but they can be very useful for personal automation projects like my AirPods camera trick. What are you planning to do?</p>
+<p>Follow me on my Twitter - <a href="https://twitter.com/rockthebruno">@rockthebruno</a>, and let me know of any suggestions and corrections you want to share.</p>
+<h2>References and Good Reads</h2>
+<a href="http://x-callback-url.com/">x-callback-url</a><br>
+<a href="https://support.apple.com/guide/shortcuts/about-url-schemes-apd621a1ad7a/ios">Apple Docs: Shortcuts URL Schemes</a><br>
+         </div></div>
+                              
+                         </div>
+                        
+                           
+                         </div>
+                     
+                     
+                  </div>
+                  <!-- Blog Post (Right Sidebar) End -->
+
+                 <!-- About Me (Left Sidebar) Start -->
+                 <div class="col-sm-4">
+                   <div class="about-fixed">
+                     <div class="my-pic">
+                        <img src="images/pic/my-pic-2.jpg" alt="">
+                        </div>
+                      
+                      
+                      
+                      <div class="my-detail">
+                        <h3 class="separator">Contact Info</h3>
+        			    <b>Bruno Rocha</b>
+                        <br>
+                        <span>Senior iOS Developer</span><br>
+                        <span><a href="mailto:bruno@swiftrocks.com">bruno@swiftrocks.com</a></span>
+                        <h3 class="separator">Newsletter</h3>
+                        <a href="https://bit.ly/2IY5F4Y">Click here to subscribe to my newsletter and receive new posts via e-mail.</a>
+                        <h3 class="separator">RSS / Social</h3>
+                        <div class="social-icon">
+                         <a href="https://swiftrocks.com/rss.xml" target="_blank" class="rss"><i class="fa fa-rss"></i></a>
+                         <a href="https://twitter.com/rockthebruno" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
+                         <a href="https://github.com/rockbruno" target="_blank" class="github"><i class="fa fa-github"></i></a>
+                         <a href="https://www.linkedin.com/in/bruno-rocha-45786a98/" target="_blank" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- About Me (Left Sidebar) End -->
+                
+            </div>
+         </div>
+      </div>
+    
+    
+    <!-- All Javascript Plugins  -->
+  <script type="text/javascript" src="js/jquery.min.js"></script> 
+  <script type="text/javascript" src="js/plugin.js"></script> 
+  <script type="text/javascript" src="js/prism.js"></script> 
+    <!-- Main Javascript File  -->
+    <script type="text/javascript" src="js/scripts4.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130406165-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-130406165-1');
+</script>
+
+   </body>
+ </html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Unit testing retain cycles &middot; paul-samuels.com
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>paul-samuels.com</h1>
+      <p class="lead">Thoughts on software development languages, tools and techniques.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a href="/">Home</a>
+      </li>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+            <li class="sidebar-nav-item">
+              <a href="/about/">About</a>
+            </li>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </ul>
+
+    <p><a href="https://twitter.com/paulio87">@paulio87</a></p>
+    <p>&copy; Paul Samuels 2019. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Unit testing retain cycles</h1>
+  <span class="post-date">20 Nov 2018</span>
+  <p>We all write retain cycles from time to time regardless of experience. Retain cycles are not always obvious to spot and can result in hours of debugging. There are of course great tools like the memory graph debugger available but debugging retain cycles can still be a painful and time consuming task.</p>
+
+<p>The key thing to fixing retain cycles is detecting them. This post looks at some code you can incorporate into your unit tests to help with the discovery of retain cycles.</p>
+
+<hr />
+
+<h2 id="the-basic-idea">The basic idea</h2>
+
+<p>The ownership rules are fairly simple with ARC. An object will only be kept alive for as long as there is at least one strong reference to it.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">class</span> <span class="n">NoisyDeinit</span> <span class="p">{</span>
+    <span class="k">deinit</span> <span class="p">{</span>
+        <span class="n">print</span><span class="p">(</span><span class="s">&quot;I&#39;m in deinit&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nl">example</span><span class="p">:</span> <span class="n">NoisyDeinit</span><span class="o">?</span> <span class="o">=</span> <span class="p">.</span><span class="k">init</span><span class="p">()</span>
+
+<span class="c1">// Setting `example` (the only reference to the `NoisyDeinit` instance) to `nil`</span>
+<span class="c1">// causes the instance to be deallocated and it&#39;s `deinit` will be invoked.</span>
+<span class="n">example</span> <span class="o">=</span> <span class="nb">nil</span></code></pre></figure>
+
+<p>Equally we know that a <code>weak</code> reference to an object will be <code>nil</code>‘d out when the last strong reference is released.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nl">example</span><span class="p">:</span> <span class="n">NoisyDeinit</span><span class="o">?</span> <span class="o">=</span> <span class="p">.</span><span class="k">init</span><span class="p">()</span>
+<span class="k">weak</span> <span class="k">var</span> <span class="n">weakReference</span> <span class="o">=</span> <span class="n">example</span>
+
+<span class="n">assert</span><span class="p">(</span><span class="n">weakReference</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span>
+
+<span class="c1">// Setting `example` (the only reference to the `NoisyDeinit` instance) to `nil`</span>
+<span class="c1">// also causes `weakReference` to be set to `nil`.</span>
+<span class="n">example</span> <span class="o">=</span> <span class="nb">nil</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">weakReference</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span></code></pre></figure>
+
+<p>Knowing the above we can write our tests in such a way that we have both a <code>strong</code> and <code>weak</code> reference to our object under test. After we have finished exercising our object we can set the <code>strong</code> reference to <code>nil</code> and then verify that the <code>weak</code> reference is also <code>nil</code>. If the <code>weak</code> reference is not <code>nil</code> at this point then we have to figure out what is causing the object to stay alive (this could be a retain cycle).</p>
+
+<p>Let’s see how this would look. Here is a unit test without cycle checking:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">final</span> <span class="k">class</span> <span class="nl">SampleTests</span><span class="p">:</span> <span class="n">XCTestCase</span> <span class="p">{</span>    
+    <span class="k">func</span> <span class="n">testGreeting</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">sut</span> <span class="o">=</span> <span class="n">Greeter</span><span class="p">()</span>
+        <span class="n">XCTAssertEqual</span><span class="p">(</span><span class="n">sut</span><span class="p">.</span><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Paul&quot;</span><span class="p">),</span> <span class="s">&quot;Hello Paul&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>In order to add this new checking we need to add three lines per object we want to check and make our original reference both <code>var</code> and <code>Optional</code>:</p>
+
+<p>With this done the code looks like the below:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="lineno"> 1</span> <span class="n">final</span> <span class="k">class</span> <span class="nl">SampleTests</span><span class="p">:</span> <span class="n">XCTestCase</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="k">func</span> <span class="n">testGreeting</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno"> 3</span>         <span class="k">var</span> <span class="nl">sut</span><span class="p">:</span> <span class="n">Greeter</span><span class="o">?</span> <span class="o">=</span> <span class="p">.</span><span class="k">init</span><span class="p">()</span>
+<span class="lineno"> 4</span>         <span class="k">weak</span> <span class="k">var</span> <span class="n">weakSut</span> <span class="o">=</span> <span class="n">sut</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span>         <span class="n">XCTAssertEqual</span><span class="p">(</span><span class="n">sut</span><span class="o">?</span><span class="p">.</span><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Paul&quot;</span><span class="p">),</span> <span class="s">&quot;Hello Paul&quot;</span><span class="p">)</span>
+<span class="lineno"> 7</span> 
+<span class="lineno"> 8</span>         <span class="n">sut</span> <span class="o">=</span> <span class="nb">nil</span>
+<span class="lineno"> 9</span>         <span class="n">XCTAssertNil</span><span class="p">(</span><span class="n">weakSut</span><span class="p">)</span>
+<span class="lineno">10</span>     <span class="p">}</span>
+<span class="lineno">11</span> <span class="p">}</span></code></pre></figure>
+
+<ol>
+  <li>A new <code>weak</code> var to hold the object who’s lifecycle we want to verify (line 4)</li>
+  <li><code>nil</code>‘ing out the <code>strong</code> reference (line 8)</li>
+  <li>The assertion that the new variable does become <code>nil</code> (line 9)</li>
+</ol>
+
+<hr />
+
+<h2 id="can-we-simplify-this">Can we simplify this?</h2>
+
+<p>Adding 3 lines per object is a little tedious and error prone. For example you may accidentally forget any one of these steps and the validation will no longer work.</p>
+
+<p>We can write a couple of helper functions that we can add as an extension on <code>XCTestCase</code> that allow us to get this down to just one line per object who’s lifecycle we want to validate.</p>
+
+<p>First let’s add a function that allows us to validate that an object is correctly deallocated after we execute an arbitrary block of caller provided code. This will be useful for scenarios where you have an instance property that is holding onto your object.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="lineno"> 1</span> <span class="k">extension</span> <span class="n">XCTestCase</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="k">func</span> <span class="n">assertNil</span><span class="p">(</span><span class="n">_</span> <span class="nl">subject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="o">?</span><span class="p">,</span> <span class="nl">after</span><span class="p">:</span> <span class="p">@</span><span class="n">escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">,</span> <span class="nl">file</span><span class="p">:</span> <span class="n">StaticString</span> <span class="o">=</span> <span class="err">#</span><span class="n">file</span><span class="p">,</span> <span class="nl">line</span><span class="p">:</span> <span class="n">UInt</span> <span class="o">=</span> <span class="err">#</span><span class="n">line</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 3</span>         <span class="n">guard</span> <span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">subject</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno"> 4</span>             <span class="k">return</span> <span class="n">XCTFail</span><span class="p">(</span><span class="s">&quot;Argument must not be nil&quot;</span><span class="p">,</span> <span class="nl">file</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span> <span class="nl">line</span><span class="p">:</span> <span class="n">line</span><span class="p">)</span>
+<span class="lineno"> 5</span>         <span class="p">}</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span>         <span class="n">addTeardownBlock</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="n">value</span><span class="p">]</span> <span class="k">in</span>
+<span class="lineno"> 8</span>             <span class="n">after</span><span class="p">()</span>
+<span class="lineno"> 9</span>             <span class="n">XCTAssert</span><span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">,</span> <span class="s">&quot;Expected subject to be nil after test! Retain cycle?&quot;</span><span class="p">,</span> <span class="nl">file</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span> <span class="nl">line</span><span class="p">:</span> <span class="n">line</span><span class="p">)</span>
+<span class="lineno">10</span>         <span class="p">}</span>
+<span class="lineno">11</span>     <span class="p">}</span>
+<span class="lineno">12</span> <span class="p">}</span></code></pre></figure>
+
+<ul>
+  <li>Lines 3-5 perform a little bit of validation. It’s programmer error to set the assertion up when the object is already <code>nil</code> so we guard against that scenario</li>
+  <li>Lines 7-9 are enqueuing a closure to be invoked after the test has been run
+    <ul>
+      <li>Line 7 is where our <code>weak</code> reference to our object is created</li>
+      <li>Line 8 is where we execute our arbitrary closure</li>
+      <li>Line 9 is where we perform the assertion that our <code>weak</code> reference is <code>nil</code>‘d out</li>
+    </ul>
+  </li>
+</ul>
+
+<p>When using our helper function our unit test above becomes:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">final</span> <span class="k">class</span> <span class="nl">SampleTests</span><span class="p">:</span> <span class="n">XCTestCase</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nl">sut</span><span class="p">:</span> <span class="n">Greeter</span><span class="o">!</span>
+
+    <span class="kr">override</span> <span class="k">func</span> <span class="n">setUp</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">super</span><span class="p">.</span><span class="n">setUp</span><span class="p">()</span>
+        <span class="n">sut</span> <span class="o">=</span> <span class="n">Greeter</span><span class="p">()</span>
+        <span class="n">assertNil</span><span class="p">(</span><span class="n">sut</span><span class="p">,</span> <span class="nl">after</span><span class="p">:</span> <span class="p">{</span> <span class="nb">self</span><span class="p">.</span><span class="n">sut</span> <span class="o">=</span> <span class="nb">nil</span> <span class="p">})</span>
+    <span class="p">}</span>
+
+    <span class="k">func</span> <span class="n">testGreeting</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">XCTAssertEqual</span><span class="p">(</span><span class="n">sut</span><span class="p">.</span><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Paul&quot;</span><span class="p">),</span> <span class="s">&quot;Hello Paul&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<hr />
+
+<p>In scenarios where we don’t have an instance property holding onto our object we can provide a simpler function. We’ll write it so that it just calls through to our helper above:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">extension</span> <span class="n">XCTestCase</span> <span class="p">{</span>
+    <span class="k">func</span> <span class="n">assertNilAfterTest</span><span class="p">(</span><span class="n">_</span> <span class="nl">subject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="o">?</span><span class="p">,</span> <span class="nl">file</span><span class="p">:</span> <span class="n">StaticString</span> <span class="o">=</span> <span class="err">#</span><span class="n">file</span><span class="p">,</span> <span class="nl">line</span><span class="p">:</span> <span class="n">UInt</span> <span class="o">=</span> <span class="err">#</span><span class="n">line</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assertNil</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="nl">after</span><span class="p">:</span> <span class="p">{},</span> <span class="nl">file</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span> <span class="nl">line</span><span class="p">:</span> <span class="n">line</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The above works because if there is nothing holding onto our subject outside the scope of the test function it should be naturally cleaned up by the fact that the only <code>strong</code> reference has gone out of scope. This allows for an even simpler test:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">final</span> <span class="k">class</span> <span class="nl">SampleTests</span><span class="p">:</span> <span class="n">XCTestCase</span> <span class="p">{</span>
+    <span class="k">func</span> <span class="n">testGreeting</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">sut</span> <span class="o">=</span> <span class="n">Greeter</span><span class="p">()</span>
+        <span class="n">assertNilAfterTest</span><span class="p">(</span><span class="n">sut</span><span class="p">)</span>
+        <span class="n">XCTAssertEqual</span><span class="p">(</span><span class="n">sut</span><span class="p">.</span><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Paul&quot;</span><span class="p">),</span> <span class="s">&quot;Hello Paul&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The two helper functions above make for a simple API that should hopefully be useful for helping detect those painful retain cycles before they become a real problem. The code is hopefully simple enough to understand and doesn’t require modifying existing tests too heavily (no subclassing etc).</p>
+
+<p>For usage I am tempted in my own projects to litter this cycle checking throughout most tests and not make contrived tests that just create an object and check it gets deallocated. By putting this logic on most tests I can get a level of comfort that I am not creating retain cycles whilst exercising the various functions of an object.</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/blog/2019/03/09/tying-things-together/">
+            Tying things together
+            <small>09 Mar 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2019/03/03/handling-bad-input-with-decodable/">
+            Handling bad input with Decodable
+            <small>03 Mar 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2019/02/17/testing-boundaries-in-swift/">
+            Testing Boundaries in Swift
+            <small>17 Feb 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-33685201-1', 'paul-samuels.com');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

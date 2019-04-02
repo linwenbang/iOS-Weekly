@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (实践)</title>
+  <meta name="description" content="">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (实践)">
+  <meta name="twitter:description" content="">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (实践)">
+  <meta property="og:description" content="">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="https://onevcat.com/2018/12/jose-3/">
+  <link rel="alternate" type="application/rss+xml" title="OneV's Den" href="https://onevcat.com/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 OneV's Den 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="OneV's Den logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for OneV's Den" class="blog-button">OneV's Den</a></h1>
+
+        
+        <span class="panel-cover__subtitle panel-subtitle">上善若水，人淡如菊</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">嗨，我是王巍 (@onevcat)，一名 iOS 开发者。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        <p class="panel-cover__description"><a href="https://objccn.io/products/">我组织的 ObjC 中国与 objc.io 合作发布了一系列 iOS/Swift 相关图书，欢迎访问了解更多</a></p>
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="//onev.cat" target="_blank" title="我的简历">简历</a></li>
+                
+                  <li class="navigation__item"><a href="/apps" target="_blank" title="我所使用的 app 们">工具</a></li>
+                
+                  <li class="navigation__item"><a href="//objccn.io/subscribe" target="_blank" title="邮件订阅本站">订阅</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/onevcat" title="@onevcat 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/onevcat" title="@onevcat 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+  <!-- Twitter -->
+  <li class="navigation__item">
+    <a href="http://twitter.com/onevcat" title="@onevcat" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Google Plus -->
+  <li class="navigation__item">
+    <a href="https://plus.google.com/107108267983477358170" rel="author" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google Plus</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:onev@onevcat.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-red"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-12-07 10:28:00 +0900" itemprop="datePublished" class="post-meta__date date">2018-12-07</time> &#8226; <span class="post-meta__tags tags">能工巧匠集</span>
+    </div>
+    <h1 class="post-title">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (实践)</h1>
+  </header>
+
+  <section class="post">
+    <p><img src="/assets/images/2018/matrix.jpg" alt="" /></p>
+
+<h2 id="概述">概述</h2>
+
+<p>这是关于 JOSE 和密码学的三篇系列文章中的最后一篇，你可以在下面的链接中找到其他部分：</p>
+
+<ol>
+  <li><a href="/2018/12/jose-1/">基础 - 什么是 JWT 以及 JOSE</a></li>
+  <li><a href="/2018/12/jose-2/">理论 - JOSE 中的签名和验证流程</a></li>
+  <li>实践 - 如何使用 Security.framework 处理 JOSE 中的验证 (本文)</li>
+</ol>
+
+<p>这一篇中，我们会在 JOSE 基础篇和理论篇的知识架构上，使用 iOS (或者说 Cocoa) 的相关框架来完成对 JWT 的解析，并利用 JWK 对它的签名进行验证。在最后，我会给出一些我自己在实现和学习这些内容时的思考，并把一些相关工具和标准列举一下。</p>
+
+<h2 id="解码-jwt">解码 JWT</h2>
+
+<p>JWT，或者更精确一点，JWS 中的 Header 和 Payload 都是 Base64Url 编码的。为了获取原文内容，先需要对 Header 和 Payload 解码。</p>
+
+<h3 id="base64url">Base64Url</h3>
+
+<p>Base64 相信大家都已经很熟悉了，随着网络普及，这套编码有一个很大的“缺点”，就是使用了 <code class="highlighter-rouge">+</code>，<code class="highlighter-rouge">/</code> 和 <code class="highlighter-rouge">=</code>。这些字符在 URL 里是很不友好的，在作为传输时需要额外做 escaping。Base64Url 就是针对这个问题的改进，具体来说就是：</p>
+
+<ol>
+  <li>将 <code class="highlighter-rouge">+</code> 替换为 <code class="highlighter-rouge">-</code>；</li>
+  <li>将 <code class="highlighter-rouge">/</code> 替换为 <code class="highlighter-rouge">_</code>；</li>
+  <li>将末尾的 <code class="highlighter-rouge">=</code> 干掉。</li>
+</ol>
+
+<p>相关代码的话非常简单，为 <code class="highlighter-rouge">Data</code> 和 <code class="highlighter-rouge">String</code> 分别添加 extension 来相互转换就好：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Data</span> <span class="p">{</span>
+    <span class="c1">// Encode `self` with URL escaping considered.</span>
+    <span class="k">var</span> <span class="nv">base64URLEncoded</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">base64Encoded</span> <span class="o">=</span> <span class="nf">base64EncodedString</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">base64Encoded</span>
+            <span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"+"</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"-"</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"/"</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"_"</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"="</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">""</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="c1">// Returns the data of `self` (which is a base64 string), with URL related characters decoded.</span>
+    <span class="k">var</span> <span class="nv">base64URLDecoded</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">paddingLength</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">-</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">4</span>
+        <span class="c1">// Filling = for %4 padding.</span>
+        <span class="k">let</span> <span class="nv">padding</span> <span class="o">=</span> <span class="p">(</span><span class="n">paddingLength</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="p">?</span> <span class="kt">String</span><span class="p">(</span><span class="nv">repeating</span><span class="p">:</span> <span class="s">"="</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="n">paddingLength</span><span class="p">)</span> <span class="p">:</span> <span class="s">""</span>
+        <span class="k">let</span> <span class="nv">base64EncodedString</span> <span class="o">=</span> <span class="k">self</span>
+            <span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"-"</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"+"</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"_"</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"/"</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">padding</span>
+        <span class="k">return</span> <span class="kt">Data</span><span class="p">(</span><span class="nv">base64Encoded</span><span class="p">:</span> <span class="n">base64EncodedString</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="结合使用-jsondecoder-和-base64url-来处理-jwt">结合使用 <code class="highlighter-rouge">JSONDecoder</code> 和 Base64Url 来处理 JWT</h3>
+
+<p>因为 JWT 的 Header 和 Payload 部分实际上是有效的 JSON，为了简单，我们可以利用 Swift 的 Codable 来解析 JWT。为了简化处理，可以封装一个针对以 Base64Url 表示的 JSON 的 decoder：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span>  <span class="kt">Base64URLJSONDecoder</span><span class="p">:</span> <span class="kt">JSONDecoder</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="n">decode</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">from</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="o">.</span><span class="n">ascii</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// 错误处理</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="k">try</span> <span class="nf">decode</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">string</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="n">decode</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">from</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">decodedData</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">base64URLDecoded</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// 错误处理</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">try</span> <span class="k">super</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">decodedData</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Base64URLJSONDecoder</code> 将 Base64Url 的转换封装到解码过程中，这样一来，我们只需要获取 JWT，将它用 <code class="highlighter-rouge">.</code> 分割开，然后使用 <code class="highlighter-rouge">Base64URLJSONDecoder</code> 就能把 Header 和 Payload 轻易转换了，比如：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">Header</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">algorithm</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">tokenType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">let</span> <span class="nv">keyID</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+
+    <span class="kd">enum</span> <span class="kt">CodingKeys</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">CodingKey</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">algorithm</span> <span class="o">=</span> <span class="s">"alg"</span>
+        <span class="k">case</span> <span class="n">tokenType</span> <span class="o">=</span> <span class="s">"typ"</span>
+        <span class="k">case</span> <span class="n">keyID</span> <span class="o">=</span> <span class="s">"kid"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">jwtRaw</span> <span class="o">=</span> <span class="s">"eyJhbGciOiJSUzI1NiI..."</span> <span class="c1">// JWT 字符串，后面部分省略了</span>
+<span class="k">let</span> <span class="nv">rawComponents</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">components</span><span class="p">(</span><span class="nv">separatedBy</span><span class="p">:</span> <span class="s">"."</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">decoder</span> <span class="o">=</span> <span class="kt">Base64JSONDecoder</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">header</span> <span class="o">=</span> <span class="k">try</span> <span class="n">decoder</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Header</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">rawComponents</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">keyID</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">keyID</span> <span class="k">else</span> <span class="p">{</span> <span class="cm">/* 验证失败 */</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>在 Header 中，我们应该可以找到指定了验证签名所需要使用的公钥的 <code class="highlighter-rouge">keyID</code>。如果没有的话，验证失败，登录过程终止。</p>
+
+<p>对于签名，我们将解码后的原始的 <code class="highlighter-rouge">Data</code> 保存下来，稍后使用。同样地，我们最好也保存一下 <code class="highlighter-rouge">{Header}.{Payload}</code> 的部分，它在验证中也会被使用到：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">signature</span> <span class="o">=</span> <span class="n">rawComponents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">base64URLDecoded</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">plainText</span> <span class="o">=</span> <span class="s">"</span><span class="se">\(</span><span class="n">rawComponents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="se">)</span><span class="s">.</span><span class="se">\(</span><span class="n">rawComponents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="se">)</span><span class="s">"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>这里的代码基本都没有考虑错误处理，大部分是直接让程序崩溃。实际的产品中验证签名过程中的错误应该被恰当处理，而不是粗暴挂掉。</p>
+</blockquote>
+
+<h2 id="在-securityframework-中处理签名">在 Security.framework 中处理签名</h2>
+
+<p>我们已经准备好签名的数据和原文了，万事俱备，只欠密钥。</p>
+
+<h3 id="处理密钥">处理密钥</h3>
+
+<p>通过 <code class="highlighter-rouge">keyID</code>，在预先设定的 JWT Host 中我们应该可以找到以 JWK 形式表示的密钥。我们计划使用 Security.framework 来处理密钥和签名验证，首先要做的就是遵守框架和 JWA 的规范，通过 JWK 的密钥生成 Security 框架喜欢的 <code class="highlighter-rouge">SecKey</code> 值。</p>
+
+<p>在其他大部分情况下，我们可能会从一个证书 (certificate，不管是从网络下载的 PEM 还是存储在本地的证书文件) 里获取公钥。像是处理 HTTPS challenge 或者 SSL Pinning 的时候，大部分情况下我们拿到的是完整的证书数据，通过 <code class="highlighter-rouge">SecCertificateCreateWithData</code> 使用 DER 编码的数据创建证书并获取公钥：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">cert</span> <span class="o">=</span> <span class="kt">SecCertificateCreateWithData</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="n">data</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 错误处理</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">policy</span> <span class="o">=</span> <span class="kt">SecPolicyCreateBasicX509</span><span class="p">()</span>
+<span class="k">var</span> <span class="nv">trust</span><span class="p">:</span> <span class="kt">SecTrust</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="kt">SecTrustCreateWithCertificates</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">trust</span><span class="p">)</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">t</span> <span class="o">=</span> <span class="n">trust</span><span class="p">,</span> <span class="k">let</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">SecKey</span> <span class="o">=</span> <span class="kt">SecTrustCopyPublicKey</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 错误处理</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>但是，在 JWK 的场合，我们是没有 X.509 证书的。JWK 直接将密钥类型和参数编码在 JSON 中，我们当然可以按照 DER 编码规则将这些信息编码回一个符合 X.509 要求的证书，然后使用上面的方法再从中获取证书。不过这显然是画蛇添足，我们完全可以直接通过这些参数，使用特定格式的数据来直接生成 <code class="highlighter-rouge">SecKey</code>。</p>
+
+<blockquote>
+  <p>有可能有同学会迷惑于“公钥”和“证书”这两个概念。一个证书，除了包含有公钥以外，还包含有像是证书发行者，证书目的，以及其他一些元数据的信息。因此，我们可以从一个证书中，提取它所存储的公钥。</p>
+
+  <p>另外，证书本身一般会由另外一个私钥进行签名，并由颁发机构或者受信任的机构进行验证保证其真实性。</p>
+</blockquote>
+
+<p>使用 <a href="https://developer.apple.com/documentation/security/1643701-seckeycreatewithdata"><code class="highlighter-rouge">SecKeyCreateWithData</code></a> 就可以直接通过公钥参数来生成了：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="kt">SecKeyCreateWithData</span><span class="p">(</span><span class="n">_</span> <span class="nv">keyData</span><span class="p">:</span> <span class="kt">CFData</span><span class="p">,</span> 
+                          <span class="n">_</span> <span class="nv">attributes</span><span class="p">:</span> <span class="kt">CFDictionary</span><span class="p">,</span> 
+                          <span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">CFError</span><span class="o">&gt;</span><span class="p">?</span><span class="o">&gt;</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">SecKey</span><span class="p">?</span>
+</code></pre></div></div>
+
+<p>第二个参数 <code class="highlighter-rouge">attributes</code> 需要的是密钥种类 (RSA 还是 EC)，密钥类型 (公钥还是私钥)，密钥尺寸 (数据 bit 数) 等信息，比较简单。</p>
+
+<p>关于所需要的数据格式，根据密钥种类不同，而有所区别。在<a href="https://developer.apple.com/documentation/security/1643698-seckeycopyexternalrepresentation">这个风马牛不相及的页面</a> 以及 <a href="https://opensource.apple.com/source/Security/Security-58286.41.2/keychain/SecKey.h">SecKey 源码</a> 的注释中有所提及：</p>
+
+<blockquote>
+  <p>The method returns data in the PKCS #1 format for an RSA key. For an elliptic curve public key, 
+the format follows the ANSI X9.63 standard using a byte string of 04 || X || Y.  …  All of 
+these representations use constant size integers, including leading zeros as needed.</p>
+</blockquote>
+
+<blockquote>
+  <p>The requested data format depend on the type of key (kSecAttrKeyType) being created:</p>
+
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kSecAttrKeyTypeRSA               PKCS#1 format, public key can be also in x509 public key format
+kSecAttrKeyTypeECSECPrimeRandom  ANSI X9.63 format (04 || X || Y [ || K])
+</code></pre></div>  </div>
+</blockquote>
+
+<h4 id="jwa---rsa">JWA - RSA</h4>
+
+<p>简单说，RSA 的公钥需要遵守  PKCS#1，使用 X.509 编码即可。所以对于 RSA 的 JWK 里的 <code class="highlighter-rouge">n</code> 和 <code class="highlighter-rouge">e</code>，我们用 DER 按照 X.509 编码成序列后，就可以扔给 Security 框架了：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">JWK</span> <span class="p">{</span>
+    <span class="kd">struct</span> <span class="kt">RSA</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">modulus</span><span class="p">:</span> <span class="kt">String</span>
+        <span class="k">let</span> <span class="nv">exponent</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">jwk</span><span class="p">:</span> <span class="kt">JWK</span><span class="o">.</span><span class="kt">RSA</span> <span class="o">=</span> <span class="o">...</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">n</span> <span class="o">=</span> <span class="n">jwk</span><span class="o">.</span><span class="n">modulus</span><span class="o">.</span><span class="n">base64URLDecoded</span> <span class="k">else</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">e</span> <span class="o">=</span> <span class="n">jwk</span><span class="o">.</span><span class="n">exponent</span><span class="o">.</span><span class="n">base64URLDecoded</span> <span class="k">else</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">modulusBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">n</span><span class="p">)</span>            
+<span class="k">if</span> <span class="k">let</span> <span class="nv">firstByte</span> <span class="o">=</span> <span class="n">modulusBytes</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">firstByte</span> <span class="o">&gt;=</span> <span class="mh">0x80</span> <span class="p">{</span>
+    <span class="n">modulusBytes</span><span class="o">.</span><span class="nf">insert</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">let</span> <span class="nv">exponentBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">e</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">modulusEncoded</span> <span class="o">=</span> <span class="n">modulusBytes</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">exponentEncoded</span> <span class="o">=</span> <span class="n">exponentBytes</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">sequenceEncoded</span> <span class="o">=</span> <span class="p">(</span><span class="n">modulusEncoded</span> <span class="o">+</span> <span class="n">exponentEncoded</span><span class="p">)</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">sequence</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="kt">Data</span><span class="p">(</span><span class="nv">bytes</span><span class="p">:</span> <span class="n">sequenceEncoded</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>关于 DER 编码部分的代码，可以在<a href="https://github.com/line/line-sdk-ios-swift/blob/8c2476d9d00225cf4b33c0e245e9bd580c59f4d8/LineSDK/LineSDK/Crypto/JWK/JWA.swift#L185-L240">这里</a>找到。对于 <code class="highlighter-rouge">modulusBytes</code>，首位大于等于 <code class="highlighter-rouge">0x80</code> 时需要追加 <code class="highlighter-rouge">0x00</code> 的原因，也已经在<a href="/2018/jose-1/">第一篇</a>中提及。如果你不知道我在说什么，建议回头仔细再看一下前两篇的内容。</p>
+</blockquote>
+
+<p>使用上面的 <code class="highlighter-rouge">data</code> 就可以获取 RSA 的公钥了：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">sizeInBits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">count</span> <span class="o">*</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">UInt8</span><span class="o">&gt;.</span><span class="n">size</span>
+<span class="k">let</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">CFString</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nv">kSecAttrKeyType</span><span class="p">:</span> <span class="n">kSecAttrKeyTypeRSA</span><span class="p">,</span>
+    <span class="nv">kSecAttrKeyClass</span><span class="p">:</span> <span class="n">kSecAttrKeyClassPublic</span><span class="p">,</span>
+    <span class="nv">kSecAttrKeySizeInBits</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="n">sizeInBits</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">CFError</span><span class="o">&gt;</span><span class="p">?</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">key</span> <span class="o">=</span> <span class="kt">SecKeyCreateWithData</span><span class="p">(</span><span class="n">data</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">,</span> <span class="n">attributes</span> <span class="k">as</span> <span class="kt">CFDictionary</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 错误处理</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="c1">// 一切正常的话，打印类似这样：</span>
+<span class="c1">// &lt;SecKeyRef algorithm id: 1, key type: RSAPublicKey, version: 4, </span>
+<span class="c1">// block size: 1024 bits, exponent: {hex: 10001, decimal: 65537}, </span>
+<span class="c1">// modulus: DD95AB518D18E8828DD6A238061C51D82EE81D516018F624..., </span>
+<span class="c1">// addr: 0x6000027ffb00&gt;</span>
+</code></pre></div></div>
+
+<h4 id="jwa---ecsda">JWA - ECSDA</h4>
+
+<p>按照说明，对于 EC 公钥，期望的数据是符合 X9.63 中未压缩的椭圆曲线点座标：<code class="highlighter-rouge">04 || X || Y</code>。不过，虽然在文档说明里提及：</p>
+
+<blockquote>
+  <p>All of these representations use constant size integers, including leading zeros as needed.</p>
+</blockquote>
+
+<p>但事实是 <code class="highlighter-rouge">SecKeyCreateWithData</code> 并不喜欢在首位追加 <code class="highlighter-rouge">0x00</code> 的做法。这里的 <code class="highlighter-rouge">X</code> 和 <code class="highlighter-rouge">Y</code> <strong>必须</strong>是满足椭圆曲线对应要求的密钥位数的整数值，如果在首位大于等于 <code class="highlighter-rouge">0x80</code> 的值前面追加 <code class="highlighter-rouge">0x00</code>，反而会导致无法创建 <code class="highlighter-rouge">SecKey</code>。所以，在组织数据时，不仅不需要添加 <code class="highlighter-rouge">0x00</code>，我们反而最好检查一下获取的 JWK，如果首位有不必要的 <code class="highlighter-rouge">0x00</code> 的话，应该将其去除：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">JWK</span> <span class="p">{</span>
+    <span class="kd">struct</span> <span class="kt">RSA</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">String</span>
+        <span class="k">let</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">jwk</span><span class="p">:</span> <span class="kt">JWK</span><span class="o">.</span><span class="kt">RSA</span> <span class="o">=</span> <span class="o">...</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">decodedXData</span> <span class="o">=</span> <span class="n">jwk</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">base64URLDecoded</span> <span class="k">else</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">decodedYData</span> <span class="o">=</span> <span class="n">jwk</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">base64URLDecoded</span> <span class="k">else</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">xBytes</span><span class="p">:</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">decodedXData</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="n">curve</span><span class="o">.</span><span class="n">coordinateOctetLength</span> <span class="p">{</span>
+    <span class="n">xBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">decodedXData</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">xBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">decodedXData</span><span class="p">)</span><span class="o">.</span><span class="n">dropFirst</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="mh">0x00</span> <span class="p">}</span>
+<span class="p">}</span>
+            
+<span class="k">let</span> <span class="nv">yBytes</span><span class="p">:</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">decodedYData</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="n">curve</span><span class="o">.</span><span class="n">coordinateOctetLength</span> <span class="p">{</span>
+    <span class="n">yBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">decodedYData</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">yBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">decodedYData</span><span class="p">)</span><span class="o">.</span><span class="n">dropFirst</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="mh">0x00</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">uncompressedIndicator</span><span class="p">:</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x04</span><span class="p">]</span>
+<span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="kt">Data</span><span class="p">(</span><span class="nv">bytes</span><span class="p">:</span> <span class="n">uncompressedIndicator</span> <span class="o">+</span> <span class="n">xBytes</span> <span class="o">+</span> <span class="n">yBytes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>创建公钥时和 RSA 类似：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">sizeInBits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">count</span> <span class="o">*</span> <span class="kt">MemoryLayout</span><span class="o">&lt;</span><span class="kt">UInt8</span><span class="o">&gt;.</span><span class="n">size</span>
+<span class="k">let</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">CFString</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nv">kSecAttrKeyType</span><span class="p">:</span> <span class="n">kSecAttrKeyTypeECSECPrimeRandom</span><span class="p">,</span>
+    <span class="nv">kSecAttrKeyClass</span><span class="p">:</span> <span class="n">kSecAttrKeyClassPublic</span><span class="p">,</span>
+    <span class="nv">kSecAttrKeySizeInBits</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="n">sizeInBits</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">CFError</span><span class="o">&gt;</span><span class="p">?</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">key</span> <span class="o">=</span> <span class="kt">SecKeyCreateWithData</span><span class="p">(</span><span class="n">data</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">,</span> <span class="n">attributes</span> <span class="k">as</span> <span class="kt">CFDictionary</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 错误处理</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="c1">// 一切正常的话，打印类似这样：</span>
+<span class="c1">// &lt;SecKeyRef curve type: kSecECCurveSecp256r1, algorithm id: 3, </span>
+<span class="c1">// key type: ECPublicKey, version: 4, block size: 256 bits, </span>
+<span class="c1">// y: 3D4F8B27B29E5C77FCF877367245F3D75C2FBA806C54A0A0C05807E1B536E68A, </span>
+<span class="c1">// x: FFB00CF903B79BB0F6C049208A59C448049BE0A2A1AF4692C486085CBD9057EF, </span>
+<span class="c1">// addr: 0x7fcafd80ced0&gt;</span>
+</code></pre></div></div>
+
+<h3 id="验证签名">验证签名</h3>
+
+<p>Security 框架中为使用公钥进行签名验证准备了一个方法：<a href="https://developer.apple.com/documentation/security/1643715-seckeyverifysignature"><code class="highlighter-rouge">SecKeyVerifySignature</code></a>：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="kt">SecKeyVerifySignature</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> 
+                         <span class="n">_</span> <span class="nv">algorithm</span><span class="p">:</span> <span class="kt">SecKeyAlgorithm</span><span class="p">,</span> 
+                         <span class="n">_</span> <span class="nv">signedData</span><span class="p">:</span> <span class="kt">CFData</span><span class="p">,</span> 
+                         <span class="n">_</span> <span class="nv">signature</span><span class="p">:</span> <span class="kt">CFData</span><span class="p">,</span> 
+                         <span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">CFError</span><span class="o">&gt;</span><span class="p">?</span><span class="o">&gt;</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">key</code> 我们已经拿到了，<code class="highlighter-rouge">signedData</code> 就是之前我们准备的 <code class="highlighter-rouge">{Header}.{Payload}</code> 的字符串的数据表示 (也就是 <code class="highlighter-rouge">plainText.data(using: .ascii)</code>。注意，这里的 <code class="highlighter-rouge">plainText</code> 不是一个 Base64Url 字符串，JWS 签名所针对的就是这个拼凑后的字符串的散列值)。我们需要为不同的签名算法指定合适的 <code class="highlighter-rouge">SecKeyAlgorithm</code>，通过访问 <code class="highlighter-rouge">SecKeyAlgorithm</code> 的静态成员，就可以获取 Security 框架预先定义的算法了。比如常用的：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let ecdsa256 = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
+let rsa256 = SecKeyAlgorithm.rsaSignatureDigestPKCS1v15SHA256
+</code></pre></div></div>
+
+<p>你可以在 Apple 的<a href="https://developer.apple.com/documentation/security/seckeyalgorithm">文档里</a>找到所有支持的算法的定义，但是不幸的是，这些算法都只有名字，没有具体说明，也没有使用范例。想要具体知道某个算法的用法，可能需要在<a href="https://opensource.apple.com/source/Security/Security-57740.51.3/keychain/SecKey.h">源码级别</a>去参考注释。为了方便，对于签名验证相关的一些常用算法，我列了一个表说明对应关系：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>算法</th>
+      <th>输入数据 (signedData)</th>
+      <th>签名 (signature)</th>
+      <th>对应 JWT 算法</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rsaSignatureDigestPKCS1v15SHA{x}</td>
+      <td>原数据的 SHA-x 摘要</td>
+      <td>PKCS#1 v1.5 padding 的签名</td>
+      <td>RS{x}</td>
+    </tr>
+    <tr>
+      <td>rsaSignatureMessagePKCS1v15SHA{x}</td>
+      <td>原数据本身，框架负责计算 SHA-x 摘要</td>
+      <td>PKCS#1 v1.5 padding 的签名</td>
+      <td>RS{x}</td>
+    </tr>
+    <tr>
+      <td>rsaSignatureDigestPSSSHA{x}</td>
+      <td>原数据的 SHA-x 摘要</td>
+      <td>使用 PSS 的 PKCS#1 v2.1 签名</td>
+      <td>PS{x}</td>
+    </tr>
+    <tr>
+      <td>rsaSignatureMessagePSSSHA{x}</td>
+      <td>原数据本身，框架负责计算 SHA-x 摘要</td>
+      <td>使用 PSS 的 PKCS#1 v2.1 签名</td>
+      <td>PS{x}</td>
+    </tr>
+    <tr>
+      <td>ecdsaSignatureDigestX962SHA{x}</td>
+      <td>原数据的 SHA-x 摘要</td>
+      <td>DER x9.62 编码的 r 和 s</td>
+      <td>ES{x}</td>
+    </tr>
+    <tr>
+      <td>ecdsaSignatureMessageX962SHA{x}</td>
+      <td>原数据本身，框架负责计算 SHA-x 摘要</td>
+      <td>DER x9.62 编码的 r 和 s</td>
+      <td>ES{x}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>不难看出，这些签名算法基本就是 <code class="highlighter-rouge">{算法类型} + {数据处理方式} + {签名格式}</code> 的组合。另外还有一些更为泛用的签名算法，像是 <code class="highlighter-rouge">.ecdsaSignatureRFC4754</code> 或者 <code class="highlighter-rouge">.rsaSignatureRaw</code>，你需要按照源码注释给入合适的输入，不过一般来说还是直接使用预设的散列的 <code class="highlighter-rouge">__Message__SHA___</code> 这类算法最为方便。</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">SecKeyAlgorithm</code> 中除了签名算法，也包括了使用 RSA 和 EC 进行加密的相关算法。整体上和签名算法的命名方式类似，有兴趣和需要相关内容的同学可以自行研究。</p>
+</blockquote>
+
+<p>对于 JWT 来说，RS 算法的签名已经是 PKCS#1 v1.5 padding 的了，所以直接将 <code class="highlighter-rouge">signedData</code> 和 <code class="highlighter-rouge">signature</code> 配合使用 <code class="highlighter-rouge">rsaSignatureMessagePKCS1v15SHA{x}</code> 就可以完成验证。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">CFError</span><span class="o">&gt;</span><span class="p">?</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="kt">SecKeyVerifySignature</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span> 
+    <span class="o">.</span><span class="n">rsaSignatureMessagePKCS1v15SHA256</span><span class="p">,</span> 
+    <span class="n">signedData</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">,</span> 
+    <span class="n">signature</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>对于 ES 的 JWT 来说，事情要麻烦一些。我们收到的 JWT 里的签名只是 {r, s} 的简单连接，所以需要预先进行处理。按照 X9.62 中对 <code class="highlighter-rouge">signature</code> 的编码定义：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ECDSA-Sig-Value ::= SEQUENCE {
+    r INTEGER,
+    s INTEGER }
+</code></pre></div></div>
+
+<p>因此，在调用 <code class="highlighter-rouge">SecKeyVerifySignature</code> 之前，先处理签名：</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">signature</span><span class="o">.</span><span class="n">count</span>
+<span class="k">guard</span> <span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 错误，签名应该是两个等长的整数</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">rBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">signature</span><span class="p">[</span><span class="o">..&lt;</span><span class="p">(</span><span class="n">count</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)])</span>
+<span class="k">var</span> <span class="nv">sBytes</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">](</span><span class="n">signature</span><span class="p">[(</span><span class="n">count</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">...</span><span class="p">])</span>
+
+<span class="c1">// 处理首位，我们已经做过很多次了。</span>
+<span class="k">if</span> <span class="n">rBytes</span><span class="o">.</span><span class="n">first</span><span class="o">!</span> <span class="o">&gt;=</span> <span class="kt">UInt8</span><span class="p">(</span><span class="mh">0x80</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">rBytes</span><span class="o">.</span><span class="nf">insert</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="n">sBytes</span><span class="o">.</span><span class="n">first</span><span class="o">!</span> <span class="o">&gt;=</span> <span class="kt">UInt8</span><span class="p">(</span><span class="mh">0x80</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sBytes</span><span class="o">.</span><span class="nf">insert</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 完成签名的 DER 编码</span>
+<span class="k">let</span> <span class="nv">processedSignature</span> <span class="o">=</span> <span class="kt">Data</span><span class="p">(</span><span class="nv">bytes</span><span class="p">:</span> 
+    <span class="p">(</span><span class="n">rBytes</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">integer</span><span class="p">)</span> <span class="o">+</span> <span class="n">sBytes</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">integer</span><span class="p">))</span>
+    <span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">sequence</span><span class="p">))</span>
+
+<span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Unmanaged</span><span class="o">&lt;</span><span class="kt">CFError</span><span class="o">&gt;</span><span class="p">?</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="kt">SecKeyVerifySignature</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">,</span> 
+    <span class="o">.</span><span class="n">ecdsaSignatureMessageX962SHA256</span><span class="p">,</span> 
+    <span class="n">signedData</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">,</span> 
+    <span class="n">processedSignature</span> <span class="k">as</span> <span class="kt">CFData</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>上面 RSA 和 ECDSA 的验证，都假设了使用 SHA-256 作为散列算法。如果你采用的是其他的散列算法，记得替换。</p>
+</blockquote>
+
+<h3 id="验证-payload-内容">验证 Payload 内容</h3>
+
+<p>签名正确完成验证之后，我们就可以对 JWT Payload 里的内容进行验证了：包括但不限于 “iss”，”sub”，”exp”，”iat” 这些保留值是否正确。当签名和内容都验证无误后，就可以安心使用这个 JWT 了。</p>
+
+<h2 id="一些问题">一些问题</h2>
+
+<p>至此，我们从最初的 JWT 定义开始，引伸出 JWA，JWK 等一系列 JOSE 概念。然后我们研究了互联网安全领域的通用编码方式和几种最常见的密钥的构成。最后，我们使用这些知识在 Security 框架的帮助下，完成了 JWT 的签名验证的整个流程。</p>
+
+<p>事后看上去没有太大难度，但是由于涉及到的名词概念很多，相关标准错综复杂，因此初上手想要把全盘都弄明白，还是会有一定困难。希望这系列文章能够帮助你在起步阶段就建立相对清晰的知识体系，这样在阅读其他的相关信息时，可以对新的知识进行更好的分类整理。</p>
+
+<p>最后，是一些我自己在学习和实践中的考虑。在此一并列出，以供参考。如果您有什么指正和补充，也欢迎留言评论。</p>
+
+<h4 id="为什么不用已有的相关开源框架">为什么不用已有的相关开源框架</h4>
+
+<p>现存的和这个主题相关的 iOS 或者 Swift 框架有一些，比如 <a href="https://github.com/airsidemobile/JOSESwift">JOSESwift</a>，<a href="https://github.com/kylef/JSONWebToken.swift">JSONWebToken.swift</a>，<a href="https://github.com/IBM-Swift/Swift-JWT">Swift-JWT</a>，<a href="https://github.com/vapor/jwt">vaper/jwt</a> 等等。来回比较考察，它们现在 (2018 年 12 月) 或多或少存在下面的不足：</p>
+
+<ul>
+  <li>没有一个从 JWK 开始到 JWT 的完整方案。JWT 相关的框架基本都是从本地证书获取公钥进行验证，而我需要从 JWK 获取证书</li>
+  <li>支持 JWK 的框架只实现了部分算法，比如只有 RSA，没有 ECDSA 支持。</li>
+  <li>一些框架依赖关系太复杂，而且大部分实现是面向 Swift Server Side，而非 iOS 的。</li>
+</ul>
+
+<p>在 <a href="https://github.com/line/line-sdk-ios-swift">LINE SDK</a> 中，我们需要，且只需要在 iOS 上利用 Security 框架完成验证。同时 Server 可能会变更配置，所以我们需要同时支持 RSA 和 ECDSA (当前默认使用 ECDSA)。另外，本身作为一个提供给第三方开发者的 SDK，我们不允许引入不可靠的复杂依赖关系 (最理想的情况是零依赖，也就是 LINE SDK 的现状)。基于这些原因，我没有使用现有的开源代码，而是自己从头进行实现。</p>
+
+<h4 id="为什么不把你做的相关内容整理开源">为什么不把你做的相关内容整理开源</h4>
+
+<p>在 LINE SDK 中的方案是不完备的，它是 JOSE 中满足我们的 JWT 解析和验证需求的最小子集，因此没有很高的泛用性，不适合作为单独项目开源。不过因为 LINE SDK 整个项目是开源的，JOSE 部分的代码其实也都是公开且相对独立的。如果你感兴趣，可以在 LINE SDK 的 <a href="https://github.com/line/line-sdk-ios-swift/tree/master/LineSDK/LineSDK/Crypto">Crypto 文件夹</a>下找到所有相关代码。</p>
+
+<h4 id="为什么要用非对称算法各算法之间有什么优劣">为什么要用非对称算法，各算法之间有什么优劣</h4>
+
+<p>不少 JWT 使用 HS 的算法 (HMAC)。和 RSA 或 ECDSA 不同，HMAC 是对称加密算法。对称算法加密和解密比较简单，因为密钥相同，所以比较适合用在 Server to Server 这种双方可信的场合。如果在客户端上使用对称算法，那就需要将这个密钥存放在客户端上，这显然是不可接受的。对于 Client - Server 的通讯，非对称算法应该是毋庸置疑的选择。</p>
+
+<p>相比与 RSA，ECDSA 可以使用更短的密钥实现和数倍长于自己的 RSA 相同的安全性能。</p>
+
+<blockquote>
+  <p>For example, at a security level of 80 bits (meaning an attacker requires a maximum of about 
+2^80 operations to find the private key) the size of an ECDSA public key would be 160 bits, whereas the size of a DSA public key is at least 1024 bits.</p>
+</blockquote>
+
+<p>由于 ECDSA 是专用的 DSA 算法，只能用于签名，而不能用作加密和密钥交换，所以它比 RSA 要快很多。另外，更小的密钥也带来了更小的计算量。这些特性对于减少 Server 负担非常重要。关于 ECDSA 的优势和它相对于 RSA 的对比，可以参考 Cloudflare 的<a href="https://blog.cloudflare.com/ecdsa-the-digital-signature-algorithm-of-a-better-internet/">这篇文章</a>。</p>
+
+<h4 id="签名的安全性">签名的安全性</h4>
+
+<p>JWT 签名的伪造一直是一个困扰人的问题。因为 JWT 的 Header 和 Payload 内容一旦确定的话，它的签名也就确定了 (虽然 ECDSA 会产生随机数使签名每次都不同，但是这些签名都可以通过验证)。这带来一个问题，攻击者可以通过截取以前的有效的 JWT，然后把它作为新的响应发给用户。这类 JWT 依然可以正确通过签名验证。</p>
+
+<p>因此，我们必须每次生成不同的 JWT，来防止这种替换攻击。最简单的方式就是在内存中存储随机值，发送 JWT 请求时附带这个随机值，然后 Server 将这个随机值嵌入在返回的 JWT 的 Payload 中。Client 收到后，再与内存中保存的值进行比对。这样保证了每次返回的 JWT 都不相同，让签名验证更加安全。</p>
+
+<h4 id="openssl-版本的问题">OpenSSL 版本的问题</h4>
+
+<p>macOS 上自带的 OpenSSL 版本一般比较旧，而大部分 Linux 系统的 OpenSSL 更新一些。不同版本的 OpenSSL (或者其他的常用安全框架) 实现细节上会有差异，比如有些版本会在负数首位补 <code class="highlighter-rouge">0x00</code> 等。在测试时，最好让 Server 的小伙伴确认一下使用的 OpenSSL 版本，这样能在验证和使用密钥上避免一些不必要的麻烦。(请不要问我细节！都是泪)</p>
+
+<h4 id="jwt-可以用来做什么应该用来做什么">JWT 可以用来做什么，应该用来做什么</h4>
+
+<p>JWT 最常见的使用场景有两个：</p>
+
+<ul>
+  <li><strong>授权</strong>：用户登录后，在后续的请求中带上一个有效的 JWT，其中包含该用户可以访问的路径或权限等。服务器验证 JWT 有效性后对访问进行授权。相比于传统像是 OAuth 的 token 来说，服务器并不需要存储这些 token，可以实现无状态的授权，因此它的开销较小，也更容易实现和理解。另外，由于 JWT 不需要依赖 Cookie 的特性，跨站或者跨服务依然可能使用，这让单点登录非常简单。</li>
+  <li><strong>信息交换</strong>：LINE SDK 中对用户信息进行签名和验证，就属于信息交换的范畴。依赖 JWT 的签名特性，接收方可以确保 JWT 中的内容没有被篡改，是一种安全的信息交换方式。</li>
+</ul>
+
+<p>最近有非常多的关于反对使用 JWT 进行授权的声音，比如<a href="http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/">这篇文章</a>和<a href="https://paragonie.com/blog/2017/03/jwt-json-web-tokens-is-bad-standard-that-everyone-should-avoid">这篇文章</a>。JWT 作为授权 token 来使用，最大的问题在于无法过期或者作废，另外，一些严格遵守标准的实现，反而可能<a href="https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/">引入严重的安全问题</a>。</p>
+
+<p>不过对于第二种用法，也就是信息交换来说，JWT 所提供的便捷和安全性是无人质疑的。</p>
+
+<h4 id="我也想读读看相关标准">我也想读读看相关标准</h4>
+
+<p>如你所愿，我整理了一下涉及到的标准。祝武运昌隆！</p>
+
+<h5 id="关于编码和算法">关于编码和算法</h5>
+
+<ul>
+  <li><a href="https://www.itu.int/ITU-T/studygroups/com17/languages/X.680-0207.pdf">X.680 - ASN.1 的标准和基本标注方式</a>：ASN.1 是这套方法的名字，而对应的标准号是 X.680。</li>
+  <li><a href="https://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf">X.690 - DER 编码规则</a>：也包括了其他的，比如 BER 和 CER 的编码规则。</li>
+  <li><a href="https://tools.ietf.org/html/rfc3279">RFC 3279 - 关于 X.509 如何编码密钥和签名</a>：在 X.509 应用层面上密钥以及签名的构成。</li>
+  <li><a href="http://www.secg.org/sec2-v2.pdf">SEC 2 - 关于椭圆曲线算法参数</a>：ECDSA 的各种 OIDs 定义和椭圆曲线 G 值的表示方式。</li>
+  <li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.202.2977&amp;rep=rep1&amp;type=pdf">X9.62 - 椭圆曲线的应用和相关编码方式</a>：描述了 ECDSA 算法和密钥的表示方式。它在 SEC 2 的基础上添加了关于曲线点 (也就是实际的密钥本身) 的定义。</li>
+  <li><a href="https://tools.ietf.org/html/rfc5480">RFC 5480 - 椭圆曲线公钥的信息</a>：EC 公钥的定义，表示方式，使用曲线和对应的密钥位数及散列算法的关系。</li>
+  <li><a href="https://tools.ietf.org/html/rfc8017">RFC 8017 - RSA 算法相关的标准</a>：包括像是 RSA key 的 ASN.1 定义，所注册的 OIDs 。</li>
+</ul>
+
+<h5 id="关于-jose">关于 JOSE</h5>
+
+<ul>
+  <li><a href="https://tools.ietf.org/html/rfc7515">RFC 7515 - JSON Web Signature (JWS)</a></li>
+  <li><a href="https://tools.ietf.org/html/rfc7516">RFC 7516 - JSON Web Encryption (JWE)</a></li>
+  <li><a href="https://tools.ietf.org/html/rfc7517">RFC 7517 - JSON Web Key (JWK)</a></li>
+  <li><a href="https://tools.ietf.org/html/rfc7518">RFC 7518 - JSON Web Algorithms (JWA)</a></li>
+  <li><a href="https://tools.ietf.org/html/rfc7519">RFC 7519 - JSON Web Token (JWT)</a></li>
+  <li><a href="https://tools.ietf.org/html/rfc7165">RFC 7165 - JOSE 的使用例子和要求</a></li>
+</ul>
+
+<h5 id="杂项">杂项</h5>
+
+<ul>
+  <li><a href="https://tools.ietf.org/html/rfc4648">RFC 4648 - 关于 Base64Url 的编码规则</a>：JOSE 中的数据都是使用 Base64Url 进行编码的。</li>
+  <li><a href="https://openid.net/specs/openid-connect-discovery-1_0.html">OpenID Connect Discovery</a>：OpenID 相关的 profile 取得方式，以及其中键值对的定义。关于 Discovery Document 的更好的说明，可以参考 <a href="https://developers.google.com/identity/protocols/OpenIDConnect#discovery">Google 的这个指南</a>。</li>
+</ul>
+
+<h4 id="验证和速查工具汇总">验证和速查工具汇总</h4>
+
+<ul>
+  <li><a href="https://holtstrom.com/michael/tools/asn1decoder.php">ASN.1 解码器</a>：将一段 DER 数据解码为可读的 ASN.1 表示。</li>
+  <li><a href="https://cryptii.com/pipes/base64-to-hex">数据格式转换</a>：将数据在 Base64、文本和字节表示之间进行任意转换。</li>
+  <li><a href="https://www.alvestrand.no/objectid/top.html">ASN.1 中的 OIDs 转换</a>：帮助解码和编码 OBJECT IDENTIFIER 值。</li>
+  <li><a href="https://8gwifi.org/jwkconvertfunctions.jsp">JWK 和 PEM 相互转换</a>：将 JWK 或者 PEM 的密钥相互转换的工具。</li>
+</ul>
+
+<h4 id="你的这篇文章或者代码好像有问题">你的这篇文章或者代码好像有问题！</h4>
+
+<p>我是初学者，文章中的纰漏请不吝赐教指出！</p>
+
+<p>关于代码方面的不足，<a href="https://github.com/line/line-sdk-ios-swift">LINE SDK</a> 欢迎各种 PR。但是如果您发现的问题涉及安全漏洞，或者会导致比较严重后果的话，还请<strong>先不要公开公布</strong>。如果能按照<a href="https://github.com/line/line-sdk-ios-swift/blob/master/.github/ISSUE_TEMPLATE.md">这里的说明</a>给我们发送邮件联系的话，实在感激不尽。</p>
+
+
+  </section>
+</article>
+
+<style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#ffffff !important;background-color:#FF813F !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 1px 9px !important;font-size: 22px !important;letter-spacing:0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#ffffff !important;}</style><link href="https://fonts.loli.net/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/onevcat"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list post-list__post-title post-title"><a href="/2019/02/swift-abi/" title="link to Swift ABI 稳定对我们到底意味着什么">Swift ABI 稳定对我们到底意味着什么</a></h2>
+       <p class="excerpt">Swift 社区最近最重大的新闻应该就是 ABI 稳定了。这个话题虽然已经讨论了有一阵子了，但随着 Xcode 10.2 beta 的迭代和 Swift 5 的 release 被提上日程，最终 Swift ABI 稳定能做到什么程度，我们开发者能做些什么，需要做些什么，就变成了一个重要的话题。Apple 在这个月接连发布了 ABI Stability and More 和 Evolving Swift On Apple Platforms After ABI Stability 两篇文章...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2019-02-21 10:28:00 +0900" class="post-list__meta--date date">2019-02-21</time> &#8226; <span class="post-list__meta--tags tags">能工巧匠集</span><a class="btn-border-small" href=/2019/02/swift-abi/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list post-list__post-title post-title"><a href="/2018/12/jose-2/" title="link to 与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (理论)">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (理论)</a></h2>
+       <p class="excerpt">概述这是关于 JOSE 和密码学的三篇系列文章中的第二篇，你可以在下面的链接中找到其他部分：  基础 - 什么是 JWT 以及 JOSE  理论 - JOSE 中的签名和验证流程 (本文)  实践 - 如何使用 Security.framework 处理 JOSE 中的验证这一篇中，主要介绍网络传输的密钥的编码和处理方法，以及进行数字签名和验证的基本流程。我们在之后实践一篇里，会使用到这些知识。密钥的表现形式显然 JWK 是一种密钥的表现形式，它使用 JSON 的方式，遵守 JWA 的参数...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2018-12-05 09:38:00 +0900" class="post-list__meta--date date">2018-12-05</time> &#8226; <span class="post-list__meta--tags tags">能工巧匠集</span><a class="btn-border-small" href=/2018/12/jose-2/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+    <div id="disqus_thread"></div>
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "https://onevcat.com/2018/12/jose-3/";
+        this.page.identifier = "/2018/12/jose-3/";
+    };
+
+    var disqus_shortname = 'onevcat';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2019-04-02 生成</span>
+        <span class="footer__copyright">本站由 <a href="https://onev.cat">@onevcat</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2019</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-25719337-1', 'onevcat.com');
+    ga('send', 'pageview');
+</script>
+
+
+    
+  </body>
+
+</html>

@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129028492-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-129028492-1');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="msapplication-TileColor" content="#70A2F9" />
+    <meta name="theme-color" content="#70A2F9" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.ico">
+    
+    <meta name="twitter:data1" content="Read Time" />
+    <meta name="twitter:label1" content="8 minutes" />
+    <link rel="stylesheet" href="/assets/css/post.css">
+    <link rel="stylesheet" href="/assets/css/monokai.css">
+    
+    <link type="application/atom+xml" rel="alternate" href="https://swiftjectivec.com/feed.xml" title="Swiftjective-C" />
+    <link type="application/json" rel="alternate" href="https://swiftjectivec.com/feed.json" title="Swiftjective-C" />
+    <!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>Optimizing Images | Swiftjective-C</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Optimizing Images" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="iOS is a visual medium teeming with beautiful images in virtually every app on your phone. Important though they are, it’s trivial to mismanage them from a memory and performance standpoint." />
+<meta property="og:description" content="iOS is a visual medium teeming with beautiful images in virtually every app on your phone. Important though they are, it’s trivial to mismanage them from a memory and performance standpoint." />
+<link rel="canonical" href="https://swiftjectivec.com/optimizing-images/" />
+<meta property="og:url" content="https://swiftjectivec.com/optimizing-images/" />
+<meta property="og:site_name" content="Swiftjective-C" />
+<meta property="og:image" content="https://swiftjectivec.com/assets/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-12-11T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://swiftjectivec.com/assets/images/logo.png" />
+<meta property="twitter:title" content="Optimizing Images" />
+<meta name="twitter:site" content="@https://swiftjectivec.com" />
+<meta name="twitter:creator" content="@jordanmorgan10" />
+<meta property="article:publisher" content="alpha10david" />
+<script type="application/ld+json">
+{"description":"iOS is a visual medium teeming with beautiful images in virtually every app on your phone. Important though they are, it’s trivial to mismanage them from a memory and performance standpoint.","@type":"BlogPosting","url":"https://swiftjectivec.com/optimizing-images/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://swiftjectivec.com/assets/images/logo.png"}},"image":"https://swiftjectivec.com/assets/images/logo.png","headline":"Optimizing Images","dateModified":"2018-12-11T00:00:00+00:00","datePublished":"2018-12-11T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://swiftjectivec.com/optimizing-images/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="twitter:title" content="Optimizing Images" />
+    <meta name="twitter:description" content="iOS is a visual medium teeming with beautiful images in virtually every app on your phone. Important though they are, it's trivial to mismanage them from a memory and performance standpoint." />
+</head>
+
+
+<body>
+    <div id="gridContainer">
+        <header id="gridHeader">
+	<nav>
+		<a href="/index.html"><h3>Swiftjective-C</h3></a>
+	</nav>
+	<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CK7I42QJ&placement=wwwswiftjectiveccom" id="_carbonads_js"></script>
+</header>
+        <main id="gridMiddle">
+            <article itemscope itemtype="http://schema.org/BlogPosting">
+                <section id="articleHeaderSection">
+                    
+                        <i>Now serving...</i>
+                    
+                    <h1 id="postHeader">Optimizing Images</h1>
+                    <small id="miniphon">Written by <a href=https://www.twitter.com/jordanmorgan10 target="_blank">Jordan Morgan</a> &#8226; Dec 11th, 2018</small>
+                </section>
+                <p>They say the best camera is the one you have with you. If that adage holds any weight, then without question - stem to stern the iPhone is the most important camera on the planet. And our industry shows it, too.</p>
+
+<p>On a vacation? It didn’t happen if it’s not documented on your Instagram story with several candid shots.</p>
+
+<p>Breaking news? Check Twitter and see what outlets are reporting on by peeping their photos of an event unfolding in real time.</p>
+
+<p>Etcetera.</p>
+
+<p>But for all of their ubiquity on the platform, the act of showing them in a performant and memory conservative manner can easily turn into a mismanaged endeavor. With a little know how as to what’s happening in UIKit and why in regards to how it treats images, one can gain some massive savings and forgo the unrelenting wrath of jetsam.</p>
+
+<h3 id="in-theory">In Theory</h3>
+<p>Pop quiz - how much memory will this 266 kilobyte (and quite dashing) photo of my beautiful daughter require in an iOS app?</p>
+
+<p><img src="../assets/images/baylor.jpg" alt="Baylor" /></p>
+
+<p>Spoiler alert - it’s not 266 kilobytes. It’s not 2.66 megabytes. It’s around <em>14 megabytes</em>.</p>
+
+<p>Why?</p>
+
+<p>iOS essentially derives its memory hit from an image’s <em>dimensions</em> - whereas the actual file size has much less to do with it. And the dimensions for this photo sit at 1718 pixels wide by 2048 pixels tall. Assuming each pixel will cost us four bytes:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1718</span> <span class="o">*</span> <span class="mi">2048</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">=</span> <span class="mf">13.42</span> <span class="n">megabytes</span> <span class="n">give</span> <span class="n">or</span> <span class="n">take</span>
+</code></pre></div></div>
+<p>Imagine if you’ve got a table view with a list of users, and each row shows the now pervasive circle avatar of their photo to the left. If you’re thinking things are kosher because each one has been packed up nice and tight from ImageOptim or something similar, that might not be the case. If each one is a conservative 256x256 you could still be taking quite a hit on memory.</p>
+
+<h3 id="the-rendering-pipeline">The Rendering Pipeline</h3>
+<p>All that to say - it’s worth knowing what’s going on under the hood. When you load up an image, it’s going to be processed in three steps:</p>
+
+<p>1) <strong>Load</strong> - iOS takes the compressed image and loads (in our example) the 266 kilobyte into memory. Really no worries yet.<br />
+2) <strong>Decode</strong> - Now, iOS takes the image and converts into a way the GPU can read and understand. It’s now uncompressed, and it’s here we’re at the 14MB size listed above. <br />
+3) <strong>Render</strong> - Just like it sounds, the image data is ready and willing to be rendered any which way. Even if it’s just by a 60 by 60 point image view.<br /></p>
+
+<p>The decoding phase is the big one. Here, iOS has created a buffer - specifically an image buffer, that’s got an in-memory representation of the image. So it stands to reason that this size is intrinsically tied to the proportions of the image itself and not its file size. This paints a clear picture of why the dimensions are so important when it comes to your memory consumption when working with images.</p>
+
+<p>For <code class="highlighter-rouge">UIImage</code> in particular, when we give it image data we received from a network hit or some other source, it decodes that data buffer to whatever compression the data says it’s encoded in (think PNG or JPEG). However, it’ll actually hang onto it as well. Since rendering is not a one shot operation, the <code class="highlighter-rouge">UIImage</code> keeps that image buffer around so it’s only decoding things one time.</p>
+
+<p>Expanding on this idea - one integral buffer for any iOS app is its frame buffer. This is what’s responsible for actually showing your iOS app as it appears on screen since it holds the rendered output of its contents. The display hardware on any iOS device uses this per-pixel information to literally illuminate the very pixels on the physical screen.</p>
+
+<p>And timing matters here. To get the buttery smooth 60 frames per second scrolling, the frame buffer will need to have UIKit render the app’s window and it’s subsequent subviews into it when their information changes (i.e. assigning an image to an image view). If you do that slow, you drop a frame.</p>
+
+<blockquote>
+  <p>Think 1/60th of a second is short on time? Pro Motion devices up the ante to 1/120th of a second.</p>
+</blockquote>
+
+<h3 id="size-does-matter">Size Does Matter</h3>
+<p>We can visualize this process and memory being consumed pretty easily. Using the picture of my daughter, I created a trivial app that shows an image view with that exact image within it:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">filePath</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">path</span><span class="p">(</span><span class="nv">forResource</span><span class="p">:</span><span class="s">"baylor"</span><span class="p">,</span> <span class="nv">ofType</span><span class="p">:</span> <span class="s">"jpg"</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">fileURLWithPath</span><span class="p">:</span> <span class="n">filePath</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">fileImage</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">contentsOfFile</span><span class="p">:</span> <span class="n">filePath</span><span class="p">)</span>
+
+<span class="c1">// Image view</span>
+<span class="k">let</span> <span class="nv">imageView</span> <span class="o">=</span> <span class="kt">UIImageView</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="n">fileImage</span><span class="p">)</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="o">.</span><span class="n">scaleAspectFit</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">widthAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalToConstant</span><span class="p">:</span> <span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">heightAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalToConstant</span><span class="p">:</span> <span class="mi">400</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+
+<span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">imageView</span><span class="p">)</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">centerXAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalTo</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">centerXAnchor</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">centerYAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalTo</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">centerYAnchor</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Mind the force unwraps in production. Here we’re using a simple example scenario.</p>
+</blockquote>
+
+<p>Which gives us this:
+<img src="../assets/images/baylorPhone.jpg" alt="Baylor" /></p>
+
+<p>A quick trip to LLDB shows us the image dimensions we’re working with, even though we’re using a much smaller image view to display it:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="kt">UIImage</span><span class="p">:</span> <span class="mh">0x600003d41a40</span><span class="o">&gt;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1718</span><span class="p">,</span> <span class="mi">2048</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>A remember - that’s in <em>points</em>. So if I’m on a 3x or 2x device then you could potentially multiply that number even more so. Let’s take a quick trip down <code class="highlighter-rouge">vmmap</code> to see if we can confirm that around 14 megabytes are being used from this one image:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vmmap</span> <span class="o">--</span><span class="n">summary</span> <span class="n">baylor</span><span class="o">.</span><span class="n">memgraph</span>
+</code></pre></div></div>
+
+<p>A few things stick out (truncated for brevity):</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">Physical</span> <span class="nv">footprint</span><span class="p">:</span>         <span class="mf">69.5</span><span class="kt">M</span>
+<span class="kt">Physical</span> <span class="nf">footprint</span> <span class="p">(</span><span class="n">peak</span><span class="p">):</span>  <span class="mf">69.7</span><span class="kt">M</span>
+</code></pre></div></div>
+
+<p>We’re sitting at almost 70 megabytes which gives us a nice baseline to confirm any refactor against. If we grep down into Image IO we can likely see some of the cost of our image as well:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vmmap</span> <span class="o">--</span><span class="n">summary</span> <span class="n">baylor</span><span class="o">.</span><span class="n">memgraph</span> <span class="o">|</span> <span class="n">grep</span> <span class="s">"Image IO"</span>
+
+<span class="kt">Image</span> <span class="kt">IO</span>  <span class="mf">13.4</span><span class="kt">M</span>   <span class="mf">13.4</span><span class="kt">M</span>   <span class="mf">13.4</span><span class="kt">M</span>    <span class="mi">0</span><span class="kt">K</span>  <span class="mi">0</span><span class="kt">K</span>  <span class="mi">0</span><span class="kt">K</span>   <span class="mi">0</span><span class="kt">K</span>  <span class="mi">2</span> 
+</code></pre></div></div>
+
+<p>Ah - there’s about 14 megabytes of dirty memory right there. That’s what our back-of-the-napkin math hypothesized our image would cost. For context, here’s a quick screenshot of Terminal to clearly illustrate what each column means since they were omitted from our greppin’:</p>
+
+<p><img src="../assets/images/vmmap.jpg" alt="Baylor" /></p>
+
+<p>So clearly, we’re paying the full cost of the image in our 300 x 400 image view at this point. The size of the image can be key, but it’s also not the only thing that matters.</p>
+
+<h3 id="color-space">Color Space</h3>
+<p>Part of the memory you’ll be requesting for is determined by yet another important factor - the color space. In the example above we made an assumption that likely isn’t the case with most iPhones - that the image was utilizing the sRGB format. The 4 bytes per pixel is figured up by giving one byte for red, blue, green and the alpha component.</p>
+
+<p>If you’re shooting with a device that supports the wide color format (for example, an iPhone 8+ or iPhone X) then you likely can double the hit across the board. Of course, the reverse is true as well. Metal can use the Alpha 8 format which has only a single channel to its name.</p>
+
+<p>It can be a lot to manage and think about. This is one reason why you should use <a href="https://swiftjectivec.com/UIGraphicsImageRenderer" target="_blank">UIGraphicsImageRenderer</a> instead of <code class="highlighter-rouge">UIGraphicsBeginImageContextWithOptions</code>. The latter will <em>always</em> use sRGB which means you could miss the wide format if you <a href="https://instagram-engineering.com/bringing-wide-color-to-instagram-5a5481802d7d" target="_blank">want it</a>, or miss out on the savings if you’re going smaller. As of iOS 12, <code class="highlighter-rouge">UIGraphicsImageRenderer</code> is going to pick the right one for you.</p>
+
+<p>Lest we forget, a lot of images that crop up aren’t really of the photographed variety but rather trivial drawing operations. Not to rehash what I wrote about recently, but in case you missed it:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">circleSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="kt">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">circleSize</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">// Draw a circle</span>
+<span class="k">let</span> <span class="nv">ctx</span> <span class="o">=</span> <span class="kt">UIGraphicsGetCurrentContext</span><span class="p">()</span><span class="o">!</span>
+<span class="kt">UIColor</span><span class="o">.</span><span class="n">red</span><span class="o">.</span><span class="nf">setFill</span><span class="p">()</span>
+<span class="n">ctx</span><span class="o">.</span><span class="nf">setFillColor</span><span class="p">(</span><span class="kt">UIColor</span><span class="o">.</span><span class="n">red</span><span class="o">.</span><span class="n">cgColor</span><span class="p">)</span>
+<span class="n">ctx</span><span class="o">.</span><span class="nf">addEllipse</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="n">circleSize</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="n">circleSize</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+<span class="n">ctx</span><span class="o">.</span><span class="nf">drawPath</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">fill</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">circleImage</span> <span class="o">=</span> <span class="kt">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">()</span>
+<span class="kt">UIGraphicsEndImageContext</span><span class="p">()</span>
+</code></pre></div></div>
+<p>This circle image above is using a 4 byte per pixel format. If you roll with <code class="highlighter-rouge">UIGraphicsImageRenderer</code> you can potentially open things up for up to a 75% savings by getting 1 byte per pixel by letting the renderer opt into the correct format automatically:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">circleSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">60</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">renderer</span> <span class="o">=</span> <span class="kt">UIGraphicsImageRenderer</span><span class="p">(</span><span class="nv">bounds</span><span class="p">:</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="n">circleSize</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="n">circleSize</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+<span class="k">let</span> <span class="nv">circleImage</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">image</span><span class="p">{</span> <span class="n">ctx</span> <span class="k">in</span>
+    <span class="kt">UIColor</span><span class="o">.</span><span class="n">red</span><span class="o">.</span><span class="nf">setFill</span><span class="p">()</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">cgContext</span><span class="o">.</span><span class="nf">setFillColor</span><span class="p">(</span><span class="kt">UIColor</span><span class="o">.</span><span class="n">red</span><span class="o">.</span><span class="n">cgColor</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">cgContext</span><span class="o">.</span><span class="nf">addEllipse</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="n">circleSize</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="n">circleSize</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">cgContext</span><span class="o">.</span><span class="nf">drawPath</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">fill</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="downscaling-vs-downsampling">Downscaling vs Downsampling</h3>
+<p>Moving past simple drawing scenarios - a lot of the issues with images and their impact on memory originate from the typical photos that we associate with the actual art of photography. Think portraits, landscape shots and more.</p>
+
+<p>It stands to reason that some engineers might assume (and, logically so) that simply downscaling them via <code class="highlighter-rouge">UIImage</code> will suffice. But it typically won’t due to the reasons above, and it’s also not as performant due to internal coordinate space transforms according to Apple’s Kyle Howarth.</p>
+
+<p><code class="highlighter-rouge">UIImage</code> becomes an issue here primarily because it will decompress the <em>original image</em> into memory as we discussed when looking at the rendering pipeline. We need a way to reduce the size of our image buffer, ideally.</p>
+
+<p>Thankfully, it’s possible to resize the images at the cost of the actual resized image only, which is what one might assume is happening already when it typically isn’t.</p>
+
+<p>Let’s try dropping down into a lower level API to downsample it instead:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">imageSource</span> <span class="o">=</span> <span class="kt">CGImageSourceCreateWithURL</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSString</span><span class="p">:</span><span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nv">kCGImageSourceThumbnailMaxPixelSize</span><span class="p">:</span><span class="mi">400</span><span class="p">,</span>
+                               <span class="nv">kCGImageSourceCreateThumbnailFromImageAlways</span><span class="p">:</span><span class="kc">true</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="k">let</span> <span class="nv">scaledImage</span> <span class="o">=</span> <span class="kt">CGImageSourceCreateThumbnailAtIndex</span><span class="p">(</span><span class="n">imageSource</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">options</span> <span class="k">as</span> <span class="kt">CFDictionary</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">imageView</span> <span class="o">=</span> <span class="kt">UIImageView</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">scaledImage</span><span class="p">))</span>
+    
+    <span class="n">imageView</span><span class="o">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="n">imageView</span><span class="o">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="o">.</span><span class="n">scaleAspectFit</span>
+    <span class="n">imageView</span><span class="o">.</span><span class="n">widthAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalToConstant</span><span class="p">:</span> <span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">imageView</span><span class="o">.</span><span class="n">heightAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalToConstant</span><span class="p">:</span> <span class="mi">400</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+    
+    <span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">imageView</span><span class="p">)</span>
+    <span class="n">imageView</span><span class="o">.</span><span class="n">centerXAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalTo</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">centerXAnchor</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">imageView</span><span class="o">.</span><span class="n">centerYAnchor</span><span class="o">.</span><span class="nf">constraint</span><span class="p">(</span><span class="nv">equalTo</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">centerYAnchor</span><span class="p">)</span><span class="o">.</span><span class="n">isActive</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Display wise, we’ve got the exact same result as before. But here, we’re using <code class="highlighter-rouge">CGImageSourceCreateThumbnailAtIndex()</code> instead of just putting the vanilla image into the image view. The source of truth will lie within <code class="highlighter-rouge">vmmap</code> once more to see if our optimizations have paid off (again, truncated for brevity):</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vmmap</span> <span class="o">-</span><span class="n">summary</span> <span class="n">baylorOptimized</span><span class="o">.</span><span class="n">memgraph</span>
+
+<span class="kt">Physical</span> <span class="nv">footprint</span><span class="p">:</span>         <span class="mf">56.3</span><span class="kt">M</span>
+<span class="kt">Physical</span> <span class="nf">footprint</span> <span class="p">(</span><span class="n">peak</span><span class="p">):</span>  <span class="mf">56.7</span><span class="kt">M</span>
+</code></pre></div></div>
+
+<p>And the savings have rolled in. If we compare the 69.5M from before to the 56.3M now we get a savings of 13.2M. That’s a <em>huge</em> savings, almost the whole cost of the image.</p>
+
+<p>Further, you can play around with the many options available to hone things for your use case. In session 219, “Images and Graphics Best Practices” from WWDC 18, Apple engineer Kyle Sluder showed an interesting way to control when decoding happens by using the <code class="highlighter-rouge">kCGImageSourceShouldCacheImmediately</code> flag:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">downsampleImage</span><span class="p">(</span><span class="n">at</span> <span class="kt">URL</span><span class="p">:</span><span class="kt">NSURL</span><span class="p">,</span> <span class="nv">maxSize</span><span class="p">:</span><span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIImage</span>
+<span class="p">{</span>
+    <span class="k">let</span> <span class="nv">sourceOptions</span> <span class="o">=</span> <span class="p">[</span><span class="nv">kCGImageSourceShouldCache</span><span class="p">:</span><span class="kc">false</span><span class="p">]</span> <span class="k">as</span> <span class="kt">CFDictionary</span>
+    <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="kt">CGImageSourceCreateWithURL</span><span class="p">(</span><span class="kt">URL</span> <span class="k">as</span> <span class="kt">CFURL</span><span class="p">,</span> <span class="n">sourceOptions</span><span class="p">)</span><span class="o">!</span>
+    <span class="k">let</span> <span class="nv">downsampleOptions</span> <span class="o">=</span> <span class="p">[</span><span class="nv">kCGImageSourceCreateThumbnailFromImageAlways</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+                             <span class="nv">kCGImageSourceThumbnailMaxPixelSize</span><span class="p">:</span><span class="n">maxSize</span>
+                             <span class="nv">kCGImageSourceShouldCacheImmediately</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+                             <span class="nv">kCGImageSourceCreateThumbnailWithTransform</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+                             <span class="p">]</span> <span class="k">as</span> <span class="kt">CFDictionary</span>
+    
+    <span class="k">let</span> <span class="nv">downsampledImage</span> <span class="o">=</span> <span class="kt">CGImageSourceCreateThumbnailAtIndex</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">downsampleOptions</span><span class="p">)</span><span class="o">!</span>
+    
+    <span class="k">return</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">downsampledImage</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Here Core Graphics won’t bother decoding the image until you specifically ask for the thumbnail. Also, take care to pass <code class="highlighter-rouge">kCGImageSourceCreateThumbnailMaxPixelSize</code> as we’ve done in both examples because if you don’t - you’re getting back a thumbnail which is the same size of the image. From the docs:</p>
+
+<blockquote>
+  <p>“…if a maximum pixel size isn’t specified, then the thumbnail will be the size of the full image, which probably isn’t what you want.”</p>
+</blockquote>
+
+<p>So what happened? In short, we created a much smaller decoded image buffer than before by putting the shrinking part of equation into a thumbnail. Thinking back on our rendering pipeline, for the first part (the load) we instead passed an image buffer that represented only the size of the image view we’re showing it in instead of reflecting the entire image’s dimensions for the <code class="highlighter-rouge">UIImage</code> to decode.</p>
+
+<p>Want a TL;DR for this entire article? Look for opportunities to downsample images instead of using <code class="highlighter-rouge">UIImage</code> to downscale them.</p>
+
+<h3 id="bonus-points">Bonus Points</h3>
+<p>I personally use this in tandem with the <a href="https://developer.apple.com/documentation/uikit/uitableviewdatasourceprefetching?language=swift">prefetch API</a> introduced in iOS 11. Remember that we’re inherently introducing spikes in CPU usage since we’re decoding images even if we’re doing it ahead of when the table or collection view might need our cell.</p>
+
+<p>Since iOS is efficient at managing power demand when there is a constant need for it and in this case it’ll likely be intermittent, it’s good to hop on your own queue to tackle something like this. This also moves the decoding to the background, which is another significant win.</p>
+
+<p>Cover your eyes, Objective-C code sample from my side project incoming:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Use your own queue instead of a global async one to avoid potential thread explosion</span>
+<span class="o">-</span> <span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="nv">tableView</span><span class="p">:(</span><span class="kt">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nv">prefetchRowsAtIndexPaths</span><span class="p">:(</span><span class="kt">NSArray</span><span class="o">&lt;</span><span class="kt">NSIndexPath</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPaths</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">downsampledImage</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">||</span> 
+        <span class="k">self</span><span class="o">.</span><span class="n">listItem</span><span class="o">.</span><span class="n">mediaAssetData</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    
+    <span class="kt">NSIndexPath</span> <span class="o">*</span><span class="n">mediaIndexPath</span> <span class="o">=</span> <span class="p">[</span><span class="kt">NSIndexPath</span> <span class="nv">indexPathForRow</span><span class="p">:</span><span class="mi">0</span>
+                                                     <span class="nv">inSection</span><span class="p">:</span><span class="kt">SECTION_MEDIA</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">indexPaths</span> <span class="nv">containsObject</span><span class="p">:</span><span class="n">mediaIndexPath</span><span class="p">])</span>
+    <span class="p">{</span>
+        <span class="kt">CGFloat</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">traitCollection</span><span class="o">.</span><span class="n">displayScale</span><span class="p">;</span>
+        <span class="kt">CGFloat</span> <span class="n">maxPixelSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">tableView</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="kt">SSSpacingJumboMargin</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+        
+        <span class="nf">dispatch_async</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">downsampleQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+            <span class="c1">// Downsample</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">downsampledImage</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UIImage</span> <span class="nv">downsampledImageFromData</span><span class="p">:</span><span class="k">self</span><span class="o">.</span><span class="n">listItem</span><span class="o">.</span><span class="n">mediaAssetData</span>
+                               <span class="nv">scale</span><span class="p">:</span><span class="n">scale</span>
+                        <span class="nv">maxPixelSize</span><span class="p">:</span><span class="n">maxPixelSize</span><span class="p">];</span>
+            
+            <span class="nf">dispatch_async</span><span class="p">(</span><span class="nf">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span> <span class="p">{</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">listItem</span><span class="o">.</span><span class="n">downsampledMediaImage</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">downsampledImage</span><span class="p">;</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Take care to use asset catalogs for the lion’s share of your raw image assets, since it already manages buffer sizes (and a lot more) for you already.</p>
+</blockquote>
+
+<p>For more inspiration on how to be a first class citizen of all things memory and images, be sure to catch these particularly informative sessions from WWDC 18:</p>
+
+<ul>
+  <li><a href="https://developer.apple.com/videos/play/wwdc2018/416/?time=1074" target="_blank">iOS Memory Deep Dive</a></li>
+  <li><a href="https://developer.apple.com/videos/play/wwdc2018/219/" target="_blank">Images and Graphics Best Practices</a></li>
+</ul>
+
+<h3 id="wrapping-up">Wrapping Up</h3>
+<p>You don’t know what you don’t know. And in programming, you’re basically signing up for an entire career of always running 10,000 miles an hour just to keep pace with the innovations and change. Which means… there’s going to be a mountain of APIs, frameworks, patterns or optimizations you simply weren’t aware of.</p>
+
+<p>And that can certainly be true with images. Most of the time, you initialize a <code class="highlighter-rouge">UIImageView</code> with some beautiful pixels and move on. I get it, Moore’s Law and whatever. These phones are fast and have gigs of memory, and hey - we put humans on the Moon with a computer that had less than 100 kilobytes of memory.</p>
+
+<p>But dance with the devil long enough, and he’s bound to rear his horns. Don’t let jetsam pluck you from existence because a selfie took up 1 gigabyte of memory. Hopefully, this knowledge and these techniques can you save you a trip down the crash logs.</p>
+
+<p>Until next time ✌️.</p>
+
+
+            </article>
+            <p id="pullsWelcome">Spot any corrections or have anything to add?<br />Feel free to open an <a href="https://github.com/DreamingInBinary/Swiftjective-C/issues" target="_blank">issue</a> or create a <a href="https://github.com/DreamingInBinary/Swiftjective-C/tree/master/_posts/2018-12-11-optimizing-images.md" target="_blank">pull request</a> for this article.</p>
+            
+            
+            <div id="next">
+                <hr />
+                <h4>Next up...</h4>
+                <a href="/the-chart-that-lies/"><h1>The Chart That Lies</h1></a>
+                <p>On being realistic about the things we make, and the relationship that time has with them.</p>
+
+                <hr />
+            </div>
+            <div>
+                <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+    <div id="mc_embed_signup">
+        <form action="https://swiftjectivec.us20.list-manage.com/subscribe/post?u=86763e3ce1da1fa79f8079a24&id=b5d1e5e3bc" class="validate" id="mc-embedded-subscribe-form" method="post" name="mc-embedded-subscribe-form" novalidate="" target="_blank">
+            <div id="mc_embed_signup_scroll">
+                <label for="mce-EMAIL">
+                </label>
+                <input class="email" id="mce-EMAIL" name="EMAIL" placeholder="email address" required="" type="email" value="">
+                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                        <input name="b_86763e3ce1da1fa79f8079a24_b5d1e5e3bc" tabindex="-1" type="text" value=""/>
+                    </div>
+                    <div class="clear">
+                        <input class="button" id="mc-embedded-subscribe" name="subscribe" type="submit" value="Subscribe"/>
+                    </div>
+                </input>
+            </div>
+        </form>
+    </div>
+</link>
+            </div>
+        </main>
+        <footer id="gridFooter">
+            <code>//Written by <a href="https://www.twitter.com/jordanmorgan10" target="_blank">Jordan Morgan</a></code>
+<nav>
+	
+	<a href="/index.html">Home</a>
+	
+    <a href="/about.html">About</a>
+    <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#114;&#100;&#97;&#110;&#64;&#100;&#114;&#101;&#97;&#109;&#105;&#110;&#103;&#105;&#110;&#98;&#105;&#110;&#97;&#114;&#121;&#46;&#99;&#111;">Contact</a>
+</nav>
+        </footer>
+    </div>
+</body>
+
+</html>

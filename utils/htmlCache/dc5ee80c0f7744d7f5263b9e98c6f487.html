@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Remote View Controllers in iOS 6 – Ole Begemann</title>
+  <link href="/stylesheets/stylesheet-82c59095.css" rel="stylesheet" />
+  <link rel="alternate" type="application/atom+xml" href="/blog/atom.xml">
+  <link rel="index" title="Ole Begemann" href="/">
+    <meta name="description" content="Remote view controllers are a new private feature in iOS 6 that Apple is using to move sharing services like the built-in e-mail, SMS or Facebook sharing sheets into separate processes, including their UI. I investigate how remote view controllers work under the hood in iOS 6 and what this could potentially mean for additional sharing functionality in iOS 7." />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script src="/js/jquery-2.2.4/jquery.min-69bb69e2.js"></script>
+  <script src="/js/bigfoot-2.1.4/bigfoot.min-d33e8719.js"></script>
+  <script type="text/javascript">
+    var bigfoot = $.bigfoot(
+    {
+      positionContent: true,
+      actionOriginalFN: "ignore",
+      numberResetSelector: ".article-content",
+    });
+  </script>
+  <script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  (function() {
+    var u="//s.oleb.net/p/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+  <script type="text/javascript">
+    function loadFonts(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var style = document.createElement('style');
+          style.innerHTML = xhr.responseText;
+          document.head.appendChild(style);
+        }
+      };
+      xhr.send();
+    }
+    var url = "/stylesheets/fonts-1cfeca82.css";
+    loadFonts(url);
+  </script>
+</head>
+
+
+  <body class="article">
+    <header>
+  <div class="header-bar">
+    <div class="site-id">
+      <h1><a href="/">Ole Begemann</a></h1>
+    </div>
+
+    <ol class="links">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/blog/">Articles</a>
+      </li>
+      <li>
+        <a href="/advanced-swift/">Book</a>
+      </li>
+      <li>
+        <a href="/about/">About</a>
+      </li>
+    </ol>
+  </div>
+</header>
+
+
+    <main class="content-container">
+      <article>
+        <header>
+          <h1>Remote View Controllers in iOS 6</h1>
+        </header>
+
+        <footer>
+          <div class="metadata">
+              <p class="author">
+                By Ole Begemann
+                <span class="author-info" style="display: none;"><a href="#fn:_" rel="footnote">…</a></span>
+                <script type="text/javascript">
+                  $(".author-info").css("display", "initial");
+                </script>
+              </p>
+                <!-- Contents of author info popover. Should be hidden in CSS -->
+                <ol class="author-footnotes">
+                  <li class="footnote" id="fn:_">
+                    <p>Twitter: <a href='https://twitter.com/olebegemann'>@olebegemann</a><br>Email: <a href='mailto:ole@oleb.net'>ole@oleb.net</a><br><a href='/about/'>More about me</a></p>
+                  </li>
+                </ol>
+
+              <p>
+                <span class="date"><time datetime="2012-10-01T20:27:00Z">October  1, 2012</time></span>
+              </p>
+
+              <p class="updated-date">Last update: <time datetime="2012-10-05T12:15:00Z">October  5, 2012</time></p>
+          </div>
+
+            <div class="series">
+              <p>
+                Other articles in this series:
+              </p>
+              <ol>
+                  <li class="active">
+                    <p>
+                      <span class="active">(1) Part 1</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <a href="/blog/2012/10/more-on-remote-view-controllers/">(2) Part 2</a>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <a href="/blog/2012/10/update-on-remote-view-controllers/">(3) Part 3</a>
+                    </p>
+                  </li>
+              </ol>
+            </div>
+        </footer>
+
+        <div class="article-content">
+          <p>In my <a href="/blog/2012/09/the-state-of-sharing-in-ios-6/">previous article on sharing in iOS 6</a>, I hinted at the possibility that Apple was working on a more powerful method to enable sharing between apps without compromising the iOS security architecture.</p>
+
+<p>In fact, Apple is already using a new undocumented concept called <em>Remote View Controllers</em> in iOS 6. This post is an attempt at investigating what is going on under the hood in iOS 6 and what this may mean for future versions of iOS.</p>
+
+<p>I first learned about the existence of remote view controllers from a tweet by Grant Paul:</p>
+
+<blockquote class="tweet" cite="https://twitter.com/chpwn/statuses/244968969365241856">
+  <p>
+    New, private iOS 6 feature Apple is using: remote view controllers. For example: the Mail compose view is now run in a separate process.
+  </p>
+  <cite>
+      <p class="username"><a href="https://twitter.com/chpwn">@chpwn</a></p>
+      <p class="author">Grant Paul</p>
+      <p class="date"><a href="https://twitter.com/chpwn/statuses/244968969365241856">September 10, 2012</a></p>
+  </cite>
+</blockquote>
+
+<p>This gives us a few hints where to begin the investigation. I wrote a very simple test app that presents one of four built-in sharing screens – <a href="http://developer.apple.com/library/ios/#documentation/MessageUI/Reference/MFMailComposeViewController_class/Reference/Reference.html">E-mail</a>, <a href="http://developer.apple.com/library/ios/#Documentation/MessageUI/Reference/MFMessageComposeViewController_class/Reference/Reference.html">SMS</a>, <a href="http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Reference/SLComposeViewController_Class/Reference/Reference.html">Twitter and Facebook</a> – of iOS 6 on tapping a button. I use Apple’s documented APIs, which haven’t changed in iOS 6<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>, for this purpose. For example, the code to present the e-mail sharing view looks like this:</p>
+
+<div class="highlight"><pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">openMailComposer</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">MFMailComposeViewController</span> <span class="nf">canSendMail</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">MFMailComposeViewController</span> <span class="o">*</span><span class="n">controller</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MFMailComposeViewController</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">controller</span> <span class="nf">setMailComposeDelegate</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">controller</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>When we run this app and monitor the system with Activity Monitor<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, we notice that a new process named <em>MailCompositionService</em> launches once the app presents the e-mail compose sheet. Further inspection of the process reveals that this process resides in <code>/Applications/MailCompositionService.app/</code> and links with <code>/System/Library/PrivateFrameworks/XPCObjects.framework/</code>.</p>
+
+<div class="figure-container">
+  <figure style="max-width: 756px;">
+    <a href="/media/activity-monitor-mailcompositionservice-ios6.png">
+      <img src="/media/activity-monitor-mailcompositionservice-ios6.png" alt="Activity Monitor showing the MailCompositionService that is launched in iOS 6" />
+    </a>
+    <figcaption>
+      Activity Monitor showing the MailCompositionService that is launched in iOS 6 when an app presents an <code>MFMailComposeViewController</code>.
+    </figcaption>
+  </figure>
+</div>
+
+<div class="figure-container">
+  <figure style="max-width: 756px;">
+    <a href="/media/activity-monitor-mailcompositionservice-xpcobjects-framework.png">
+      <img src="/media/activity-monitor-mailcompositionservice-xpcobjects-framework.png" alt="Activity Monitor showing that MailCompositionService links with XPCObjects.framework" />
+    </a>
+    <figcaption>
+      The inspection view reveals that MailCompositionService links with the private XPCObjects.framework.
+    </figcaption>
+  </figure>
+</div>
+
+<p>You don’t even have to write a new app if you want to confirm this for yourself. Any iOS app that offers the user to share something via e-mail should show the same results.
+This behavior is new in iOS 6. Running the same test on an iOS 5 device will not cause any new process to be launched.</p>
+
+<h1 id="xpc">XPC</h1>
+
+<p>The frameworks <code>MailCompositionService.app</code> links with are the first hint that Apple is now using <a href="http://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html#//apple_ref/doc/uid/10000172i-SW6-SW1">XPC</a> on iOS. Introduced in OS X 10.7 Lion, XPC defines an API that allows processes to communicate with each other asynchronously in a very simple and efficient manner.</p>
+
+<p>Another feature of XPC is that the operating system can manage the lifetime of an XPC process. A host app does not have to manually start and stop a helper service (or constantly monitor it just to be able to restart it when it crashes); the host app just opens an XPC connection to the helper service and the OS will launch it when necessary and quit it when all connections have been closed.</p>
+
+<p>Apple introduced XPC in OS X for security reasons. Apps are supposed to split themselves up into separate services that each handle a security-sensitive component. For example, a web browser might split up all its network communication and its HTML/Javascript parsing components into separate XPC services. That way, these services can run with very limited permissions (no access to the file system) and won’t be able to do much damage if they get compromised.</p>
+
+<p>On iOS, apps already have a very limited set of permissions. While it might not seem as useful to split up iOS apps into multiple XPC services, the XPC architecture can also be used to allow existing apps to access certain system-wide services in a more secure manner or perhaps even to allow third-party apps to share data with each other without compromising the security model of the OS.</p>
+
+<p>A class dump reveals that iOS 6 indeed includes the private <a href="https://github.com/nst/iOS-Runtime-Headers/tree/master/PrivateFrameworks/XPCKit.framework">XPCKit.framework</a><sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>, <a href="https://github.com/nst/iOS-Runtime-Headers/tree/master/PrivateFrameworks/XPCObjects.framework">XPCObjects.framework</a> and <a href="https://github.com/nst/iOS-Runtime-Headers/tree/master/PrivateFrameworks/XPCService.framework">XPCService.framework</a>, which seem to be pretty much equivalent to the XPC functionality in OS X 10.8.</p>
+
+<h1 id="view-hierarchy-ends-with-uiremoteview">View Hierarchy Ends with <code>_UIRemoteView</code></h1>
+
+<h2 id="e-mail-sharing">E-Mail Sharing</h2>
+
+<p>Next, let’s investigate the view hierarchy of the e-mail compose sheet. I set a breakpoint in the <code>mailComposeController:didFinishWithResult:error:</code> delegate method to stop the app in the debugger as soon as the user taps one of the buttons in the <code>MFMailComposeViewController</code> (just before we dismiss the view controller again):</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>(lldb) po controller
+(MFMailComposeViewController *) $1 = 0x1e04f6d0 &lt;MFMailComposeViewController: 0x1e04f6d0&gt;
+</code></pre></div>
+<p>No surprises here. The view controller is indeed an instance of <code>MFMailComposeViewController</code>. Let’s have a look at the entire view hierarchy<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>(lldb) po [controller.view recursiveDescription]
+(id) $2 = 0x1e05c2e0 'MFMailComposeViewController:0x1e04f6d0' 1 child[MFMailComposeInternalViewController:0x1e02dfd0 ] &lt;UILayoutContainerView: 0x1e04ffe0; frame = (0 0; 320 480); autoresize = W+H; layer = &lt;CALayer: 0x1e0500a0&gt;&gt;
+   | &lt;UINavigationTransitionView: 0x1d57f6a0; frame = (0 0; 320 480); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x1d57f770&gt;&gt;
+   |    | &lt;UIViewControllerWrapperView: 0x1e04f600; frame = (0 20; 320 460); autoresize = W+H; layer = &lt;CALayer: 0x1e0241f0&gt;&gt;
+   |    |    | 'MFMailComposeInternalViewController:0x1e02dfd0' 1 child[MFMailComposeRemoteViewController:0x1e055230 ] &lt;UIView: 0x1e05f9a0; frame = (0 0; 320 460); autoresize = W+H; layer = &lt;CALayer: 0x1e05fa00&gt;&gt;
+   |    |    |    | 'MFMailComposeRemoteViewController:0x1e055230' &lt;_UISizeTrackingView: 0x1e05c030; frame = (0 0; 320 460); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x1e05c110&gt;&gt;
+   |    |    |    |    | &lt;_UIRemoteView: 0x1e05c300; frame = (0 0; 320 480); transform = [0.5, -0, 0, 0.5, -0, 0]; userInteractionEnabled = NO; layer = &lt;CALayerHost: 0x1e05c460&gt;&gt;
+</code></pre></div>
+<p>Now that’s interesting. The view (controller) hierarchy consists of an <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/MessageUI.framework/MFMailComposeInternalViewController.h"><code>MFMailComposeInternalViewController</code></a> at the top and goes down to an <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/MessageUI.framework/MFMailComposeRemoteViewController.h"><code>MFMailComposeRemoteViewController</code></a>, which in turn contains a <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/UIKit.framework/_UIRemoteView.h"><code>_UIRemoteView</code></a>. This <code>_UIRemoteView</code> is at the bottom of the view hierarchy; there is no evidence of the labels, text fields or text views that are visible in the mail composer’s user interface (which makes sense if you consider that these views now reside in a different process).</p>
+
+<h2 id="different-situation-than-in-ios-5">Different Situation than in iOS 5</h2>
+
+<p>Compare this to the view hierarchy when the same app runs on an iOS 5 device:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>(lldb) po controller
+(MFMailComposeViewController *) $1 = 0x07ea0420 &lt;MFMailComposeViewController: 0x7ea0420&gt;
+(lldb) po [controller.view recursiveDescription]
+(id) $2 = 0x08bb4d50 'MFMailComposeViewController:0x7ea0420' 1 child[MFMailComposeController:0x89b0220 ] &lt;UILayoutContainerView: 0x8b97e70; frame = (0 0; 320 480); autoresize = W+H; layer = &lt;CALayer: 0x8b97ec0&gt;&gt;
+   | &lt;UINavigationTransitionView: 0x89b1460; frame = (0 0; 320 480); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x89b1500&gt;&gt;
+   |    | &lt;UIViewControllerWrapperView: 0x7e77990; frame = (0 64; 320 416); autoresize = W+H; layer = &lt;CALayer: 0x7e98af0&gt;&gt;
+   |    |    | 'MFMailComposeController:0x89b0220' &lt;MFMailComposeView: 0x89b4410; baseClass = UITransitionView; frame = (0 0; 320 416); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x89b4530&gt;&gt;
+   |    |    |    | &lt;UIView: 0x89b1d50; frame = (0 0; 320 416); autoresize = W+H; layer = &lt;CALayer: 0x898d130&gt;&gt;
+   |    |    |    |    | &lt;MFComposeScrollView: 0x89b4780; baseClass = UIScrollView; frame = (0 0; 320 416); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x89b4940&gt;; contentOffset: {0, 0}&gt;
+   |    |    |    |    |    | &lt;UIView: 0x89b56d0; frame = (0 0; 320 132); clipsToBounds = YES; autoresize = W; layer = &lt;CALayer: 0x89b5700&gt;&gt;
+   |    |    |    |    |    |    | &lt;MFMailComposeRecipientView: 0x89b5d70; frame = (0 0; 320 44); text = ''; autoresize = W; layer = &lt;CALayer: 0x89b5e70&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;UIView: 0x89b5500; frame = (0 43; 320 1); autoresize = W; layer = &lt;CALayer: 0x89b5e40&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;_MFMailRecipientTextField: 0x89b5fe0; baseClass = UITextField; frame = (45 12; 275 25); text = ''; clipsToBounds = YES; opaque = NO; autoresize = W; layer = &lt;CALayer: 0x89b4f30&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;MFHeaderLabelView: 0x89b9350; frame = (8 10; 25 21); autoresize = RM+BM; layer = &lt;CALayer: 0x89b9510&gt;&gt;
+   |    |    |    |    |    |    | XX (&lt;MFMailComposeRecipientView: 0x89bc020; frame = (0 44; 320 44); text = ''; alpha = 0; autoresize = W; layer = &lt;CALayer: 0x89bc0b0&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;UIView: 0x89bc100; frame = (0 43; 320 1); autoresize = W; layer = &lt;CALayer: 0x89bc130&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;_MFMailRecipientTextField: 0x89bc240; baseClass = UITextField; frame = (46 12; 274 25); text = ''; clipsToBounds = YES; opaque = NO; autoresize = W; layer = &lt;CALayer: 0x89bc360&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;MFHeaderLabelView: 0x89b6420; frame = (8 10; 26 21); autoresize = RM+BM; layer = &lt;CALayer: 0x89b7d80&gt;&gt;)
+   |    |    |    |    |    |    | XX (&lt;MFMailComposeRecipientView: 0x89bd9a0; frame = (0 44; 320 44); text = ''; alpha = 0; autoresize = W; layer = &lt;CALayer: 0x89bda30&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;UIView: 0x89bda80; frame = (0 43; 320 1); autoresize = W; layer = &lt;CALayer: 0x89bdab0&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;_MFMailRecipientTextField: 0x89bdbc0; baseClass = UITextField; frame = (54 12; 266 25); text = ''; clipsToBounds = YES; opaque = NO; autoresize = W; layer = &lt;CALayer: 0x89bdce0&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;MFHeaderLabelView: 0x89bede0; frame = (8 10; 34 21); autoresize = RM+BM; layer = &lt;CALayer: 0x89bee20&gt;&gt;)
+   |    |    |    |    |    |    | XX (&lt;MFComposeFromView: 0x89bf580; frame = (0 44; 320 44); alpha = 0; autoresize = W; layer = &lt;CALayer: 0x89bf620&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;UIView: 0x89bf7b0; frame = (0 43; 320 1); autoresize = W; layer = &lt;CALayer: 0x89bf7e0&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;MFHeaderLabelView: 0x89bf520; frame = (8 10; 45 21); autoresize = RM+BM; layer = &lt;CALayer: 0x89bfd10&gt;&gt;)
+   |    |    |    |    |    |    |    | XX (&lt;UITextLabel: 0x89d2e70; frame = (57 9; 263 25); text = 'Example User &lt;example@me....'; clipsToBounds = YES; autoresize = W; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89d2f10&gt;&gt;)
+   |    |    |    |    |    |    | &lt;MFComposeSubjectView: 0x89bffa0; frame = (0 88; 320 44); autoresize = W; layer = &lt;CALayer: 0x89c0020&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;UIView: 0x89c01b0; frame = (0 43; 320 1); autoresize = W; layer = &lt;CALayer: 0x89c01e0&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;MFHeaderLabelView: 0x89bff20; frame = (8 10; 62 21); autoresize = RM+BM; layer = &lt;CALayer: 0x89bff60&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;UITextField: 0x89c0710; frame = (76 12; 236 25); clipsToBounds = YES; opaque = NO; layer = &lt;CALayer: 0x89bfff0&gt;&gt;
+   |    |    |    |    |    |    | &lt;MFComposeMultiView: 0x7e97270; frame = (0 44; 320 44); autoresize = W; layer = &lt;CALayer: 0x7e97320&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;UIView: 0x7e97500; frame = (0 43; 320 1); autoresize = W; layer = &lt;CALayer: 0x7e97530&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;MFHeaderLabelView: 0x7e97700; frame = (8 10; 59 21); autoresize = RM+BM; layer = &lt;CALayer: 0x7e97740&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;UILabel: 0x7e97770; frame = (73 9; 239 25); clipsToBounds = YES; userInteractionEnabled = NO; layer = &lt;CALayer: 0x7e978c0&gt;&gt;
+   |    |    |    |    |    | &lt;MFComposeTextContentView: 0x89cf930; baseClass = UITextContentView; frame = (0 132; 320 284); text = '
+
+Sent from my iPhone'; autoresize = W+H; layer = &lt;CALayer: 0x8bae120&gt;&gt;
+   |    |    |    |    |    |    | &lt;MFComposeBodyField: 0x832f200; baseClass = UIWebDocumentView; frame = (0 0; 320 284); text = '
+
+Sent from my iPhone'; opaque = NO; layer = &lt;UIWebLayer: 0x7e988e0&gt;&gt;
+   |    |    |    |    |    |    |    | &lt;TileHostLayer: 0x89b2d70&gt; (layer)
+   |    |    |    |    |    |    |    |    | &lt;TileLayer: 0x7e985c0&gt; (layer)
+   |    |    |    |    |    | XX (&lt;UIImageView: 0x8dc6cc0; frame = (1 408; 318 7); alpha = 0; opaque = NO; autoresize = TM; userInteractionEnabled = NO; layer = &lt;CALayer: 0x8dc6d30&gt;&gt;) - (null)
+   |    |    |    |    |    | XX (&lt;UIImageView: 0x8dc6d60; frame = (312 1; 7 384); alpha = 0; opaque = NO; autoresize = LM; userInteractionEnabled = NO; animations = { opacity=&lt;CABasicAnimation: 0x89cea00&gt;; }; layer = &lt;CALayer: 0x8dc6dd0&gt;&gt;) - (null)
+   | &lt;UINavigationBar: 0x89b04f0; frame = (0 20; 320 44); autoresize = W; layer = &lt;CALayer: 0x89b0a80&gt;&gt;
+   |    | &lt;UINavigationBarBackground: 0x89b0cb0; frame = (0 0; 320 44); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89b0d40&gt;&gt; - (null)
+   |    | &lt;UINavigationItemView: 0x89b11d0; frame = (93 8; 133 27); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89b1220&gt;&gt;
+   |    | &lt;UINavigationButton: 0x89b1bf0; frame = (5 7; 60 30); opaque = NO; layer = &lt;CALayer: 0x89b1d80&gt;&gt;
+   |    |    | &lt;UIImageView: 0x89b2590; frame = (0 0; 60 30); clipsToBounds = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89b25d0&gt;&gt; - (null)
+   |    |    | &lt;UIButtonLabel: 0x89b20e0; frame = (10 7; 40 15); text = 'Cancel'; clipsToBounds = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89b2150&gt;&gt;
+   |    | &lt;UINavigationButton: 0x89b2020; frame = (265 7; 50 30); opaque = NO; layer = &lt;CALayer: 0x89b1ae0&gt;&gt;
+   |    |    | &lt;UIImageView: 0x89b1020; frame = (0 0; 50 30); clipsToBounds = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89b2b00&gt;&gt; - (null)
+   |    |    | &lt;UIButtonLabel: 0x89b1560; frame = (10 7; 30 15); text = 'Send'; clipsToBounds = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x89b15d0&gt;&gt;
+</code></pre></div>
+<p>The view hierarchy is a lot longer and does include all the labels and text views we would expect of a mail composition UI. As we have seen, the public API has remained the same while the underlying implementation has completely changed. If your app currently goes around the public API of <code>MFMailComposeViewController</code> and tries to access certain subviews directly, you’ll probably already have noticed that it no longer works as intended in iOS 6. (And there doesn’t seem to be a quick and easy way to make such a hack work again.)</p>
+
+<h2 id="facebook-sharing">Facebook Sharing</h2>
+
+<p>We get a very similar result when we present a Facebook sharing sheet in iOS 6. Activity Monitor shows that a new process, <code>SocialUIService</code>, gets launched. And the view (controller) hierarchy looks like this:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>(lldb) po [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentedViewController]
+(id) $1 = 0x1d545a10 &lt;SLFacebookComposeViewController: 0x1d545a10&gt;
+(lldb) po [[[[[[UIApplication sharedApplication] keyWindow] rootViewController] presentedViewController] view] recursiveDescription]
+(id) $2 = 0x1e02b4f0 'SLFacebookComposeViewController:0x1d545a10' 1 child[SLFacebookRemoteComposeViewController:0x1d5404b0 ] &lt;UIView: 0x1d547f90; frame = (0 20; 320 460); opaque = NO; autoresize = W+H; layer = &lt;CALayer: 0x1d57efa0&gt;&gt;
+   | 'SLFacebookRemoteComposeViewController:0x1d5404b0' &lt;_UISizeTrackingView: 0x1d586c00; frame = (0 0; 320 460); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x1d586c60&gt;&gt;
+   |    | &lt;_UIRemoteView: 0x1d586ce0; frame = (0 0; 320 480); transform = [0.5, -0, 0, 0.5, -0, 0]; userInteractionEnabled = NO; layer = &lt;CALayerHost: 0x1d586d40&gt;&gt;
+</code></pre></div>
+<p><a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/Social.framework/SLFacebookComposeViewController.h"><code>SLFacebookComposeViewController</code></a> has only one child, <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/Social.framework/SLFacebookRemoteComposeViewController.h"><code>SLFacebookRemoteComposeViewController</code></a>, which again hosts a <code>_UIRemoteView</code>. We have no information about the contents of the remote view.</p>
+
+<h2 id="twitter-sharing-not-yet-converted-to-xpc">Twitter Sharing Not Yet Converted to XPC</h2>
+
+<p>Interestingly, I could <em>not</em> observe a similar behavior when presenting the Tweet compose sheet with <code>SLComposeViewController</code>. While the Tweet compose sheet also causes a new process, <code>twitterd</code>, to launch, the view hierarchy includes all the expected subviews and no traces of <code>_UIRemoteView</code>.</p>
+
+<p>I assume the task of <code>twitterd</code> is only to manage access to the Twitter accounts defined in iOS Settings. I suppose Apple has not yet converted the Tweet compose sheet to the new remote view controller pattern.</p>
+
+<h1 id="a-closer-look-at-mailcompositionservice">A Closer Look At MailCompositionService</h1>
+
+<p>Let’s see what we can find out about these new processes that show up in Activity Monitor. Their binaries for the iOS Simulator are located in <code>/Applications/­Xcode.app/­Contents/­Developer/­Platforms/­iPhoneSimulator.platform/­Developer/­SDKs/­iPhoneSimulator6.0.sdk/­Applications</code>. In that directory, we find <code>MailCompositionService.app</code>, <code>MessagesViewService.app</code> (for the SMS/iMessage compose sheet), <code>SocialUIService.app</code> (for social sharing like Facebook, presumably SinaWeibo and, in the future, Twitter).</p>
+
+<p>A <a href="https://gist.github.com/3813291">class dump of <code>MailCompositionService.app</code></a> reveals the following classes and protocols:</p>
+
+<ul>
+  <li>The <code>MFMailComposeRemoteService</code> and <code>MFMailComposeRemoteHost</code> protocols</li>
+  <li><code>ComposeNavigationController</code>, a <code>UINavigationController</code> subclass.</li>
+  <li><code>ComposeServiceRemoteViewController</code>, a <code>UIViewController</code> subclass that implements, among others, the <code>MFMailComposeRemoteService</code> protocol. This class contains an ivar  <code>XPCProxy&lt;MFMailComposeRemoteHost&gt; *_proxy;</code>.</li>
+</ul>
+
+<p>Without going into too much detail, it seems clear that the host app and the service set up proxy objects on either side of the process boundary. These proxy objects use XPC to communicate with each other. The two protocols, <code>MFMailComposeRemoteService</code> and <code>MFMailComposeRemoteHost</code>, define what messages can be sent in each direction.</p>
+
+<p>The host app can initialize the data shown in the mail compose sheet, using messages like <code>setCompositionValues:</code>, <code>setUICustomizationData:</code> and <code>addAttachmentData:mimeType:fileName:identifier:</code> defined in <code>MFMailComposeRemoteService</code>. In turn, the MailCompositionService can signal its host app with the messages <code>bodyFinishedDrawing</code> and <code>compositionFinishedWithResult:error:</code> defined in <code>MFMailComposeRemoteHost</code>.</p>
+
+<h2 id="other-services">Other Services</h2>
+
+<p>A class dump of the other processes I found in the simulator’s <code>/Applications</code> folder did not prove as fruitful as the MailCompositionService. Most of the other services did not reveal new classes or protocols that were modeled after the MailCompositionService example. I do not know whether this is because Apple’s implementation is not yet complete or due to a limitation of the iOS Simulator or due to an error on my part.</p>
+
+<div class="update">
+  <p><strong>Update October 5, 2012</strong> After further investigation, I found out the reason for this observation. In many cases, the view controllers that are instantiated by the remote XPC services are already present in Apple’s iOS 6 frameworks and therefore do not have to be part of the XPC service binaries themselves. For instance, the <code>CK­SMS­Compose­Remote­View­Controller</code> class that is used to display an SMS/iMessage compose UI is part of the private ChatKit.framework rather than residing directly in Messages­View­Service.app.</p>
+
+  <p>As such, MailCompositionService.app is an exception as <code>Compose­Service­Remote­View­Controller</code> is <em>not</em> part of MessageUI.framework. <a href="/blog/2012/10/more-on-remote-view-controllers/">The list of all remote view controllers I found</a> in part 2 of this series has the details.</p>
+</div>
+
+<h2 id="shoeboxuiserice-and-webviewservice">ShoeboxUISerice and WebViewService</h2>
+
+<p>Two other services are worth noting. I suppose <code>ShoeboxUIService.app</code> is used to present a Passbook UI in Safari and Mail when a user downloads or receives a pass (Shoebox was Apple’s code name for Passbook).</p>
+
+<p>The presence of <code>WebViewService.app</code> suggests that Apple is also working on a remote process model for presenting a <code>UIWebView</code> from an app. This functionality could potentially mean that web views used by third-party apps would no longer have a performance disadvantage when compared against Mobile Safari due to Apple’s <a href="http://daringfireball.net/2011/03/nitro_ios_43">disabling of Javascript just-in-time compilation in all apps except Safari for security reasons</a>.</p>
+
+<p>A further hint at such a feature is the presence of the private <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/UIKit.framework/_UIRemoteWebViewController.h"><code>_UIRemoteWebViewController</code></a> class in the iOS 6 class dump. However, in my experiments I was not able to instantiate a remote web view.</p>
+
+<h1 id="uiremoteviewcontroller">_UIRemoteViewController</h1>
+
+<p><code>MFMailComposeRemoteViewController</code> and <code>SLFacebookRemoteComposeViewController</code>, the classes we saw in the view controller hierarchy above, both inherit from the private <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/UIKit.framework/_UIRemoteViewController.h"><code>_UIRemoteViewController</code></a> class. I assume this class is one of the central elements of the remote view controller design. Looking at its interface, there is one class method that likely plays a big part in setting everything up:</p>
+
+<div class="highlight"><pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">requestViewController</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">arg1</span> <span class="nf">fromServiceWithBundleIdentifier</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">arg2</span> <span class="nf">connectionHandler</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">arg3</span><span class="p">;</span>
+</code></pre></div>
+<p>I <a href="http://www.mikeash.com/pyblog/friday-qa-2010-01-29-method-replacement-for-fun-and-profit.html">swizzled</a> this method in my test app to be able to set a breakpoint and look at the three arguments and the method’s return value. This is what I found:</p>
+
+<div class="figure-container">
+  <figure style="max-width: 557px;">
+    <a href="/media/xcode-call-stack-mfmailcomposeviewcontroller-ios6.png">
+      <img src="/media/xcode-call-stack-mfmailcomposeviewcontroller-ios6.png" alt="Xcode debugger showing call stack for MFMailComposeViewController" />
+    </a>
+    <figcaption>
+      The call stack in Xcode's debugger after we presented an <code>MFMailComposeViewController</code> on screen. Note that <code>MFMailComposeViewController</code> directly calls <code>requestViewController:fromServiceWithBundleIdentifier:connectionHandler:</code> to create the remote view controller and initiate the XPC process.
+    </figcaption>
+  </figure>
+</div>
+
+<p>Have a look at the call stack above. My method <code>-[ViewController openMailComposer:]</code> creates the <code>MFMailComposeViewController</code> and presents it on screen. This leads directly to the creation of an <code>MFMailComposeIntervalViewController</code>, whose init method then calls the class method we have been looking for with these arguments:</p>
+
+<div class="highlight"><pre class="highlight objective_c"><code><span class="p">[</span><span class="n">MFMailComposeRemoteViewController</span>
+                      <span class="nf">requestViewController</span><span class="p">:</span><span class="s">@"ComposeServiceRemoteViewController"</span>
+            <span class="nf">fromServiceWithBundleIdentifier</span><span class="p">:</span><span class="s">@"com.apple.MailCompositionService"</span>
+                          <span class="n">connectionHandler</span><span class="o">:&lt;</span><span class="n">__NSStackBlock__</span><span class="o">:</span> <span class="mh">0xbfffdc20</span><span class="o">&gt;</span><span class="p">];</span>
+</code></pre></div>
+<p>This fits our other findings perfectly. <code>@"com.apple.MailCompositionService"</code> is the bundle id of <code>MailCompositionService.app</code> and <code>@"ComposeServiceRemoteViewController"</code> is the name of the class the remote service should instantiate. The third argument is obviously a block that will be called by the XPC frameworks when the connection is established and/or when a new message from the remote service arrives.</p>
+
+<h1 id="dead-end">Dead End</h1>
+
+<p>The return value of <code>+requestViewController:­fromServiceWithBundleIdentifier:­connectionHandler:</code> is a <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/UIKit.framework/_UIAsyncInvocation.h"><code>_UIAsyncInvocation</code></a> instance. Unfortunately, I could not find out much about the purpose of this class. It looks like a variant of <a href="https://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSInvocation_Class/Reference/Reference.html"><code>NSInvocation</code></a> for asynchronous operations that want to notify some other object about their progress.</p>
+
+<p>If I use the debugger to send an <code>invoke</code> message to this <code>_UIAsyncInvocation</code>, it returns a <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/UIKit.framework/_UIAsyncInvocationObserver.h"><code>_UIAsyncInvocationObserver</code></a> instance. What this observer’s purpose is, I don’t know.</p>
+
+<div class="update">
+  <p><strong>Update October 5, 2012</strong> I now believe the <code>_UIAsyncInvocation</code> can be used by the caller of the method to cancel the XPC connection prematurely. <a href="/blog/2012/10/more-on-remote-view-controllers/">Read more on this in part 2</a>.</p>
+</div>
+
+<p>This is where I ran into a dead end with my experiments. Since I was not able to find out more about the signature of the connection handler block or the purpose of the method’s return value, I did not succeed in manually invoking a remote view controller. There are also other classes, such as <a href="https://github.com/nst/iOS-Runtime-Headers/blob/master/Frameworks/UIKit.framework/_UIRemoteViewControllerConnectionRequest.h"><code>_UIRemoteViewControllerConnectionRequest</code></a>, that need to be investigated closer. However, I am reasonably sure that I am on the right track.</p>
+
+<h1 id="outlook-for-ios-7">Outlook for iOS 7</h1>
+
+<p>Remote view controllers are an exciting new feature for iOS. I sincerely hope that Apple will use this technology in iOS 7 to enhance data sharing and communication between third-party apps without compromising the iOS security model. <a href="/blog/2012/02/what-ios-should-learn-from-android-and-windows-8/">We need it</a>.</p>
+
+<p>How could this work? Apple could ask developers who want to provide a sharing UI to other apps to include a second executable in their app bundle. This executable would be an XPC service that looks a lot like the <code>MailCompositionService.app</code> we analyzed above. Its main component would be a stand-alone view controller that was able to communicate via XPC and implemented some standard Apple-defined protocols named something like <code>UISharingRemoteHost</code> and <code>UISharingRemoteService</code>.</p>
+
+<p>Apple’s existing <code>UIActivityViewController</code> would then maintain a list of registered sharing services and present these options to the user.</p>
+
+<p>I hope we will see something like this next year.</p>
+
+<div class="update">
+  <p><strong>Update October 5, 2012:</strong> <a href="/blog/2012/10/more-on-remote-view-controllers/">Continue reading about my remote view controller research in part 2 of this series</a>.</p>
+</div>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>In fact, the recommended way to present a Tweet compose UI <em>has</em> changed slightly, as Twitter sharing is now incorporated in the Social.framework. The new <code>SLComposeViewController</code> class is to be used for sharing to all supported social services and should be preferred over the old <code>TWTweetComposeViewController</code>. However, this detail is not relevant to the rest of this investigation. <a href="#fnref:1" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>You can either run the app on the iOS Simulator and use OS X’s Activity Monitor to watch what happens or attach Instruments (with the Activity Monitor instrument) to your device and run the app on the device. Both methods yield the same results. <a href="#fnref:2" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>My links to the private and undocumented frameworks and APIs in iOS 6 point to Nicolas Seriot’s excellent <a href="https://github.com/nst/iOS-Runtime-Headers">class dump of the iOS SDK’s Objective-C headers</a>. These files have proven incredibly useful in the research for this article. <a href="#fnref:3" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>I used Peter Steinberger’s <a href="http://petersteinberger.com/blog/2012/pimping-recursivedescription/">pimped version of <code>recursiveDescription</code></a> to log the view hierarchy in the debugger. Peter’s version has the advantage over <a href="http://developer.apple.com/library/ios/technotes/tn2239/_index.html#//apple_ref/doc/uid/DTS40010638-CH1-SUBSECTION34">Apple’s own <code>recursiveDescription</code></a> that it also outputs view <em>controllers</em>, not just views. <a href="#fnref:4" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+      </article>
+      
+      <div id="related-pages">
+  <div id="related-page-previous">
+    <p class="related-page-heading">Previous</p>
+    <p class="related-page-title"><a href="/blog/2012/09/the-state-of-sharing-in-ios-6/">The State of Sharing in iOS 6</a></p>
+    <p class="related-page-date"><time datetime="2012-09-27T19:04:00Z">September 27, 2012</time></p>
+  </div>
+
+  <div id="related-page-next">
+    <p class="related-page-heading">Next</p>
+    <p class="related-page-title"><a href="/blog/2012/10/more-on-remote-view-controllers/">More on Remote View Controllers</a></p>
+    <p class="related-page-date"><time datetime="2012-10-05T12:15:00Z">October  5, 2012</time></p>
+  </div>
+</div>
+      
+    </main>
+
+    <footer>
+  <div class="left">
+    <p><strong>Ole Begemann</strong></p>
+    <p>2009–2019</p>
+    <p>Made in Berlin.</p>
+  </div>
+  <div class="right">
+    <p><a href="/privacy-policy/">Privacy Policy</a></p>
+    <p><a href="/impressum/">Impressum</a></p>
+  </div>
+</footer>
+
+  </body>
+</html>

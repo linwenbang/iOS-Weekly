@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Plan for module stability - Compiler - Swift Forums</title>
+    <meta name="description" content="As you can probably tell, I&amp;#39;ve been saving a lot of discussions, waiting for Swift 4.2 to be in a pretty good place before we jump all in on Swift 5. This one&amp;#39;s one of the main things I plan to be working on in the next &amp;hellip;">
+    <meta name="author" content="">
+<meta name="generator" content="Discourse 2.3.0.beta5 - https://github.com/discourse/discourse version b9ab393d70a682b9249d0642e1f59c02f6a28f7c">
+<link rel="icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/6/610ef4c64700c53fad713dda8c9563c461d82e41.ico">
+<link rel="apple-touch-icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="canonical" href="https://forums.swift.org/t/plan-for-module-stability/14551" />
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","url":"https://forums.swift.org","potentialAction":{"@type":"SearchAction","target":"https://forums.swift.org/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<link rel="search" type="application/opensearchdescription+xml" href="https://forums.swift.org/opensearch.xml" title="Swift Forums Search">
+
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_fc38bc1627f273b322141d8e39871e8f1a4ed2f7.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop" data-theme-id="2"/>
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_theme_2_059b9cade5b9070983e4a1b8712b96266620ec9d.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="2"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS feed of &#39;Plan for module stability&#39;" href="https://forums.swift.org/t/plan-for-module-stability/14551.rss" />
+  <meta property="og:site_name" content="Swift Forums" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:url" content="https://forums.swift.org/t/plan-for-module-stability/14551" />
+<meta name="twitter:url" content="https://forums.swift.org/t/plan-for-module-stability/14551" />
+<meta property="og:title" content="Plan for module stability" />
+<meta name="twitter:title" content="Plan for module stability" />
+<meta property="og:description" content="As you can probably tell, I&#39;ve been saving a lot of discussions, waiting for Swift 4.2 to be in a pretty good place before we jump all in on Swift 5. This one&#39;s one of the main things I plan to be working on in the next year or so, so I wanted to make sure you all had the big picture. It is another massive Jordan Rose post, so if you want the TLDR, just read the bolded sentences in each section and then jump down to the plan at the end. Thanks!  Introduction ABI stability means that an executabl..." />
+<meta name="twitter:description" content="As you can probably tell, I&#39;ve been saving a lot of discussions, waiting for Swift 4.2 to be in a pretty good place before we jump all in on Swift 5. This one&#39;s one of the main things I plan to be working on in the next year or so, so I wanted to make sure you all had the big picture. It is another massive Jordan Rose post, so if you want the TLDR, just read the bolded sentences in each section and then jump down to the plan at the end. Thanks!  Introduction ABI stability means that an executabl..." />
+<meta name="twitter:label1" value="Reading time" />
+<meta name="twitter:data1" value="18 mins 🕑" />
+<meta name="twitter:label2" value="Likes" />
+<meta name="twitter:data2" value="95 ❤" />
+<meta property="article:published_time" content="2018-07-17T23:17:56+00:00" />
+<meta property="og:ignore_canonical" content="true" />
+
+      <link rel="next" href="/t/plan-for-module-stability/14551?page=2">
+
+
+    
+  </head>
+  <body class="crawler">
+    
+    <header>
+      <a href="/">
+          <img src="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/0/0d7ab3b633e07bf8ec99bdc18e22ad89d8934801.png" alt="Swift Forums" id="site-logo" style="max-width: 150px;">
+      </a>
+    </header>
+    <div id="main-outlet" class="wrap">
+      <h1>
+  <a href="/t/plan-for-module-stability/14551">Plan for module stability</a>
+</h1>
+
+<div id='breadcrumbs'>
+    <div id="breadcrumb-0" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+        itemref="breadcrumb-1"
+      >
+      <a href="/c/development" itemprop="url">
+        <span itemprop="title">Development</span>
+      </a>
+    </div>
+    <div id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+>
+      <a href="/c/development/compiler" itemprop="url">
+        <span itemprop="title">Compiler</span>
+      </a>
+    </div>
+</div>
+
+    <div class='tags-list' itemscope itemtype='http://schema.org/ItemList'>
+        <div itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
+          <meta itemprop='url' content='https://forums.swift.org/tags/parseable-interfaces'>
+          <a href='https://forums.swift.org/tags/parseable-interfaces' itemprop='item'>
+            <span itemprop='name'>parseable-interfaces</span>
+          </a>
+        </div>
+    </div>
+
+
+
+
+<hr>
+
+
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <meta itemprop='datePublished' content='2018-07-17T23:17:56Z'>
+            <time itemprop='dateModified' datetime='2018-11-07T19:30:12Z'>
+              2018-11-07 19:30:12 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#1</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><em>As you can probably tell, I've been saving a lot of discussions, waiting for Swift 4.2 to be in a pretty good place before we jump all in on Swift 5. This one's one of the main things I plan to be working on in the next year or so, so I wanted to make sure you all had the big picture. It is another massive Jordan Rose post, so if you want the TLDR, just read the bolded sentences in each section and then jump down to the plan at the end. Thanks!</em></p>
+<h2>Introduction</h2>
+<p><em>ABI stability</em> means that an executable compiled against Swift 5 will work with the Swift 6 libraries, and that an executable compiled against Swift 6 will work with the Swift 5 libraries. A related concept is <em>module stability,</em> which says that the <em>interface</em> for a Swift 5 library will work with the Swift 6 compiler. (The opposite direction is less interesting.) More generally, <strong>the interface for a library should be forward-compatible with future versions of the compiler</strong>. This is useful in a number of ways:</p>
+<ul>
+<li>Can test a new compiler without rebuilding all of an app's dependencies.</li>
+<li>May overlap with work to make the debugger work across Swift versions.</li>
+<li>May help reduce incremental build time by better tracking cross-target dependencies.</li>
+<li>Support for general <em>non-resilient</em> binary frameworks. (More on what this means below.)</li>
+</ul>
+<h2>Proposed Solution</h2>
+<p>C accomplishes module stability through source stability, by using manually-written header files to represent a library's interface. Swift can do something similar by <strong>printing a type-checked AST to a textual form</strong> and including any extra information needed to reproduce the original compilation environment (such as the deployment target). To avoid the cost of loading this textual form, the compiler will keep a cache of library ASTs it has seen, serialized in the current binary format.</p>
+<p>This interface will only contain the <code>public</code> and <code>open</code> parts of a library, plus any parts that are marked as inlinable or are made available as part of the library's ABI. (For libraries compiled from source, this will include the layout of structs and enums, for example.)</p>
+<div class="md-table">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>C-based Languages</th>
+<th>Swift 4</th>
+<th>Swift + Module Stability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source files</td>
+<td>.c, .m, .cpp, ...</td>
+<td>.swift</td>
+<td>.swift</td>
+</tr>
+<tr>
+<td>Interface files</td>
+<td>.h</td>
+<td>.swiftmodule</td>
+<td>.swiftinterface (new)</td>
+</tr>
+<tr>
+<td>Interface is</td>
+<td>manually written</td>
+<td>generated</td>
+<td>generated</td>
+</tr>
+<tr>
+<td>Interface contains</td>
+<td>public API,<br>inlinable function bodies</td>
+<td>all API,<br>inlinable function bodies</td>
+<td>public API,<br>inlinable function bodies (see below)</td>
+</tr>
+<tr>
+<td>Distribution format</td>
+<td>textual</td>
+<td>binary</td>
+<td>textual</td>
+</tr>
+<tr>
+<td>Binary format for faster import</td>
+<td>.pcm (in module cache)</td>
+<td>N/A (already binary)</td>
+<td>.swiftmodule (in module cache)</td>
+</tr>
+<tr>
+<td>Language version</td>
+<td>Chosen by client</td>
+<td>Stored in interface</td>
+<td>Stored in interface</td>
+</tr>
+<tr>
+<td>Platform / deployment target</td>
+<td>Chosen by client</td>
+<td>Stored in interface</td>
+<td>Stored in interface</td>
+</tr>
+<tr>
+<td>Respects -D flags</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Affected by search paths</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div><h3>Inlinable Code</h3>
+<p>Like C, <strong>the plan for inlinable functions is to copy their bodies verbatim into the interface file</strong>. This isn't a perfect answer, since it leaves the interface more vulnerable to perturbations in type checking, but it does rely on the same source compatibility mechanisms Swift is already using, rather than forcing us to commit to a stable version of SIL (the intermediate representation used for high-level optimizations that's stored in swiftmodule files). When the textual interface is loaded, these inlinable functions will be compiled to SIL and cached.</p>
+<h3>Configuration Conditions (<code>#if</code>)</h3>
+<p>C headers handle platform and user conditions by guarding sections of source with preprocessor macros. Swift, however, has to generate its textual interface, and configuration conditions are resolved well before type-checking. This implies that <strong>the generated interface file will be platform-specific</strong>. Rather than attempt to merge several platform-specific interface variants back into a single file, it's probably simpler to distribute a folder containing one interface per architecture, or possibly per OS/architecture combination. The former is how binary swiftmodule files work today.</p>
+<blockquote>
+<p>Note that this is an outstanding issue for the generated Objective-C header. The Swift compiler is invoked once for each architecture, but only one header gets copied into the build product, chosen arbitrarily by Xcode. This is one of the reasons why this feature is not supported by the package manager.</p>
+</blockquote>
+<p>Configuration conditions that are not based on the target don't really fit into this model, including user-defined conditions (<code>-D</code>) and Swift language version checks (<code>swift(&gt;=5)</code>). These conditions are not required to be the same across a library and its clients, and thus should continue to be excluded from the interface. A developer who wishes to create different versions of their library using <code>-D</code> flags should give each version a different module name or ensure that they are never used in the same environment, as they must do today.</p>
+<h2>Library Evolution ("Resilience")</h2>
+<p>With ABI stability and module stability, most of the pieces will be in place to build distributable binary frameworks that aren't tied to a single compiler version. Compared to Objective-C frameworks, however, there's still one piece missing: support for library evolution, or <em>resilience.</em> This is the feature that allows you to change a framework in a backwards-compatible way without having to recompile a client application.</p>
+<p>A good chunk of resilience has already been implemented in Swift 4.2, and is being tested in the standard library and SDK overlays on Apple platforms. Once the standard library is shipped with Apple OSs, Apple will need to be able to ship new versions of the stdlib without breaking existing apps. But it's not necessarily sufficient for libraries <em>not</em> shipped with an OS just yet:</p>
+<ul>
+<li>There's no tool that will tell a developer when an ABI-breaking change has been made.</li>
+<li>Features like <code>@_frozen</code> and <code>@_fixed_layout</code> that the standard library is using haven't been formalized for general use.</li>
+<li>Clients may want to check the version of a library to see if a particular feature is present, which implies having some version of <code>@available</code> that isn't tied to OS versions.</li>
+<li>The compiler, runtime, and debugger all still have known issues or unimplemented features when working with resilient libraries.</li>
+</ul>
+<p><strong>While the lack of full resilience support will not preclude making binary frameworks, developers who use them would need to recompile their apps when a new version of the framework comes out.</strong> There is also one tricky case: if binary framework ABCKit depends on binary framework XYZKit, and XYZKit changes, ABCKit will need to be recompiled as well. It would be great™ if there was a way to detect this mismatch when compiling or linking the downstream client. (I don't have any concrete ideas yet.)</p>
+<h2>Alternatives</h2>
+<details>
+<summary>
+(discussed here)</summary>
+<h3>Use a binary format</h3>
+<p>It would be possible to use the existing binary format as the stable interface for a module (or something based on the existing format) rather than use a source-based format. This could be a lot simpler, since it's how the existing module-import code works. However, it has a number of downsides:</p>
+<ul>
+<li>More difficult to inspect, compare, and test (requires a dump-to-text step).</li>
+<li>More difficult to debug when things go wrong (because an invalid binary archive won't dump properly)</li>
+<li>Encodes implementation details of the AST</li>
+<li>Requires establishing a stable subset of SIL <em>or</em> embedding the source of inlinable functions into the binary format</li>
+<li>Still needs a "check" phase on import to ensure that dependencies haven't changed in an incompatible way</li>
+</ul>
+<p>In practice, it seems like a binary format would still require a fair amount of work while having unfortunate drawbacks, and it would be harder to maintain in the long-term.</p>
+<h3>Use a non-source format for function bodies</h3>
+<p>It's possible that some users would object to the source of their function bodies being displayed verbatim in the textual interface file—what about secrecy? However, this is equivalent to inline functions in header files in C: the function body needs to be serialized in <em>some</em> way in order for the client to inline it, and using the same format as regular source is what lets us lean on source compatibility for forward compatibility. (It's worth noting that only code the developer explicitly marks as "inlinable" or uses in a default argument will be included in the interface files.)</p>
+<h3>Eliminate swiftmodule files (except in the cache)</h3>
+<p>The existing binary swiftmodule format is still useful for a handful of reasons:</p>
+<ul>
+<li>
+<p>It's still used for debug info, which requires information about all types in the module (even private and local types).</p>
+</li>
+<li>
+<p>The initial design for swiftinterface files only contains public APIs, so they're not sufficient for unit tests that use <code>@testable import</code>. This wouldn't be too hard to add to the design, but it still means larger textual interfaces when building with <code>-enable-testing</code>. It's therefore not an initial priority.</p>
+</li>
+<li>
+<p>Textual interfaces provide little advantage for libraries built from source in the same development environment (the common case for the Swift Package Manager). An eventual cross-module optimization mode would likely benefit from being able to share arbitrary, compiler-specific information across module boundaries, something that textual interfaces probably shouldn't designed to do (at least at first).</p>
+</li>
+</ul>
+</details>
+<h2>High-level plan</h2>
+<ol>
+<li>Hook up ASTPrinter to a new command-line option, <code>-print-interface</code> or similar, to produce .swiftinterface files.</li>
+<li>Teach Swift to "compile" interface files into the existing binary format, so that they can be loaded the same way they are today.</li>
+<li>Turn the above into an on-demand "module cache" like Clang. (The "on-demand" part may not actually be a good idea, but it'll make it easier to test this without having to modify existing build systems too much.)</li>
+<li>Add support for ABI details that aren't in the normal interface (like private struct fields).</li>
+<li>Lots of testing against real projects.</li>
+</ol>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:45'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+            <a href="https://forums.swift.org/t/why-swift-is-ios-only-language/14907/8">Why Swift is iOS only language</a>
+            <hr>
+            <a href="https://forums.swift.org/t/improve-incremental-compile-time-of-projects-that-are-split-up-into-several-frameworks/14475/4">Improve Incremental Compile Time of Projects that are split up into several Frameworks</a>
+            <hr>
+            <a href="https://forums.swift.org/t/unifying-printing-logic-in-astdumper/15995/2">Unifying printing logic in ASTDumper</a>
+            <hr>
+            <a href="https://forums.swift.org/t/exported-and-fixing-import-visibility/9415/8">@_exported and fixing import visibility</a>
+            <hr>
+            <a href="https://forums.swift.org/t/opaque-result-types/15645/111">Opaque result types</a>
+            <hr>
+            <a href="https://forums.swift.org/t/xcode-10-2-cannot-build-swift-framework-for-objc-app/22273/7">Xcode 10.2 Cannot build Swift framework for ObjC app</a>
+            <hr>
+            <a href="https://forums.swift.org/t/thoughts-on-caching-compiled-parseable-interfaces/16746">Thoughts on caching compiled parseable interfaces</a>
+            <hr>
+            <a href="https://forums.swift.org/t/clone-a-closureexpr-and-change-all-decl-contexts-within-the-body/16671/25">Clone a ClosureExpr and change all decl contexts within the body</a>
+            <hr>
+            <a href="https://forums.swift.org/t/bikeshedding-for-a-new-driver-flag-emit-interface-path/16178">Bikeshedding for a new Driver flag: -emit-interface-path?</a>
+            <hr>
+            <a href="https://forums.swift.org/t/parseable-interfaces-conditional-conformances-with-non-public-conditions-are-problematic/17747">Parseable interfaces: Conditional conformances with non-public conditions are problematic</a>
+            <hr>
+            <a href="https://forums.swift.org/t/module-major-version/22116/2">Module Major Version</a>
+            <hr>
+            <a href="https://forums.swift.org/t/slow-name-binding-phase/21594/6">Slow &quot;Name binding&quot; phase</a>
+            <hr>
+            <a href="https://forums.swift.org/t/stable-interface-to-see-content-of-abi-stable-module/20164/2">Stable interface to see content of abi stable module</a>
+            <hr>
+            <a href="https://forums.swift.org/t/feedback-2019-swift-user-feedback/20087/2">[Feedback] 2019: Swift User Feedback</a>
+            <hr>
+            <a href="https://forums.swift.org/t/allow-conditional-inclusion-of-elements-in-array-dictionary-literals/16171/38">Allow conditional inclusion of elements in array/dictionary literals?</a>
+            <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jawbroken'><b itemprop='author'>jawbroken</b></a>
+          
+            <time itemprop='datePublished' datetime='2018-07-18T00:06:50Z'>
+              2018-07-18 00:06:50 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#2</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>The only question I have is whether “the plan for inlinable functions is to copy their bodies verbatim into the interface file” means that comments in the function body will be included as well. I think this is the most likely avenue for private information to accidentally leak, and I don't see any significant downside to stripping them out.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <meta itemprop='datePublished' content='2018-07-18T00:08:06Z'>
+            <time itemprop='dateModified' datetime='2018-07-18T00:08:37Z'>
+              2018-07-18 00:08:37 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#3</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>That sounds reasonable. It's a little annoying to implement because they can be anywhere in the source, but it's in line with stripping out the inactive branches of <code>#if</code>, which we'd probably want to do.</p>
+<p>EDIT: But I might not do it in the first implementation, because there's always a client-side workaround. :-)</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/allevato'><b itemprop='author'>allevato</b></a>
+          (Tony Allevato)
+            <time itemprop='datePublished' datetime='2018-07-18T00:15:13Z'>
+              2018-07-18 00:15:13 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#4</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>This sounds great from a usability/debugging point of view!</p>
+<p>Similar to the question above, would the generated <code>.swiftinterface</code> contain the documentation comments for its declarations (perhaps in a structured representation more suitable for tool processing instead of the raw Markdown)? Since it would hold all <code>public</code>/<code>open</code> decls, it seems like the file could act in that capacity as well. And if so, could this subsume the <code>.swiftdoc</code> files that exist today?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <time itemprop='datePublished' datetime='2018-07-18T00:40:46Z'>
+              2018-07-18 00:40:46 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#5</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I…remember discussing this with <a class="mention" href="/u/xi_ge">@Xi_Ge</a> and <a class="mention" href="/u/akyrtzi">@akyrtzi</a> but I can't remember what the conclusion was. We certainly still want a compiled form like <code>swiftdoc</code> for quick access, but that could be part of the cache like <code>swiftmodule</code>.</p>
+<p>I do remember that one of the reasons <code>swiftdoc</code> is separate from <code>swiftmodule</code> today, though, is so that changing the docs doesn't result in all the downstream sources having to be immediately rebuilt. That's actually a questionable decision if the downstream sources have docs too, since some of those docs might be inherited, but still.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/akyrtzi'><b itemprop='author'>akyrtzi</b></a>
+          (Argyrios Kyrtzidis)
+            <time itemprop='datePublished' datetime='2018-07-18T01:05:17Z'>
+              2018-07-18 01:05:17 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#6</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>We were leaning towards keeping the <code>swiftdoc</code> as part of the stable module, to elaborate:</p>
+<ul>
+<li>The <code>swiftdoc</code> format is quite simple and historically has been stable (very very few changes), we believe we will be able to keep it in a stable format.</li>
+<li>Replacing it by putting the doc-comments in source will be disadvantageous because we will lose flexibility on things that <code>swiftdoc</code> contains now (and possible in the future) that we would have to find a way to represent in "source form".
+<ul>
+<li>For example, right now the <code>swiftdoc</code> keeps track of the groupings of the Swift StdLib. We were able to implement the feature without being forced to design and implement a way to define the groupings via source form.</li>
+<li>In the future, a potential improvement is that a framework could have multiple <code>swiftdoc</code> files for multiple languages (or have each translation of the documentation comments in one <code>swiftdoc</code>).</li>
+</ul>
+</li>
+</ul>
+<p>In general, I think the concept of separating doc-info related info from the <code>.swiftmodule</code> and <code>.swiftinterface</code> files provides valuable flexibility, I'd prefer not to try to stick everything into source form in a <code>.swiftinterface</code> file.</p>
+<blockquote>
+<p>since some of those docs might be inherited</p>
+</blockquote>
+<p>We don't copy documentation comments in downstream modules, an inherited doc-comment would show up as part of following the inheritance chain.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:4'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Chris_Lattner3'><b itemprop='author'>Chris_Lattner3</b></a>
+          (Chris Lattner)
+            <time itemprop='datePublished' datetime='2018-07-18T05:18:19Z'>
+              2018-07-18 05:18:19 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#7</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>As I think you know, I'm a huge fan of this approach.  We've put a lot of work into source level stability, and this nicely leverages it.  This also leverages the existing "generated interface" work nicely, and forces it to be round-trippable, which is also great.</p>
+<p>I agree that there is a concern that the bodies of inlinable functions may not parse due to future language changes, but I think this is an acceptable risk.  When parsing one of these interface files, I think it is reasonable to run the parser in a special mode that accepts and ignores bodies of functions that it doesn't understand (just skip to the end brace, perhaps emit a warning, then keep going).  This makes a source break merely a performance hit, instead of outright breaking the separately compiled library.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/AliSoftware'><b itemprop='author'>AliSoftware</b></a>
+          (Olivier Halligon)
+            <time itemprop='datePublished' datetime='2018-07-18T09:46:42Z'>
+              2018-07-18 09:46:42 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#8</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Interesting!</p>
+<p>Also, if I understand correctly, this plan would also start the groundwork for enabling (in the long run / distant future) the possibility for a tool to auto-semver libraries &amp; packages, by detecting unchanged vs purely-additional changes vs breaking changes in public APIs between current and last version of a module, and bump versions accordingly during a new release… right?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <time itemprop='datePublished' datetime='2018-07-18T16:28:11Z'>
+              2018-07-18 16:28:11 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#9</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I personally think a good auto-semver tool would want to run on a type-checked AST anyway, so that it can know, for example, that using a typealias instead of the underlying type is not a breaking change. But yes, you'd be able to run source tools over the swiftinterface file rather than having to get it out of the binary format.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/sergiocampama'><b itemprop='author'>sergiocampama</b></a>
+          (Sergio Campama)
+            <time itemprop='datePublished' datetime='2018-07-19T01:52:52Z'>
+              2018-07-19 01:52:52 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#10</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Could this swiftinterface file be faster to generate than a swiftmodule file? The reason I ask is because with some build systems we can parallelize the compilation of Swift modules across multiple machines, but we currently don't gain that much as the the swiftmodule file is an artifact of a compilation step. And so dependent modules will need for the lower level dependencies to finish compilation before they can start being compiled, which increases the critical path when building.</p>
+<p>With C based languages we get around this as we have all the interfaces available as header files that are available before compilation even starts. With Java it's possible to generate such an interface to increase parallelism.</p>
+<p>If this effort to create a new swiftinterface file could be made in such a way that these are way faster to generate than compiling the sources, this could be a huge benefit for distributed build systems.</p>
+<p>(Disclaimer: I know it's possible to decouple swiftmodule generation from compilation, and I haven't tested whether swiftmodule generation by itself could be faster, but according to Tony Allevato, it should not bring many benefits.)</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:3'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/huon'><b itemprop='author'>huon</b></a>
+          (Huon Wilson)
+            <meta itemprop='datePublished' content='2018-07-19T02:10:05Z'>
+            <time itemprop='dateModified' datetime='2018-07-19T02:10:30Z'>
+              2018-07-19 02:10:30 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#11</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="10" data-topic="14551">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/sergiocampama/40/4187_1.png" class="avatar"> sergiocampama:</div>
+<blockquote>
+<p>Could this swiftinterface file be faster to generate than a swiftmodule file?</p>
+</blockquote>
+</aside>
+<p>Yes, but such optimisations are orthogonal to the output format, as we could have a mode that makes swiftmodules (just as) fast to generate too, by skipping type checking etc. for the bodies of non-inlineable functions. This removes all interaction with the constraint system and expression type checker for such functions, and those can use a significant amount of CPU time, depending on the project. In either case, this would have to be opt-in, because it means errors in that code wouldn't be caught.</p>
+<aside class="quote no-group" data-post="10" data-topic="14551">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/sergiocampama/40/4187_1.png" class="avatar"> sergiocampama:</div>
+<blockquote>
+<p>(Disclaimer: I know it's possible to decouple swiftmodule generation from compilation, and I haven't tested whether swiftmodule generation by itself could be faster, but according to Tony Allevato, it should not bring many benefits.)</p>
+</blockquote>
+</aside>
+<p>It is moderately faster, because it skips interactions with LLVM and everything after that (e.g. no low-level optimisations, no code generation, and no linking). The standard library's build system currently uses this scheme to provide more parallelism, by compiling the swiftmodule and the object files/dylib separately.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/John_McCall'><b itemprop='author'>John_McCall</b></a>
+          (John McCall)
+            <time itemprop='datePublished' datetime='2018-07-19T02:21:03Z'>
+              2018-07-19 02:21:03 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#12</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>The <code>swiftinterface</code> file will have essentially the same information as a <code>swiftmodule</code> file, just in a stable, textual format.  Since the <code>swiftmodule</code> format is less constrained than the <code>swiftinterface</code> format, it should always be at least as efficient to use: if it's ever more efficient to use the <code>swiftinterface</code> format than the binary format of a <code>swiftmodule</code>, we'll just abandon the binary format.</p>
+<p>As Huon says, we can definitely find ways to speed up the generate of a module description, but that's independent of the format of that description.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/allevato'><b itemprop='author'>allevato</b></a>
+          (Tony Allevato)
+            <meta itemprop='datePublished' content='2018-07-19T03:30:45Z'>
+            <time itemprop='dateModified' datetime='2018-07-19T03:40:34Z'>
+              2018-07-19 03:40:34 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#13</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="10" data-topic="14551">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/sergiocampama/40/4187_1.png" class="avatar"> sergiocampama:</div>
+<blockquote>
+<p>(Disclaimer: I know it's possible to decouple swiftmodule generation from compilation, and I haven't tested whether swiftmodule generation by itself could be faster, but according to Tony Allevato, it should not bring many benefits.)</p>
+</blockquote>
+</aside>
+<p>To elaborate on this, my concern for Bazel's Swift support has been whether splitting module and object generation into separate actions—which would each need to parse and typecheck <em>N</em> sources (and where typechecking can sometimes have its own performance issues)—would end up being an improvement over what we're doing now: using a JSON output map to produce all the artifacts we want in a single action. But the latter, as <a class="mention" href="/u/sergiocampama">@sergiocampama</a> mentions, means that downstream targets need to wait for full codegen when they otherwise might have been able to start building as soon as their .swiftmodules were ready (stopping after typechecking and some SILGen).</p>
+<p><a class="mention" href="/u/huon">@huon</a> (and others in this thread), would you say that the overhead of optimization and codegen is high enough that we'd see benefits of increased parallelism by separating out the .swiftmodule-generating actions from the ones generating the objects? This could help us in distributed builds where the actions are executed on completely different machines, but I'm less sure whether it would help or hurt in the more core-constrained local development case.</p>
+<p>If it <strong>is</strong> the case that parallelizing them yields improvements, then I imagine .swiftinterface files would add a slight boost on top of that because it would remove the SILGen step from those actions as well.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <time itemprop='datePublished' datetime='2018-07-19T16:34:43Z'>
+              2018-07-19 16:34:43 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#14</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><code>swiftinterface</code> doesn't actually remove the SILGen step, because we don't want to include code that has bugs in it (like failing to initialize a variable). But both serialization formats would allow you to only SILGen and check inlinable code, rather than all of it, which is an optimization we don't do today.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Karl'><b itemprop='author'>Karl</b></a>
+          (❌)
+            <time itemprop='datePublished' datetime='2018-07-19T17:05:44Z'>
+              2018-07-19 17:05:44 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#15</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>+1 for this.</p>
+<p>I started wondering about this a while ago when we were discussing removing the Playground Quicklook APIs from the standard library (<a href="https://forums.swift.org/t/se-0198-playground-quicklook-api-revamp/9448">SE-0198 — Playground QuickLook API Revamp</a>).</p>
+<p>I gather that with this solution, we should be able to generate a <code>swiftInterface</code> containing the Playground Quicklook types/protocols, which would be available at compile-time in all contexts (regardless of whether your environment actually has an implementation of the framework available to load at runtime).</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/virl'><b itemprop='author'>virl</b></a>
+          (Virl)
+            <meta itemprop='datePublished' content='2018-07-20T14:46:24Z'>
+            <time itemprop='dateModified' datetime='2018-07-20T15:03:26Z'>
+              2018-07-20 15:03:26 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#16</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><a class="mention" href="/u/jrose">@jrose</a> So, instead of implementing rock-solid and stable cross-library barrier/mechanism (like C DLLs, Objective-C Frameworks and Java Libraries have) you decided to just dump library compilation settings into text file?</p>
+<p>In other words, instead of implementing expandable ABI standard you chose as paradigm constant creation of undefined number of binary compatibility layers.</p>
+<p>In my opinion, it is the worst decision possible for binary frameworks. Even implementing constrained sub-syntax for framework's public API is better, because it would not break silently and due to unobvious reasons.</p>
+<p>Inclusion of sources of inline functions into framework public API just shows that you chose completely wrong and insane paradigm.<br>
+Because the whole point of binary frameworks (and stable binary ABI) is to be INDEPENDENT of compiler, not require one to be able to be runtime-linked with the app.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <time itemprop='datePublished' datetime='2018-07-20T15:55:37Z'>
+              2018-07-20 15:55:37 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#17</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I don't think there's a reason for that tone, but I'll address the concern anyway: modules are only used at compile time. As shown in the table above, both the binary swiftmodule files we have today and the proposed textual formats are analogous to C/Objective-C headers (which do contain inlinable code as source), not to the DLLs / dylibs. The effort for compatibility across compiled code versions is ABI stability, and that's well underway.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:7'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/virl'><b itemprop='author'>virl</b></a>
+          (Virl)
+            <time itemprop='datePublished' datetime='2018-07-20T16:04:53Z'>
+              2018-07-20 16:04:53 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#18</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Yes, sorry for the tone.</p>
+<p>I'm just disappointed to realise the upcoming impossibility of binary libraries ecosystem (like Maven) for Swift due to discussed solution.</p>
+<p>The whole problem with it is that it solves "ABI stability" by clashing together undefined number of old compilers just to make the linked libraries work.</p>
+<p>It's to proper ABI standard is what Apple's Bitcode to JVM bytecode.</p>
+<p>C/Objective-C headers containing inlined functions are just artefact of C era. True library interoperability / stability in industry relies on dynamic linking — be it linking of platform-specific binaries (Windows DLLs, for example) or binaries for virtual machines (Java, C#).</p>
+<p>Basically the result of your proposal will make Swift binary library ecosystem extremely fragile outside of apple platform and tools. Detecting ABI-breaking source code changes via linter/tooling is inline with that.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <time itemprop='datePublished' datetime='2018-07-20T16:48:09Z'>
+              2018-07-20 16:48:09 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#19</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I'm not sure how this solution is different from DLLs. Can you elaborate?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:2'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/John_McCall'><b itemprop='author'>John_McCall</b></a>
+          (John McCall)
+            <time itemprop='datePublished' datetime='2018-07-20T17:08:38Z'>
+              2018-07-20 17:08:38 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#20</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I think you’ve completely misunderstood what’s being suggested here if you think it involves distributing old versions of the compiler and giving up on binary interoperation.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Plan for module stability'>
+      <hr>
+  </div>
+
+  <div role='navigation' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+      <span itemprop='name'><b><a rel="next" itemprop="url" href="/t/plan-for-module-stability/14551?page=2">next page →</a></b></span>
+  </div>
+
+
+
+
+
+    </div>
+    <footer class="container">
+      <nav class='crawler-nav' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <a href='/'>Home</a>
+        <a href="/categories">Categories</a>
+        <a href="/guidelines">FAQ/Guidelines</a>
+        <a href="/tos">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+      </nav>
+      <p class='powered-by-link'>Powered by <a href="https://www.discourse.org">Discourse</a>, best viewed with JavaScript enabled</p>
+    </footer>
+    
+  </body>
+  
+</html>

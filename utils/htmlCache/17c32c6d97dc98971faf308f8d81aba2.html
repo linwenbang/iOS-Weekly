@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="no-js">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Clear and searchable logging in Swift with OSLog | Lord Codes</title>
+
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Clear and searchable logging in Swift with OSLog" />
+<meta name="author" content="Andrew Lord" />
+<meta property="og:locale" content="en_GB" />
+<meta name="description" content="Logging is a useful tool for diagnosing issues and working out what an app is doing. We will explore Apple’s currently recommended way of logging via OSLog, covering how to use it and managing its differences when compared to other logging approaches." />
+<meta property="og:description" content="Logging is a useful tool for diagnosing issues and working out what an app is doing. We will explore Apple’s currently recommended way of logging via OSLog, covering how to use it and managing its differences when compared to other logging approaches." />
+<link rel="canonical" href="https://www.lordcodes.com/posts/clear-and-searchable-logging-in-swift-with-oslog" />
+<meta property="og:url" content="https://www.lordcodes.com/posts/clear-and-searchable-logging-in-swift-with-oslog" />
+<meta property="og:site_name" content="Lord Codes" />
+<meta property="og:image" content="https://www.lordcodes.com/assets/img/posts/logging.jpg" />
+<meta property="og:image:height" content="640" />
+<meta property="og:image:width" content="960" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-14T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@lordcodes" />
+<meta name="twitter:creator" content="@lordcodes" />
+<script type="application/ld+json">
+{"description":"Logging is a useful tool for diagnosing issues and working out what an app is doing. We will explore Apple’s currently recommended way of logging via OSLog, covering how to use it and managing its differences when compared to other logging approaches.","author":{"@type":"Person","name":"Andrew Lord"},"@type":"BlogPosting","url":"https://www.lordcodes.com/posts/clear-and-searchable-logging-in-swift-with-oslog","image":{"width":960,"height":640,"feature":"/assets/img/posts/logging.jpg","url":"https://www.lordcodes.com/assets/img/posts/logging.jpg","@type":"imageObject"},"headline":"Clear and searchable logging in Swift with OSLog","dateModified":"2019-01-24T00:00:00+00:00","datePublished":"2019-01-14T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.lordcodes.com/posts/clear-and-searchable-logging-in-swift-with-oslog"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+    
+
+    
+      <meta property="article:author" content="https://www.lordcodes.com/about" />
+    
+    
+     <meta property="article:section" content="ios" />
+    
+    
+      
+        <meta property="article:tag" content="debugging" />
+      
+    
+  
+
+  <meta property="og:type" content="article" />
+
+  
+    <link href="https://micro.blog/lordcodes" rel="me" />
+  
+
+  <meta name="google-site-verification" content="8FruC-rM4vfdJWF3le-2-pJaKonvk0dG08xB4WSOIWE" />
+  <meta name="msvalidate.01" content="21B015C389C821A664B8C8D67FD26071" />
+  <meta name="yandex-verification" content="f1a97077c982aba4" />
+
+  <!-- Icons -->
+
+  <link rel="apple-touch-icon" sizes="57x57" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-57x57.png?v=5">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-60x60.png?v=5">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-72x72.png?v=5">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-76x76.png?v=5">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-114x114.png?v=5">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-120x120.png?v=5">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-144x144.png?v=5">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-152x152.png?v=5">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-180x180.png?v=5">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.lordcodes.com/assets/img/icon/favicon-32x32.png?v=5">
+  <!-- <link rel="icon" type="image/png" sizes="194x194" href="https://www.lordcodes.com/assets/img/icon/favicon-194x194.png?v=5"> -->
+  <link rel="icon" type="image/png" sizes="192x192" href="https://www.lordcodes.com/assets/img/icon/android-chrome-192x192.png?v=5">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.lordcodes.com/assets/img/icon/favicon-16x16.png?v=5">
+  <link rel="mask-icon" href="https://www.lordcodes.com/assets/img/icon/safari-pinned-tab.svg?v=5" color="#395781">
+  <link rel="manifest" href="https://www.lordcodes.com/site.webmanifest?v=5">
+  <meta name="apple-mobile-web-app-title" content="Lord Codes">
+  <meta name="application-name" content="Lord Codes">
+  <meta name="msapplication-TileColor" content="#395781">
+  <meta name="msapplication-TileImage" content="https://www.lordcodes.com/assets/img/icon/mstile-144x144.png?v=5">
+  <meta name="msapplication-config" content="https://www.lordcodes.com/browserconfig.xml?v=5">
+  <meta name="theme-color" content="#395781">
+
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css?v=1"/>
+
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+  
+  
+  
+    <link rel="alternate" title="Lord Codes Feed" type="application/atom+xml" href="https://www.lordcodes.com/feeds/main.xml">
+  
+    <link rel="alternate" title="Lord Codes &#8211; Android Feed" type="application/atom+xml" href="https://www.lordcodes.com/feeds/android.xml">
+  
+    <link rel="alternate" title="Lord Codes &#8211; iOS Feed" type="application/atom+xml" href="https://www.lordcodes.com/feeds/ios.xml">
+  
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+      document.querySelector("html")
+        .classList.toggle('no-js')
+    });
+  </script>
+</head>
+
+
+  <body class="t--day page-body preload">
+    <script type="text/javascript">
+  const themeDay = "day"
+  const themeNight = "night"
+  const themeStorageKey = "current-theme"
+
+  applyStoredTheme()
+
+  function applyStoredTheme() {
+    var currentTheme = localStorage.getItem(themeStorageKey)
+    applyThemeStyle(currentTheme)
+
+    document.addEventListener('DOMContentLoaded', function() {
+      activateThemeOnSelectors(currentTheme)
+      addThemeSelectorClickHandlers()
+    }, false)
+  }
+
+  function applyThemeStyle(theme) {
+    if (theme === themeDay) {
+      document.body.classList.remove('t--night')
+      document.body.classList.add('t--day')
+    } else if (theme === themeNight) {
+      document.body.classList.add('t--night')
+      document.body.classList.remove('t--day')
+    }
+  }
+
+  function activateThemeOnSelectors(theme) {
+    var selectDay = document.querySelectorAll(".theme-selector .select-theme-day")
+    var selectNight = document.querySelectorAll(".theme-selector .select-theme-night")
+    
+    if (theme === themeDay) {
+      selectDay.forEach((button) => {
+        button.classList.add('theme-active')
+        button.disabled = true
+      });
+
+      selectNight.forEach((button) => {
+        button.classList.remove('theme-active')
+        button.disabled = false
+      });
+    } else if (theme === themeNight) {
+      selectDay.forEach((button) => {
+        button.classList.remove('theme-active')
+        button.disabled = false
+      });
+
+      selectNight.forEach((button) => {
+        button.classList.add('theme-active')
+        button.disabled = true
+      });
+    }
+  }
+
+  function addThemeSelectorClickHandlers() {
+    document.querySelectorAll(".theme-selector .select-theme-day")
+      .forEach((button) => {
+        button.addEventListener('click', function() {
+          changeThemeSelection(themeDay)
+        }, false)
+      });
+
+    document.querySelectorAll(".theme-selector .select-theme-night")
+      .forEach((button) => {
+        button.addEventListener('click', function() {
+          changeThemeSelection(themeNight)
+        }, false)
+      });
+  }
+
+  function changeThemeSelection(theme) {
+    localStorage.setItem(themeStorageKey, theme)
+    applyThemeStyle(theme)
+    activateThemeOnSelectors(theme)
+  }
+</script>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="container">
+    <div class="header__inner">
+      <a class="header__logo" href="/" aria-label="Main blog page">
+        <div class="header__logo--container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewbox="0 0 6020 6020"><g><path d="M1240 4990l0-100 1785 0 1785 0 0 100 0 100-1785 0-1785 0 0-100z"></path><path d="M742 4865c-82-92-147-211-193-350-22-68-23-85-29-545-6-449-8-479-28-540-62-190-227-327-417-348l-60-7 0-95 0-95 55-6c195-21 364-164 426-359 15-48 18-119 24-530 6-452 8-479 29-550 31-103 91-222 153-304 79-103 76-102 154-25l66 66-52 64c-28 35-69 100-90 144-70 144-72 155-79 685-6 462-7 477-30 540-46 130-142 262-240 330-27 19-50 37-50 40-1 3 15 16 34 29 102 69 202 201 251 331l28 75 7 470c6 434 8 476 27 548 26 96 77 195 144 277l50 63-63 63c-35 35-69 64-75 64-7 0-26-16-42-35z"></path><path d="M5171 4836l-63-63 50-63c67-82 118-181 144-277 19-72 21-113 27-548l7-470 26-72c47-131 131-247 231-318 31-22 56-42 56-45 0-3-23-21-50-40-98-68-194-200-240-330-23-63-24-78-30-540-7-530-9-541-79-685-21-44-62-109-90-144l-52-64 66-66c78-77 75-78 154 25 62 82 122 201 153 304 21 71 23 98 29 550 8 521 8 526 72 639 80 140 254 251 395 251l43 0 0 100 0 100-44 0c-102 0-257 76-331 163-48 55-89 129-111 197-15 48-18 116-24 530-6 460-7 477-29 545-13 39-36 98-51 131-45 100-157 254-184 254-6 0-40-29-75-64z"></path><path d="M3813 4284c-345-75-625-358-698-705-22-104-22-1085 0-1189 74-351 358-633 712-706 109-23 339-15 443 16 150 43 327 152 421 259 58 65 121 160 114 171-5 9-147 90-158 90-3 0-26-29-51-64-136-191-344-296-585-296-131 0-196 16-321 77-80 39-109 60-186 137-77 77-98 106-138 186-82 169-81 158-81 725 0 563 1 570 75 720 74 148 181 254 335 330 119 59 186 75 316 75 250 0 470-116 604-318 15-23 31-41 34-40 44 20 161 92 161 98 0 5-28 47-63 92-136 178-325 298-540 342-93 20-306 20-394 0z"></path><path d="M1250 2980l0-1280 90 0 90 0 0 1190 0 1190 725 0 725 0 0 90 0 90-815 0-815 0 0-1280z"></path><path d="M1220 1030l0-100 1795 0 1795 0 0 100 0 100-1795 0-1795 0 0-100z"></path></g></svg>
+
+        </div>
+      </a>
+      <div class="theme-selector">
+        <button type="button" class="label select-theme-day theme-active" disabled>☀️ Day</button>
+        <button type="button" class="label select-theme-night">🌙 Night</button>
+      </div>
+      <nav class="header__links" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+        <div class="container header__links-wrapper">
+          
+            
+            
+            
+            <a class="header__link " href="/index.html" itemprop="url">
+              <span itemprop="name">Blog</span>
+            </a>
+          
+            
+            
+            
+            <a class="header__link " href="/about/" itemprop="url">
+              <span itemprop="name">About</span>
+            </a>
+          
+            
+            
+            
+            <a class="header__link " href="/subscribe/" itemprop="url">
+              <span itemprop="name">Subscribe</span>
+            </a>
+          
+            
+            
+            
+            <a class="header__link " href="/topics/" itemprop="url">
+              <span itemprop="name">Topics</span>
+            </a>
+          
+        </div>
+      </nav>
+      <div class="header__toggle">
+        <input type="checkbox" class="header__toggle-input">
+
+        <div class="drawer-icon">
+          <span class="drawer-bar"></span>
+          <span class="drawer-bar"></span>
+          <span class="drawer-bar"></span>
+        </div>
+
+        <div class="header__overlay"></div>
+
+        <ul class="header__drawer-menu" aria-label="Main navigation">
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/index.html" itemprop="url">
+                Blog
+              </a>
+            </li>
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/about/" itemprop="url">
+                About
+              </a>
+            </li>
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/subscribe/" itemprop="url">
+                Subscribe
+              </a>
+            </li>
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/topics/" itemprop="url">
+                Topics
+              </a>
+            </li>
+          
+          <li class="theme-selector">
+            <strong class="theme-marker">Theme</strong>
+            <button type="button" class="label select-theme-day theme-active" disabled>☀️ Day</button>
+            <button type="button" class="label select-theme-night">🌙 Night</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <section class="hero post-hero">
+  <div class="hero__content">
+    
+      <div class="hero__categories">
+        
+        
+          
+          
+          <a class="label" href="/ios">iOS | Swift</a>
+          
+        
+      </div>
+    
+    <h1 class="hero__title">Clear and searchable logging in Swift with OSLog</h1>
+    <p class="hero__tagline">
+      <span>
+        <time>Jan 14, 2019</time>
+      </span>
+      
+       · 
+      <span>
+          
+
+
+
+
+  6 minute read
+
+
+      </span>
+      
+    </p>
+  </div>
+</section>
+
+<main class="body__content">
+  <div class="container">
+    <article class="post-content" itemprop="articleBody">
+      <p>When it comes to logging in Swift and iOS applications in particular, the APIs that first come to mind might be <code class="highlighter-rouge">print</code> and <code class="highlighter-rouge">NSLog</code>. More recently, however, Apple has introduced a new standard for logging in the form of <a href="https://developer.apple.com/documentation/os/logging" target="_blank" rel="noopener noreferrer">unified logging</a>, accessed via <code class="highlighter-rouge">OSLog</code>. It is the current recommended way of logging, providing an efficient way to capture information across our applications.</p>
+
+<p>Unified logging provides a number of improvements over previous techniques and also some differences to what we are used to.</p>
+
+<ol>
+  <li>Each message can be logged at an appropriate level, including: default, error, debug and info. They affect how messages are displayed to us and persisted.</li>
+  <li>Messages are grouped within subsystems and categories to enable efficient searching and filtering.</li>
+  <li>There is no need to wrap log statements in conditionals, due to the system being designed for performance and logs being rendered only when read.</li>
+  <li>User privacy is carefully respected, with dynamic string content needing to be explicitly marked as public, else they are redacted in any logs.</li>
+</ol>
+
+<figure class="">
+  <picture class="">
+    
+      <source media="(min-width: 768px)" srcset="/assets/img/resized/768/logging.jpg"></source>
+    
+      <source media="(min-width: 640px)" srcset="/assets/img/resized/640/logging.jpg"></source>
+    
+      <source media="(min-width: 480px)" srcset="/assets/img/resized/480/logging.jpg"></source>
+    
+      <source media="(min-width: 320px)" srcset="/assets/img/resized/320/logging.jpg"></source>
+    
+    <img class="" src="/assets/img/posts/logging.jpg" alt="A pile of logs" srcset="    /assets/img/resized/768/logging.jpg 768w,    /assets/img/resized/640/logging.jpg 640w,    /assets/img/resized/480/logging.jpg 480w,    /assets/img/resized/320/logging.jpg 320w, /assets/img/posts/logging.jpg 960w">
+  </picture>
+  
+</figure>
+
+<h2 id="section-lets-get-logging">Let’s get logging</h2>
+
+<p>Using unified logging from Swift is as simple as using the <code class="highlighter-rouge">os_log</code> function, which we will quickly notice takes a <code class="highlighter-rouge">StaticString</code> as an argument rather than a regular <code class="highlighter-rouge">String</code>. The easiest way to log messages, is to place the <code class="highlighter-rouge">String</code> constant directly in the function call. Extracting the message to a property is possible, however, we will need to define it’s type as <code class="highlighter-rouge">StaticString</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"User signed in"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">errorMessage</span><span class="p">:</span> <span class="kt">StaticString</span> <span class="o">=</span> <span class="s">"404 - NOT FOUND"</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="n">errorMessage</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Due to the <code class="highlighter-rouge">StaticString</code> requirement, instead of using string interpolation we will need to use format arguments. This may feel jarring initially, however, it isn’t too hard to adapt to and it provides benefits to user privacy that we will discuss a bit later on. We have access to all of the <a href="https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFStrings/formatSpecifiers.html#//apple_ref/doc/uid/TP40004265" target="_blank" rel="noopener noreferrer">standard format arguments</a>, as well as a number of <a href="https://developer.apple.com/documentation/os/logging#1682416" target="_blank" rel="noopener noreferrer">extra value type decoders</a>. The idea is that the logging system handles as much formatting for you as possible, to make the system even more efficient.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">responseCode</span> <span class="o">=</span> <span class="s">"404 - NOT FOUND"</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"HTTP response: %@"</span><span class="p">,</span> <span class="n">responseCode</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">logMessage</span> <span class="o">=</span> <span class="s">"HTTP response: </span><span class="se">\(</span><span class="n">responseCode</span><span class="se">)</span><span class="s">"</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"%@"</span><span class="p">,</span> <span class="n">logMessage</span><span class="p">)</span>
+
+<span class="c1">// error: cannot convert value of type 'String'</span>
+<span class="c1">// to expected argument type 'StaticString'</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"HTTP response: </span><span class="se">\(</span><span class="n">responseCode</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="section-its-good-to-be-organised">It’s good to be organised</h2>
+
+<p>Calls to <code class="highlighter-rouge">os_log</code> can specify an <code class="highlighter-rouge">OSLog</code> to use, containing a specific subsystem and category. This information is invaluable when filtering, searching and trying to understand our logs later. When the log argument isn’t specified a default one is used, which has no subsystem or category configured.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">uiLog</span> <span class="o">=</span> <span class="kt">OSLog</span><span class="p">(</span><span class="nv">subsystem</span><span class="p">:</span> <span class="s">"com.lordcodes.chat.ChatApp"</span><span class="p">,</span> <span class="nv">category</span><span class="p">:</span> <span class="s">"UI"</span><span class="p">)</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"Contact selected"</span><span class="p">,</span> <span class="nv">log</span><span class="p">:</span> <span class="n">uiLog</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">networkLog</span> <span class="o">=</span> <span class="kt">OSLog</span><span class="p">(</span><span class="nv">subsystem</span><span class="p">:</span> <span class="s">"com.lordcodes.chat.ChatKit"</span><span class="p">,</span> <span class="nv">category</span><span class="p">:</span> <span class="s">"Network"</span><span class="p">)</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"HTTP response: %@"</span><span class="p">,</span> <span class="nv">log</span><span class="p">:</span> <span class="n">networkLog</span><span class="p">,</span> <span class="n">responseCode</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The subsystem groups all the logs for a particular app or module, allowing us to filter for all of our own logs. From evaluating Apple’s logs, the convention for subsystem is a reverse domain style, such as the Bundle Identifier of the app or framework itself. If the app is modularised into frameworks, it is a good idea to use the Bundle Identifier of the framework to split logs into their corresponding components.</p>
+
+<p>Categories are used to group logs into related areas, to help us narrow down the scope of log messages. The convention for categories is to use human-readable names like <code class="highlighter-rouge">UI</code> or <code class="highlighter-rouge">User</code>. We could group logs into layers across multiple subsystems or features, such as <code class="highlighter-rouge">Network</code> or <code class="highlighter-rouge">Contacts</code>. Alternatively, we could group all the logs for a particular class, such as <code class="highlighter-rouge">Contacts Repository</code>. It would be perfectly acceptable to combine both approaches in the same project, we should simply use the most appropriate categories to allow us to understand the context of the project’s log messages.</p>
+
+<p>We can add our different categories and subsystems as an extension of <code class="highlighter-rouge">OSLog</code>, making them easily accessible across the app. Storing them in one place avoids creating <code class="highlighter-rouge">OSLog</code> instances all over the codebase and helps keep the different categories in use nicely organised.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">OSLog</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">subsystem</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="o">!</span>
+
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">ui</span> <span class="o">=</span> <span class="kt">OSLog</span><span class="p">(</span><span class="nv">subsystem</span><span class="p">:</span> <span class="n">subsystem</span><span class="p">,</span> <span class="nv">category</span><span class="p">:</span> <span class="s">"UI"</span><span class="p">)</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">network</span> <span class="o">=</span> <span class="kt">OSLog</span><span class="p">(</span><span class="nv">subsystem</span><span class="p">:</span> <span class="n">subsystem</span><span class="p">,</span> <span class="nv">category</span><span class="p">:</span> <span class="s">"Network"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"Contact selected"</span><span class="p">,</span> <span class="nv">log</span><span class="p">:</span> <span class="o">.</span><span class="n">ui</span><span class="p">)</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"HTTP response: %@"</span><span class="p">,</span> <span class="nv">log</span><span class="p">:</span> <span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">responseCode</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="section-logging-levels">Logging levels</h2>
+
+<p>The unified logging system employs a set of different logging levels at which we can target different types of messages. The levels control how messages are displayed to us, how and when they are persisted and whether they are captured in different environments. How the system handles each level can even be customised through the <a href="https://developer.apple.com/documentation/os/logging#2878594" target="_blank" rel="noopener noreferrer">command-line on our machine</a>. It is a good idea to use the most appropriate logging level for each message, to get the most we can out of the logging system.</p>
+
+<p><strong>Default</strong>: To capture anything that might result in a failure and essentially a fall-back if no other level seems appropriate. Unless changed, messages are stored in memory buffers and persisted when they fill up.</p>
+
+<p><strong>Info</strong>: To capture anything that may be useful, but is not directly used to diagnose or troubleshoot errors. Unless changed, no persistence is used, messages are just stored in memory buffers and purged as they fill up.</p>
+
+<p><strong>Debug</strong>: To capture information during development to diagnose a particular issue, whilst actively debugging. They aren’t captured unless enabled by a configuration change.</p>
+
+<p><strong>Error</strong>: To capture application errors and failures, in particular anything critical. Messages are always persisted, to ensure they are no lost.</p>
+
+<p><strong>Fault</strong>: To capture system-level or multi-process errors only, likely not of use in our app code. As with the error level, messages are always persisted.</p>
+
+<p>Logging at each level is as simple as specifying the corresponding <code class="highlighter-rouge">OSLogType</code> as an argument to the <code class="highlighter-rouge">os_log</code> call.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"Contact selected"</span><span class="p">,</span> <span class="nv">log</span><span class="p">:</span> <span class="o">.</span><span class="n">ui</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">info</span><span class="p">)</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"Saving contact failed"</span><span class="p">,</span> <span class="nv">log</span><span class="p">:</span> <span class="o">.</span><span class="n">database</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">error</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="section-user-privacy">User privacy</h2>
+
+<p>To ensure private user data is not accidentally persisted to application logs, which may be shared with other people, the unified logging system has a public and private argument process. By default, only scalar (boolean, integer) values are collected and dynamic strings or complex dynamic objects are redacted. If it is necessary, dynamic string arguments may be declared public and scalar arguments could also be declared private.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">os_log</span><span class="p">(</span><span class="s">"Contact %ld selected"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"Contact %{private}ld selected"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"HTTP response: %@"</span><span class="p">,</span> <span class="n">responseCode</span><span class="p">)</span>
+<span class="nf">os_log</span><span class="p">(</span><span class="s">"HTTP response: %{public}@"</span><span class="p">,</span> <span class="n">responseCode</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>It is important we resist making all arguments public, as it could easily result in private company or user data being exposed within device logs.</p>
+
+<h2 id="section-reading-logs">Reading logs</h2>
+
+<p>Whilst the debugger is attached, log messages will be shown in the Xcode console. The best way to read our logs, however, is with the Console MacOS application. Here we will be able to sort, filter and search our logs, as well as view them more easily.</p>
+
+<ul>
+  <li>Display logs in a table, making each piece of data easy to read</li>
+  <li>Search and filter by subsystem and category</li>
+  <li>Show and hide different fields for each log message</li>
+  <li>Turn on and off debug and info level messages</li>
+  <li>Save search patterns to access them more easily in the future</li>
+</ul>
+
+<h2 id="section-conclusion">Conclusion</h2>
+
+<p>Unified logging is a promising and powerful logging solution, especially when it comes to performance and filtering your log messages. Initially it might seem like it has quirks or differences to what you may be used to from <code class="highlighter-rouge">NSLog</code> and <code class="highlighter-rouge">print</code>. After looking a bit more and providing <code class="highlighter-rouge">os_log</code> with subsystems, categories and making good use of logging levels, you will find it makes working with logs significantly easier. If you want more log coverage with better performance, you can ditch <code class="highlighter-rouge">NSLog</code> and <code class="highlighter-rouge">print</code> statements and start integrating <code class="highlighter-rouge">os_log</code> into your apps.</p>
+
+<blockquote>
+  <p>OSLog is Apple’s current recommended logging approach</p>
+</blockquote>
+
+<p>There is much more to <code class="highlighter-rouge">OSLog</code> than we have explored here, such as <a href="https://developer.apple.com/documentation/os/3019241-os_signpost" target="_blank" rel="noopener noreferrer">signposts</a> to monitor app performance and so it is likely we come back to this topic in another article in the future.</p>
+
+<p>Have you started using <code class="highlighter-rouge">OSLog</code>, if so what do you think of it? If you aren’t going to use it, what are your reasons for making that decision? If you have any suggestions for other developers trying to use <code class="highlighter-rouge">OSLog</code> I would love to hear about them. Please feel free to reach out to me on <a href="https://www.twitter.com/lordcodes" target="_blank" rel="noopener noreferrer">Twitter @lordcodes</a> with any questions or thoughts you have, or about anything else.</p>
+
+<p>If you like what you have read, please don’t hesitate to share the article and <a href="/subscribe">subscribe to my feed</a> if you are interested.</p>
+
+<p>Thanks for reading and happy coding! 🙏</p>
+
+    </article>
+    <section class="post-section last-updated-container">
+      <em>
+        Last updated on <time>Jan 24, 2019</time>
+      </em>
+    </section>
+    <section class="post-section tags-container">
+      <ul>
+        
+          
+          <li><a href="/topics/#tag-debugging">Debugging and Monitoring</a></li>
+        
+      </ul>
+    </section>
+    
+      <section class="post-section share-bar">
+        <h3 class="share-bar__heading">Like what you read? Please spread the word.</h3>
+        <p>If you would like to share the article, it would be very much appreciated.</p>
+        <nav class="social-nav">
+
+          
+          
+          
+
+          <a class="twitter" aria-label="Share on Twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?via=lordcodes&amp;text=Clear+and+searchable+logging+in+Swift+with+OSLog%3A&amp;url=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fclear-and-searchable-logging-in-swift-with-oslog">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="-1 -2 18 18" width="20" height="20"><path d="M16 3.1c-0.6 0.3-1.2 0.4-1.9 0.5 0.7-0.4 1.2-1 1.4-1.8 -0.6 0.4-1.3 0.6-2.1 0.8 -0.6-0.6-1.4-1-2.4-1 -1.8 0-3.3 1.5-3.3 3.3 0 0.3 0 0.5 0.1 0.7C5.2 5.4 2.8 4.1 1.1 2.1 0.9 2.6 0.7 3.2 0.7 3.8c0 1.1 0.6 2.1 1.5 2.7C1.6 6.5 1.1 6.3 0.7 6.1c0 0 0 0 0 0 0 1.6 1.1 2.9 2.6 3.2C3 9.4 2.7 9.4 2.4 9.4c-0.2 0-0.4 0-0.6-0.1 0.4 1.3 1.6 2.2 3.1 2.3 -1.1 0.9-2.5 1.4-4.1 1.4 -0.3 0-0.5 0-0.8 0 1.4 0.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3 0-0.1 0-0.3 0-0.4C15 4.3 15.5 3.7 16 3.1z"></path></svg>
+
+          </a>
+          <a class="facebook" aria-label="Share on Facebook" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fclear-and-searchable-logging-in-swift-with-oslog">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="-100 -100 1224 1224"><path class="cls-1" d="M967.5 0h-911A56.5 56.5 0 0 0 0 56.5v911A56.5 56.5 0 0 0 56.5 1024H547V628H414V473H547V359c0-132.3 80.8-204.3 198.8-204.3 56.5 0 105.1 4.2 119.2 6.1V299l-81.6 0c-64 0-76.4 30.5-76.4 75.2V473H860.5l-20 155H707v396H967.5A56.5 56.5 0 0 0 1024 967.5v-911A56.5 56.5 0 0 0 967.5 0Z"></path></svg>
+
+          </a>
+          <a class="reddit" aria-label="Share on Reddit" target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/submit?url=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fclear-and-searchable-logging-in-swift-with-oslog&amp;title=Clear+and+searchable+logging+in+Swift+with+OSLog">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.533 1.811 1.317 2.271-.052.282-.086.567-.086.857 0 3.911 4.808 7.093 10.719 7.093s10.72-3.182 10.72-7.093c0-.274-.029-.544-.075-.81.832-.447 1.405-1.312 1.405-2.318zm-17.224 1.816c0-.868.71-1.575 1.582-1.575.872 0 1.581.707 1.581 1.575s-.709 1.574-1.581 1.574-1.582-.706-1.582-1.574zm9.061 4.669c-.797.793-2.048 1.179-3.824 1.179l-.013-.003-.013.003c-1.777 0-3.028-.386-3.824-1.179-.145-.144-.145-.379 0-.523.145-.145.381-.145.526 0 .65.647 1.729.961 3.298.961l.013.003.013-.003c1.569 0 2.648-.315 3.298-.962.145-.145.381-.144.526 0 .145.145.145.379 0 .524zm-.189-3.095c-.872 0-1.581-.706-1.581-1.574 0-.868.709-1.575 1.581-1.575s1.581.707 1.581 1.575-.709 1.574-1.581 1.574z"></path></svg>
+
+          </a>
+          <a class="linkedin" aria-label="Share on LinkedIn" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fclear-and-searchable-logging-in-swift-with-oslog&amp;title=Clear+and+searchable+logging+in+Swift+with+OSLog&amp;source=Lord+Codes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="430" height="430" viewbox="-50 -50 520 520"><path d="M430.1 261.5V420.6h-92.2V272.2c0-37.3-13.3-62.7-46.7-62.7 -25.5 0-40.6 17.1-47.3 33.7 -2.4 5.9-3.1 14.2-3.1 22.5V420.6h-92.2c0 0 1.2-251.3 0-277.3h92.2v39.3c-0.2 0.3-0.4 0.6-0.6 0.9h0.6v-0.9c12.3-18.9 34.1-45.8 83.1-45.8C384.6 136.7 430.1 176.4 430.1 261.5zM52.2 9.6C20.6 9.6 0 30.3 0 57.5c0 26.6 20 47.9 51 47.9h0.6c32.2 0 52.2-21.3 52.2-47.9C103.1 30.3 83.7 9.6 52.2 9.6zM5.5 420.6h92.2v-277.3H5.5V420.6z"></path></svg>
+
+          </a>
+        </nav>
+      </section>
+    
+    
+      <section class="post-section post__author-profile">
+        <figure class="about-profile__avatar">
+  <img src="https://www.gravatar.com/avatar/ada9ea9ad076f866aad4d1f432d2c40d?s=150" alt="Andrew Lord avatar">
+</figure>
+<p>Hi, I hope you enjoyed the article. I am Andrew - a builder of Android and iOS apps, games and developer tools. Articles on this blog focus on all aspects of Android and iOS development using Kotlin and Swift. When it comes to coding, my particular focus is on code quality and automated testing. Aside from development I am an avid gamer and music fan.</p>
+
+      </section>
+    
+    
+      <section class="post-section post__more-links">
+        <nav class="more-links-nav">
+  <h3>More from Lord Codes</h3>
+
+  <ul>
+    
+
+      
+        <li>💬 <a target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/lordcodes">Reach out to me on Twitter</a>
+</li>
+      
+
+    
+
+      
+        <li>📕 <a href="/topics/">Check out articles grouped by topic</a>
+</li>
+      
+
+    
+
+      
+        <li>✍️ <a href="/subscribe">Subscribe to my feed</a>
+</li>
+      
+
+    
+
+      
+        <li>😎 <a href="/about">Find out about me</a>
+</li>
+      
+
+    
+
+      
+        <li>💻 <a href="/">Browse the full blog</a>
+</li>
+      
+
+    
+  </ul>
+</nav>
+
+      </section>
+    
+    <section class="post-section controls__inner">
+      <div class="controls__item next">
+        
+          <span>Newer</span>
+          <a href="/posts/adding-continuous-integration-to-your-android-project">
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewbox="0 0 6 11"><path d="M5.647 1.718c.37-.434.323-1.09-.106-1.465A1.016 1.016 0 0 0 4.095.36L.25 4.875a1.05 1.05 0 0 0 .017 1.378l3.95 4.407c.38.424 1.03.456 1.448.07a1.05 1.05 0 0 0 .07-1.468l-3.34-3.725 3.253-3.819z"></path></svg>
+</span> Adding Continuous Integration to your Android project
+          </a>
+        
+      </div>
+
+      <div class="controls__item prev">
+        
+          <span>Older</span>
+          <a href="/posts/create-xcode-file-templates">
+            Create Xcode file templates and share them with your team <span><svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewbox="0 0 6 11"><path d="M.353 9.282c-.37.434-.323 1.09.106 1.465a1.016 1.016 0 0 0 1.446-.107L5.75 6.125a1.05 1.05 0 0 0-.017-1.378L1.784.34A1.015 1.015 0 0 0 .336.27a1.05 1.05 0 0 0-.07 1.468l3.34 3.725L.353 9.282z"></path></svg>
+</span>
+          </a>
+        
+      </div>
+    </section>
+  </div>
+</main>
+
+  <section class="related-posts">
+    <div class="container">
+      <div class="post-section">
+        <h3 class="related-posts__heading">Want to read more?</h3>
+        <p>Here are some other articles you may enjoy.</p>
+        <div class="post-list">
+          
+
+
+
+
+
+
+
+
+  
+
+  
+    <a class="post-card" href="/posts/create-xcode-file-templates" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-card__header">
+    
+      <span class="post-card__label" itemprop="articleSection">
+        
+        
+        
+        <span class="label"> iOS | Swift </span>
+        
+      </span>
+    
+  </header>
+    <section class="post-card__content">
+      <h2 class="post-card__title" itemprop="headline">Create Xcode file templates and share them with your team</h2>
+      <span class="post-card__meta">
+        <time itemprop="datePublished">Dec 14, 2018</time>
+        
+           ·  
+
+
+
+
+  4 minute read
+
+
+        
+      </span>
+      <div class="post-card__summary" itemprop="description">
+        
+          <p>When creating new files in Xcode the built-in templates often contain code we immediately delete or need to alter. We will explore the process of creating our own templates and how to go about sharing them with the rest of our team members.
+</p>
+        
+      </div>
+    </section>
+</a>
+
+    
+    
+    
+  
+
+  
+    <a class="post-card" href="/posts/a-modular-analytics-layer-in-swift" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-card__header">
+    
+      <span class="post-card__label" itemprop="articleSection">
+        
+        
+        
+        <span class="label"> iOS | Swift </span>
+        
+      </span>
+    
+  </header>
+    <section class="post-card__content">
+      <h2 class="post-card__title" itemprop="headline">A modular analytics layer in Swift</h2>
+      <span class="post-card__meta">
+        <time itemprop="datePublished">Nov 27, 2018</time>
+        
+           ·  
+
+
+
+
+  9 minute read
+
+
+        
+      </span>
+      <div class="post-card__summary" itemprop="description">
+        
+          <p>Ensuring your analytics implementation is easy to use, alter and extend can be difficult. Let's have a look at a possible solution by building a modular analytics layer together in Swift.
+</p>
+        
+      </div>
+    </section>
+</a>
+
+    
+    
+    
+  
+
+  
+    <a class="post-card" href="/posts/managing-secrets-within-an-ios-app" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-card__header">
+    
+      <span class="post-card__label" itemprop="articleSection">
+        
+        
+        
+        <span class="label"> iOS | Swift </span>
+        
+      </span>
+    
+  </header>
+    <section class="post-card__content">
+      <h2 class="post-card__title" itemprop="headline">Managing secrets within an iOS app</h2>
+      <span class="post-card__meta">
+        <time itemprop="datePublished">Nov 20, 2018</time>
+        
+           ·  
+
+
+
+
+  9 minute read
+
+
+        
+      </span>
+      <div class="post-card__summary" itemprop="description">
+        
+          <p>Almost all iOS apps have API keys and other secrets, but simple approaches for managing them can be insecure. We will look at some different options for keeping secrets out of source control and accessing them securely from your code.
+</p>
+        
+      </div>
+    </section>
+</a>
+
+    
+    
+    
+      
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+    <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+  <div class="container">
+    <div class="theme-selector">
+      <strong class="theme-marker">Theme:</strong>
+      <button type="button" class="label select-theme-day theme-active" disabled>☀️ Day</button>
+      <button type="button" class="label select-theme-night">🌙 Night</button>
+    </div>
+    <nav class="social">
+      
+        <a class="social__link github" target="_blank" rel="noopener noreferrer" href="https://github.com/lordcodes" aria-label="GitHub profile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-0.5 -0.5 17 17" width="20" height="20"><path d="M8 0.4c-4.3 0-7.8 3.5-7.8 7.8 0 3.4 2.2 6.3 5.3 7.4 0.4 0.1 0.5-0.2 0.5-0.4 0-0.2 0-0.7 0-1.3 -2.2 0.5-2.6-1-2.6-1 -0.4-0.9-0.9-1.1-0.9-1.1 -0.7-0.5 0.1-0.5 0.1-0.5 0.8 0.1 1.2 0.8 1.2 0.8 0.7 1.2 1.8 0.8 2.3 0.6 0.1-0.5 0.3-0.8 0.5-1C4.9 11.4 3 10.8 3 7.8c0-0.8 0.3-1.5 0.8-2.1C3.8 5.5 3.5 4.7 3.9 3.7c0 0 0.7-0.2 2.1 0.8C6.7 4.3 7.3 4.2 8 4.2c0.7 0 1.3 0.1 1.9 0.3 1.5-1 2.1-0.8 2.1-0.8 0.4 1.1 0.2 1.9 0.1 2.1 0.5 0.5 0.8 1.2 0.8 2.1 0 3-1.8 3.6-3.5 3.8 0.3 0.2 0.5 0.7 0.5 1.4 0 1 0 1.9 0 2.1 0 0.2 0.1 0.4 0.5 0.4 3.1-1 5.3-3.9 5.3-7.4C15.8 3.9 12.3 0.4 8 0.4z"></path></svg>
+
+        </a>
+      
+      
+        <a class="social__link twitter" target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/lordcodes" aria-label="Twitter profile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-1 -2 18 18" width="20" height="20"><path d="M16 3.1c-0.6 0.3-1.2 0.4-1.9 0.5 0.7-0.4 1.2-1 1.4-1.8 -0.6 0.4-1.3 0.6-2.1 0.8 -0.6-0.6-1.4-1-2.4-1 -1.8 0-3.3 1.5-3.3 3.3 0 0.3 0 0.5 0.1 0.7C5.2 5.4 2.8 4.1 1.1 2.1 0.9 2.6 0.7 3.2 0.7 3.8c0 1.1 0.6 2.1 1.5 2.7C1.6 6.5 1.1 6.3 0.7 6.1c0 0 0 0 0 0 0 1.6 1.1 2.9 2.6 3.2C3 9.4 2.7 9.4 2.4 9.4c-0.2 0-0.4 0-0.6-0.1 0.4 1.3 1.6 2.2 3.1 2.3 -1.1 0.9-2.5 1.4-4.1 1.4 -0.3 0-0.5 0-0.8 0 1.4 0.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3 0-0.1 0-0.3 0-0.4C15 4.3 15.5 3.7 16 3.1z"></path></svg>
+
+        </a>
+      
+      
+        <a class="social__link medium" target="_blank" rel="noopener noreferrer" href="https://medium.com/@lordcodes" aria-label="Medium profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="148" height="148" viewbox="18 18 156 156"><path d="M46.5 65.2C46.7 63.6 46.1 62 44.9 60.9L32.7 46.2 32.7 44 70.6 44 100 108.4 125.8 44 162 44 162 46.2 151.5 56.2C150.6 56.9 150.2 58 150.4 59.2L150.4 132.8C150.2 134 150.6 135.1 151.5 135.8L161.8 145.8 161.8 148 110.4 148 110.4 145.8 121 135.5C122 134.5 122 134.2 122 132.6L122 73 92.6 147.8 88.6 147.8 54.4 73 54.4 123.1C54.1 125.2 54.8 127.3 56.3 128.9L70 145.6 70 147.8 31 147.8 31 145.6 44.8 128.9C46.2 127.3 46.9 125.2 46.5 123.1L46.5 65.2Z"></path></svg>
+
+        </a>
+      
+      
+        <a class="social__link linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/lordcodes" aria-label="LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="430" height="430" viewbox="-50 -50 520 520"><path d="M430.1 261.5V420.6h-92.2V272.2c0-37.3-13.3-62.7-46.7-62.7 -25.5 0-40.6 17.1-47.3 33.7 -2.4 5.9-3.1 14.2-3.1 22.5V420.6h-92.2c0 0 1.2-251.3 0-277.3h92.2v39.3c-0.2 0.3-0.4 0.6-0.6 0.9h0.6v-0.9c12.3-18.9 34.1-45.8 83.1-45.8C384.6 136.7 430.1 176.4 430.1 261.5zM52.2 9.6C20.6 9.6 0 30.3 0 57.5c0 26.6 20 47.9 51 47.9h0.6c32.2 0 52.2-21.3 52.2-47.9C103.1 30.3 83.7 9.6 52.2 9.6zM5.5 420.6h92.2v-277.3H5.5V420.6z"></path></svg>
+
+        </a>
+      
+    </nav>
+    <a class="footer-nav__link" href="/about">
+      <span>© 2019 Lord Codes</span>
+    </a>
+    
+       · 
+      <a class="footer-nav__link" href="/terms/">
+        <span>Terms of Use</span>
+      </a>
+    
+       · 
+      <a class="footer-nav__link" href="/privacy/">
+        <span>Privacy Policy</span>
+      </a>
+    
+  </div>
+</footer>
+
+
+    
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127834743-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-127834743-1');
+</script>
+
+
+
+<script async src="/assets/js/main.js?v=1"></script>
+
+  </body>
+</html>

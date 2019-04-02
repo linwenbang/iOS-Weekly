@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Life in the slow lane | Floating little leaves of code</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Life in the slow lane" />
+<meta name="author" content="Maxwell Anselm" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="or, how we stopped using fastlane for continuous integration" />
+<meta property="og:description" content="or, how we stopped using fastlane for continuous integration" />
+<link rel="canonical" href="https://silverhammermba.github.io/blog/2019/03/12/slowlane" />
+<meta property="og:url" content="https://silverhammermba.github.io/blog/2019/03/12/slowlane" />
+<meta property="og:site_name" content="Floating little leaves of code" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-03-12T00:00:00+00:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://silverhammermba.github.io/blog/2019/03/12/slowlane"},"@type":"BlogPosting","url":"https://silverhammermba.github.io/blog/2019/03/12/slowlane","dateModified":"2019-03-12T00:00:00+00:00","datePublished":"2019-03-12T00:00:00+00:00","headline":"Life in the slow lane","author":{"@type":"Person","name":"Maxwell Anselm"},"description":"or, how we stopped using fastlane for continuous integration","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://silverhammermba.github.io/blog/feed.xml" title="Floating little leaves of code" /><script>
+if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-101409735-1', 'auto');
+  ga('send', 'pageview');
+}
+</script>
+  
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Floating little leaves of code</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Life in the slow lane</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-03-12T00:00:00+00:00" itemprop="datePublished">Mar 12, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3 id="or-how-we-stopped-using-fastlane-for-continuous-integration">or, how we stopped using fastlane for continuous integration</h3>
+
+<p>I <a href="/blog//2018/08/03/osx-jenkins">previously wrote</a> about how to set up continuous integration for an iOS
+app with fastlane and Jenkins. I have since changed my mind about that approach.</p>
+
+<h2 id="why-we-used-fastlane">Why we used fastlane</h2>
+
+<p>When I was initially tasked with setting up CI for our team, I used fastlane
+because</p>
+
+<ol>
+  <li>Senior developers said “I heard about this thing called fastlane that can
+automate iOS deployment. You should use that.”</li>
+  <li>and when I looked up fastlane it had a large community around it</li>
+</ol>
+
+<p>To be fair, fastlane did work. For about a year, on every push it would build
+our app, run our tests, and report back to git if the branch was OK to merge.
+This brought huge improvements to our development process because previously we
+were basically relying on due diligence and the honor system to make sure that
+tests got run.</p>
+
+<h2 id="what-sucks-about-fastlane">What sucks about fastlane</h2>
+
+<ol>
+  <li>Xcode sucks</li>
+  <li>It’s a huge dependency</li>
+  <li>It’s buggy</li>
+  <li>Everyone uses it</li>
+  <li>It’s an additional layer of complexity</li>
+  <li>It has way 👏 too 💯 many 😂 emoji 🚀</li>
+</ol>
+
+<p>Let’s dive into each of these a bit.</p>
+
+<h3 id="xcode-sucks">Xcode sucks</h3>
+
+<p>fastlane advertises itself as making your life as an iOS developer so much
+easier. Perhaps in certain areas that is true, but for a lot of what we were
+using fastlane for it was ultimately just wrapping commands to Xcode. And here’s
+the problem: Xcode <em>really</em> really sucks. A lot. I hate it.</p>
+
+<p>Ever since the release of Xcode 10, some frameworks in our app sometimes have
+build cycles reported <em>inside them</em>. Somehow Xcode thinks that linking the files
+in a framework can require the framework itself to already be built? I have a
+<a href="https://stackoverflow.com/questions/52724480/xcode-10-framework-dependency-cycle-with-itself">500 point bounty</a> on Stackoverflow about this. Let’s not get into that. The point
+is that sometimes, seemingly randomly, Xcode will decide it won’t build our app
+anymore. That means the Jenkins build fails, which means no tests run, which
+means no merge.</p>
+
+<p>Or sometimes the build succeeds and Xcode won’t run the tests. Why? “Early
+unexpected exit,” it says. “No restart will be attempted,” even though
+restarting the tests is <em>literally the <strong>only fix for this error</strong></em>. So again,
+no tests, no merge, seemingly at random.</p>
+
+<p>fastlane doesn’t help with this. And I don’t expect it to, because fastlane is
+built on the insane assumption that Xcode will always work. So this isn’t a mark
+against fastlane, but for us it made me start to question why we used this tool
+if it was doing nothing to address the two main pain points for our continuous
+integration setup. Especially considering that fastlane is a</p>
+
+<h3 id="huge-dependency">Huge dependency</h3>
+
+<p>When you finally get fastlane running and look at your cute little <code class="highlighter-rouge">Fastfile</code>,
+you’ll feel giddy:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">platform</span> <span class="ss">:ios</span> <span class="k">do</span>
+  <span class="n">before_all</span> <span class="k">do</span>
+    <span class="n">setup_jenkins</span>
+  <span class="k">end</span>
+
+  <span class="n">lane</span> <span class="ss">:test</span> <span class="k">do</span>
+    <span class="n">run_tests</span> <span class="ss">scheme: </span><span class="s1">'Tests'</span><span class="p">,</span> <span class="ss">device: </span><span class="s1">'iPhone 6'</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>So simple! So clean! Just don’t look at your <code class="highlighter-rouge">Gemfile.lock</code></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>bundle install
+<span class="c"># Bundle complete! 2 Gemfile dependencies, 67 gems now installed.</span></code></pre></figure>
+
+<p>That simplicity doesn’t come cheap. And since we want to keep our Jenkins
+workspaces clean, that’s 67 dependencies to install on the build machine for
+<em>every push</em>.</p>
+
+<p>And it’s not just big in terms of <em>build</em> dependencies. fastlane does a lot at
+runtime that I don’t care about. For example, every one of our builds gets tons
+of messages like this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>xcodebuild <span class="nt">-showBuildSettings</span> <span class="nt">-scheme</span> LoggingSharedFrameworkTests <span class="nt">-project</span> ./MyApp.xcodeproj
+<span class="c"># Command timed out after 3 seconds on try 1 of 4, trying again with a 6 second timeout...</span></code></pre></figure>
+
+<p>Sometimes it takes three or four of these timeouts (with increasing durations)
+before it succeeds. Why run this at all? And when you look at the build command
+it ends up running…</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">set</span> <span class="nt">-o</span> pipefail <span class="o">&amp;&amp;</span> env <span class="nv">NSUnbufferedIO</span><span class="o">=</span>YES xcodebuild <span class="nt">-scheme</span> LoggingSharedFrameworkTests <span class="nt">-project</span> ./MyApp.xcodeproj <span class="nt">-destination</span> <span class="s1">'platform=iOS Simulator,id=4EE01278-1CB2-4723-B24E-B9B5C0CF4983'</span> <span class="nt">-derivedDataPath</span> <span class="s1">'/Users/jenkins/.agent/workspace/p-66UA6AA2W6/derivedData'</span> <span class="nt">-resultBundlePath</span> <span class="s1">'/Users/jenkins/.agent/workspace/p-66UA6AA2W6/output/LoggingSharedFrameworkTests.test_result'</span> build <span class="nb">test</span> | tee <span class="s1">'/Users/jenkins/Library/Logs/scan/LoggingSharedFrameworkTests-LoggingSharedFrameworkTests.log'</span> | xcpretty  <span class="nt">--report</span> junit <span class="nt">--output</span> <span class="s1">'/Users/jenkins/.agent/workspace/p-66UA6AA2W6/output/LoggingSharedFrameworkTests.junit'</span> <span class="nt">--report</span> junit <span class="nt">--output</span> <span class="s1">'/var/folders/4c/fw71hw555x99lkr_vt1c5krw0000gq/T/junit_report20180803-11540-1ntdx6t'</span></code></pre></figure>
+
+<p>Yeah. Seeing this stuff makes me nervous, because I worry that fastlane is doing
+a bunch of extra work that</p>
+
+<ul>
+  <li>at best, I don’t care about or</li>
+  <li>at worst, is going to cause problems that I have to fix (don’t laugh, read
+on…)</li>
+</ul>
+
+<h3 id="fastlane-bugs">Fastlane bugs</h3>
+
+<p>I now know that fastlane is buggy, especially in the realm of generating test
+reports. There are two main ways to do this with fastlane and both of them are
+bad.</p>
+
+<ol>
+  <li><code class="highlighter-rouge">xcpretty</code>, the default. This tries to generate test results by parsing
+Xcode’s output while it runs tests. If you’ve ever written a tool that tries
+to parse another piece of software’s logs, you know how insane and fragile
+this is. Unsurprisingly, this results in errors like success/fail being mixed
+up or large numbers of tests being missed entirely.</li>
+  <li><code class="highlighter-rouge">trainer</code>, a fastlane plugin. This does the sane thing of actually reading
+the Xcode test report. But while working on it I found two bugs that made it
+unsuitable for use on Jenkins (it doesn’t handle Jenkins workspaces well, and
+you end up with weird test durations and test suites when Jenkins parses the
+report).</li>
+</ol>
+
+<p>All software has bugs, I don’t blame fastlane for this. But what makes it awful
+is that</p>
+
+<h3 id="everyone-uses-fastlane">Everyone uses fastlane</h3>
+
+<p>Have you ever needed to go to a government office to get some bureacratic
+paperwork processed? Or have you ever needed to go to your cable company’s
+office in person to exchange some hardware or resolve a billing dispute?</p>
+
+<p>These are universally awful experiences and I theorize that they are both awful
+for these two reasons:</p>
+
+<ol>
+  <li>They have to serve a wide audience with a broad range of needs and
+capabilities</li>
+  <li>The people being served are only there out of necessity and would much rather
+be doing something else</li>
+</ol>
+
+<p>These translate into awfulness because the employees need to treat every
+customer like they have the same lowest possible baseline of intelligence. It
+doesn’t matter if you’re a professional network engineer, the cable company is
+going to make sure you restart your computer and check the internet again before
+they replace your cable modem that is literally on fire. And the employees
+aren’t entirely at fault because the people are desperate to get out of there,
+meaning they are liable to misrepresent facts, misreport problems, and often
+expect the employees to magically fix things that are completely out of their
+control.</p>
+
+<p>fastlane’s bug tracker is exactly this situation.</p>
+
+<p>Because it’s advertised as a time-saving miracle tool, lots of people use it.
+Because it tries to do all things iOS, people use it for a broad set of
+unrelated tasks. And people only show up in the bug tracker because all of a
+sudden they’re losing money and the only thing they know is that they’re running
+a fastlane command and getting an error message.</p>
+
+<p>So getting a fastlane bug addressed is like waiting in line in the customer
+service department of your nightmares. If they listen to you at all it’s going
+to take a long time, and even longer for them to actually fix anything.</p>
+
+<h3 id="additional-complexity">Additional complexity</h3>
+
+<p>Because I never witnessed a bug report being addressed by fastlane developers, I
+ended up doing a lot of build debugging myself. Here’s the problem: Xcode is a
+really complicated tool and fastlane is a really complicated tool and fastlane
+needs to run Xcode to do almost anything. Surprisingly, it’s way harder to debug
+fastlane than it is to debug Xcode! It took me longer than I’d like to admit to
+realize this.</p>
+
+<p>Once I finally stopped relying entirely on fastlane and started running Xcode
+commands directly, it became much easier to realize which problems were coming
+from where.</p>
+
+<p>But while the Xcode problems were easy to debug because I could ignore the
+complexity of fastlane, I still would have to figure out how to make my solution
+work in fastlane. Like restarting tests if they fail for a very particular,
+mysterious reason; it wasn’t obvious how to do that in fastlane even though I
+knew exactly where that error appeared and in what Xcode command. And the
+fastlane problems were essentially unfixable as discussed in the previous
+section.</p>
+
+<p>Again, I kept coming to the question, “Why am I even using this tool?”</p>
+
+<h3 id="emoji">Emoji</h3>
+
+<p>Unrelated, but it seems like fastlane is kind of obsessed with them. I don’t get
+it. It’s weird right?</p>
+
+<h2 id="replacing-fastlane">Replacing fastlane</h2>
+
+<p>So we ditched fastlane. What now? I replaced it with four scripts. If you read
+my <a href="/blog//2018/08/03/osx-jenkins">Jenkins post</a>, the three bash scripts directly match the three steps
+in our Jenkins pipeline.</p>
+
+<h3 id="prepare-build">prepare build</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+bundle install
+carthage bootstrap <span class="nt">--platform</span> iOS <span class="nt">--cache-builds</span></code></pre></figure>
+
+<p>The simplest, sets up dependencies since Jenkins always starts with a clean
+workspace. The only gem we need is <code class="highlighter-rouge">xcpretty</code>, which has only one other
+dependency.</p>
+
+<h3 id="build-tests">build tests</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<span class="nb">set</span> <span class="nt">-xo</span> pipefail
+
+<span class="nv">DATADIR</span><span class="o">=</span>derivedData
+<span class="nv">DERIVED_DATA</span><span class="o">=(</span><span class="nt">-derivedDataPath</span> <span class="s2">"</span><span class="nv">$DATADIR</span><span class="s2">"</span><span class="o">)</span>
+
+build<span class="o">()</span> <span class="o">{</span>
+    xcodebuild <span class="nt">-scheme</span> Tests <span class="nt">-project</span> ./MyApp.xcodeproj <span class="nt">-destination</span> <span class="s1">'platform=iOS Simulator,name=iPhone 6'</span> <span class="k">${</span><span class="nv">DERIVED_DATA</span><span class="p">[@]</span><span class="k">}</span> build-for-testing | tee buildlog | bundle <span class="nb">exec </span>xcpretty <span class="nt">--color</span>
+    <span class="nv">RESULT</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="k">return</span> <span class="nv">$RESULT</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">!</span> build <span class="o">&amp;&amp;</span> <span class="nb">grep</span> <span class="s1">'error: Cycle'</span> buildlog<span class="p">;</span> <span class="k">then
+    </span>rm <span class="nt">-rf</span> <span class="s2">"</span><span class="nv">$DATADIR</span><span class="s2">"</span>
+    build
+<span class="k">fi
+
+</span><span class="nb">exit</span> <span class="nv">$RESULT</span></code></pre></figure>
+
+<p>Pretty self-explanatory. I only use that <code class="highlighter-rouge">DERIVED_DATA</code> variable so that it’s
+easy to comment out in case I want to run with the default path. And note that I
+still use <code class="highlighter-rouge">xcpretty</code>. It sucks at test reports, but it does make the log easier
+to read.</p>
+
+<p>And lastly, look at that simple fix for random cycle errors. We first try an
+incremental build (if the workspace wasn’t clean). If we see that error, clean
+it and start again. If it <em>still</em> fails, the cycle is probably legitimate.</p>
+
+<h3 id="test">test</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<span class="nb">set</span> <span class="nt">-xo</span> pipefail
+
+<span class="nv">DATADIR</span><span class="o">=</span>derivedData
+<span class="nv">OUTDIR</span><span class="o">=</span>output
+<span class="nv">DERIVED_DATA</span><span class="o">=(</span><span class="nt">-derivedDataPath</span> <span class="s2">"</span><span class="nv">$DATADIR</span><span class="s2">"</span><span class="o">)</span>
+<span class="nv">OUTPUT</span><span class="o">=(</span><span class="nt">-resultBundlePath</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span><span class="o">)</span>
+
+<span class="nb">test</span><span class="o">()</span> <span class="o">{</span>
+    rm <span class="nt">-rf</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+    xcodebuild <span class="nt">-scheme</span> Tests <span class="nt">-project</span> ./MyApp.xcodeproj <span class="nt">-destination</span> <span class="s1">'platform=iOS Simulator,name=iPhone 6'</span> <span class="k">${</span><span class="nv">DERIVED_DATA</span><span class="p">[@]</span><span class="k">}</span> <span class="k">${</span><span class="nv">OUTPUT</span><span class="p">[@]</span><span class="k">}</span> test-without-building | bundle <span class="nb">exec </span>xcpretty <span class="nt">--color</span>
+    <span class="nv">RESULT</span><span class="o">=</span><span class="nv">$?</span>
+<span class="o">}</span>
+
+<span class="k">for </span>run <span class="k">in</span> <span class="o">{</span>1..5<span class="o">}</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">test</span>
+
+    <span class="o">!</span> <span class="nb">grep</span> <span class="nt">--max-count</span><span class="o">=</span>1 <span class="s1">'Early unexpected exit, operation never finished bootstrapping'</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>/TestSummaries.plist <span class="o">&amp;&amp;</span> <span class="nb">break
+</span><span class="k">done</span>
+
+./scripts/plist2junit.rb <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>/TestSummaries.plist <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>/report.junit
+
+<span class="nb">exit</span> <span class="nv">$RESULT</span></code></pre></figure>
+
+<p>Slightly more complicated. Sometimes Xcode <em>really</em> doesn’t want to start those
+tests, so this loops 5 times, only exiting the loop if the results did not show
+that random failure to start.</p>
+
+<h3 id="plist2junit">plist2junit</h3>
+
+<p>I was <em>very</em> hesitant to make this script for generating test reports. Perhaps the
+“proper” way to do this would be to use extensible stylesheet language
+transformations (XSLT) to transform Xcode’s test report plist (which is XML)
+into the JUnit report (which is slightly reorganized XML). But, first of all, I
+didn’t even know XSLT was a <em>thing</em> before finding this <a href="https://warchimede.github.io/2017/07/16/convert-xcode-plist-test-reports-to-junit-xml/">blog post</a> about it
+when researching this exact issue. Secondly, XSLT seems to be some ancient lost
+art that would involve buying and reading a book from the 90s before I can even
+start hacking on it (seriously, bravo to XML; you have further secured your
+position as the most over-engineered language). Third, I love me some Ruby.</p>
+
+<p>So I won’t paste this here because it’s a bit more beefy, though still less than
+100 lines of Ruby. It’s on my <a href="https://github.com/silverhammermba/plist2junit">github</a>. Check the readme for the benefits
+of using it.</p>
+
+<h2 id="results">Results</h2>
+
+<p>First, most importantly, our continuous integration reliability has shot through
+the roof. Previously I felt like I had to babysit it every day, constantly
+diagnosing whether build or test failures were legitimate. Consequently the rest
+of my team never trusted it.</p>
+
+<p>Hopefully, from now on, errors should be actual errors that developers need to
+address in their code.</p>
+
+<p>Secondly, I feel much more in control of our build process. Yes, less code is
+better code, and I did have to write more code to get rid of fastlane. But that
+increase in code size is utterly dwarfed by the 67 dependencies we were able to
+eliminate, even ignoring the increased reliability of the process. If something
+goes wrong, there are very few places I have to look.</p>
+
+<p>This build process is easy to test, since you can just run the separate scripts
+yourself, or even copy-paste their commands directly into your terminal. I don’t
+need fastlane’s entire environment present to support the simple build commands
+I need.</p>
+
+<h2 id="fastlane-doesnt-suck">fastlane doesn’t suck</h2>
+
+<p>But fastlane isn’t useless! I’m only critical of it in the realm of continuous
+integration where, as I explained, I think its meager benefits do not outweigh
+its costs.</p>
+
+<p>But it has tons of other functionality, for example automated screenshots and
+automated deployments, that I wouldn’t dare replace with hacked-together shell
+scripts. We still have a Fastfile sitting around in our repo, we just don’t use
+it as often anymore.</p>
+
+
+  </div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://silverhammermba.github.io/blog/2019/03/12/slowlane';
+      this.page.identifier = 'https://silverhammermba.github.io/blog/2019/03/12/slowlane';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://floatinglittleleavesofcode.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/blog/2019/03/12/slowlane" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Floating little leaves of code</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Maxwell Anselm</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/silverhammermba"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">silverhammermba</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A blog is a regularly updated website or web page, typically one run by an individual or small group, that is written in an informal or conversational style.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

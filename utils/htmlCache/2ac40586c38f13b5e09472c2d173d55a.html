@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>@dynamicCallable Part 3: Mustacheable – The Always Right Institute – Almost always sometimes definitely right.</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="
+After
+Shell commands as Swift functions
+and the
+Swift/ObjC Bridge,
+Part 3 in our quest to find a useful application for the Swift 5
+Dynamic Callable
+feature:
+Mustache
+templates as a function (short: MaaF).
+This one may actually make some sense.
+
+" />
+    <meta property="og:description" content="
+After
+Shell commands as Swift functions
+and the
+Swift/ObjC Bridge,
+Part 3 in our quest to find a useful application for the Swift 5
+Dynamic Callable
+feature:
+Mustache
+templates as a function (short: MaaF).
+This one may actually make some sense.
+
+" />
+    
+    <meta name="author" content="The Always Right Institute" />
+
+    
+    <meta property="og:title" content="@dynamicCallable Part 3: Mustacheable" />
+    <meta property="twitter:title" content="@dynamicCallable Part 3: Mustacheable" />
+    
+
+    
+    <meta property="article:tag" content="swift" />
+    
+    <meta property="article:tag" content="dynamicCallable" />
+    
+    <meta property="article:tag" content="mustache" />
+    
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="The Always Right Institute - Almost always sometimes definitely right." href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://pbs.twimg.com/profile_images/639743704429785088/S3ABe3uX.png" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">The Always Right Institute</a></h1>
+            <p class="site-description">Almost always sometimes definitely right.</p>
+          </div>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>@dynamicCallable Part 3: Mustacheable</h1>
+
+  <div class="entry">
+    <p><img src="/images/mustache-logo.png" align="right" width="86" height="42" style="padding: 0 0 0.5em 0.5em;" />
+After
+<a href="http://www.alwaysrightinstitute.com/swift-dynamic-callable/">Shell commands as Swift functions</a>
+and the
+<a href="http://www.alwaysrightinstitute.com/swift-objc-bridge/">Swift/ObjC Bridge</a>,
+Part 3 in our quest to find a useful application for the Swift 5
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>
+feature:
+<a href="http://mustache.github.io">Mustache</a>
+templates as a function (short: MaaF).
+This one may actually make some sense.</p>
+
+<p>This sample for 
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>
+is much smaller and easier to follow along than the previous ones.
+Remember that you need to have Swift 5 via 
+<a href="https://developer.apple.com/xcode/">Xcode 10.2</a>.</p>
+
+<p>So what is 
+<a href="http://mustache.github.io">Mustache</a>?
+It is a super simple templating language. The ARI is providing an
+implementation for Swift: 
+<a href="https://github.com/AlwaysRightInstitute/mustache">mustache</a>.
+A template looks like this:</p>
+<div class="language-mustache highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello <span class="k">{{</span><span class="nv">name</span><span class="k">}}</span>
+You have just won <span class="k">{{&amp;</span> <span class="nv">value</span><span class="k">}}</span> dollars!
+<span class="k">{{#</span><span class="nn">in_ca</span><span class="k">}}</span>
+  Well, <span class="k">{{{</span><span class="nv">taxed_value</span><span class="k">}}}</span> dollars, after taxes.
+<span class="k">{{/</span><span class="nn">in_ca</span><span class="k">}}</span>
+<span class="k">{{#</span><span class="nn">addresses</span><span class="k">}}</span>
+  Has address in: <span class="k">{{</span><span class="nv">city</span><span class="k">}}</span>
+<span class="k">{{/</span><span class="nn">addresses</span><span class="k">}}</span>
+<span class="k">{{^</span><span class="nv">addresses</span><span class="k">}}</span>
+  Move to Germany.
+<span class="k">{{/</span><span class="nn">addresses</span><span class="k">}}</span>
+</code></pre></div></div>
+
+<p>The template features value access: <code class="highlighter-rouge">{{name}}</code>,
+conditionals: <code class="highlighter-rouge">{{#in_ca}}</code>, 
+as well as repetitions: <code class="highlighter-rouge">{{#addresses}}</code>.</p>
+
+<p>The ARI Swift version comes w/ a simple Mirror based KVC implementation
+and you can invoke it like that:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">sampleDict</span>  <span class="p">:</span> <span class="p">[</span> <span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span> <span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s">"name"</span>        <span class="p">:</span> <span class="s">"Chris"</span><span class="p">,</span>
+  <span class="s">"value"</span>       <span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+  <span class="s">"taxed_value"</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">(</span><span class="mi">10000</span> <span class="o">-</span> <span class="p">(</span><span class="mi">10000</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)),</span>
+  <span class="s">"in_ca"</span>       <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s">"addresses"</span>   <span class="p">:</span> <span class="p">[</span>
+    <span class="p">[</span> <span class="s">"city"</span>    <span class="p">:</span> <span class="s">"Cupertino"</span> <span class="p">]</span>
+  <span class="p">]</span>
+<span class="p">]</span>
+
+<span class="k">let</span> <span class="nv">parser</span> <span class="o">=</span> <span class="kt">MustacheParser</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">tree</span>   <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="nf">parse</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">template</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="nv">object</span><span class="p">:</span> <span class="n">sampleDict</span><span class="p">)</span>
+</code></pre></div></div>
+<p>You get the idea.</p>
+
+<h1 id="dynamic-callable">Dynamic Callable</h1>
+
+<p>But if you think about it, the template is really a function which takes a
+set of input parameters and returns a String with the rendered result:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">generateHTMLForWinner</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+
+<span class="k">let</span> <span class="nv">html</span> <span class="o">=</span> <span class="nf">generateHTMLForWinner</span><span class="p">(</span>
+             <span class="nv">name</span><span class="p">:</span> <span class="s">"Chris"</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+             <span class="nv">taxed_value</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span> <span class="nv">in_ca</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+             <span class="nv">addresses</span><span class="p">:</span> <span class="p">[[</span> <span class="s">"city"</span><span class="p">:</span> <span class="s">"Cupertino"</span> <span class="p">]]</span>
+           <span class="p">)</span>
+</code></pre></div></div>
+
+<p>How that function is implemented, doesn’t matter at all.
+And using
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>
+you can implement Swift functions in arbitrary ways.
+In this case it is super simple:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@dynamicCallable</span>   <span class="c1">// &lt;===</span>
+<span class="kd">struct</span> <span class="kt">Mustache</span> <span class="p">{</span>
+  
+  <span class="k">let</span> <span class="nv">template</span> <span class="p">:</span> <span class="kt">MustacheNode</span>
+  
+  <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">template</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">parser</span> <span class="o">=</span> <span class="kt">MustacheParser</span><span class="p">()</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="nf">parse</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">template</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="kd">func</span> <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="n">withKeywordArguments</span> 
+         <span class="nv">arguments</span><span class="p">:</span> <span class="kt">KeyValuePairs</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Any</span><span class="o">&gt;</span><span class="p">)</span> 
+       <span class="o">-&gt;</span> <span class="kt">String</span>
+  <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">dictArgs</span> <span class="o">=</span> <span class="kt">Dictionary</span><span class="p">(</span><span class="nv">uniqueKeysWithValues</span><span class="p">:</span>
+          <span class="n">arguments</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="p">(</span> <span class="nv">$0</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="p">})</span>
+    <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="nv">object</span><span class="p">:</span> <span class="n">dictArgs</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This defines a <code class="highlighter-rouge">struct Mustache</code> which wraps a (parsed) Mustache template
+and can be invoked as many times as you wish.
+We turn the <code class="highlighter-rouge">struct</code> into callable “function” by implementing
+<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">Dynamic Callable</a>.</p>
+
+<p>Declaring a function which is implemented in Mustache, instead of Swift:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">generateHTMLForWinner</span> <span class="o">=</span> <span class="kt">Mustache</span><span class="p">(</span>
+      <span class="s">"""
+      Hello {{name}}
+      You have just won {{&amp; value}} dollars!
+      {{#in_ca}}
+        Well, {{{taxed_value}}} dollars, after taxes.
+      {{/in_ca}}
+      {{#addresses}}
+        Has address in: {{city}}
+      {{/addresses}}
+      {{^addresses}}
+        Move to Germany.
+      {{/addresses}}
+      """</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And call that function:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">winners</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="nf">generateHTMLForWinner</span><span class="p">(</span>
+        <span class="nv">name</span><span class="p">:</span> <span class="s">"Chris"</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+        <span class="nv">taxed_value</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span> <span class="nv">in_ca</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nv">addresses</span><span class="p">:</span> <span class="p">[[</span> <span class="s">"city"</span><span class="p">:</span> <span class="s">"Cupertino"</span> <span class="p">]]</span>
+      <span class="p">),</span>
+      <span class="nf">generateHTMLForWinner</span><span class="p">(</span>
+        <span class="nv">name</span><span class="p">:</span> <span class="s">"Michael"</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+        <span class="nv">taxed_value</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span> <span class="nv">in_ca</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nv">addresses</span><span class="p">:</span> <span class="p">[[</span> <span class="s">"city"</span><span class="p">:</span> <span class="s">"Austin"</span> <span class="p">]]</span>
+      <span class="p">)</span>
+    <span class="p">]</span>
+</code></pre></div></div>
+
+<p>Pretty slick, isn’t it? To the API consumer it looks like the plain function:</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">generateHTMLForWinner</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+</code></pre></div></div>
+<p>It doesn’t matter to the consumer whether that HTML generation is backed
+by Swift code,
+by a Mustache template,
+by a
+<a href="http://www.swiftobjects.org">WOTemplate</a>,
+or by
+<a href="http://www.alwaysrightinstitute.com/swift-objc-bridge/">Objective-C</a>.</p>
+
+<blockquote>
+  <p>Of course the approach has some obvious deficiencies.
+For example it is unclear from the API what kind of
+arguments are supported.
+But hey, that’s why it’s called <code class="highlighter-rouge">dynamic</code> 😎</p>
+</blockquote>
+
+<h2 id="summary">Summary</h2>
+
+<p>You can find the finished implementation
+<a href="https://github.com/AlwaysRightInstitute/mustache/blob/develop/Sources/mustache/Mustacheable.swift#L47">on GitHub</a>.
+It even comes with tests! ⛑</p>
+
+<p>The ARI <a href="https://github.com/AlwaysRightInstitute/mustache">mustache</a>
+module can be consumed as a regular SPM module, and it also comes with
+an Xcode project.
+<br />
+<a href="https://github.com/NozeIO/MicroExpress">µExpress</a> supports Mustache
+templates. Here is our tutorial on how to enhance
+µExpress/<a href="https://github.com/apple/swift-nio">SwiftNIO</a> w/ Mustache
+template support:
+<a href="http://www.alwaysrightinstitute.com/microexpress-nio-templates/">µExpress/NIO - Adding Templates</a>.</p>
+
+<h3 id="links">Links</h3>
+
+<ul>
+  <li><a href="http://mustache.github.io">Mustache</a> project</li>
+  <li><a href="https://github.com/AlwaysRightInstitute/mustache">mustache</a> Swift module</li>
+  <li><a href="http://www.alwaysrightinstitute.com/swift-dynamic-callable/">@dynamicCallable: Unix Tools as Swift Functions</a></li>
+  <li><a href="http://www.alwaysrightinstitute.com/swift-objc-bridge/">@dynamicCallable Part 2: Swift/ObjC Bridge</a>,</li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md">SE-0195 Dynamic Member Lookup</a></li>
+  <li><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0216-dynamic-callable.md">SE-0216 Dynamic Callable</a></li>
+  <li><a href="http://www.alwaysrightinstitute.com/microexpress-nio-templates/">µExpress/NIO - Adding Templates</a></li>
+  <li><a href="https://github.com/NozeIO/MicroExpress">µExpress</a></li>
+</ul>
+
+  </div>
+
+  <div class="date">
+    Written on January 31, 2019
+  </div>
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:wrong@alwaysrightinstitute.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/AlwaysRightInstitute"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/ar_institute"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+
+  </body>
+</html>

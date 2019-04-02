@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Migrating an Objective-C class to Swift: a piecemeal approach – Ole Begemann</title>
+  <link href="/stylesheets/stylesheet-82c59095.css" rel="stylesheet" />
+  <link rel="alternate" type="application/atom+xml" href="/blog/atom.xml">
+  <link rel="index" title="Ole Begemann" href="/">
+    <meta name="description" content="A piecemeal migration of an existing Objective-C class to Swift often means adding a Swift extension to the class. I describe a technique how you can provide stored properties to the the Swift extension, even if those properties aren’t compatible with Objective-C." />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script src="/js/jquery-2.2.4/jquery.min-69bb69e2.js"></script>
+  <script src="/js/bigfoot-2.1.4/bigfoot.min-d33e8719.js"></script>
+  <script type="text/javascript">
+    var bigfoot = $.bigfoot(
+    {
+      positionContent: true,
+      actionOriginalFN: "ignore",
+      numberResetSelector: ".article-content",
+    });
+  </script>
+  <script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  (function() {
+    var u="//s.oleb.net/p/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+  <script type="text/javascript">
+    function loadFonts(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var style = document.createElement('style');
+          style.innerHTML = xhr.responseText;
+          document.head.appendChild(style);
+        }
+      };
+      xhr.send();
+    }
+    var url = "/stylesheets/fonts-1cfeca82.css";
+    loadFonts(url);
+  </script>
+</head>
+
+
+  <body class="article">
+    <header>
+  <div class="header-bar">
+    <div class="site-id">
+      <h1><a href="/">Ole Begemann</a></h1>
+    </div>
+
+    <ol class="links">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/blog/">Articles</a>
+      </li>
+      <li>
+        <a href="/advanced-swift/">Book</a>
+      </li>
+      <li>
+        <a href="/about/">About</a>
+      </li>
+    </ol>
+  </div>
+</header>
+
+
+    <main class="content-container">
+      <article>
+        <header>
+          <h1>Migrating an Objective-C class to Swift: a piecemeal approach</h1>
+        </header>
+
+        <footer>
+          <div class="metadata">
+              <p class="author">
+                By Ole Begemann
+                <span class="author-info" style="display: none;"><a href="#fn:_" rel="footnote">…</a></span>
+                <script type="text/javascript">
+                  $(".author-info").css("display", "initial");
+                </script>
+              </p>
+                <!-- Contents of author info popover. Should be hidden in CSS -->
+                <ol class="author-footnotes">
+                  <li class="footnote" id="fn:_">
+                    <p>Twitter: <a href='https://twitter.com/olebegemann'>@olebegemann</a><br>Email: <a href='mailto:ole@oleb.net'>ole@oleb.net</a><br><a href='/about/'>More about me</a></p>
+                  </li>
+                </ol>
+
+              <p>
+                <span class="date"><time datetime="2018-07-31T21:55:16Z">July 31, 2018</time></span>
+              </p>
+
+          </div>
+
+            <div class="series">
+              <p>
+                Other articles in this series:
+              </p>
+              <ol>
+                  <li class="active">
+                    <p>
+                      <span class="active">(1) Using extensions</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <a href="/2018/objc-swift-subclassing/">(2) Using subclassing</a>
+                    </p>
+                  </li>
+              </ol>
+            </div>
+        </footer>
+
+        <div class="article-content">
+          <p>I’m currently working on a fairly large iOS app with a long history. We try to write new code in Swift, but about 75–80 % of the code base is still Objective-C. We don’t rewrite existing code in Swift just for the sake of it, but only if a subsystem is due for a major overhaul anyway. The exception to the rule: when a particular subsystem reaches a tipping point — say, 60 % of it is written in Swift — it can make sense to transition the rest as well in order to minimize pains caused by mixing the two languages.</p>
+
+<p>The interoperability between Objective-C and Swift is generally quite good<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> — in fact, I’m amazed how well Apple was able to make the two languages work together given how different they are. That said, mixing two languages always causes some amount of friction.</p>
+
+<h1 id="no-stored-properties-in-extensions">No stored properties in extensions</h1>
+
+<p>I’d like to talk about one such cause of friction in particular that isn’t even directly related to interoperability, and that’s the fact that extensions can’t contain <a href="https://docs.swift.org/swift-book/LanguageGuide/Properties.html#ID255">stored properties</a>; in both Swift and Objective-C, all stored properties/<a href="https://en.wikipedia.org/wiki/Instance_variable">ivars</a> must be part of the main type definition. Even though this is a general limitation that doesn’t have anything to do with interoperability, it affects me most when I work on mixed Swift/Objective-C code.</p>
+
+<h1 id="piecemeal-conversion-of-an-objective-c-class-to-swift">Piecemeal conversion of an Objective-C class to Swift</h1>
+
+<p>Imagine the following scenario:</p>
+
+<ul>
+  <li>You have a fairly large and complex Objective-C class.</li>
+  <li>You want to add a new feature to the existing class, or you want to make substantial changes to part of the class. You’d prefer to write the new/changed code in Swift.</li>
+  <li>Rewriting the entire class in Swift is not the (immediate) goal. A piecemeal migration, perhaps over a span of one or two years as part of regular maintenance, would be nice though.</li>
+</ul>
+
+<h1 id="what-if-the-swift-extension-needs-stored-properties">What if the Swift extension needs stored properties?</h1>
+
+<p>My usual strategy for this is to write a Swift extension for the Objective-C class. The new code goes into the extension. Where necessary, <a href="https://docs.swift.org/swift-book/ReferenceManual/Attributes.html"><code>@objc</code></a> annotations expose the extension’s code to Objective-C. This works great until the new code requires me to add a stored property to the class. It can’t go in the extension, I have to add it to the Objective-C class definition.</p>
+
+<p><strong>This in turn means the property must have an Objective-C-compatible type</strong>, even if it’s only to be used internally by the Swift code.** This is a fairly big limitation that I regularly run into: it means no structs, no enums with associated values, no generics, and more.</p>
+
+<h1 id="workaround">Workaround</h1>
+
+<p>Here’s the workaround I use: in Swift, I define an Objective-C-compatible class that acts as a wrapper for all stored properties I want to use in my Swift extension. In Objective-C, I add a property for an instance of that class to the main class definition. Once that’s done, everything else happens in the Swift code: the properties can use Swift-only features (assuming you don’t need to access them from Objective-C) — only the class itself must be visible to Objective-C.</p>
+
+<h2 id="example">Example</h2>
+
+<p>Let’s go through an example. Suppose the Objective-C class I want to extend is named <code>NetworkService</code>. I need to store a reference to a closure that isn’t compatible to Objective-C because it uses a generic <code>Result</code> enum. I define a <code>NetworkServiceProperties</code> class that has the Swift-only <code>onDownloadComplete</code> property next to my Swift extension:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">@objc</span> <span class="kd">class</span> <span class="kt">NetworkServiceProperties</span><span class="p">:</span> <span class="kt">NSObject</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">onDownloadComplete</span><span class="p">:</span>
+        <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Data</span><span class="p">,</span> <span class="kt">NetworkError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This class must be compatible with Objective-C, even if its properties aren’t. (I also tried nesting the class definition in the extension as that would nicely colocate it with the code it belongs to. Sadly, that didn’t work; the Objective-C property referencing the nested class would not be visible in the Swift code.)</p>
+
+<p>Next, I add a property named <code>props</code> to the main class definition in Objective-C. This requires a forward declaration for <code>NetworkServiceProperties</code> because the generated Swift header can’t be imported into Objective-C header files.</p>
+
+<div class="highlight"><pre class="highlight objective_c"><code><span class="k">@import</span> <span class="n">Foundation</span><span class="p">;</span>
+<span class="k">@class</span> <span class="nc">NetworkServiceProperties</span><span class="p">;</span>
+
+<span class="k">@interface</span> <span class="nc">NetworkService</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nonnull</span><span class="p">)</span>
+    <span class="n">NetworkServiceProperties</span> <span class="o">*</span><span class="n">props</span><span class="p">;</span>
+
+<span class="k">@end</span>
+</code></pre></div>
+<p>Finally, in the <code>NetworkService</code> initializer, I initialize the new property:</p>
+
+<div class="highlight"><pre class="highlight objective_c"><code><span class="cp">#import "NetworkService.h"
+#import "MyApp-Swift.h"
+</span>
+<span class="k">@implementation</span> <span class="nc">NetworkService</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="p">{</span>
+    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_props</span> <span class="o">=</span> <span class="p">[</span><span class="n">NetworkServiceProperties</span> <span class="nf">new</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+</code></pre></div>
+<p>Whenever possible, I try to give the <code>Properties</code> class an Objective-C-compatible initializer that I can call from the main class’s <code>init</code>. If that doesn’t work because some properties need special initialization, I define a <code>swift_init</code> (or similar) function in the Swift extension that initializes the Swift-only properties. I then call <code>swift_init</code> from the class’s regular (Objective-C) initializer. This works because the class initialization rules are not as strictly enforced by the compiler in Objective-C.</p>
+
+<p>And that’s it. I can now access the properties everywhere in my extension through <code>props</code>:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NetworkService</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">doSomething</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+        <span class="c1">// let result = Result(...)</span>
+        <span class="n">props</span><span class="o">.</span><span class="nf">onDownloadComplete</span><span class="p">?(</span><span class="n">result</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h1 id="final-words">Final words</h1>
+
+<p>I really like this solution. It’s very straightforward; heck, you might say it’s totally obvious, and I’d agree. Still, it took me months of working on this project to think of it. Maybe it helps you too.</p>
+
+<p>And when it’s time to complete the migration and remove the Objective-C class definition entirely, all I have to do is move the property definitions from <code>NetworkServiceProperties</code> into the class (now written in Swift) and delete <code>.props</code> everywhere it is used.</p>
+
+<p>Check out <a href="/2018/objc-swift-subclassing/">part 2 of this series</a> where I approach the same problem from a different angle.</p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>I’d love to link to a document titled <em>Using Swift with Cocoa and Objective-C</em> here, which I thought was an excellent resource, one of the best pieces of Swift documentation Apple has ever published.</p>
+
+      <p>Sadly, Apple took it down recently, and the <a href="https://developer.apple.com/documentation/swift#2984801">documentation that replaced it</a> seems way less comprehensive. As far as I can tell, the new docs only talk about using C/Objective-C from Swift, and not at all about calling Swift code from Objective-C. <a href="#fnref:1" class="reversefootnote">&#x21A9;&#xFE0E;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+      </article>
+      
+      <div id="related-pages">
+  <div id="related-page-previous">
+    <p class="related-page-heading">Previous</p>
+    <p class="related-page-title"><a href="/2018/@keypath/">Nullability warnings with libextobjc’s @keypath macro</a></p>
+    <p class="related-page-date"><time datetime="2018-07-27T21:31:14Z">July 27, 2018</time></p>
+  </div>
+
+  <div id="related-page-next">
+    <p class="related-page-heading">Next</p>
+    <p class="related-page-title"><a href="/2018/objc-swift-subclassing/">Migrating an Objective-C class to Swift using subclassing</a></p>
+    <p class="related-page-date"><time datetime="2018-08-09T21:08:35Z">August  9, 2018</time></p>
+  </div>
+</div>
+      
+    </main>
+
+    <footer>
+  <div class="left">
+    <p><strong>Ole Begemann</strong></p>
+    <p>2009–2019</p>
+    <p>Made in Berlin.</p>
+  </div>
+  <div class="right">
+    <p><a href="/privacy-policy/">Privacy Policy</a></p>
+    <p><a href="/impressum/">Impressum</a></p>
+  </div>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source"/>
+
+
+
+
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com"/>
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            dyld_startup | 
+        
+        谜语糖
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" href="/img/favicon.png">
+
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" itemprop="description" content="dyld是苹果出品的动态链接器，是MacOS和iOS平台计算机体系的核心，它负责计算机体系中的装载和链接，本篇文章探索dyld在启动程序这一过程中的角色。这一过程中涉及到了dyld、libsystem、libdispatch、objc中的代码，文章中将相关代码简化后的伪代码贴出来，可读性非常高，降低了门槛，抓大放小，主旨在了解其原理。">
+    <meta name="keywords" content=",链接与装载">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/style.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/prettify.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/prettify/tranquil-heart.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #61C0DB !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #61C0DB !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #61C0DB !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material-icons.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/jquery.min.js", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="谜语糖">
+    <meta name="msapplication-starturl" content="http://blog.mrriddler.com/dyld_startup/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="谜语糖">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://blog.mrriddler.com/dyld_startup/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="dyld_startup | 谜语糖">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content="dyld是苹果出品的动态链接器，是MacOS和iOS平台计算机体系的核心，它负责计算机体系中的装载和链接，本篇文章探索dyld在启动程序这一过程中的角色。这一过程中涉及到了dyld、libsystem、libdispatch、objc中的代码，文章中将相关代码简化后的伪代码贴出来，可读性非常高，降低了门槛，抓大放小，主旨在了解其原理。">
+    <meta property="og:article:tag" content="链接与装载"> 
+
+    
+        <meta property="article:published_time" content="Sun Aug 26 2018 17:57:00 GMT+0800">
+        <meta property="article:modified_time" content="Fri Aug 24 2018 09:42:23 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://blog.mrriddler.com/dyld_startup/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://blog.mrriddler.com/dyld_startup/index.html",
+    "headline": "dyld_startup",
+    "datePublished": "Sun Aug 26 2018 17:57:00 GMT+0800",
+    "dateModified": "Fri Aug 24 2018 09:42:23 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "mrriddler",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "谜语糖"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "谜语糖",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",链接与装载",
+    "description": "dyld是苹果出品的动态链接器，是MacOS和iOS平台计算机体系的核心，它负责计算机体系中的装载和链接，本篇文章探索dyld在启动程序这一过程中的角色。这一过程中涉及到了dyld、libsystem、libdispatch、objc中的代码，文章中将相关代码简化后的伪代码贴出来，可读性非常高，降低了门槛，抓大放小，主旨在了解其原理。",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#dyld-startup"><span class="post-toc-number">1.</span> <span class="post-toc-text">dyld_startup</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#dyldbootstrap-start"><span class="post-toc-number">2.</span> <span class="post-toc-text">dyldbootstrap::start</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#dyld-main"><span class="post-toc-number">3.</span> <span class="post-toc-text">dyld::_main</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#map-images"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">map_images</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#load-images"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">load_images</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引用"><span class="post-toc-number">4.</span> <span class="post-toc-text">引用</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://o79rgqboc.bkt.clouddn.com/dyld.png)">
+    
+            <p class="article-headline-p">
+                dyld_startup
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>mrriddler</strong>
+        <span>8月 26, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/链接与装载/">链接与装载</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=dyld_startup&url=http://blog.mrriddler.com/dyld_startup/index.html&pic=http://blog.mrriddler.com/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=dyld_startup&url=http://blog.mrriddler.com/dyld_startup/index.html&via=mrriddler" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+        <a class="post_share-link" href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.mrriddler.com/dyld_startup/index.html&title=dyld_startup" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 LinkedIn
+            </li>
+        </a>
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>dyld&#x662F;&#x82F9;&#x679C;&#x51FA;&#x54C1;&#x7684;&#x52A8;&#x6001;&#x94FE;&#x63A5;&#x5668;&#xFF0C;&#x662F;MacOS&#x548C;iOS&#x5E73;&#x53F0;&#x8BA1;&#x7B97;&#x673A;&#x4F53;&#x7CFB;&#x7684;&#x6838;&#x5FC3;&#xFF0C;&#x5B83;&#x8D1F;&#x8D23;&#x8BA1;&#x7B97;&#x673A;&#x4F53;&#x7CFB;&#x4E2D;&#x7684;&#x88C5;&#x8F7D;&#x548C;&#x94FE;&#x63A5;&#xFF0C;&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x63A2;&#x7D22;dyld&#x5728;&#x542F;&#x52A8;&#x7A0B;&#x5E8F;&#x8FD9;&#x4E00;&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x89D2;&#x8272;&#x3002;&#x8FD9;&#x4E00;&#x8FC7;&#x7A0B;&#x4E2D;&#x6D89;&#x53CA;&#x5230;&#x4E86;dyld&#x3001;libsystem&#x3001;libdispatch&#x3001;objc&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x6587;&#x7AE0;&#x4E2D;&#x5C06;&#x76F8;&#x5173;&#x4EE3;&#x7801;&#x7B80;&#x5316;&#x540E;&#x7684;&#x4F2A;&#x4EE3;&#x7801;&#x8D34;&#x51FA;&#x6765;&#xFF0C;&#x53EF;&#x8BFB;&#x6027;&#x975E;&#x5E38;&#x9AD8;&#xFF0C;&#x964D;&#x4F4E;&#x4E86;&#x95E8;&#x69DB;&#xFF0C;&#x6293;&#x5927;&#x653E;&#x5C0F;&#xFF0C;&#x4E3B;&#x65E8;&#x5728;&#x4E86;&#x89E3;&#x5176;&#x539F;&#x7406;&#x3002;</p>
+<a id="more"></a>
+<h2 id="dyld-startup"><a href="#dyld-startup" class="headerlink" title="dyld_startup"></a>dyld_startup</h2><p>&#x542F;&#x52A8;&#x7A0B;&#x5E8F;&#x7684;&#x4E3B;&#x8981;&#x6B65;&#x9AA4;&#xFF1A;</p>
+<ol>
+<li>kern&#x521B;&#x5EFA;&#x8FDB;&#x7A0B;&#x5E76;&#x88C5;&#x8F7D;&#x4E3B;&#x7A0B;&#x5E8F;&#x548C;dyld&#xFF0C;&#x8BBE;&#x7F6E;&#x6808;&#x73AF;&#x5883;&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x63A5;&#x529B;&#x68D2;&#x4EA4;&#x7ED9;dyld&#x3002;</li>
+<li>&#x6839;&#x636E;&#x6808;&#x73AF;&#x5883;&#xFF0C;dyld&#x81EA;&#x4E3E;(bootstrap)&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x63A5;&#x529B;&#x68D2;&#x4EA4;&#x7ED9;dyld&#x4E3B;&#x51FD;&#x6570;&#x3002;</li>
+<li>dyld&#x94FE;&#x63A5;&#x4E3B;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FDB;&#x884C;&#x6838;&#x5FC3;&#x7CFB;&#x7EDF;&#x5E93;&#x3001;objc&#x81EA;&#x4E3E;&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x63A5;&#x529B;&#x68D2;&#x4EA4;&#x7ED9;&#x4E3B;&#x7A0B;&#x5E8F;&#x4E3B;&#x51FD;&#x6570;&#x3002;</li>
+<li>&#x4E3B;&#x7A0B;&#x5E8F;&#x8FDB;&#x5165;main&#x51FD;&#x6570;&#xFF0C;&#x5F00;&#x59CB;&#x4E3B;&#x7A0B;&#x5E8F;&#x7684;&#x8FD0;&#x884C;&#x3002;</li>
+</ol>
+<p>&#x4E00;&#x5207;dyld&#x6E90;&#x7801;&#x7684;&#x5165;&#x53E3;&#x5728;<code>__dyld_start</code> &#x4E2D;&#xFF0C;&#x8FD9;&#x6BB5;&#x6C47;&#x7F16;&#x7ED3;&#x675F;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x542F;&#x52A8;&#x7A0B;&#x5E8F;&#x3002;&#x7B2C;&#x4E00;&#x6B65;&#x4EA4;&#x7531;kern&#x5F15;&#x5BFC;&#xFF0C;&#x8FD9;&#x6BB5;&#x6C47;&#x7F16;&#x4F1A;&#x63A5;&#x6536;&#x63A5;&#x529B;&#x68D2;&#x5E76;&#x8FDB;&#x5165;<code>dyldbootstrap::start</code>&#xFF0C;&#x5F00;&#x59CB;&#x6267;&#x884C;&#x7B2C;&#x4E8C;&#x6B65;&#x3002;</p>
+<h2 id="dyldbootstrap-start"><a href="#dyldbootstrap-start" class="headerlink" title="dyldbootstrap::start"></a>dyldbootstrap::start</h2><p>dyld&#x4F5C;&#x4E3A;&#x52A8;&#x6001;&#x94FE;&#x63A5;&#x5668;&#x5728;&#x53D1;&#x6325;&#x4F5C;&#x7528;&#x524D;&#x8981;&#x8FDB;&#x884C;&#x81EA;&#x4E3E;&#xFF0C;&#x8FD9;&#x6BB5;&#x8FC7;&#x7A0B;&#x5C31;&#x662F;&#x5728;kern&#x7559;&#x4E0B;&#x7684;&#x6808;&#x73AF;&#x5883;&#x4E0B;&#xFF0C;&#x8FDB;&#x884C;&#x5730;&#x5740;&#x91CD;&#x5B9A;&#x4F4D;&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x63A5;&#x529B;&#x68D2;&#x4EA4;&#x7ED9;dyld&#x7684;&#x4E3B;&#x51FD;&#x6570;<code>dyld::_main</code>&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">//  This is code to bootstrap dyld.  This work in normally done for a program by dyld and crt.
+//  In dyld we have to do this manually.
+//
+uintptr_t start(const struct macho_header* appsMachHeader, int argc, const char* argv[], 
+                intptr_t slide, const struct macho_header* dyldsMachHeader,
+                uintptr_t* startGlue)
+{
+    // if kernel had to slide dyld, we need to fix up load sensitive locations
+    // we have to do this before using any global variables
+    if ( slide != 0 ) {
+        rebaseDyld(dyldsMachHeader, slide);
+    }
+
+    // allow dyld to use mach messaging
+    mach_init();
+
+    // kernel sets up env pointer to be just past end of agv array
+    const char** envp = &amp;argv[argc+1];
+
+    // kernel sets up apple pointer to be just past end of envp array
+    const char** apple = envp;
+    while(*apple != NULL) { ++apple; }
+    ++apple;
+
+    // now that we are done bootstrapping dyld, call dyld&apos;s main
+    uintptr_t appsSlide = slideOfMainExecutable(appsMachHeader);
+    return dyld::_main(appsMachHeader, appsSlide, argc, argv, envp, apple, startGlue);
+}
+</code></pre>
+<p><code>rebaseDyld</code>&#x4F1A;&#x5BF9;&#x6240;&#x6709;&#x5730;&#x5740;&#x6709;&#x5F15;&#x7528;&#x7684;&#x5730;&#x65B9;&#x8FDB;&#x884C;&#x57FA;&#x5740;&#x91CD;&#x7F6E;&#x3002;&#x5C06;&#x91CD;&#x5B9A;&#x4F4D;(relocation)&#x8868;&#x9879;&#x548C;<code>__LINKEDIT</code>&#x4E2D;&#x7684;non lazy indirect symbol pointers&#x76F8;&#x5BF9;&#x5730;&#x5740;&#x8C03;&#x6574;&#x4E3A;&#x7EDD;&#x5BF9;&#x5730;&#x5740;&#xFF0C;&#x6DFB;&#x52A0;slide&#x3002;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">//
+// If the kernel does not load dyld at its preferred address, we need to apply 
+// fixups to various initialized parts of the __DATA segment
+//
+static void rebaseDyld(const struct macho_header* mh, intptr_t slide)
+{
+    // rebase non-lazy pointers (which all point internal to dyld, since dyld uses no shared libraries)
+    // and get interesting pointers into dyld
+    const uint32_t cmd_count = mh-&gt;ncmds;
+    const struct load_command* const cmds = (struct load_command*)(((char*)mh)+sizeof(macho_header));
+    const struct load_command* cmd = cmds;
+    const struct macho_segment_command* linkEditSeg = NULL;
+    const struct macho_segment_command* firstWritableSeg = NULL;
+    const struct dysymtab_command* dynamicSymbolTable = NULL;
+    for (uint32_t i = 0; i &lt; cmd_count; ++i) {
+        switch (cmd-&gt;cmd) {
+            case LC_SEGMENT_COMMAND:
+                {
+                    const struct macho_segment_command* seg = (struct macho_segment_command*)cmd;
+                    if ( strcmp(seg-&gt;segname, &quot;__LINKEDIT&quot;) == 0 )
+                        linkEditSeg = seg;
+                    const struct macho_section* const sectionsStart = (struct macho_section*)((char*)seg + sizeof(struct macho_segment_command));
+                    const struct macho_section* const sectionsEnd = &amp;sectionsStart[seg-&gt;nsects];
+                    for (const struct macho_section* sect=sectionsStart; sect &lt; sectionsEnd; ++sect) {
+                        const uint8_t type = sect-&gt;flags &amp; SECTION_TYPE;
+                        if ( type == S_NON_LAZY_SYMBOL_POINTERS ) {
+                            // rebase non-lazy pointers (which all point internal to dyld, since dyld uses no shared libraries)
+                            const uint32_t pointerCount = (uint32_t)(sect-&gt;size / sizeof(uintptr_t));
+                            uintptr_t* const symbolPointers = (uintptr_t*)(sect-&gt;addr + slide);
+                            for (uint32_t j=0; j &lt; pointerCount; ++j) {
+                                symbolPointers[j] += slide;
+                            }
+                        }
+                    }
+                    if ( (firstWritableSeg == NULL) &amp;&amp; (seg-&gt;initprot &amp; VM_PROT_WRITE) )
+                        firstWritableSeg = seg;
+                }
+                break;
+            case LC_DYSYMTAB:
+                dynamicSymbolTable = (struct dysymtab_command *)cmd;
+                break;
+        }
+        cmd = (const struct load_command*)(((char*)cmd)+cmd-&gt;cmdsize);
+    }
+
+    // use reloc&apos;s to rebase all random data pointers
+    const uintptr_t relocBase = firstWritableSeg-&gt;vmaddr + slide;
+    const relocation_info* const relocsStart = (struct relocation_info*)(linkEditSeg-&gt;vmaddr + slide + dynamicSymbolTable-&gt;locreloff - linkEditSeg-&gt;fileoff);
+    const relocation_info* const relocsEnd = &amp;relocsStart[dynamicSymbolTable-&gt;nlocrel];
+    for (const relocation_info* reloc=relocsStart; reloc &lt; relocsEnd; ++reloc) {
+        // update pointer by amount dyld slid
+        *((uintptr_t*)(reloc-&gt;r_address + relocBase)) += slide;
+    }
+}
+</code></pre>
+<h2 id="dyld-main"><a href="#dyld-main" class="headerlink" title="dyld::_main"></a>dyld::_main</h2><p><code>dyld::_main</code>&#x4F5C;&#x4E3A;dyld&#x7684;&#x4E3B;&#x51FD;&#x6570;&#xFF0C;&#x6838;&#x5FC3;&#x8FC7;&#x7A0B;&#x90FD;&#x53D1;&#x751F;&#x5728;&#x8FD9;&#x91CC;&#xFF0C;<code>dyld::_main</code>&#x4E3B;&#x8981;&#x6B65;&#x9AA4;&#xFF1A;</p>
+<ol>
+<li>&#x5BF9;&#x5DF2;&#x88C5;&#x8F7D;&#x7684;&#x4E3B;&#x7A0B;&#x5E8F;&#x94FE;&#x63A5;&#x3002;</li>
+<li>&#x5BF9;&#x63D2;&#x5165;&#x7684;&#x52A8;&#x6001;&#x5E93;(<code>DYLD_INSERT_LIBRARIES</code>)&#x88C5;&#x8F7D;&#x3001;&#x94FE;&#x63A5;&#x3002;</li>
+<li>&#x6838;&#x5FC3;&#x7CFB;&#x7EDF;&#x5E93;(lib&#x2026;)&#x3001;objc&#x81EA;&#x4E3E;(<code>initializeMainExecutable</code>)&#x3002;</li>
+<li>&#x83B7;&#x53D6;&#x4E3B;&#x7A0B;&#x5E8F;main&#x51FD;&#x6570;&#x5730;&#x5740;&#x5E76;&#x8FD4;&#x56DE;&#x3002;</li>
+</ol>
+<p>&#x4E3B;&#x7A0B;&#x5E8F;&#x7684;&#x94FE;&#x63A5;&#x4E0E;&#x52A8;&#x6001;&#x5E93;&#x7684;&#x94FE;&#x63A5;&#x6B65;&#x9AA4;&#x7C7B;&#x4F3C;&#xFF0C;<code>dyld::_main</code>&#x62FF;&#x5230;&#x5DF2;&#x7ECF;&#x88C5;&#x8F7D;&#x597D;&#x7684;&#x4E3B;&#x7A0B;&#x5E8F;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x4E3B;&#x7A0B;&#x5E8F;&#x5E93;&#x5E76;&#x94FE;&#x63A5;&#xFF0C;&#x5176;&#x4E2D;<code>weakBind</code>&#x8FD9;&#x4E00;&#x6B65;&#x9AA4;&#x7B49;&#x6240;&#x6709;&#x4F9D;&#x8D56;&#x5E93;&#x90FD;&#x94FE;&#x63A5;&#x5B8C;&#x6BD5;&#x518D;&#x8FDB;&#x884C;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x63D2;&#x5165;&#x7684;&#x52A8;&#x6001;&#x5E93;&#x4F1A;&#x5728;&#x4E3B;&#x7A0B;&#x5E8F;&#x94FE;&#x63A5;&#x524D;&#xFF0C;&#x5148;&#x8FDB;&#x884C;&#x88C5;&#x8F7D;&#xFF0C;&#x4EE5;&#x4FDD;&#x8BC1;&#x5728;&#x7B26;&#x53F7;flat namespace&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x63D2;&#x5165;&#x7684;&#x52A8;&#x6001;&#x5E93;&#x4E2D;&#x7684;&#x7B49;&#x540C;&#x7B26;&#x53F7;&#x4F1A;&#x8986;&#x76D6;&#x4E3B;&#x7A0B;&#x5E8F;&#x53CA;&#x4E3B;&#x7A0B;&#x5E8F;&#x94FE;&#x63A5;&#x5E93;&#x4E2D;&#x7684;&#x7B49;&#x540C;&#x7B26;&#x53F7;&#x3002;&#x800C;&#x540E;&#x8FDB;&#x884C;&#x94FE;&#x63A5;&#xFF0C;&#x4FDD;&#x8BC1;&#x63D2;&#x5165;&#x7684;&#x52A8;&#x6001;&#x5E93;&#x6240;&#x4F9D;&#x8D56;&#x5E93;&#x4E0D;&#x4F1A;&#x5148;&#x4E8E;&#x4E3B;&#x7A0B;&#x5E8F;&#x6240;&#x4F9D;&#x8D56;&#x5E93;&#x3002;</p>
+<p>&#x4E3B;&#x7A0B;&#x5E8F;&#x4ECE;<code>LC_MAIN</code>&#x6216;<code>LC_UNIXTHREAD</code>cmd&#x4E2D;&#x83B7;&#x53D6;main&#x51FD;&#x6570;&#x5730;&#x5740;&#x3002;</p>
+<p>&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c++">//
+// Entry point for dyld.  The kernel loads dyld and jumps to __dyld_start which
+// sets up some registers and call this function.
+//
+// Returns address of main() in target program which __dyld_start jumps to
+//
+uintptr_t
+_main(const macho_header* mainExecutableMH, uintptr_t mainExecutableSlide, 
+        int argc, const char* argv[], const char* envp[], const char* apple[], 
+        uintptr_t* startGlue)
+{
+    uintptr_t result = 0;
+    sMainExecutableMachHeader = mainExecutableMH;
+
+    try {
+        // instantiate ImageLoader for main executable
+        sMainExecutable = instantiateFromLoadedImage(mainExecutableMH, mainExecutableSlide, sExecPath);
+
+        // load any inserted libraries
+        if    ( sEnv.DYLD_INSERT_LIBRARIES != NULL ) {
+            for (const char* const* lib = sEnv.DYLD_INSERT_LIBRARIES; *lib != NULL; ++lib)
+                loadInsertedDylib(*lib);
+        }
+
+        // record count of inserted libraries so that a flat search will look at 
+        // inserted libraries, then main, then others.
+        sInsertedDylibCount = sAllImages.size()-1;
+
+        // link main executable
+        link(sMainExecutable, sEnv.DYLD_BIND_AT_LAUNCH, true, ImageLoader::RPathChain(NULL, NULL));
+
+        // link any inserted libraries
+        // do this after linking main executable so that any dylibs pulled in by inserted 
+        // dylibs (e.g. libSystem) will not be in front of dylibs the program uses
+        if ( sInsertedDylibCount &gt; 0 ) {
+            for(unsigned int i=0; i &lt; sInsertedDylibCount; ++i) {
+                ImageLoader* image = sAllImages[i+1];
+                link(image, sEnv.DYLD_BIND_AT_LAUNCH, true, ImageLoader::RPathChain(NULL, NULL));
+                image-&gt;setNeverUnloadRecursive();
+            }
+
+            // only INSERTED libraries can interpose
+            // register interposing info after all inserted libraries are bound so chaining works
+            for(unsigned int i=0; i &lt; sInsertedDylibCount; ++i) {
+                ImageLoader* image = sAllImages[i+1];
+                image-&gt;registerInterposing();
+            }
+        }
+
+        for (int i=sInsertedDylibCount+1; i &lt; sAllImages.size(); ++i) {
+            ImageLoader* image = sAllImages[i];
+            if ( image-&gt;inSharedCache() )
+                continue;
+            image-&gt;registerInterposing();
+        }
+
+        sMainExecutable-&gt;weakBind(gLinkContext);
+
+        // run all initializers
+        initializeMainExecutable(); 
+
+        // find entry point for main executable
+        result = (uintptr_t)sMainExecutable-&gt;getThreadPC();
+        if ( result != 0 ) {
+            // main executable uses LC_MAIN, needs to return to glue in libdyld.dylib
+            if ( (gLibSystemHelpers != NULL) &amp;&amp; (gLibSystemHelpers-&gt;version &gt;= 9) )
+                *startGlue = (uintptr_t)gLibSystemHelpers-&gt;startGlueToCallExit;
+        }
+        else {
+            // main executable uses LC_UNIXTHREAD, dyld needs to let &quot;start&quot; in program set up for main()
+            result = (uintptr_t)sMainExecutable-&gt;getMain();
+            *startGlue = 0;
+        }
+    }
+    catch(const char* message) {
+        ...
+    }
+
+    return result;
+}
+</code></pre>
+<p>&#x7ECF;&#x8FC7;<code>initializeMainExecutable</code>&#x8FD9;&#x4E00;&#x6B65;&#x9AA4;&#xFF0C;&#x6838;&#x5FC3;&#x7CFB;&#x7EDF;&#x5E93;(lib&#x2026;)&#x3001;objc&#x81EA;&#x4E3E;&#xFF0C;&#x81EA;&#x4E3E;&#x540E;&#x624D;&#x751F;&#x6548;&#x3002;&#x5148;&#x8FDB;&#x884C;&#x521D;&#x59CB;&#x5316;(static initializers)&#xFF0C;&#x540E;&#x8FDB;&#x884C;&#x7EC8;&#x6B62;&#x5316;(static terminator)&#x3002;&#x5148;&#x521D;&#x59CB;&#x5316;&#x63D2;&#x5165;&#x7684;&#x52A8;&#x6001;&#x5E93;&#xFF0C;&#x518D;&#x521D;&#x59CB;&#x5316;&#x4E3B;&#x7A0B;&#x5E8F;&#xFF0C;&#x6700;&#x540E;&#x4EE5;&#x540C;&#x6837;&#x987A;&#x5E8F;&#x7EC8;&#x6B62;&#x5316;&#x3002;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c++">void initializeMainExecutable()
+{
+    // run initialzers for any inserted dylibs
+    const size_t rootCount = sImageRoots.size();
+    if ( rootCount &gt; 1 ) {
+        for(size_t i=1; i &lt; rootCount; ++i) {
+            sImageRoots[i]-&gt;recursiveInitialization(gLinkContext, mach_thread_self());
+        }
+    }
+
+    // run initializers for main executable and everything it brings up 
+    sMainExecutable-&gt;recursiveInitialization(gLinkContext, mach_thread_self());
+
+    // register cxa_atexit() handler to run static terminators in all loaded images when this process exits
+    if ( gLibSystemHelpers != NULL ) 
+        (*gLibSystemHelpers-&gt;cxa_atexit)(&amp;runAllStaticTerminators, NULL, NULL);
+}
+</code></pre>
+<p><code>recursiveInitialization</code>&#x4EE5;&#x62D3;&#x6251;&#x6392;&#x5E8F;&#x7684;&#x5F15;&#x7528;&#x6DF1;&#x5EA6;&#x9012;&#x5F52;&#x521D;&#x59CB;&#x5316;&#x4F9D;&#x8D56;&#x5E93;&#xFF0C;&#x5148;&#x521D;&#x59CB;&#x5316;&#x4F9D;&#x8D56;&#x5E93;&#xFF0C;&#x540E;&#x521D;&#x59CB;&#x5316;&#x88AB;&#x4F9D;&#x8D56;&#x5E93;&#xFF0C;&#x5E76;&#x5728;&#x8FC7;&#x7A0B;&#x4E2D;&#x4E3A;&#x7EC8;&#x6B62;&#x5316;&#x8BB0;&#x5F55;&#x987A;&#x5E8F;&#x3002;<code>runAllStaticTerminators</code>&#x5219;&#x4EE5;&#x8BB0;&#x5F55;&#x7684;&#x987A;&#x5E8F;&#x7EC8;&#x6B62;&#x5316;&#x3002;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c++">void ImageLoader::recursiveInitialization(const LinkContext&amp; context, mach_port_t this_thread)
+{
+    try {
+        // initialize lower level libraries first
+        for(unsigned int i=0; i &lt; libraryCount(); ++i) {
+            ImageLoader* dependentImage = libImage(i);
+            if ( dependentImage != NULL ) {
+                if ( dependentImage-&gt;fDepth &gt;= fDepth ) {
+                    dependentImage-&gt;recursiveInitialization(context, this_thread);
+                }
+            }
+        }
+
+        // record termination order
+        if ( this-&gt;needsTermination() )
+            context.terminationRecorder(this);
+
+        this-&gt;doInitialization(context);
+    }
+    catch (const char* msg) {
+        ...
+    }    
+}
+
+static void runAllStaticTerminators(void* extra)
+{
+    try {
+        const size_t imageCount = sImageFilesNeedingTermination.size();
+        for(size_t i=imageCount; i &gt; 0; --i){
+            ImageLoader* image = sImageFilesNeedingTermination[i-1];
+            image-&gt;doTermination(gLinkContext);
+        }
+        sImageFilesNeedingTermination.clear();
+    }
+    catch (const char* msg) {
+        ...
+    }
+}
+</code></pre>
+<p>&#x521D;&#x59CB;&#x5316;&#x6700;&#x7EC8;&#x6536;&#x655B;&#x5230;<code>doInitialization</code>&#xFF0C;<code>doInitialization</code>&#x4F1A;&#x8FD0;&#x884C;&#x5E93;&#x7684;Routine(<code>doImageInit</code>)&#x548C;ModInitFunction(<code>doModInitFunctions</code>)&#x3002;&#x7EC8;&#x6B62;&#x5316;&#x6700;&#x7EC8;&#x6536;&#x655B;&#x5230;<code>doTermination</code>&#xFF0C;<code>doTermination</code>&#x4F1A;&#x8FD0;&#x884C;&#x5E93;&#x7684;ModTermFunction&#x3002;&#x8FD9;&#x51E0;&#x4E2A;&#x8FC7;&#x7A0B;&#x90FD;&#x662F;&#x4ECE;segment&#x4E2D;&#x627E;&#x51FA;&#x521D;&#x59CB;&#x5316;&#x51FD;&#x6570;&#x7684;&#x5730;&#x5740;&#x5E76;&#x8C03;&#x7528;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c++">void ImageLoaderMachO::doImageInit(const LinkContext&amp; context)
+{
+    const uint32_t cmd_count = ((macho_header*)fMachOData)-&gt;ncmds;
+    const struct load_command* const cmds = (struct load_command*)&amp;fMachOData[sizeof(macho_header)];
+    const struct load_command* cmd = cmds;
+    for (uint32_t i = 0; i &lt; cmd_count; ++i) {
+        switch (cmd-&gt;cmd) {
+            case LC_ROUTINES_COMMAND:
+                Initializer func = (Initializer)(((struct macho_routines_command*)cmd)-&gt;init_address + fSlide);
+                func(context.argc, context.argv, context.envp, context.apple, &amp;context.programVars);
+                break;
+        }
+        cmd = (const struct load_command*)(((char*)cmd)+cmd-&gt;cmdsize);
+    }
+}
+
+void ImageLoaderMachO::doModInitFunctions(const LinkContext&amp; context)
+{
+    const uint32_t cmd_count = ((macho_header*)fMachOData)-&gt;ncmds;
+    const struct load_command* const cmds = (struct load_command*)&amp;fMachOData[sizeof(macho_header)];
+    const struct load_command* cmd = cmds;
+    for (uint32_t i = 0; i &lt; cmd_count; ++i) {
+        if ( cmd-&gt;cmd == LC_SEGMENT_COMMAND ) {
+            const struct macho_segment_command* seg = (struct macho_segment_command*)cmd;
+            const struct macho_section* const sectionsStart = (struct macho_section*)((char*)seg + sizeof(struct macho_segment_command));
+            const struct macho_section* const sectionsEnd = &amp;sectionsStart[seg-&gt;nsects];
+            for (const struct macho_section* sect=sectionsStart; sect &lt; sectionsEnd; ++sect) {
+                const uint8_t type = sect-&gt;flags &amp; SECTION_TYPE;
+                if ( type == S_MOD_INIT_FUNC_POINTERS ) {
+                    Initializer* inits = (Initializer*)(sect-&gt;addr + fSlide);
+                    const size_t count = sect-&gt;size / sizeof(uintptr_t);
+                    for (size_t i=0; i &lt; count; ++i) {
+                        Initializer func = inits[i];
+                        func(context.argc, context.argv, context.envp, context.apple, &amp;context.programVars);
+                    }
+                }
+            }
+        }
+        cmd = (const struct load_command*)(((char*)cmd)+cmd-&gt;cmdsize);
+    }
+}
+
+void ImageLoaderMachO::doTermination(const LinkContext&amp; context)
+{
+    const uint32_t cmd_count = ((macho_header*)fMachOData)-&gt;ncmds;
+    const struct load_command* const cmds = (struct load_command*)&amp;fMachOData[sizeof(macho_header)];
+    const struct load_command* cmd = cmds;
+    for (uint32_t i = 0; i &lt; cmd_count; ++i) {
+        if ( cmd-&gt;cmd == LC_SEGMENT_COMMAND ) {
+            const struct macho_segment_command* seg = (struct macho_segment_command*)cmd;
+            const struct macho_section* const sectionsStart = (struct macho_section*)((char*)seg + sizeof(struct macho_segment_command));
+            const struct macho_section* const sectionsEnd = &amp;sectionsStart[seg-&gt;nsects];
+            for (const struct macho_section* sect=sectionsStart; sect &lt; sectionsEnd; ++sect) {
+                const uint8_t type = sect-&gt;flags &amp; SECTION_TYPE;
+                if ( type == S_MOD_TERM_FUNC_POINTERS ) {
+                    Terminator* terms = (Terminator*)(sect-&gt;addr + fSlide);
+                    const size_t count = sect-&gt;size / sizeof(uintptr_t);
+                    for (size_t i=count; i &gt; 0; --i) {
+                        Terminator func = terms[i-1];
+                        func();
+                    }
+                }
+            }
+        }
+        cmd = (const struct load_command*)(((char*)cmd)+cmd-&gt;cmdsize);
+    }
+}
+</code></pre>
+<p>&#x7ECF;&#x8FC7;<code>_attribute__((constructor))</code>&#x4FEE;&#x9970;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x4F1A;&#x88AB;&#x52A0;&#x5165;ModInitFunction&#x4E2D;&#xFF0C;&#x800C;&#x7ECF;&#x8FC7;<code>_attribute__((destructor))</code>&#x4FEE;&#x9970;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x4F1A;&#x88AB;&#x52A0;&#x5165;ModTermFunction&#x4E2D;&#xFF0C;&#x90FD;&#x4F1A;&#x5728;&#x6B64;&#x6B65;&#x88AB;&#x8C03;&#x7528;&#x3002;</p>
+<p>&#x6838;&#x5FC3;&#x7CFB;&#x7EDF;&#x5E93;&#x5C31;&#x662F;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x6CE8;&#x5165;&#x81EA;&#x4E3E;&#xFF0C;&#x4EE3;&#x7801;&#x5728;<a href="https://opensource.apple.com/source/Libsystem/" target="_blank" rel="noopener">libSystem</a>&#x4E2D;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">// system library initialisers
+extern void bootstrap_init(void);        // from liblaunch.dylib
+extern void mach_init(void);            // from libsystem_mach.dylib
+extern void pthread_init(void);            // from libc.a
+extern void __libc_init(const struct ProgramVars *vars, void (*atfork_prepare)(void), void (*atfork_parent)(void), void (*atfork_child)(void), const char *apple[]);    // from libc.a
+extern void __keymgr_initializer(void);        // from libkeymgr.a
+extern void _dyld_initializer(void);        // from libdyld.a
+extern void libdispatch_init(void);        // from libdispatch.a
+extern void _libxpc_initializer(void);        // from libxpc
+
+/*
+ * libsyscall_initializer() initializes all of libSystem.dylib &lt;rdar://problem/4892197&gt;
+ */
+static __attribute__((constructor)) 
+void libSystem_initializer(int argc, const char* argv[], const char* envp[], const char* apple[], const struct ProgramVars* vars)
+{
+    _libkernel_functions_t libkernel_funcs = {
+        .get_reply_port = _mig_get_reply_port,
+        .set_reply_port = _mig_set_reply_port,
+        .get_errno = __error,
+        .set_errno = cthread_set_errno_self,
+        .dlsym = dlsym,
+    };
+
+    _libkernel_init(libkernel_funcs);
+
+    bootstrap_init();
+    mach_init();
+    pthread_init();
+    __libc_init(vars, libSystem_atfork_prepare, libSystem_atfork_parent, libSystem_atfork_child, apple);
+    __keymgr_initializer();
+    _dyld_initializer();
+    libdispatch_init();
+    _libxpc_initializer();
+}
+</code></pre>
+<p>&#x5176;&#x4E2D;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5E93;&#x5305;&#x62EC;&#xFF1A;<code>libdispatch</code>&#x3001;<code>libxpc</code>&#x3001;<code>libsystem_mach</code>&#x3001;<code>liblaunch</code>&#x3001;<code>libc</code>&#x3001;<code>libkeymgr</code>&#x7B49;&#x3002;objc&#x7684;&#x81EA;&#x4E3E;&#x5728;<code>libdispatch_init</code>&#x4E2D;&#xFF0C;&#x4EE3;&#x7801;&#x5728;<a href="https://opensource.apple.com/tarballs/libdispatch/" target="_blank" rel="noopener">libdispatch</a>&#x4E2D;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">libdispatch_init(void)
+{
+#if DISPATCH_USE_THREAD_LOCAL_STORAGE
+    _dispatch_thread_key_create(&amp;__dispatch_tsd_key, _libdispatch_tsd_cleanup);
+#else
+    _dispatch_thread_key_create(&amp;dispatch_priority_key, NULL);
+    _dispatch_thread_key_create(&amp;dispatch_r2k_key, NULL);
+    _dispatch_thread_key_create(&amp;dispatch_queue_key, _dispatch_queue_cleanup);
+    _dispatch_thread_key_create(&amp;dispatch_frame_key, _dispatch_frame_cleanup);
+    _dispatch_thread_key_create(&amp;dispatch_cache_key, _dispatch_cache_cleanup);
+    _dispatch_thread_key_create(&amp;dispatch_context_key, _dispatch_context_cleanup);
+    _dispatch_thread_key_create(&amp;dispatch_pthread_root_queue_observer_hooks_key,
+            NULL);
+    _dispatch_thread_key_create(&amp;dispatch_basepri_key, NULL);
+#if DISPATCH_INTROSPECTION
+    _dispatch_thread_key_create(&amp;dispatch_introspection_key , NULL);
+#elif DISPATCH_PERF_MON
+    _dispatch_thread_key_create(&amp;dispatch_bcounter_key, NULL);
+#endif
+    _dispatch_thread_key_create(&amp;dispatch_wlh_key, _dispatch_wlh_cleanup);
+    _dispatch_thread_key_create(&amp;dispatch_voucher_key, _voucher_thread_cleanup);
+    _dispatch_thread_key_create(&amp;dispatch_deferred_items_key,
+            _dispatch_deferred_items_cleanup);
+
+    _dispatch_queue_set_current(&amp;_dispatch_main_q);
+    _dispatch_queue_set_bound_thread(&amp;_dispatch_main_q);
+
+    _dispatch_hw_config_init();
+    _dispatch_time_init();
+    _dispatch_vtable_init();
+    _os_object_init();
+    _voucher_init();
+    _dispatch_introspection_init();
+}
+</code></pre>
+<p>&#x5728;&#x832B;&#x832B;&#x521D;&#x59CB;&#x5316;&#x4E2D;&#xFF0C;<code>_os_object_init</code>&#x8FDB;&#x884C;&#x4E86;objc&#x7684;&#x81EA;&#x4E3E;&#xFF0C;<code>_os_object_init</code>&#x4E3B;&#x8FC7;&#x7A0B;&#x662F;&#x5728;<a href="https://opensource.apple.com/tarballs/objc4/" target="_blank" rel="noopener">objc4</a>&#x4EE3;&#x7801;&#x4E2D;&#x7684;<code>_objc_init</code>&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">/**********************************************************************
+* _objc_init
+* Bootstrap initialization. Registers our image notifier with dyld.
+* Called by libSystem BEFORE library initialization time
+**********************************************************************/
+void _objc_init(void)
+{
+    static bool initialized = false;
+    if (initialized) return;
+    initialized = true;
+
+    // fixme defer initialization until an objc-using image is found?
+    environ_init();
+    tls_init();
+    static_init();
+    lock_init();
+    exception_init();
+
+    _dyld_objc_notify_register(&amp;map_images, load_images, unmap_image);
+}
+</code></pre>
+<p><code>_objc_init</code>&#x5728;dyld&#x4E2D;&#x6CE8;&#x518C;&#x4E86;<code>map_images</code>&#x3001;<code>load_images</code> &#x3001;<code>unmap_image</code>&#xFF0C;&#x5206;&#x522B;&#x8FDB;&#x884C;objc&#x81EA;&#x4E3E;&#x3001;&#x8C03;&#x7528;Load&#x65B9;&#x6CD5;&#x3001;&#x6E05;&#x7406;&#x73B0;&#x573A;&#x3002;</p>
+<h3 id="map-images"><a href="#map-images" class="headerlink" title="map_images"></a>map_images</h3><p><code>map_images</code>&#x4F1A;&#x8FDB;&#x5165;<code>_read_images</code>&#xFF0C;<code>_read_images</code>&#x4F1A;&#x4ECE;&#x5E93;&#x4E2D;&#x76F8;&#x5E94;segment&#x8BFB;&#x51FA;class&#x3001;protocol&#x3001;category&#x7B49;&#x4FE1;&#x606F;&#x5E76;&#x8F7D;&#x5165;runtime&#xFF0C;&#x8FD9;&#x5C31;&#x662F;objc&#x81EA;&#x4E3E;&#x7684;&#x6838;&#x5FC3;&#x8FC7;&#x7A0B;&#x3002;class&#x3001;protocol&#x3001;category&#x8981;&#x5411;runtime&#x6CE8;&#x518C;&#x7ED3;&#x6784;&#xFF0C;category&#x8FD8;&#x8981;&#x4F9D;&#x9644;&#x5230;&#x76F8;&#x5E94;class&#x7ED3;&#x6784;&#x3002;</p>
+<p>&#x6B64;&#x8FC7;&#x7A0B;&#x4E00;&#x76F4;&#x56F4;&#x7ED5;&#x7740;class&#x7ED3;&#x6784;&#xFF0C;class&#x7ED3;&#x6784;&#x4E2D;&#x7684;data&#x53EF;&#x80FD;&#x4E3A;&#x53EA;&#x8BFB;&#x7ED3;&#x6784;<code>class_ro_t</code>&#x6216;&#x53EF;&#x8BFB;&#x5199;&#x7ED3;&#x6784;<code>class_rw_t</code>&#xFF0C;data&#x4E3A;<code>class_ro_t</code>&#x7ED3;&#x6784;&#x7684;class&#x53EB;&#x505A;unrealized class&#xFF0C;data&#x4E3A;<code>class_rw_t</code>&#x7ED3;&#x6784;&#x7684;class&#x53EB;&#x505A;realized class&#xFF0C;&#x8981;&#x4F7F;&#x7528;class&#xFF0C;<code>class_ro_t</code>&#x90FD;&#x8981;&#x7ECF;&#x8FC7;resolve&#x8F6C;&#x5316;&#x4E3A;<code>class_rw_t</code>&#xFF0C;&#x5373;&#x5BF9;class&#x8FDB;&#x884C;realize&#x3002;class&#x7ED3;&#x6784;&#x5728;&#x521B;&#x5EFA;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x53EF;&#x80FD;&#x7ECF;&#x8FC7;&#x4E86;resolve&#x5E76;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x8981;&#x8FDB;&#x884C;realize&#xFF0C;&#x8FD9;&#x6837;&#x7684;class&#x5B66;&#x540D;&#x53EB;future class&#x3002;realize&#x53EF;&#x4EE5;&#x4F7F;&#x7528;lazy&#x6280;&#x672F;&#xFF0C;&#x533A;&#x5206;&#x4E3A;lazy&#x548C;non-lazy&#xFF0C;non-lazy&#x8981;&#x6C42;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x8FDB;&#x884C;realize&#x3002;</p>
+<p>&#x5728;&#x6B64;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x8981;&#x5BF9;future class&#x548C;non-lazy class&#x8FDB;&#x884C;realize&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">/********************************************************************
+* _read_images
+* Perform initial processing of the headers in the linked 
+* list beginning with headerList. 
+*
+* Called by: map_images_nolock
+*
+* Locking: runtimeLock acquired by map_images
+**********************************************************************/
+void _read_images(header_info hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses)
+{
+    header_info *hi;
+    uint32_t hIndex;
+    size_t count;
+    size_t i;
+    Class *resolvedFutureClasses = nil;
+    size_t resolvedFutureClassCount = 0;
+    static bool doneOnce;
+
+#define EACH_HEADER \
+    hIndex = 0;         \
+    hIndex &lt; hCount &amp;&amp; (hi = hList[hIndex]); \
+    hIndex++
+
+    if (!doneOnce) {
+        doneOnce = YES;
+
+        // namedClasses
+        // Preoptimized classes don&apos;t go in this table.
+        // 4/3 is NXMapTable&apos;s load factor
+        int namedClassesSize = 
+            (isPreoptimized() ? unoptimizedTotalClasses : totalClasses) * 4 / 3;
+        gdb_objc_realized_classes =
+            NXCreateMapTable(NXStrValueMapPrototype, namedClassesSize);
+    }
+
+    // Discover classes. Fix up unresolved future classes. Mark bundle classes.
+    for (EACH_HEADER) {
+        classref_t *classlist = _getObjc2ClassList(hi, &amp;count);
+        for (i = 0; i &lt; count; i++) {
+            Class cls = (Class)classlist[i];
+            Class newCls = readClass(cls);
+
+            if (newCls != cls  &amp;&amp;  newCls) {
+                // Class was moved but not deleted. Currently this occurs 
+                // only when the new class resolved a future class.
+                // Non-lazily realize the class below.
+                resolvedFutureClasses = (Class *)
+                    realloc(resolvedFutureClasses, 
+                            (resolvedFutureClassCount+1) * sizeof(Class));
+                resolvedFutureClasses[resolvedFutureClassCount++] = newCls;
+            }
+        }
+    }
+
+    // Discover protocols. Fix up protocol refs.
+    for (EACH_HEADER) {
+        extern objc_class OBJC_CLASS_$_Protocol;
+        Class cls = (Class)&amp;OBJC_CLASS_$_Protocol;
+        assert(cls);
+        NXMapTable *protocol_map = protocols();
+        bool isPreoptimized = hi-&gt;isPreoptimized();
+        bool isBundle = hi-&gt;isBundle();
+
+        protocol_t **protolist = _getObjc2ProtocolList(hi, &amp;count);
+        for (i = 0; i &lt; count; i++) {
+            readProtocol(protolist[i], cls, protocol_map, 
+                         isPreoptimized, isBundle);
+        }
+    }
+
+    // Realize non-lazy classes (for +load methods and static instances)
+    for (EACH_HEADER) {
+        classref_t *classlist = 
+            _getObjc2NonlazyClassList(hi, &amp;count);
+        for (i = 0; i &lt; count; i++) {
+            Class cls = remapClass(classlist[i]);
+            if (!cls) continue;
+            realizeClass(cls);
+        }
+    }
+
+    // Realize newly-resolved future classes, in case CF manipulates them
+    if (resolvedFutureClasses) {
+        for (i = 0; i &lt; resolvedFutureClassCount; i++) {
+            realizeClass(resolvedFutureClasses[i]);
+            resolvedFutureClasses[i]-&gt;setInstancesRequireRawIsa(false/*inherited*/);
+        }
+        free(resolvedFutureClasses);
+    }
+
+    // Discover categories. 
+    for (EACH_HEADER) {
+        category_t **catlist = 
+            _getObjc2CategoryList(hi, &amp;count);
+
+        for (i = 0; i &lt; count; i++) {
+            category_t *cat = catlist[i];
+            Class cls = remapClass(cat-&gt;cls);
+
+            if (!cls) {
+                continue;
+            }
+
+            // Process this category. 
+            // First, register the category with its target class. 
+            // Then, rebuild the class&apos;s method lists (etc) if 
+            // the class is realized. 
+            if (cat-&gt;instanceMethods ||  cat-&gt;protocols  
+                ||  cat-&gt;instanceProperties) 
+            {
+                NXMapTable *cats = unattachedCategories();
+                category_list *list = (category_list *)NXMapGet(cats, cls);
+                NXMapInsert(cats, cls, list);
+
+                if (cls-&gt;isRealized()) {
+                    remethodizeClass(cls);
+                }
+            }
+
+            if (cat-&gt;classMethods  ||  cat-&gt;protocols) 
+            {
+                NXMapTable *cats = unattachedCategories();
+                category_list *list = (category_list *)NXMapGet(cats, cls-&gt;ISA());
+                NXMapInsert(cats, cls-&gt;ISA(), list);
+
+                if (cls-&gt;ISA()-&gt;isRealized()) {
+                    remethodizeClass(cls-&gt;ISA());
+                }
+            }
+        }
+}
+</code></pre>
+<p>&#x5176;&#x4E2D;<code>_getObjc2ClassList</code>&#x3001;<code>_getObjc2ProtocolList</code>&#x3001;<code>_getObjc2NonlazyClassList</code>&#x3001;<code>_getObjc2CategoryList</code> &#x8FD9;&#x51E0;&#x4E2A;&#x8FC7;&#x7A0B;&#x90FD;&#x662F;&#x4ECE;&#x5E93;&#x4E2D;&#x76F8;&#x5E94;segement&#x8BFB;&#x51FA;&#x4FE1;&#x606F;&#x3002;</p>
+<p><code>readClass</code>&#x3001;<code>readProtocol</code>&#x8FD9;&#x51E0;&#x4E2A;&#x8FC7;&#x7A0B;&#x662F;&#x5411;<code>gdb_objc_realized_classes</code>&#x3001;<code>protocol_map</code>&#x6CE8;&#x518C;&#x7ED3;&#x6784;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">/***********************************************************************
+* readClass
+* Read a class and metaclass as written by a compiler.
+* Returns the new class pointer. This could be: 
+* - cls
+* - nil  (cls has a missing weak-linked superclass)
+* - something else (space for this class was reserved by a future class)
+*
+* Note that all work performed by this function is preflighted by 
+* mustReadClasses(). Do not change this function without updating that one.
+*
+* Locking: runtimeLock acquired by map_images or objc_readClassPair
+**********************************************************************/
+Class readClass(Class cls)
+{
+    const char *mangledName = cls-&gt;mangledName();
+
+    Class replacing = nil;
+    if (Class newCls = popFutureNamedClass(mangledName)) {
+        // This name was previously allocated as a future class.
+        // Copy objc_class to future class&apos;s struct.
+        // Preserve future&apos;s rw data block.
+
+        class_rw_t *rw = newCls-&gt;data();
+        const class_ro_t *old_ro = rw-&gt;ro;
+        memcpy(newCls, cls, sizeof(objc_class));
+        rw-&gt;ro = (class_ro_t *)newCls-&gt;data();
+        newCls-&gt;setData(rw);
+        freeIfMutable((char *)old_ro-&gt;name);
+        free((void *)old_ro);
+
+        addRemappedClass(cls, newCls);
+
+        replacing = cls;
+        cls = newCls;
+    }
+
+    Class old = getClass(mangledName);
+    if (!old || old == replacing) {
+        NXMapInsert(gdb_objc_realized_classes, mangledName, cls);
+    }
+
+    return cls;
+}
+
+/***********************************************************************
+* readProtocol
+* Read a protocol as written by a compiler.
+**********************************************************************/
+static void
+readProtocol(protocol_t *newproto, Class protocol_class,
+             NXMapTable *protocol_map)
+{
+    protocol_t *oldproto = (protocol_t *)getProtocol(newproto-&gt;mangledName);
+    if (oldproto) {
+        return;
+    }
+
+    newproto-&gt;initIsa(protocol_class);
+    NXMapInsert(protocol_map, installedproto-&gt;mangledName, 
+                 installedproto);
+}
+</code></pre>
+<p>&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x6E05;&#x6670;&#x540E;&#xFF0C;&#x518D;&#x8FD1;&#x8DDD;&#x79BB;&#x89C2;&#x5BDF;&#x4E00;&#x4E0B;&#x5BF9;class&#x7ED3;&#x6784;&#x5904;&#x7406;&#x7684;&#x7EC6;&#x8282;&#x3002;&#x5BF9;class&#x8FDB;&#x884C;realize&#xFF0C;&#x5305;&#x542B;&#x5BF9;class&#x7ED3;&#x6784;&#x7684;&#x4E00;&#x7CFB;&#x5217;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<ol>
+<li>resolve class&#x3002;</li>
+<li>realize class&#x7684;super class&#x548C;meta class&#x3002;</li>
+<li>&#x91CD;&#x65B0;&#x8BBE;&#x7F6E;class&#x548C;super class&#x3001;meta class&#x7684;&#x5173;&#x7CFB;&#x3002;</li>
+<li>&#x91CD;&#x65B0;&#x8BA1;&#x7B97;instance variable layout&#x3002;</li>
+<li>&#x5C06;class&#x7ED3;&#x6784;&#x4E2D;&#x7684;<code>class_ro_t</code>&#x7ED3;&#x6784;&#x4E2D;&#x7684;method&#x3001;property&#x3001;protocol&#x5B89;&#x88C5;&#x5230;<code>class_rw_t</code>&#x7ED3;&#x6784;&#xFF0C;&#x5E76;&#x4F9D;&#x9644;category&#x3002;</li>
+</ol>
+<p><code>realizeClass</code>&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">/***********************************************************************
+* realizeClass
+* Performs first-time initialization on class cls, 
+* including allocating its read-write data.
+* Returns the real class structure for the class. 
+* Locking: runtimeLock must be write-locked by the caller
+**********************************************************************/
+static Class realizeClass(Class cls)
+{
+    const class_ro_t *ro;
+    class_rw_t *rw;
+    Class supercls;
+    Class metacls;
+    bool isMeta;
+
+    if (!cls) return nil;
+    if (cls-&gt;isRealized()) return cls;
+
+    // fixme verify class is not in an un-dlopened part of the shared cache?
+
+    ro = (const class_ro_t *)cls-&gt;data();
+    if (ro-&gt;flags &amp; RO_FUTURE) {
+        // This was a future class. rw data is already allocated.
+        rw = cls-&gt;data();
+        ro = cls-&gt;data()-&gt;ro;
+        cls-&gt;changeInfo(RW_REALIZED|RW_REALIZING, RW_FUTURE);
+    } else {
+        // Normal class. Allocate writeable class data.
+        rw = (class_rw_t *)calloc(sizeof(class_rw_t), 1);
+        rw-&gt;ro = ro;
+        rw-&gt;flags = RW_REALIZED|RW_REALIZING;
+        cls-&gt;setData(rw);
+    }
+
+    isMeta = ro-&gt;flags &amp; RO_META;
+
+    // Realize superclass and metaclass, if they aren&apos;t already.
+    // This needs to be done after RW_REALIZED is set above, for root classes.
+    // This needs to be done after class index is chosen, for root metaclasses.
+    supercls = realizeClass(remapClass(cls-&gt;superclass));
+    metacls = realizeClass(remapClass(cls-&gt;ISA()));
+
+    // Update superclass and metaclass in case of remapping
+    cls-&gt;superclass = supercls;
+    cls-&gt;initClassIsa(metacls);
+
+    // Reconcile instance variable offsets / layout.
+    // This may reallocate class_ro_t, updating our ro variable.
+    if (supercls  &amp;&amp;  !isMeta) reconcileInstanceVariables(cls, supercls, ro);
+
+    // Set fastInstanceSize if it wasn&apos;t set already.
+    cls-&gt;setInstanceSize(ro-&gt;instanceSize);
+
+    // Copy some flags from ro to rw
+    if (ro-&gt;flags &amp; RO_HAS_CXX_STRUCTORS) {
+        cls-&gt;setHasCxxDtor();
+        if (! (ro-&gt;flags &amp; RO_HAS_CXX_DTOR_ONLY)) {
+            cls-&gt;setHasCxxCtor();
+        }
+    }
+
+    // Connect this class to its superclass&apos;s subclass lists
+    if (supercls) {
+        addSubclass(supercls, cls);
+    } else {
+        addRootClass(cls);
+    }
+
+    // Attach categories
+    methodizeClass(cls);
+
+    return cls;
+}
+</code></pre>
+<p>&#x7B2C;&#x56DB;&#x6B65;&#x5728;&#x8BBE;&#x7F6E;&#x4E86;super class&#x540E;&#xFF0C;&#x5982;&#x679C;super class&#x7A7A;&#x95F4;&#x4E0E;&#x539F;class&#x7A7A;&#x95F4;&#x91CD;&#x53E0;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x539F;class&#x7684;&#x5B9E;&#x4F8B;&#x91CD;&#x65B0;&#x8BA1;&#x7B97;&#x5176;&#x4F4D;&#x7F6E;&#x5E76;&#x8C03;&#x6574;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">static void reconcileInstanceVariables(Class cls, Class supercls, const class_ro_t*&amp; ro) 
+{
+    class_rw_t *rw = cls-&gt;data();
+    // Non-fragile ivars - reconcile this class with its superclass
+    const class_ro_t *super_ro = supercls-&gt;data()-&gt;ro;
+
+    if (ro-&gt;instanceStart &gt;= super_ro-&gt;instanceSize) {
+        // Superclass has not overgrown its space. We&apos;re done here.
+        return;
+    }
+
+    if (ro-&gt;instanceStart &lt; super_ro-&gt;instanceSize) {
+        // Superclass has changed size. This class&apos;s ivars must move.
+        // Also slide layout bits in parallel.
+        // This code is incapable of compacting the subclass to 
+        //   compensate for a superclass that shrunk, so don&apos;t do that.
+        class_ro_t *ro_w = make_ro_writeable(rw);
+        ro = rw-&gt;ro;
+        moveIvars(ro_w, super_ro-&gt;instanceSize);
+    } 
+}
+
+/***********************************************************************
+* moveIvars
+* Slides a class&apos;s ivars to accommodate the given superclass size.
+* Ivars are NOT compacted to compensate for a superclass that shrunk.
+* Locking: runtimeLock must be held by the caller.
+**********************************************************************/
+static void moveIvars(class_ro_t *ro, uint32_t superSize)
+{
+    uint32_t diff;
+
+    assert(superSize &gt; ro-&gt;instanceStart);
+    diff = superSize - ro-&gt;instanceStart;
+
+    if (ro-&gt;ivars) {
+        // Find maximum alignment in this class&apos;s ivars
+        uint32_t maxAlignment = 1;
+        for (const auto&amp; ivar : *ro-&gt;ivars) {
+            if (!ivar.offset) continue;  // anonymous bitfield
+
+            uint32_t alignment = ivar.alignment();
+            if (alignment &gt; maxAlignment) maxAlignment = alignment;
+        }
+
+        // Compute a slide value that preserves that alignment
+        uint32_t alignMask = maxAlignment - 1;
+        diff = (diff + alignMask) &amp; ~alignMask;
+
+        // Slide all of this class&apos;s ivars en masse
+        for (const auto&amp; ivar : *ro-&gt;ivars) {
+            if (!ivar.offset) continue;  // anonymous bitfield
+
+            uint32_t oldOffset = (uint32_t)*ivar.offset;
+            uint32_t newOffset = oldOffset + diff;
+            *ivar.offset = newOffset;
+        }
+    }
+
+    *(uint32_t *)&amp;ro-&gt;instanceStart += diff;
+    *(uint32_t *)&amp;ro-&gt;instanceSize += diff;
+}
+</code></pre>
+<p>&#x6700;&#x540E;&#x4E00;&#x6B65;&#x7684;&#x5904;&#x7406;&#x90FD;&#x5728;<code>methodizeClass</code>&#x4E2D;&#xFF0C;&#x5148;&#x5C06;<code>class_ro_t</code>&#x7ED3;&#x6784;&#x4E2D;&#x7684;method&#x3001;property&#x3001;protocol&#x5B89;&#x88C5;&#x5230;<code>class_rw_t</code>&#xFF0C;&#x540E;&#x4F9D;&#x9644;category&#xFF0C;&#x800C;<code>_read_images</code>&#x4E2D;&#x7684;<code>remethodizeClass</code>&#x4E5F;&#x662F;&#x7528;&#x540C;&#x6837;&#x7684;&#x65B9;&#x5F0F;&#x4F9D;&#x9644;category&#xFF0C;<code>methodizeClass</code>&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">/***********************************************************************
+* methodizeClass
+* Fixes up cls&apos;s method list, protocol list, and property list.
+* Attaches any outstanding categories.
+* Locking: runtimeLock must be held by the caller
+**********************************************************************/
+static void methodizeClass(Class cls)
+{
+    bool isMeta = cls-&gt;isMetaClass();
+    auto rw = cls-&gt;data();
+    auto ro = rw-&gt;ro;
+
+    // Install methods and properties that the class implements itself.
+    method_list_t *list = ro-&gt;baseMethods();
+    if (list) {
+        prepareMethodLists(cls, &amp;list, 1, YES, isBundleClass(cls));
+        rw-&gt;methods.attachLists(&amp;list, 1);
+    }
+
+    property_list_t *proplist = ro-&gt;baseProperties;
+    if (proplist) {
+        rw-&gt;properties.attachLists(&amp;proplist, 1);
+    }
+
+    protocol_list_t *protolist = ro-&gt;baseProtocols;
+    if (protolist) {
+        rw-&gt;protocols.attachLists(&amp;protolist, 1);
+    }
+
+    // Attach categories.
+    category_list *cats = unattachedCategoriesForClass(cls, true /*realizing*/);
+    attachCategories(cls, cats, false /*don&apos;t flush caches*/);
+}
+</code></pre>
+<p>&#x4F9D;&#x9644;category&#x5C31;&#x662F;&#x5C06;category&#x7684;method&#x3001;property&#x3001;protocol append&#x5230;&#x539F;class&#x4E2D;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">// Attach method lists and properties and protocols from categories to a class.
+// Assumes the categories in cats are all loaded and sorted by load order, 
+// oldest categories first.
+static void 
+attachCategories(Class cls, category_list *cats, bool flush_caches)
+{
+    if (!cats) return;
+    bool isMeta = cls-&gt;isMetaClass();
+
+    // fixme rearrange to remove these intermediate allocations
+    method_list_t **mlists = (method_list_t **)
+        malloc(cats-&gt;count * sizeof(*mlists));
+    property_list_t **proplists = (property_list_t **)
+        malloc(cats-&gt;count * sizeof(*proplists));
+    protocol_list_t **protolists = (protocol_list_t **)
+        malloc(cats-&gt;count * sizeof(*protolists));
+
+    // Count backwards through cats to get newest categories first
+    int mcount = 0;
+    int propcount = 0;
+    int protocount = 0;
+    int i = cats-&gt;count;
+
+    while (i--) {
+        auto&amp; entry = cats-&gt;list[i];
+
+        method_list_t *mlist = entry.cat-&gt;methodsForMeta(isMeta);
+        if (mlist) {
+            mlists[mcount++] = mlist;
+        }
+
+        property_list_t *proplist = 
+            entry.cat-&gt;propertiesForMeta(isMeta, entry.hi);
+        if (proplist) {
+            proplists[propcount++] = proplist;
+        }
+
+        protocol_list_t *protolist = entry.cat-&gt;protocols;
+        if (protolist) {
+            protolists[protocount++] = protolist;
+        }
+    }
+
+    auto rw = cls-&gt;data();
+
+    rw-&gt;methods.attachLists(mlists, mcount);
+    free(mlists);
+
+    rw-&gt;properties.attachLists(proplists, propcount);
+    free(proplists);
+
+    rw-&gt;protocols.attachLists(protolists, protocount);
+    free(protolists);
+}
+</code></pre>
+<h3 id="load-images"><a href="#load-images" class="headerlink" title="load_images"></a>load_images</h3><p><code>load_images</code>&#x6838;&#x5FC3;&#x8FC7;&#x7A0B;&#x5C31;&#x662F;&#x4EE5;super class &gt; class &gt; category&#x7684;&#x987A;&#x5E8F;&#x8C03;&#x7528;class&#x7684;load&#x65B9;&#x6CD5;&#xFF0C;&#x5148;&#x8C03;&#x6574;&#x987A;&#x5E8F;&#x518D;&#x8C03;&#x7528;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">void
+load_images(const char *path __unused, const struct mach_header *mh)
+{
+    // Return without taking locks if there are no +load methods here.
+    if (!hasLoadMethods((const headerType *)mh)) return;
+
+    // Discover load methods
+    prepare_load_methods((const headerType *)mh);
+
+    // Call +load methods (without runtimeLock - re-entrant)
+    call_load_methods();
+}
+</code></pre>
+<p><code>prepare_load_methods</code>&#x8FC7;&#x7A0B;&#x4EE5;&#x53CA;&#x5176;<code>schedule_class_load</code>&#x5B50;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x8C03;&#x6574;&#x8C03;&#x7528;&#x987A;&#x5E8F;&#xFF0C;&#x5148;&#x52A0;&#x5165;super class&#xFF0C;&#x518D;&#x52A0;&#x5165;&#x539F;class&#xFF0C;&#x518D;&#x52A0;&#x5165;category&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">void prepare_load_methods(const headerType *mhdr)
+{
+    size_t count, i;
+
+    classref_t *classlist = 
+        _getObjc2NonlazyClassList(mhdr, &amp;count);
+    for (i = 0; i &lt; count; i++) {
+        schedule_class_load(remapClass(classlist[i]));
+    }
+
+    category_t **categorylist = _getObjc2NonlazyCategoryList(mhdr, &amp;count);
+    for (i = 0; i &lt; count; i++) {
+        category_t *cat = categorylist[i];
+        Class cls = remapClass(cat-&gt;cls);
+        realizeClass(cls);
+        add_category_to_loadable_list(cat);
+    }
+}
+
+/***********************************************************************
+* prepare_load_methods
+* Schedule +load for classes in this image, any un-+load-ed 
+* superclasses in other images, and any categories in this image.
+**********************************************************************/
+// Recursively schedule +load for cls and any un-+load-ed superclasses.
+// cls must already be connected.
+static void schedule_class_load(Class cls)
+{
+    if (!cls) return;
+
+    if (cls-&gt;data()-&gt;flags &amp; RW_LOADED) return;
+
+    // Ensure superclass-first ordering
+    schedule_class_load(cls-&gt;superclass);
+
+    add_class_to_loadable_list(cls);
+}
+</code></pre>
+<p><code>call_load_methods</code>&#x6838;&#x5FC3;&#x8FC7;&#x7A0B;&#x5219;&#x662F;while&#x5FAA;&#x73AF;&#x8C03;&#x7528;load&#x65B9;&#x6CD5;&#xFF0C;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-c">/***********************************************************************
+* call_load_methods
+* Call all pending class and category +load methods.
+* Class +load methods are called superclass-first. 
+* Category +load methods are not called until after the parent class&apos;s +load.
+* 
+* This method must be RE-ENTRANT, because a +load could trigger 
+* more image mapping. In addition, the superclass-first ordering 
+* must be preserved in the face of re-entrant calls. Therefore, 
+* only the OUTERMOST call of this function will do anything, and 
+* that call will handle all loadable classes, even those generated 
+* while it was running.
+*
+* The sequence below preserves +load ordering in the face of 
+* image loading during a +load, and make sure that no 
+* +load method is forgotten because it was added during 
+* a +load call.
+* Sequence:
+* 1. Repeatedly call class +loads until there aren&apos;t any more
+* 2. Call category +loads ONCE.
+* 3. Run more +loads if:
+*    (a) there are more classes to load, OR
+*    (b) there are some potential category +loads that have 
+*        still never been attempted.
+* Category +loads are only run once to ensure &quot;parent class first&quot; 
+* ordering, even if a category +load triggers a new loadable class 
+* and a new loadable category attached to that class. 
+*
+* Locking: loadMethodLock must be held by the caller 
+*   All other locks must not be held.
+**********************************************************************/
+void call_load_methods(void)
+{
+    bool more_categories;
+
+    do {
+        // 1. Repeatedly call class +loads until there aren&apos;t any more
+        while (loadable_classes_used &gt; 0) {
+            call_class_loads();
+        }
+
+        // 2. Call category +loads ONCE
+        more_categories = call_category_loads();
+
+        // 3. Run more +loads if there are classes OR more untried categories
+    } while (loadable_classes_used &gt; 0  ||  more_categories);
+}
+</code></pre>
+<h2 id="&#x5F15;&#x7528;"><a href="#&#x5F15;&#x7528;" class="headerlink" title="&#x5F15;&#x7528;"></a>&#x5F15;&#x7528;</h2><p><a href="https://www.mikeash.com/pyblog/friday-qa-2012-11-09-dyld-dynamic-linking-on-os-x.html" target="_blank" rel="noopener">https://www.mikeash.com/pyblog/friday-qa-2012-11-09-dyld-dynamic-linking-on-os-x.html</a></p>
+
+        
+                <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
+                    <p><strong>
+                         
+                            共享声明：本作品采用 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh">知识共享署名 4.0 国际许可协议</a> 转载时请注明作者和原文链接
+                        </strong>
+                        <br>
+                        <strong>本文链接：</strong><a href="http://blog.mrriddler.com/dyld_startup/">http://blog.mrriddler.com/dyld_startup/</a>
+                    </p>
+                </blockquote>
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 Gitalk -->
+<div id="gitalk-comment">
+    <!-- Gitalk 评论框 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script>
+    var gitalk = new Gitalk({
+            clientID: '733efef7eec90bd2c27e',
+            clientSecret: 'd55768251fe00f869db35b201ba09118f3c68d3f',
+            repo: 'mrriddler.github.io',
+            owner: 'mrriddler',
+            admin: ['mrriddler'],
+            // facebook-like distraction free mode
+            distractionFreeMode: false
+        })
+   gitalk.render('gitalk-container')
+</script>
+</div>
+<style>
+    #gitalk-comment {
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/浅谈客户端业务架构/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/dyld_link&load/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="mrriddler's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        robbieless21@outlook.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/10/">十月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/09/">九月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/08/">八月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">七月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">六月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">五月 2016<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/clang/">clang<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/iOS/">iOS<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/图片/">图片<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/存储体系/">存储体系<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/数据结构/">数据结构<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/架构/">架构<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法/">算法<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/网络/">网络<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机体系/">计算机体系<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/链接与装载/">链接与装载<span class="sidebar_archives-count">3</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">21</span>
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+    <span id="footer-image">
+        <a href="https://wx.qq.com//" target="_blank" title="wechat_logo">
+            <img src="/img/qrcode.jpg" alt="wechat_logo"><!--
+     --></a>
+    </span>
+
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+        <a href="http://weibo.com/robbie22" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-weibo">
+                <span class="visuallyhidden">Weibo</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/mrriddler" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+        <a href="https://www.linkedin.com/in/mrriddler" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-linkedin">
+                <span class="visuallyhidden">LinkedIn</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year></span>&nbsp;谜语糖
+            
+                <br>
+                
+                    Abstract the whole universe.
+                
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/lazyload.min.js", true)</script>
+
+
+
+    <script>lsloader.load("js_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/js.min.js", true)</script>
+
+
+
+    <script>lsloader.load("np_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/nprogress.js", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+   <!-- GitTalk -->
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+    
+        
+            <script>lsloader.load("prettify_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/prettify.min.js", true)</script>
+        
+    
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 2016;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+    
+</html>

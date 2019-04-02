@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<title>PSPDFKit and Swift | Inside PSPDFKit</title>
+
+<meta name="pspdf-platform" content="ios" />
+<meta name="pspdf-versions-url" content="/versions.json" />
+<meta name="pspdf-version" content="" />
+<meta name="pspdf-license-api-url" content="https://customers.pspdfkit.com/api/" />
+
+<meta name="description" content="Will PSPDFKit for iOS move to Swift? In this post, we weigh the pros and cons.">
+<meta name="author" content="PSPDFKit GmbH">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="google-site-verification" content="g1VvuwFhcGLYbXP6GDc-_FOzge6KdciTFKKSuEMmAbk">
+<meta name="format-detection" content="telephone=no">
+<link rel="canonical" href="https://pspdfkit.com/blog/2019/swift-and-pspdfkit/">
+<meta name="theme-color" content="#3d73d3">
+
+<meta property="og:site_name" content="PSPDFKit">
+<meta property="og:title" content="PSPDFKit and Swift | Inside PSPDFKit">
+<meta property="og:type" content="website">
+<meta property="og:description" content="Will PSPDFKit for iOS move to Swift? In this post, we weigh the pros and cons.">
+<meta property="og:image" content="https://pspdfkit.com/images/blog/2019/swift-and-pspdfkit/article-header-ac1b6e17.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@pspdfkit">
+<meta name="twitter:title" content="PSPDFKit and Swift | Inside PSPDFKit">
+<meta name="twitter:description" content="Will PSPDFKit for iOS move to Swift? In this post, we weigh the pros and cons.">
+<meta name="twitter:image" content="https://pspdfkit.com/images/blog/2019/swift-and-pspdfkit/article-header-ac1b6e17.png">
+
+<link href="/blog/feed.atom" type="application/atom+xml" rel="alternate" title="Inside PSPDFKit">
+
+<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://vars.hotjar.com">
+<link rel="preconnect" href="https://static.hotjar.com">
+<link rel="preconnect" href="https://script.hotjar.com">
+<link rel="preconnect" href="https://static.getclicky.com">
+<link href="/assets/stylesheets/application-a62e72e3.css" rel="stylesheet" />
+</head>
+<body class="blog blog_2019 blog_2019_swift-and-pspdfkit blog_2019_swift-and-pspdfkit_index preload">
+<header class="header">
+
+<nav class="nav-bar nav-bar-desktop">
+
+<a class="nav-brand" href="/">
+<img src="/images/shared/pspdfkit-c21a4a3f.svg" alt="PSPDFKit" width="50" height="50">
+</a>
+
+<ul class="nav-block nav-block-first">
+
+<li class="nav-item ">
+<a class="nav-link" href="/">Home</a>
+</li>
+
+<li class="nav-item nav-item-ios dropdown ">
+<a class="nav-link dropdown-toggle" href="/pdf-sdk/" data-toggle="dropdown">
+SDK
+</a>
+
+<div class="dropdown-menu nav-dropdown nav-dropdown-left">
+<div class="dropdown-arrow"></div>
+<div class="dropdown-block">
+<div class="row">
+
+<div class="col-6">
+
+<a class="dropdown-item d-flex flex-row align-items-center" href="/pdf-sdk/ios/">
+<div class="media-object mr-4">
+<i class="fa fa-xl fa-ios text-ios"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for iOS</h4>
+<p class="media-text small my-0">
+for iOS 11+
+</p>
+</div>
+</a>
+
+<a class="dropdown-item d-flex flex-row align-items-center" href="/pdf-sdk/web/">
+<div class="media-object mr-4">
+<i class="fa fa-xl fa-web text-web"></i>
+</div>
+ <div class="media-body">
+<h4 class="media-title">PSPDFKit for Web</h4>
+<p class="media-text small my-0">
+for modern browsers
+</p>
+</div>
+</a>
+</div>
+
+<div class="col-6">
+
+<a class="dropdown-item d-flex flex-row align-items-center" href="/pdf-sdk/android/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-android text-android"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for Android</h4>
+<p class="media-text small my-0">
+for Android 4.4+
+</p>
+</div>
+</a>
+
+<a class="dropdown-item d-flex flex-row align-items-center" href="/pdf-sdk/windows/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-windows text-windows"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for Windows</h4>
+<p class="media-text small my-0">
+for Windows 10
+</p>
+</div>
+</a>
+</div>
+</div>
+</div>
+
+<div class="dropdown-footer text-right">
+<a class="small" href="/pdf-sdk/">
+All our SDK products <i class="fa fa-arrow-right ml-1"></i>
+</a>
+</div>
+</div>
+</li>
+
+<li class="nav-item nav-item-instant ">
+<a class="nav-link" href="/instant/">
+Instant
+</a>
+</li>
+
+<li class="nav-item active">
+<a class="nav-link" href="/blog/">
+Blog
+</a>
+</li>
+
+<li class="nav-item nav-item-ios dropdown ">
+<a class="nav-link dropdown-toggle" href="/developers/" data-toggle="dropdown">
+Developers
+</a>
+
+<div class="dropdown-menu nav-dropdown nav-dropdown-center">
+<div class="dropdown-arrow"></div>
+<div class="dropdown-block">
+<div class="row">
+
+<div class="col-6">
+
+<div class="dropdown-item d-flex flex-row">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-ios text-ios"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for iOS</h4>
+<p class="media-text small my-0">
+<a href="/guides/ios/">Guides</a> •
+<a href="/api/ios/">API</a> •
+<a href="/changelog/ios/">Changelog</a>
+</p>
+</div>
+</div>
+
+<div class="dropdown-item d-flex flex-row">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-web text-web"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for Web</h4>
+<p class="media-text small my-0">
+<a href="/guides/web/">Guides</a> •
+<a href="/api/web/">API</a> •
+<a href="/changelog/web/">Changelog</a>
+</p>
+</div>
+</div>
+<hr />
+
+<a href="/support/request/" class="dropdown-item d-flex flex-row">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-mail text-muted"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">Contact Support</h4>
+<p class="media-text small my-0">
+We're happy to help with any questions about our products.
+</p>
+</div>
+</a>
+</div>
+
+<div class="col-6">
+
+<div class="dropdown-item d-flex flex-row">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-android text-android"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for Android</h4>
+<p class="media-text small my-0">
+<a href="/guides/android/">Guides</a> •
+<a href="/api/android/">API</a> •
+<a href="/changelog/android/">Changelog</a>
+</p>
+</div>
+</div>
+
+<div class="dropdown-item d-flex flex-row">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-windows text-windows"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">PSPDFKit for Windows</h4>
+<p class="media-text small my-0">
+<a href="/guides/windows/">Guides</a> •
+<a href="/api/windows/">API</a> •
+<a href="/changelog/windows/">Changelog</a>
+</p>
+</div>
+</div>
+<hr />
+
+<a href="https://customers.pspdfkit.com/" class="dropdown-item d-flex flex-row">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-exit text-muted"></i>
+</div>
+<div class="media-body">
+<h4 class="media-title">Customer Portal</h4>
+<p class="media-text small my-0">
+Manage your products and licenses here.
+</p>
+</div>
+</a>
+</div>
+</div>
+</div>
+
+<div class="dropdown-footer text-right">
+<a class="small" href="/developers/">
+Developer Portal <i class="fa fa-arrow-right ml-1"></i>
+</a>
+</div>
+</div>
+</li>
+</ul>
+
+<ul class="nav-block nav-block-last">
+
+<li class="nav-item">
+<a class="nav-link nav-btn" href="/try/">
+<span class="d-block d-lg-none">Download</span>
+<span class="d-none d-lg-block">Download Trial</span>
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link nav-btn nav-btn-ios" href="/sales/">
+<span class="d-block d-lg-none">Contact</span>
+<span class="d-none d-lg-block">Contact Sales</span>
+</a>
+</li>
+</ul>
+</nav>
+
+<nav class="nav-bar nav-bar-mobile">
+
+<a class="nav-brand" href="/">
+<img src="/images/shared/pspdfkit-c21a4a3f.svg" alt="PSPDFKit" width="40">
+</a>
+
+<button class="nav-toggler" type="button" aria-label="Toggle navigation" data-toggle="modal" data-target="#nav-mobile" data-backdrop="false">
+<i class="fa fa-bars"></i>
+</button>
+
+<div class="modal nav-modal fade" id="nav-mobile" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<button type="button" class="close" data-dismiss="modal">
+<span>&times;</span>
+</button>
+<div class="modal-block">
+<h6 class="modal-subtitle">Products</h6>
+<div class="row">
+<div class="col-sm-6">
+
+<a class="modal-media d-flex align-items-center" href="/pdf-sdk/ios/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-ios text-ios"></i>
+</div>
+<div class="media-body">
+ <strong>PSPDFKit for iOS</strong>
+</div>
+</a>
+
+<a class="modal-media d-flex align-items-center" href="/pdf-sdk/android/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-android text-android"></i>
+</div>
+<div class="media-body">
+<strong>PSPDFKit for Android</strong>
+</div>
+</a>
+
+<a class="modal-media d-flex align-items-center" href="/pdf-sdk/web/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-web text-web"></i>
+</div>
+<div class="media-body">
+<strong>PSPDFKit for Web</strong>
+</div>
+</a>
+</div>
+<div class="col-sm-6">
+
+<a class="modal-media d-flex align-items-center" href="/pdf-sdk/windows/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-windows text-windows"></i>
+</div>
+<div class="media-body">
+<strong>PSPDFKit for Windows</strong>
+</div>
+</a>
+
+<a class="modal-media d-flex align-items-center" href="/pdf-sdk/macos/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-macos text-macos"></i>
+</div>
+<div class="media-body">
+<strong>PSPDFKit for macOS</strong>
+</div>
+</a>
+
+<a class="modal-media d-flex align-items-center" href="/instant/">
+<div class="media-object mr-3">
+<i class="fa fa-xl fa-instant text-instant"></i>
+</div>
+<div class="media-body">
+<strong>PSPDFKit Instant</strong>
+</div>
+</a>
+</div>
+
+<div class="col-12">
+<a class="small" href="/pdf-sdk/">
+All our SDK products <i class="fa fa-arrow-right ml-1"></i>
+</a>
+</div>
+</div>
+<hr />
+
+<div class="row">
+<div class="col-6">
+<ul class="modal-list list-unstyled">
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/developers/">Developers</a></li>
+<li><a href="https://customers.pspdfkit.com/">Customer Portal</a></li>
+</ul>
+</div>
+<div class="col-6">
+<ul class="modal-list list-unstyled">
+<li><a href="/careers/">Careers</a></li>
+<li><a href="/about/">About</a></li>
+<li><a href="/legal/">Legal</a></li>
+</ul>
+</div>
+</div>
+<hr />
+
+<div class="row">
+<div class="col-sm-6 mb-3 mb-sm-0">
+<a href="/try/" class="btn btn-block btn-outline-ios">
+Download Trial
+</a>
+</div>
+<div class="col-sm-6">
+<a href="/sales/" class="btn btn-block btn-ios">
+Contact Sales
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+
+<span data-pspdfkit-team-member-status class="alert-badge badge badge-warning invisible">Team</span>
+</header>
+<div class="content content-overflow">
+<div class="content-backdrop bg-ios img-lazy" data-background-image="/images/blog/bg-development-ios-f6e564fc.svg">
+</div>
+
+
+<div class="nav-sub">
+<div class="container">
+<div class="d-flex justify-content-lg-center justify-content-xl-start">
+<div class="mr-auto d-none d-xl-block">
+<nav class="nav-breadcrumb breadcrumb">
+<a href="/blog/" class="breadcrumb-item breadcrumb-item-ios">Blog</a><a href="/blog/2019/swift-and-pspdfkit/" class="breadcrumb-item breadcrumb-item-ios">PSPDFKit and Swift</a>
+</nav>
+</div>
+<div class="ml-xl-auto">
+<ul class="nav flex-nowrap">
+<li class="nav-item">
+<a class="nav-link nav-link-ios
+                    " href="/blog/">
+Featured
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-link-ios
+                    " href="/blog/categories/">
+Archive
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-link-ios
+                    " href="/blog/feed.atom">
+RSS
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<section>
+<div class="container">
+<div class="row justify-content-center mb-4">
+<div class="col-lg-11">
+<header class="text-center">
+<h1 class="display-4 text-white text-sh-1 py-5">
+PSPDFKit and Swift
+</h1>
+</header>
+</div>
+</div>
+<aside class="nav-share">
+<h6 class="mb-3 small">Share</h6>
+<a href="https://twitter.com/intent/tweet?url=https://pspdfkit.com/blog/2019/swift-and-pspdfkit/&via=pspdfkit&text=PSPDFKit and Swift" target="_blank" rel="noopener" class="mb-3">
+<i class="fa fa-lg fa-twitter"></i>
+</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=https://pspdfkit.com/blog/2019/swift-and-pspdfkit/&via=pspdfkit&text=PSPDFKit and Swift" target="_blank" rel="noopener" class="mb-3">
+<i class="fa fa-lg fa-facebook"></i>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://pspdfkit.com/blog/2019/swift-and-pspdfkit/&via=pspdfkit&text=PSPDFKit and Swift" target="_blank" rel="noopener" class="mb-3">
+<i class="fa fa-lg fa-linkedin"></i>
+</a>
+</aside>
+<div class="row justify-content-center">
+<div class="col-lg-9">
+<div class="card card-lg">
+<div class="card-cap d-flex justify-content-center">
+<div class="d-flex flex-column align-items-center mx-2">
+<a href="https://twitter.com/steipete">
+<img src="/images/placeholder-d5fceb65.gif" data-src="/images/people/peter-steinberger-1a0ef9b8.jpg" class="card-img-profile rounded-circle img-lazy" width="80" height="80">
+</a>
+<p class="small text-muted mb-0">
+<a href="https://twitter.com/steipete">
+Peter Steinberger
+</a>
+</p>
+</div>
+</div>
+<article class="card-body article pt-5">
+<p><figure><img src='/images/placeholder-d5fceb65.gif' data-src='/images/blog/2019/swift-and-pspdfkit/article-header-ac1b6e17.png' class='img-lazy' /></figure></p>
+<p>PSPDFKit for iOS is a large project written in C, C++, and — of course — Objective-C(++). The public API is clean, modern Objective-C with all the enhancements Apple has brought to the language in recent years, including generics, nullability, Swift method name annotations, and enum macros.</p>
+<h3 class='anchorable'><span id='will-pspdfkit-for-ios-move-to-swift'></span>Will PSPDFKit for iOS Move to Swift?</h3>
+<p>This is the million-dollar question we get asked on Twitter from time to time. With everyone embracing Swift, why is PSPDFKit for iOS still written in Objective-C? Now that Swift 5, with its stable ABI, is nearing public release in Xcode 10.2, can’t we finally adopt Swift and be happy?</p>
+<div class="alert alert-warning">
+<p>Learn more: <a href="/blog/2018/binary-frameworks-swift/" class='link-ios'>Binary Frameworks in Swift</a></p>
+</div>
+<p>To answer that question, let’s first consider the typical benefit claims of a Swift-only codebase:</p>
+<ul>
+<li>There’s less code to write, as Swift is more expressive.</li>
+<li>There are more efficient <code>struct</code> data structures when compared to classic Objective-C classes.</li>
+<li>There are fewer bugs due to stronger nullability enforcement, generics, and type checking.</li>
+<li>There is the potential for cross-platform code reuse (model API, but not UIKit).</li>
+</ul>
+<p>However, we must also consider the downsides:</p>
+<ul>
+<li>Either you stop supporting Objective-C clients, or you greatly restrict Swift’s capabilities by declaring classes as <code>@objc</code> exportable and omitting Swift concepts that are not compatible with Objective-C.</li>
+<li>Swift classes, even when annotated with <code>@objc</code>, cannot be subclassed in Objective-C.</li>
+<li>Swift increases the binary size for clients not using iOS 12.2, which is still in beta.</li>
+<li>Swift has no header concepts, and <a href="https://swift.org/blog/abi-stability-and-more/" class='link-ios'>the Clang module format is not yet stable</a>. Binary frameworks need to be consumed with the same Xcode version they are compiled with in order to not cause issues.</li>
+<li>There wouldn’t be any compatibility for hybrid technologies such as Xamarin, Cordova, Appcelerator, Flutter, or React Native (though the latter has some support for Swift already).</li>
+<li>Swift can call directly to C, but not to C++.</li>
+<li>Various performance tricks, such as custom <code>NSArray</code> subclasses that convert objects on the fly, can’t be written in Swift.</li>
+<li>Code that heavily mixes Objective-C and Swift is difficult to maintain and limits most of Swift’s useful features.</li>
+</ul>
+<p>Given the above constraints, PSPDFKit will likely never fully move to Swift. First and foremost, we still have many clients with applications built in Objective-C. There’s rarely a good reason to do a rewrite of battle-tested code, and we cannot force our partners to rewrite their applications just to be able to use the newest version of PSPDFKit. Secondly, moving to Swift would heavily limit our subclassing system — currently, developers can register almost any exposed class and offer a subclass that PSPDFKit will initialize internally in place of our default base class. But seeing as Swift classes can no longer be subclassed in Objective-C, these capabilities would be greatly restricted if we switched to Swift.</p>
+<p>This limits us to using Swift internally — which is the worst kind of Swift usage.</p>
+<h3 class='anchorable'><span id='pspdfkitswift'></span>PSPDFKitSwift</h3>
+<div class="alert alert-warning">
+<p>Learn more: <a href="/blog/2018/first-class-swift-api-for-objective-c-frameworks/" class='link-ios'>First-Class Swift API for Objective-C Frameworks</a></p>
+</div>
+<p>All that said, there’s still value in a clean, Swift-specific API, and we’re addressing this with our <a href="https://github.com/PSPDFKit/PSPDFKitSwift" class='link-ios'>PSPDFKitSwift project</a>, which offers Swift wrappers for our most commonly used classes (in addition to offering a greatly simplified API). Documentation-wise, this is a challenge, as we now basically have three sets of APIs:</p>
+<ul>
+<li>Objective-C API</li>
+<li>Regular Swift API</li>
+<li>Refined Swift API via PSPDFKitSwift</li>
+</ul>
+<p>We hope we can ship these refined calls as part of the SDK, in order to simplify usage and setup. But until Clang offers module stability, this isn’t something we’re ready to do, as it would create a strict enforcement between the Xcode version we compile our SDK with and the Xcode versions our partners use to compile their apps.</p>
+<p>We also hope future compiler versions offer even more support for improved Objective-C-to-Swift interoperability. We would love to use more powerful renaming capabilities, but unfortunately, we had to remove our <a href="https://pspdfkit.com/blog/2018/first-class-swift-api-for-objective-c-frameworks/#api-notes" class='link-ios'>API Notes</a>-based customizations due to them causing all sorts of problems with build reliability.</p>
+<h3 class='anchorable'><span id='swift-and-stable-api'></span>Swift and Stable API</h3>
+<div class="alert alert-warning">
+<p>Learn more: <a href="/blog/2019/writing-and-maintaining-good-code-documentation/" class='link-ios'>Writing and Maintaining Good Code Documentation</a></p>
+</div>
+<p>Offering a stable API was a challenge, especially in the early years of Swift, when the Objective-C-to-Swift mappings changed with almost every release. And with our massive API, adding nullability and generics took many releases across many months to get right. Changing nullability is, at most, a warning in Objective-C, but it’s a breaking error in Swift, which added to some of the frustrations our customers experienced.</p>
+<p>With Swift 4 and 5, most of these issues are solved, and the language is no longer moving as fast as it once did. As a result, it’s much easier to update without too many API changes. We’re still tweaking APIs, and we do try to adopt every mapping tweak there is. We’ve also introduced custom types and better enumerations in addition to gradually renamed methods that didn’t map well to Swift.</p>
+<p>This work isn’t done yet. For example, with Swift 5, which will ship in Xcode 10.2, Apple made enumeration checks stricter, but it also gave us <code>NS_CLOSED_ENUM</code> so that we can define Objective-C enumerations that are closed, meaning they no longer require a default case. We hope to see even more examples of such Objective-C annotations in the future.</p>
+<h2 class='anchorable'><span id='conclusion'></span>Conclusion</h2>
+<p>Our iOS team loves Swift💙 and we use it wherever we can: <a href="/blog/2016/running-ui-tests-with-ludicrous-speed/" class='link-ios'>in our tests</a>, in <a href="https://pdfviewer.io/" class='link-ios'>PDF Viewer</a>, and in our <a href="/guides/ios/current/getting-started/example-projects/#pspdfcatalog" class='link-ios'>extensive example catalog</a>. We’re even <a href="https://github.com/apple/swift/pull/17960" class='link-ios'>contributing features to the Swift compiler</a> to make it better! But when it comes down to it, Swift isn’t the right choice for our SDK, and we’ll keep using Objective-C++ for the foreseeable future.</p>
+</article>
+<div class="card-footer border-top-gray bg-gray-light">
+<div class="row align-items-center">
+<div class="col">
+<h3 class="mb-2">
+PSPDFKit for iOS
+</h3>
+<p>
+Download the free 60-day trial and add it to your app today.
+</p>
+<form id="try-now-form-cta-blog-2019-swift-and-pspdfkit" action="https://pspdfkit.createsend.com/t/j/s/btkltk/" method="post" data-controller="form-remote" data-form-remote-data-type="jsonp" data-form-remote-client-id-name="cm-f-jrpliu" data-form-remote-success-url="/try/thanks" data-action="change->form-remote#change
+                   submit->form-remote#submit">
+
+<div class="sr-only">
+<input type="checkbox" checked id="fieldujiilj-0" name="cm-fo-ujiilj" value="1145179"> iOS
+</div>
+
+<label for="email" class="sr-only">Email</label>
+<div class="row">
+<div class="col-lg-7 mb-4 mb-lg-0">
+<input type="email" id="email" name="cm-btkltk-btkltk" data-name="email" class="form-control form-control-ios" placeholder="name@company.com" required data-target="form-remote.email">
+</div>
+<div class="col-lg-5">
+<button type="submit" name="button" class="btn btn-lg btn-block btn-ios" data-target="form-remote.submit">
+<span class="d-block d-lg-none">Download</span>
+<span class="d-none d-lg-block text-nowrap">Download Trial</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+<header class="text-center my-5">
+<h2>Related Articles</h2>
+</header>
+<div class="row">
+<div class="col-md-6 col-lg-4 mb-5">
+<a href="/blog/2019/getting-started-with-pspdfkit-flutter/" class="card card-md card-article card-hoverable h-100">
+<div class="card-img-top card-img-top-md">
+<img src="/images/placeholder-d5fceb65.gif" data-src="/images/blog/2019/getting-started-with-pspdfkit-flutter/article-header-ebed27cf.png" alt="" class="img-fluid img-lazy">
+</div>
+<div class="card-body p-4">
+<h3 class="card-title h5 mb-0">
+Getting Started with PSPDFKit Flutter
+</h3>
+</div>
+</a>
+</div>
+<div class="col-md-6 col-lg-4 mb-5">
+<a href="/blog/2019/watermarking-a-pdf/" class="card card-md card-article card-hoverable h-100">
+<div class="card-img-top card-img-top-md">
+<img src="/images/placeholder-d5fceb65.gif" data-src="/images/blog/2019/watermarking-a-pdf/article-header-e917a49f.png" alt="" class="img-fluid img-lazy">
+</div>
+<div class="card-body p-4">
+<h3 class="card-title h5 mb-0">
+Watermarking a PDF on iOS
+</h3>
+</div>
+</a>
+</div>
+<div class="col-md-6 col-lg-4 mb-5">
+<a href="/blog/2019/extracting-images-from-a-pdf-in-swift/" class="card card-md card-article card-hoverable h-100">
+<div class="card-img-top card-img-top-md">
+<img src="/images/placeholder-d5fceb65.gif" data-src="/images/blog/2019/extracting-images-from-a-pdf-in-swift/article-header-9a7e4649.png" alt="" class="img-fluid img-lazy">
+</div>
+<div class="card-body p-4">
+<h3 class="card-title h5 mb-0">
+Extracting Images from a PDF in Swift
+</h3>
+</div>
+</a>
+</div>
+</div>
+</div>
+</section>
+</div>
+<footer class="footer">
+<div class="container">
+<div class="row">
+
+<div class="col-6 col-sm-4 col-md-3 mb-4 mb-0-sm">
+<h6 class="footer-title text-ios-light">Products</h6>
+<ul class="footer-nav list-unstyled">
+<li><a href="/pdf-sdk/ios/">iOS PDF SDK</a></li>
+<li><a href="/pdf-sdk/android/">Android PDF Library</a></li>
+<li><a href="/pdf-sdk/web/">Web PDF Viewer</a></li>
+<li><a href="/pdf-sdk/electron/">Electron PDF Viewer</a></li>
+<li><a href="/pdf-sdk/windows/">Windows UWP PDF Library</a></li>
+<li><a href="/pdf-sdk/macos/">macOS PDF SDK</a></li>
+<li><a href="/instant/">Instant Sync Engine</a></li>
+<li><a href="https://pdfviewer.io/">PDF Viewer Pro App</a></li>
+</ul>
+</div>
+
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 mb-0-sm">
+<h6 class="footer-title text-ios-light">Developers</h6>
+<ul class="footer-nav list-unstyled">
+<li><a href="/developers/">Developer Portal</a></li>
+<li><a href="/guides/ios/">Documentation</a></li>
+<li><a href="/api/ios/">API Reference</a></li>
+<li><a href="/changelog/ios/">Changelog</a></li>
+<li><a href="/support/request/">Support</a></li>
+</ul>
+</div>
+
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 mb-0-sm">
+<h6 class="footer-title text-ios-light">Company</h6>
+<ul class="footer-nav list-unstyled">
+<li><a href="/about/">About</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/careers/">Careers</a></li>
+<li><a href="/legal/">Legal</a></li>
+</ul>
+</div>
+
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 mb-0-sm">
+<h6 class="footer-title text-ios-light">Keep in Touch</h6>
+<ul class="footer-nav list-unstyled">
+<li><a href="/newsletter/">Newsletter</a></li>
+<li><a href="https://twitter.com/pspdfkit">Twitter</a>
+<li><a href="https://facebook.com/pspdfkit">Facebook</a></li>
+<li><a href="https://instagram.com/pspdfkit">Instagram</a></li>
+</ul>
+</div>
+
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 mb-0-sm">
+ <h6 class="footer-title text-ios-light">Try Our Showcase App</h6>
+<a href="https://pdfviewer.io/store-ios" class="d-inline-block" style="margin-bottom: 10px">
+<img src="/images/placeholder-d5fceb65.gif" data-src="/images/shared/app-store-deeb3016.png" data-srcset="/images/shared/app-store@2x-6c923cd7.png 2x" width="180" class="img-lazy">
+</a>
+<a href="https://pdfviewer.io/store-android" class="d-inline-block">
+<img src="/images/placeholder-d5fceb65.gif" data-src="/images/shared/google-play-763353bc.png" data-srcset="/images/shared/google-play@2x-d8487b59.png 2x" width="180" class="img-lazy">
+</a>
+</div>
+
+<div class="col-12">
+<p class="footer-copyright">Copyright © 2010-2018 PSPDFKit GmbH. All Rights Reserved.</p>
+</div>
+</div>
+</div>
+</footer>
+
+<script>
+  window.intercomSettings = { app_id: 'k2d765xf' };
+</script>
+<script>
+// Defer loading to improve page speed.
+setTimeout(function() {
+  (function() {
+    var w = window;
+    var ic = w.Intercom;
+    if (typeof ic === "function") {
+      ic("reattach_activator");
+      ic("update", intercomSettings);
+    } else {
+      var d = document;
+      var i = function() {
+        i.c(arguments);
+      };
+      i.q = [];
+      i.c = function(args) {
+        i.q.push(args);
+      };
+      w.Intercom = i;
+      function l() {
+        var s = d.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://widget.intercom.io/widget/k2d765xf";
+        var x = d.getElementsByTagName("script")[0];
+        x.parentNode.insertBefore(s, x);
+      }
+      l();
+    }
+  })();
+}, 3000)
+</script>
+<script>
+;(function() {
+  // Get a unique id for the current visitor. This is used to correlate events
+  // by the same user between the Website and Licensor. We delegate this to
+  // Intercom to avoid having to generate and store it ourselves.
+  //
+  // Events that are collected before the User ID is assigned are automatically
+  // unified by Google Analytics.
+  var interval, visitorId
+  if (visitorId = window.Intercom && Intercom('getVisitorId')) {
+    window.ga && ga('set', 'userId', visitorId)
+  } else {
+    // Intercom has no `ready` callback so we need to poll to know when the
+    // REST call for `getVisitorId` is done.
+    interval = setInterval(function() {
+      if (visitorId = window.Intercom && Intercom('getVisitorId')) {
+        window.ga && ga('set', 'userId', visitorId)
+        clearInterval(interval)
+      }
+    }, 3500)
+  }
+})()
+</script>
+
+<script>
+  if (!window.localStorage.getItem('isPSPDFKitTeamMember')) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-57640592-1', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
+  }
+</script>
+
+<script type="text/javascript">
+function setCookie(name, value, days){
+    var date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    var expires = "; expires=" + date.toGMTString();
+    document.cookie = name + "=" + value + expires + ";path=/";
+}
+function getParam(p){
+    var match = RegExp('[?&]' + p + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+var gclid = getParam('gclid');
+if(gclid){
+    var gclsrc = getParam('gclsrc');
+    if(!gclsrc || gclsrc.indexOf('aw') !== -1){
+	    setCookie('gclid', gclid, 90);
+	}
+}
+</script>
+
+<script>
+if (!window.localStorage.getItem('isPSPDFKitTeamMember')) {
+  (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:151018,hjsv:5};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+  })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+}
+</script>
+
+<script type="text/javascript">
+  if (!window.localStorage.getItem('isPSPDFKitTeamMember')) {
+    var clicky_site_ids = clicky_site_ids || [];
+    clicky_site_ids.push(66459350);
+    (function() {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = '//static.getclicky.com/js';
+      ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+    })();
+  }
+</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/66459350ns.gif" /></p></noscript>
+<script src="/assets/javascripts/application-5af35533.js" async="true"></script>
+</body>
+</html>

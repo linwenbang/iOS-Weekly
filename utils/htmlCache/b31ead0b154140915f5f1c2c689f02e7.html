@@ -1,0 +1,928 @@
+<!DOCTYPE html><html lang="en">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>质量监控-图片减包 - sindrilin的小巢</title>
+<meta name="description" content="经过多个版本迭代，项目在release配置下的打包体积依旧轻松破百，应用体积过大导致的问题包括：  更长的构建时间，换个词就是加班  TEXT段体积过大会导致审核失败  用户不愿意下载应用通常来说，资源文件能在应用体积包中占据1/3或者更多的体积，相比起代码（5kb/千行）的平均占用来说，对图片进行减包是最直接高...">
+<link rel="canonical" href="www.sindrilin.com/2018/12/11/image_subtraction.html"><link rel="alternate" type="application/rss+xml" title="sindrilin的小巢" href="www.sindrilin.com/feed.xml">
+<!-- for Safari on iOS https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/app-icon/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/images/logo/icon-180x180.png"><link rel="apple-touch-icon" sizes="167x167" href="/assets/images/logo/icon-167x167.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/images/logo/icon-152x152.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/images/logo/icon-120x120.png"><link rel="shortcut icon" href="/assets/images/logo/icon-120x120.png">
+<!-- for Chrome on Android https://developer.chrome.com/multidevice/android/installtohomescreen -->
+<meta name="mobile-web-app-capable" content="yes"><link rel="icon" sizes="192x192" href="/assets/images/logo/icon-192x192.png">
+<!-- for Edge on Windows 10 https://msdn.microsoft.com/en-us/library/dn255024(v=vs.85).aspx --><meta name="msapplication-TileImage" content="/assets/images/logo/icon-144x144.png"><meta name="msapplication-square310x310logo" content="/assets/images/logo/icon-310x310.png"><meta name="msapplication-wide310x150logo" content="/assets/images/logo/icon-310x150.png"><meta name="msapplication-square150x150logo" content="/assets/images/logo/icon-150x150.png"><meta name="msapplication-square70x70logo" content="/assets/images/logo/icon-70x70.png">
+<meta name="msapplication-TileColor" content="#eeeeee">
+<link rel="stylesheet" href="/assets/css/blog.css">
+    <script>(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+
+  window.decodeUrl = function(str) {
+    return str ? decodeURIComponent(str.replace(/\+/g, '%20')) : '';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i, cb; loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cb = cbs[i]; cb();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();</script>
+  </head>
+  <body>
+    <div class="m-page-stage js-page-stage">
+      <div class="m-page-content"><header class="m-page-header">
+  <div class="main clearfix">
+    <div class='site-logo'><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#666666;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg><a title="本站记录我在学习之旅的沿途风景" href="/">sindrilin的小巢</a></div>
+    <nav>
+      <ul><li><a href="/">Home</a></li><li><a href="/all.html">Archive</a></li><li><a href="/about.html">About</a></li><li><a type="application/rss+xml" href="/feed.xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="m-page-main"><div class="m-post">
+	<div class="main clearfix js-main">
+		<div class="col-2 js-col-2">
+			<aside class="js-article-aside"><div class="m-toc js-toc"></div></aside>
+		</div>
+		<div class="col-1">
+			<article class="js-article" itemscope itemtype="http://schema.org/BlogPosting">
+				<meta itemprop="mainEntityOfPage" itemscope itemType="https://schema.org/WebPage"/>
+				<header class="main-header"><h1 itemprop="headline" itemprop="name headline">质量监控-图片减包</h1><div class="m-article-info clearfix"><meta itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="sindrilin"/></meta><ul class="tag-wrapper"><li>
+          <a class="pill-button" href="/all.html?tag=%E8%B4%A8%E9%87%8F%E7%9B%91%E6%8E%A7">质量监控</a>
+        </li></ul><div class="other-wrapper"><div class="view-wrapper">
+        <span class="article-view" data-page-key="">0
+        </span> views
+      </div><div class="date-wrapper"><time class="article-meta" datetime="2018-12-11T08:00:00+08:00"
+          itemprop="datePublished">Dec 11, 2018
+        </time></div>
+  </div>
+</div>
+</header>
+				<div class="m-article-content js-article-content" itemprop="articleBody"><p>经过多个版本迭代，项目在<code class="highlighter-rouge">release</code>配置下的打包体积依旧轻松破百，应用体积过大导致的问题包括：</p>
+
+<ul>
+  <li>更长的构建时间，换个词就是<code class="highlighter-rouge">加班</code></li>
+  <li><code class="highlighter-rouge">TEXT</code>段体积过大会导致审核失败</li>
+  <li>用户不愿意下载应用</li>
+</ul>
+
+<p>通常来说，资源文件能在应用体积包中占据<code class="highlighter-rouge">1/3</code>或者更多的体积，相比起代码<code class="highlighter-rouge">（5kb/千行）</code>的平均占用来说，对图片进行减包是最直接高效的手段，对图片资源的处理方式包括四种：</p>
+
+<ol>
+  <li>通过请求下载大图</li>
+  <li>使用工具压缩图片</li>
+  <li>查找删除重复图片</li>
+  <li>查找复用相似图片</li>
+</ol>
+
+<p>考虑到由于项目开发分工的问题，<code class="highlighter-rouge">方式1</code>需要推动落地，所以本文不讨论这种处理方式。其他三种都能通过编写脚本实现自动化处理</p>
+
+<h2 id="图片压缩">图片压缩</h2>
+<p>图片压缩分为<code class="highlighter-rouge">有损压缩</code>和<code class="highlighter-rouge">无损压缩</code>两类，<code class="highlighter-rouge">有损压缩</code>放弃了一部分图片的质量换取更高的压缩比。网上主流的压缩工具有<code class="highlighter-rouge">tinypng</code>、<code class="highlighter-rouge">pngquant</code>、<code class="highlighter-rouge">ImageAlpha</code>和<code class="highlighter-rouge">ImageOptim</code>等，分别采用了一种或者多种压缩技术完成图片压缩</p>
+
+<h3 id="为什么png能够无损压缩">为什么png能够无损压缩</h3>
+<p>由于<code class="highlighter-rouge">png</code>格式的灵活性，同一张图片可以使用多种方式进行表示，不同方式占用的大小不一样。一般的软件会采用效率更高的方式来表示图片，所以这种情况下<code class="highlighter-rouge">png</code>图片存在巨大的优化空间。通常来说，从<code class="highlighter-rouge">png</code>文件中能去除的数据包括：</p>
+
+<ul>
+  <li><code class="highlighter-rouge">iTXt</code>、<code class="highlighter-rouge">tEXt</code>和<code class="highlighter-rouge">zTXt</code>这些可以存储任意文本的数据区段</li>
+  <li><code class="highlighter-rouge">iCCP</code>数据区段存储的<code class="highlighter-rouge">profile</code>等等</li>
+  <li><code class="highlighter-rouge">photoshop</code>导出的<code class="highlighter-rouge">png</code>图片存在大量的额外信息</li>
+</ul>
+
+<p><code class="highlighter-rouge">png</code>图片有两种类型的数据块，一种是必不可缺的数据块称为<code class="highlighter-rouge">关键数据块</code>。另一种叫做<code class="highlighter-rouge">辅助数据块</code>，<code class="highlighter-rouge">png</code>文件格式规范指定的辅助数据块包括：</p>
+
+<ul>
+  <li>背景颜色数据块<code class="highlighter-rouge">bKGD</code></li>
+  <li>基色和白色数据块<code class="highlighter-rouge">cHRM</code></li>
+  <li>图像<code class="highlighter-rouge">γ</code>数据块<code class="highlighter-rouge">gAMA</code></li>
+  <li>图像直方图数据块<code class="highlighter-rouge">hIST</code></li>
+  <li>物理像素尺寸数据块<code class="highlighter-rouge">pHYs</code></li>
+  <li>样本有效位数据块<code class="highlighter-rouge">sBIT</code></li>
+  <li>文本信息数据块<code class="highlighter-rouge">tEXt</code></li>
+  <li>图像最后修改时间数据块<code class="highlighter-rouge">tIME</code></li>
+  <li>图像透明数据块<code class="highlighter-rouge">tRNS</code></li>
+  <li>压缩文本数据块<code class="highlighter-rouge">zTXt</code></li>
+</ul>
+
+<p>其中<code class="highlighter-rouge">tEXt</code>和<code class="highlighter-rouge">zTXt</code>数据段中存在的数据包括：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>关键字</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Title</td>
+      <td>图像名称</td>
+    </tr>
+    <tr>
+      <td>Author</td>
+      <td>图像作者</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>图像说明</td>
+    </tr>
+    <tr>
+      <td>Copyright</td>
+      <td>版权声明</td>
+    </tr>
+    <tr>
+      <td>CreationTime</td>
+      <td>原图创作时间</td>
+    </tr>
+    <tr>
+      <td>Software</td>
+      <td>创作图像使用的软件</td>
+    </tr>
+    <tr>
+      <td>Disclaimer</td>
+      <td>弃权</td>
+    </tr>
+    <tr>
+      <td>Warning</td>
+      <td>图像内容警告</td>
+    </tr>
+    <tr>
+      <td>Source</td>
+      <td>创作图像使用的设备</td>
+    </tr>
+    <tr>
+      <td>Comment</td>
+      <td>注释信息</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>由上可见，辅助数据块在<code class="highlighter-rouge">png</code>文件中可能占据了极大的篇幅，正是这些数据块构成了<code class="highlighter-rouge">png</code>的无损压缩条件</p>
+
+<h3 id="tinypng">tinypng</h3>
+<p><code class="highlighter-rouge">tinypng</code>采用了一种称作<code class="highlighter-rouge">Quantization</code>的压缩技术，通过合并图片中相似的颜色，将<code class="highlighter-rouge">24bit</code>的图片文件压缩成<code class="highlighter-rouge">8bit</code>图片，同时去除图片中不必要的元数据，图片最高能达到<code class="highlighter-rouge">70%</code>以上的压缩率。截止文章完成之前，<code class="highlighter-rouge">tinypng</code>仅提供了线上压缩功能，暂未提供工具下载</p>
+
+<h3 id="pngquant">pngquant</h3>
+<p>根据官方介绍，<code class="highlighter-rouge">pngquant</code>将<code class="highlighter-rouge">24bit</code>以上的图片转换成<code class="highlighter-rouge">8bit</code>的保留透明度通道的压缩图片，压缩算法的压缩比非常显著，通常都能减少<code class="highlighter-rouge">70%</code>的大小。<code class="highlighter-rouge">pngquant</code>提供了命令行工具来完成解压任务：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pngquant --quality=0-100 imagepath
+</code></pre></div></div>
+
+<p>命令行更多调试参数可以在<a href="https://pngquant.org">官网</a>参阅</p>
+
+<h3 id="imagealpha">ImageAlpha</h3>
+<p><code class="highlighter-rouge">ImageAlpha</code>是一个<code class="highlighter-rouge">macOS</code>系统下的有损图片压缩工具，内置了<code class="highlighter-rouge">pngquant</code>、<code class="highlighter-rouge">pngnq-s9</code>等多个压缩工具，多数情况下通过将图片降至<code class="highlighter-rouge">8bit</code>来获取高压缩比。由于<code class="highlighter-rouge">ImageAlpha</code>的可视化界面无法批量处理图片，直接使用提供的命令工具可以实现批量压缩图片：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for file in $(ls $1); do
+    imagepath=$1"/"$file
+    if [ -d imagepath ]
+    then
+        /// 路径为文件夹
+    else
+        if [[ $file == *.png ]]
+        then
+            beforeSize=`ls -l $imagepath | awk '{print $5}'`
+            /Applications/ImageAlpha.app/Contents/MacOS/pngquant $imagepath
+            afterSize=`ls -l ${imagepath/.png/-fs8.png} | awk '{print $5}'`
+            
+            if [[ $afterSize -lt $beforeSize]]
+            then
+                mv ${imagepath/.png/-fs8.png} $imagepath
+            fi
+        fi
+    fi
+done
+</code></pre></div></div>
+
+<p>使用<code class="highlighter-rouge">ImageAlpha</code>需要注意两点：</p>
+
+<ol>
+  <li>压缩后的图片命名会自动添加<code class="highlighter-rouge">-fs8</code>后缀，需要使用<code class="highlighter-rouge">mv</code>命令实现替换</li>
+  <li>有损压缩会修改<code class="highlighter-rouge">关键数据块</code>，可能导致压缩图片尺寸增大，需要过滤</li>
+</ol>
+
+<p>在使用<code class="highlighter-rouge">有损压缩</code>时需要注意单张<code class="highlighter-rouge">png</code>图片是可以被多次压缩的，但这会导致图片的清晰度和色彩都受到影响，不建议对图片超过一次以上的<code class="highlighter-rouge">有损压缩</code></p>
+
+<h3 id="imageoptim">ImageOptim</h3>
+<p><code class="highlighter-rouge">ImageOptim</code>是介绍的四种工具中唯一的<code class="highlighter-rouge">无损压缩</code>，它采用了包括<code class="highlighter-rouge">去除exif信息</code>、<code class="highlighter-rouge">重新排列像素存储方式</code>等手段实现图片的压缩。<code class="highlighter-rouge">无损</code>代表着一张图片被<code class="highlighter-rouge">ImageOptim</code>压缩后，后续无法再次进行压缩，同时它的压缩比往往比不上其他的<code class="highlighter-rouge">有损压缩</code>方案，但最大程度上保证了图片的原始清晰度和色彩</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for file in $(ls $1); do
+    imagepath=$1"/"$file
+    if [ -d imagepath ]
+    then
+        /// 路径为文件夹
+    else
+        if [[ $file == *.png ]]
+        then
+            /Applications/ImageOptim.app/Contents/MacOS/ImageOptim $imagepath
+        fi
+    fi
+done
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">ImageOptim</code>同样存在可视化的工具并且支持批量压缩图片</p>
+
+<h3 id="多方案对比">多方案对比</h3>
+<p>考虑到<code class="highlighter-rouge">ImageAlpha</code>几乎都是使用<code class="highlighter-rouge">pngquant</code>作为压缩工具，因此只列出三种压缩工具的对比：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>原始尺寸</th>
+      <th>压缩工具</th>
+      <th>压缩后尺寸</th>
+      <th>压缩比</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>319.5KB</td>
+      <td>tinypng</td>
+      <td>120.5KB</td>
+      <td>62%</td>
+    </tr>
+    <tr>
+      <td>319.5KB</td>
+      <td>ImageAlpha-pngquant</td>
+      <td>395KB</td>
+      <td>-24%</td>
+    </tr>
+    <tr>
+      <td>319.5KB</td>
+      <td>ImageOptim</td>
+      <td>252KB</td>
+      <td>21%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>测试图片采用<code class="highlighter-rouge">qq</code>聊天截图生成的<code class="highlighter-rouge">png</code>，<code class="highlighter-rouge">tinypng</code>压缩率非常高，而<code class="highlighter-rouge">pngquant</code>的表现不尽人意</p>
+
+<h2 id="删除重复图片">删除重复图片</h2>
+<p>通常来说，出现重复图片的原因包括<code class="highlighter-rouge">模块间需求开发没有打通</code>或是<code class="highlighter-rouge">缺少统一的图片命名规范</code>。通过图片<code class="highlighter-rouge">MD5</code>摘要是识别重复图片的最快方法，以<code class="highlighter-rouge">python</code>为例，匹配重复图片的代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>md5list = {}
+for file in files:
+    if os.path.isdir(file.path):
+        continue
+        
+    md5obj = hashlib.md5()
+    fd = open(file.path, 'rb')
+    while True:
+        buff = fd.read(2048)
+        if not buff:
+            break
+        md5obj.update(buff)
+    fd.close()
+    
+    filemd5 = str(md5obj.hexdigest()).lower()
+    if filemd5 in md5list:
+        md5list[filemd5].add(file.path)
+    else:
+        md5list[filemd5] = set([file.path])
+        
+for key in md5list:
+    list = md5list[key]
+    if len(list) &gt; 1:
+        print (list)
+</code></pre></div></div>
+
+<p>在遍历中以文件<code class="highlighter-rouge">MD5</code>字符串作为<code class="highlighter-rouge">key</code>，维护具备相同<code class="highlighter-rouge">MD5</code>的图片路径，最后遍历这个<code class="highlighter-rouge">map</code>查找存在一个以上路径的数组并且输出</p>
+
+<h2 id="寻找相似图片">寻找相似图片</h2>
+<p>相似图片在图片内容、色彩上都十分的接近，多数时间可以考虑复用这些图片，但相似图片的问题在于无法通过<code class="highlighter-rouge">MD5</code>直接匹配。为了确认两个图片是否相似，要使用简单的一个数学公式来帮忙查找：</p>
+
+<blockquote>
+  <p>方差。在概率论和统计学中，一个随机变量的方差描述的是它的离散程度，也就是该变量离其期望值的距离</p>
+</blockquote>
+
+<p>举个例子，甲同学五次成绩分别是<code class="highlighter-rouge">65, 69, 81, 89, 96</code>，乙同学五次成绩是<code class="highlighter-rouge">82, 80, 77, 81, 80</code>，两个人平均成绩都是<code class="highlighter-rouge">80</code>，但是引入方差公式计算：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>甲： ((65-80)^2 + (69-80)^2 + (81-80)^2 + (89-80)^2 + (96-80)^2) / 5 = 136.8
+乙： ((82-80)^2 + (80-80)^2 + (77-80)^2 + (81-80)^2 + (80-80)^2) / 5 = 2.8
+</code></pre></div></div>
+
+<p>平均值相同的情况下，方差越大，说明数据偏离期望值的情况越严重。方差越接近的两个随机变量，他们的变化就越加趋同，获取方差代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def getVariance(nums):
+    variance = 0
+    average = sum(nums) / len(nums)
+    for num in nums:
+        variance += (num - average) * (num - average) / len(nums)
+    return variance
+</code></pre></div></div>
+
+<p>因此将图片划分成连串的一维数据，以此计算出图片的方差，通过方差匹配可以实现一个简单的图片相似度判断工具，实现前还要注意两点：</p>
+
+<ol>
+  <li>图片<code class="highlighter-rouge">RGB</code>色彩值会导致方差的计算变得复杂，所以转成灰度图可以降低难度</li>
+  <li>不同尺寸需要缩放到相同尺寸进行计算</li>
+</ol>
+
+<p>最终将图片转换成一维数据列表的代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def getAverageList(img):
+    commonlength = 30
+    img = cv2.resize(img, (commonlength, commonlength), interpolation=cv2.INTER_CUBIC)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    res = []
+    for idx in range(commonlength):
+        average = sum(gray[idx]) / len(gray[idx])
+        res.append(average)
+</code></pre></div></div>
+
+<p>将图片转成灰度图后，仍然可能存在<code class="highlighter-rouge">RGB</code>色值不同但灰度值相同的情况导致判断失准，可以考虑两种方案提高算法的检测准确率：</p>
+
+<ol>
+  <li>在不修改以灰度值计算方差的方案下，构建以<code class="highlighter-rouge">列平均像素值</code>为单位的一维列表计算另一个方差，两个方差值一并做判断</li>
+  <li>摒弃灰度值方差方案，每一行分别生成<code class="highlighter-rouge">R</code>、<code class="highlighter-rouge">G</code>、<code class="highlighter-rouge">B</code>三种色彩平均值的一维列表，计算出三个方差进行匹配检测</li>
+</ol>
+
+<h2 id="效果">效果</h2>
+<p>经过两轮图片减包处理后，整个项目资源产生的减包量约有<code class="highlighter-rouge">20M</code>，其中通过文中的三种手段产生的减包量在<code class="highlighter-rouge">6.5M</code>左右，整体上来看产出还是比较可观的</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/11/1679d90e7b60f288?w=430&amp;h=430&amp;f=jpeg&amp;s=23750" alt="关注我的公众号获取更新信息" /></p>
+
+</div>
+				<footer><meta itemprop="dateModified" content="2018-12-11T08:00:00+08:00"><div class="article-license"><div class="m-license"><div class="clearfix"><p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> license.</p><a class="license" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+      <img alt="Creative Commons License" src="/assets/images/license-cc4.png" />
+    </a><p></p>
+  </div>
+</div></div>
+				</footer>
+			</article>
+			<div class="article-previous-next clearfix"><div class="article-previous"><span>PREVIOUS</span><a href="/2019/01/05/one_reconstruct.html">记一次重构</a></div><div class="article-next"><span>NEXT</span><a href="/2018/11/15/discrete_request.html">分析实现-离散请求</a></div></div><section></section></div>
+	</div>
+</div>
+<script src="https://s95.cnzz.com/z_stat.php?id=1256664455&web_id=1256664455" language="JavaScript"></script>
+</div>
+      </div>
+    </div><div class="m-page-footer js-page-footer">
+  <div class="main">
+    <aside><div class="follow-me"><ul itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="sindrilin">
+    <link itemprop="url" href="www.sindrilin.com/"><li title="Follow me on Github.">
+        <a class="floating-action-round-button github" itemprop="sameAs" href="https://github.com/sindrilin" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li><li title="Follow me on Linkedin.">
+        <a class="floating-action-round-button linkedin" itemprop="sameAs" href="https://www.linkedin.com/in/林同学" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M260.096 155.648c0 27.307008-9.899008 50.516992-29.696 69.632-19.796992 19.115008-45.396992 28.672-76.8 28.672-30.036992 0-54.612992-9.556992-73.728-28.672-19.115008-19.115008-28.672-42.324992-28.672-69.632 0-28.672 9.556992-52.224 28.672-70.656 19.115008-18.432 44.372992-27.648 75.776-27.648 31.403008 0 56.32 9.216 74.752 27.648 18.432 18.432 28.331008 41.984 29.696 70.656 0 0 0 0 0 0m-202.752 808.96c0 0 0-632.832 0-632.832 0 0 196.608 0 196.608 0 0 0 0 632.832 0 632.832 0 0-196.608 0-196.608 0 0 0 0 0 0 0m313.344-430.08c0-58.708992-1.364992-126.292992-4.096-202.752 0 0 169.984 0 169.984 0 0 0 10.24 88.064 10.24 88.064 0 0 4.096 0 4.096 0 40.96-68.267008 105.812992-102.4 194.56-102.4 68.267008 0 123.220992 22.868992 164.864 68.608 41.643008 45.739008 62.464 113.664 62.464 203.776 0 0 0 374.784 0 374.784 0 0-196.608 0-196.608 0 0 0 0-350.208 0-350.208 0-91.476992-33.451008-137.216-100.352-137.216-47.787008 0-81.236992 24.576-100.352 73.728-4.096 8.192-6.144 24.576-6.144 49.152 0 0 0 364.544 0 364.544 0 0-198.656 0-198.656 0 0 0 0-430.08 0-430.08 0 0 0 0 0 0" />
+</svg></div>
+        </a>
+      </li></ul><p class="email">
+      <a title="Send me Email." href="mailto:sindrilin@foxmail.com" target="_self">sindrilin@foxmail.com</a>
+    </p></div>
+</aside>
+    <footer class="site-info">
+      <p>© sindrilin的小巢 2018</p>
+      <p>Powered by <a title="Jekyll is a simple, blog-aware, static site generator." href="http://jekyllrb.com/">Jekyll</a> & <a
+        title="TeXt is a succinct theme for blogging." href="https://github.com/kitian616/jekyll-TeXt-theme">TeXt Theme</a>.</p>
+    </footer>
+  </div>
+</div><script>(function () {
+  var $body = document.body;
+  function classnames(classes) {
+    var i, cur, _classes = '';
+    if (window.isString(classes)) {
+      _classes =  classes;
+    } else if (window.isArray(classes)) {
+      for (i = 0; i < classes.length; i++) {
+        cur = classes[i];
+        if (window.isString(cur)) {
+          _classes = _classes.concat(_classes ? ' ' + cur : cur);
+        }
+      }
+    } else {
+      return '';
+    }
+    return _classes;
+  }
+  function addClass(dom, classname) {
+    dom.setAttribute('class', classnames([dom.getAttribute('class'), classname]));
+  }
+  if (window.hasEvent('touchstart')) {
+    addClass($body, 'is-touch');
+    document.addEventListener('touchstart', function(){}, false);
+  } else {
+    addClass($body, 'not-touch');
+  }
+})();</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      sources: {
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/7.1.2/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  function scrollAnimateTo(destination, duration, callback) {
+    var $body = $('html, body'), bodyScrollTop = $body.scrollTop();
+    if(bodyScrollTop === destination) { return; }
+    $body.animate({ scrollTop: destination }, duration, callback);
+  }
+  window.scrollTopAnchor = function(anchor, callback) {
+    scrollAnimateTo($(anchor).offset().top, 400, function() {
+      window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+      callback && callback();
+    });
+  };
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $articleContent = $('.m-post, .m-page').find('.m-article-content'), $this;
+    $articleContent.children('.highlight').each(function() {
+      $this = $(this);
+      $this.attr('data-lang', $this.find('code').attr('data-lang'));
+    });
+
+    $articleContent.children('h1, h2, h3, h4, h5, h6').each(function() {
+      $this = $(this);
+      $this.append($('<a class="anchor" aria-hidden="true"></a>').html('<svg fill="#000000" width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>'));
+    });
+    $articleContent.on('click', '.anchor', function() {
+      window.scrollTopAnchor('#' + $(this).parent().attr('id'));
+    });
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $document = $(window.document), $root;
+    var rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop, lastScrollTop;
+    var offsetBottom = 0, disabled = false, hasInit = false;
+
+    function setOptions(options) {
+      var _options = options || {};
+      _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+      _options.disabled !== undefined && (disabled = _options.disabled);
+      calc(true);
+    }
+    function initData() {
+      top();
+      var rootOffset = $root.offset();
+      rootHeight = $root.outerHeight();
+      rootTop = rootOffset.top;
+      rootLeft = rootOffset.left;
+    }
+    function calc(needInitData) {
+      needInitData && initData();
+      scrollBottom = $document.outerHeight() - offsetBottom - rootHeight;
+      rootBottomTop = scrollBottom - rootTop;
+    }
+    function top() {
+      $root.removeClass('fixed').css({
+        left: 0,
+        top: 0
+      });
+    }
+    function fixed() {
+      $root.addClass('fixed').css({
+        left: rootLeft + 'px',
+        top: 0
+      });
+    }
+    function bottom() {
+      $root.removeClass('fixed').css({
+        left: 0,
+        top: rootBottomTop + 'px'
+      });
+    }
+    function setState(force) {
+      force !== true && (force = false);
+      var scrollTop = $window.scrollTop();
+      if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+        (!force && lastScrollTop >= rootTop && lastScrollTop <= scrollBottom) || fixed();
+      } else if (scrollTop < rootTop) {
+        (!force && lastScrollTop < rootTop) || top();
+      } else {
+        (!force && lastScrollTop > scrollBottom) || bottom();
+      }
+      lastScrollTop = scrollTop;
+    }
+    function init() {
+      if(!hasInit) {
+        var interval, timeout;
+        calc(true); setState();
+        // run calc every 1.5 seconds
+        interval = setInterval(function() {
+          calc();
+        }, 1500);
+        timeout = setTimeout(function() {
+          clearInterval(interval);
+        }, 50000);
+        window.pageLoad.then(function() {
+          clearInterval(interval);
+          clearTimeout(timeout);
+        });
+        $window.on('scroll', function() {
+          disabled || setState();
+        });
+        $window.on('resize', window.throttle(function() {
+          disabled || (calc(true), setState(true));
+        }, 100));
+        hasInit = true;
+      }
+    }
+
+    function affix(options) {
+      $root = this;
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $root, $tocUl = $('<ul></ul>'), $tocLi, $headings, $activeLast, $activeCur;
+    var selectors = 'h1,h2,h3', container = 'body', disabled = false;
+    var headingsPos, scrolling = false, rendered = false, hasInit = false;
+    function setOptions(options) {
+      var _options = options || {};
+      _options.selectors && (selectors = _options.selectors);
+      _options.container && (container = _options.container);
+      _options.disabled !== undefined && (disabled = _options.disabled);
+      $headings = $(container).find(selectors);
+      calc();
+    }
+    function calc() {
+      headingsPos = [];
+      $headings.each(function() {
+        headingsPos.push(Math.floor($(this).offset().top));
+      });
+    }
+    function setState(element, disabled) {
+      var scrollTop = $window.scrollTop(), i;
+      if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+      if (element) {
+        $activeCur = element;
+      } else {
+        for (i = 0; i < headingsPos.length; i++) {
+          if (scrollTop >= headingsPos[i]) {
+            $activeCur = $tocLi.eq(i);
+          } else {
+            $activeCur || ($activeCur = $tocLi.eq(i));
+            break;
+          }
+        }
+      }
+      $activeLast && $activeLast.removeClass('toc-active');
+      ($activeLast = $activeCur).addClass('toc-active');
+    }
+    function render() {
+      if(!rendered) {
+        $root.append($tocUl);
+        $headings.each(function() {
+          var $this = $(this);
+          $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+            .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+        });
+        $tocLi = $tocUl.children('li');
+        $tocUl.on('click', 'a', function(e) {
+          e.preventDefault();
+          var $this = $(this);
+          scrolling = true;
+          setState($this.parent());
+          window.scrollTopAnchor($this.attr('href'), function() {
+            scrolling = false;
+          });
+        });
+      }
+      rendered = true;
+    }
+    function init() {
+      var interval, timeout;
+      if(!hasInit) {
+        render(); calc(); setState(null, scrolling);
+        // run calc every 1.5 seconds
+        interval = setInterval(function() {
+          calc();
+        }, 1500);
+        timeout = setTimeout(function() {
+          clearInterval(interval);
+        }, 50000);
+        window.pageLoad.then(function() {
+          clearInterval(interval);
+          clearTimeout(timeout);
+        });
+        $window.on('scroll', function() {
+          disabled || setState(null, scrolling);
+        });
+        $window.on('resize', window.throttle(function() {
+          if (!disabled) {
+            render(); calc(); setState(null, scrolling);
+          }
+        }, 100));
+      }
+      hasInit = true;
+    }
+    function toc(options) {
+      $root = this;
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    toc.setOptions = setOptions;
+    $.fn.toc = toc;
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $pageStage = $('.js-page-stage');
+    var $pageFooter = $('.js-page-footer');
+    var $articleContent = $('.js-article-content');
+    var $articleAside = $('.js-article-aside');
+    var $toc = $('.js-toc');
+    var $col2 = $('.js-col-2');
+    var toc, affix;
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+    var tocDisabled = false;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    if (hasToc) {
+      !$pageStage.hasClass('has-toc') && $pageStage.addClass('has-toc');
+    }
+    tocDisabled = disabled();
+
+    setTimeout(function() {
+      toc = $toc.toc({
+        selectors: TOC_SELECTOR,
+        container: $articleContent,
+        disabled: tocDisabled
+      });
+      affix = $articleAside.affix({
+        offsetBottom: $pageFooter.outerHeight(),
+        disabled: tocDisabled
+      });
+    }, 1000);
+  });
+})();</script><script>
+  window.Lazyload.js(['https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js', 'https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js'], function() {
+    var $canvas = null, $this = null, _ctx = null, _text = '';
+    $('.language-chart').each(function(){
+      $this = $(this);
+      $canvas = $('<canvas></canvas>');
+      _text = $this.text();
+      $this.text('').append($canvas);
+      _ctx = $canvas.get(0).getContext('2d');
+      (_ctx && _text) && (new Chart(_ctx, JSON.parse(_text)) && $this.attr('data-processed', true));
+    });
+  });
+</script><script type="text/x-mathjax-config">
+	var _config = { tex2jax: {
+		inlineMath: [['$','$'], ['\\(','\\)']]
+	}};_config.TeX = { equationNumbers: { autoNumber: "all" } };MathJax.Hub.Config(_config);
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script>
+  window.Lazyload.js('https://cdn.bootcss.com/mermaid/7.1.2/mermaid.min.js', function() {
+    mermaid.init(undefined, '.language-mermaid');
+    mermaid.initialize({ startOnLoad: true });
+  });
+</script><script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-118054194-1', 'auto');
+		ga('send', 'pageview');
+	</script></body>
+</html>

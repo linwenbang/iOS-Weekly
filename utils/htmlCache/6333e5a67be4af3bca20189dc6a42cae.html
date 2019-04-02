@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Pitch: an Official Style Guide and Formatter for Swift - Pitches - Swift Forums</title>
+    <meta name="description" content="Hey all, I&amp;#39;m very excited to bring this pitch today to get more feedback from the community—it&amp;#39;s an effort that my team at Google has been doing in collaboration with @dabrahams (co-author) and many other folks on the Sw&amp;hellip;">
+    <meta name="author" content="">
+<meta name="generator" content="Discourse 2.3.0.beta5 - https://github.com/discourse/discourse version b9ab393d70a682b9249d0642e1f59c02f6a28f7c">
+<link rel="icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/6/610ef4c64700c53fad713dda8c9563c461d82e41.ico">
+<link rel="apple-touch-icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="canonical" href="https://forums.swift.org/t/pitch-an-official-style-guide-and-formatter-for-swift/21025" />
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","url":"https://forums.swift.org","potentialAction":{"@type":"SearchAction","target":"https://forums.swift.org/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<link rel="search" type="application/opensearchdescription+xml" href="https://forums.swift.org/opensearch.xml" title="Swift Forums Search">
+
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_fc38bc1627f273b322141d8e39871e8f1a4ed2f7.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop" data-theme-id="2"/>
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_theme_2_059b9cade5b9070983e4a1b8712b96266620ec9d.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="2"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS feed of &#39;Pitch: an Official Style Guide and Formatter for Swift&#39;" href="https://forums.swift.org/t/pitch-an-official-style-guide-and-formatter-for-swift/21025.rss" />
+  <meta property="og:site_name" content="Swift Forums" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:url" content="https://forums.swift.org/t/pitch-an-official-style-guide-and-formatter-for-swift/21025" />
+<meta name="twitter:url" content="https://forums.swift.org/t/pitch-an-official-style-guide-and-formatter-for-swift/21025" />
+<meta property="og:title" content="Pitch: an Official Style Guide and Formatter for Swift" />
+<meta name="twitter:title" content="Pitch: an Official Style Guide and Formatter for Swift" />
+<meta property="og:description" content="Hey all, I&#39;m very excited to bring this pitch today to get more feedback from the community—it&#39;s an effort that my team at Google has been doing in collaboration with @dabrahams (co-author) and many other folks on the Swift team.  SE pull request.   An Official Style Guide and Formatter for Swift  Proposal: SE-NNNN  Authors: Tony Allevato, Dave Abrahams  Review Manager: TBD Status: Pitched   Introduction We propose that the Swift project adopt an official style guide and provide a formatting too..." />
+<meta name="twitter:description" content="Hey all, I&#39;m very excited to bring this pitch today to get more feedback from the community—it&#39;s an effort that my team at Google has been doing in collaboration with @dabrahams (co-author) and many other folks on the Swift team.  SE pull request.   An Official Style Guide and Formatter for Swift  Proposal: SE-NNNN  Authors: Tony Allevato, Dave Abrahams  Review Manager: TBD Status: Pitched   Introduction We propose that the Swift project adopt an official style guide and provide a formatting too..." />
+<meta name="twitter:label1" value="Reading time" />
+<meta name="twitter:data1" value="76 mins 🕑" />
+<meta name="twitter:label2" value="Likes" />
+<meta name="twitter:data2" value="1421 ❤" />
+<meta property="article:published_time" content="2019-02-28T18:13:16+00:00" />
+<meta property="og:ignore_canonical" content="true" />
+
+      <link rel="next" href="/t/pitch-an-official-style-guide-and-formatter-for-swift/21025?page=2">
+
+
+    
+  </head>
+  <body class="crawler">
+    
+    <header>
+      <a href="/">
+          <img src="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/0/0d7ab3b633e07bf8ec99bdc18e22ad89d8934801.png" alt="Swift Forums" id="site-logo" style="max-width: 150px;">
+      </a>
+    </header>
+    <div id="main-outlet" class="wrap">
+      <h1>
+  <a href="/t/pitch-an-official-style-guide-and-formatter-for-swift/21025">Pitch: an Official Style Guide and Formatter for Swift</a>
+</h1>
+
+<div id='breadcrumbs'>
+    <div id="breadcrumb-0" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+        itemref="breadcrumb-1"
+      >
+      <a href="/c/evolution" itemprop="url">
+        <span itemprop="title">Evolution</span>
+      </a>
+    </div>
+    <div id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+>
+      <a href="/c/evolution/pitches" itemprop="url">
+        <span itemprop="title">Pitches</span>
+      </a>
+    </div>
+</div>
+
+
+
+
+
+<hr>
+
+
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/allevato'><b itemprop='author'>allevato</b></a>
+          (Tony Allevato)
+            <meta itemprop='datePublished' content='2019-02-28T18:13:16Z'>
+            <time itemprop='dateModified' datetime='2019-02-28T18:19:58Z'>
+              2019-02-28 18:19:58 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#1</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Hey all, I'm very excited to bring this pitch today to get more feedback from the community—it's an effort that my team at Google has been doing in collaboration with <a class="mention" href="/u/dabrahams">@dabrahams</a> (co-author) and many other folks on the Swift team.</p>
+<p><a href="https://github.com/apple/swift-evolution/pull/994" rel="nofollow noopener">SE pull request</a>.</p>
+<hr>
+<h1>An Official Style Guide and Formatter for Swift</h1>
+<ul>
+<li>Proposal: <a>SE-NNNN</a>
+</li>
+<li>Authors: <a href="https://github.com/allevato" rel="nofollow noopener">Tony Allevato</a>, <a href="https://github.com/dabrahams" rel="nofollow noopener">Dave Abrahams</a>
+</li>
+<li>Review Manager: TBD</li>
+<li>Status: <strong>Pitched</strong>
+</li>
+</ul>
+<h2>Introduction</h2>
+<p>We propose that the Swift project adopt an official style guide and provide a formatting tool that lets users easily diagnose and update their code according to those guidelines.</p>
+<h2>Motivation</h2>
+<p>At the time of this writing, there is no single style agreed on by developers using Swift. Indeed, even Apple's own Swift projects on GitHub—such as the standard library, Foundation, Swift NIO, and so forth—have adopted their own varying styles. Furthermore, in many cases the code in those projects—despite the owners' best efforts—is not always completely consistent in terms of style.</p>
+<p>In the absence of strict language-specific guidelines, many organizations adopt company-wide or project-wide style guides, which other developers may, and do, choose to adopt. But going further than that and having official style guidelines from the language owners and community themselves, along with tooling that enforces those guidelines, provides a number of additional benefits:</p>
+<ol>
+<li>The guidelines serve as a clear and easily referenceable source of language best practices and patterns, rather than developers trying to glean these by reading existing code.</li>
+<li>Developers can move from one codebase to another without incurring the mental load of learning and conforming to a different style or being required to reconfigure their development environment.</li>
+<li>Developers spend less time worrying about how to format their code and more on the program's logic.</li>
+<li>Likewise, code reviewers spend less time commenting on code formatting issues and more on its logic and design.</li>
+</ol>
+<p>The first two points in particular align well with the Swift team's goal of making the language easy to learn. They also remove learning barriers for developers who want to contribute to a new open-source project, or to the language itself.</p>
+<h2>Proposed solution</h2>
+<p>This proposal consists of two parts, discussed below:</p>
+<ol>
+<li>We propose that Swift adopt an official style guide for the Swift language.</li>
+<li>We propose formally adopting a formatting tool into the Swift project that will diagnose and fix violations of that style.</li>
+</ol>
+<h3>Style Guide</h3>
+<p>This meta-proposal does not attempt to define any specific style guidelines. Its purpose is to answer the following existential question:</p>
+<blockquote>
+<p>Should the Swift language adopt an official style guide and formatting tool?</p>
+</blockquote>
+<p>If the answer to this is "yes", then a <strong>subsequent proposal</strong> will be pitched to discuss and ratify an official style guide.</p>
+<h3>Formatting Tool</h3>
+<p>If the proposal is accepted, the Swift project will adopt an official code formatting tool. The adoption of such a tool into the Swift project will not preclude other similar tools being written, but the expectation is that this tool will be officially maintained as part of the Swift project and will (once the details are decided) enforce the official style guide.</p>
+<p>The proposal authors (<a href="#acknowledgments">among others</a>) have collaborated on the <code>swift-format</code> tool currently hosted at <a href="https://github.com/google/swift/tree/format" rel="nofollow noopener">https://github.com/google/swift/tree/format</a> and intend to propose its adoption into the Swift project.</p>
+<p>The tool will be used as part of evaluating options for an official style guide, as part of a follow-up proposal on the details of the style guide itself.</p>
+<h2>Alternatives considered</h2>
+<p>One alternative would be to not bless an official style and leave it to individual developers and teams to create their own guidelines (if they so desired). That, of course, does not address the points listed in <a href="#motivation">Motivation</a> above.</p>
+<p>Some Swift users have suggested that instead of having an official language style, tooling should be able to transform code to the developer's personal style upon checkout and then back to some canonical style upon check-in, allowing individual developers to code in whatever style they wished. While such ideas are intriguing, we find them to be more of an academic curiosity than a practical solution:</p>
+<ul>
+<li>Varying personal styles would hinder team communication. Team members should be able to discuss code on a whiteboard without it looking foreign to other people in the room, and to make API and language design decisions based on a clear idea of how the code will look.</li>
+<li>This approach assumes that all tools on all platforms used in the developer's workflow support this approach. The development experience would suffer if the code does not use the same format locally as it does on their code review system, or if remote builds reported errors at different line numbers because they used a checked-in snapshot with a different style.</li>
+<li>If the source of truth of the source code is saved in some canonical format and transformed when checked in/out, then there must still be some decision about what that canonical style <em>is.</em>
+</li>
+</ul>
+<p>Indeed, nothing in this proposal would <em>prevent</em> a developer from using a workflow like the one described above, if they wished to implement it.</p>
+<h2>Acknowledgments</h2>
+<p>We gratefully acknowledge the following contributors, without whom this work would not have been possible:</p>
+<ul>
+<li>the other contributors to <code>swift-format</code>: Austin Belknap (<a href="https://github.com/dabelknap" rel="nofollow noopener">@dabelknap</a>),<br>
+Harlan Haskins (<a href="https://github.com/harlanhaskins" rel="nofollow noopener">@harlanhaskins</a>), Alexander Lash (<a href="https://github.com/abl" rel="nofollow noopener">@abl</a>), Lauren White (<a href="https://github.com/LaurenWhite" rel="nofollow noopener">@LaurenWhite</a>), and Andrés Tamez Hernandez (<a href="https://github.com/atamez31" rel="nofollow noopener">@atamez31</a>),</li>
+<li>Argyrios Kyrtzidis (<a href="https://github.com/akyrtzi" rel="nofollow noopener">@akyrtzi</a>) for his insight and help on using SwiftSyntax,</li>
+<li>and Kyle Macomber (<a href="https://github.com/kylemacomber" rel="nofollow noopener">@kylemacomber</a>), who advocated for using results of existing research for <code>swift-format</code>'s implementation and found the Oppen paper, instead of inventing solutions from whole cloth.</li>
+</ul>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:109'>
+      <meta itemprop='interactionCount' content='UserComments:4'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+            <a href="https://forums.swift.org/t/style-explicit-self-when-referencing-instance-member/21173/19">[Style] Explicit self when referencing instance member</a>
+            <hr>
+            <a href="https://forums.swift.org/t/se-0250-swift-code-style-guidelines-and-formatter/21795">SE-0250: Swift Code Style Guidelines and Formatter</a>
+            <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Jon_Shier'><b itemprop='author'>Jon_Shier</b></a>
+          (Jon Shier)
+            <time itemprop='datePublished' datetime='2019-02-28T18:23:05Z'>
+              2019-02-28 18:23:05 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#2</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I would say Swift shouldn't have an official public style, just one that all official Swift projects should adhere to. I don't believe any attempt to set a public style guide will be successful.</p>
+<p>+∞ to an formatted integrated with SPM (and hopefully a commitment from Apple to integrate it with Xcode).</p>
+<p>Before settling on <code>swift-format</code>, I would like to see a comparison to the capabilities of SwiftLint and SwiftFormat, given their popularity in the community. In particular, I don't believe a tool should be standardized if it can't be easily and informally extended for new rules as SwiftLint can be. AFAICT, <code>swift-format</code> has no ability to take plugins or rules defined in its configuration file. Any official tool must support both of those capabilities. Otherwise we're stuck with <code>clang-format</code> all over again.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:19'>
+      <meta itemprop='interactionCount' content='UserComments:3'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/kcfancher'><b itemprop='author'>kcfancher</b></a>
+          (Keli C Fancher)
+            <meta itemprop='datePublished' content='2019-02-28T18:32:11Z'>
+            <time itemprop='dateModified' datetime='2019-02-28T18:33:09Z'>
+              2019-02-28 18:33:09 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#3</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Yes, 100 times yes!</p>
+<p>I'm tired of endless style debates and inconsistent styles across various projects. Of course I have my own opinions on how things should be formatted and I'm sure I wouldn't agree with every decision in an official style guide - but I'd be more happy with an officially sanctioned style guide and formatting tool then the current situation.</p>
+<p><code>gofmt</code> is one of my favorite things about Golang, it completely removes the need for style discussions in most cases.</p>
+<p>Sure, there will be some instances where an official style guide will have to be ignored (such as in book publications and the like where page layout plays a larger importance) but in most cases I think this would only be a benefit.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:30'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/allevato'><b itemprop='author'>allevato</b></a>
+          (Tony Allevato)
+            <meta itemprop='datePublished' content='2019-02-28T18:35:02Z'>
+            <time itemprop='dateModified' datetime='2019-02-28T18:36:37Z'>
+              2019-02-28 18:36:37 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#4</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="2" data-topic="21025" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/jon_shier/40/921_2.png" class="avatar"> Jon_Shier:</div>
+<blockquote>
+<p>I would say Swift shouldn't have an official public style, just one that all official Swift projects should adhere to. I don't believe any attempt to set a public style guide will be successful.</p>
+</blockquote>
+</aside>
+<p>Can you elaborate on why, beyond the fairly obvious fact that style is very subjective? Other languages, possibly most notable Go, and possibly Python to some degree, have had success with an officially blessed language style. I would imagine that 0% of people will be happy with every part of any official style guide that could be devised, but I don't think that's necessarily a reason to not attempt to do so.</p>
+<p>I'm also not sure a distinction between an "official style guide" and an "official style guide for Swift projects" is too meaningful a distinction, since nobody would be <em>forced</em> into using a particular style or into running the formatter on their code (at least, we're not proposing that). The main project adopting a style for its own code is in effect a "soft" adoption of a style guide because others would gravitate toward it as a source of authority regardless.</p>
+<aside class="quote no-group" data-post="2" data-topic="21025" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/jon_shier/40/921_2.png" class="avatar"> Jon_Shier:</div>
+<blockquote>
+<p>Before settling on <code>swift-format</code> , I would like to see a comparison to the capabilities of SwiftLint and SwiftFormat, given their popularity in the community. In particular, I don't believe a tool should be standardized if it can't be easily and informally extended for new rules as SwiftLint can be. AFAICT, <code>swift-format</code> has no ability to take plugins or rules defined in its configuration file. Any official tool must support both of those capabilities. Otherwise we're stuck with <code>clang-format</code> all over again.</p>
+</blockquote>
+</aside>
+<p><code>swift-format</code> is still a work in progress, which is why we're pitching it now and looking for feedback like this. We do have more extensibility in the works, though it hasn't been implemented yet; the "phase 1 pipeline" as we call it (the SwiftFormatRules module) is where custom rules would be written as syntax visitors, and we intend to add logic to enable/disable rules in the configuration shortly—so your concerns there will definitely be addressed.</p>
+<p>Aside from that, <code>swift-format</code> has been implemented from day one with the desire to contribute it to the main Swift project in mind (that is, it has no outside (non-Apple) dependencies), and is built on top of SwiftSyntax so that it can take full advantage of the language parser and syntactic structure. To my knowledge, SwiftLint and SwiftFormat (at least their latest releases) are still relying on SourceKit or other parsing methods.</p>
+<p>Of course, competition is very healthy and we don't want to preclude anyone else from working on tools of their own! But we do strongly believe that it's important for there to be something that is an officially maintained part of the project that can be integrated with other parts of the development workflow with ease, especially for newcomers to the language.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:8'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/lancep'><b itemprop='author'>lancep</b></a>
+          (Lance Parker)
+            <time itemprop='datePublished' datetime='2019-02-28T18:35:23Z'>
+              2019-02-28 18:35:23 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#5</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><strong>Should there be an official style?</strong> Yes.<br>
+<strong>Should there be an official formatting tool that enforces this style?</strong> Yes.</p>
+<p>Having one canonical style and an official formatter has been extremely successful for Go, and I would love to see something similar for Swift.</p>
+<p>Having an official public style and a tool that enforces that style has many benefits. (All these assume the style and formatting tool are widely adopted by the community)</p>
+<ul>
+<li>It puts an end to the inevitable "what should our style guide be" debates that tend to arise among team members</li>
+<li>It makes reading code easier whether that be online (blog posts, Github repositories and pull requests) or locally much easier since it's in a consistent, familiar format.</li>
+<li>Reduces context switching when switching between files of varying style.</li>
+</ul>
+<p>I would prefer to see a formatting tool with minimal (or preferably zero) configuration options. A linter should be a separate concern from this formatting tool.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:15'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/duan'><b itemprop='author'>duan</b></a>
+          (Daniel Duan)
+            <meta itemprop='datePublished' content='2019-02-28T18:35:58Z'>
+            <time itemprop='dateModified' datetime='2019-02-28T22:26:06Z'>
+              2019-02-28 22:26:06 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#6</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I'm 100% in favor of having an official style guide. I shudder to think of adding up the amount of time/energy/money a large team spends in pull requests just re-enforcing style guides. And the occasional discussions of such style guides are soul crushingly unproductive.</p>
+<p>The next position I take might seem a little extreme: I think <em>any</em> one style guide that can be reliable enforced by a formatter is good enough. I'm talking about 3 spaces and a tab for indentation (okay, might be a stretch, there's limit). The core value a style guide provides is consistency. And I think the amount of collective time that the entire community can save from not having a style discussion anymore is so enormous that adapting to little details is a worthy sacrifice.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:18'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/krzyzanowskim'><b itemprop='author'>krzyzanowskim</b></a>
+          (Marcin Krzyzanowski)
+            <time itemprop='datePublished' datetime='2019-02-28T18:39:14Z'>
+              2019-02-28 18:39:14 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#7</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <blockquote>
+<p>Should the Swift language adopt an official style guide and formatting tool?</p>
+</blockquote>
+<p>I thought it already did.</p>
+<p>There is an unofficial/official style that is part of Swift code base: <a href="https://github.com/apple/swift/blob/master/lib/IDE/Formatting.cpp" rel="nofollow noopener">https://github.com/apple/swift/blob/master/lib/IDE/Formatting.cpp</a> That's the style used by Xcode.</p>
+<p>Companies (People in general) tend to be quite opinionated about style, and even invest in building tools to format code in one way: <a href="https://github.com/google/swift/tree/format" rel="nofollow noopener">https://github.com/google/swift/tree/format</a>. Others use tools like <a href="https://github.com/nicklockwood/SwiftFormat" rel="nofollow noopener">https://github.com/nicklockwood/SwiftFormat</a> and adjust what they like.</p>
+<p>That said, in my opinion, the current formatting (by SourceKit) is neither great nor bad - it can be disputable if it should be changed (flame war ahead). Personally, I don't care - everyone who disagrees with the SourceKit formatting may use whatever they want, and I think there are tools to help with that.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/SlaunchaMan'><b itemprop='author'>SlaunchaMan</b></a>
+          (Jeff Kelley)
+            <time itemprop='datePublished' datetime='2019-02-28T18:41:27Z'>
+              2019-02-28 18:41:27 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#8</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I’m ambivalent about any official style guide, but there are certain circumstances that add constraints to code formatting where an official style might not be 100% compatible that give me pause. For instance, some book-publishing technologies I’ve worked with have a hard cap at 84 characters per line. Working with some HealthKit constants required some acrobatics to get everything to work with that line-length constraint, and if an official Swift style were not conducive to this scenario, we’d have to choose between rewriting the publishing tools and having Swift source code that looks <em>wrong</em> in the books.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Tony_Parker'><b itemprop='author'>Tony_Parker</b></a>
+          (Tony Parker)
+            <time itemprop='datePublished' datetime='2019-02-28T18:54:34Z'>
+              2019-02-28 18:54:34 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#9</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I don't think Swift should have an official style guide. I think Swift should provide a style guide "library", and tools to integrate the style of your choice in your project.</p>
+<p>The Swift API guidelines were an effort to standardize the <em>interface</em> between various libraries and apps (including between the Apple SDK and others). Style, in my opinion, is an <em>implementation</em> detail of a library or app.</p>
+<p>Each project deserves the flexibility it needs to determine for itself what kind of style is important to it. That could include factors like developer spoken language, outside tooling (e.g. code review systems that do not allow line wrap), interaction with other styles from languages used by that team, and more. Put simply: it feels completely out of scope for the language to define a hard rule about what will work for everyone in this case.</p>
+<p>However, if we take the library and tooling approach, then teams can pick &amp; choose, or customize, the rules that they need and move much faster towards an agreed approach that works for them.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:37'>
+      <meta itemprop='interactionCount' content='UserComments:4'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/akyrtzi'><b itemprop='author'>akyrtzi</b></a>
+          (Argyrios Kyrtzidis)
+            <time itemprop='datePublished' datetime='2019-02-28T18:55:49Z'>
+              2019-02-28 18:55:49 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#10</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="7" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/krzyzanowskim/40/1282_2.png" class="avatar"> krzyzanowskim:</div>
+<blockquote>
+<p>There is an unofficial/official style that is part of Swift code base: <a href="https://github.com/apple/swift/blob/master/lib/IDE/Formatting.cpp" rel="nofollow noopener">https://github.com/apple/swift/blob/master/lib/IDE/Formatting.cpp </a> That's the style used by Xcode.</p>
+</blockquote>
+</aside>
+<p>This is only providing <em>indentation</em>, which is only a subset of what a style guide encompasses.<br>
+The proposed style guide and formatter tool would include rules beyond just indentation; just to provide a couple of examples:</p>
+<ul>
+<li>How should a function declaration be re-formatted if it goes beyond a certain column limit</li>
+<li>Should the opening brace of an <code>if</code> statement go on the same line or the next one</li>
+</ul>
+<p>These are not things that the code you pointed at is handling.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:4'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ling_Wang'><b itemprop='author'>Ling_Wang</b></a>
+          (Ling Wang)
+            <time itemprop='datePublished' datetime='2019-02-28T18:58:13Z'>
+              2019-02-28 18:58:13 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#11</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Finally! So tired of wasting time on style fighting. Just give us a single style and a formatting tool to enforce it, and everyone codes on consistently forever.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:13'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/mergesort'><b itemprop='author'>mergesort</b></a>
+          (Joe Fabisevich)
+            <meta itemprop='datePublished' content='2019-02-28T19:03:22Z'>
+            <time itemprop='dateModified' datetime='2019-02-28T19:05:36Z'>
+              2019-02-28 19:05:36 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#12</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>In my humble opinion <code>gofmt</code> is one of the best non-language programming improvements of the last decade. All of the styling holy wars died by the wayside, and the community is better for it.</p>
+<p>While my initial reaction felt that an official style guide seems superfluous considering there aren't many stylistic debates in Swift, but if it means having an official formatter from the Swift team then I vote a huge <strong>+1</strong> to having an official style guide.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:25'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Jon_Shier'><b itemprop='author'>Jon_Shier</b></a>
+          (Jon Shier)
+            <time itemprop='datePublished' datetime='2019-02-28T19:03:27Z'>
+              2019-02-28 19:03:27 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#13</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="4" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/allevato/40/385_2.png" class="avatar"> allevato:</div>
+<blockquote>
+<p>Can you elaborate on why, beyond the fairly obvious fact that style is very subjective? Other languages, possibly most notable Go, and possibly Python to some degree, have had success with an officially blessed language style. I would imagine that 0% of people will be happy with every part of any official style guide that could be devised, but I don't think that's necessarily a reason to not attempt to do so.</p>
+</blockquote>
+</aside>
+<p>I suppose it mostly depends on what sort of formatting can be applied. No project I've ever been on has spent time debating spaces vs. tabs or brace placement, or anything else for Swift. How to handle empty lines is as close as it's gotten. It all revolves around naming conventions, class vs. struct, nest types vs. global, etc. An automatically applied style won't help with those conversations. So I question the value of what will likely be a contentious debate just to come up with the most basic rules.</p>
+<aside class="quote no-group" data-post="4" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/allevato/40/385_2.png" class="avatar"> allevato:</div>
+<blockquote>
+<p>I'm also not sure a distinction between an "official style guide" and an "official style guide for Swift projects" is too meaningful a distinction, since nobody would be <em>forced</em> into using a particular style or into running the formatter on their code (at least, we're not proposing that). The main project adopting a style for its own code is in effect a "soft" adoption of a style guide because others would gravitate toward it as a source of authority regardless.</p>
+</blockquote>
+</aside>
+<p>An official Swift style guide along the lines proposed is "what you should use for your project". An official Swift core libraries style guide is merely a "what you can use for your project". There's less of a recommendation in the second option. Unless the core team is willing is diverge severely from the existing library style for the common one, either the common style won't be accepted there, which reduces the value of the standard in the first place, or it will and the common style will be similar, which IMO wouldn't be good.</p>
+<aside class="quote no-group" data-post="4" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/allevato/40/385_2.png" class="avatar"> allevato:</div>
+<blockquote>
+<p>Of course, competition is very healthy and we don't want to preclude anyone else from working on tools of their own! But we do strongly believe that it's important for there to be something that is an officially maintained part of the project that can be integrated with other parts of the development workflow with ease, especially for newcomers to the language.</p>
+</blockquote>
+</aside>
+<p>I agree, it just seems likely those tools could've been used as a starting point rather than creating something from scratch, since it doesn't seem like <code>swift-format</code> will offer any unique capabilities. I don't think it serves the community to further branch tooling like this. For example, your desire to have no outside dependencies (is there an official rule here?) means that only JSON (or XML) rule files could be supported, given the paucity of formats supported by Foundation. Whereas the community has many hours invested in writing and building tooling for YML configurations, which <code>swift-format</code> can never support.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:5'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/allevato'><b itemprop='author'>allevato</b></a>
+          (Tony Allevato)
+            <time itemprop='datePublished' datetime='2019-02-28T19:03:31Z'>
+              2019-02-28 19:03:31 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#14</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group quote-modified" data-post="9" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/tony_parker/40/273_2.png" class="avatar"> Tony_Parker:</div>
+<blockquote>
+<p>I don't think Swift should have an official style guide. I think Swift should provide a style guide "library", and tools to integrate the style of your choice in your project.</p>
+<p>[...]</p>
+<p>Each project deserves the flexibility it needs to determine for itself what kind of style is important to it. That could include factors like developer spoken language, outside tooling (e.g. code review systems that do not allow line wrap), interaction with other styles from languages used by that team, and more. Put simply: it feels completely out of scope for the language to define a hard rule about what will work for everyone in this case.</p>
+</blockquote>
+</aside>
+<p>I'm glad that you brought this point up, because it's one that's a high priority for me as well. At Google, our Objective-C style guide specifies a column limit of 100 and an indent of 2 spaces. So, when we created our <a href="https://google.github.io/swift/" rel="nofollow noopener">Swift style guide</a>, the <em>only</em> realistic option was for us to use 100 columns and 2 space indent there because it's not possible to create language-specific line length and indentation settings in Xcode. You can have global settings and per-file settings, but not the medium that you actually need.</p>
+<p>So as you point out, for Google developers, if Swift adopted a style with anything other than +2/100, that would be painful for us. Does that mean we should try to force everyone else to use +2/100? Of course not, because that wouldn't work for others.</p>
+<p>So, the "library of styles" is something that I absolutely appreciate. Is your concern then that the term "official style guide" would impose One Line Length And Indentation To Rule Them All™, and would your opinion change if teams had the flexibility to make certain adjustments to fit their unique needs?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/marcelofabri'><b itemprop='author'>marcelofabri</b></a>
+          (Marcelo Fabri)
+            <time itemprop='datePublished' datetime='2019-02-28T19:06:59Z'>
+              2019-02-28 19:06:59 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#15</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>+1</p>
+<p>I'd love a tool that is configurable and extensible (so a team could also write their own rules).</p>
+<p>That said, Xcode support is fundamental for this. One of my main issues with the existing formatting tools is that they run outside Xcode, breaking undo and redo.</p>
+<p>It'd also be great to have it somewhat independent from the compiler, as the official compiler release cycle is too long for small bug fixes and improvements. Being able to select the formatter the same way we can select a toolchain on Xcode would be ideal.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:16'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Jon_Shier'><b itemprop='author'>Jon_Shier</b></a>
+          (Jon Shier)
+            <time itemprop='datePublished' datetime='2019-02-28T19:08:58Z'>
+              2019-02-28 19:08:58 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#16</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Agreed, Xcode is the biggest issue here. In addition to supporting the tooling at all, it should support easy download and install of code styles from a library (in addition to syntax highlighting themes, snippets, templates, and plugins), and SPM can be integrated with such a service as well.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/krzyzanowskim'><b itemprop='author'>krzyzanowskim</b></a>
+          (Marcin Krzyzanowski)
+            <time itemprop='datePublished' datetime='2019-02-28T19:13:22Z'>
+              2019-02-28 19:13:22 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#17</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="10" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/akyrtzi/40/4963_2.png" class="avatar"> akyrtzi:</div>
+<blockquote>
+<ul>
+<li>How should a function declaration be re-formatted if it goes beyond a certain column limit</li>
+<li>Should the opening brace of an <code>if</code> statement go on the same line or the next one</li>
+</ul>
+<p>These are not things that the code you pointed at is handling.</p>
+</blockquote>
+</aside>
+<p>definitely. As much as I agree on tooling (however, there are tool already and need for "the only one and right" swift-format does not appeal to me). I'm not in favor of "official style". Google did that already: <a href="https://google.github.io/swift/" rel="nofollow noopener">https://google.github.io/swift/</a> why not just use it? (just kidding, this is how the holy war will begin - and this will happen).</p>
+<p>The style guide is more like devpub domain, where it is actually important to have consistent style in books and tutorials.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/byaruhaf'><b itemprop='author'>byaruhaf</b></a>
+          (Byaruhanga Franklin)
+            <time itemprop='datePublished' datetime='2019-02-28T19:14:31Z'>
+              2019-02-28 19:14:31 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#18</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p><strong>Should there be an official style?</strong>  Yes.<br>
+<strong>Should there be an official formatting tool that enforces this style?</strong>  Yes.</p>
+<p>Consistency &amp; Readability matters, thus having an official style guide and the tools that help automatically enforce the official code style, frees up developers most especially those new to the swift language from focusing on style, since the style would be automated with the swift-fmt tool.</p>
+<p>+1</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:12'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/TheTylerJP'><b itemprop='author'>TheTylerJP</b></a>
+          (Tyler Phillips)
+            <time itemprop='datePublished' datetime='2019-02-28T19:18:17Z'>
+              2019-02-28 19:18:17 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#19</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I'm 100% for an Official Swift Style Guide.<br>
+I think there is a broad gap between consistency and readability in a lot of projects.<br>
+Do I think it would be successful? I'm not 100% certain.<br>
+But I do believe it's worth a shot, and ultimately extremely helpful, especially for new comers.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/lancep'><b itemprop='author'>lancep</b></a>
+          (Lance Parker)
+            <time itemprop='datePublished' datetime='2019-02-28T19:19:04Z'>
+              2019-02-28 19:19:04 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#20</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="12" data-topic="21025">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/mergesort/40/528_2.png" class="avatar"> mergesort:</div>
+<blockquote>
+<p>In my humble opinion <code>gofmt</code> is one of the best non-language programming improvements of the last decade. All of the styling holy wars died by the wayside, and the community is better for it.</p>
+</blockquote>
+</aside>
+<p>I wish I could like this more than once.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:7'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Pitch: an Official Style Guide and Formatter for Swift'>
+      <hr>
+  </div>
+
+  <div role='navigation' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+      <span itemprop='name'><b><a rel="next" itemprop="url" href="/t/pitch-an-official-style-guide-and-formatter-for-swift/21025?page=2">next page →</a></b></span>
+  </div>
+
+
+
+
+
+    </div>
+    <footer class="container">
+      <nav class='crawler-nav' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <a href='/'>Home</a>
+        <a href="/categories">Categories</a>
+        <a href="/guidelines">FAQ/Guidelines</a>
+        <a href="/tos">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+      </nav>
+      <p class='powered-by-link'>Powered by <a href="https://www.discourse.org">Discourse</a>, best viewed with JavaScript enabled</p>
+    </footer>
+    
+  </body>
+  
+</html>

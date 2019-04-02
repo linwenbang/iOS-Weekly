@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Why you’re not supposed to call description – Ole Begemann</title>
+  <link href="/stylesheets/stylesheet-82c59095.css" rel="stylesheet" />
+  <link rel="alternate" type="application/atom+xml" href="/blog/atom.xml">
+  <link rel="index" title="Ole Begemann" href="/">
+    <meta name="description" content="The documentation for the <code>CustomStringConvertible</code> protocol discourages accessing a value’s <code>description</code> property directly. Instead, you’re supposed to call <code>String(describing:)</code>. Why?" />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script src="/js/jquery-2.2.4/jquery.min-69bb69e2.js"></script>
+  <script src="/js/bigfoot-2.1.4/bigfoot.min-d33e8719.js"></script>
+  <script type="text/javascript">
+    var bigfoot = $.bigfoot(
+    {
+      positionContent: true,
+      actionOriginalFN: "ignore",
+      numberResetSelector: ".article-content",
+    });
+  </script>
+  <script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  (function() {
+    var u="//s.oleb.net/p/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+  <script type="text/javascript">
+    function loadFonts(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var style = document.createElement('style');
+          style.innerHTML = xhr.responseText;
+          document.head.appendChild(style);
+        }
+      };
+      xhr.send();
+    }
+    var url = "/stylesheets/fonts-1cfeca82.css";
+    loadFonts(url);
+  </script>
+</head>
+
+
+  <body class="article">
+    <header>
+  <div class="header-bar">
+    <div class="site-id">
+      <h1><a href="/">Ole Begemann</a></h1>
+    </div>
+
+    <ol class="links">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/blog/">Articles</a>
+      </li>
+      <li>
+        <a href="/advanced-swift/">Book</a>
+      </li>
+      <li>
+        <a href="/about/">About</a>
+      </li>
+    </ol>
+  </div>
+</header>
+
+
+    <main class="content-container">
+      <article>
+        <header>
+          <h1>Why you’re not supposed to call description</h1>
+        </header>
+
+        <footer>
+          <div class="metadata">
+              <p class="author">
+                By Ole Begemann
+                <span class="author-info" style="display: none;"><a href="#fn:_" rel="footnote">…</a></span>
+                <script type="text/javascript">
+                  $(".author-info").css("display", "initial");
+                </script>
+              </p>
+                <!-- Contents of author info popover. Should be hidden in CSS -->
+                <ol class="author-footnotes">
+                  <li class="footnote" id="fn:_">
+                    <p>Twitter: <a href='https://twitter.com/olebegemann'>@olebegemann</a><br>Email: <a href='mailto:ole@oleb.net'>ole@oleb.net</a><br><a href='/about/'>More about me</a></p>
+                  </li>
+                </ol>
+
+              <p>
+                <span class="date"><time datetime="2018-08-31T19:57:26Z">August 31, 2018</time></span>
+              </p>
+
+          </div>
+
+        </footer>
+
+        <div class="article-content">
+          <p>Swift provides the <a href="https://developer.apple.com/documentation/swift/customstringconvertible"><code>Custom​String​Convertible</code></a> and <a href="https://developer.apple.com/documentation/swift/customdebugstringconvertible"><code>Custom​Debug​String​Convertible</code></a> protocols to allow types to provide custom textual descriptions of themselves.</p>
+
+<p>If you read the documentation for these protocols, you’ll notice that accessing a value’s <a href="https://developer.apple.com/documentation/swift/customstringconvertible/1539130-description"><code>description</code></a> or <a href="https://developer.apple.com/documentation/swift/customdebugstringconvertible/1540125-debugdescription"><code>debugDescription</code></a> directly is discouraged. Instead, you’re supposed to use the corresponding <a href="https://developer.apple.com/documentation/swift/string"><code>String</code></a> initializers, <a href="https://developer.apple.com/documentation/swift/string/2427941-init"><code>String(describing:)</code></a> and <a href="https://developer.apple.com/documentation/swift/string/1541282-init"><code>String(reflecting:)</code></a>.</p>
+
+<h1 id="every-value-is-string-convertible">Every value is string-convertible</h1>
+
+<p>The reason for this rule is that <em>every value in Swift is convertible to a string</em>, regardless of a type’s conformance to one or both of these protocols. The protocols only exist to allow <em>customization</em> of a type’s textual representation. In particular, don’t ever use these protocols as types or generic constraints.</p>
+
+<p>That said, there’s certainly nothing wrong with calling <code>description</code> on a concrete value in a local context. For example, there are at least three equivalent ways to convert a list of integers to strings:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">description</span> <span class="p">}</span>        <span class="c1">// → ["1", "2", "3", "4", "5"]</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="s">"</span><span class="se">\(</span><span class="nv">$0</span><span class="se">)</span><span class="s">"</span> <span class="p">}</span>               <span class="c1">// same</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">describing</span><span class="p">:))</span> <span class="c1">// same</span>
+</code></pre></div>
+<p>Which one you prefer is largely a matter of taste.</p>
+
+<h1 id="dont-use-customstringconvertible-as-a-constraint">Don’t use <code>CustomStringConvertible</code> as a constraint</h1>
+
+<p>However, you should absolutely not use the following pattern, where a function argument is constrained to <code>Custom[Debug]StringConvertible</code>, either with a generic constraint or a plain type specification:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">func</span> <span class="n">doSomething1</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">with</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="c1">// Call x.description</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">doSomething2</span><span class="p">(</span><span class="n">with</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="c1">// Call x.description</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Both of these functions compile, but they needlessly constrain the set of accepted inputs — for example, they don’t accept types that only conform to <code>Custom​Debug​String​Convertible</code>, even though that’s a perfectly valid way to provide a textual representation.</p>
+
+<p>Instead, the function should accept any type, because anything is printable:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">func</span> <span class="n">doSomething3</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">with</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="c1">// Call String(describing: x)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Note that you can’t call <code>description</code> in the function body anymore, but you <em>can</em> call <code>String(describing:)</code>.</p>
+
+<h1 id="how-stringdescribing-works">How <code>String(describing:)</code> works</h1>
+
+<p>When you call <code>String(describing:)</code> on a value, the standard library follows a set of rules to find a suitable textual representation for the argument. Let’s take a quick look how this works.</p>
+
+<ol>
+  <li>
+    <p><code>String(describing:)</code> creates a new empty string and passes the argument and the empty string to a function named <code>_print_unlocked</code>. <a href="https://github.com/apple/swift/blob/1dce4aae58ea6021edba91316dffb497da8592cc/stdlib/public/core/Mirror.swift#L619-L622">This is the implementation:</a>:</p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+  <span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">Subject</span><span class="o">&gt;</span><span class="p">(</span><span class="n">describing</span> <span class="nv">instance</span><span class="p">:</span> <span class="kt">Subject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+    <span class="nf">_print_unlocked</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">self</span><span class="p">)</span>
+  <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre></div>  </li>
+  <li>
+    <p><code>_print_unlocked</code> <a href="https://github.com/apple/swift/blob/1dce4aae58ea6021edba91316dffb497da8592cc/stdlib/public/core/OutputStream.swift#L379-L410">looks like this:</a></p>
+
+<div class="highlight"><pre class="highlight swift"><code><span class="kd">internal</span> <span class="kd">func</span> <span class="n">_print_unlocked</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">TargetStream</span> <span class="p">:</span> <span class="kt">TextOutputStream</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="n">_</span> <span class="nv">target</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">TargetStream</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="nf">_isOptional</span><span class="p">(</span><span class="nf">type</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">value</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">debugPrintable</span> <span class="o">=</span> <span class="n">value</span> <span class="k">as!</span> <span class="kt">CustomDebugStringConvertible</span>
+    <span class="n">debugPrintable</span><span class="o">.</span><span class="n">debugDescription</span><span class="o">.</span><span class="nf">write</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="k">case</span> <span class="k">let</span> <span class="nv">streamableObject</span> <span class="k">as</span> <span class="kt">TextOutputStreamable</span> <span class="o">=</span> <span class="n">value</span> <span class="p">{</span>
+    <span class="n">streamableObject</span><span class="o">.</span><span class="nf">write</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+   
+  <span class="k">if</span> <span class="k">case</span> <span class="k">let</span> <span class="nv">printableObject</span> <span class="k">as</span> <span class="kt">CustomStringConvertible</span> <span class="o">=</span> <span class="n">value</span> <span class="p">{</span>
+    <span class="n">printableObject</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="nf">write</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+   
+  <span class="k">if</span> <span class="k">case</span> <span class="k">let</span> <span class="nv">debugPrintableObject</span> <span class="k">as</span> <span class="kt">CustomDebugStringConvertible</span> <span class="o">=</span> <span class="n">value</span> <span class="p">{</span>
+    <span class="n">debugPrintableObject</span><span class="o">.</span><span class="n">debugDescription</span><span class="o">.</span><span class="nf">write</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+   
+  <span class="k">let</span> <span class="nv">mirror</span> <span class="o">=</span> <span class="kt">Mirror</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="n">value</span><span class="p">)</span>
+  <span class="nf">_adHocPrint_unlocked</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">mirror</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">,</span> <span class="nv">isDebugPrint</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+    <p>The function first checks if the value to be printed is an <a href="https://developer.apple.com/documentation/swift/optional"><code>Optional</code></a>, and if so, prints the optional’s <code>debugDescription</code>. The force-cast to <code>Custom​Debug​String​Convertible</code> is safe here because the standard library knows that <code>Optional</code> conforms. Printing optionals with their debug description is preferred because optionals are not suitable for display to the user anyway.</p>
+  </li>
+  <li>
+    <p>If we’re not dealing with an optional, <code>_print_unlocked</code> then tests the value consecutively for conformance to <a href="https://developer.apple.com/documentation/swift/textoutputstreamable"><code>Text​Output​Streamable</code></a>, <code>Custom​String​Convertible</code>, and <code>Custom​Debug​String​Convertible</code>, in that order. It uses the first match to generate the description.</p>
+
+    <p>This is how a type that only conforms to <code>Custom​Debug​String​Convertible</code> can also be printed with <code>String(describing:)</code>.</p>
+  </li>
+  <li>
+    <p>If no matching conformance was found, the final fallback is a function named <a href="https://github.com/apple/swift/blob/1dce4aae58ea6021edba91316dffb497da8592cc/stdlib/public/core/OutputStream.swift#L379-L410"><code>_adHocPrint_unlocked</code></a>, which uses the value’s <a href="https://developer.apple.com/documentation/swift/mirror"><code>Mirror</code></a> representation to print its components.</p>
+  </li>
+</ol>
+
+<p><code>String(reflecting:)</code> essentially works the same way, only with the protocol conformances checked in a different order.</p>
+
+<h1 id="losslessstringconvertible">LosslessStringConvertible</h1>
+
+<p>I should also mention a third string conversion protocol: <a href="https://developer.apple.com/documentation/swift/losslessstringconvertible"><code>Lossless​String​Convertible</code></a>. This protocol refines <code>Custom​String​Convertible</code> and adds a <a href="/blog/2016/12/protocols-have-semantics/">semantic constraint</a>:</p>
+
+<blockquote>
+  <p>The <code>description</code> property of a conforming type must be <strong>a value-preserving representation</strong> of the original value.</p>
+</blockquote>
+
+<p>The string representation of a value that conforms to <code>Lossless​String​Convertible</code> preserves all the information that’s needed to recreate the value. It’s a guarantee that you can use the string representation e.g. to serialize the value without loss of information.</p>
+
+<p>All trivial types in the standard library (<code>Bool</code>, the integer and floating-point types, <a href="https://developer.apple.com/documentation/swift/unicode/scalar"><code>Unicode.Scalar</code></a>) as well as <a href="https://developer.apple.com/documentation/swift/character"><code>Character</code></a>, <code>String</code>, and <a href="https://developer.apple.com/documentation/swift/substring"><code>Substring</code></a> conform to <code>Lossless​String​Convertible</code>.</p>
+
+<h2 id="an-exception-to-the-rule">An exception to the rule</h2>
+
+<p>When you rely on <code>LosslessStringConvertible</code> semantics, you <em>should</em> absolutely access the <code>description</code> property directly, despite the above advice to the contrary. As we have seen, the alternative <code>String(describing:)</code> prefers <code>Text​Output​Streamable</code>’s representation over <code>description</code> if it’s available, and you can’t be 100 % certain that representation is identical to the value’s <code>description</code>, however unlikely any differences are.</p>
+
+        </div>
+      </article>
+      
+      <div id="related-pages">
+  <div id="related-page-previous">
+    <p class="related-page-heading">Previous</p>
+    <p class="related-page-title"><a href="/2018/uialertcontroller-textfield/">An iOS alert view with a text field and a “smart” OK button</a></p>
+    <p class="related-page-date"><time datetime="2018-08-13T17:33:36Z">August 13, 2018</time></p>
+  </div>
+
+  <div id="related-page-next">
+    <p class="related-page-heading">Next</p>
+    <p class="related-page-title"><a href="/2018/macbook-pro/">The 2018 Macbook Pro</a></p>
+    <p class="related-page-date"><time datetime="2018-09-07T14:59:26Z">September  7, 2018</time></p>
+  </div>
+</div>
+      
+        <div id="advanced-swift-promo">
+  <div id="advanced-swift-promo-text-container">
+    <p class="advanced-swift-promo-text-essential"><strong>If you liked this article, I bet you’ll also like <a href="https://gumroad.com/a/507458675" title="Advanced Swift at objc.io">Advanced Swift</a></strong>, the book I wrote together with Chris Eidhof and Airspeed Velocity.</p>
+    <p class="advanced-swift-promo-text-extra">The third edition has been fully updated for Swift 4.</p>
+    <p class="advanced-swift-promo-text-extra"><a href="https://gumroad.com/a/507458675" title="Advanced Swift at objc.io">Advanced Swift</a> is available as a DRM-free e-book (including Xcode playgrounds) and in print.
+</p>
+  </div>
+  <div id="advanced-swift-promo-image-container">
+    <a href="https://gumroad.com/a/507458675" title="Advanced Swift e-book"><img src="/media/advanced-swift-3.0-cover-300px.png"></a>
+  </div>
+</div>
+
+    </main>
+
+    <footer>
+  <div class="left">
+    <p><strong>Ole Begemann</strong></p>
+    <p>2009–2019</p>
+    <p>Made in Berlin.</p>
+  </div>
+  <div class="right">
+    <p><a href="/privacy-policy/">Privacy Policy</a></p>
+    <p><a href="/impressum/">Impressum</a></p>
+  </div>
+</footer>
+
+  </body>
+</html>

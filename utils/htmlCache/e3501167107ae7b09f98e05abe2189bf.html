@@ -1,0 +1,898 @@
+<!doctype html>
+<html class="no-js">
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <!--[if IE]><![endif]-->
+<link rel="preconnect" href="//ajax.googleapis.com" />
+<link rel="dns-prefetch" href="//ajax.googleapis.com" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="site-priority" content="3"/><meta class="swiftype" name="site-priority" data-type="integer" content="3" />
+	<meta class="swiftype" name="title" data-type="string" content="Static Code Analysis | Veracode" />
+	<meta class="swiftype" name="url" data-type="enum" content="https://www.veracode.com/products/static-analysis-sast/static-code-analysis" />
+	<meta class="swiftype" name="published_at" data-type="date" content="2014-02-02 03:50:24" />
+	<meta class="swiftype" name="swift-description" data-type="text" content="Learn what is static code analysis and how to detect hidden backdoors and malicious code with a demo of Veracode's static code analysis tool." />
+	<meta class="swiftype" name="content-type" data-type="string" content="page_appsec" />
+	<meta class="swiftype" name="site-domain" data-type="string" content="veracode" />
+	<meta class='swiftype' name='tags' data-type='string' content='static code analysis' />
+		<meta class='swiftype' name='tags' data-type='string' content='static code analysis tool' />
+		<meta class='swiftype' name='tags' data-type='string' content='what is static code analysis' />
+		<meta class='swiftype' name='tags' data-type='string' content='static analysis' />
+		<meta class='swiftype' name='tags' data-type='string' content='code analysis' />
+		<meta class='swiftype' name='tags' data-type='string' content='static code' />
+		<meta class='swiftype' name='tags' data-type='string' content='what is static analysis' />
+		<meta class='swiftype' name='tags' data-type='string' content='software static analysis' />
+		<meta class='swiftype' name='tags' data-type='string' content='static checking' />
+		<meta class="swiftype" name="asset-type" data-type="string" content="page" /> <meta name="theme-color" content="#fff" />
+<link rel="manifest" href="/sites/default/files/pwa/manifest.json" />
+<meta name="description" content="Learn what is static code analysis and how to detect hidden backdoors and malicious code with a demo of Veracode&#039;s static code analysis tool." />
+<meta name="keywords" content="static code analysis, static code analysis tool, what is static code analysis, static analysis, code analysis, static code, what is static analysis, software static analysis, static checking" />
+<link rel="canonical" href="https://www.veracode.com/products/static-analysis-sast/static-code-analysis" />
+<link rel="shortlink" href="https://www.veracode.com/node/606" />
+<meta property="og:site_name" content="Veracode" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.veracode.com/products/static-analysis-sast/static-code-analysis" />
+<meta property="og:title" content="Static Code Analysis" />
+<meta property="og:description" content="What is Static Code Analysis?" />
+<meta property="og:updated_time" content="2019-03-04T10:37:59-05:00" />
+<meta property="og:image" content="https://www.veracode.com/sites/default/files/01-og.png" />
+<meta property="og:image:url" content="https://www.veracode.com/sites/default/files/01-og.png" />
+<meta property="og:image:secure_url" content="https://www.veracode.com/sites/default/files/01-og.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="article:published_time" content="2014-02-02T15:50:24-05:00" />
+<meta property="article:modified_time" content="2019-03-04T10:37:59-05:00" />
+  <title>Static Code Analysis | Veracode</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="google-site-verification" content="vdY1gGSUnNNM8rMmxflaT4fikv7hQhoRG7Wjkzp_JrQ" />
+  <meta name="google-site-verification" content="LOHTEdSL1FzdoqSO1zry1DruOwJfqJK6HehXZpdhsbM" />
+  <meta name="msvalidate.01" content="6789285D99377BE11E4D55B94F79D59A" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  <link href='/sites/all/themes/veracode/fonts/webfonts/montserrat.min.css' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="//cloud.typography.com/7267672/805964/css/fonts.css" />
+  <link href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+  <!-- bxSlider CSS file -->
+
+  <link type="text/css" rel="stylesheet" href="/sites/default/files/advagg_css/css__36R3qkV6kbMCKNCM7lkvx0P3589vcevXJla0U7KQYtA__yeR3TC1Q8VpDAbJqX0pVbRKq2iV6EBE2_RWxtGbDUNA__-A10P-1JhD5-2Ua1R8ZybZxDd4RxSpKnsxbTckhZwvM.css" media="all" />
+<style type="text/css" media="print">
+/* <![CDATA[ */
+#sb-container{position:relative;}#sb-overlay{display:none;}#sb-wrapper{position:relative;top:0;left:0;}#sb-loading{display:none;}
+
+/* ]]> */
+</style>
+  <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" media="all" href="/sites/all/themes/veracode/css/ie8.css">
+    <script src="/sites/all/themes/veracode/js/lib/respond.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]><link rel="stylesheet" type="text/css" media="all" href="/sites/all/themes/veracode/css/ie9.css"><![endif]-->
+  <script async src="/sites/all/themes/veracode/js/lib/modernizr-2.6.2.min.js"></script>
+</head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-606 node-type-page-appsec" >
+ <!-- RTP Marketo Web personalization START -->
+  <!-- RTP tag -->
+	<script type='text/javascript'>
+	(function(c,h,a,f,i,e){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+	 c[a].a=i;c[a].e=e;var g=h.createElement("script");g.async=true;g.type="text/javascript";
+	 g.src=f+'?aid='+i;var b=h.getElementsByTagName("script")[0];b.parentNode.insertBefore(g,b);
+	 })(window,document,"rtp","//sjrtp6.marketo.com/rtp-api/v1/rtp.js","veracode");
+
+	rtp('send','view');
+	rtp('get', 'campaign',true);
+	</script>
+	<!-- End of RTP tag -->
+  <!-- RTP Marketo Web personalization END -->
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-T9ZN4Z"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-T9ZN4Z');</script>
+  <!-- End Google Tag Manager -->
+
+<div id="bounds">
+    <header>
+		  <div class="region region-utility-bar">
+    <div id="block-block-11" class="block block-block">
+
+    
+  <div class="content">
+    <ul class="header-upper-nav">
+<li><img src="//www.veracode.com/sites/default/files/CommunityIcon.png"><a class="head-link" href="https://community.veracode.com/s/" target="_blank" rel="noopener">Community</a></li>
+<li><img src="//www.veracode.com/sites/default/files/BlogIcon.png"><a class="head-link" href="//www.veracode.com/blog" target="_blank" rel="noopener">Blog</a></li>
+<li><img src="//www.veracode.com/sites/default/files/ContactIcon.png"><a class="head-link  contactUsTrack" href="https://info.veracode.com/web-contact-us.html?utm_source=main_navigation&amp;utm_medium=website" target="_blank" rel="noopener">Contact Us</a></li>
+<li><a class="head-link platformLoginTrack" href="https://analysiscenter.veracode.com/" target="_blank" rel="noopener">Login</a></li>
+</ul>
+  </div>
+</div>
+  </div>
+	<div class="logo-menu">
+		<div id="main-logo"><a href="/"><img src="https://www.veracode.com/sites/default/files/logo-veracode.svg" alt="Veracode" /></a></div>
+		  <div class="region region-main-menu">
+    <div id="block-search-form" class="block block-search">
+
+    
+  <div class="content">
+    <form action="/products/static-analysis-sast/static-code-analysis" method="post" id="search-block-form" accept-charset="UTF-8"><div><div class="input-container">
+	<img src="/sites/default/files/SearchIcon-Close.png" class="close-btn icon-search" style="display:none;" >
+	<img src="/sites/default/files/SearchIcon_0.png" class="search-btn icon-search searchTrack">
+</div>
+<div class="search-field" style="display:none;">
+	<input title="Enter the terms you wish to search for." placeholder="Your search" type="text" id="edit-search-block-form--2" name="search_block_form" value="" size="15" maxlength="128" class="form-text st-default-search-input">
+	<input type="hidden" name="form_build_id" value="form-LhXlAinOn6_w-Olamjcizi8b7AMrXUzxaILZc-B1XIk" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form>  </div>
+</div>
+<div id="block-superfish-1" class="block block-superfish superfish-main-menu">
+
+    <h2>Header Navigation</h2>
+  
+  <div class="content">
+    <ul  id="superfish-1" class="menu sf-menu sf-menu-header-navigation sf-horizontal sf-style-simple sf-total-items-5 sf-parent-items-5 sf-single-items-0"><li id="menu-29641-1" class="first odd sf-item-1 sf-depth-1 submenu-list sf-total-children-3 sf-parent-children-3 sf-single-children-0 menuparent"><a href="/products" title="" class="sf-depth-1 menuparent">Products</a><ul class="sf-megamenu"><li class="sf-megamenu-wrapper first odd sf-item-1 sf-depth-1 submenu-list sf-total-children-3 sf-parent-children-3 sf-single-children-0 menuparent"><ol><li id="menu-29646-1" class="first odd sf-item-1 sf-depth-2 submenu-list sf-total-children-6 sf-parent-children-0 sf-single-children-6 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><a href="/products" title="" class="sf-depth-2 menuparent">Explore Products</a><ol><li id="menu-29651-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/products/greenlight" title="" class="sf-depth-3">Greenlight</a></li><li id="menu-29656-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/products/binary-static-analysis-sast" title="" class="sf-depth-3">Static Analysis (SAST)</a></li><li id="menu-29661-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/products/software-composition-analysis" title="" class="sf-depth-3">Software Composition Analysis (SCA)</a></li><li id="menu-29666-1" class="middle even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="/products/dynamic-analysis-dast" title="" class="sf-depth-3">Dynamic Analysis (DAST)</a></li><li id="menu-29686-1" class="middle odd sf-item-5 sf-depth-3 submenu-list sf-no-children"><a href="/products/discovery" title="" class="sf-depth-3">Discovery</a></li><li id="menu-29681-1" class="last even sf-item-6 sf-depth-3 submenu-list sf-no-children"><a href="/services/developer-training" title="" class="sf-depth-3">Developer Training</a></li></ol></div></li><li id="menu-29691-1" class="middle even sf-item-2 sf-depth-2 submenu-list sf-total-children-5 sf-parent-children-0 sf-single-children-5 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><span title="" class="sf-depth-2 menuparent nolink">Key Topics</span><ol><li id="menu-29701-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/devsecops" title="" class="sf-depth-3">DevSecOps</a></li><li id="menu-29706-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/about/certifications" title="" class="sf-depth-3">Security Certifications</a></li><li id="menu-29711-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/integrations" title="" class="sf-depth-3">Veracode Integrations</a></li><li id="menu-29716-1" class="middle even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="/products/web-application-scanning-was" title="" class="sf-depth-3">Web Application Scanning</a></li><li id="menu-29721-1" class="last odd sf-item-5 sf-depth-3 submenu-list sf-no-children"><a href="/solutions/by-need/mobile-application-security-testing" title="" class="sf-depth-3">Mobile Application Security Testing</a></li></ol></div></li><li id="menu-29696-1" class="last odd sf-item-3 sf-depth-2 submenu-list sf-total-children-4 sf-parent-children-0 sf-single-children-4 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><span title="" class="sf-depth-2 menuparent nolink">Get Started </span><ol><li id="menu-29726-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="https://info.veracode.com/veracode-greenlight-self-service-free-trial.html" title="" class="sf-depth-3">Greenlight Free Trial</a></li><li id="menu-29731-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="https://app.sourceclear.io/signup" title="" class="sf-depth-3">Sourceclear Free Trial</a></li><li id="menu-29736-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="https://info.veracode.com/request-quote.html" title="" class="sf-depth-3">Request a Quote</a></li><li id="menu-29741-1" class="last even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="https://info.veracode.com/web-contact-us.html" title="" class="sf-depth-3">Contact Sales</a></li></ol></div></li></ol></li></ul></li><li id="menu-5851-1" class="middle even sf-item-2 sf-depth-1 submenu-list sf-total-children-2 sf-parent-children-2 sf-single-children-0 menuparent"><a href="/services" title="" class="sf-depth-1 menuparent">Services</a><ul class="sf-megamenu"><li class="sf-megamenu-wrapper middle even sf-item-2 sf-depth-1 submenu-list sf-total-children-2 sf-parent-children-2 sf-single-children-0 menuparent"><ol><li id="menu-6041-1" class="first odd sf-item-1 sf-depth-2 submenu-list sf-total-children-6 sf-parent-children-0 sf-single-children-6 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><a href="/services" title="" class="sf-depth-2 menuparent">Services &amp; Support</a><ol><li id="menu-28576-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/services/application-security-consulting" title="" class="sf-depth-3">Application Security Consulting </a></li><li id="menu-28591-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/services/technical-support" title="" class="sf-depth-3">Technical Support</a></li><li id="menu-30216-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/services/penetration-testing" title="" class="sf-depth-3">Manual Penetration Testing</a></li><li id="menu-6061-1" class="middle even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="/services/developer-training" title="" class="sf-depth-3">Developer Training</a></li><li id="menu-29261-1" class="middle odd sf-item-5 sf-depth-3 submenu-list sf-no-children"><a href="/services/program-management" title="" class="sf-depth-3">Security Program Management</a></li><li id="menu-17751-1" class="last even sf-item-6 sf-depth-3 submenu-list sf-no-children"><a href="/services/customer-success-packages" title="" class="sf-depth-3">Customer Success Packages</a></li></ol></div></li><li id="menu-6051-1" class="last even sf-item-2 sf-depth-2 submenu-list sf-total-children-3 sf-parent-children-0 sf-single-children-3 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><span title="" class="sf-depth-2 menuparent nolink">Veracode Verified</span><ol><li id="menu-20331-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/verified" title="" class="sf-depth-3">Verified</a></li><li id="menu-6136-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="https://community.veracode.com/s/get-verified" title="" class="sf-depth-3">Get Verified</a></li><li id="menu-29091-1" class="last odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/verified/directory" title="" class="sf-depth-3">Verified Directory</a></li></ol></div></li></ol></li></ul></li><li id="menu-5841-1" class="middle odd sf-item-3 sf-depth-1 submenu-list sf-total-children-2 sf-parent-children-2 sf-single-children-0 menuparent"><a href="/solutions" title="" class="sf-depth-1 menuparent">Solutions</a><ul class="sf-megamenu"><li class="sf-megamenu-wrapper middle odd sf-item-3 sf-depth-1 submenu-list sf-total-children-2 sf-parent-children-2 sf-single-children-0 menuparent"><ol><li id="menu-5876-1" class="first odd sf-item-1 sf-depth-2 submenu-list sf-total-children-3 sf-parent-children-0 sf-single-children-3 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><a href="/solutions" title="" class="sf-depth-2 menuparent">By Business Need</a><ol><li id="menu-5911-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/solutions/by-need/streamlining-compliance" title="" class="sf-depth-3">Compliance</a></li><li id="menu-16601-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/integrations" title="" class="sf-depth-3">Veracode Integrations</a></li><li id="menu-5906-1" class="last odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/open-source-risk" title="" class="sf-depth-3">Open Source Risk</a></li></ol></div></li><li id="menu-5881-1" class="last even sf-item-2 sf-depth-2 submenu-list sf-total-children-3 sf-parent-children-0 sf-single-children-3 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><span title="" class="sf-depth-2 menuparent nolink">By Organization Type</span><ol><li id="menu-5941-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/solutions/by-company/global-enterprise" title="" class="sf-depth-3">Global Enterprise</a></li><li id="menu-5951-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/solutions/by-company/midsize-enterprise" title="" class="sf-depth-3">Midsize Enterprise</a></li><li id="menu-5946-1" class="last odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/solutions/by-company/independent-software-vendor" title="" class="sf-depth-3">Independent Software Vendor</a></li></ol></div></li></ol></li></ul></li><li id="menu-5856-1" class="middle even sf-item-4 sf-depth-1 submenu-list sf-total-children-2 sf-parent-children-2 sf-single-children-0 menuparent"><a href="/resources" title="" class="sf-depth-1 menuparent">Resources</a><ul class="sf-megamenu"><li class="sf-megamenu-wrapper middle even sf-item-4 sf-depth-1 submenu-list sf-total-children-2 sf-parent-children-2 sf-single-children-0 menuparent"><ol><li id="menu-6086-1" class="first odd sf-item-1 sf-depth-2 submenu-list sf-total-children-7 sf-parent-children-0 sf-single-children-7 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><a href="/resources" title="" class="sf-depth-2 menuparent">Resource Center</a><ol><li id="menu-29186-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="https://veracode.com/resources?topic=intro-to-appsec#resources-results" title="" class="sf-depth-3">Intro to AppSec</a></li><li id="menu-29181-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="https://veracode.com/resources?topic=managing-appsec#resources-results" title="" class="sf-depth-3">Managing AppSec</a></li><li id="menu-29191-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="https://veracode.com/resources?topic=secure-development#resources-results" title="" class="sf-depth-3">Secure Development</a></li><li id="menu-29251-1" class="middle even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="https://www.veracode.com/resources?topic=regulation#resources-results" title="" class="sf-depth-3">Regulation</a></li><li id="menu-29196-1" class="middle odd sf-item-5 sf-depth-3 submenu-list sf-no-children"><a href="https://veracode.com/resources?topic=getting-internal-buy-in#resources-results" title="" class="sf-depth-3">Getting Internal Buy In</a></li><li id="menu-29201-1" class="middle even sf-item-6 sf-depth-3 submenu-list sf-no-children"><a href="https://veracode.com/resources?topic=third-party-software#resources-results" title="" class="sf-depth-3">Third Party Software</a></li><li id="menu-16016-1" class="last odd sf-item-7 sf-depth-3 submenu-list sf-no-children"><a href="https://help.veracode.com/" title="" class="sf-depth-3">Product Documentation</a></li></ol></div></li><li id="menu-6046-1" class="last even sf-item-2 sf-depth-2 submenu-list sf-total-children-4 sf-parent-children-0 sf-single-children-4 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><span title="" class="sf-depth-2 menuparent nolink">Explore More</span><ol><li id="menu-29101-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="https://www.veracode.com/resources?assettype=demo" title="" class="sf-depth-3">Get a Demo</a></li><li id="menu-6146-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/security/web-application-vulnerabilities" title="" class="sf-depth-3">Common Vulnerabilities</a></li><li id="menu-11441-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/state-of-software-security-report" title="" class="sf-depth-3">State Of Software Security</a></li><li id="menu-16611-1" class="last even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="/integrations" title="" class="sf-depth-3">Veracode Integrations</a></li></ol></div></li></ol></li></ul></li><li id="menu-5861-1" class="last odd sf-item-5 sf-depth-1 submenu-list sf-total-children-3 sf-parent-children-3 sf-single-children-0 menuparent"><a href="/about" title="" class="sf-depth-1 menuparent">About</a><ul class="sf-megamenu"><li class="sf-megamenu-wrapper last odd sf-item-5 sf-depth-1 submenu-list sf-total-children-3 sf-parent-children-3 sf-single-children-0 menuparent"><ol><li id="menu-6151-1" class="first odd sf-item-1 sf-depth-2 submenu-list sf-total-children-4 sf-parent-children-0 sf-single-children-4 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><a href="/about" title="" class="sf-depth-2 menuparent">Our Company</a><ol><li id="menu-29086-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="/workforus" title="" class="sf-depth-3">Work For Us</a></li><li id="menu-6166-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/about/careers" title="" class="sf-depth-3">Careers</a></li><li id="menu-6191-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="/news-events" title="" class="sf-depth-3">News &amp; Events</a></li><li id="menu-26226-1" class="last even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="/resources/faqs" title="" class="sf-depth-3">FAQs</a></li></ol></div></li><li id="menu-6656-1" class="middle even sf-item-2 sf-depth-2 submenu-list sf-total-children-3 sf-parent-children-0 sf-single-children-3 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><a href="/about/partners" title="" class="sf-depth-2 menuparent">Partners</a><ol><li id="menu-6676-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="https://info.veracode.com/apply-to-become-a-partner.html" title="" class="sf-depth-3">Apply to Become a Partner</a></li><li id="menu-6681-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/partners/find-a-partner" title="" class="sf-depth-3">Find a Partner</a></li><li id="menu-6686-1" class="last odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="https://partner.veracode.com" title="" class="sf-depth-3">Partner Community Login</a></li></ol></div></li><li id="menu-12151-1" class="last odd sf-item-3 sf-depth-2 submenu-list sf-total-children-6 sf-parent-children-0 sf-single-children-6 sf-megamenu-column menuparent"><div class="sf-megamenu-column"><span title="" class="sf-depth-2 menuparent nolink">Connect With Us</span><ol><li id="menu-6201-1" class="first odd sf-item-1 sf-depth-3 submenu-list sf-no-children"><a href="https://info.veracode.com/web-contact-us.html?utm_source=main_navigation&amp;utm_medium=website" title="" class="sf-depth-3">Contact Us</a></li><li id="menu-6206-1" class="middle even sf-item-2 sf-depth-3 submenu-list sf-no-children"><a href="/blog" title="" class="sf-depth-3">Blog</a></li><li id="menu-29231-1" class="middle odd sf-item-3 sf-depth-3 submenu-list sf-no-children"><a href="https://www.facebook.com/VeracodeInc" title="" class="sf-depth-3">Facebook</a></li><li id="menu-29236-1" class="middle even sf-item-4 sf-depth-3 submenu-list sf-no-children"><a href="https://twitter.com/Veracode" title="" class="sf-depth-3">Twitter</a></li><li id="menu-29241-1" class="middle odd sf-item-5 sf-depth-3 submenu-list sf-no-children"><a href="https://www.linkedin.com/company/veracode" title="" class="sf-depth-3">LinkedIn</a></li><li id="menu-29246-1" class="last even sf-item-6 sf-depth-3 submenu-list sf-no-children"><a href="https://www.youtube.com/user/VeracodeInc" title="" class="sf-depth-3">YouTube</a></li></ol></div></li></ol></li></ul></li></ul>  </div>
+</div>
+<div id="block-block-76" class="block block-block search-mobile">
+
+    
+  <div class="content">
+    <div class="search-field-mobile"><img src="//www.veracode.com/sites/default/files/search.png"><input class="form-text st-default-search-input" id="edit-search-block-form--2" maxlength="128" name="search_block_form" placeholder="Your search" size="15" title="Enter the terms you wish to search for." type="text" value=""></div>
+  </div>
+</div>
+<div id="block-block-81" class="block block-block getademo-btn">
+
+    
+  <div class="content">
+    <div class="get-a-demo"><a href="//www.veracode.com/resources?assettype=demo#resources-results">GET A DEMO</a></div>
+  </div>
+</div>
+<div id="block-block-86" class="block block-block uppernavformobile">
+
+    
+  <div class="content">
+    <div class="top-bar-mobile">
+<div class="get-a-demo" id="mobile-get-a-demo"><a href="https://info.veracode.com/veracode-platform-demo-registration.html">GET A DEMO</a></div>
+<ul class="header-upper-nav">
+<li><img src="//www.veracode.com/sites/default/files/BlogIcon.png"><a class="head-link" href="//www.veracode.com/blog">Blog</a></li>
+<li><img src="//www.veracode.com/sites/default/files/ContactIcon.png"><a class="head-link  contactUsTrack" href="https://info.veracode.com/web-contact-us.html?utm_source=main_navigation&amp;utm_medium=website">Contact Us</a></li>
+<li><img src="//www.veracode.com/sites/default/files/CommunityIcon.png"><a class="head-link" href="https://community.veracode.com/s/">Community</a></li>
+<li><img src="//www.veracode.com/sites/default/files/lock.png"><a class="head-link platformLoginTrack" href="https://analysiscenter.veracode.com/">Login</a></li>
+</ul>
+</div>
+  </div>
+</div>
+  </div>
+	</div>
+</header>
+<section>
+	<!--<div style="float:left;width:33%;"></div>-->
+    	<div data-swiftype-index='true'>
+		  <div class="region region-content">
+    <div id="block-system-main" class="block block-system">
+
+    
+  <div class="content">
+    <div class="page-story-landing App-sec-wrapper">
+	<div id="node-606" class="node node-page-appsec clearfix" about="/products/static-analysis-sast/static-code-analysis" typeof="sioc:Item foaf:Document">
+		<div class="content-widgets">
+		<a id="snap__subnav_26916"></a>
+<div id="widget_26916">
+<div id="hero" class="small  snap__subnav_anchor_26916_widget story-wrapper bgcolor-ef0078" data-id="/sites/default/files/appsec-kb-hero-banner-transparent-01.png;https://www.veracode.com/sites/default/files/styles/resize_600/public/appsec-kb-hero-banner-transparent-01_0.png?itok=ziddiUkn;https://www.veracode.com/sites/default/files/styles/resize_360/public/appsec-kb-hero-banner-transparent-01_0.png?itok=j84yDG_Y">
+	  <div class="story-hero-cta">
+		  	<div class="row">
+			  	<div class="centered twelve columns">
+			  		<h2 class="txtcolor-ffffff"><strong>AppSec</strong> Knowledge Base</h2>                    			  	</div>
+					      	</div>
+		  </div>
+    </div>
+</div>
+</div>
+			<div class="appsec-left-right-wrapper">
+				<div class="appsec-left-block">
+					<div id="block-accordion-menu-1" class="block block-accordion-menu">
+
+    
+  <div class="content">
+    <div class="accordion-menu-wrapper accordion-menu-1 accordion-menu-name-appsec-knowledge-base-pages-menu accordion-menu-source-menu-appsec-knowledge-base-pages">
+  <h3 class="accordion-header accordion-header-1 first has-children odd menu-mlid-30121"><span title="" class="accordion-link accordion-link">Advanced application security</span></h3>
+<div class="accordion-content-1"><ul class="menu"><li class="first leaf"><a href="/security/android-security" title="" class="footerMenuTrack">Android Security</a></li>
+<li class="leaf"><a href="/security/automated-code-testing" title="" class="footerMenuTrack">Automated Code Testing</a></li>
+<li class="leaf"><a href="/security/containerization" title="" class="footerMenuTrack">Containerization</a></li>
+<li class="leaf"><a href="/security/security-devops" title="" class="footerMenuTrack">DevOps Security</a></li>
+<li class="leaf"><a href="/security/devops-testing" title="" class="footerMenuTrack">DevOps Testing</a></li>
+<li class="leaf"><a href="/security/dev-ops-tools" title="" class="footerMenuTrack">DevOps Tools</a></li>
+<li class="leaf"><a href="/security/devsecops" title="" class="footerMenuTrack">DevSecOps</a></li>
+<li class="leaf"><a href="/security/internet-security-test" title="" class="footerMenuTrack">Internet security test</a></li>
+<li class="leaf"><a href="/security/javascript-security" title="" class="footerMenuTrack">JavaScript Security</a></li>
+<li class="leaf"><a href="/security/linux-hacking" title="" class="footerMenuTrack">Linux Hacking</a></li>
+<li class="leaf"><a href="/microservices" title="" class="footerMenuTrack">Microservices</a></li>
+<li class="leaf"><a href="/security/ruby-security" title="" class="footerMenuTrack">Ruby Security</a></li>
+<li class="leaf"><a href="/security/secure-development" title="" class="footerMenuTrack">Secure Development</a></li>
+<li class="leaf"><a href="/security/secure-devops" title="" class="footerMenuTrack">Secure DevOps</a></li>
+<li class="leaf"><a href="/security/secure-web-application-development" title="" class="footerMenuTrack">Secure Web Application Development</a></li>
+<li class="leaf"><a href="/security/software-development-lifecycle" title="" class="footerMenuTrack">Software Development Lifecycle (SDLC)</a></li>
+<li class="leaf"><a href="/security/software-development-lifecycle-methodologies" title="" class="footerMenuTrack">Software Development Lifecycle Methodologies</a></li>
+<li class="leaf"><a href="/security/web-application-penetration-testing" title="" class="footerMenuTrack">Web Application Penetration Testing</a></li>
+<li class="last leaf"><a href="/security/what-is-an-integrated-development-environment" title="" class="footerMenuTrack">What is an integrated development environment</a></li>
+</ul></div>
+<h3 class="accordion-header accordion-header-2 has-children even menu-mlid-30126"><span title="" class="accordion-link accordion-link">AppSec Policies </span></h3>
+<div class="accordion-content-2"><ul class="menu"><li class="first leaf"><a href="/security/owasp-security" title="" class="footerMenuTrack">OWASP security</a></li>
+<li class="leaf"><a href="/pci-dss-65" title="" class="footerMenuTrack">PCI DSS 6.5</a></li>
+<li class="leaf"><a href="/pci-30" title="" class="footerMenuTrack">PCI 3.0</a></li>
+<li class="leaf"><a href="/pci-31" title="" class="footerMenuTrack">PCI 31</a></li>
+<li class="leaf"><a href="/security/pci-65" title="" class="footerMenuTrack">PCI 6.5</a></li>
+<li class="leaf"><a href="/security/sarbox-compliance" title="" class="footerMenuTrack">SarbOx compliance</a></li>
+<li class="last leaf"><a href="/security/web-application-security-standards" title="" class="footerMenuTrack">Web Application Security Standards</a></li>
+</ul></div>
+<h3 class="accordion-header accordion-header-3 has-children odd menu-mlid-30131"><span title="" class="accordion-link accordion-link">Getting Buy-In</span></h3>
+<div class="accordion-content-3"><ul class="menu"><li class="first last leaf"><a href="/security/dev-sec-ops" title="" class="footerMenuTrack">Dev Sec Ops</a></li>
+</ul></div>
+<h3 class="accordion-header accordion-header-4 has-children active-trail even menu-mlid-30136"><span title="" class="active-trail accordion-link active-trail accordion-link">Application Security Basics</span></h3>
+<div class="accordion-content-4"><ul class="menu"><li class="first leaf"><a href="/security/agile-security" title="" class="footerMenuTrack">Agile Security</a></li>
+<li class="leaf"><a href="/security/agile-testing" title="" class="footerMenuTrack">Agile Testing</a></li>
+<li class="leaf"><a href="/security/agile-testing-process" title="" class="footerMenuTrack">Agile Testing Process</a></li>
+<li class="leaf"><a href="/security/app-security" title="" class="footerMenuTrack">App Security</a></li>
+<li class="leaf"><a href="/security/app-security-testing" title="" class="footerMenuTrack">App Security Testing</a></li>
+<li class="leaf"><a href="/security/application-layer" title="" class="footerMenuTrack">Application Layer</a></li>
+<li class="leaf"><a href="/security/application-protection" title="" class="footerMenuTrack">Application Protection</a></li>
+<li class="leaf"><a href="/security/application-security-assessment" title="" class="footerMenuTrack">Application Security Assessment</a></li>
+<li class="leaf"><a href="/security/application-security-best-practices" title="" class="footerMenuTrack">Application Security Best Practices</a></li>
+<li class="leaf"><a href="/security/application-security-tools" title="" class="footerMenuTrack">Application Security Tools</a></li>
+<li class="leaf"><a href="/security/application-testing-tool" title="" class="footerMenuTrack">Application Testing Tool</a></li>
+<li class="leaf"><a href="/automated-software-testing" title="" class="footerMenuTrack">Automated Software Testing</a></li>
+<li class="leaf"><a href="/products/static-analysis-sast/binary-code-analysis" title="" class="footerMenuTrack">Binary Analysis</a></li>
+<li class="leaf"><a href="/security/black-box-analysis" title="" class="footerMenuTrack">Black Box Analysis</a></li>
+<li class="leaf"><a href="/black-box-testing-techniques" title="" class="footerMenuTrack">Black Box Testing Techniques</a></li>
+<li class="leaf"><a href="/security/blackbox-test" title="" class="footerMenuTrack">Blackbox Test</a></li>
+<li class="leaf"><a href="/blackbox-testing" title="" class="footerMenuTrack">Blackbox Testing</a></li>
+<li class="leaf"><a href="/blackbox-testing-techniques" title="" class="footerMenuTrack">Blackbox Testing Techniques</a></li>
+<li class="leaf"><a href="/security/cloud-application-security" title="" class="footerMenuTrack">Cloud Application security</a></li>
+<li class="leaf"><a href="/security/cloud-security-applications" title="" class="footerMenuTrack">Cloud Security Applications</a></li>
+<li class="leaf"><a href="/security/cloud-based-security" title="" class="footerMenuTrack">Cloud-based Security </a></li>
+<li class="leaf"><a href="/security/code-review" title="" class="footerMenuTrack">Code Review Tools</a></li>
+<li class="leaf"><a href="/security/code-security-analysis" title="" class="footerMenuTrack">Code Security Analysis</a></li>
+<li class="leaf"><a href="/security/commercial-off-shelf-software" title="" class="footerMenuTrack">Commercial Off the Shelf Software</a></li>
+<li class="leaf"><a href="/security/cpni-security-controls" title="" class="footerMenuTrack">CPNI Security Controls</a></li>
+<li class="leaf"><a href="/security/cyber-security" title="" class="footerMenuTrack">Cybersecurity</a></li>
+<li class="leaf"><a href="/security/dast-test" title="" class="footerMenuTrack">DAST Test</a></li>
+<li class="leaf"><a href="/security/data-breach" title="" class="footerMenuTrack">Data Breach</a></li>
+<li class="leaf"><a href="/security/data-leak-protection" title="" class="footerMenuTrack">Data Leak Protection</a></li>
+<li class="leaf"><a href="/security/guide-data-loss-prevention" title="" class="footerMenuTrack">Data Loss Prevention Guide</a></li>
+<li class="leaf"><a href="/security/data-loss-prevention" title="" class="footerMenuTrack">Data Loss Protection</a></li>
+<li class="leaf"><a href="/security/data-security" title="" class="footerMenuTrack">Data Security</a></li>
+<li class="leaf"><a href="/security/development-process" title="" class="footerMenuTrack">Development Processes</a></li>
+<li class="leaf"><a href="/products/dynamic-analysis-dast/dynamic-analysis" title="" class="footerMenuTrack">Dynamic Analysis</a></li>
+<li class="leaf"><a href="/security/enterprise-application-security" title="" class="footerMenuTrack">Enterprise application security</a></li>
+<li class="leaf"><a href="/security/enterprise-data-protection" title="" class="footerMenuTrack">Enterprise data protection</a></li>
+<li class="leaf"><a href="/security/ethical-hacking" title="" class="footerMenuTrack">Ethical Hacking</a></li>
+<li class="leaf"><a href="/security/firewall-security" title="" class="footerMenuTrack">Firewall Security</a></li>
+<li class="leaf"><a href="/security/interactive-application-security-testing-iast" title="" class="footerMenuTrack">IAST </a></li>
+<li class="leaf"><a href="/security/information-technology-infrastructure--library" title="" class="footerMenuTrack">Information Technology Infrastructure Library</a></li>
+<li class="leaf"><a href="/security/internet-security" title="" class="footerMenuTrack">Internet Security</a></li>
+<li class="leaf"><a href="/security/information-technology-infrastructure-library-itil" title="" class="footerMenuTrack">ITIL Library</a></li>
+<li class="leaf"><a href="/security/load-testing" title="" class="footerMenuTrack">Load testing</a></li>
+<li class="leaf"><a href="/security/mobile-app-security-testing" title="" class="footerMenuTrack">Mobile app security testing</a></li>
+<li class="leaf"><a href="/security/network-security-firewall" title="" class="footerMenuTrack">Network security firewall</a></li>
+<li class="leaf"><a href="/security/network-security-tools" title="" class="footerMenuTrack">Network security tools</a></li>
+<li class="leaf"><a href="/security/open-source-risk" title="" class="footerMenuTrack">Open Source Risk</a></li>
+<li class="leaf"><a href="/security/owasp-testing-tools" title="" class="footerMenuTrack">OWASP Testing Tools</a></li>
+<li class="leaf"><a href="/directory/owasp-top-10" title="" class="footerMenuTrack">OWASP Top 10</a></li>
+<li class="leaf"><a href="/security/penetration-testing" title="" class="footerMenuTrack">Penetration Testing</a></li>
+<li class="leaf"><a href="/security/regression-testing" title="" class="footerMenuTrack">Regression Testing</a></li>
+<li class="leaf"><a href="/security/remediation-plan" title="" class="footerMenuTrack">Remediation plan</a></li>
+<li class="leaf"><a href="/security/ruby-penetration-testing" title="" class="footerMenuTrack">Ruby Penetration Testing</a></li>
+<li class="leaf"><a href="/security/saas-application-monitoring" title="" class="footerMenuTrack">SaaS Application Monitoring</a></li>
+<li class="leaf"><a href="/security/saas-cloud-security" title="" class="footerMenuTrack">SaaS Cloud Security</a></li>
+<li class="leaf"><a href="/security/sdlc-agile" title="" class="footerMenuTrack">SDLC Agile</a></li>
+<li class="leaf"><a href="/security/secure-applications" title="" class="footerMenuTrack">Secure Applications</a></li>
+<li class="leaf"><a href="/security/secure-web" title="" class="footerMenuTrack">Secure web</a></li>
+<li class="leaf"><a href="/security/security-analysis" title="" class="footerMenuTrack">Security analysis</a></li>
+<li class="leaf"><a href="/security/security-attestation" title="" class="footerMenuTrack">Security Attestation</a></li>
+<li class="leaf"><a href="/security/security-audits" title="" class="footerMenuTrack">Security Audits</a></li>
+<li class="leaf"><a href="/security/security-review-software" title="" class="footerMenuTrack">Security Review Software</a></li>
+<li class="leaf"><a href="/security/software-audit" title="" class="footerMenuTrack">Software Audit</a></li>
+<li class="leaf"><a href="/security/code-security" title="" class="footerMenuTrack">Software Code Security</a></li>
+<li class="leaf"><a href="/security/software-development-lifecycle-models" title="" class="footerMenuTrack">Software Development Lifecycle Models </a></li>
+<li class="leaf"><a href="/security/software-development-models" title="" class="footerMenuTrack">Software Development Models</a></li>
+<li class="leaf"><a href="/software-development-tools" title="" class="footerMenuTrack">Software Development Tools</a></li>
+<li class="leaf"><a href="/security/software-firewalls" title="" class="footerMenuTrack">Software firewalls</a></li>
+<li class="leaf"><a href="/products/vendor-application-security-testing/software-unknown-pedigree" title="" class="footerMenuTrack">Software of Unknown Pedigree</a></li>
+<li class="leaf"><a href="/security/software-quality" title="" class="footerMenuTrack">Software Quality</a></li>
+<li class="leaf"><a href="/security/software-quality-metrics" title="" class="footerMenuTrack">Software Quality Metrics</a></li>
+<li class="leaf"><a href="/security/software-security-testing" title="" class="footerMenuTrack">Software Security</a></li>
+<li class="leaf"><a href="/security/software-testing" title="" class="footerMenuTrack">Software Testing</a></li>
+<li class="leaf"><a href="/security/software-testing-methodology" title="" class="footerMenuTrack">Software Testing Methodology</a></li>
+<li class="leaf"><a href="/security/software-testing-process" title="" class="footerMenuTrack">Software Testing Process </a></li>
+<li class="leaf"><a href="/security/software-testing-tools" title="" class="footerMenuTrack">Software Testing Tools</a></li>
+<li class="leaf"><a href="/products/static-analysis-sast/code-analysis" title="" class="footerMenuTrack">Source Code Analysis</a></li>
+<li class="leaf"><a href="/products/static-analysis-sast/source-code-security-analyzer" title="" class="footerMenuTrack">Source Code Security Analyzer</a></li>
+<li class="leaf"><a href="/security/static-analyses" title="" class="footerMenuTrack">Static Analyses</a></li>
+<li class="leaf"><a href="/products/static-analysis-sast/static-analysis-tool" title="" class="footerMenuTrack">Static Analysis</a></li>
+<li class="leaf"><a href="/products/static-analysis-sast/static-code-analysis" title="" class="footerMenuTrack active">Static Code Analysis</a></li>
+<li class="leaf"><a href="/security/static-testing" title="" class="footerMenuTrack">Static Testing</a></li>
+<li class="leaf"><a href="/security/systems-development-life-cycle-models" title="" class="footerMenuTrack">Systems Development Life Cycle Models</a></li>
+<li class="leaf"><a href="/security/systems-development-life-cycle-phases" title="" class="footerMenuTrack">Systems Development Life Cycle Phases</a></li>
+<li class="leaf"><a href="/security/testing-web-applications" title="" class="footerMenuTrack">Testing web applications</a></li>
+<li class="leaf"><a href="/third-party-risk-assessment" title="" class="footerMenuTrack">Third-Party Risk Assessment</a></li>
+<li class="leaf"><a href="/unit-testing" title="" class="footerMenuTrack">Unit Testing</a></li>
+<li class="leaf"><a href="/unit-testing-tools" title="" class="footerMenuTrack">Unit Testing Tools</a></li>
+<li class="leaf"><a href="/security/vulnerability-assessment-and-penetration-testing" title="" class="footerMenuTrack">Vulnerability Assessment</a></li>
+<li class="leaf"><a href="/security/vulnerability-assessment-software" title="" class="footerMenuTrack">Vulnerability Assessment Software</a></li>
+<li class="leaf"><a href="/security/vulnerability-management" title="" class="footerMenuTrack">Vulnerability Management</a></li>
+<li class="leaf"><a href="/security/vulnerability-scanning" title="" class="footerMenuTrack">Vulnerability Scanner</a></li>
+<li class="leaf"><a href="/security/vulnerability-scanning-tools" title="" class="footerMenuTrack">Vulnerability Scanning Tools</a></li>
+<li class="leaf"><a href="/security/web-app-monitoring" title="" class="footerMenuTrack">Web App Monitoring</a></li>
+<li class="leaf"><a href="/security/web-app-penetration-testing" title="" class="footerMenuTrack">Web App Penetration Testing</a></li>
+<li class="leaf"><a href="/products/dynamic-analysis-dast/web-application" title="" class="footerMenuTrack">Web Application</a></li>
+<li class="leaf"><a href="/security/web-application-audit" title="" class="footerMenuTrack">Web Application Audit</a></li>
+<li class="leaf"><a href="/security/web-application-monitoring" title="" class="footerMenuTrack">Web Application Monitoring</a></li>
+<li class="leaf"><a href="/security/web-application-pen-test" title="" class="footerMenuTrack">Web Application Pen Test</a></li>
+<li class="leaf"><a href="/products/dynamic-analysis-dast/dynamic-analysis-knowledge-base/web-application-scanning" title="" class="footerMenuTrack">Web Application Scanning</a></li>
+<li class="leaf"><a href="/security/web-application-security-testing" title="" class="footerMenuTrack">Web Application Security Testing</a></li>
+<li class="leaf"><a href="/security/web-application-testing" title="" class="footerMenuTrack">Web Application Testing</a></li>
+<li class="leaf"><a href="/security/white-box-testing-tools" title="" class="footerMenuTrack">Web Application Testing Tools</a></li>
+<li class="leaf"><a href="/security/web-based-application-testing" title="" class="footerMenuTrack">Web Based Application Testing</a></li>
+<li class="leaf"><a href="/security/web-penetration-testing" title="" class="footerMenuTrack">Web Penetration Testing</a></li>
+<li class="leaf"><a href="/products/dynamic-analysis-dast/web-security" title="" class="footerMenuTrack">Web Security</a></li>
+<li class="leaf"><a href="/security/web-vuln-scanner" title="" class="footerMenuTrack">Web Vuln Scanner</a></li>
+<li class="leaf"><a href="/security/web-application-scanner" title="" class="footerMenuTrack">Web application scanner</a></li>
+<li class="leaf"><a href="/security/web-pen-testing" title="" class="footerMenuTrack">Web pen testing</a></li>
+<li class="leaf"><a href="/security/web-scanning" title="" class="footerMenuTrack">Web scanning</a></li>
+<li class="leaf"><a href="/security/web-vulnerability-scanners" title="" class="footerMenuTrack">Web vulnerability scanners</a></li>
+<li class="leaf"><a href="/security/what-is-dlp" title="" class="footerMenuTrack">What is DLP</a></li>
+<li class="leaf"><a href="/products/vendor-application-security-testing/what-is-third-party-software-security" title="" class="footerMenuTrack">What is Third-Party Software?</a></li>
+<li class="leaf"><a href="/security/what-web-application" title="" class="footerMenuTrack">What is a Web Application</a></li>
+<li class="leaf"><a href="/security/what-application" title="" class="footerMenuTrack">What is an Application</a></li>
+<li class="leaf"><a href="/security/what-is-spoof" title="" class="footerMenuTrack">What is spoof</a></li>
+<li class="leaf"><a href="/security/what-is-spoofing" title="" class="footerMenuTrack">What is spoofing</a></li>
+<li class="leaf"><a href="/white-box-security" title="" class="footerMenuTrack">White Box Security</a></li>
+<li class="leaf"><a href="/security/white-box-test" title="" class="footerMenuTrack">White Box Test</a></li>
+<li class="last leaf"><a href="/security/white-box-testing" title="" class="footerMenuTrack">White Box Testing</a></li>
+</ul></div>
+<h3 class="accordion-header accordion-header-5 has-children odd menu-mlid-30141"><span title="" class="accordion-link accordion-link">Development</span></h3>
+<div class="accordion-content-5"><ul class="menu"><li class="first leaf"><a href="/security/what-agile-project-management" title="" class="footerMenuTrack">Agile Project Management</a></li>
+<li class="leaf"><a href="/security/c-integrated-development-environment" title="" class="footerMenuTrack">C integrated development environment</a></li>
+<li class="leaf"><a href="/security/integrated-development-environment" title="" class="footerMenuTrack">Integrated Development Environment</a></li>
+<li class="leaf"><a href="/security/software-containers" title="" class="footerMenuTrack">Software containers</a></li>
+<li class="leaf"><a href="/security/systems-development-life-cycle-definition" title="" class="footerMenuTrack">Systems Development Life Cycle Definition</a></li>
+<li class="leaf"><a href="/security/waterfall-software-development" title="" class="footerMenuTrack">Waterfall software development</a></li>
+<li class="last leaf"><a href="/security/what-systems-development-life-cycle" title="" class="footerMenuTrack">What is Systems Development Life Cycle</a></li>
+</ul></div>
+<h3 class="accordion-header accordion-header-6 has-children even menu-mlid-30146"><span title="" class="accordion-link accordion-link">Web Application Flaws &amp; Vulnerabilities</span></h3>
+<div class="accordion-content-6"><ul class="menu"><li class="first leaf"><a href="/security/dot-net-sql-injection" title="" class="footerMenuTrack">.NET SQL injection</a></li>
+<li class="leaf"><a href="/security/advanced-persistent-threat" title="" class="footerMenuTrack">Advanced Persistent Threat</a></li>
+<li class="leaf"><a href="/security/application-vulnerability" title="" class="footerMenuTrack">Application Vulnerability</a></li>
+<li class="leaf"><a href="/security/arp-spoofing" title="" class="footerMenuTrack">ARP Spoofing</a></li>
+<li class="leaf"><a href="/security/botnet" title="" class="footerMenuTrack">Botnet</a></li>
+<li class="leaf"><a href="/security/buffer-overflow" title="" class="footerMenuTrack">Buffer Overflow</a></li>
+<li class="leaf"><a href="/security/building-microservices" title="" class="footerMenuTrack">Building microservices</a></li>
+<li class="leaf"><a href="/security/cache-poisoning" title="" class="footerMenuTrack">Cache Poisoning</a></li>
+<li class="leaf"><a href="/security/computer-worm" title="" class="footerMenuTrack">Computer Worm</a></li>
+<li class="leaf"><a href="/security/credentials-management" title="" class="footerMenuTrack">Credentials Management Flaws</a></li>
+<li class="leaf"><a href="/security/crlf-injection" title="" class="footerMenuTrack">CRLF Injection</a></li>
+<li class="leaf"><a href="/security/cross-site-scripting-prevention" title="" class="footerMenuTrack">Cross Site Scripting Prevention</a></li>
+<li class="leaf"><a href="/security/csrf" title="" class="footerMenuTrack">Cross-Site Request Forgery</a></li>
+<li class="leaf"><a href="/security/cross-site-scripting" title="" class="footerMenuTrack">Cross-site Scripting</a></li>
+<li class="leaf"><a href="/security/xss" title="" class="footerMenuTrack">Cross-Site Scripting</a></li>
+<li class="leaf"><a href="/security/cryptographic" title="" class="footerMenuTrack">Cryptographic</a></li>
+<li class="leaf"><a href="/security/cryptographically" title="" class="footerMenuTrack">Cryptographically</a></li>
+<li class="leaf"><a href="/security/csrf-attacks" title="" class="footerMenuTrack">CSRF Attacks</a></li>
+<li class="leaf"><a href="/security/csrf-token" title="" class="footerMenuTrack">CSRF Token</a></li>
+<li class="leaf"><a href="/security/ddos" title="" class="footerMenuTrack">DDOS</a></li>
+<li class="leaf"><a href="/security/directory-traversal" title="" class="footerMenuTrack">Directory Traversal</a></li>
+<li class="leaf"><a href="/security/encapsulation" title="" class="footerMenuTrack">Encapsulation</a></li>
+<li class="leaf"><a href="/security/error-handling" title="" class="footerMenuTrack">Error Handling Flaws</a></li>
+<li class="leaf"><a href="/security/failure-restrict-url-access" title="" class="footerMenuTrack">Failure to Restrict URL Access</a></li>
+<li class="leaf"><a href="/security/format-string" title="" class="footerMenuTrack">Format String</a></li>
+<li class="leaf"><a href="/security/heartbleed-vulnerability" title="" class="footerMenuTrack">Heartbleed</a></li>
+<li class="leaf"><a href="/security/insecure-crypto" title="" class="footerMenuTrack">Insecure Cryptographic Storage</a></li>
+<li class="leaf"><a href="/security/insufficient-transport-layer-protection" title="" class="footerMenuTrack">Insufficient Transport Layer Protection</a></li>
+<li class="leaf"><a href="/security/java-sql-injection" title="" class="footerMenuTrack">Java SQL Injection</a></li>
+<li class="leaf"><a href="/security/keylogger" title="" class="footerMenuTrack">Keylogger</a></li>
+<li class="leaf"><a href="/security/ldap-injection" title="" class="footerMenuTrack">LDAP Injection</a></li>
+<li class="leaf"><a href="/security/malicious-code" title="" class="footerMenuTrack">Malicious Code</a></li>
+<li class="leaf"><a href="/security/rise-malicious-mobile-applications" title="" class="footerMenuTrack">Malicious Mobile Applications</a></li>
+<li class="leaf"><a href="/security/malicious-software" title="" class="footerMenuTrack">Malicious software</a></li>
+<li class="leaf"><a href="/security/malware" title="" class="footerMenuTrack">Malware</a></li>
+<li class="leaf"><a href="/security/malware-software" title="" class="footerMenuTrack">Malware software</a></li>
+<li class="leaf"><a href="/security/man-middle-attack" title="" class="footerMenuTrack">Man in the Middle Attack</a></li>
+<li class="leaf"><a href="/security/mobile-code-security" title="" class="footerMenuTrack">Mobile Code Security</a></li>
+<li class="leaf"><a href="/security/open-source-vulnerabilities" title="" class="footerMenuTrack">Open Source Vulnerabilities</a></li>
+<li class="leaf"><a href="/security/os-command-injection" title="" class="footerMenuTrack">OS Command Injection</a></li>
+<li class="leaf"><a href="/security/packet-analyzer" title="" class="footerMenuTrack">Packet Analyzer</a></li>
+<li class="leaf"><a href="/security/php-sql-injection-test" title="" class="footerMenuTrack">PHP SQL injection test</a></li>
+<li class="leaf"><a href="/security/race-condition" title="" class="footerMenuTrack">Race Condition</a></li>
+<li class="leaf"><a href="/security/reflected-xss" title="" class="footerMenuTrack">Reflected XSS</a></li>
+<li class="leaf"><a href="/security/rootkit" title="" class="footerMenuTrack">Rootkit</a></li>
+<li class="leaf"><a href="/security/sequel-injection" title="" class="footerMenuTrack">Sequel injection</a></li>
+<li class="leaf"><a href="/security/session-management" title="" class="footerMenuTrack">Session management</a></li>
+<li class="leaf"><a href="/security/shellshock" title="" class="footerMenuTrack">Shellshock</a></li>
+<li class="leaf"><a href="/shellshock-vulnerability-test" title="" class="footerMenuTrack">Shellshock Vulnerability Test</a></li>
+<li class="leaf"><a href="/security/spoofing-attack" title="" class="footerMenuTrack">Spoofing Attack</a></li>
+<li class="leaf"><a href="/security/spoofing-definition" title="" class="footerMenuTrack">Spoofing definition</a></li>
+<li class="leaf"><a href="/security/spyware" title="" class="footerMenuTrack">Spyware</a></li>
+<li class="leaf"><a href="/sql-attacks" title="" class="footerMenuTrack">SQL Attacks</a></li>
+<li class="leaf"><a href="/security/sql-cheat-sheet" title="" class="footerMenuTrack">SQL cheat sheet</a></li>
+<li class="leaf"><a href="/security/sql-injection" title="" class="footerMenuTrack">SQL Injection</a></li>
+<li class="leaf"><a href="/sql-injection-net-0" title="" class="footerMenuTrack">SQL Injection .NET</a></li>
+<li class="leaf"><a href="/sql-injection-net" title="" class="footerMenuTrack">SQL Injection in .NET</a></li>
+<li class="leaf"><a href="/sql-injection-java" title="" class="footerMenuTrack">SQL Injection in Java</a></li>
+<li class="leaf"><a href="/sql-injection-java-0" title="" class="footerMenuTrack">SQL Injection Java</a></li>
+<li class="leaf"><a href="/security/sql-injections" title="" class="footerMenuTrack">SQL injections</a></li>
+<li class="leaf"><a href="/security/sql-insertion" title="" class="footerMenuTrack">SQL Insertion</a></li>
+<li class="leaf"><a href="/security/website-sql" title="" class="footerMenuTrack">Website SQL</a></li>
+<li class="leaf"><a href="/security/what-is-a-worm" title="" class="footerMenuTrack">What is a worm</a></li>
+<li class="last leaf"><a href="/security/what-sql-injection" title="" class="footerMenuTrack">What is SQL Injection</a></li>
+</ul></div>
+<h3 class="accordion-header accordion-header-7 last has-children odd menu-mlid-30151"><span title="" class="accordion-link accordion-link">Miscellaneous</span></h3>
+<div class="accordion-content-7"><ul class="menu"><li class="first leaf"><a href="/security/android-hacking" title="" class="footerMenuTrack">Android Hacking</a></li>
+<li class="leaf"><a href="/security/byod-security" title="" class="footerMenuTrack">BYOD Security</a></li>
+<li class="leaf"><a href="/security/facebook-application-security" title="" class="footerMenuTrack">Facebook Security</a></li>
+<li class="leaf"><a href="/security/flash-security" title="" class="footerMenuTrack">Flash Security</a></li>
+<li class="leaf"><a href="/security/ios-security" title="" class="footerMenuTrack">iOS Security</a></li>
+<li class="leaf"><a href="/security/password-hacking" title="" class="footerMenuTrack">Password Hacking</a></li>
+<li class="leaf"><a href="/security/role-based-access-controls" title="" class="footerMenuTrack">Role based access controls</a></li>
+<li class="leaf"><a href="/security/veracode-hacks" title="" class="footerMenuTrack">Veracode Hacks</a></li>
+<li class="leaf"><a href="/security/what-is-byod" title="" class="footerMenuTrack">What is BYOD</a></li>
+<li class="last leaf"><a href="/security/wireless-sniffer" title="" class="footerMenuTrack">Wireless Sniffer</a></li>
+</ul></div>
+</div>
+  </div>
+</div>
+				</div>
+				<div id="widget_606" class="appsec-right-block">
+					<div class="breadcrumb"><span><a href="/">Home</a><span class="bcClass-1"> / </span><a href="/security" title="">Application Security Basics</a><span class="bcClass-2"> / </span><span class="last-breadcrumb-title">Static Code Analysis</span></span></div>										<h1 class="appsec-title-h1">STATIC CODE ANALYSIS</h1>
+					<div class="v-field-body"><div id="mainCol">
+<h3>What is Static Code Analysis?</h3>
+<p><strong>Static code analysis</strong>, also commonly called "white-box" testing, is one of veracode's <a href="//www.veracode.com/security/code-review-tools">code review tools</a> that looks at applications in non-runtime environment. This method of security testing has distinct advantages in that it can evaluate both web and non-web applications and through advanced modeling, can detect flaws in the software’s inputs and outputs that cannot be seen through dynamic web scanning alone. In the past this technique required source code which is not only unpractical as source code often is unavailable but also insufficient.</p>
+<h3>Static code analysis provides greater enterprise security</h3>
+<p>Enterprise security today is highly focused on the application layer. Since security efforts have largely been successful in securing the enterprise perimeter, hackers and other malicious individuals have turned their attention to enterprise applications. Using embedded code or exploiting flaws in software, hackers gain control of company computers and get access to confidential information and customer records. Static code analysis is one of the security tools the enterprise can use to identify flaws and malicious code in applications before they are bought or deployed. But most static code analysis tools are only partially helpful - they focus on source code which, as proprietary or intellectual property, is often not accessible for testing. For enterprises seeking a static code analysis solution that can actually deliver 100 percent coverage even when source code is not available, Veracode has the answer.</p>
+<p><a id="snap__subnav_26731"></a><div id="widget_26731" class="promo-wrapper bgcolor-8fbc48  snap__subnav_anchor_26731_widget" style="background-image:url(/sites/default/files/transparent-01-image.png);background-size:cover;background-position:100%;"  title=""><div class=" txtcolor-ffffff promo-wrapper__full"><h2 class="txtcolor-ffffff">About Veracode Static Analysis</h2>
+<hr><br>
+<br>
+<span class='large btn promo ghost bgcolor-ffffff'>
+<a href='https://info.veracode.com/binary-static-analysis-datasheet-resource.html' alt='Learn More' target='_self' class='txtcolor-ffffff CTAtrack'>Learn More</a></span></div></div></p>
+<h3>Get more accurate and cost-effective static code analysis with Veracode</h3>
+<p>By scanning binary code (also called “compiled” or “byte” code) instead of source code, Veracode's static code analysis technology enables enterprises to test software more effectively and comprehensively, providing greater security for the organization. Veracode is built on the software-as-a-service (SaaS) model, enabling enterprises to get on-demand security assessments. In the past, application security assessment software has been expensive to purchase, and it required constant upgrades to keep up with ever-evolving threats. The Veracode static analysis tool frees enterprises from having to spend resources on the purchase of software or hardware, on hiring software security experts and consultants to operate it, and on constant maintenance to keep effective. With Veracode, enterprises simply submit code through an online platform and quickly get back test results. Veracode is easy to use and access, allowing enterprises to roll out security best-practices quickly and efficiently to development teams.</p>
+<p>Veracode offers a fundamentally better approach to static code analysis through our patented automated static binary analysis, which has been called a “breakthrough” by industry analysts such as Gartner. By looking at the code in its “final” compiled version Veracode can evaluate vulnerabilities introduced by linked libraries, APIs, compiler optimizations and third party components which source code testing cannot identify. This approach results in the most accurate and complete security testing available in the industry.</p>
+<div style="width:95%; border:solid 1px #18A0AB; background:#cae4e6; padding:10px;">
+<p><strong>Veracode Static Analysis supports all widely-used languages for desktop, web and mobile applications including:</strong></p>
+<ul>
+<li>Java (Java SE, Java EE, JSP)</li>
+<li>.NET (C#, ASP.NET, VB.NET)</li>
+<li>Web Platforms: JavaScript (including AngularJS, Node.js, and jQuery), Scala, Python, PHP, Ruby on Rails, ColdFusion, and Classic ASP</li>
+<li>Mobile Platforms: iOS (Objective-C and Swift), Android (Java), PhoneGap, Cordova, Titanium, Xamarin</li>
+<li>C/C++ (Windows, RedHat Linux, OpenSUSE, Solaris)</li>
+<li>Legacy Business Applications (COBOL, Visual Basic 6, RPG)</li>
+</ul>
+</div>
+<h3>Application Security without Source Code</h3>
+<p>The primary inhibitor to organizations being able to identify software vulnerabilities is the availability of source code. Veracode’s patented static binary analysis enables enterprises to conduct application security audits through an easy to use platform, as part of an organization’s formal software release, compliance or acceptance process, without the need for source code or other intellectual property.</p>
+<h3>Superior Accuracy and Coverage through Binary Analysis</h3>
+<p>Binary analysis creates a behavioral model by analyzing an application’s control and data flow through executable machine code – the way an attacker sees it. Unlike source code tools, this approach accurately detects issues in the core application and extends coverage to vulnerabilities found in 3rd party libraries, pre-packaged components, and code introduced by compiler or platform specific interpretations.</p>
+<h3>Detect Hidden Backdoors and Malicious Code with our Static Code Analysis Tool</h3>
+<p>Software development is a multi-tier process where growing types of threats – such as those coming from malicious code and backdoors – are impossible to spot with traditional static code analysis tools because they are not visible in source code. For the first time, organizations can now detect these threats by using static binary analysis on the application in its final form.</p>
+<p style="font-size: 13.008px;"><a id="snap__subnav_26566"></a><div id="widget_26566" class="promo-wrapper bgcolor-8fbc48  snap__subnav_anchor_26566_widget" style="background-image:url(/sites/default/files/transparent-01-image.png);background-size:cover;background-position:100%;"  title=""><div class=" txtcolor-ffffff promo-wrapper__full"><p><img alt="comment white" data-delta="1" data-fid="13621" data-media-element="1" src="https://www.veracode.com/sites/default/files/styles/media_responsive_widest/public/2x_comment-white.png?itok=L5L699FE" title="comment white"></p>
+<h2 class="txtcolor-ffffff">Questions About Application Security?</h2>
+<span class='large btn promo ghost bgcolor-ffffff'>
+<a href='https://info.veracode.com/web-contact-us.html' alt='Contact Us' target='_self' class='txtcolor-ffffff CTAtrack'>Contact Us</a></span></div></div></p>
+<h3>Related Veracode Solutions</h3>
+<ul style="font-size: 13.008px;">
+<li><a href="//www.veracode.com/products/software-composition-analysis-old">Veracode Software Composition Analysis</a></li>
+<li><a href="//www.veracode.com/services/program-management-old">Veracode Security Program Management</a></li>
+</ul>
+</div>
+<p>&nbsp;</p>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>  </div>
+</div>
+<div id="block-block-51" class="block block-block">
+
+    
+  <div class="content">
+    <div class="livechat"><span class="close fa angle-down">&nbsp;</span></p>
+<div class="contact-menu"><span class="fa fa-angle-down close">&nbsp;</span></p>
+<ul class="options">
+<li>
+<div class="badge"><span class="icon icon-monitor-100x100">&nbsp;</span></div>
+<p>				<a class="chatOptionClickTrack" href="https://info.veracode.com/veracode-platform-demo-registration.html">Get a Demo</a></li>
+<li>
+<div class="badge"><span class="icon icon-quote-100x100">&nbsp;</span></div>
+<p>				<a class="chatOptionClickTrack" href="https://info.veracode.com/request-quote.html">Get a Quote</a></li>
+<li id="chat-cu">
+<div class="badge"><span class="icon icon-envelope-100x100">&nbsp;</span></div>
+<p>				<a class="chatOptionClickTrack" href="https://info.veracode.com/web-contact-us.html?utm_source=Click2Chat&amp;utm_medium=Website">Contact Us</a></li>
+<li id="chat-se">
+<div class="badge"><span class="icon icon-comment-100x100">&nbsp;</span></div>
+<p>				<a class="chatOptionClickTrack" href="//www.veracode.com/" onclick="return SnapEngage.startLink();">Chat Now</a></li>
+</ul>
+<ul class="phone-email">
+<li><span class="icon icon-white-phone-16x16">&nbsp;</span><em>US:</em> 1-888-937-0329</li>
+<li><span class="icon icon-white-phone-16x16">&nbsp;</span><em>EMEA:</em> +44-(0)20-3761-5501</li>
+<li><span class="icon icon-email-sent-16x16">&nbsp;</span><a href="/cdn-cgi/l/email-protection#20434f4e544143546056455241434f44450e434f4d"><span class="__cf_email__" data-cfemail="4f2c20213b2e2c3b0f392a3d2e2c202b2a612c2022">[email&#160;protected]</span></a></li>
+<li><span class="icon icon-community-16x16">&nbsp;</span><a href="https://community.veracode.com">Visit the community &gt;</a></li>
+</ul>
+</div>
+<p>	<img alt="contact menu" class="chat-badge chatBadgeClickTrack" height="104" src="//www.veracode.com/sites/default/files/chat/circle.png" style="cursor: pointer; overflow: hidden;position: fixed;display: block;bottom: 2%;right: 2%;z-index:2;margin: 0;padding: 0;border-collapse: collapse;border-spacing: 0;border: none;outline: none;font-size: 0px;line-height: 0px;width:104px; height:104px;" width="104"></div>
+  </div>
+</div>
+<div id="block-block-66" class="block block-block cookie-popup-block">
+
+    
+  <div class="content">
+    <!-- start popup code --><div class="cookie-popup-bottom" id="cookie-popup" style="height: auto; width: 100%; bottom: 0px; position:fixed; display:none;">
+<div>
+<div class="cookie-popup-content">
+<div id="cookie-popup-text">
+<h2>Cookie Use</h2>
+<p>We use cookies to collect information to help us personalise your experience and improve the functionality and performance of our site. By continuing to use our site [without first changing your browser setting], you consent to our use of cookies. For more information see our <a href="//www.veracode.com/legal-notices#cookies">cookies policy</a>.</p>
+</div>
+<div id="cookie-popup-buttons"><button class="cookie-popup-agree-button" type="button">OK</button></div>
+</div>
+</div>
+</div>
+<!-- end popup code-->  </div>
+</div>
+  </div>
+        </div>
+</section>
+<footer>
+	  <div class="region region-social-links">
+    <div id="block-menu-block-3" class="block block-menu-block">
+
+    
+  <div class="content">
+    <div class="menu-block-wrapper menu-block-3 menu-name-menu-menu-main-footer-menu parent-mlid-0 menu-level-1">
+  <ul class="menu"><li class="first expanded menu-mlid-4841"><a href="/products" title="" class="footerMenuTrack">Products</a><ul class="menu"><li class="first leaf menu-mlid-11431"><a href="/products/greenlight" title="" class="footerMenuTrack">Greenlight</a></li>
+<li class="leaf menu-mlid-4856"><a href="/products/binary-static-analysis-sast" title="" class="footerMenuTrack">Static Analysis (SAST)</a></li>
+<li class="leaf menu-mlid-26231"><a href="/products/software-composition-analysis" title="" class="footerMenuTrack">Software Composition Analysis (SCA)</a></li>
+<li class="leaf menu-mlid-26641"><a href="/products/dynamic-analysis-dast" title="" class="footerMenuTrack">Dynamic Analysis (DAST)</a></li>
+<li class="leaf menu-mlid-29141"><a href="/products/discovery" title="" class="footerMenuTrack">Discovery</a></li>
+<li class="last leaf menu-mlid-29136"><a href="/services/developer-training" title="" class="footerMenuTrack">Developer Training</a></li>
+</ul></li>
+<li class="expanded menu-mlid-4881"><a href="/services" title="" class="footerMenuTrack">Services</a><ul class="menu"><li class="first leaf menu-mlid-28581"><a href="/services/application-security-consulting" title="" class="footerMenuTrack">Application Security Consulting</a></li>
+<li class="leaf menu-mlid-28596"><a href="/services/technical-support" title="" class="footerMenuTrack">Technical Support</a></li>
+<li class="leaf menu-mlid-30221"><a href="/services/penetration-testing" title="" class="footerMenuTrack">Penetration Testing</a></li>
+<li class="leaf menu-mlid-4906"><a href="/services/developer-training" title="" class="footerMenuTrack">Developer Training</a></li>
+<li class="last leaf menu-mlid-29151"><a href="/services/customer-success-packages" title="" class="footerMenuTrack">Customer Success Packages</a></li>
+</ul></li>
+<li class="expanded menu-mlid-4746"><a href="/solutions" title="" class="footerMenuTrack">Solutions</a><ul class="menu"><li class="first leaf menu-mlid-29066"><span title="" class="footerMenuTrack nolink">By Business Need:</span></li>
+<li class="leaf menu-mlid-4766"><a href="/solutions/by-need/streamlining-compliance" title="" class="footerMenuTrack">Compliance</a></li>
+<li class="leaf menu-mlid-29171"><a href="/integrations" title="" class="footerMenuTrack">Veracode Integrations</a></li>
+<li class="leaf menu-mlid-29076"><span title="" class="footerMenuTrack separator"><hr></span></li>
+<li class="leaf menu-mlid-29071"><span title="" class="footerMenuTrack nolink">By Organization Type:</span></li>
+<li class="leaf menu-mlid-4826"><a href="/solutions/by-company/global-enterprise" title="" class="footerMenuTrack">Global Enterprise</a></li>
+<li class="leaf menu-mlid-4831"><a href="/solutions/by-company/midsize-enterprise" title="" class="footerMenuTrack">Midsize Enterprise</a></li>
+<li class="last leaf menu-mlid-4836"><a href="/solutions/by-company/independent-software-vendor" title="" class="footerMenuTrack">Independent Software Vendor</a></li>
+</ul></li>
+<li class="expanded menu-mlid-4911"><a href="/resources" title="" class="footerMenuTrack">Resources</a><ul class="menu"><li class="first leaf menu-mlid-4941"><a href="/security" title="" class="footerMenuTrack">AppSec Knowledge Base</a></li>
+<li class="leaf menu-mlid-29206"><a href="https://veracode.com/resources?topic=intro-to-appsec#resources-results" title="" class="footerMenuTrack">Intro to AppSec</a></li>
+<li class="leaf menu-mlid-29211"><a href="https://veracode.com/resources?topic=managing-appsec#resources-results" title="" class="footerMenuTrack">Managing AppSec</a></li>
+<li class="leaf menu-mlid-29216"><a href="https://veracode.com/resources?topic=secure-development#resources-results" title="" class="footerMenuTrack">Secure Development</a></li>
+<li class="leaf menu-mlid-29256"><a href="https://www.veracode.com/resources?topic=regulation#resources-results" title="" class="footerMenuTrack">Regulation</a></li>
+<li class="leaf menu-mlid-29221"><a href="https://veracode.com/resources?topic=getting-internal-buy-in#resources-results" title="" class="footerMenuTrack">Getting Internal Buy In</a></li>
+<li class="leaf menu-mlid-29226"><a href="https://veracode.com/resources?topic=third-party-software#resources-results" title="" class="footerMenuTrack">Third Party Software</a></li>
+<li class="last leaf menu-mlid-16011"><a href="https://help.veracode.com/ " title="" class="footerMenuTrack">Product Documentation</a></li>
+</ul></li>
+<li class="last expanded menu-mlid-4946"><a href="/about-us" title="" class="footerMenuTrack">About</a><ul class="menu"><li class="first leaf menu-mlid-29146"><a href="/workforus" title="" class="footerMenuTrack">Work For Us</a></li>
+<li class="leaf menu-mlid-6651"><a href="/about/careers" title="" class="footerMenuTrack">Careers</a></li>
+<li class="leaf menu-mlid-4961"><a href="/news-events" title="" class="footerMenuTrack">News &amp; Events</a></li>
+<li class="leaf menu-mlid-29176"><a href="/resources/faqs" title="" class="footerMenuTrack">FAQs</a></li>
+<li class="last leaf menu-mlid-4981"><a href="https://info.veracode.com/web-contact-us.html" title="" class="footerMenuTrack">Contact Us</a></li>
+</ul></li>
+</ul></div>
+  </div>
+</div>
+  </div>
+	  <div class="region region-footer-menu">
+    <div id="block-block-96" class="block block-block mobile-footer-follow">
+
+    <h2>Follow us</h2>
+  
+  <div class="content">
+    <ul class="footer-social-link">
+<li><a href="https://www.facebook.com/VeracodeInc" rel="noopener" target="_blank"><img src="//www.veracode.com/sites/default/files/facebook_0.png"></a></li>
+<li><a href="https://twitter.com/Veracode" rel="noopener" target="_blank"><img src="//www.veracode.com/sites/default/files/twitter-white_0.png"></a></li>
+<li><a href="https://www.linkedin.com/company/veracode" rel="noopener" target="_blank"><img src="//www.veracode.com/sites/default/files/linkedin-white_0.png"></a></li>
+<li><a href="https://www.youtube.com/user/VeracodeInc" rel="noopener" target="_blank"><img src="//www.veracode.com/sites/default/files/play_0.png"></a></li>
+</ul>
+  </div>
+</div>
+<div id="block-menu-menu-quick-links" class="block block-menu menu-mobile-footer-menu">
+
+    <h2>Quick links</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="first leaf"><a href="/services" title="" class="footerMenuTrack">Services</a></li>
+<li class="leaf"><a href="/solutions" title="" class="footerMenuTrack">Solutions</a></li>
+<li class="leaf"><a href="/solutions/by-company/global-enterprise" title="" class="footerMenuTrack">Our company</a></li>
+<li class="leaf"><a href="/resources" title="" class="footerMenuTrack">Resources</a></li>
+<li class="leaf"><a href="/about/partners" title="" class="footerMenuTrack">Partners</a></li>
+<li class="leaf"><a href="/about/careers" title="" class="footerMenuTrack">Careers</a></li>
+<li class="leaf"><a href="https://info.veracode.com/blog-subscribe.html" title="" class="footerMenuTrack">Get a demo</a></li>
+<li class="last leaf"><a href="/blog" title="" class="footerMenuTrack">Blog</a></li>
+</ul>  </div>
+</div>
+<div id="block-block-101" class="block block-block footer-follow-us">
+
+    
+  <div class="content">
+    <p>Sales : <a href="tel:+1-888-937-0329">+1-888-937-0329</a></p>
+<p>Support: <a href="tel:+1-877-837-2203">+1-877-837-2203</a></p>
+<p>UK: <a href="tel:+44 (0)20 3761 5501">+44-(0)-20-3761-5501</a></p>
+  </div>
+</div>
+<div id="block-block-106" class="block block-block new-copyright">
+
+    
+  <div class="content">
+    <p><span class="legal"><a href="//www.veracode.com/site-map" title="">Site Map</a>&nbsp;|&nbsp;<a href="//www.veracode.com/privacy-policy" title="">Privacy Policy</a>&nbsp;|&nbsp;<a href="//www.veracode.com/about/terms-of-use" title="">Terms of Use</a>&nbsp;|&nbsp;<a href="//www.veracode.com/about/certifications" title="">Cloud Certifications</a></span></p>
+<div class="copy-right">© 2019 VERACODE, All Rights Reserved 65 Network Drive, Burlington MA 01803</div>
+  </div>
+</div>
+  </div>
+</footer>
+  <div class="region region-footer footerMapTrack">
+    <div id="block-block-91" class="block block-block footer-mobile-text">
+
+    
+  <div class="content">
+    <p>Veracode is a leading provider of enterprise-class application security, seamlessly integrating agile security solutions for organizations around the globe. In addition to application security services and secure devops services, Veracode provides a full security assessment to ensure your website and applications are secure, and ensures full enterprise data protection. Application protection services from Veracode include white box testing, and mobile application security testing, with customized solutions that eliminate vulnerabilities at all points along the development life cycle.</p>
+<p>*Gartner Peer Insights reviews constitute the subjective opinions of individual end users based on their own experiences and do not represent the views of Gartner or its affiliates.</p>
+<p>**Gartner does not endorse any vendor, product or service depicted in its research publications, and does not advise technology users to select only those vendors with the highest ratings or other designation. Gartner research publications consist of the opinions of Gartner's research organization and should not be construed as statements of fact. Gartner disclaims all warranties, expressed or implied, with respect to this research, including any warranties of merchantability or fitness for a particular purpose.</p>
+  </div>
+</div>
+  </div>
+      <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+;function advagg_mod_1(){advagg_mod_1.count=++advagg_mod_1.count||1;try{if(advagg_mod_1.count<=40){window.jQuery||document.write("<script src='/sites/all/modules/jquery_update/replace/jquery/2.2/jquery.min.js'>\x3C/script>");advagg_mod_1.count=100}}catch(d){if(advagg_mod_1.count>=40){throw d}
+else{window.setTimeout(advagg_mod_1,250)}}};function advagg_mod_1_check(){if(window.jQuery&&window.Drupal&&window.Drupal.settings){advagg_mod_1()}
+else{window.setTimeout(advagg_mod_1_check,250)}};advagg_mod_1_check();
+//--><!]]>
+</script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+;function advagg_mod_2(){advagg_mod_2.count=++advagg_mod_2.count||1;try{if(advagg_mod_2.count<=40){window.jQuery.ui||document.write("<script src='/sites/all/modules/jquery_update/replace/ui/ui/minified/jquery-ui.min.js'>\x3C/script>");advagg_mod_2.count=100}}catch(d){if(advagg_mod_2.count>=40){throw d}
+else{window.setTimeout(advagg_mod_2,250)}}};function advagg_mod_2_check(){if(window.jQuery&&window.Drupal&&window.Drupal.settings){advagg_mod_2()}
+else{window.setTimeout(advagg_mod_2_check,250)}};advagg_mod_2_check();
+//--><!]]>
+</script>
+<script type="text/javascript" src="/sites/default/files/advagg_js/js__yNXesSatD3lUfblMzrWedNrRBOXsVAAX0uQoMCZ_jfw__z8bc52CPjJ9x3KTCoyN0RyOqLviYVi_sSEfj6JL-g-0__-A10P-1JhD5-2Ua1R8ZybZxDd4RxSpKnsxbTckhZwvM.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+;function advagg_mod_defer_1(){Shadowbox.path='/sites/all/libraries/shadowbox-3.0.3/'};window.setTimeout(advagg_mod_defer_1,0);
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+;jQuery(function(){var e=[],i=jQuery('.appsec-left-block .ui-accordion .ui-accordion-content-active ul li a');function c(){e=[];i=jQuery('.appsec-left-block .ui-accordion .ui-accordion-content-active ul li a');i.each(function(c,i){if(jQuery(i).height()<0){return!0};if(jQuery.inArray(jQuery(i).height(),e)==-1){e.push(jQuery(i).height())}});i.each(function(c,i){if(jQuery(i).height()<0){return!0};jQuery(i).addClass('liAchorHeight-'+Math.round(jQuery(i).height()/Math.min.apply(Math,e)))})};jQuery('.accordion-menu-1').accordion({animated:'slide',autoHeight:!1,clearStyle:!1,fillSpace:!1,event:'mousedown',header:'h3',collapsible:!0,navigation:!1,icons:{'header':'ui-icon-plus','activeHeader':'ui-icon-minus'},heightStyle:'content',cookie:{path:'/'},active:3,create:function(e,i){setTimeout(function(){c()},500);jQuery('.accordion-menu-wrapper').show(510)},activate:function(e,i){c()},beforeActivate:function(e,i){jQuery('.appsec-left-block .ui-accordion .ui-accordion-content-active ul li a').removeClass('liAchorHeight-1 liAchorHeight-2 liAchorHeight-3 liAchorHeight-4')}});jQuery('.accordion-menu-1 .accordion-header.no-children').each(function(e,i){jQuery(this).unbind().children('.ui-icon').removeClass('ui-icon-plus').addClass('ui-icon-black')})});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+;jQuery(function(){var e=[],i=jQuery('.appsec-left-block .ui-accordion .ui-accordion-content-active ul li a');function c(){e=[];i=jQuery('.appsec-left-block .ui-accordion .ui-accordion-content-active ul li a');i.each(function(c,i){if(jQuery(i).height()<0){return!0};if(jQuery.inArray(jQuery(i).height(),e)==-1){e.push(jQuery(i).height())}});i.each(function(c,i){if(jQuery(i).height()<0){return!0};jQuery(i).addClass('liAchorHeight-'+Math.round(jQuery(i).height()/Math.min.apply(Math,e)))})};jQuery('.accordion-menu-1').accordion({animated:'slide',autoHeight:!1,clearStyle:!1,fillSpace:!1,event:'mousedown',header:'h3',collapsible:!0,navigation:!1,icons:{'header':'ui-icon-plus','activeHeader':'ui-icon-minus'},heightStyle:'content',cookie:{path:'/'},active:3,create:function(e,i){setTimeout(function(){c()},500);jQuery('.accordion-menu-wrapper').show(510)},activate:function(e,i){c()},beforeActivate:function(e,i){jQuery('.appsec-left-block .ui-accordion .ui-accordion-content-active ul li a').removeClass('liAchorHeight-1 liAchorHeight-2 liAchorHeight-3 liAchorHeight-4')}});jQuery('.accordion-menu-1 .accordion-header.no-children').each(function(e,i){jQuery(this).unbind().children('.ui-icon').removeClass('ui-icon-plus').addClass('ui-icon-black')})});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"veracode","theme_token":"f_6fCUBIjSksgu9RsMqm3g6VD3rGptqGZRCOtErue24","css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"sites\/all\/libraries\/shadowbox-3.0.3\/shadowbox.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.accordion.css":1,"modules\/comment\/comment.css":1,"sites\/all\/modules\/date\/date_api\/date.css":1,"sites\/all\/modules\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/fitvids\/fitvids.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/accordion_menu\/accordion_menu.css":1,"sites\/all\/modules\/media\/modules\/media_wysiwyg\/css\/media_wysiwyg.base.css":1,"sites\/all\/libraries\/colorbox\/example2\/colorbox.css":1,"profiles\/acquia\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/panels\/css\/panels.css":1,"sites\/all\/libraries\/superfish\/css\/superfish.css":1,"sites\/all\/libraries\/superfish\/css\/superfish-smallscreen.css":1,"sites\/all\/libraries\/superfish\/style\/simple\/simple.css":1,"sites\/all\/themes\/veracode\/css\/main_animate.css":1,"sites\/all\/themes\/veracode\/css\/screen.css":1,"sites\/all\/themes\/veracode\/css\/sm-spritesheet.css":1,"sites\/all\/themes\/veracode\/css\/icon-spritesheet.css":1,"sites\/all\/themes\/veracode\/css\/livechat.css":1,"sites\/all\/themes\/veracode\/css\/prism.css":1,"sites\/all\/themes\/veracode\/css\/print.css":1,"sites\/all\/libraries\/bxslider\/jquery.bxslider.css":1,"sites\/all\/themes\/veracode\/css\/story.css":1,"sites\/all\/themes\/veracode\/css\/owl.carousel.min.css":1,"sites\/default\/files\/soss-data-explorer\/build\/css\/index-generated.css":1,"0":1},"js":{"\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/2.2.4\/jquery.min.js":1,"\/\/ajax.googleapis.com\/ajax\/libs\/jqueryui\/1.10.2\/jquery-ui.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/libraries\/fitvids\/jquery.fitvids.js":1,"sites\/all\/libraries\/shadowbox-3.0.3\/shadowbox.js":1,"sites\/all\/modules\/shadowbox\/shadowbox_auto.js":1,"misc\/form.js":1,"sites\/all\/modules\/ajax_error_behavior\/ajax_error_behavior.js":1,"sites\/all\/modules\/fitvids\/fitvids.js":1,"sites\/all\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox_load.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox_inline.js":1,"misc\/collapse.js":1,"sites\/all\/libraries\/superfish\/sfautomaticwidth.js":1,"sites\/all\/libraries\/superfish\/sftouchscreen.js":1,"sites\/all\/libraries\/superfish\/sfsmallscreen.js":1,"sites\/all\/libraries\/superfish\/supposition.js":1,"sites\/all\/libraries\/superfish\/superfish.js":1,"sites\/all\/libraries\/easing\/jquery.easing.js":1,"sites\/all\/libraries\/superfish\/supersubs.js":1,"sites\/all\/modules\/superfish\/superfish.js":1,"sites\/all\/themes\/veracode\/js\/lib\/console.js":1,"sites\/all\/themes\/veracode\/js\/lib\/gumby\/js\/gumby.min.js":1,"sites\/all\/themes\/veracode\/js\/lib\/gumby\/bower_components\/gumby-parallax\/gumby.parallax.js":1,"sites\/all\/themes\/veracode\/js\/lib\/jquery.easing.js":1,"sites\/all\/themes\/veracode\/js\/lib\/jquery.cycle.js":1,"sites\/all\/themes\/veracode\/js\/lib\/jquery.cycle.swipe.js":1,"sites\/all\/themes\/veracode\/js\/lib\/jquery.cycle.ios6.js":1,"sites\/all\/themes\/veracode\/js\/lib\/jquery.backstretch.js":1,"sites\/all\/themes\/veracode\/js\/lib\/breakpoints.js":1,"sites\/all\/themes\/veracode\/js\/app.js":1,"sites\/all\/themes\/veracode\/js\/init.js":1,"sites\/all\/themes\/veracode\/js\/header-search.js":1,"sites\/all\/themes\/veracode\/js\/prism.js":1,"sites\/all\/themes\/veracode\/js\/lib\/d3.v3.min.js":1,"sites\/all\/themes\/veracode\/js\/svg-tooltip.js":1,"sites\/all\/themes\/veracode\/js\/picturefill.js":1,"sites\/all\/themes\/veracode\/js\/TweenMax.min.js":1,"sites\/all\/themes\/veracode\/js\/scrollmagic.min.js":1,"sites\/all\/themes\/veracode\/js\/ScrollToPlugin.min.js":1,"sites\/all\/themes\/veracode\/js\/owl.carousel.js":1,"sites\/all\/themes\/veracode\/js\/story.js":1,"sites\/all\/themes\/veracode\/js\/jquery-ui.min.js":1,"sites\/all\/modules\/pwa\/js\/serviceworker-load.js":1,"sites\/all\/libraries\/bxslider\/jquery.bxslider.min.js":1}},"ajaxErrorBehavior":{"behavior":"console","error":"There was some error in the user interface, please contact the site administrator.","watchdog_url":"https:\/\/www.veracode.com\/ajax_error_behavior\/watchdog"},"colorbox":{"opacity":"0.85","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"shadowbox":{"animate":1,"animateFade":1,"animSequence":"wh","auto_enable_all_images":1,"auto_gallery":1,"autoplayMovies":true,"continuous":0,"counterLimit":"10","counterType":"default","displayCounter":1,"displayNav":1,"enableKeys":1,"fadeDuration":"0.35","handleOversize":"resize","handleUnsupported":"link","initialHeight":160,"initialWidth":320,"language":"en","modal":false,"overlayColor":"#000","overlayOpacity":"0.85","resizeDuration":"0.35","showMovieControls":1,"slideshowDelay":"0","viewportPadding":20,"useSizzle":0},"fitvids":{"custom_domains":[],"selectors":["body"],"simplifymarkup":1},"urlIsAjaxTrusted":{"\/products\/static-analysis-sast\/static-code-analysis":true},"superfish":{"1":{"id":"1","sf":{"animation":{"opacity":"show","height":["show","easeInQuint"]},"speed":"slow"},"plugins":{"automaticwidth":true,"touchscreen":{"behaviour":"1","disableHover":true,"mode":"always_active"},"smallscreen":{"mode":"window_width","breakpointUnit":"px","title":"Header Navigation"},"supposition":true,"supersubs":true}}},"pwa":{"path":"\/pwa\/serviceworker\/js","registrationEvent":"windowonload"}});
+//--><!]]>
+</script>
+<script type="text/javascript" src="/sites/default/files/advagg_js/js__9BTpVXQE4YE8r7ZeJxG5e4Iup7G8q0A5-h9eXdCSolI__gu3qWpqb9OY7V2njvDsq-TVp_dLMeDvGbGdLekEGwPY__-A10P-1JhD5-2Ua1R8ZybZxDd4RxSpKnsxbTckhZwvM.js"></script>
+
+</div>
+<script language="javascript">
+/*function setSlideHeight(){
+	var half = parseInt($("#large-detailed-image .slider-content").height()) / 2;
+	$('#large-detailed-image .slider-content').css('margin-top',-half);
+	$('.bxslider-reason li .slider-content').each(function(){
+		var half = parseInt($(this).height()) / 2;
+		$(this).css('margin-top',-half);
+	});
+}*/
+$(document).ready(function(){
+	if($('.bxslider').length){
+		$('.bxslider').bxSlider({
+			auto: true,
+			autoControls: true,
+			pager: false,
+			controls: false,
+			adaptiveHeight: true
+		});
+	}
+	if($('.bxslider-reason').length){
+		$('.bxslider-reason').bxSlider({
+			minSlides: 4,
+			maxSlides: 5,
+			slideWidth: 300,
+			slideMargin: 0,
+			pager:false,
+			onSliderLoad:function(currentIndex){
+				setTimeout(function(){
+					$(".bx-prev").not('.disabled').wrap('<span class="previous"></span>');
+					$(".bx-next").not('.disabled').wrap('<span class="next"></span>');
+				}, 2000);
+				$('.'+$('.bxslider-reason>li:not(.bx-clone)').eq(0).attr('class').split(' ')[0]).addClass('active');
+				var liObj;
+				var n;
+				var largeImageObj = $('#large-detailed-image img');
+				setTimeout(function(){
+					$('.cache-large-image').remove();
+				}, 5000);
+				$('.bxslider-reason li').click(function(){
+					liObj = $(this);
+					if((largeImageObj.attr('src') != liObj.attr('data-large-image'))){
+						largeImageObj.fadeTo( 400, 0.33, function(){
+							largeImageObj.clearQueue().stop();
+							liObj.clearQueue().stop();
+							$('.bxslider-reason li').removeClass('active');
+							$('.'+liObj.attr('class').split(' ')[0]).addClass('active');
+							$('#large-detailed-image h2').html(liObj.attr('data-heading'));
+							$('#large-detailed-image span').html(liObj.attr('data-span'));
+							largeImageObj.attr('src', liObj.attr('data-large-image')).fadeTo(400,1);
+						});
+					}
+				});
+			}
+		});
+		/*setSlideHeight();
+		$(window).resize(function(){setSlideHeight();});*/
+	}
+
+
+		
+/*$(window).on( 'resize', function () {
+
+	$( ".story-wrapper__image" ).each(function( index ) {
+	height_img=$(this).height();
+	//alert(height_img);
+	$(this).parent().next('div').css('height',height_img+'px');
+	$(this).parent().prev('div').css('height',height_img+'px');
+	})
+}).resize();*/
+
+/*Call Owlcarousel-event*/
+	if($('.dragon').length){
+	$('.owl-carousel').owlCarousel({
+    //rtl:true,
+    loop:true,
+    margin:0,
+    nav:true,
+	navText: ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+	dots:false,
+    responsive:{
+        0:{
+            items:1
+
+        },
+        600:{
+            items:2
+
+        },
+        1000:{
+            items:3
+
+        }
+    }
+}) }
+/*End*/
+/* carousel for Widget-Story style*/
+if($('.Widget-Story-SlideItems').length){
+	$('.owl-carousel').owlCarousel({
+    //rtl:true,
+    loop:true,
+    margin:0,
+    nav:true,
+	navText: ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+	dots:false,
+    responsive:{
+        0:{
+            items:1
+
+        },
+        600:{
+            items:1
+
+        },
+        1000:{
+            items:1
+
+        }
+    }
+}) }
+//for video slider
+if($('.Widget-video-SlideItems').length){ 
+	$('.owl-carousel').owlCarousel({
+	 margin:150,
+	loop:!0,
+	items:1,
+	autoplay:!0,
+	autoplayTimeout:5000,
+	dots:!0,
+	  responsive:{
+        0:{
+            items:1,
+			 stagePadding: 20,
+        },
+        600:{
+            items:1,
+			stagePadding: 20,
+        },
+        1200:{
+            stagePadding: 200,
+			
+        },
+		1600:{
+		stagePadding:300
+		},
+	1920:{
+		stagePadding:400
+	}
+    }
+}) }
+/*end*/
+/*Code for Resources Filters page*/
+if($('.story-wrapper.resource-filter-results').length){
+	$(".views-exposed-widget fieldset").hover(
+		function() {
+			$(this).removeClass('collapsed');
+			$(this).find('.fieldset-wrapper').show();
+		}, function() {
+			$(this).addClass('collapsed');
+			$(this).find('.fieldset-wrapper').hide();
+		}
+	);
+
+	$('.story-wrapper.resource-filter-results').find('input[type="checkbox"]').on('change', function() {
+			$('.story-wrapper.resource-filter-results').find('input[type="checkbox"]:not(:checked)').not($(this)).attr('disabled', true);
+	});
+
+	if(jQuery(".grid-module-wrapper-outer .mutiselect-output.grid-module-wrapper").length == 0){
+		jQuery(".views-exposed-widget fieldset").addClass('collapsed').find('.fieldset-wrapper').hide();
+		jQuery('input[type="checkbox"]:checked').attr('checked', false);
+		jQuery('input[type="checkbox"]').parent().removeClass('highlight');
+			}
+
+
+	$(document.createElement('div')).addClass('mutiselect-output grid-module-wrapper').appendTo($(".grid-module-wrapper-outer"));
+	if(jQuery(".page-story-landing.resources-set.news-event").length > 0){
+	/*Some changes part of News-Events filtering*/
+	jQuery(".mutiselect-output.grid-module-wrapper").append('<div class="gridView"><a href="javascript:void(this);" title="Show as list" id="listView" class="active"  onClick="return changeViewMode(this);"><i class="fa fa-list"></i></a> <a href="javascript:void(this);"  id="gridView" title="Show as grid" onClick="return changeViewMode(this);" ><i class="fa fa-th"></i></a></div>');
+	}
+	//jQuery(".mutiselect-output.grid-module-wrapper").append('<a href="javascript:void(this);" title="Show as list" id="listView" ><i class="fa fa-list"></i></a> <a href="javascript:void(this);"  id="gridView" title="Show as grid"><i class="fa fa-th"></i></a>');
+	
+}
+/*End*/
+
+});
+$(window).on("load", function(){	/*loadResizeImage();*/	});
+function loadResizeImage(){
+
+	$(".story-wrapper__image").each(function( index ) {
+	height_img=$(this).height();
+	if(height_img > 560){
+	if($(this).parent('a').length > 0){
+
+		$(this).closest('div').next('div').css('height',height_img+'px');
+		$(this).closest('div').prev('div').css('height',height_img+'px');
+
+		}else{
+	$(this).parent().next('div').css('height',height_img+'px');
+	$(this).parent().prev('div').css('height',height_img+'px');
+
+	}
+	}
+
+	});
+
+}
+
+</script>
+
+</body>
+</html>

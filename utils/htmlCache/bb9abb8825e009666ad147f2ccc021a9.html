@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>NSPredicate | NSPredicate 💬 Examples Cheatsheet</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="NSPredicate" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examples of NSPredicate usage" />
+<meta property="og:description" content="Examples of NSPredicate usage" />
+<link rel="canonical" href="/" />
+<meta property="og:url" content="/" />
+<meta property="og:site_name" content="NSPredicate 💬 Examples Cheatsheet" />
+<script type="application/ld+json">
+{"headline":"NSPredicate","@type":"WebSite","url":"/","name":"NSPredicate 💬 Examples Cheatsheet","description":"Examples of NSPredicate usage","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="/assets/js/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/assets/css/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta property="og:title" content="NSPredicate.xyz - NSPredicate / Core Data usage examples">
+    <meta property="og:site_name" content="NSPredicate.xyz">
+    <meta property="og:url" content="https://nspredicate.xyz">
+    <meta property="og:description" content="NSPredicate / Core Data usage examples">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://nspredicate.xyz/assets/image/ogimage.png">
+
+    <link rel="shortcut icon" type="image/png" href="assets/image/favicon.png"/>
+  </head>
+  <body>
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <a href="/"><h1>NSPredicate 💬 | Examples Cheatsheet</h1></a>
+          <p>Examples of NSPredicate usage</p>
+          <hr>
+          <span class="credits left">Created by <a href="https://fluffy.es">Fluffy.es (Axel)</a></span>
+          <span class="credits right">Hosted on <a href="https://github.com/cupnoodle/predicate">GitHub Pages</a></span>
+        </div>
+
+        <h1 id="nspredicate">NSPredicate</h1>
+
+<p>This page contains usage examples of NSPredicate, <a href="coredata">check here for Core Data usage examples</a> 🔋</p>
+
+<p><a href="#get-demo-xcode-project">Get Demo CoreData / NSPredicate Xcode Project</a></p>
+
+<h1 id="table-of-contents">Table of Contents</h1>
+
+<h3 id="basic">Basic</h3>
+
+<p><a href="#predicate-format-and-arguments">Predicate Format and Arguments</a></p>
+
+<p><a href="#string-format-specifier">String Format Specifier</a></p>
+
+<p><a href="#basic-comparison">Basic Comparison</a></p>
+
+<p><a href="#compound-comparison">Compound Comparison</a></p>
+
+<p><a href="#case-insensitive-comparison">Case insensitive Comparison</a></p>
+
+<h3 id="techniques">Techniques</h3>
+
+<p><a href="#reuse-nspredicate-with-substitution-variable">Reuse NSPredicate with substitution variable</a></p>
+
+<p><a href="#using-nspredicate-to-filter-array-of-objects">Using NSPredicate to filter Array of objects</a></p>
+
+<h3 id="examples-entitys-property">Examples (Entity’s property…)</h3>
+
+<p><a href="#is-included-in-an-array-of-values">Is included in an Array of values</a></p>
+
+<p><a href="#is-not-included-in-an-array-of-values">Is not included in an Array of values</a></p>
+
+<p><a href="#begins-with-certain-string">Begins with certain string</a></p>
+
+<p><a href="#contains-certain-string">Contains certain string</a></p>
+
+<p><a href="#ends-with-certain-string">Ends with certain string</a></p>
+
+<p><a href="#wildcard-match-with-string">Wildcard match with string</a></p>
+
+<p><a href="#regular-expression-match-with-string">Regular Expression match with string</a></p>
+
+<h1 id="basics">Basics</h1>
+
+<h2 id="predicate-format-and-arguments">Predicate Format and Arguments</h2>
+
+<p>Say for a predicate which select Person that have a name “Asriel” and 50 money :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">fetchRequest</span> <span class="o">=</span> <span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="kt">Person</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">entityName</span><span class="p">:</span> <span class="s">"Person"</span><span class="p">)</span>
+<span class="n">fetchRequest</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name == %@ AND money == %i"</span><span class="p">,</span> <span class="s">"Asriel"</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The format is <code class="highlighter-rouge">"name == %@ AND money == %i"</code>.</p>
+
+<p><code class="highlighter-rouge">%@</code>  and <code class="highlighter-rouge">%i</code> are the format specifiers, <code class="highlighter-rouge">%@</code> will be substituted with an <strong>object</strong> (eg: String, date etc), whereas <code class="highlighter-rouge">%i</code> will be substituted with an <strong>integer</strong>.</p>
+
+<p>The substitution happens as illustrated below, following the order from left to right :</p>
+
+<p><img src="/assets/image/predicateFormat.png" alt="predicateFormat" /></p>
+
+<p><code class="highlighter-rouge">%@</code> (object format specifier) will be replaced with “Asriel”  and <code class="highlighter-rouge">%i</code> (integer format specifier) will be replaced with 50. <strong>Asriel</strong> and <strong>50</strong> is the <strong>arguments</strong>.</p>
+
+<p>After substitution, the predicate will become <code class="highlighter-rouge">"name == 'Asriel' AND money = 50"</code> , meaning the NSPredicate will find for Person that have name <strong>Asriel</strong> and <strong>50</strong> money.</p>
+
+<p><br /></p>
+
+<blockquote>
+  <p>But why can’t I just use “name == ‘Asriel’ AND money = 50” instead of having to use the format specifier thingy?</p>
+</blockquote>
+
+<p>Yes of course you can! For simple filter which require a hardcoded value I recommend using it. The format specifier substitution is for variable value usually, like this :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// user input a name into textfield</span>
+<span class="k">var</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">nameTextField</span><span class="o">.</span><span class="n">text</span><span class="o">!</span>
+
+<span class="c1">// filter based on the name user has inputed</span>
+<span class="k">let</span> <span class="nv">fetchRequest</span> <span class="o">=</span> <span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="kt">Person</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">entityName</span><span class="p">:</span> <span class="s">"Person"</span><span class="p">)</span>
+<span class="n">fetchRequest</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name == %@"</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="string-format-specifier">String Format Specifier</h2>
+
+<p>You can check the full list in <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html">Apple official documentation</a>. <code class="highlighter-rouge">%@</code> is used for objects like String, Date, Array etc.</p>
+
+<p><code class="highlighter-rouge">%K</code> is used for <strong>K</strong>eypath (the property of the entity).</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">integerPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"money == %i"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">doublePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"perimeter &gt; %f"</span><span class="p">,</span> <span class="mf">3.14159</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">stringPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name == %@"</span><span class="p">,</span> <span class="s">"Asriel"</span><span class="p">)</span>
+
+<span class="c1">// eg: find loans that are overdue</span>
+<span class="k">let</span> <span class="nv">datePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"due_date &lt; %@"</span><span class="p">,</span> <span class="kt">Date</span><span class="p">())</span>
+
+<span class="c1">// the above can be replaced with this</span>
+<span class="k">let</span> <span class="nv">keyPathDatePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"%K &lt; %@"</span><span class="p">,</span> <span class="s">"due_date"</span><span class="p">,</span> <span class="kt">Date</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h2 id="basic-comparison">Basic Comparison</h2>
+
+<p>Basic comparison symbol like <code class="highlighter-rouge">==</code>, <code class="highlighter-rouge">&gt;</code> , <code class="highlighter-rouge">&lt;</code> etc.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">equalPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name == %@"</span><span class="p">,</span> <span class="s">"Steve Jobs"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">notEqualPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name != %@"</span><span class="p">,</span> <span class="s">"Steve Jobs"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">greaterPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"money &gt; %i"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">greaterOrEqualPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"money &gt;= %i"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">lesserPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"money &lt; %i"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">lesserOrEqualPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"money &lt;= %i"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="compound-comparison">Compound Comparison</h2>
+
+<p>Join two or more condition together with <code class="highlighter-rouge">OR</code> , <code class="highlighter-rouge">AND</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Retrieve records where all conditions are met</span>
+<span class="k">let</span> <span class="nv">andPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name == %@ AND money &gt;= %i"</span><span class="p">,</span> <span class="s">"Steve Jobs"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1">// Retrieve records as long as one of the condition is met</span>
+<span class="k">let</span> <span class="nv">orPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name == %@ OR money &gt;= %i"</span><span class="p">,</span> <span class="s">"Steve Jobs"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="case-insensitive-comparison">Case insensitive Comparison</h2>
+
+<p>For case insensitive comparison, put <code class="highlighter-rouge">[c]</code> after the comparison symbol.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Works for "jobs", "Jobs", "jObS"</span>
+<span class="k">let</span> <span class="nv">caseInsensitivePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name ==[c] %@"</span><span class="p">,</span> <span class="s">"Jobs"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="techniques-1">Techniques</h1>
+
+<h2 id="reuse-nspredicate-with-substitution-variable">Reuse NSPredicate with substitution variable</h2>
+
+<p>As it is relatively time consuming for the app to parse the format string of the NSPredicate, we should try to reduce creating multiple NSPredicate and reuse similar NSPredicate as much as possible. We can use variable value in NSPredicate denoted by <code class="highlighter-rouge">$</code> sign, and substitute its value by calling <code class="highlighter-rouge">withSubstitutionVariables</code> method.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Persons' name : ["Asriel", "Asgore", "Toriel", "Frisk", "Flowey"]</span>
+<span class="k">let</span> <span class="nv">context</span> <span class="o">=</span> <span class="n">appDelegate</span><span class="o">.</span><span class="n">persistentContainer</span><span class="o">.</span><span class="n">viewContext</span>
+<span class="k">let</span> <span class="nv">fetchRequest</span> <span class="o">=</span> <span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="kt">Person</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">entityName</span><span class="p">:</span> <span class="s">"Person"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">reusablePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name BEGINSWITH $startingName"</span><span class="p">)</span>
+
+<span class="c1">// replace $startingName with 'As'</span>
+<span class="n">fetchRequest</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="n">reusablePredicate</span><span class="o">.</span><span class="nf">withSubstitutionVariables</span><span class="p">([</span><span class="s">"startingName"</span> <span class="p">:</span> <span class="s">"As"</span><span class="p">])</span>
+
+<span class="k">do</span> <span class="p">{</span>
+  <span class="n">people</span> <span class="o">=</span> <span class="k">try</span> <span class="n">context</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="n">fetchRequest</span><span class="p">)</span>
+  <span class="c1">// ["Asriel", "Asgore"]</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="k">as</span> <span class="kt">NSError</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="s">"Could not fetch. </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">, </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">userInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// reuse the predicate with a different starting name</span>
+<span class="c1">// replace $startingName with 'F'</span>
+<span class="n">fetchRequest</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="n">reusablePredicate</span><span class="o">.</span><span class="nf">withSubstitutionVariables</span><span class="p">([</span><span class="s">"startingName"</span> <span class="p">:</span> <span class="s">"F"</span><span class="p">])</span>
+
+<span class="k">do</span> <span class="p">{</span>
+  <span class="n">people</span> <span class="o">+=</span> <span class="k">try</span> <span class="n">context</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="n">fetchRequest</span><span class="p">)</span>
+  <span class="c1">// ["Asriel", "Asgore", "Flowey", "Frisk"]</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="k">as</span> <span class="kt">NSError</span> <span class="p">{</span>
+  <span class="nf">print</span><span class="p">(</span><span class="s">"Could not fetch. </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">, </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">userInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You can use multiple variables like <code class="highlighter-rouge">name BEGINSWITH $startingName AND money &gt;  $amount</code> , then call <code class="highlighter-rouge">withSubstitutionVariables(["startingName" : "As", "amount": 50])</code>.</p>
+
+<h2 id="using-nspredicate-to-filter-array-of-objects">Using NSPredicate to filter Array of objects</h2>
+
+<p>Other than Core Data, we can also use NSPredicate to filter array of objects. The <code class="highlighter-rouge">SELF</code> in the format string means each individual element in the array.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Kim Kardashian"</span><span class="p">,</span> <span class="s">"Kim Jong Un"</span><span class="p">,</span> <span class="s">"Jimmy Kimmel"</span><span class="p">,</span> <span class="s">"Ken"</span><span class="p">]</span>
+
+<span class="k">var</span> <span class="nv">filteredNames</span> <span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1">// SELF means each element in the array</span>
+<span class="k">let</span> <span class="nv">containPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"SELF CONTAINS %@"</span><span class="p">,</span> <span class="s">"Kim"</span><span class="p">)</span>
+
+<span class="n">filteredNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="nf">filter</span><span class="p">({</span> <span class="n">name</span> <span class="k">in</span>
+    <span class="c1">// the evaluate function will return true if the element satisfy the predicate, </span>
+    <span class="c1">// otherwise false</span>
+	<span class="n">containPredicate</span><span class="o">.</span><span class="nf">evaluate</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">filteredNames</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="c1">// ["Kim Kardashian", "Kim Jong Un", "Jimmy Kimmel"]</span>
+</code></pre></div></div>
+
+<h1 id="examples">Examples</h1>
+
+<h2 id="is-included-in-an-array-of-values">Is included in an Array of values</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">wantedItemIDs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
+
+<span class="c1">// Retrieve record with item_id which is inside the wantedItemIDs array</span>
+<span class="k">let</span> <span class="nv">inclusivePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"item_id IN %@"</span><span class="p">,</span> <span class="n">wantedItemIDs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="is-not-included-in-an-array-of-values">Is not included in an Array of values</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">unwantedItemIDs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
+
+<span class="c1">// Retrieve record with item_id which is not inside the unwantedItemIDs array</span>
+<span class="k">let</span> <span class="nv">exclusivePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"NOT (item_id IN %@)"</span><span class="p">,</span> <span class="n">unwantedItemIDs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="begins-with-certain-string">Begins with certain string</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Works for "Kim Jong Un", "Kim Kardashian"</span>
+<span class="k">let</span> <span class="nv">beginPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name BEGINSWITH %@"</span><span class="p">,</span> <span class="s">"Kim"</span><span class="p">)</span>
+
+<span class="c1">// Works for "macintosh", "Macintosh"</span>
+<span class="k">let</span> <span class="nv">beginCaseInsensitivePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name BEGINSWITH[c] %@"</span><span class="p">,</span> <span class="s">"mac"</span><span class="p">)</span>
+<span class="c1">// the [c] means case insensitive match</span>
+</code></pre></div></div>
+
+<h2 id="contains-certain-string">Contains certain string</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Works for "Steven Paul Jobs", "Logan Paul"</span>
+<span class="k">let</span> <span class="nv">containPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name CONTAINS %@"</span><span class="p">,</span> <span class="s">"Paul"</span><span class="p">)</span>
+
+<span class="c1">// Works for "Shop1", "shopping", "my shop", "bishop"</span>
+<span class="k">let</span> <span class="nv">containCaseInsensitivePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name CONTAINS[c] %@"</span><span class="p">,</span> <span class="s">"shop"</span><span class="p">)</span>
+<span class="c1">// the [c] means case insensitive match</span>
+</code></pre></div></div>
+
+<h2 id="ends-with-certain-string">Ends with certain string</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Works for "Steve Jobs", "Lisa Jobs"</span>
+<span class="k">let</span> <span class="nv">endPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name ENDSWITH %@"</span><span class="p">,</span> <span class="s">"Jobs"</span><span class="p">)</span>
+
+<span class="c1">// Works for "mundane jobs", "Steve Jobs"</span>
+<span class="k">let</span> <span class="nv">endCaseInsensitivePredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"name ENDSWITH[c] %@"</span><span class="p">,</span> <span class="s">"jobs"</span><span class="p">)</span>
+<span class="c1">// the [c] means case insensitive match</span>
+</code></pre></div></div>
+
+<h2 id="wildcard-match-with-string">Wildcard match with string</h2>
+
+<p><code class="highlighter-rouge">LIKE</code> is used for wildcard match.</p>
+
+<p>Wildcard match is used to match certain pattern of string, eg: to match <code class="highlighter-rouge">img1.png</code> , <code class="highlighter-rouge">img10.png</code> and<code class="highlighter-rouge">img100.png</code>, we can use <code class="highlighter-rouge">filename LIKE 'img*.png'</code>. The <code class="highlighter-rouge">*</code> means <strong>zero or more characters</strong> between <code class="highlighter-rouge">img</code> and <code class="highlighter-rouge">.png</code> is accepted.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">filenameArr</span> <span class="o">=</span> <span class="p">[</span><span class="s">"img.png"</span><span class="p">,</span> <span class="s">"img1.png"</span><span class="p">,</span> <span class="s">"img2.png"</span><span class="p">,</span> <span class="s">"img10.png"</span><span class="p">,</span> <span class="s">"img100.png"</span><span class="p">,</span> <span class="s">"img200.txt"</span><span class="p">,</span> <span class="s">"img300.csv"</span><span class="p">]</span>
+
+<span class="k">let</span> <span class="nv">pngPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"SELF LIKE %@"</span><span class="p">,</span> <span class="s">"img*.png"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">imageArr</span> <span class="o">=</span> <span class="n">filenameArr</span><span class="o">.</span><span class="nf">filter</span><span class="p">(){</span> <span class="n">filename</span> <span class="k">in</span>
+	<span class="n">pngPredicate</span><span class="o">.</span><span class="nf">evaluate</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">filename</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">imageArr</span><span class="p">)</span>
+<span class="c1">// ["img.png", "img1.png", "img2.png", "img10.png", "img100.png"]</span>
+</code></pre></div></div>
+
+<p>To match <strong>exactly one character</strong>, we can use <code class="highlighter-rouge">?</code> , eg: <code class="highlighter-rouge">filename LIKE 'img?.png'</code> will match <code class="highlighter-rouge">img1.png</code> but not <code class="highlighter-rouge">img10.png</code> as it only take in one character between <code class="highlighter-rouge">img</code> and <code class="highlighter-rouge">.png</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">filenameArr</span> <span class="o">=</span> <span class="p">[</span><span class="s">"img.png"</span><span class="p">,</span> <span class="s">"img1.png"</span><span class="p">,</span> <span class="s">"img2.png"</span><span class="p">,</span> <span class="s">"img10.png"</span><span class="p">,</span> <span class="s">"img100.png"</span><span class="p">,</span> <span class="s">"img200.txt"</span><span class="p">,</span> <span class="s">"img300.csv"</span><span class="p">]</span>
+
+<span class="k">let</span> <span class="nv">singleCharPngPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"SELF LIKE %@"</span><span class="p">,</span> <span class="s">"img?.png"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">imageArr2</span> <span class="o">=</span> <span class="n">filenameArr</span><span class="o">.</span><span class="nf">filter</span><span class="p">(){</span> <span class="n">filename</span> <span class="k">in</span>
+	<span class="n">singleCharPngPredicate</span><span class="o">.</span><span class="nf">evaluate</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">filename</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">imageArr2</span><span class="p">)</span>
+<span class="c1">// ["img1.png", "img2.png"]</span>
+</code></pre></div></div>
+
+<h2 id="regular-expression-match-with-string">Regular Expression match with string</h2>
+
+<p><code class="highlighter-rouge">MATCHES</code> is used for regular expression match.</p>
+
+<p>Regular expression is used for complex string pattern matching. Swift uses <a href="http://userguide.icu-project.org/strings/regexp">ICU regular expression format</a>.
+For learning regular expression, I recommend <a href="https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285">this tutorial</a>.</p>
+
+<p>Eg: <code class="highlighter-rouge">filename MATCHES 'img\\d{1,3}\\.png'</code> will match filename with 1-3 digits between <code class="highlighter-rouge">img</code> and <code class="highlighter-rouge">.png</code> like <code class="highlighter-rouge">img1.png</code>, <code class="highlighter-rouge">img10.png</code> and <code class="highlighter-rouge">img100.png</code> but not <code class="highlighter-rouge">img1000.png</code> .  Double backslash is used to escape the backslash character <code class="highlighter-rouge">\</code> .</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">filenameArr</span> <span class="o">=</span> <span class="p">[</span><span class="s">"img.png"</span><span class="p">,</span> <span class="s">"img1.png"</span><span class="p">,</span> <span class="s">"imgABC.png"</span><span class="p">,</span> <span class="s">"img10.png"</span><span class="p">,</span> <span class="s">"img100.png"</span><span class="p">,</span> <span class="s">"img9000.png"</span><span class="p">,</span> <span class="s">"img12345.png"</span><span class="p">]</span>
+
+<span class="c1">// matches filename that has 1-3 digits between 'img' and '.png'</span>
+<span class="k">let</span> <span class="nv">regexPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"SELF MATCHES %@"</span><span class="p">,</span> <span class="s">"img</span><span class="se">\\</span><span class="s">d{1,3}</span><span class="se">\\</span><span class="s">.png"</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">filteredArr</span> <span class="o">=</span> <span class="n">filenameArr</span><span class="o">.</span><span class="nf">filter</span><span class="p">(){</span> <span class="n">filename</span> <span class="k">in</span>
+    <span class="n">regexPredicate</span><span class="o">.</span><span class="nf">evaluate</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">filename</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">filteredArr</span><span class="p">)</span>
+<span class="c1">// ["img1.png", "img10.png", "img100.png"]</span>
+</code></pre></div></div>
+
+
+
+      </section>
+
+      <h2 id="get-demo-xcode-project">Get Demo Xcode Project</h2>
+      <div class="post-subscribe">
+        <script async data-uid="dcc65f20be" src="https://f.convertkit.com/dcc65f20be/58dfa75899.js">
+        </script>
+      </div>
+      <br><br>
+      Found some mistake or want some example to be added? <a href="https://github.com/cupnoodle/predicate/issues">Create an issue here </a>
+    </div>
+
+  <!-- Default Statcounter code for Nspredicate.xyz https://nspredicate.xyz -->
+  <script type="text/javascript">
+  var sc_project=11799542; 
+  var sc_invisible=1; 
+  var sc_security="6ca49729"; 
+  var scJsHost = (("https:" == document.location.protocol) ?
+  "https://secure." : "http://www.");
+  document.write("<sc"+"ript type='text/javascript' src='" +
+  scJsHost+
+  "statcounter.com/counter/counter.js'></"+"script>");
+  </script>
+  <noscript><div class="statcounter"><a title="free hit
+  counter" href="http://statcounter.com/" target="_blank"><img
+  class="statcounter"
+  src="//c.statcounter.com/11799542/0/6ca49729/0/" alt="free
+  hit counter"></a></div></noscript>
+  <!-- End of Statcounter Code -->
+  </body>
+</html>

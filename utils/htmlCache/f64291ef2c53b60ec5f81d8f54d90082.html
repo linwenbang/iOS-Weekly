@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+	<script type="text/javascript" src="http://use.typekit.com/ldo3bow.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+  <title>Khanlou | Hacking Hit Tests</title>
+	<link rel="stylesheet" type="text/css" media="all" href="/styles.css" />
+  <link rel="canonical" href="http://khanlou.com/2018/09/hacking-hit-tests/">
+  <link rel="alternate" type="application/rss+xml" title="Khanlou" href="http://khanlou.com/feed">
+</head>
+
+
+  <body>
+    <div id="page" class="hfeed">
+        <div class="wrapper">
+    <header id="header" role="banner">
+      <h1 id="site-title"><a href="" title="Khanlou" rel="home">Khanlou</a></h1>
+    </header>
+  </div>
+
+      <div id="main" class="clearfix">
+        <div id="primary">
+            <ul id="navigation" class="clearfix">
+    <li ><a href="/">Articles</a></li>
+    
+      <li ><a class="page-link" href="/best/">Best Of</a></li>
+      
+      <li ><a class="page-link" href="/hire/">Hire Me</a></li>
+      
+      <li ><a class="page-link" href="/love/">Things I Love</a></li>
+      
+      <li ><a class="page-link" href="/talks/">Talks</a></li>
+      
+      <li ><a class="page-link" href="/projects/">Projects</a></li>
+      
+  </ul>
+
+          <div id="content" role="main">
+            <div class="blogpost">
+  <div class="post-meta">
+    <time datetime="2018-09-07T00:00:00-04:00" itemprop="datePublished" class="timestamp">September 07, 2018</time>
+    <h2 class="post-title" itemprop="name headline">Hacking Hit Tests</h2>
+  </div>
+  
+  <p>Back in the days before <a href="https://developer.apple.com/videos/play/wwdc2015/408/">Crusty taught us “protocol-oriented programming”</a>, sharing of implementations happened mostly via inheritance. In an average day of UIKit programming, you might subclass <code class="highlighter-rouge">UIView</code>, add some child views, override <code class="highlighter-rouge">-layoutSubviews</code>, and repeat. Maybe you’ll override <code class="highlighter-rouge">-drawRect</code>. But on weird days, when you need to do weird things, you start to look at those other methods on <code class="highlighter-rouge">UIView</code> that you can override.</p>
+
+<p>One of the more eccentric corners of UIKit is the touch handling subsystem. This primarily includes the two methods <code class="highlighter-rouge">-pointInside:withEvent:</code> and <code class="highlighter-rouge">-hitTest:withEvent:</code>.</p>
+
+<p><code class="highlighter-rouge">-pointInside:</code> tells the caller if a given point is inside a given view. <code class="highlighter-rouge">-hitTest:</code> uses <code class="highlighter-rouge">-pointInside:</code> to tell the caller which subview (if any) would be the receiver for a touch at a given point. It’s this latter method that I’m interested in today.</p>
+
+<p>Apple gives you barely enough documentation to figure out how to reimplement this method. Until you learn to reimplement it, you can’t change how it works. Let’s check out <a href="https://developer.apple.com/documentation/uikit/uiview/1622469-hittest?language=objc">the documentation</a> and try to write the function.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>override func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+	// ...
+}
+</code></pre>
+</div>
+
+<p>First, let’s start with a bit from the second paragraph:</p>
+
+<blockquote>
+  <p>This method ignores view objects that are hidden, that have disabled user interactions, or have an alpha level less than 0.01.</p>
+</blockquote>
+
+<p>Let’s put some quick <code class="highlighter-rouge">guard</code> statements up front to handle these preconditions.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>override func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+
+	guard isUserInteractionEnabled else { return nil }
+	
+	guard !isHidden else { return nil }
+	
+	guard alpha &gt;= 0.01 else { return nil }
+			
+	// ...
+</code></pre>
+</div>
+
+<p>Easy enough. What’s next?</p>
+
+<blockquote>
+  <p>This method traverses the view hierarchy by calling the <code class="highlighter-rouge">-pointInside:withEvent:</code> method of each subview to determine which subview should receive a touch event.</p>
+</blockquote>
+
+<p>While a literal reading of the documentation makes it sound like <code class="highlighter-rouge">-pointInside:</code> is called on each of the subviews inside a for loop, this isn’t quite correct.</p>
+
+<p>Thanks to a <a href="https://twitter.com/an0/status/1038254836016394240">reader dropping breakpoints</a> in <code class="highlighter-rouge">-hitTest:</code> and <code class="highlighter-rouge">-pointInside:</code>, we know <code class="highlighter-rouge">-pointInside:</code> is called on <code class="highlighter-rouge">self</code> (with the other guards), rather than on each of the subviews. So we can add this line of code to the other guards:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>guard self.point(inside: point, with: event) else { return nil }
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">-pointInside:</code> is another override point for <code class="highlighter-rouge">UIView</code>. Its default implementation checks if the point that is passed in is contained within the <code class="highlighter-rouge">bounds</code> of the view. If a view returns true for the <code class="highlighter-rouge">-pointInside:</code> call, that means the touch event was contained within its bounds.</p>
+
+<p>With that minor discrepency out of the way, we can continue with the documentation:</p>
+
+<blockquote>
+  <p>If <code class="highlighter-rouge">-pointInside:withEvent:</code> returns YES, then the subview’s hierarchy is similarly traversed until the frontmost view containing the specified point is found.</p>
+</blockquote>
+
+<p>So, from this, we know we need to iterate over the view tree. This means looping over all the views, and calling <code class="highlighter-rouge">-hitTest:</code> on each of those to find the proper child. In this way, the method is recursive.</p>
+
+<p>To iterate the view hierarchy, we’re going to need a loop. However, one of the more counterintuitive things about this method is we need to iterate the views in reverse. Views that are toward the end of the subviews array are <em>higher</em> in Z axis, and so they should be checked out first. (I wouldn’t quite have picked up on this point without <a href="http://smnh.me/hit-testing-in-ios/">this blog post</a>.)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// ...
+for subview in subviews.reversed() {
+
+}
+// ...
+</code></pre>
+</div>
+
+<p>The point that we are passed is defined relative to the coordinate system of <em>this</em> view, not the subview that we’re interested in. Fortunately UIKit gives us a handy function to convert points from our reference to the reference frame of any other view.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// ...
+for subview in subviews.reversed() {
+	let convertedPoint = subview.convert(point, from: self)
+	// ...
+}
+// ...
+</code></pre>
+</div>
+
+<p>Once we have a converted point, we can simply ask each subview what view it thinks is at that point. Remember, if the point lies outside that view (i.e., <code class="highlighter-rouge">-pointInside:</code> returns <em>false</em>), the <code class="highlighter-rouge">-hitTest</code> will return nil, and we’ll check the next subview in the hierarchy.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// ...
+let convertedPoint = subview.convert(point, from: self)
+if let candidate = subview.hitTest(convertedPoint, with: event) {
+	return candidate
+}
+//...
+</code></pre>
+</div>
+
+<p>Once we have our loop in place, the last thing we need to do is <code class="highlighter-rouge">return self</code>. If the view is tappable (which all of our <code class="highlighter-rouge">guard</code> statements assert), but none of our subviews want to take this touch, that means that the current view, <code class="highlighter-rouge">self</code>, is the correct target for the touch.</p>
+
+<p>Here’s the whole algorithm:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>override func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+	
+	guard isUserInteractionEnabled else { return nil }
+	
+	guard !isHidden else { return nil }
+	
+	guard alpha &gt;= 0.01 else { return nil }
+	
+	guard self.point(inside: point, with: event) else { return nil }	
+	
+	for subview in subviews.reversed() {
+		let convertedPoint = subview.convert(point, from: self)
+		if let candidate = subview.hitTest(convertedPoint, with: event) {
+			return candidate
+		}
+	}
+	return self
+}
+</code></pre>
+</div>
+
+<p>Now that we have a reference implementation, we can begin to modify it to enable specific behaviors.</p>
+
+<p>I’ve discussed one of those behaviors on this blog before, in <a href="http://khanlou.com/2013/04/changing-the-size-of-a-paging-scroll-view/">Changing the size of a paging scroll view</a>, I talked about the “old and busted” way to create this effect. Essentially, you’d</p>
+
+<ol>
+  <li>turn off <code class="highlighter-rouge">clipsToBounds</code>.</li>
+  <li>put an invisible view over the scrollable area.</li>
+  <li>override <code class="highlighter-rouge">-hitTest:</code> on the invisible view to pass all touches through to the scrollview.</li>
+</ol>
+
+<p>The <code class="highlighter-rouge">-hitTest:</code> method was the cornerstone of this technique. Because hit testing in UIKit is delegated to each view, each view gets to decide which view receives its touches. This enables you to override the default implementation (which does something expected and normal) and replace it with whatever you want, even returning a view that’s not a direct child of the original view. Pretty wild.</p>
+
+<p>Let’s take a look at a different example. If you’ve played with this year’s version of <a href="http://beacon.party/">Beacon</a>, you might have noticed that the physics for the swipe-to-delete behavior on events feel a little different from the built-in stuff that the rest of the OS uses. This is because we couldn’t quite get the appearance we wanted with the system approach, and we had to reimplement the feature.</p>
+
+<p>As you can imagine, rewriting the physics of swiping and bouncing is needlessly complicated, so we used a <code class="highlighter-rouge">UIScrollView</code> with <code class="highlighter-rouge">pagingEnabled</code> set to true to get as much of the mechanics of the bouncing for free. Using a technique similar to <a href="http://khanlou.com/2013/04/changing-the-size-of-a-paging-scroll-view/">an older post on this blog</a>, we set a custom page size by making our scroll view <code class="highlighter-rouge">bounds</code> smaller and moving the <code class="highlighter-rouge">panGestureRecognizer</code> to an overlay view on top of the event cell.</p>
+
+<p>However, while the overlay correctly passes touch events through to the scroll view, there are other events that the overlay incorrectly intercepts. The cell contains buttons, like the “join event” button and the “delete event” button that need to be able to receive touches. There are a few custom implementations of the <code class="highlighter-rouge">-hitTest:</code> method that would work for this situation; one such implementation is to explicitly check the two button subviews:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>override func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView? {
+
+	guard isUserInteractionEnabled else { return nil }
+	
+	guard !isHidden else { return nil }
+	
+	guard alpha &gt;= 0.01 else { return nil }
+
+	guard self.point(inside: point, with: event) else { return nil }
+
+	if joinButton.point(inside: convert(point, to: joinButton), with: event) {
+		return joinButton
+	}
+	
+	if isDeleteButtonOpen &amp;&amp; deleteButton.point(inside: convert(point, to: deleteButton), with: event) {
+		return deleteButton
+	}
+	return super.hitTest(point, with: event)
+}
+</code></pre>
+</div>
+
+<p>This correctly forwards the right tap events to the right buttons without breaking the scrolling behavior that reveals the delete button. (You could try ignoring just the <code class="highlighter-rouge">deletionOverlay</code>, but then it won’t correctly forward scroll events.)</p>
+
+<p><code class="highlighter-rouge">-hitTest:</code> is an override point for views that is rarely used, but when needed, can provide behaviors that are hard to build using other tools. Knowing how to implement it yourself gives you the ability to replace it at will. You can use the technique to make tap targets bigger, remove certain subviews from touch handling without removing them from the visible hierarchy, or use one view as a sink for touches that will affect a different view. All things are possible!</p>
+
+</div>
+
+
+            <div id="nav-below" class="navigation">
+          	</div>
+    			</div><!-- #content -->
+    		</div><!-- #primary -->
+    
+      <div id="secondary" class="widget-area clearfix" role="complementary">
+      <li id="text-3" class="widget widget_text">
+        <div class="textwidget"><img src="/images/khanlou.jpg"></div>
+      </li>
+      <li id="text-2" class="widget widget_text">
+        <div class="textwidget">
+          <p>I am Soroush Khanlou, and this is my blog. I write about programming, primarily Swift and Objective-C and learning what I can from other languages, like Ruby and Haskell. You can rarely catch me talking about things that aren't programming photography, travel, politics, eating, and fonts.</p>
+          <p>Get in touch via Twitter <a href="http://www.twitter.com/khanlou">@khanlou</a> or <a href="mailto:soroush@khanlou.com">email</a>.</p>
+        </div>
+      </li>
+      <li id="text-4" class="widget widget_text">
+        <div class="textwidget">
+          <a href="http://khanlou.com/feed">RSS</a>
+        </div>
+      </li>
+    </div>
+    </div>
+  </body>
+
+</html>

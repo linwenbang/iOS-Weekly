@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  
+  <meta name="description" content="Regular articles about iOS development. What you need to know about Xcode, Objective-C, Swift, Auto Layout, WWDC and more.">
+  
+  
+  <meta name="keywords" content="iOS, Xcode, Swift, Auto Layout, Objective-C, WWDC">
+  
+  
+  <meta name="author" content="Keith Harrison">
+  
+  <meta property="og:title" content="Adding Padding To A Stack View" />
+<meta property="og:description" content="How do you add padding internal to a stack view? How about when the stack view has readable content and you want to limit the line length? You can do it in Interface Builder or in code but both have oddities. Stack view readable content guides certainly don&rsquo;t work the way I would expect or hope." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://useyourloaf.com/blog/adding-padding-to-a-stack-view/" />
+
+<meta property="og:image" content="https://useyourloaf.com/assets/images/banner.png" />
+<meta property="article:published_time" content="2018-09-10T19:42:00&#43;01:00"/>
+<meta property="article:modified_time" content="2018-09-10T19:42:00&#43;01:00"/><meta property="og:site_name" content="Use Your Loaf" />
+
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://useyourloaf.com/assets/images/banner.png"/>
+
+<meta name="twitter:title" content="Adding Padding To A Stack View"/>
+<meta name="twitter:description" content="How do you add padding internal to a stack view? How about when the stack view has readable content and you want to limit the line length? You can do it in Interface Builder or in code but both have oddities. Stack view readable content guides certainly don&rsquo;t work the way I would expect or hope."/>
+
+  <title>Adding Padding To A Stack View</title>
+
+  
+    <link rel="stylesheet" href="/stylesheets/screen.css?v=14">
+  
+
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
+
+  
+  <link rel="mask-icon" href="website-icon.svg" color="blue">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link href="/favicon.png" rel="icon">
+
+  
+  
+  
+  
+  <link href="/blog/rss.xml" rel="alternate" type="application/rss+xml" title="Use Your Loaf - iOS Development News &amp; Tips &middot; Keith Harrison" />
+  
+
+  
+  <meta name="google-site-verification" content="BLKu-0HIlRn9hJNi1Y_Puf8L5wz7KIW8OEVQDtN7Sco" />
+  <script async src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+</head>
+<body class="theme-base-0d">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1><a href="/">Use Your Loaf</a></h1>
+      
+    </div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="/">Home</a></li>
+      
+      <li class="sidebar-nav-item"><a href="/about/">About</a></li>
+      
+      <li class="sidebar-nav-item"><a href="/archives/">Archives</a></li>
+      
+      <li class="sidebar-nav-item"><a href="/autolayout/">Auto Layout</a></li>
+      
+      <li class="sidebar-nav-item"><a href="/newsletter/">Newsletter</a></li>
+      
+    </ul>
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/kharrison" rel="me"><i class="fab fa-github-square fa-3x"></i></a>
+      <a href="https://twitter.com/kharrison" rel="me"><i class="fab fa-twitter-square fa-3x"></i></a>
+      <a href="/blog/rss.xml" type="application/rss+xml"><i class="fas fa-rss-square fa-3x"></i></a>
+      </li>
+    </ul>
+    <div class="small-print">
+      <p>Copyright &copy; 2019 - K Harrison<br/>
+<a href="/privacy/">Privacy</a> and <a href="/cookies/">Cookies</a><br />
+<a href="/terms/">Terms of Use</a>,
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="content container">
+  <div class="announce">
+</div>
+  <div class="post">
+    <h1>Adding Padding To A Stack View</h1>
+    <span class="post-date">Sep 10, 2018 &middot; 5 minute read
+    
+    <br/>
+    <a class="label" href="/categories/auto-layout">Auto Layout</a>
+    </span>
+    <p>How do you add padding internal to a stack view? How about when the stack view has readable content and you want to limit the line length? You can do it in Interface Builder or in code but both have oddities. Stack view readable content guides certainly don&rsquo;t work the way I would expect or hope.</p>
+
+<h3 id="stack-view-margins">Stack View Margins</h3>
+
+<p>The whole point of a stack view is that it creates the constraints for its arranged subviews. This makes it easy to forget that <strong>a stack view has margins</strong> that you can use to add internal padding. The way you use the margins depends on whether you use Interface Builder or create your layout in code.</p>
+
+<h4 id="margins-in-interface-builder">Margins In Interface Builder</h4>
+
+<p>Here&rsquo;s my stack view created in Interface Builder. It has a label and a text view arranged vertically with default <code>.fill</code> distribution and alignment and a standard amount of spacing:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-001.png" width="430" alt="Stack view in Interface Builder"></p>
+
+<p>I am using dynamic type for the text so I have my stack view embedded in a <a href="/blog/easier-scrolling-with-layout-guides/">scroll view</a>. This is how the layout looks running on an iPhone 8:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-002.png" width="375" alt="iPhone 8"></p>
+
+<p>The text is tight against the edges. Let&rsquo;s use the stack view margins to add some padding. Select the stack view and use the size inspector to configure the layout margins. I added 20 points to each edge:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-003.png" width="460" alt="Layout margins"></p>
+
+<p>Note: Apple added directional layout margins in iOS 11. If you need to support iOS 10 or earlier use the fixed layout margins.</p>
+
+<p>I added a red background view to the stack view so you can see its bounds with the 20 point margin to the content:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-004.png" width="375" alt="Stack view with margin"></p>
+
+<h4 id="margins-in-code">Margins In Code</h4>
+
+<p>If you are creating this stack view in code:</p>
+
+<pre><code>let stackView = UIStackView(arrangedSubviews: [chapterLabel, textView])
+stackView.translatesAutoresizingMaskIntoConstraints = false
+stackView.axis = .vertical
+stackView.spacing = UIStackView.spacingUseSystem
+</code></pre>
+
+<p>Configure the stack view so that it lays out its arranged subviews relative to its layout margins instead of its edges:</p>
+
+<pre><code>stackView.isLayoutMarginsRelativeArrangement = true
+</code></pre>
+
+<p>Then add the layout margins:</p>
+
+<pre><code>stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+</code></pre>
+
+<p>If you are supporting iOS 10 or earlier set the <code>layoutMargins</code> instead of the <code>directionalLayoutMargins</code>:</p>
+
+<pre><code>stackView.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+</code></pre>
+
+<p>That is not so bad but we want to be using the readable content guide not the (directional) layout guide when working with text.</p>
+
+<h3 id="stack-views-and-readable-content">Stack Views and Readable Content</h3>
+
+<p>A stack view also has a <a href="/blog/readable-content-guides/">readable content guide</a> but you don&rsquo;t use it directly. In Interface Builder you select the &ldquo;Follow Readable Width&rdquo; property in the size inspector for the stack view:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-005.png" width="260" alt="Follows readable width"></p>
+
+<p>This limits the width of the label and text view to a readable line length based on the user&rsquo;s preferred text content size. Here is the result on an iPad Pro 10.5&rdquo;. Note the stack view (in red) still extends to the view edges:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-006.png" width="417" alt="iPad readable content"></p>
+
+<p>How about if we are building this layout in code? How do we tell the stack view to use the readable content guide? <strong>This is where things get awkward&hellip;</strong></p>
+
+<p>If you are familiar with setting the <a href="/blog/readable-width-of-table-view-cells/">readable width of table view cells</a> you may remember a table view has a property you can set to get readable width margins:</p>
+
+<pre><code>tableView.cellLayoutMarginsFollowReadableWidth = true
+</code></pre>
+
+<p>You can also use the <code>readableContentGuide</code> directly  when you constrain the content to the table view&rsquo;s <code>contentView</code>. <strong>Neither of these is possible with a stack view.</strong></p>
+
+<p>We are not responsible for constraining the arranged subviews of the stack view and there is <strong>no configuration option</strong> to tell the stack view to use the readable content guide.</p>
+
+<p>One way is to add constraints to fix the width of the text view and text label to the readable width. This seems to be what is happening in Interface Builder when you select &ldquo;Follow Readable Width&rdquo;:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-007.png" width="380" alt="Debug view"></p>
+
+<p>I am not a fan of adding extra constraints to views managed by the stack view. It is too easy to make a false assumption about the stack view implementation and break something.</p>
+
+<p>That leaves us with the workaround of borrowing the <strong>readable content guide from a parent view</strong>. For example, I could constrain my scroll view to the readable content guide of the root view:</p>
+
+<pre><code>let guide = view.readableContentGuide
+NSLayoutConstraint.activate([
+  scrollView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+  ...
+</code></pre>
+
+<p>This gets close but is not an exact match of the Interface Builder layout:</p>
+
+<p><img src="/assets/images/2018/2018-09-10-008.png" width="417" alt="Readable stack view"></p>
+
+<p>Note that the red background view of the stack view no longer extends to the edges of the super view. If that is important then we need a slightly different approach. We can embed the stack view in a container view which also serves as the background:</p>
+
+<pre><code>private lazy var containerView: UIView = {
+  let view = UIView()
+  view.translatesAutoresizingMaskIntoConstraints = false
+  view.backgroundColor = .red
+  view.addSubview(stackView)
+</code></pre>
+
+<p>We move the 20 point margin from the stack view to the container view:</p>
+
+<pre><code>  view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+</code></pre>
+
+<p>Then constrain the stack view to the readable content guide of the container view:</p>
+
+<pre><code>  let readable = view.readableContentGuide
+  NSLayoutConstraint.activate([
+    stackView.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+    stackView.topAnchor.constraint(equalTo: readable.topAnchor),
+    stackView.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
+    stackView.bottomAnchor.constraint(equalTo: readable.bottomAnchor),
+    ])
+    return view
+}()
+</code></pre>
+
+<p>Note that we now embed the container view, not the stack view, in the scroll view.</p>
+
+<h3 id="stack-view-support-for-readable-content">Stack View Support For Readable Content</h3>
+
+<p>Having to embed the stack view in a container view just to get a readable width is extra work. What I would like to see is for Apple to add a flag to stack view that makes its margins follow the readable width (similar to the way it works for a table view):</p>
+
+<pre><code>// Please UIKit engineers can we have this...
+stackView.layoutMarginsFollowReadableWidth = true
+</code></pre>
+
+<p>I created <a href="https://openradar.appspot.com/44303114">rdar://44303114</a> if you would like to duplicate the suggestion.</p>
+
+<h3 id="sample-code">Sample Code</h3>
+
+<p>The sample code for this post containing both the Interface Builder and programmatic layout versions is in my <a href="https://github.com/kharrison/CodeExamples/tree/master/StackMargin">GitHub repository</a>.</p>
+
+<h3 id="want-to-learn-more">Want To Learn More?</h3>
+
+<p>If you have read this far you are likely to be interested in my book - <a href="/autolayout/">Modern Auto Layout</a>.</p>
+
+<h3 id="further-reading">Further Reading</h3>
+
+<ul>
+<li><a href="/blog/easier-scrolling-with-layout-guides/">Easier Scrolling With Layout Guide</a></li>
+<li><a href="/blog/readable-width-of-table-view-cells/">Readable Width of table View cells</a></li>
+<li><a href="/blog/changing-root-view-layout-margins/">Changing Root View Layout Margins</a></li>
+<li><a href="/blog/preserves-superview-layout-margins/">Preserves Superview Layout Margins</a></li>
+</ul>
+  </div>
+  
+    <form action="https://app.convertkit.com/forms/818423/subscriptions" class="seva-form formkit-form" method="post" data-sv-form="818423" data-uid="0efa98e0f0" data-format="inline" data-version="5" data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;message&quot;,&quot;success_message&quot;:&quot;OK! Check your inbox for an email to confirm your subscription and download your free guide.&quot;,&quot;redirect_url&quot;:&quot;&quot;},&quot;modal&quot;:{&quot;trigger&quot;:null,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:null,&quot;devices&quot;:null,&quot;show_once_every&quot;:null},&quot;recaptcha&quot;:{&quot;enabled&quot;:false},&quot;return_visitor&quot;:{&quot;custom_content&quot;:&quot;Thank-you for subscribing!&quot;,&quot;action&quot;:&quot;hide&quot;},&quot;slide_in&quot;:{&quot;display_in&quot;:null,&quot;trigger&quot;:null,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:null,&quot;devices&quot;:null,&quot;show_once_every&quot;:null}}}" min-width="400 500 600 700 800">
+<div data-style="full">
+  <div data-element="column" class="formkit-column">
+    <h1 class="formkit-header" data-element="header">Never Miss A Post</h1>
+    <div data-element="subheader" class="formkit-subheader">
+      <p>Sign up to get my <strong>iOS posts and news</strong> direct to your inbox and I'll also send you my <strong>free iOS Size Classes Cheat Sheet</strong></p>
+    </div>
+    <div class="formkit-image">
+      <img src="/assets/images/sizeclass.png">
+    </div>
+  </div>
+  <div data-element="column" class="formkit-column">
+    <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+    <div data-element="fields" class="seva-fields formkit-fields">
+      <div class="formkit-field">
+        <input class="formkit-input" aria-label="Your first name" name="fields[first_name]" placeholder="Your first name" type="text">
+      </div>
+      <div class="formkit-field">
+        <input class="formkit-input" name="email_address" placeholder="Your email address" required="" type="email">
+      </div>
+      <button data-element="submit" class="formkit-submit formkit-submit">
+        <div class="formkit-spinner"><div></div><div></div><div></div></div>
+        <span>Subscribe</span>
+      </button>
+    </div>
+    <div data-element="guarantee" class="formkit-guarantee">
+      <p>Unsubscribe at any time. See <a href="/privacy/">Privacy Policy</a>.</p>
+    </div>
+  </div>
+</div>
+</form>
+  
+  <div class="post-navigation">
+  <a href="/archives/">Archives</a>
+  <a href="/categories/">Categories</a>
+</div>
+  
+</div>
+
+<script type="text/javascript" src='/js/highlight.pack.js'></script>
+<script type="text/javascript" src='/js/hljs.min.js'></script>
+
+<script src="https://cdn.cookielaw.org/consent/c9ef4e9e-5e28-4bcd-abc0-10a3a2d637d5.js" type="text/javascript" charset="UTF-8"></script>
+<script src="/js/optanon.js" type="text/javascript"></script>
+</body>
+</html>
+

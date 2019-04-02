@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<title>objc.io</title>
+<link href="https://talk.objc.io/episodes.rss" rel="alternate" title="RSS" type="application/rss+xml" />
+<link href="https://talk.objc.io/episodes.rss" rel="alternate" title="Atom" type="application/atom+xml" />
+<link media="all" rel="stylesheet" href="/assets/402f42a1ba9845b3e691ec6d01c3a399-application.css">
+
+</link>
+
+<script src="/assets/411e3dfa8f4d92dc8e505ad397f13907-application.js">
+
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40809116-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-40809116-1');
+</script>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://i.vimeocdn.com/video/731752818_600x338.jpg" />
+<meta name="twitter:description" content="A lightweight generic wrapper around Foundation's notification API lets us avoid boilerplate code and provides a type-safe API." />
+<meta name="twitter:site" content="@objcio" />
+<meta name="twitter:title" content="Typed Notifications (Part 1)" />
+<meta property="og:image" content="https://i.vimeocdn.com/video/731752818_600x338.jpg" />
+<meta property="og:title" content="Typed Notifications (Part 1)" />
+<meta property="video:release_date" content="2016-12-02T15:00:00" />
+<meta property="video:duration" content="1072" />
+<meta property="og:url" content="https://talk.objc.io/episodes/S01E27-typed-notifications-part-1" />
+<meta property="og:description" content="A lightweight generic wrapper around Foundation's notification API lets us avoid boilerplate code and provides a type-safe API." />
+<meta property="og:type" content="video.episode" />
+</head>
+<body class="theme-default">
+<header class=" bgcolor-white">
+<div class=" height-3 flex scroller js-scroller js-scroller-container">
+<div class=" container-h flex-grow flex">
+<a class=" flex-none outline-none mr++ flex" href="https://www.objc.io"><svg  class="block logo logo--themed height-auto" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 528 158" width="528" height="158">
+  <g id="Logo" fill="none" fill-rule="evenodd">
+    <g id="objc-logo-white-fit">
+      <g id="arrows" fill="#FFA940">
+        <path id="arrow-up" d="M423 73l8-7-45.5-46L340 66l8 7 32-34v86h11V39l32 34z"></path>
+        <path id="arrow-down" d="M520 80l8 7-45.5 46L437 87l8-7 32 34V28h11v86l32-34z"></path>
+      </g>
+      <g id="letters" fill="#0091D9">
+        <path id="letter-c" d="M260.362 124c-15.38 0-25.18-7.104-31.26-16.07C224.534 101.162 222 91.855 222 79c0-12.854 2.535-22.16 7.1-28.927C235.184 41.107 244.815 34 260.196 34c10.136 0 18.417 3.383 24.334 9.136C290.272 48.72 294.327 55.696 295 65h-14.5c-1.172-5.918-3.24-10.022-6.45-13.238-3.382-3.213-8.28-5.242-13.855-5.242-6.592 0-11.156 2.367-14.87 5.583-6.76 5.753-8.622 16.408-8.622 26.898 0 10.49 1.862 21.147 8.62 26.897 3.716 3.216 8.28 5.586 14.872 5.586 5.91 0 11.15-2.2 14.528-5.753 3.044-3.213 5.072-7.105 5.777-12.73H295c-.67 9.136-4.22 16.115-9.966 21.698-6.082 5.92-14.193 9.302-24.672 9.302z"></path>
+        <path id="letter-j" d="M168 156.306V143.94c3.582.675 7.17.846 10.757.846 6.484 0 9.732-5.086 9.243-10.846V36h15v97.77c.002 14.91-7.34 24.23-23.732 24.23-4.438 0-7-.338-11.268-1.694zM188 0h15v15h-15V0z"></path>
+        <path id="letter-b" d="M132.358 124c-9.67 0-20.696-4.724-25.616-13.326L106 122H93V0h15v46c4.58-7.76 15.028-11.75 24.358-11.75 10.007 0 17.98 3.373 23.578 8.604C164.59 51.12 169 64.618 169 79.294c.002 14.173-4.238 27.162-12.38 35.43-5.6 5.735-13.743 9.276-24.262 9.276zm-1.786-78c-6.317 0-10.587 2.513-14.006 5.528-7.173 6.2-9.566 16.42-9.566 26.973 0 10.553 2.393 20.774 9.566 26.972 3.42 3.015 7.69 5.528 14.006 5.528C149.872 111 155 94.08 155 78.5c0-15.578-5.127-32.5-24.428-32.5z"></path>
+        <path id="letter-o" d="M63.844 114.018c-6.25 6.093-15.03 9.982-25.84 9.982s-19.592-3.89-25.843-9.982C2.876 104.884 0 92.534 0 79 0 65.47 2.875 53.117 12.16 43.983 18.41 37.892 27.192 34 38 34c10.81 0 19.59 3.89 25.84 9.982C73.13 53.116 76 65.468 76 79.002c0 13.532-2.868 25.882-12.156 35.016zm-9.85-61.953C50.42 48.528 45.315 46 38.503 46c-6.81 0-11.92 2.526-15.497 6.065C16.875 58.295 15 68.565 15 78.5c0 9.937 1.876 20.206 8.005 26.438C26.58 108.472 31.692 111 38.502 111c6.81 0 11.917-2.526 15.493-6.062C60.125 98.708 62 88.438 62 78.5c0-9.934-1.88-20.206-8.005-26.435z"></path>
+      </g>
+    </g>
+  </g>
+</svg>
+<h1 class=" visuallyhidden">objc.io</h1></a>
+<nav class=" flex flex-grow">
+<ul class=" flex flex-auto">
+<li class=" flex mr+">
+<a class="flex items-center fz-nav color-gray-30 color-theme-nav hover-color-theme-highlight no-decoration" href="/"><span>Swift Talk</span></a>
+</li>
+<li class=" flex mr+">
+<a class="flex items-center fz-nav color-gray-30 color-theme-nav hover-color-theme-highlight no-decoration" href="https://www.objc.io/books"><span>Books</span></a>
+</li>
+<li class=" flex mr+">
+<a class="flex items-center fz-nav color-gray-30 color-theme-nav hover-color-theme-highlight no-decoration" href="https://www.objc.io/issues"><span>Issues</span></a>
+</li>
+<li class=" flex mr+">
+<a class="flex items-center fz-nav color-gray-30 color-theme-nav hover-color-theme-highlight no-decoration" href="https://www.objc.io/blog/2018/12/11/swift-talk-gift-subscription/"><span>🎁 Gifts</span></a>
+</li>
+</ul>
+</nav>
+<nav class=" flex-none self-center border-left border-1 border-color-gray-85 flex ml+">
+<ul class=" flex items-stretch">
+<li class=" flex ml+">
+<a class=" flex items-center fz-nav color-gray-30 color-theme-nav hover-color-theme-highlight no-decoration" href="/users/auth/github?origin=%2Fepisodes%2FS01E27-typed-notifications-part-1">Log in</a>
+</li>
+<li class=" flex items-center ml+">
+<a class=" button button--tight button--themed fz-nav" href="/subscribe">Subscribe</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</header>
+<main>
+
+<div class=" js-episode">
+<div class=" bgcolor-night-blue pattern-shade-darker">
+<div class=" container l+|pb0 l+|n-mb++">
+<header class=" mb++ pb">
+<p class=" color-orange ms1">
+<a class=" color-inherit no-decoration bold hover-border-bottom" href="/">Swift Talk</a>
+#27
+</p>
+<h2 class=" ms5 color-white bold mt-- lh-110">Typed Notifications (Part 1)</h2>
+</header>
+<div class=" l+|flex">
+<div class=" flex-110 order-2">
+<div class=" ratio ratio--16/9">
+<div class=" ratio__container">
+<figure class=" stretch relative">
+<iframe mozallowfullscreen="" height="100%" allowfullscreen="" src="https://player.vimeo.com/video/294549779" width="100%" webkitallowfullscreen="">
+
+</iframe>
+</figure>
+</div>
+</div>
+</div>
+<div class=" min-width-5 relative order-1 mt++ l+|mt0 l+|mr++ l+|mb++">
+<div class=" l+|absolute l+|position-stretch stretch width-full flex flex-column">
+<h3 class=" color-blue border-top border-2 pt mb+ flex-none flex items-baseline"><span class=" smallcaps">In this episode</span><span class=" ml-auto ms-1 bold">17:53</span></h3>
+<div class=" flex-auto overflow-auto border-color-lighten-10 border-1 border-top">
+<ol class=" lh-125 ms-1 color-white">
+<li class=" border-bottom border-1 border-color-lighten-10">
+<a href="?t=6" class="flex color-inherit pv items-baseline no-decoration hover-cascade js-episode-seek" data-time="6.0"><span class=" hover-cascade__underline">Introduction</span><span class=" ml-auto color-orange pl-">00:06</span></a>
+</li>
+<li class=" border-bottom border-1 border-color-lighten-10">
+<a href="?t=175" class="flex color-inherit pv items-baseline no-decoration hover-cascade js-episode-seek" data-time="175.0"><span class=" hover-cascade__underline">A   Struct</span><span class=" ml-auto color-orange pl-">02:55</span></a>
+</li>
+<li class=" border-bottom border-1 border-color-lighten-10">
+<a href="?t=555" class="flex color-inherit pv items-baseline no-decoration hover-cascade js-episode-seek" data-time="555.0"><span class=" hover-cascade__underline">Refactoring</span><span class=" ml-auto color-orange pl-">09:15</span></a>
+</li>
+<li class=" border-bottom border-1 border-color-lighten-10">
+<a href="?t=730" class="flex color-inherit pv items-baseline no-decoration hover-cascade js-episode-seek" data-time="730.0"><span class=" hover-cascade__underline">Removing Observers</span><span class=" ml-auto color-orange pl-">12:10</span></a>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class=" bgcolor-white l+|pt++">
+<div class=" container">
+<div class=" bgcolor-pale-blue border border-1 border-color-subtle-blue color-blue-darkest pa+ radius-5 mb++">
+<div class=" max-width-8 center text-center">
+<h3 class=" mb-- bold lh-125">This episode is freely available thanks to the support of our subscribers</h3>
+<p class=" lh-135">
+<span class=" opacity-60">Subscribers get exclusive access to new and all previous subscriber-only episodes&#44; video downloads&#44; and 30&#37; discount for team members.</span>
+<a class=" color-blue no-decoration hover-cascade" href="/subscribe"><span class=" hover-cascade__border-bottom">Become a Subscriber</span><span class=" bold"> &rarr;</span></a>
+</p>
+</div>
+</div>
+<div class=" l+|flex l-|stack+++ m-cols">
+<div class=" p-col l+|flex-auto l+|width-2/3 xl+|width-7/10 flex flex-column">
+<div class=" text-wrapper">
+<div class=" lh-140 color-blue-darkest ms1 bold mb+">
+<p>A lightweight generic wrapper around Foundation's notification API lets us avoid boilerplate code and provides a type-safe API.</p>
+
+</div>
+</div>
+<div class=" flex-auto relative min-height-5">
+<div data-expandable-collapsed="absolute position-stretch position-nw overflow-hidden" id="transcript" class=" js-transcript js-expandable z-0">
+<div class="no-js-hide absolute height-4 gradient-fade-to-white position-stretch-h position-s ph z-1" data-expandable-expanded="hide">
+<div class="absolute position-s width-full text-wrapper text-center">
+<button type="button" class="js-expandable-trigger smallcaps button radius-full ph+++">Continue reading…</button>
+</div>
+</div>
+<div class=" c-text c-text--fit-code z-0 js-has-codeblocks">
+<p><a href="#25">00:25</a> Let's talk about notifications. Everybody uses <code>Notification</code>s (they used to be called <code>NSNotification</code>s). The system sends notifications we're interested in, and sometimes we want to send our own notifications (we use <code>NotificationCenter</code> for this).</p>
+<p><a href="#43">00:43</a> Everybody has written this kind of code; it's a mechanism that's used a lot in Cocoa/UIKit. In this API, you often work with a <code>userInfo</code> dictionary that's on <code>Notification</code>. You always have to refer to the documentation to see which keys and values are present in this dictionary.</p>
+<p><a href="#69">01:09</a> Often, this code is spread out throughout your application. For example, when dealing with the <code>.UIKeyboardDidShow</code> and <code>.UIKeyboardDidHide</code> notifications, you have to go into the documentation to find the right keys for accessing values from the <code>userInfo</code> dictionary. Once you have the keys, you have to access the values and force cast them to the right types. This code usually ends up in your view controller, which isn't the best place.</p>
+<p><a href="#104">01:44</a> Reading the <code>userInfo</code> always involves some force casting, and it'd be nice to package this code up in a central place so that we can force cast once per notification instead of once per observer. Doing so allows us to reuse the conversion code everywhere.</p>
+<p><a href="#122">02:02</a> Here we have some sample code in which we use a notification center and add an observer for the <code>PlaygroundPageNeedsIndefiniteExecutionDidChangeNotification</code>. We'll ignore the <code>queue</code> and <code>object</code> parameters in this episode and discuss them in a future episode. The final parameter is a completion function that gets called whenever a notification arrives:</p>
+<pre><code class="language-swift">let center = NotificationCenter.default
+center.addObserver(forName: Notification.Name(&quot;PlaygroundPageNeedsIndefiniteExecutionDidChangeNotification&quot;), object: nil, queue: nil, using: { note in
+    print(note.object)
+    print(note.userInfo)
+})
+</code></pre>
+<p><a href="#163">02:43</a> If we set <code>needsIndefiniteExecution</code> on the current playground page, we'll see that as the notification's <code>object</code>, we get a <code>PlaygroundPage</code>, and in the dictionary, we get the new value of <code>needsIndefiniteExecution</code>.</p>
+<h2>A <code>NotificationDescriptor</code> Struct</h2>
+<p><a href="#175">02:55</a> We'll wrap these two pieces of information up in a nicer way. We'll start by defining a struct, <code>NotificationDescriptor</code>. This struct will have two properties — a <code>name</code>, of type <code>Notification.Name</code>; and a function, <code>convert</code>, which takes a notification and produces an <code>A</code> (the generic parameter):</p>
+<pre><code class="language-swift">struct NotificationDescriptor&lt;A&gt; {
+    let name: Notification.Name
+    let convert: (Notification) -&gt; A
+}
+</code></pre>
+<p><a href="#235">03:55</a> Now we can use the struct to describe this playground page notification and how we extract the information we're interested in from that notification. We'll create a new value of the struct and use the memberwise initializer. We'll pass in the notification name and write the <code>convert</code> function. Inside that function, we'll do the force casting. We get the <code>page</code> out of the notification's <code>object</code> and force cast it. Likewise, we get the <code>needsIndefiniteExecution</code> value out of the <code>userInfo</code> dictionary and force cast it to a <code>Bool</code>:</p>
+<pre><code class="language-swift">let playgroundNotification = NotificationDescriptor(name: Notification.Name(&quot;PlaygroundPageNeedsIndefiniteExecutionDidChangeNotification&quot;), convert: { note -&gt; (PlaygroundPage, Bool) in
+    let page = note.object as! PlaygroundPage
+    let needsIndefiniteExecution = note.userInfo![&quot;PlaygroundPageNeedsIndefiniteExecution&quot;] as! Bool
+    return (page, needsIndefiniteExecution)
+
+})
+</code></pre>
+<p><a href="#364">06:04</a> This is nice, but we can't really use our notification descriptor yet. We need to find a way to observe notifications, given the descriptor. We'll add an <code>addObserver</code> method to the notification center, similar to the existing <code>addObserver(:object:queue:using:)</code>. We'll do this in an extension, and instead of taking a name, the method gets a descriptor as the parameter. The <code>block</code> parameter is now of type <code>(A) -&gt; ()</code> instead of <code>(Notification) -&gt; ()</code>:</p>
+<pre><code class="language-swift">extension NotificationCenter {
+    func addObserver&lt;A&gt;(forDescriptor d: NotificationDescriptor&lt;A&gt;, using block: @escaping (A) -&gt; ()) -&gt; NSObjectProtocol {
+        return addObserver(forName: d.name, object: nil, queue: nil, using: { note in
+            block(d.convert(note))
+        })
+    }
+}
+</code></pre>
+<p><a href="#490">08:10</a> To see if the code works, we'll add an observer using our <code>playgroundNotification</code> descriptor and print the result. Now, instead of a notification, we get the playground page and the boolean value. We only get the information we care about; we don't have to worry about parsing the notification's <code>userInfo</code>. Putting this in your view controller will clean up your code a lot, and you can reuse the <code>playgroundNotification</code> descriptor. It might feel a bit weird that it's a global variable, but we'll discuss this in a future episode:</p>
+<pre><code class="language-swift">let token = center.addObserver(forDescriptor: playgroundNotification, using: { 
+    print($0) 
+})
+</code></pre>
+<h2>Refactoring</h2>
+<p><a href="#555">09:15</a> There are still some other refactoring steps we can take to improve the code. Currently, we return a tuple, and it'd be nicer to have a struct value with named properties. To do that, we'll introduce a payload struct for this specific notification, called <code>PlaygroundPagePayload</code>. In the payload, there'll be a playground page and the <code>needsIndefiniteExecution</code> boolean. We can modify our descriptor to return a value of <code>PlaygroundPagePayload</code> instead of a tuple:</p>
+<pre><code class="language-swift">struct PlaygroundPayload {
+    let page: PlaygroundPage
+    let needsIndefiniteExecution: Bool
+}
+
+let playgroundNotification = NotificationDescriptor&lt;PlaygroundPayload&gt;(name: Notification.Name(&quot;PlaygroundPageNeedsIndefiniteExecutionDidChangeNotification&quot;), convert: { note in
+    let page = note.object as! PlaygroundPage
+    let needsIndefiniteExecution = note.userInfo![&quot;PlaygroundPageNeedsIndefiniteExecution&quot;] as! Bool
+    return PlaygroundPayload(page: page, needsIndefiniteExecution: needsIndefiniteExecution)
+
+})
+</code></pre>
+<p><a href="#652">10:52</a> In the console, we now see that the struct value gets printed instead of the tuple, which is a bit nicer to work with.</p>
+<p><a href="#665">11:05</a> We can take another refactoring step and move the parsing code into the struct. We can write an extension on the <code>PlaygroundPagePayload</code> and add an initializer that takes a <code>Notification</code>:</p>
+<pre><code class="language-swift">extension PlaygroundPayload {
+    init(note: Notification) {
+        page = note.object as! PlaygroundPage
+        needsIndefiniteExecution = note.userInfo![&quot;PlaygroundPageNeedsIndefiniteExecution&quot;] as! Bool
+        
+    }
+}
+
+let playgroundNotification = NotificationDescriptor&lt;PlaygroundPayload&gt;(name: Notification.Name(&quot;PlaygroundPageNeedsIndefiniteExecutionDidChangeNotification&quot;), convert: PlaygroundPayload.init)
+</code></pre>
+<p><a href="#719">11:59</a> We should probably make the initializer <code>fileprivate</code>, or something similar, because it's only safe when dealing with this specific <code>Notification</code> instance.</p>
+<h2>Removing Observers</h2>
+<p><a href="#730">12:10</a> One thing we've omitted so far is the fact that our <code>addObserver</code> method should return a token for deregistering, just like the original API. The token is of type <code>NSObjectProtocol</code>, and we can simply return whatever the <code>addObserver</code> method returns. We can use this token to remove observers:</p>
+<pre><code class="language-swift">extension NotificationCenter {
+    func addObserver&lt;A&gt;(forDescriptor d: NotificationDescriptor&lt;A&gt;, using block: @escaping (A) -&gt; ()) -&gt; NSObjectProtocol {
+        return addObserver(forName: d.name, object: nil, queue: nil, using: { note in
+            block(d.convert(note))
+        })
+    }
+}
+</code></pre>
+<p><a href="#794">13:14</a> To stop receiving notifications, we'll have to call <code>removeObserver</code> on the notification center:</p>
+<pre><code class="language-swift">let token = center.addObserver(forDescriptor: playgroundNotification, using: { print($0) })
+// ...
+center.removeObserver(token)
+</code></pre>
+<p><a href="#802">13:22</a> However, it's easy to forget this in regular code, and it's not very robust against refactoring. If you add your observers in one place, you'll often have to make sure to update the <code>removeObserver</code> as well. There's a nice trick to make this a little bit easier, especially when adding observers in view controllers. We'll make use of <code>deinit</code> to hook up the lifetime of an observer to the lifetime of an object. This is often what you'll end up doing anyway.</p>
+<p><a href="#860">14:20</a> We'll add a class, <code>Token</code>, in which we'll store the token and the notification center that the token belongs to. In the <code>deinit</code>, we can simply remove the observer from the center:</p>
+<pre><code class="language-swift">class Token {
+    let token: NSObjectProtocol
+    let center: NotificationCenter
+    init(token: NSObjectProtocol, center: NotificationCenter) {
+        self.token = token
+        self.center = center
+    }
+    
+    deinit {
+        center.removeObserver(token)
+    }
+}
+</code></pre>
+<p><a href="#905">15:05</a> Now, as long as the <code>Token</code> instance exists, the observer won't be removed, and once the <code>Token</code> instance becomes <code>nil</code>, the observer will get removed. Let's see how we can change our code to use our <code>Token</code> class:</p>
+<pre><code class="language-swift">extension NotificationCenter {
+    func addObserver&lt;A&gt;(forDescriptor d: NotificationDescriptor&lt;A&gt;, using block: @escaping (A) -&gt; ()) -&gt; Token {
+        let t = addObserver(forName: d.name, object: nil, queue: nil, using: { note in
+            block(d.convert(note))
+        })
+        return Token(token: t, center: self)
+    }
+}
+
+var token: Token? = center.addObserver(forDescriptor: playgroundNotification, using: { print($0) })
+
+// ...
+
+token = nil
+</code></pre>
+<p><a href="#960">16:00</a> Usually, you wouldn't manually set the <code>token</code> to <code>nil</code>, but it'd happen once the view controller gets deallocated. If you store the <code>token</code> property on your view controller, once the view controller goes away, the <code>token</code> will be set to <code>nil</code> and the corresponding <code>deinit</code> will get called. This is especially important if you use the block-based API, because if you register an observer with the target/action pattern, it's no longer necessary to deregister the observer yourself.</p>
+<p><a href="#1008">16:48</a> Interestingly, the <code>NotificationDescriptor</code> is very similar to the <code>Resource</code> struct in <a href="https://talk.objc.io/episodes/S01E01-networking">episode #1</a>, though instead of a URL, we have a name, and instead of a <code>parse</code> function, we have a <code>convert</code> function. It's a useful pattern when you're working with untyped APIs and want to make them type safe.</p>
+<p><a href="#1046">17:26</a> We can also extend this pattern. Sometimes, you want to post your own notifications as well, and you can build on top of this so that you don't just decode system notifications, but also encode your own data when posting. Additionally, there are several other things we could build on top of this, and we'll talk more about them in the next episode.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class=" p-col max-width-7 center stack l+|width-1/3 xl+|width-3/10 l+|flex-auto">
+<section class=" pb++">
+<h3 class=" color-blue mb"><span class=" smallcaps">Resources</span></h3>
+<ul class=" stack">
+<li class=" flex">
+<div class=" flex-none mr-">
+<a href="https://github.com/objcio/S01E27-typed-notifications-part-1" rel="external" target="_blank" class=" block bgcolor-orange radius-5 hover-bgcolor-blue"><svg  class="block icon-40" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="#FFF" fill-rule="evenodd" d="M8 8h3v24H8z"/></svg></a>
+</div>
+<div class=" ms-1 lh-125">
+<h4 class=" mb---"><a href="https://github.com/objcio/S01E27-typed-notifications-part-1" rel="external" target="_blank" class=" bold color-black hover-underline no-decoration">Playground</a></h4>
+<p class=" color-gray-50">
+Written in Swift 3
+</p>
+</div>
+</li>
+<li class=" flex">
+<div class=" flex-none mr-">
+<span class=" block bgcolor-orange radius-5 cursor-not-allowed"><svg  class="block icon-40" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path fill="#FFF" fill-rule="evenodd" d="M13 27.992V12.007a1 1 0 0 1 1.523-.852l13.004 7.98a1 1 0 0 1 .001 1.704l-13.004 8.005A1 1 0 0 1 13 27.992z"/></svg></span>
+</div>
+<div class=" ms-1 lh-125">
+<h4 class=" mb---"><span class=" bold color-gray-40 cursor-not-allowed">Episode Video</span></h4>
+<p class=" color-gray-50">
+Become a subscriber to download episode videos.
+</p>
+</div>
+</li>
+</ul>
+</section>
+<section class=" pb++">
+<h3 class=" color-blue mb"><span class=" smallcaps">In Collection</span></h3>
+<article>
+<a href="/collections/type-safe-api-wrappers"><figure style="background-color: #F2F4F2" class="mb-">
+<img alt="" src="/assets/65ea1a923c60c0d75fccd8e40f24b56b-Type-Safe API Wrappers.svg" class=" block width-full height-auto" />
+</figure></a>
+<div class=" flex items-center pt--">
+<h3><a class=" inline-block lh-110 no-decoration bold color-black hover-under" href="/collections/type-safe-api-wrappers">Type-Safe API Wrappers</a></h3>
+</div>
+<p class=" ms-1 color-gray-55 lh-125 mt--">
+6 Episodes
+<span class=" ph---">&middot;</span>
+2h13min
+</p>
+<ul class=" mt-">
+<li class=" flex items-baseline justify-between ms-1 line-125">
+<span class=" nowrap overflow-hidden text-overflow-ellipsis pv- color-gray-45"><a class=" no-decoration color-inherit hover-underline" href="/episodes/S01E85-wrapping-libgit2">Wrapping libgit2</a></span>
+<span class=" flex-none pl- pv- color-gray-70">33:31</span>
+</li>
+<li class=" flex items-baseline justify-between ms-1 line-125">
+<span class=" nowrap overflow-hidden text-overflow-ellipsis pv- color-gray-45"><a class=" no-decoration color-inherit hover-underline" href="/episodes/S01E83-wrapping-analytics-apis">Wrapping Analytics APIs</a></span>
+<span class=" flex-none pl- pv- color-gray-70">22:44</span>
+</li>
+<li class=" flex items-baseline justify-between ms-1 line-125">
+<span class=" nowrap overflow-hidden text-overflow-ellipsis pv- color-gray-45"><a class=" no-decoration color-inherit hover-underline" href="/episodes/S01E28-typed-notifications-part-2">Typed Notifications (Part 2)</a></span>
+<span class=" flex-none pl- pv- color-gray-70">18:02</span>
+</li>
+<li class=" flex items-baseline justify-between ms-1 line-125">
+<span class=" nowrap overflow-hidden text-overflow-ellipsis pv- color-gray-45"><a class=" no-decoration color-inherit hover-underline" href="/episodes/S01E27-typed-notifications-part-1">Typed Notifications (Part 1)</a></span>
+<span class=" flex-none pl- pv- color-gray-70">17:53</span>
+</li>
+<li class=" flex items-baseline justify-between ms-1 line-125">
+<span class=" nowrap overflow-hidden text-overflow-ellipsis pv- color-gray-45"><a class=" no-decoration color-inherit hover-underline" href="/episodes/S01E8-adding-post-requests">Networking: Adding POST Requests</a></span>
+<span class=" flex-none pl- pv- color-gray-70">18:41</span>
+</li>
+<li class=" flex items-baseline justify-between ms-1 line-125">
+<span class=" nowrap overflow-hidden text-overflow-ellipsis pv- color-gray-45"><a class=" no-decoration color-inherit hover-underline" href="/episodes/S01E1-tiny-networking-library">Networking: Tiny Networking Library</a></span>
+<span class=" flex-none pl- pv- color-gray-70">22:50</span>
+</li>
+</ul>
+</article>
+<p class=" ms-1 mt text-right">
+<a class=" no-decoration color-blue hover-cascade" href="/collections"><span class=" hover-cascade__border-bottom">See All Collections</span><span class=" bold">&rarr;</span></a>
+</p>
+</section>
+<div class=" pb++">
+<h3 class=" color-blue mb"><span class=" smallcaps">Episode Details</span></h3>
+<ul class=" ms-1 stack">
+<li>
+<dl class=" flex justify-between">
+<dt class=" color-gray-60">
+Released
+</dt>
+<dd class=" color-gray-15 text-right">
+December 02&#44; 2016
+</dd>
+</dl>
+</li>
+<li>
+<dl class=" flex justify-between">
+<dt class=" color-gray-60">
+Host
+</dt>
+<dd class=" color-gray-15 text-right">
+<a class=" color-gray-15 hover-underline no-decoration" href="https://twitter.com/chriseidhof">Chris Eidhof</a>
+</dd>
+</dl>
+</li>
+<li>
+<dl class=" flex justify-between">
+<dt class=" color-gray-60">
+Host
+</dt>
+<dd class=" color-gray-15 text-right">
+<a class=" color-gray-15 hover-underline no-decoration" href="https://twitter.com/floriankugler">Florian Kugler</a>
+</dd>
+</dl>
+</li>
+<li>
+<dl class=" flex justify-between">
+<dt class=" color-gray-60">
+Copy Editing
+</dt>
+<dd class=" color-gray-15 text-right">
+<a class=" color-gray-15 hover-underline no-decoration" href="https://twitter.com/deutschbitte">Natalye Childress</a>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class=" bgcolor-pale-gray pt++ js-scroller">
+<header class=" container-h flex items-center justify-between">
+<div>
+<h3 class=" inline-block bold color-black">Recent Episodes</h3>
+<a class=" inline-block ms-1 ml- color-blue no-decoration hover-underline" href="/episodes">See All</a>
+</div>
+<div class=" js-scroller-buttons flex items-center">
+<button label="Scroll left" class=" scroller-button no-js-hide js-scroller-button-left ml-">
+<svg  class="icon-16 color-white svg-fill-current block" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16"><defs><path id="a" d="M4.828 7H15v2H4.828l4.336 4.336L7.75 14.75 1 8l6.75-6.75 1.414 1.414z"/></defs><use fill="#000" xlink:href="#a" fill-rule="evenodd"/></svg>
+</button>
+<button label="Scroll right" class=" scroller-button no-js-hide js-scroller-button-right ml-">
+<svg  class="icon-16 color-white svg-fill-current block" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" preserveAspectRatio="xMinYMax meet"><path fill-rule="evenodd" fill="#000000" d="M11.172 7H1v2h10.172l-4.336 4.336L8.25 14.75 15 8 8.25 1.25 6.836 2.664z"/></svg>
+
+</button>
+</div>
+</header>
+<div class=" flex scroller js-scroller-container p-edges pt pb++">
+<div class=" scroller__offset flex-none">
+
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E145-setting-up-a-document-based-app"><div style="background-image: url('https://i.vimeocdn.com/video/769411132_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 34 36" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M6.727 34.89c-.954.554-1.727.12-1.727-1V2.046C5 .94 5.746.53 6.674 1.136l25.652 16.77c.925.604.898 1.546-.053 2.1L6.727 34.89z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">25 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/markdown-playgrounds">Markdown Playgrounds</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E145-setting-up-a-document-based-app">Setting Up a Document Based App</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 145
+<span class=" ph---">&middot;</span>
+Mar 29
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E144-string-interpolation-in-swift-5-part-2"><div style="background-image: url('https://i.vimeocdn.com/video/762373000_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 37" width="38" height="38" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M26 17v-6c0-6.166-4.925-11-11-11C8.937 0 4 4.828 4 11v6H.998a.995.995 0 0 0-.998.992v18.016c0 .537.447.992.998.992h28.004c.55 0 .998-.444.998-.992V17.992c0-.537-.447-.992-.998-.992H26zm-4 0v-4.333C22 7.807 18.866 4 15 4c-3.858 0-7 3.804-7 8.667V17h14z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">15 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/swift-the-language">Swift&#44; the Language</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E144-string-interpolation-in-swift-5-part-2">String Interpolation in Swift 5 (Part 2)</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 144
+<span class=" ph---">&middot;</span>
+Mar 22
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E143-string-interpolation-in-swift-5"><div style="background-image: url('https://i.vimeocdn.com/video/762357484_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 34 36" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M6.727 34.89c-.954.554-1.727.12-1.727-1V2.046C5 .94 5.746.53 6.674 1.136l25.652 16.77c.925.604.898 1.546-.053 2.1L6.727 34.89z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">17 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/swift-the-language">Swift&#44; the Language</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E143-string-interpolation-in-swift-5">String Interpolation in Swift 5</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 143
+<span class=" ph---">&middot;</span>
+Mar 15
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E142-flow-testing-with-protocols"><div style="background-image: url('https://i.vimeocdn.com/video/761471025_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 37" width="38" height="38" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M26 17v-6c0-6.166-4.925-11-11-11C8.937 0 4 4.828 4 11v6H.998a.995.995 0 0 0-.998.992v18.016c0 .537.447.992.998.992h28.004c.55 0 .998-.444.998-.992V17.992c0-.537-.447-.992-.998-.992H26zm-4 0v-4.333C22 7.807 18.866 4 15 4c-3.858 0-7 3.804-7 8.667V17h14z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">18 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/server-side-swift">Server-Side Swift</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E142-flow-testing-with-protocols">Flow Testing with Protocols</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 142
+<span class=" ph---">&middot;</span>
+Mar 08
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E141-functional-dependencies"><div style="background-image: url('https://i.vimeocdn.com/video/761471249_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 37" width="38" height="38" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M26 17v-6c0-6.166-4.925-11-11-11C8.937 0 4 4.828 4 11v6H.998a.995.995 0 0 0-.998.992v18.016c0 .537.447.992.998.992h28.004c.55 0 .998-.444.998-.992V17.992c0-.537-.447-.992-.998-.992H26zm-4 0v-4.333C22 7.807 18.866 4 15 4c-3.858 0-7 3.804-7 8.667V17h14z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">27 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/server-side-swift">Server-Side Swift</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E141-functional-dependencies">Functional Dependencies</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 141
+<span class=" ph---">&middot;</span>
+Mar 01
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E140-the-swift-talk-backend-part-3"><div style="background-image: url('https://i.vimeocdn.com/video/758836751_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 37" width="38" height="38" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M26 17v-6c0-6.166-4.925-11-11-11C8.937 0 4 4.828 4 11v6H.998a.995.995 0 0 0-.998.992v18.016c0 .537.447.992.998.992h28.004c.55 0 .998-.444.998-.992V17.992c0-.537-.447-.992-.998-.992H26zm-4 0v-4.333C22 7.807 18.866 4 15 4c-3.858 0-7 3.804-7 8.667V17h14z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">21 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/server-side-swift">Server-Side Swift</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E140-the-swift-talk-backend-part-3">The Swift Talk Backend (Part 3)</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 140
+<span class=" ph---">&middot;</span>
+Feb 22
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E139-the-swift-talk-backend-part-2"><div style="background-image: url('https://i.vimeocdn.com/video/755465327_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 37" width="38" height="38" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M26 17v-6c0-6.166-4.925-11-11-11C8.937 0 4 4.828 4 11v6H.998a.995.995 0 0 0-.998.992v18.016c0 .537.447.992.998.992h28.004c.55 0 .998-.444.998-.992V17.992c0-.537-.447-.992-.998-.992H26zm-4 0v-4.333C22 7.807 18.866 4 15 4c-3.858 0-7 3.804-7 8.667V17h14z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">26 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/server-side-swift">Server-Side Swift</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E139-the-swift-talk-backend-part-2">The Swift Talk Backend (Part 2)</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 139
+<span class=" ph---">&middot;</span>
+Feb 15
+</p>
+</div>
+</article>
+</div>
+<div class=" flex-110 pr+ min-width-5">
+<article class=" flex flex-column width-full  ">
+<div class=" flex-none">
+<a class=" block ratio radius-3 overflow-hidden  ratio--22/10 hover-scale transition-all transition-transform" href="/episodes/S01E138-the-swift-talk-backend-part-1"><div style="background-image: url('https://i.vimeocdn.com/video/755467987_590x270.jpg')" class=" ratio__container bg-center bg-cover">
+
+</div><div class=" absolute position-stretch opacity-60 blend-darken gradient-episode-black">
+
+</div><div class=" absolute position-stretch flex flex-column">
+<div class=" mt-auto width-full flex items-center lh-100 ms-1 pa- color-white">
+<svg  class="svg-fill-current icon-26" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 34 36" preserveAspectRatio="xMidYMid meet">
+  <path fill="#FFF" fill-rule="evenodd" d="M6.727 34.89c-.954.554-1.727.12-1.727-1V2.046C5 .94 5.746.53 6.674 1.136l25.652 16.77c.925.604.898 1.546-.053 2.1L6.727 34.89z"/>
+</svg>
+
+<span class=" ml-auto bold text-shadow-20">25 min</span>
+</div>
+</div></a>
+</div>
+<div class=" flex-auto flex flex-column flex-auto justify-center  pt- ">
+<header>
+<a class="inline-block no-decoration color-blue hover-underline mb-- ms-1" href="/collections/server-side-swift">Server-Side Swift</a>
+<h3><a class=" block lh-110 no-decoration bold color-black hover-underline " href="/episodes/S01E138-the-swift-talk-backend-part-1">The Swift Talk Backend (Part 1)</a></h3>
+</header>
+<p class=" color-gray-65  mt-- ms-1">
+Episode 138
+<span class=" ph---">&middot;</span>
+Feb 08
+</p>
+</div>
+</article>
+</div>
+</div>
+</div>
+<div class=" bgcolor-blue">
+<div class=" container">
+<div class=" cols relative s-|stack+">
+<div class="col s+|width-1/2 relative">
+    <p class="smallcaps color-orange mb">Unlock Full Access</p>
+    <h2 class="color-white bold ms3">Subscribe to Swift Talk</h2>
+</div>
+<div class=" col s+|width-1/2">
+<ul class=" stack+ lh-110">
+<li>
+<div class=" flag">
+<div class=" flag__image pr color-orange">
+<svg  class="svg-fill-current" xmlns="http://www.w3.org/2000/svg" width="44" height="40" viewBox="0 0 44 40"><path fill="#FFA940" fill-rule="evenodd" d="M30 11.5V19H15v-7.5a7.5 7.5 0 0 1 15 0zM11 19v-7.5C11 5.149 16.149 0 22.5 0S34 5.149 34 11.5V19h2a2 2 0 0 1 2 2v17a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V21a2 2 0 0 1 2-2h2z"/></svg>
+</div>
+<div class=" flag__body">
+<h3 class=" bold color-white mb---">Watch All Episodes</h3>
+<p class=" color-blue-darkest lh-125">
+A new episode every week
+</p>
+</div>
+</div>
+</li>
+<li>
+<div class=" flag">
+<div class=" flag__image pr color-orange">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg  class="svg-fill-current" width="44px" height="40px" viewBox="0 0 44 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-benefit-download</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-2-Copy" transform="translate(-345.000000, -32.000000)" fill="#FFA940">
+            <g id="Group-3-Copy-3" transform="translate(345.000000, 32.000000)">
+                <path d="M5.5,33.8650169 L38.5,33.8650169 C39.8807119,33.8650169 41,34.9843051 41,36.3650169 C41,37.7457288 39.8807119,38.8650169 38.5,38.8650169 L5.5,38.8650169 C4.11928813,38.8650169 3,37.7457288 3,36.3650169 C3,34.9843051 4.11928813,33.8650169 5.5,33.8650169 Z M14.6947103,18.4087389 L18.9344504,22.6388129 L18.9344504,5.52771622 C18.9344504,4.05714801 20.1299434,2.86501694 21.6053832,2.86501694 C23.0804986,2.86501694 24.276316,4.05812478 24.276316,5.52771622 L24.276316,22.6875023 L28.5648754,18.4087389 C29.6079971,17.3683923 31.2989556,17.368117 32.3422491,18.4086348 C33.3853132,19.4489239 33.3861789,21.1347025 32.3421447,22.1759591 L22.8901364,31.6042444 C22.1944069,32.2982278 21.0655178,32.298566 20.3694492,31.6042444 L10.917441,22.1759591 C9.87431919,21.1356125 9.87404313,19.4491527 10.9173366,18.4086348 C11.9604007,17.3683457 13.6506761,17.3674823 14.6947103,18.4087389 Z" id="path0_fill"></path>
+            </g>
+        </g>
+    </g>
+</svg>
+</div>
+<div class=" flag__body">
+<h3 class=" bold color-white mb---">Download Episodes</h3>
+<p class=" color-blue-darkest lh-125">
+Take Swift Talk with you when you&#39;re offline
+</p>
+</div>
+</div>
+</li>
+<li>
+<div class=" flag">
+<div class=" flag__image pr color-orange">
+<svg  class="svg-fill-current" xmlns="http://www.w3.org/2000/svg" width="44" height="40" viewBox="0 0 44 40"><path fill="#FFA940" fill-rule="evenodd" d="M21.09 5.388C16.72.872 9.64.871 5.273 5.382.906 9.894.91 17.21 5.28 21.724L22 39l16.72-17.276c4.37-4.514 4.374-11.83.007-16.342C34.36.871 27.28.872 22.91 5.388l-.91.94-.91-.94z"/></svg>
+</div>
+<div class=" flag__body">
+<h3 class=" bold color-white mb---">Support Us</h3>
+<p class=" color-blue-darkest lh-125">
+With your help we can keep producing new episodes
+</p>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class=" s+|absolute s+|position-sw col s+|width-1/2">
+<a class=" c-button" href="/subscribe">Pricing &amp; Sign Up</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer>
+<div class="container">
+<div class="cols m-|stack++">
+<div class="col m+|width-1/2">
+<a class="inline-block mb" href="https://www.objc.io/">
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax meet" viewBox="0 0 528 158" width="528" height="158" class="logo logo--themed">
+<g id="Logo" fill="none" fill-rule="evenodd">
+<g id="objc-logo-white-fit">
+<g id="arrows" fill="#FFA940">
+<path id="arrow-up" d="M423 73l8-7-45.5-46L340 66l8 7 32-34v86h11V39l32 34z"></path>
+<path id="arrow-down" d="M520 80l8 7-45.5 46L437 87l8-7 32 34V28h11v86l32-34z"></path>
+</g>
+<g id="letters" fill="#0091D9">
+<path id="letter-c" d="M260.362 124c-15.38 0-25.18-7.104-31.26-16.07C224.534 101.162 222 91.855 222 79c0-12.854 2.535-22.16 7.1-28.927C235.184 41.107 244.815 34 260.196 34c10.136 0 18.417 3.383 24.334 9.136C290.272 48.72 294.327 55.696 295 65h-14.5c-1.172-5.918-3.24-10.022-6.45-13.238-3.382-3.213-8.28-5.242-13.855-5.242-6.592 0-11.156 2.367-14.87 5.583-6.76 5.753-8.622 16.408-8.622 26.898 0 10.49 1.862 21.147 8.62 26.897 3.716 3.216 8.28 5.586 14.872 5.586 5.91 0 11.15-2.2 14.528-5.753 3.044-3.213 5.072-7.105 5.777-12.73H295c-.67 9.136-4.22 16.115-9.966 21.698-6.082 5.92-14.193 9.302-24.672 9.302z"></path>
+<path id="letter-j" d="M168 156.306V143.94c3.582.675 7.17.846 10.757.846 6.484 0 9.732-5.086 9.243-10.846V36h15v97.77c.002 14.91-7.34 24.23-23.732 24.23-4.438 0-7-.338-11.268-1.694zM188 0h15v15h-15V0z"></path>
+<path id="letter-b" d="M132.358 124c-9.67 0-20.696-4.724-25.616-13.326L106 122H93V0h15v46c4.58-7.76 15.028-11.75 24.358-11.75 10.007 0 17.98 3.373 23.578 8.604C164.59 51.12 169 64.618 169 79.294c.002 14.173-4.238 27.162-12.38 35.43-5.6 5.735-13.743 9.276-24.262 9.276zm-1.786-78c-6.317 0-10.587 2.513-14.006 5.528-7.173 6.2-9.566 16.42-9.566 26.973 0 10.553 2.393 20.774 9.566 26.972 3.42 3.015 7.69 5.528 14.006 5.528C149.872 111 155 94.08 155 78.5c0-15.578-5.127-32.5-24.428-32.5z"></path>
+<path id="letter-o" d="M63.844 114.018c-6.25 6.093-15.03 9.982-25.84 9.982s-19.592-3.89-25.843-9.982C2.876 104.884 0 92.534 0 79 0 65.47 2.875 53.117 12.16 43.983 18.41 37.892 27.192 34 38 34c10.81 0 19.59 3.89 25.84 9.982C73.13 53.116 76 65.468 76 79.002c0 13.532-2.868 25.882-12.156 35.016zm-9.85-61.953C50.42 48.528 45.315 46 38.503 46c-6.81 0-11.92 2.526-15.497 6.065C16.875 58.295 15 68.565 15 78.5c0 9.937 1.876 20.206 8.005 26.438C26.58 108.472 31.692 111 38.502 111c6.81 0 11.917-2.526 15.493-6.062C60.125 98.708 62 88.438 62 78.5c0-9.934-1.88-20.206-8.005-26.435z"></path>
+</g>
+</g>
+</g>
+</svg>
+
+</a>        <p class="lh-125 color-gray-40">
+objc.io publishes books, videos, and articles on advanced techniques for iOS and macOS development.
+</p>
+</div>
+<div class="col width-full m+|width-1/2">
+<div class="cols">
+<div class="col width-1/3">
+<p class="mb">
+<span class="smallcaps color-gray-40">Learn</span>
+</p>
+<ul class="stack-">
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="/">Swift Talk</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/books">Books</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/workshops">Workshops</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/issues">Issues</a>
+</li>
+</ul>
+</div><!-- .col -->
+<div class="col width-1/3">
+<p class="mb">
+<span class="smallcaps color-gray-40">Follow</span>
+</p>
+<ul class="stack-">
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/blog">Blog</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/newsletter">Newsletter</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://twitter.com/objcio">Twitter</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.youtube.com/objcio">YouTube</a>
+</li>
+</ul>
+</div><!-- .col -->
+<div class="col width-1/3">
+<p class="mb">
+<span class="smallcaps color-gray-40">More</span>
+</p>
+<ul class="stack-">
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/about">About</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="mailto:mail@objc.io">Email</a>
+</li>
+<li>
+<a class="no-decoration color-gray-60 hover-color-black" href="https://www.objc.io/imprint">Imprint &amp; Legal</a>
+</li>
+</ul>
+</div><!-- .col -->
+</div> <!-- .cols -->
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

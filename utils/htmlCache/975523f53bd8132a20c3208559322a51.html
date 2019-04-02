@@ -1,0 +1,1225 @@
+<!-- start coded_template: id:4260001295 path:custom/page/shared/new-base.html --><!doctype html><html><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-type">
+    <title>
+      
+Keeping your code clean | Netguru Blog on Mobile
+
+    </title>
+    <meta name="twitter:card" content="summary">
+    <meta name="format-detection" content="telephone=no">
+    <meta property="fb:app_id" content="551190461638252">
+    <meta property="og:url" content="https://www.netguru.com/codestories/keeping-your-code-clean">
+    
+  
+    <meta property="og:image" content="https://www.netguru.com/hubfs/gustas-brazaitis-541809-unsplash-1.jpg">
+  
+
+<script type="application/ld+json">
+
+
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+         {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+                "@id": "https://www.netguru.com/codestories",
+                "name": "Netguru Codestories"
+            }
+         },
+    {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+                "@id": "https://www.netguru.com/codestories/topic/mobile",
+                "name": "Mobile",
+            }
+         }
+    ]
+}
+</script>
+  <!-- start coded_template: id:5406448879 path:Custom/page/shared/blogpost-schema.html -->
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Keeping your code clean",
+      "description": "Keeping your code clean - this is something that doesn’t always go hand in hand with programming. This blog post shows how you can take care of the style of the code and what you should pay attention to during your daily work.",
+      "author": "Piotr Sękara",
+      "publisher": {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "Netguru",
+        "mainEntityOfPage": "https://www.netguru.com/",
+        "url": "https://www.netguru.com/",
+        "sameAs": [
+          "https://twitter.com/netguru",
+          "https://facebook.com/netguru",
+          "https://www.linkedin.com/company/netguru",
+          "https://www.github.com/netguru",
+          "https://www.dribbble.com/netguru",
+          "https://www.behance.net/netguru"
+        ],
+        "email": "hello@netguru.com",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+48 534 205 209",
+          "contactType": "Customer support",
+          "contactOption": "TollFree",
+          "areaServed": "PL"
+        },
+        "foundingDate": "2008",
+        "foundingLocation": "Poznań, Poland",
+        "member": {
+          "@type": "Person",
+          "name": "Wiktor Schmidt",
+          "jobTitle": "CEO",
+          "nationality": "Poland",
+          "url": "https://www.linkedin.com/in/wiktorschmidt/"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Poznań, Poland",
+          "postalCode": "60-792",
+          "streetAddress": "Wojskowa 6"
+        },
+        "logo": "https://www.netguru.com/hubfs/images/logos/netguru_logo.svg",
+        "numberOfEmployees": 560,
+        "vatId": "PL7781454968"
+      },
+      "datePublished": "2018-11-06",
+      "dateModified": "2018-11-19",
+      "keywords": "[Mobile, iOS, Linting]",
+      "image": "https://www.netguru.co/hubfs/gustas-brazaitis-541809-unsplash-1.jpg",
+      "mainEntityOfPage": "https://www.netguru.com/codestories/keeping-your-code-clean"
+    }
+</script><!-- end coded_template: id:5406448879 path:Custom/page/shared/blogpost-schema.html -->
+
+
+
+
+    <!-- start coded_template: id:5030838486 path:custom/page/shared/gtm-datalayer.html -->
+<!-- end coded_template: id:5030838486 path:custom/page/shared/gtm-datalayer.html -->
+
+
+    <meta property="og:description" name="description" content="Keeping your code clean - this is something that doesn’t always go hand in hand with programming. This blog post shows how you can take care of the style of the code and what you should pay attention to during your daily work.">
+
+    
+    <meta name="robots" content="index, follow">
+
+    
+      <link rel="shortcut icon" href="//www.netguru.com/hubfs/images/ico/favicon.ico?v=2">
+    
+    <script>
+      !function(e){function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}var t={};n.m=e,n.c=t,n.i=function(e){return e},n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:r})},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},n.p="https://www.netguru.co/hubfs/js/",n(n.s=253)}({253:function(e,n){window.renderComponent=function(e,n){var t=void 0;document.currentScript?t=document.currentScript.parentElement.insertBefore(document.createElement("span"),document.currentScript):(document.write('<span id="temp-id-to-remove"></span>'),t=document.getElementById("temp-id-to-remove"),t.removeAttribute("id")),renderComponent.components.push([t,e,n]);var r=void 0;try{r=new Event("renderComponent")}catch(e){r=document.createEvent("Event"),r.initEvent("renderComponent",!1,!1)}window.dispatchEvent(r)},renderComponent.components=[],window.awaitjQuery=function(e){window.jQuery?window.jQuery(function(){return e(window.jQuery)}):window.addEventListener("jqueryLoaded",function n(){window.removeEventListener("jqueryLoaded",n),window.jQuery(function(){return e(window.jQuery)})})}}});
+    </script>
+    
+      <link rel="stylesheet" href="https://www.netguru.com/hs-fs/hub/493098/hub_generated/template_assets/1553682293188/custom/page/dist/redesign.css">
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="none" onload="this.media='all';">
+    <link rel="stylesheet" href="//hello.myfonts.net/count/31092c" media="none" onload="this.media='all';">
+    
+    
+  <link rel="stylesheet" type="text/css" href="//www.netguru.com/hubfs/external-libs/prism/prism.min.css">
+
+
+    
+      
+        <script async src="//www.netguru.com/hubfs/js/custom-modules.js"></script>
+      
+    
+    
+    <script src="//js.hsforms.net/forms/v2.js"></script>
+  <meta name="generator" content="HubSpot"></head>
+  <body>
+    
+    <script>
+      renderComponent('CookieMessage');
+    </script>
+    
+
+    
+    
+
+    <div class="page blog-page">
+      
+        
+          <div id="hs_cos_wrapper_Social_header" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_custom_widget" style="" data-hs-cos-general-type="widget" data-hs-cos-type="custom_widget"><script>
+    params = {
+      recentBlogpost: {
+        
+          
+            name: "How to Conduct a Remote Sprint Planning Meeting?",
+            url: 'https://www.netguru.com/blog/how-to-conduct-a-remote-sprint-planning-meeting'
+          
+        
+      }
+    };
+    renderComponent('SocialHeader', params);
+</script>
+</div>
+        
+      
+
+      
+
+<!-- start coded_template: id:7978644382 path:Custom/page/shared/new-blog-codestories-categories.html -->
+<section class="blog__header">
+    
+      <div id="hs_cos_wrapper_Navbar" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_custom_widget" style="" data-hs-cos-general-type="widget" data-hs-cos-type="custom_widget"><div class="cm-navbar" role="navigation">
+  <nav class="cm-navbar__nav navbar navbar-default js-navbar">
+    <div class="cm-navbar__nav-bg">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="https://www.netguru.com">
+        </a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="main-nav">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/services">Services</a>
+          </li>
+          <li>
+            <a href="/clients">Clients</a>
+          </li>
+          <li>
+            <a href="/about-us">About us</a>
+          </li>
+          <li>
+            <a href="/resources">Resources</a>
+          </li>
+          <li>
+            <a href="/blog">Blog</a>
+          </li>
+          <li>
+            <a href="/codestories">Codestories</a>
+          </li>
+          <li>
+            <a href="/career">Careers</a>
+          </li>
+        </ul>
+        <a href="/estimate-project?ref=navbar" class="btn btn-default btn-green cm-navbar__estimate-project">
+          Estimate project
+        </a>
+      </div>
+    </div>
+    </div>
+  </nav>
+</div>
+</div>
+    
+
+    <div class="blog-sections">
+      <div class="container">
+        <div class="blog-sections__wrapper js-blog-sections-wrapper">
+          <a href="/codestories">All</a>
+          <a href="/codestories/topic/ruby-on-rails">Ruby on Rails</a>
+          <a href="/codestories/topic/nodejs">Node JS</a>
+          <a href="/codestories/topic/android">Android</a>
+          <a href="/codestories/topic/ios">iOS</a>
+          <a href="/codestories/topic/react-native">React Native</a>
+          <a href="/codestories/topic/frontend">Frontend</a>
+          <a href="/codestories/topic/flutter">Flutter</a>
+
+          <script>
+            params = {
+              categories: [
+                { value: 'all', label: 'All' },
+                { value: 'ruby-on-rails', label: 'Ruby on Rails' },
+                { value: 'nodejs', label: 'Node JS' },
+                { value: 'android', label: 'Android' },
+                { value: 'ios', label: 'iOS' },
+                { value: 'react-native', label: 'React Native' },
+                { value: 'frontend', label: 'Frontend' },
+                { value: 'flutter', label: 'Flutter' },
+              ],
+              concern: 'blog',
+              namespace: 'topic',
+              defaultCategory: 'all'
+            }
+            renderComponent('CategoryMenuBlog', params);
+          </script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <script>
+    $('.js-blog-search').on('focusin focusout', (e) => {
+      $('.js-blog-sections-wrapper > span').toggle();
+    });
+  </script><!-- end coded_template: id:7978644382 path:Custom/page/shared/new-blog-codestories-categories.html -->
+
+
+<section class="padded-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <div>
+          <h1 class="large-title blog-post__heading">
+            
+              <span id="hs_cos_wrapper_name" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text" style="" data-hs-cos-general-type="meta_field" data-hs-cos-type="text">Keeping your code clean</span>
+            
+          </h1>
+          <div id="hs_cos_wrapper_blogpost-metadata" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_custom_widget" style="" data-hs-cos-general-type="widget" data-hs-cos-type="custom_widget"><div class="blog-post__metadata">
+  <img src="https://www.netguru.com/hs-fs/hubfs/Piotrek_1681-Edit-969668-edited-122127-edited.jpg?width=100&amp;name=Piotrek_1681-Edit-969668-edited-122127-edited.jpg" class="blog-post__metadata__author-img">
+  <div>
+    Piotr Sękara
+    <div class="blog-post__metadata__post-info">
+      <div class="blog-post__metadata__read-time">
+        Nov 6, 2018 | 13 min read
+      </div>
+      <div class="blog-post__metadata__topics">
+      
+        <a href="/codestories/topic/mobile" class="blog-post__metadata__topic">
+          Mobile
+        </a>
+      
+        <a href="/codestories/topic/ios" class="blog-post__metadata__topic">
+          iOS
+        </a>
+      
+        <a href="/codestories/topic/linting" class="blog-post__metadata__topic">
+          Linting
+        </a>
+      
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+          
+            <div class="blog-post__resource">
+              <div class="blog-post__image-container" style="background-image: url(https://www.netguru.com/hubfs/gustas-brazaitis-541809-unsplash-1.jpg)"></div>
+            </div>
+          
+        </div>
+        <div class="blog-post__content">
+          <span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" style="" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p><span></span><span></span><span>Keeping your code clean - this is something that doesn’t always go hand in hand with programming, especially in a larger team where people can have different experience and code style preferences. You may ask "clean code - is it that important?". Believe me, it is.</span></p>
+<!--more-->
+<p><span></span><span></span><span>The scenario is usually simple - there is a very important feature to implement, but there is also a very short deadline for it. Probably every programmer had such a situation in his career. Often, it ends with getting the job done with the intent of writing code that works but, sometimes it’s not as beautiful as you would want. But if you write dirty code, you are only incurring a debt to yourself, because you'll probably have to go back to it again. Now imagine that you’re coming back after a long time…</span></p>
+<p>&nbsp;</p>
+<div><img src="https://lh3.googleusercontent.com/EMlGrvxrvrcx0xyHOlEQgB-qCyLQiOoTbjFnb7ZYT9HIU8bBGKX4wh7haR9PGGNuKhw9zkAX2kS1groY9IPB1s3BmY_eDkcTJxRsJwfEY4gER8nZDuXnWyxJjeK-BNVjs9mm12wF" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;<span style="background-color: transparent;">&nbsp;</span></p>
+<p><span></span><span></span><span>This post will show you a few quick tips for cleaner code and tools that can help maintain the same code style and avoid errors that can/will lead to less readable code.</span></p>
+<h2>LOC</h2>
+<p><span> </span><span>You've probably heard that abbreviation multiple times in many articles and it's not new to you. This is repeated very frequently, but many programmers simply forget about it. It is also something that novice programmers do not pay much attention to. LOC means lines of code and it’s one of the metrics used to measure the size of a program. The fewer lines of code, the easier it is to read it. I think it is not a strange statement.</span></p>
+<p>The main mistake is creating functions that have more than one purpose. If a function is too long, it is a sign that it probably has more than one purpose. Reading it can also cause a lot of problems. This of course also applies to the size of files - it is better not to overdo it.</p>
+<p>Solution? Split functions into smaller ones and make sure that they’re not doing too much.</p>
+<h2>Correct Indentation&nbsp;</h2>
+<div><img src="https://lh6.googleusercontent.com/j__HHjhB1AQTcIr5Vqb_gH7e8uDswlYLcu46MXMcoD9sPYLkeSTidOAWvBNsz7nl-cwA2YG2QmT3SerEPlAQ7pnIcLU6ZdVv4FPEwnaV2EaDGPEf6SVyVtz0ESMO99kdYM-0kScU" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>It seems that this is not so important - one space more or less, what's the difference? However, this is the first thing that stands out the most. In fact, this is a very important issue that strongly affects the readability of our code. Consider the following code that does not have any indentation:</span></p>
+<pre><code class="language-swift">
+extension Sequence where Element: Hashable {
+func containsDuplicates() -&gt; Bool {
+var set = Set()
+for element in self {
+if !set.insert(element).inserted {
+return true
+}
+}
+return false
+}
+}
+</code></pre>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>Doesn't it look terrible? Of course it does. This is quite an extreme case which you will probably never see, so let's look at another snippet that has indents, but they are missing in some places:</span></p>
+<pre><code class="language-swift">
+extension Sequence where Element: Hashable {
+    func containsDuplicates() -&gt; Bool {
+        var set = Set()
+        for element in self {
+        if !set.insert(element).inserted {
+            return true
+        }
+        }
+        return false
+    }
+}</code></pre>
+<p>&nbsp;</p>
+<p>It is not as tragic as before, but it’s still not perfect. Let's see a perfect version then.</p>
+<pre><code class="language-swift">
+extension Sequence where Element: Hashable {
+    func containsDuplicates() -&gt; Bool {
+        var set = Set()
+        for element in self {
+            if !set.insert(element).inserted {
+                return true
+            }
+        }
+        return false
+    }
+}
+</code></pre>
+<p>&nbsp;</p>
+<p>Do you see a difference? It's really important, so pay attention to your indentation habits!</p>
+<h2>Naming Standards</h2>
+<p>Another very important thing. Most projects are developed by teams consisting of more developers than just one, and this means that the code should be readable for everyone. When you create a variable or a function, you should give it a full name which will be descriptive enough to give a general idea of what it does. Never use only one letter in the name. It is better to spend more time on appropriate naming than on future redesigns.</p>
+<p>&nbsp;</p>
+<p>Let’s consider the following simple function:</p>
+<pre><code class="language-swift">
+extension Date {
+    func add(_ v: Int) -&gt; Date? {
+        var components = DateComponents()
+        components.day = v
+        return Calendar.current.date(byAdding: components, to: self)
+    }
+}
+</code></pre>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>This code is not readable at all and other developers definitely will not understand what this method does.</span> Of course, you can add documentation to the code, but it's still not a good way out - the code itself should be readable. <span></span><span></span><span>Let's try to do some refactoring.</span></p>
+<p>&nbsp;</p>
+<pre><code class="language-swift">
+extension Date {
+    func addDays(_ value: Int) -&gt; Date? {
+        var dateComponents = DateComponents()
+        dateComponents.day = value
+        return Calendar.current.date(byAdding: dateComponents, to: self)
+    }
+}</code></pre>
+<p>&nbsp;</p>
+<p>Isn't it much better now?</p>
+<h2>Variables/Methods Declaration</h2>
+<p>All variables and methods should be grouped according to access level - public methods and variables should be above those marked private. All variables in a class should be declared at the top of the class. Doing it this way will save you time scrolling over the whole class to find where it was declared.</p>
+<p>Methods should also be declared in the same order as they are used - method A which calls method B shouldn't be below it.</p>
+<h2>Code Style</h2>
+<p><span></span><span></span><span>The last thing, and surely the hardest one - code style. Many developers have their own code style based on their experience, and it can not be clearly stated that a given style is the best and everyone should follow it. </span></p>
+<div><img src="https://lh5.googleusercontent.com/tDUDW1uD03ldMz_0GcVEIlVdCgruttcLWRx4rk6cMjB8KuF-oZMwPcI70k4DmNEHf1Fo_qEVVtX-oGtRzfOStXtLS3KdaSjnJ0oPz4Y8013IeAxJDqLpWZcH2Rui5zcaVI5YhZvs" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>One way to develop is to participate in open source projects, as well as to check the code of other programmers. The function you are working on at the moment has probably been implemented more than once. Of course, we are not talking about copying and pasting a ready solution, but about analyzing it and drawing conclusions. Maybe the solution has some drawbacks? Maybe you can offer something different? You can really learn a lot this way</span>. It is also worth to check some Swift style guides - for example, from <a href="https://github.com/linkedin/swift-style-guide">LinkedIn</a> and <a href="https://github.com/raywenderlich/swift-style-guide">Ray Wenderlich</a>.</p>
+<p><span></span><span></span><span>But what if you are taking care only of the clean code in your project? What if there are several programming styles in it? What to do to make the project consistent? How to make sure the whole team follows the same style? A lot of questions, but fortunately there is a solution - linting tools.</span></p>
+<h2>Linting Tools&nbsp;&nbsp;</h2>
+<div><img src="https://lh3.googleusercontent.com/9jxkXv3Z6h9iZQlu3a8twf3jgVNmHe29dyRKnmTbPH-1IxYJTUPcx5lYargUsXYZrwnYyJNxgQ7iGnoIdWdLZuq-hSLB14jbASoEI05ewxpP5SLqRgbwxCfqipQj9Z3ruZ7BoaHA" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>I will not bore you with a typical definition of "lint" that you can read on Wikipedia, so I will explain it briefly - these are the tools that check your code in terms of programmatic and stylistic errors. They are very helpful in identifying common mistakes, but also in keeping a consistent code style.</span> And now I will show you some linting tools that you can use in iOS projects.</p>
+<h2>SonarQube</h2>
+<p><span></span><span></span><span>SonarQube is an open-source web-based platform for continuous inspection of code quality that can be extended with open-source plugins. It supports more than 20 languages like Java, C/C++, Objective-C, C#, Swift, and many others. </span>.</p>
+<p><span></span><span></span><span>Sonar has a few metrics which cover a generous area of code quality:</span></p>
+<ul>
+<li>Reliability - Number of bugs</li>
+<li>Security - Number of vulnerabilities</li>
+<li>Maintainability - Number of code smells</li>
+<li>Coverage - Number of lines covered by the tests</li>
+<li>Duplications - Number of duplicated blocks of lines</li>
+<li>Size - Number of all files, classes, functions, and statements</li>
+<li>Complexity - <span></span><span></span><span>Complexity calculated based on the number of paths through the code</span></li>
+</ul>
+<p>&nbsp;</p>
+<div><img src="https://lh4.googleusercontent.com/Ly2yhu_IkG-lElAacuXjkYUoYDfsIy4T6ChpLm279l7KAfKMq4WimiLh4bgeyjf4EvL6jyvCfsqlgQHbNiuW8UvYUmtKhO9DPwLoyBSGNYw_P5p0HerYQA1tJAjVTRVHkvK5ql-m" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>At this moment Sonar has 116 rules for Swift, which are divided into four groups:</span></p>
+<ul>
+<li>Vulnerability - 4 rules</li>
+<li>Bug - 14 rules</li>
+<li>Security Hotspot - 1 rule</li>
+<li>Code Smell - 98 rules&nbsp;</li>
+</ul>
+<p>They can also be grouped by severity:</p>
+<p>&nbsp;</p>
+<div><img src="https://lh5.googleusercontent.com/jkoDBVDr1xNve4UybhBXIIf0MAPagTvd2Bc58rNEH2sHMemUAeQkrb9gOEEr6mSEbwCQ-fSi0qxleXVL5IOgl5L20H97uL-Xk_GsyE8fmpD6QH6-x65A8n6NB3lvEskzqwdg7wDA" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>SonarQube can be integrated with continuous integration systems, however the free version supports only a few languages and can be used with public repositories only. It has a web dashboard which can be easily shared and can be really helpful in a situation when you work on legacy code. You can use Sonar with a local or remote server and configure it by adding a </span><span><em>sonar-project.properties </em></span><span>file beside the .xcodeproj file to your Xcode project root folder. If you want to disable some rules, you’ll need to use a web dashboard and deactivate them there.</span></p>
+<p>&nbsp;</p>
+<h4><strong>Conclusion</strong></h4>
+<p><span></span><span></span><span>It’s a really great tool, however it requires a running server and we can’t integrate it with Xcode to see all errors during the implementation process. The free version only supports open-source projects.</span></p>
+<h2>Tailor</h2>
+<p><span></span><span></span><span>Tailor is an open-source cross-platform static analysis and lint tool for Swift. You can use this tool on macOS, Linux, and Windows. It analyzes your code to ensure that the Swift style and conventions are followed. It has 30 rules available and primarily uses the Java target of ANTLR. At this moment it has 1244 stars on </span><span><u><a href="https://github.com/sleekbyte/tailor">Github</a></u></span><span> and the last commit was on 6 December 2017.</span></p>
+<p>&nbsp;</p>
+<div><img src="https://lh5.googleusercontent.com/7zWOCvaFeamhUYc4Fr5SxZH22dyv1uwNoAcxOmZEimQGXbopruFruNyFZh3qoVTfNT3DSE3qdp3Slf-AjWuJ3HxkPSx98VvvKAbirk4eJ9ppgeegrx3sH6VEnymkOdrmUe_Kng9P" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>Unlike SonarQube, you don’t need a server to run this tool. You can also integrate it with Xcode to get Tailor’s output within the Xcode Editor Area and in the Log Navigator. Installation is done by Homebrew. You can also generate a report in formats like HTML or JSON.</span></p>
+<div><img src="https://lh6.googleusercontent.com/twZyYeG5LvXSd3YZAmKwFUjR__3b_VR04e3eeYL35eIY5Z4IWjTudme4hEfK1GseInodS8e6vcBbZXoqkLZEcQrc6Ul_UJviYMVNZpChF21TX2bVXD3XPSnHhqWst3nBKAoefaFE" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p><span></span><span></span><span>Configuration is done by adding a </span><span><em>.tailor.yml </em></span><span>file to the project root folder. You can include or exclude certain files and directories from analysis, enable and disable specific rules, as well as specify an output format or color scheme for the CLI.</span></p>
+<h4>&nbsp;</h4>
+<h4><strong>Conclusion</strong></h4>
+<p><span></span><span></span><span>Using a tool without a server and the possibility to integrate it with Xcode is a cool thing. It’s also very simple to customize by using a configuration file which can be placed in a repository. Doing it this way means that all developers in the project will be using the same configuration. The only downside is the small number of rules.</span></p>
+<h2>SwiftLint</h2>
+<p><span></span><span></span><span>This is probably the most well-known tool. It’s an open source project developed by the Realm team which you’ve probably already heard of. Right now it has more than 10,000 stars and 1,000 forks on GitHub. SwiftLint has 150 rules and it’s constantly being maintained.</span></p>
+<p>&nbsp;<span style="background-color: transparent;">&nbsp;</span></p>
+<div><img src="https://lh6.googleusercontent.com/wQpgcoqGOFF-Y4Ia8gslevZihbOcli8S2EvHHnQsmbEQDcMa0lkNXdvRYs35fVGEgi_WEruadFfhVmoIdf2A5KpHIqmCq76vXwMXoEdxpnX_bKGUFMugLdSYolzKm_ImSt2Xzvjg" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<p><span>Like Tailor, you can install this tool by using Homebrew as well as CocoaPods. Integration with Xcode is also possible. Configuration is also similar - you need to create a </span><span><em>.swiftlint.yml</em></span><span> file in the project root folder. You can disable or enable optional rules, add paths which should be included and excluded during linting, and configure some rules.</span></p>
+<p><span> </span><span>There are a lot of rules, but if you run out of something you can define your own in the configuration file. SwiftLint can also automatically correct certain violations and generate a report in different types.</span></p>
+<p>&nbsp;<span style="background-color: transparent;">&nbsp;</span></p>
+<div><img src="https://lh5.googleusercontent.com/_OdPw_GvT6s6cdHtuXmjVS4aMW6gF5QZhHp1b9Po1ZKMrMoVT3Y7Fu6s3EndP3v-pCt3iexC4S2-kzDiLICZyDB6Udsc20-ZabU7sL4A3WDeSjz8WfeEBxaiwso6AapPzTiH4xVO" alt="" style="width: 500px; display: block; margin: 0px auto;" width="500"></div>
+<p>&nbsp;</p>
+<h4><strong>Conclusion</strong></h4>
+<p><span></span><span></span><span> </span><span>A really great tool which has been maintained since April 2015. Probably the most famous linting tool in the Swift community. You can integrate it with Xcode and your continuous integration tool by using Homebrew or a dependency manager. There are a lot of rules and the possibility to create your own.</span></p>
+<h2>Why should we use this tools?</h2>
+<p>During implementation of the application we have a lot on our minds and we're not perfect - we make mistakes.&nbsp;<span></span><span></span><span>But since there are tools that can prevent them, why not use them? It’s also good to have an established style in the project and the development team. It’s very useful to have a consistent codebase, especially when you work in a big iOS team. </span></p>
+<p>&nbsp;</p>
+<p><span></span><span></span><span>Why establish your own set of rules? Here at Netguru we have a house style which all projects must follow. Thanks to this, the projects in which a tool is used are consistent and there are no problems when a new developer joins it. Every single build will correct your tiny mistakes and will inform you about all violations. Don’t be afraid and use one from the start of your project, and if it is already in progress, think about implementing one. Trust me, you will not regret it.</span></p></span>
+        </div>
+        <div class="blog-post__authors">
+          <div class="blog-post__author">
+            
+              <img class="blog-post__author__picture" src="https://www.netguru.com/hubfs/Piotrek_1681-Edit-969668-edited-122127-edited.jpg">
+            
+            <div>
+              <div class="bold blog-post__author__name">
+                
+                  Piotr Sękara
+                
+                
+                
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-md-12 blog-post__cta-caution">
+            <!-- start coded_template: id:5231754851 path:custom/page/shared/codestories-bottom-cta.html -->
+
+
+  
+    
+  
+    
+  
+    
+      <!--HubSpot Call-to-Action Code --><span class="hs-cta-wrapper" id="hs-cta-wrapper-1eafbf3a-a36e-427b-86a0-77a4ebb87f30"><span class="hs-cta-node hs-cta-1eafbf3a-a36e-427b-86a0-77a4ebb87f30" id="hs-cta-1eafbf3a-a36e-427b-86a0-77a4ebb87f30"><!--[if lte IE 8]><div id="hs-cta-ie-element"></div><![endif]--><a href="/hs/cta/cta/redirect/493098/1eafbf3a-a36e-427b-86a0-77a4ebb87f30" target="_blank"><img class="hs-cta-img" id="hs-cta-img-1eafbf3a-a36e-427b-86a0-77a4ebb87f30" style="border-width:0px;" src="/hs/cta/cta/default/493098/1eafbf3a-a36e-427b-86a0-77a4ebb87f30.png" alt="We're building our future. Let's do this right - join us"></a></span><script charset="utf-8" src="/hs/cta/cta/current.js"></script><script type="text/javascript"> hbspt.cta._relativeUrls=true;hbspt.cta.load(493098, '1eafbf3a-a36e-427b-86a0-77a4ebb87f30', {}); </script></span><!-- end HubSpot Call-to-Action Code -->
+    
+  
+    
+  
+    
+  
+
+
+<!-- end coded_template: id:5231754851 path:custom/page/shared/codestories-bottom-cta.html -->
+
+          </div>
+        </div>
+        <div class="row disqus">
+          <div class="col-lg-12">
+            <div id="disqus_thread">
+              <!-- start coded_template: id:5167841557 path:custom/page/shared/disqus-comments.html -->
+<script>
+  const disqus_config = function () {
+    this.page.url = "https://www.netguru.com/codestories/keeping-your-code-clean";
+    this.page.identifier = "6458103216"
+  };
+  (function() {
+    const d = document, s = d.createElement('script');
+    s.src = 'https://blognetguru.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', + new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<!-- end coded_template: id:5167841557 path:custom/page/shared/disqus-comments.html -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="text-center blog-post__shares">
+          <a href="javascript:void(0)" class="blog-post__shares__icon blog-post__shares__icon--facebook js-share" data-type="fb">
+            <i class="fa fa-facebook fa-2" aria-hidden="true"></i>
+          </a>
+          <a href="javascript:void(0)" class="blog-post__shares__icon blog-post__shares__icon--twitter js-share" data-type="twitter">
+            <i class="fa fa-twitter fa-2" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="js-sticky">
+            <div class="row">
+              <div class="col-md-12 blog-post__cta-caution">
+                <!-- start coded_template: id:5231754857 path:custom/page/shared/codestories-sidebar-cta.html -->
+
+
+  
+    
+      
+    
+    
+      
+    
+      
+    
+      
+    
+      
+        
+      
+    
+      
+    
+  
+  
+
+<!-- end coded_template: id:5231754857 path:custom/page/shared/codestories-sidebar-cta.html -->
+
+              </div>
+            </div>
+            
+            
+        </div>
+      </div>
+    </div>
+    
+      <div class="blog-post__related">
+        <div class="bold text-center blog-post__related__title small-title">
+          READ ALSO FROM Mobile
+        </div>
+        <div class="blog-post__related__break">
+          <div class="bold blog-post__related__break__read-more">
+            Read also
+          </div>
+        </div>
+        <div class="more-posts">
+          
+          
+          <div class="row">
+            
+              
+                
+                <div class="col-md-4 more-posts__col">
+                  <a href="https://www.netguru.com/codestories/repolib-rx-ready-to-use-data-layer-for-your-android-app" class="more-posts__link">
+                    <div class="more-posts__image-container" style="background-image: url(https://www.netguru.com/hubfs/chris-fuller-1349802-unsplash.jpg)">
+                      <div class="more-posts__image-overlay">
+                      </div>
+                    </div>
+                    <div class="semibold more-posts__post-title">
+                      RepoLib Rx - Ready-to-use Data Layer For Your Android App
+                    </div>
+                  </a>
+                </div>
+              
+            
+              
+                
+                <div class="col-md-4 more-posts__col">
+                  <a href="https://www.netguru.com/codestories/rome-carthage-build-your-dependencies-faster" class="more-posts__link">
+                    <div class="more-posts__image-container" style="background-image: url(https://www.netguru.com/hubfs/Lukasz%20Pikor,%20Lisbon%202018.jpg)">
+                      <div class="more-posts__image-overlay">
+                      </div>
+                    </div>
+                    <div class="semibold more-posts__post-title">
+                      Rome + Carthage = Build Your Dependencies Faster
+                    </div>
+                  </a>
+                </div>
+              
+            
+              
+                
+                <div class="col-md-4 more-posts__col">
+                  <a href="https://www.netguru.com/codestories/setting-up-a-flutter-project" class="more-posts__link">
+                    <div class="more-posts__image-container" style="background-image: url(https://www.netguru.com/hubfs/hunter-haley-424256-unsplash.jpg)">
+                      <div class="more-posts__image-overlay">
+                      </div>
+                    </div>
+                    <div class="semibold more-posts__post-title">
+                      Setting Up a Flutter Project
+                    </div>
+                  </a>
+                </div>
+              
+            
+              
+            
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</section>
+<!-- start coded_template: id:4344400523 path:custom/page/shared/new-successful-project.html -->
+<div class="green-bg map-bottom successful-project">
+  <script>
+    params = {
+      left: 'inherit',
+      top: '30%',
+      color: 'dark'
+    }
+    renderComponent('ParallaxLogo', params)
+  </script>
+
+  <div class="successful-project__content">
+    <div class="successful-project__heading">
+      <span id="hs_cos_wrapper_successful_project_title" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_text" style="" data-hs-cos-general-type="widget" data-hs-cos-type="text">Need a successful project?</span>
+    </div>
+    <a href="/estimate-project?ref=successful-project-footer-cta" class="btn btn-lg btn-default btn-green text-center successful-project__estimate-project">
+      Estimate project
+    </a>
+    <a href="/contact" class="small-title--inverted successful-project__contact-us">
+      or contact us
+    </a>
+  </div>
+</div>
+<!-- end coded_template: id:4344400523 path:custom/page/shared/new-successful-project.html -->
+
+<!-- start coded_template: id:4226174523 path:custom/page/shared/new-footer.html -->
+<div class="footer">
+  
+    <div class="footer__socials">
+      <div class="container">
+        <span id="hs_cos_wrapper_social_bar" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_custom_widget" style="" data-hs-cos-general-type="widget" data-hs-cos-type="custom_widget"><div class="cm-social-bar">
+  <div class="cm-social-bar__items">
+    <a href="https://twitter.com/netguru" target="_blank" class="cm-social-bar__link">
+      <i class="fa fa-twitter"></i>
+    </a>
+    <a href="https://facebook.com/netguru" target="_blank" class="cm-social-bar__link">
+      <i class="fa fa-facebook"></i>
+    </a>
+    <a href="https://www.linkedin.com/company/netguru" target="_blank" class="cm-social-bar__link">
+      <i class="fa fa-linkedin"></i>
+    </a>
+    <a href="https://www.github.com/netguru" target="_blank" class="cm-social-bar__link">
+      <i class="fa fa-github"></i>
+    </a>
+    <a href="https://www.dribbble.com/netguru" target="_blank" class="cm-social-bar__link">
+      <i class="fa fa-dribbble"></i>
+    </a>
+    <a href="https://www.behance.net/netguru" target="_blank" class="cm-social-bar__link">
+      <i class="fa fa-behance"></i>
+    </a>
+  
+</div>
+
+      </div>
+     </span></div>
+     <div id="hs_cos_wrapper_Footer" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_custom_widget" style="" data-hs-cos-general-type="widget" data-hs-cos-type="custom_widget"><div class="cm-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="row cm-footer__logo-row">
+          <div class="col-xs-6">
+            <a href="#">
+              <img src="https://www.netguru.com/hubfs/images/logos/netguru_logo.svg" class="cm-footer__logo" alt="Netguru Software Development">
+            </a>
+          </div>
+        </div>
+        <div class="row cm-footer__info-row">
+          <div class="col-xs-6">
+            <ul class="cm-footer__list">
+              <li>Contact:</li>
+              <li>
+                <a id="mailto_hello" href="mailto:hello@netguru.co">
+                  hello@netguru.co
+                </a>
+              </li>
+              <li><br></li>
+              <li>Contribute to our blog:</li>
+              <a href="mailto:contributors@netguru.co">contributors@netguru.co</a>
+            </ul>
+          </div>
+          <div class="col-xs-6">
+            <ul class="cm-footer__list">
+              <li>
+                Netguru S.A.
+              </li>
+              <li>
+                ul. Wojskowa 6
+              </li>
+              <li>
+                60-792 Poznań, Poland
+              </li>
+              <li>
+                VAT-ID: PL7781454968
+              </li>
+              <li>
+                REGON: 300826280
+              </li>
+              <li>
+                KRS: 0000745671
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-2">
+        <h5 class="cm-footer__menu-heading">Menu</h5>
+        <ul class="cm-footer__list">
+           <li>
+            <a href="/about-us" class="cm-footer__menu-link">About us</a>
+          </li>
+          <li>
+            <a href="/about-us/team-netguru" class="cm-footer__menu-link">Team</a>
+          </li>
+             <li>
+            <a href="/blog/how-to-join-netguru" class="cm-footer__menu-link">How to join</a>
+          </li>
+          <li>
+            <a href="/clients" class="cm-footer__menu-link">Clients</a>
+          </li>
+          <li>
+            <a href="/blog" class="cm-footer__menu-link">Blog</a>
+          </li>
+          <li>
+            <a href="/contact" class="cm-footer__menu-link">Contact</a>
+          </li>
+          <li>
+            <a href="/tos" class="cm-footer__menu-link">Terms of use</a>
+          </li>
+          <li>
+            <a href="/blog/write-for-us" class="cm-footer__menu-link">Write for us</a>
+          </li>
+          <li>
+            <a href="/tos#privacy-policy" class="cm-footer__menu-link">Privacy Policy</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-6 col-sm-2">
+        <h5 class="cm-footer__menu-heading">Services</h5>
+        <ul class="cm-footer__list">
+          <li>
+            <a href="/services/rubyonrails" class="cm-footer__menu-link">Ruby on Rails</a>
+          </li>
+          <li>
+            <a href="/services/nodejs" class="cm-footer__menu-link">Node.js</a>
+          </li>
+          <li>
+            <a href="/services/react-js" class="cm-footer__menu-link">React.js</a>
+          </li>
+          <li>
+            <a href="/services/ios-mobile-development" class="cm-footer__menu-link">iOS</a>
+          </li>
+          <li>
+            <a href="/services/android-mobile-development" class="cm-footer__menu-link">Android</a>
+          </li>
+          <li>
+            <a href="/services/react-native" class="cm-footer__menu-link">React Native</a>
+          </li>
+          <li>
+            <a href="/services/progressive-web-apps" class="cm-footer__menu-link">Progressive Web Apps</a>
+          </li>
+          <li>
+            <a href="/services/machine-learning" class="cm-footer__menu-link">Machine Learning</a>
+          </li>
+          <li>
+            <a href="/services/vue-js" class="cm-footer__menu-link">Vue.js</a>
+          </li>
+          <li>
+            <a href="/services/python-development" class="cm-footer__menu-link">Python</a>
+          </li>
+          <li>
+            <a href="/services/django-development" class="cm-footer__menu-link">Django</a>
+          </li>
+          <li>
+            <a href="/services/quality-assurance" class="cm-footer__menu-link">Quality Assurance</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-2">
+        <h5 class="cm-footer__menu-heading">Awards</h5>
+        <ul class="cm-footer__list cm-footer__list--images">
+          <li>
+            <a href="https://www.netguru.com/blog/netguru-deloitte-fast-50" class="cm-footer__menu-link">
+              <img src="https://www.netguru.com/hubfs/images/custom-modules/footer/logo_deloitte.png" alt="Deloitte" class="cm-footer__menu-image">
+            </a>
+          </li>
+          <li>
+            <a class="cm-footer__menu-link">
+              <img src="https://www.netguru.com/hubfs/images/custom-modules/footer/logo_forbes.png" alt="Forbes" class="cm-footer__menu-image cm-footer__menu-image--forbes">
+            </a>
+          </li>
+          <li>
+            <a class="cm-footer__menu-link">
+              <img src="https://www.netguru.com/hubfs/images/custom-modules/footer/logo_inc5000.png" alt="INC5000" class="cm-footer__menu-image cm-footer__menu-image--inc">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="cm-footer__map-container">
+      <div class="cm-footer__dot cm-footer__dot--caribbean">
+        <a class="cm-footer__dot-link" href="https://www.netguru.com/location/caribbean"></a>
+      </div>
+      <div class="cm-footer__dot cm-footer__dot--usa">
+        <a class="cm-footer__dot-link" href="https://www.netguru.com/location/usa"></a>
+      </div>
+      <div class="cm-footer__dot cm-footer__dot--helsinki">
+        <a class="cm-footer__dot-link" href="https://www.netguru.com/location/helsinki"></a>
+      </div>
+      <div class="cm-footer__dot cm-footer__dot--dublin">
+        <a class="cm-footer__dot-link" href="https://www.netguru.com/location/dublin"></a>
+      </div>
+      <div class="cm-footer__dot cm-footer__dot--berlin">
+        <a class="cm-footer__dot-link" href="https://www.netguru.com/location/berlin"></a>
+      </div>
+      <div class="cm-footer__dot cm-footer__dot--london">
+        <a class="cm-footer__dot-link" href="https://www.netguru.com/location/london"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+  }
+  
+  setTimeout(function() {
+    var utk = getCookie("hubspotutk");
+    var mailto_hello = "hello@netguru.com";
+    if ( utk ) {
+      mailto_hello = "hello+" + utk + "@netguru.com";
+      document.getElementById("mailto_hello").setAttribute('href', "mailto:" + mailto_hello);
+    }
+  }, 2000);
+</script>
+
+
+</div>
+  
+</div>
+<!-- end coded_template: id:4226174523 path:custom/page/shared/new-footer.html -->
+
+
+    </div>
+    <template id="footer-includes">
+      <!-- just in case <template/> isn't supported -->
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    </template>
+    <script>
+      !function(t){function r(e){if(c[e])return c[e].exports;var n=c[e]={i:e,l:!1,exports:{}};return t[e].call(n.exports,n,n.exports,r),n.l=!0,n.exports}var c={};r.m=t,r.c=c,r.i=function(t){return t},r.d=function(t,c,e){r.o(t,c)||Object.defineProperty(t,c,{configurable:!1,enumerable:!0,get:e})},r.n=function(t){var c=t&&t.__esModule?function(){return t.default}:function(){return t};return r.d(c,"a",c),c},r.o=function(t,r){return Object.prototype.hasOwnProperty.call(t,r)},r.p="https://www.netguru.co/hubfs/js/",r(r.s=260)}({260:function(module,exports){function loadScript(scripts,callback){var script=scripts.shift();if(script||scripts.length>0)if(""===script.src)try{eval(script.textContent),window.hsVars=hsVars,loadScript(scripts,callback),script.parentNode.removeChild(script)}catch(t){callback(t)}else document.body.appendChild(script),script.onerror=function(t){callback(t)},script.onload=function(){loadScript(scripts,callback)};else callback(null)}var hbScripts=document.getElementById("footer-includes");awaitjQuery(function(){var t=hbScripts.content;if(t){t.removeChild(t.querySelector("script[src^='https://code.jquery.com']"));var r=[].filter.call(t.querySelectorAll("script"),function(t,r){return r<3||""===t.src&&-1!==t.textContent.indexOf("hsVars")});r.unshift(r.pop()),loadScript(r,function(r){null===r&&hbScripts.parentNode.replaceChild(document.importNode(t,!0),hbScripts)})}})}});
+
+    </script>
+
+    <!-- start coded_template: id:3649289975 path:custom/page/shared/footer-scripts.html -->
+<!-- start coded_template: id:5196761332 path:custom/page/shared/standard-header-includes-without-jquery.html -->
+
+    <script src="/hs/hsstatic/jquery-libs/static-1.4/jquery/jquery-1.11.2.js"></script>
+<script>hsjQuery = window['jQuery'];</script>
+    <link href="/hs/hsstatic/content_shared_assets/static-1.4090/css/public_common.css" media="none" onload="this.media='all';" rel="stylesheet">
+    <meta property="og:description" content="Keeping your code clean - this is something that doesn’t always go hand in hand with programming. This blog post shows how you can take care of the style of the code and what you should pay attention to during your daily work.">
+    <meta property="og:title" content="Keeping your code clean">
+    <meta name="twitter:description" content="Keeping your code clean - this is something that doesn’t always go hand in hand with programming. This blog post shows how you can take care of the style of the code and what you should pay attention to during your daily work.">
+    <meta name="twitter:title" content="Keeping your code clean">
+
+
+    
+    
+
+    
+    
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google Tag Manager -->
+
+<script>
+dataLayer = [];
+
+dataLayer.push({'event': "lifecyclestage: "});
+dataLayer.push({'lifecyclestage': ""});
+dataLayer.push({'content.topic_list': "[Mobile, iOS, Linting]"});
+dataLayer.push({'content.campaign_name': "Codestories"});
+dataLayer.push({'userId': ""});
+dataLayer.push({'contact.email': ""});
+dataLayer.push({'company.name': ""});
+dataLayer.push({'company.domain': ""});
+
+
+
+
+
+
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TC2LVR');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Schema.org snippet -->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.netguru.com/"
+}
+</script>
+<meta property="og:image" content="https://www.netguru.com/hubfs/gustas-brazaitis-541809-unsplash-1.jpg#keepProtocol">
+<meta property="og:image:width" content="3504">
+<meta property="og:image:height" content="2336">
+<meta name="twitter:image" content="https://www.netguru.com/hubfs/gustas-brazaitis-541809-unsplash-1.jpg#keepProtocol">
+
+<meta property="og:url" content="https://www.netguru.com/codestories/keeping-your-code-clean">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="canonical" href="https://www.netguru.com/codestories/keeping-your-code-clean">
+
+<meta property="og:type" content="article">
+<link rel="alternate" type="application/rss+xml" href="https://www.netguru.com/codestories/rss.xml">
+<meta name="twitter:domain" content="www.netguru.com">
+<script src="//platform.linkedin.com/in.js" type="text/javascript">
+    lang: en_US
+</script>
+
+<meta http-equiv="content-language" content="en-us">
+
+
+
+
+
+
+<!-- end coded_template: id:5196761332 path:custom/page/shared/standard-header-includes-without-jquery.html -->
+
+
+<script type="text/javascript" src="/hs/hsstatic/content_shared_assets/static-1.4090/js/public_common.js"></script>
+<script>
+(function () {
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/_hcms/perf', true /*async*/);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function () {
+                // do nothing.
+            };
+            var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            function populateNetworkInfo(name, connection, info) {
+                if (name in connection) {
+                    info[name] = connection[name];
+                }
+            }
+            var networkInfo = {};
+            if (connection) {
+                ['type', 'effectiveType', 'downlink', 'rtt'].forEach(function(name) {
+                    populateNetworkInfo(name, connection, networkInfo);
+                });
+            }
+            var perfData = {
+                url: location.href,
+                portal: 493098,
+                content: 6458103216,
+                group: -1,
+                connection: networkInfo,
+                timing: performance.timing
+            };
+            xhr.send(JSON.stringify(perfData));
+        }, 3000);  // Execute this 3 seconds after onload.
+    });
+})();
+</script>
+
+<script>
+if (typeof hsVars !== 'undefined') { hsVars['language'] = 'en-us'; }
+</script>
+
+<script src="/hs/hsstatic/cos-i18n/static-1.10/bundles/project.js"></script>
+
+<!-- Start of HubSpot Analytics Code -->
+<script type="text/javascript">
+var _hsq = _hsq || [];
+_hsq.push(["setContentType", "blog-post"]);
+_hsq.push(["setCanonicalUrl", "https:\/\/www.netguru.com\/codestories\/keeping-your-code-clean"]);
+_hsq.push(["setPageId", "6458103216"]);
+_hsq.push(["setContentMetadata", {
+    "contentPageId": 6458103216,
+    "legacyPageId": "6458103216",
+    "contentFolderId": null,
+    "contentGroupId": 5117769011,
+    "abTestId": null,
+    "languageVariantId": 6458103216,
+    "languageCode": "en-us",
+    
+}]);
+</script>
+
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/493098.js"></script>
+<!-- End of HubSpot Analytics Code -->
+
+
+<script type="text/javascript">
+var hsVars = {
+    ticks: 1553784206582,
+    page_id: 6458103216,
+    content_group_id: 5117769011,
+    portal_id: 493098,
+    app_hs_base_url: "https://app.hubspot.com",
+    language: "en",
+    analytics_page_type: "blog-post",
+    category_id: 3,
+    folder_id: 0
+}
+</script>
+
+
+
+<!-- Start of Async Drift Code -->
+<script>
+!function() {
+  var t;
+  if (t = window.driftt = window.drift = window.driftt || [], !t.init) return t.invoked ? void (window.console && console.error && console.error("Drift snippet included twice.")) : (t.invoked = !0, 
+  t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+  t.factory = function(e) {
+    return function() {
+      var n;
+      return n = Array.prototype.slice.call(arguments), n.unshift(e), t.push(n), t;
+    };
+  }, t.methods.forEach(function(e) {
+    t[e] = t.factory(e);
+  }), t.load = function(t) {
+    var e, n, o, i;
+    e = 3e5, i = Math.ceil(new Date() / e) * e, o = document.createElement("script"), 
+    o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + i + "/" + t + ".js", 
+    n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
+  });
+}();
+drift.SNIPPET_VERSION = '0.3.1';
+drift.load('6mmmt44swtye');
+</script>
+<!-- End of Async Drift Code -->
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '725955437490668');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=725955437490668&amp;ev=PageView&amp;noscript=1"></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+<script type="text/javascript">
+  function trackCustomTags() {
+    // get the url and the keys to find
+    var url = window.location.href;
+    var keysToFind = ['utm_source', 'utm_medium', 'utm_term', 'utm_campaign', 'utm_content', 'source', 'ad', 'campaign', 'ref', 'gclid'];
+
+    for (key of keysToFind) {
+      // if UTM tag is found in url
+      if (url.indexOf(key + '=') > -1) {
+        var valueFound = url.substr(url.indexOf(key + '=') + key.length + 1).split('&')[0];
+        // save custom UTM tags to localstorage
+        localStorage.setItem(key, decodeURIComponent(valueFound));
+        
+        var versioned_field = JSON.parse( localStorage.getItem(key + "_versioned") );
+        // if field is empty (not Array), create empty Array
+        if ( !(versioned_field instanceof Array) ) {
+          versioned_field = [];
+        }
+
+        // push value to Array
+        versioned_field.push({
+          "timestamp": Date.now() / 1000 | 0,
+          "value": decodeURIComponent(valueFound)
+        })
+        
+        localStorage.setItem(key + "_versioned", JSON.stringify(versioned_field));
+      }
+    }
+    // save referrer
+    if (document.referrer && !document.referrer.includes("https://www.netguru.com")) {
+      localStorage.setItem('referrer', document.referrer);
+
+      var versioned_field = JSON.parse( localStorage.getItem("referrer_versioned") );
+
+      if ( !(versioned_field instanceof Array) ) {
+        versioned_field = [];
+      }
+
+      // push value to Array
+      versioned_field.push({
+        "timestamp": Date.now() / 1000 | 0,
+        "value": decodeURIComponent(document.referrer)
+      })
+      
+      localStorage.setItem("referrer_versioned", JSON.stringify(versioned_field));
+    }
+  }
+
+  function saveCustomTagsDataToHubspot() {
+    var _hsq = window._hsq = window._hsq || [];
+    // send localstorage UTM values to Hubspot
+    _hsq.push(["identify",{
+      custom_utm_source: localStorage.getItem('utm_source'),
+      custom_utm_source_versioned: localStorage.getItem('utm_source_versioned'),
+      custom_utm_medium: localStorage.getItem('utm_medium'),
+      custom_utm_medium_versioned: localStorage.getItem('utm_medium_versioned'),
+      custom_utm_campaign: localStorage.getItem('utm_campaign'),
+      custom_utm_campaign_versioned: localStorage.getItem('utm_campaign_versioned'),
+      custom_utm_term: localStorage.getItem('utm_term'),
+      custom_utm_term_versioned: localStorage.getItem('utm_term_versioned'),
+      custom_utm_content: localStorage.getItem('utm_content'),
+      custom_utm_content_versioned: localStorage.getItem('utm_content_versioned'),
+      custom_referrer: localStorage.getItem('referrer'),
+      custom_referrer_versioned: localStorage.getItem('referrer_versioned'),
+      custom_source: localStorage.getItem('source'),
+      custom_source_versioned: localStorage.getItem('source_versioned'),
+      custom_campaign: localStorage.getItem('campaign'),
+      custom_campaign_versioned: localStorage.getItem('campaign_versioned'),
+      custom_ad: localStorage.getItem('ad'),
+      custom_ad_versioned: localStorage.getItem('ad_versioned'),
+      custom_ref: localStorage.getItem('ref'),
+      custom_ref_versioned: localStorage.getItem('ref_versioned'),
+      custom_gclid: localStorage.getItem('gclid'),
+      
+    }]);
+  }
+  
+  function fillFormsWithTags() {
+    var inputs = document.getElementsByTagName('input');
+	for (input of inputs) {
+      
+  		if (input.name.includes("custom_") && input.type == "hidden") {
+    		input.value = localStorage.getItem(input.name.substring(7)); 
+  		}
+	}
+  }
+  
+  trackCustomTags();
+  saveCustomTagsDataToHubspot();
+  setTimeout(function() {
+  	fillFormsWithTags()
+  }, 10000); 
+</script>
+
+
+<div id="fb-root"></div>
+ <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&status=0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+ 
+
+
+<!-- end coded_template: id:3649289975 path:custom/page/shared/footer-scripts.html -->
+
+    
+    
+    
+	<script src="//www.netguru.com/hubfs/external-libs/prism/prism.min.js"></script>
+
+  
+
+<!-- end coded_template: id:4260001295 path:custom/page/shared/new-base.html -->
+</div></body></html>

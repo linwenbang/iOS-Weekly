@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<script type="text/javascript" src="/fb_static/lib/jquery.js?version=0.0811"></script>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+        <meta content="yes" name="apple-mobile-web-app-capable"/>
+        <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+        <meta content="telephone=no" name="format-detection"/>
+        <meta name="renderer" content="webkit">
+
+
+
+
+    <title>优雅解决 iOS 8 UIScrollView delegate EXC_BAD_ACCESS</title>
+
+
+<link href="/fb_static/lib/pure.css?version=0.0811" type="text/css" rel="stylesheet"/>
+<link href="/fb_static/lib/markdown/basic.css?version=0.0811" type="text/css" rel="stylesheet"/>
+<link href="/template/static/style.scss" type="text/css" rel="stylesheet"/>
+
+  </head>
+
+  <body>
+
+
+    <div id="nav_header">
+
+<script type="text/javascript" src="/fb_static/lib/menu/smartmenu/jquery.smartmenus.js?version=0.0811"></script>
+<link href="/fb_static/lib/menu/smartmenu/css/sm-core-css.css?version=0.0811" type="text/css" rel="stylesheet"/>
+<link href="/fb_static/lib/menu/smartmenu/css/sm-base.css?version=0.0811" type="text/css" rel="stylesheet"/>
+<script type="text/javascript" src="/fb_static/system/site/menu/run.js?version=0.0811"></script>
+<link href="/_cache/scss/api_html_nav-79dcc3b46385ba71aa357c3ae26053aa.css" type="text/css" rel="stylesheet"/>
+
+
+
+
+<div class="bitcron_nav_container">
+  <div class="menu_toggle">
+
+
+    <input type="checkbox" id="d_d03a3528bb7e43d19c59878a061c4aa8_nav"  class="menu_state"/>
+
+    <label for="d_d03a3528bb7e43d19c59878a061c4aa8_nav"  class="menu_btn"><span class="menu_btn_icon">Toggle main menu visibility</span>
+
+    </label>
+
+    <style type="text/css">@media (max-width: 767px){
+    .bitcron_nav { display: none; }
+}
+
+
+</style>
+  </div>
+
+
+
+
+  <div class="bitcron_nav">
+    <div class="mixed_site_nav_wrap site_nav_wrap">
+      <ul class="mixed_site_nav site_nav sm sm-base">
+
+  <li><a id="d345812da556911e98b770242ac110006" href="/" class=" nav__item"  >Home</a>
+
+  </li>
+
+
+
+
+
+
+  <li><a id="d345826d0556911e98b770242ac110006" href="/categories" class=" nav__item"  >Categories</a>
+
+  </li>
+
+
+
+
+
+
+  <li><a id="d3458356c556911e98b770242ac110006" href="/post/about?type=page" class=" nav__item"  >About</a>
+
+  </li>
+
+
+
+
+
+
+  <li><a id="d345843ea556911e98b770242ac110006" href="/feed" class=" nav__item"  >Feed</a>
+
+  </li>
+
+
+
+
+
+      </ul>
+
+      <div class="clear clear_nav_inline_end"></div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="clear clear_nav_end"></div>
+
+</div>
+
+    </div>
+
+
+
+
+
+
+
+<div class="post">
+  <div class="post_with_toc" >
+    <div class="header">
+      <h1 class="title">优雅解决 iOS 8 UIScrollView delegate EXC_BAD_ACCESS</h1>
+
+      <div class="info"><span class="date">2018-10-26</span>
+<a href="/category/ios"  class="category">iOS</a>
+
+
+      </div>
+
+    </div>
+
+    <div class="post_container">
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-2-3 pure-u-lg-4-5">
+          <div class="post_content markdown"><h2 id="toc_0" class="h16">背景</h2>
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">从近期 Crash 上报记录来看，有相当一部分 EXC_BAD_ACCESS 和 UIScrollView 有关，而且都是在 iOS 8 上才会出现，通过排查发现是因为在 iOS 8 的 UIScrollView 的 delegate 是 assign 属性，在某些场景下 scrollView 的 delegate 被释放而 scrollView 继续访问其 delegate 则会出现 EXC_BAD_ACCESS 的问题。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">解决的方法也很简单，在 viewController 的 dealloc 方法将对应的 scrollView 方法置空即可</span>
+</p>
+
+<div class="codehilite code_lang_objc  highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span> <span class="p">{</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">但是由于项目历史原因，要逐一排查并修改成本比较大，利用 hook 来解决这个问题的想法油然而生，基本思路是当一个对象成为 UIScrollView 的 delegate 时，去监听这个 delegate 对象的释放，一旦 delegate 对象被释放，则手动把 scrollView 的 delegate 设置为 nil （有点像我们手动实现 weak）</span>
+</p>
+
+<h2 id="toc_1" class="h16">DelegateCleaner</h2>
+<p class="md_block">
+    <span class="md_line md_line_start">由于 hook 对象的 -(void)dealloc 方法比较复杂，并且有一定的危险性，这里采用了一种宿主的方法，利用 objc_setAssociatedObject 给 delegate 添加一个 DelegateCleaner 对象，这个对象有以下功能：<br /></span>
+    <span class="md_line">1、记录将宿主对象作为 delegate 的所有 scrollView<br /></span>
+    <span class="md_line md_line_end">2、当宿主对象被释放的时候，对记录的全部 scrollView 调用  <code>scrollView.delegate = nil</code></span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">因为 AssociatedObject 机制，当 delegate dealloc 的时候，DelegateCleaner 对象也会释放，调用 -(void)dealloc 方法，所以我们可以实现以上功能。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line md_line_start">ReleaseDelegateCleaner 用到了 NSPointerArray 来记录 scrollView（功能等同于 weak 数组） ， 这样一来当 scrollView 被释放掉，我们就无需要去对其 delegate 置 nil。<br /></span>
+    <span class="md_line md_line_end">另外在对 scrollView 的 delegate 置 nil 的时候，是利用设置 Ivar 的直接方式，避免和其他第三方库 hook setDelegate 的方法造成冲突。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">ReleaseDelegateCleaner 的具体实现如下：</span>
+</p>
+
+<div class="codehilite code_lang_objc  highlight"><pre><span></span><span class="k">@interface</span> <span class="nc">ReleaseDelegateCleaner</span> : <span class="bp">NSObject</span>
+<span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSPointerArray</span> <span class="o">*</span><span class="n">scrollViews</span><span class="p">;</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ReleaseDelegateCleaner</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">self</span> <span class="n">cleanScrollViewsDelegate</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cleanScrollViewsDelegate</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">scrollViews</span><span class="p">.</span><span class="n">allObjects</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">object_setIvarValue</span><span class="p">(</span><span class="n">scrollView</span><span class="p">,</span> <span class="s">&quot;_delegate&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">);</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">recordDelegatedScrollView:</span><span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
+    <span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">scrollViews</span><span class="p">.</span><span class="n">allObjects</span> <span class="nl">indexOfObject</span><span class="p">:</span><span class="n">scrollView</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">scrollViews</span> <span class="nl">addPointer</span><span class="p">:(</span><span class="k">__bridge</span> <span class="kt">void</span> <span class="o">*</span><span class="p">)(</span><span class="n">scrollView</span><span class="p">)];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeDelegatedScrollView:</span><span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
+    <span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">scrollViews</span><span class="p">.</span><span class="n">allObjects</span> <span class="nl">indexOfObject</span><span class="p">:</span><span class="n">scrollView</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">!=</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">scrollViews</span> <span class="nl">removePointerAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setScrollViews:</span><span class="p">(</span><span class="bp">NSMutableSet</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollViews</span> <span class="p">{</span>
+    <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="k">@selector</span><span class="p">(</span><span class="n">scrollViews</span><span class="p">),</span> <span class="n">scrollViews</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="bp">NSPointerArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">scrollViews</span> <span class="p">{</span>
+    <span class="bp">NSPointerArray</span> <span class="o">*</span><span class="n">scrollViews</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">_cmd</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">scrollViews</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">scrollViews</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSPointerArray</span> <span class="n">weakObjectsPointerArray</span><span class="p">];</span>
+        <span class="p">[</span><span class="nb">self</span> <span class="nl">setScrollViews</span><span class="p">:</span><span class="n">scrollViews</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">scrollViews</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<!--block_code_end--><h2 id="toc_2" class="h16">为 delegate 关联 DelegateCleaner 对象</h2>
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">我们要找一个时机对 scrollview 的 delegate 进行 AssociatedObject 关联，这个很容易想到就是 setDelegate: 方法，另外当 delegate 置 nil 的时候，需要判断当前的 delegate 是否记录了 scrollView，这里一样直接取 Ivar 从而避免触发 scrollView 的 getter 方法。</span>
+</p>
+
+<div class="codehilite code_lang_objc  highlight"><pre><span></span><span class="k">@implementation</span> <span class="bp">UIScrollView</span> <span class="nl">(iOS8Safe)</span>
+
+<span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">load</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">IOS_VERSION</span> <span class="o">&lt;</span> <span class="mf">9.0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SwizzleMethod</span><span class="p">([</span><span class="bp">UIScrollView</span> <span class="k">class</span><span class="p">],</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">setDelegate</span><span class="p">:),</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">safe_setDelegate</span><span class="p">:));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">safe_setDelegate:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIScrollViewDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span> <span class="p">{</span>
+    
+    <span class="kt">id</span> <span class="n">_delegate</span> <span class="o">=</span> <span class="n">object_getIvarValue</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="s">&quot;_delegate&quot;</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">_delegate</span> <span class="o">!=</span> <span class="n">delegate</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[[(</span><span class="bp">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="n">_delegate</span> <span class="n">iOS8DelegateCleaner</span><span class="p">]</span> <span class="nl">removeDelegatedScrollView</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
+        <span class="p">[[(</span><span class="bp">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="n">delegate</span> <span class="n">iOS8DelegateCleaner</span><span class="p">]</span> <span class="nl">recordDelegatedScrollView</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="p">[</span><span class="nb">self</span> <span class="nl">safe_setDelegate</span><span class="p">:</span><span class="n">delegate</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></div>
+
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">除此之外，利用这一方法也可以对 UICollectionView 和 UITableView 的 setDataSource 做防护处理，完整的源码详见：</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line md_line_start md_line_end">GitHub ： <a class="md_compiled" href="https://github.com/ziecho/UIScrollView-iOS8Safe">UIScrollView-iOS8Safe</a></span>
+</p></div>
+
+        </div>
+
+        <div class="pure-u-1 pure-u-md-1-3 pure-u-lg-1-5">
+          <div class="toc_container">
+
+
+<link href="/fb_static/api/html/auto_toc/auto_toc.css?version=0.0811" type="text/css" rel="stylesheet"/>
+
+
+
+
+
+<style type="text/css">.doc_toc_container.affix{ top: 10px }</style>
+
+<div class="doc_toc">
+  <div class="doc_toc_container"><div class=toc_title>Post TOC</div>
+
+
+    <div class="nav"><ul>
+<li>
+<a href="#toc_0">背景</a>
+</li>
+<li>
+<a href="#toc_1">DelegateCleaner</a>
+</li>
+<li>
+<a href="#toc_2">为 delegate 关联 DelegateCleaner 对象</a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript" src="/fb_static/lib/bootstrap/affix.js?version=0.0811"></script>
+<script type="text/javascript" src="/fb_static/lib/bootstrap/scrollspy.js?version=0.0811"></script>
+<script type="text/javascript" src="/fb_static/api/html/auto_toc/auto_toc.js?version=0.0811"></script>
+
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+<link href="/fb_static/api/comment/style.css?version=0.0811" type="text/css" rel="stylesheet"/>
+
+<div class="doc_comments">
+  <div class="doc_comments_wrapper">
+    <div class="comments_block_title">Comments</div>
+
+    <div class="new_comment_form_container">
+      <form id="new_comment_form" method="post" action="/service/comment/new">
+        <input name="path" type="hidden" value="ios/avoiding uiscrollview exc_bad_access on ios8.txt" />
+
+        <input id="reply_to_id" name="reply" type="hidden" value=""/>
+        <div class="comment_trigger">
+          <div class="avatar"><img src="/visitor.png" />
+
+          </div>
+
+          <div class="trigger_title">Write a Comment</div>
+
+        </div>
+
+        <div class="new_comment"><textarea name="content" rows="2" class="textarea_box"></textarea>
+<span class="comment_error"></span>
+
+        </div>
+
+        <div class="comment_triggered">
+          <div class="input_body">
+            <ul class="ident">
+              <li>
+                <input type="text" name="author" placeholder="Name" />
+
+              </li>
+
+              <li>
+                <input type="text" name="email" placeholder="Email" />
+
+              </li>
+
+              <li>
+                <input type="text" name="site" placeholder="Website" />
+
+              </li>
+
+            </ul>
+
+
+            <input type="submit" value="Submit!"  class="comment_submit_button c_button"/>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <ul class="comments">
+    </ul>
+
+<script type="text/javascript" src="/fb_static/lib/js.cookie.js?version=0.0811"></script>
+<script type="text/javascript" src="/fb_static/lib/textcomplete/jquery.textcomplete.min.js?version=0.0811"></script>
+<script type="text/javascript" src="/fb_static/api/comment/script.js?version=0.0811"></script>
+
+    <script>var people=[
+    "tenwi"
+]</script>
+
+    <script>$(".new_comment textarea").textcomplete([{
+    match: /@(\S*)$/,
+    search: function(term, callback){
+        callback($.map(people, function(person){
+            return person.indexOf(term)==0 ? person : null
+        }))
+    },
+    replace: function(value){
+        if (value.indexOf(' ')!='-1'){
+            return '@' + value + ', ';
+        }
+        else{
+            return '@' + value + ' ';
+        }
+    },
+    index: 1
+}]);
+</script>
+  </div>
+
+</div>
+
+  </div>
+
+</div>
+
+
+
+<style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span>△</span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+<link href="/fb_static/lib/fontawesome/css/font-awesome.min.css?version=0.0811" type="text/css" rel="stylesheet"/>
+
+  </body>
+
+</html>
+<script type="text/javascript" src="/fb_static/api/realtime/listen_files.js?version=0.0811"></script>
+<script type="text/javascript" src="/fb_static/api/realtime/debug_template.js?version=0.0811"></script>
+
+<script>connect_to_ws_by_listen_files('realtime-api-173-247-232-26.bitcron.com/site/c75564326783873b49a39c0b40474ee5dd05af91-zie.bitcron.com')
+</script>

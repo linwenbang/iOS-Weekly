@@ -1,0 +1,411 @@
+<!DOCTYPE html><html lang=zh-CN data-vue-meta-server-rendered><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"><meta name=google-site-verification content=cCHsgG9ktuCTgWgYfqCJql8AeR4gAne4DTZqztPoirE><meta name=apple-itunes-app content="app-id=987739104"><meta name=baidu-site-verification content=qiK2a1kcFc><meta name=360-site-verification content=4c3c7d57d59f0e1a308462fbc7fd7e51><meta name=sogou_site_verification content=c49WUDZczQ><style>body {
+        font-size: 16px;
+        line-height: 2;
+      }
+      a, button, input {
+        margin: 1rem 1.5rem;
+      }
+      img {
+        width: 0;
+        height: 0;
+      }
+      #juejin {
+        overflow-x: hidden;
+      }</style><meta data-vue-meta="true" data-vmid="keywords" name="keywords" content="iOS,容器,GitHub,Objective-C"/><meta data-vue-meta="true" data-vmid="description" name="description" content="作者介绍：NewPan，贝聊科技高级 iOS 工程师。 文章涉及依赖注入方案基于 EXTConcreteProtocol 实现，GitHub链接在这里。 01. 问题场景 如果基于 Cocopods 和 Git Submodules 来做组件化的时候，我"/><title data-vue-meta="true">[贝聊科技]一次高效的依赖注入 - 掘金</title><link rel=apple-touch-icon sizes=180x180 href=https://b-gold-cdn.xitu.io/favicons/v2/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://b-gold-cdn.xitu.io/favicons/v2/favicon-16x16.png><link rel=manifest href=https://b-gold-cdn.xitu.io/favicons/v2/manifest.json><link rel=mask-icon href=https://b-gold-cdn.xitu.io/favicons/v2/safari-pinned-tab.svg color=#5bbad5><link rel="shortcut icon" href=https://b-gold-cdn.xitu.io/favicons/v2/favicon.ico><meta name=msapplication-config content=https://b-gold-cdn.xitu.io/favicons/v2/browserconfig.xml><meta name=theme-color content=#ffffff><link rel=search title=掘金 href=https://b-gold-cdn.xitu.io/conf/search.xml type=application/opensearchdescription+xml><link rel=stylesheet href=https://b-gold-cdn.xitu.io/ionicons/2.0.1/css/ionicons.min.css><link rel=stylesheet href=https://b-gold-cdn.xitu.io/asset/fw-icon/1.0.9/iconfont.css><link href=https://b-gold-cdn.xitu.io/v3/static/css/0.e5e86c9ed32911840313.css rel=stylesheet></head><body><div id="juejin" data-server-rendered="true" data-v-514f306c><div class="global-component-box" data-v-514f306c><!----><!----><!----><!----><!----><div class="emoji-barrage" data-v-82f90922 data-v-514f306c><!----></div><div class="book-new-user-award-popup" style="display:none;" data-v-13de706c data-v-514f306c><div class="content-box" style="display:;" data-v-13de706c><div class="close ion-close-round" data-v-13de706c></div><div class="header" data-v-13de706c><div class="icon" data-v-13de706c><img src="https://b-gold-cdn.xitu.io/v3/static/img/icon.a87e5ae.svg" data-v-13de706c></div><div class="txt" data-v-13de706c>新人专享好礼</div></div><div class="desc" data-v-13de706c>凡未购买过小册的用户，均可领取三张 5 折新人专享券，购买小册时自动使用专享券，最高可节省 45 元。</div><div class="tickets" data-v-13de706c><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div><div class="ticket" data-v-13de706c><div class="ticket__inner" data-v-13de706c><div class="enjoy" data-v-13de706c><span class="new-title" data-v-13de706c>小册新人 5 折券</span></div><div class="sale" data-v-13de706c>最高可省 15 元</div></div></div></div><div class="remark" data-v-13de706c>注：专享券的使用期限在领券的七天内。</div><div class="submit-btn" data-v-13de706c>一键领取</div></div><div class="model success" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取成功</div><div class="content-text" data-v-13de706c>购买小册时自动使用专享券</div><div class="btn-success-footer" data-v-13de706c><div class="btn-ok" data-v-13de706c>知道了</div><div class="btn-ok btn-link" data-v-13de706c>前往小册首页</div></div></div><div class="model fail" style="display:none;" data-v-13de706c><div class="heading" data-v-13de706c>领取失败</div><div class="content-text" data-v-13de706c>本活动仅适用于小册新用户</div><div class="btn-ok" data-v-13de706c>知道了</div></div></div><!----></div><!----><div class="view-container" data-v-d4ff273a data-v-49e91c4b data-v-514f306c><div class="main-header-box" data-v-d4ff273a><header class="main-header main-header unauthorized visible" data-v-f41b678e data-v-d4ff273a><div class="container" data-v-f41b678e><a href="/" class="logo" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg" alt="掘金" class="logo-img" data-v-f41b678e></a><nav role="navigation" class="main-nav" data-v-f41b678e><ul class="nav-list" data-v-f41b678e><li class="main-nav-list" data-v-f41b678e><div class="phone-show-menu" data-v-f41b678e><span data-v-f41b678e>首页</span><div class="icon ion-arrow-down-b" data-v-f41b678e></div></div><ul class="phone-hide" data-v-f41b678e><li class="nav-item link-item route-active" data-v-f41b678e><a href="/" data-v-f41b678e>首页</a></li><li class="nav-item link-item activities" data-v-f41b678e><a href="/activities" data-v-f41b678e>动态</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/topics" data-v-f41b678e>话题</a></li><li class="nav-item link-item book" data-v-f41b678e><a href="/books" data-v-f41b678e>小册</a></li><li class="nav-item link-item" data-v-f41b678e><a href="/events/all" data-v-f41b678e>活动</a></li></ul></li><li class="nav-item search" data-v-f41b678e><form role="search" class="search-form" data-v-f41b678e><input maxlength="32" placeholder="搜索更新啦" value="" class="search-input" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/juejin-search-icon.6f8ba1b.svg" alt="搜索" class="search-icon" data-v-f41b678e></form></li><!----><!----><!----><li class="nav-item submit" data-v-f41b678e><img src="https://b-gold-cdn.xitu.io/v3/static/img/submit-icon.53f4253.svg" class="icon" data-v-f41b678e><span data-v-f41b678e>写文章</span><!----></li><li class="nav-item auth" data-v-f41b678e><span class="login" data-v-f41b678e>登录</span><span class="register" data-v-f41b678e>注册</span></li></ul></nav></div></header></div><main class="container main-container" style="max-width:;" data-v-d4ff273a><div class="view column-view" data-v-d4ff273a data-v-49e91c4b><div class="main-area article-area shadow" data-v-d4ff273a data-v-49e91c4b><article itemscope="itemscope" itemtype="http://schema.org/Article" class="article" data-v-49e91c4b><meta itemprop="url" content="https://juejin.im/post/5b960cbfe51d450e4f388296"><meta itemprop="headline" content="[贝聊科技]一次高效的依赖注入"><meta itemprop="keywords" content="iOS,容器,GitHub,Objective-C"><meta itemprop="datePublished" content="2018-09-10T06:20:39.154Z"><meta itemprop="image" content="https://b-gold-cdn.xitu.io/icon/icon-128.png"><div itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="name" content="贝聊科技"><meta itemprop="url" content="https://juejin.im/user/5941fa488d6d810058c0d4df"></div><div itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="掘金"><div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://b-gold-cdn.xitu.io/icon/icon-white-180.png"><meta itemprop="width" content="180"><meta itemprop="height" content="180"></div></div><div class="author-info-block" data-v-49e91c4b><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" class="avatar-link" data-v-49e91c4b><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-49e91c4b></div></a><div class="author-info-box" data-v-49e91c4b><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" class="username ellipsis" data-v-49e91c4b></a><div class="meta-box" data-v-49e91c4b><time datetime="2018-09-10T06:20:39.154Z" title="Mon Sep 10 2018 14:20:39 GMT+0800 (China Standard Time)" class="time" data-v-49e91c4b>2018年09月10日</time><span class="views-count" data-v-49e91c4b>阅读 2073</span><!----></div></div><!----></div><!----><h1 class="article-title" data-v-49e91c4b>[贝聊科技]一次高效的依赖注入</h1><div data-id="5b960d37e51d450e9649a17b" itemprop="articleBody" class="article-content" data-v-49e91c4b><blockquote>
+<p>作者介绍：NewPan，贝聊科技高级 iOS 工程师。</p>
+</blockquote>
+<blockquote>
+<p>文章涉及依赖注入方案基于 <code>EXTConcreteProtocol</code> 实现，<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fjspahrsummers%2Flibextobjc" rel="nofollow noopener noreferrer">GitHub链接在这里</a>。</p>
+</blockquote>
+<h2 class="heading" data-id="heading-0">01. 问题场景</h2>
+<p>如果基于 Cocopods 和 Git Submodules 来做组件化的时候，我们的依赖关系是这样的：</p>
+<p></p><figure><img class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/9/9/165be43b1266c268?imageView2/0/w/1280/h/960/ignore-error/1" data-width="728" data-height="732"><figcaption></figcaption></figure><p></p>
+<p>这里依赖路径有两条：</p>
+<ul>
+<li>
+<ol>
+<li>最简单的主项目依赖第三方 pods。</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>组件依赖第三方 pods，主项目再依赖组件。</li>
+</ol>
+</li>
+</ul>
+<p>这种单向的依赖关系，决定了从组件到项目的通讯是单向的，即主项目可以主动向组件发起通讯，但是组件却没有办法主动和主项目通讯。</p>
+<p>你可能说不对，可以发通知啊？是的，是可以发通知，但是这一点都不优雅，也不好维护和拓展。</p>
+<p>有没有一种更加优雅、更加方便日常开发的拓展和维护的方式呢？答案是有的，名字叫做“依赖注入”。</p>
+<h2 class="heading" data-id="heading-1">02. 依赖注入</h2>
+<p>依赖注入有另外一个名字，叫做“控制反转”，像上面的组件化的例子，主项目依赖组件，现在有一个需求，组件需要依赖主项目，这种情况就叫做“控制反转”。</p>
+<p>能把这部分“控制反转”的代码统一起来解耦维护，方便日后拓展和维护的服务，我们就可以叫做依赖注入。</p>
+<p>所以依赖注入有两个比较重要的点：</p>
+<ul>
+<li>第一，要实现这种反转控制的功能。</li>
+<li>第二，要解耦。</li>
+</ul>
+<blockquote>
+<p>不是我自身的，却是我需要的，都是我所依赖的。一切需要外部提供的，都是需要进行依赖注入的。</p>
+</blockquote>
+<p>这句话出自这篇文章：<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Flaravel-china.org%2Ftopics%2F2104%2Funderstanding-dependency-injection-and-inversion-of-control" rel="nofollow noopener noreferrer">理解依赖注入与控制反转 | Laravel China 社区 - 高品质的 Laravel 开发者社区</a></p>
+<p>如果对概念性的东西有更加深入的理解，欢迎谷歌搜索“依赖注入”。</p>
+<h2 class="heading" data-id="heading-2">03. iOS 依赖注入调查</h2>
+<p>iOS 平台实现依赖注入功能的开源项目有两个大头：</p>
+<ul>
+<li>
+<ol>
+<li>objection <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fatomicobject%2Fobjection" rel="nofollow noopener noreferrer">GitHub - atomicobject/objection: A lightweight dependency injection framework for Objective-C</a></li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Typhoon <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fappsquickly%2FTyphoon" rel="nofollow noopener noreferrer">GitHub - appsquickly/Typhoon: Powerful dependency injection for iOS &amp; OSX (Objective-C &amp; Swift)</a></li>
+</ol>
+</li>
+</ul>
+<p>详细对比发现这两个框架都是严格遵循依赖注入的概念来实现的，并没有将 Objective-C 的 runtime 特性发挥到极致，所以使用起来很麻烦。</p>
+<p>还有一点，这两个框架使用继承的方式实现注入功能，对项目的侵入性不容小视。如果你觉得这个侵入性不算什么，那等到你项目大到一定程度，发现之前选择的技术方案有考虑不周，你想切换到其他方案的时候，你一定会后悔当时没选择那个不侵入项目的方案。</p>
+<p>那有没有其他没那么方案呢？</p>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fjspahrsummers%2Flibextobjc" rel="nofollow noopener noreferrer">GitHub - jspahrsummers/libextobjc: A Cocoa library to extend the Objective-C programming language.</a> 里有一个 <code>EXTConcreteProtocol</code> 虽然没有直接叫做依赖注入，而是叫做混合协议，但是充分使用了 OC 动态语言的特性，不侵入项目，高度自动化，框架十分轻量，使用非常简单。</p>
+<p>轻量到什么地步？就只有一个 <code>.h</code> 一个 <code>.m</code> 文件。
+简单到什么地步？就只需要一个 <code>@conreteprotocol</code>关键字，你就已经注入好了。</p>
+<p>从一个评价开源框架的方方面面都甩开上面两个框架好几条街。</p>
+<p>但是他也有致命的缺点，鱼和熊掌不可兼得，这个我们等会说。</p>
+<h2 class="heading" data-id="heading-3">04. EXTConcreteProtocol 实现原理</h2>
+<p>有两个比较重要的概念需要提前明白才能继续往下将。</p>
+<ul>
+<li>
+<ol>
+<li>容器。这里的容器是指，我们注入的方法需要有类（class）来装，而装这些方法的器皿就统称为容器。</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li><code>__attribute__()</code>这是一个 GNU 编译器语法，被 <code>constructor</code> 这个关键字修饰的方法会在所有类的 <code>+load</code> 方法之后，在 <code>main</code> 函数之前被调用。详见：<a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fblog.sunnyxx.com%2F2016%2F05%2F14%2Fclang-attributes%2F" rel="nofollow noopener noreferrer">Clang Attributes 黑魔法小记 · sunnyxx的技术博客</a></li>
+</ol>
+</li>
+</ul>
+<p></p><figure><img class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/9/9/165be43b279d204f?imageView2/0/w/1280/h/960/ignore-error/1" data-width="930" data-height="634"><figcaption></figcaption></figure><p></p>
+<p>如上图，用一句话来描述注入的过程：将待注入的容器中的方法在 <code>load</code> 方法之后 <code>main</code> 函数之前注入指定的类中。</p>
+<h3 class="heading" data-id="heading-4">04.1. EXTConcreteProtocol 的使用</h3>
+<p>比方说有一个协议 <code>ObjectProtocol</code>。我们只要这样写就已经实现了依赖注入。</p>
+<pre><code class="hljs obj-c copyable" lang="obj-c"><span class="hljs-class"><span class="hljs-keyword">@protocol</span> <span class="hljs-title">ObjectProtocol</span>&lt;<span class="hljs-title">NSObject</span>&gt;</span>
+
++ (<span class="hljs-keyword">void</span>)sayHello;
+
+- (<span class="hljs-keyword">int</span>)age;
+
+<span class="hljs-keyword">@end</span>
+
+@concreteprotocol(ObjectProtocol)
+
++ (<span class="hljs-keyword">void</span>)sayHello {
+    <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"Hello"</span>);
+}
+
+- (<span class="hljs-keyword">int</span>)age {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">18</span>;
+}
+
+<span class="hljs-keyword">@end</span>
+<span class="copy-code-btn">复制代码</span></code></pre><p>之后比方说一个 <code>Person</code> 类想要拥有这个注入方法，就只需要遵守这个协议就可以了。</p>
+<pre><code class="hljs obj-c copyable" lang="obj-c"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">Person</span> : <span class="hljs-title">NSObject</span>&lt;<span class="hljs-title">ObjectProtocol</span>&gt;</span>
+
+<span class="hljs-keyword">@end</span>
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们接下来就可以对 <code>Person</code> 调用注入的方法。</p>
+<pre><code class="hljs obj-c copyable" lang="obj-c"><span class="hljs-keyword">int</span> main(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> * argv[]) {
+     Person *p = [Person new];
+	 <span class="hljs-built_in">NSLog</span>(<span class="hljs-string">@"%@"</span>, [p age]);
+	 [p.class sayHello];
+}
+
+输出：
+&gt;&gt;&gt;<span class="hljs-number">18</span>
+&gt;&gt;&gt;Hello
+<span class="copy-code-btn">复制代码</span></code></pre><p>是不是很神奇？想不想探一下究竟？</p>
+<h3 class="heading" data-id="heading-5">04.2. 源码解析</h3>
+<p>先来看一下头文件：</p>
+<pre><code class="hljs c copyable" lang="c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> concreteprotocol(NAME) \
+	  <span class="hljs-comment">// 定义一个容器类.</span></span>
+    interface NAME ## _ProtocolMethodContainer : NSObject &lt; NAME &gt; {} \
+    @end \
+    \
+    @implementation NAME ## _ProtocolMethodContainer \
+    <span class="hljs-comment">//  load 方法添加混合协议.</span>
+    + (<span class="hljs-keyword">void</span>)load { \
+        <span class="hljs-keyword">if</span> (!ext_addConcreteProtocol(objc_getProtocol(metamacro_stringify(NAME)), self)) \
+            <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"ERROR: Could not load concrete protocol %s\n"</span>, metamacro_stringify(NAME)); \
+    } \
+    <span class="hljs-comment">// load 之后, main 之前执行方法注入.</span>
+    __attribute__((constructor)) \
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> ext_ ## NAME ## _inject (<span class="hljs-keyword">void</span>) { \
+ext_loadConcreteProtocol(objc_getProtocol(metamacro_stringify(NAME))); \
+    }
+<span class="hljs-comment">//  load 方法添加混合协议.</span>
+<span class="hljs-function">BOOL <span class="hljs-title">ext_addConcreteProtocol</span> <span class="hljs-params">(Protocol *protocol, Class methodContainer)</span></span>;
+<span class="hljs-comment">// load 之后, main 之前执行方法注入.</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ext_loadConcreteProtocol</span> <span class="hljs-params">(Protocol *protocol)</span></span>;
+<span class="copy-code-btn">复制代码</span></code></pre><p>可以在源码中清楚看到 <code>concreteprotocol</code> 这个宏定义为我们的协议添加了一个容器类，我们主要注入的比如 <code>+sayHello</code> 和 <code>-age</code> 方法都被定义在这个容器类之中。</p>
+<p>然后在 <code>+load</code> 方法中调用了 <code>ext_addConcreteProtocol</code> 方法。</p>
+<pre><code class="hljs c copyable" lang="c">typedef struct {
+    // 用户定义的协议.
+    __unsafe_unretained Protocol *protocol;
+
+    // 在 __attribute__((constructor)) 时往指定类里注入方法的 block.
+    void *injectionBlock;
+
+    // 对应的协议是否已经准备好注入.
+    BOOL ready;
+} EXTSpecialProtocol;
+
+BOOL ext_addConcreteProtocol (Protocol *protocol, Class containerClass) { 
+    return ext_loadSpecialProtocol(protocol, ^(Class destinationClass){
+        ext_injectConcreteProtocol(protocol, containerClass, destinationClass);
+    });
+}
+
+BOOL ext_loadSpecialProtocol (Protocol *protocol, void (^injectionBehavior)(Class destinationClass)) {
+    @autoreleasepool {
+        NSCParameterAssert(protocol != nil);
+        NSCParameterAssert(injectionBehavior != nil);
+        
+        // 加锁
+        if (pthread_mutex_lock(&amp;specialProtocolsLock) != 0) {
+            fprintf(stderr, "ERROR: Could not synchronize on special protocol data\n");
+            return NO;
+        }
+        
+        // specialProtocols 是一个链表，每个协议都会被组织成为一个 EXTSpecialProtocol，这个 specialProtocols 里存放了了这些 specialProtocols.
+        if (specialProtocolCount &gt;= specialProtocolCapacity) {
+           ...
+        }
+
+        #ifndef __clang_analyzer__
+        ext_specialProtocolInjectionBlock copiedBlock = [injectionBehavior copy];
+
+        // 将协议保存为一个 EXTSpecialProtocol 结构体.
+        specialProtocols[specialProtocolCount] = (EXTSpecialProtocol){
+            .protocol = protocol,
+            .injectionBlock = (__bridge_retained void *)copiedBlock,
+            .ready = NO
+        };
+        #endif
+
+        ++specialProtocolCount;
+        pthread_mutex_unlock(&amp;specialProtocolsLock);
+    }
+    return YES;
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们的 <code>ext_loadSpecialProtocol</code> 方法里传进去一个 block，这个 block 里调用了 <code>ext_injectConcreteProtocol</code> 这个方法。</p>
+<p><code>ext_injectConcreteProtocol</code> 这个方法接受三个参数，第一个是协议，就是我们要注入的方法的协议；第二个是容器类，就是框架为我们添加的那个容器；第三个参数是目标注入类，就是我们要把这个容器里的方法注入到哪个类。</p>
+<pre><code class="hljs c copyable" lang="c"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ext_injectConcreteProtocol</span> <span class="hljs-params">(Protocol *protocol, Class containerClass, Class class)</span> </span>{
+    <span class="hljs-comment">// 获取容器类里所有的实例方法.</span>
+    <span class="hljs-keyword">unsigned</span> imethodCount = <span class="hljs-number">0</span>;
+    Method *imethodList = class_copyMethodList(containerClass, &amp;imethodCount);
+
+    <span class="hljs-comment">// 获取容器类里所有的类方法方法.</span>
+    <span class="hljs-keyword">unsigned</span> cmethodCount = <span class="hljs-number">0</span>;
+    Method *cmethodList = class_copyMethodList(object_getClass(containerClass), &amp;cmethodCount);
+            
+    <span class="hljs-comment">// 拿到要注入方法的类的元类.</span>
+    Class metaclass = object_getClass(class);
+
+    <span class="hljs-comment">// 注入实例方法.</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> methodIndex = <span class="hljs-number">0</span>;methodIndex &lt; imethodCount;++methodIndex) {
+        Method method = imethodList[methodIndex];
+        SEL selector = method_getName(method);
+
+        <span class="hljs-comment">// 如果该类已经实现了这个方法，就跳过注入，不至于覆盖用户自定义的实现.</span>
+        <span class="hljs-keyword">if</span> (class_getInstanceMethod(class, selector)) {
+            <span class="hljs-keyword">continue</span>;
+        }
+
+        IMP imp = method_getImplementation(method);
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *types = method_getTypeEncoding(method);
+        <span class="hljs-keyword">if</span> (!class_addMethod(class, selector, imp, types)) {
+            <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"ERROR: Could not implement instance method -%s from concrete protocol %s on class %s\n"</span>,
+                sel_getName(selector), protocol_getName(protocol), class_getName(class));
+        }
+    }
+
+    <span class="hljs-comment">// 注入类方法.</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> methodIndex = <span class="hljs-number">0</span>;methodIndex &lt; cmethodCount;++methodIndex) {
+        Method method = cmethodList[methodIndex];
+        SEL selector = method_getName(method);
+
+        <span class="hljs-comment">// +initialize 不能被注入.</span>
+        <span class="hljs-keyword">if</span> (selector == @selector(initialize)) {
+            <span class="hljs-keyword">continue</span>;
+        }
+
+        <span class="hljs-comment">// 如果该类已经实现了这个方法，就跳过注入，不至于覆盖用户自定义的实现.</span>
+        <span class="hljs-keyword">if</span> (class_getInstanceMethod(metaclass, selector)) {
+            <span class="hljs-keyword">continue</span>;
+        }
+
+        IMP imp = method_getImplementation(method);
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *types = method_getTypeEncoding(method);
+        <span class="hljs-keyword">if</span> (!class_addMethod(metaclass, selector, imp, types)) {
+            <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"ERROR: Could not implement class method +%s from concrete protocol %s on class %s\n"</span>,
+                sel_getName(selector), protocol_getName(protocol), class_getName(class));
+        }
+    }
+
+    <span class="hljs-comment">// 管理内存</span>
+    <span class="hljs-built_in">free</span>(imethodList); imethodList = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-built_in">free</span>(cmethodList); cmethodList = <span class="hljs-literal">NULL</span>;
+
+    <span class="hljs-comment">// 允许用户在容器类里复写 +initialize 方法，这里调用是保证用户复写的实现能够被执行.</span>
+    (<span class="hljs-keyword">void</span>)[containerClass <span class="hljs-class"><span class="hljs-keyword">class</span>];</span>
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>我们再看一下在 <code>+load</code> 之后 <code>main</code> 之前调用的 <code>ext_loadConcreteProtocol</code> 方法。</p>
+<pre><code class="hljs c copyable" lang="c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ext_loadConcreteProtocol</span> <span class="hljs-params">(Protocol *protocol)</span> </span>{
+    ext_specialProtocolReadyForInjection(protocol);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ext_specialProtocolReadyForInjection</span> <span class="hljs-params">(Protocol *protocol)</span> </span>{
+    @autoreleasepool {
+        NSCParameterAssert(protocol != nil);
+        
+        <span class="hljs-comment">// 加锁</span>
+        <span class="hljs-keyword">if</span> (pthread_mutex_lock(&amp;specialProtocolsLock) != <span class="hljs-number">0</span>) {
+            <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"ERROR: Could not synchronize on special protocol data\n"</span>);
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// 检查要对应的 protocol 是否已经加载进上面的链表中了，如果找到了，就将对应的 EXTSpecialProtocol 结构体的 ready 置为 YES.</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>;i &lt; specialProtocolCount;++i) {
+            <span class="hljs-keyword">if</span> (specialProtocols[i].protocol == protocol) {
+                <span class="hljs-keyword">if</span> (!specialProtocols[i].ready) {
+                    specialProtocols[i].ready = YES;
+                    assert(specialProtocolsReady &lt; specialProtocolCount);
+                    <span class="hljs-keyword">if</span> (++specialProtocolsReady == specialProtocolCount)
+						   <span class="hljs-comment">// 如果所有的 EXTSpecialProtocol 结构体都准备好了，就开始执行注入.</span>
+                        ext_injectSpecialProtocols();
+                }
+
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+        pthread_mutex_unlock(&amp;specialProtocolsLock);
+    }
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>上面都是准备工作，接下来开始进入核心方法进行注入。</p>
+<pre><code class="hljs c copyable" lang="c"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ext_injectSpecialProtocols</span> <span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{
+    <span class="hljs-comment">// 对协议进行排序.</span>
+	  <span class="hljs-comment">// 比方说 A 协议继承自 B 协议，但是不一定是 B 协议对应的容器类的  load 方法先执行，A 的后执行. 所以如果 B 协议的类方法中复写了 A 协议中的方法，那么应该保证 B 协议复写的方法被注入，而不是 A 协议的容器方法的实现.</span>
+	  <span class="hljs-comment">// 为了保证这个循序，所以要对协议进行排序，上面说的 A 继承自 B，那么循序应该是 A 在 B 前面.</span>
+    qsort_b(specialProtocols, specialProtocolCount, <span class="hljs-keyword">sizeof</span>(EXTSpecialProtocol), ^(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *a, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *b){
+        <span class="hljs-keyword">if</span> (a == b)
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">const</span> EXTSpecialProtocol *protoA = a;
+        <span class="hljs-keyword">const</span> EXTSpecialProtocol *protoB = b;
+
+        <span class="hljs-keyword">int</span> (^protocolInjectionPriority)(<span class="hljs-keyword">const</span> EXTSpecialProtocol *) = ^(<span class="hljs-keyword">const</span> EXTSpecialProtocol *specialProtocol){
+            <span class="hljs-keyword">int</span> runningTotal = <span class="hljs-number">0</span>;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>;i &lt; specialProtocolCount;++i) {
+                <span class="hljs-keyword">if</span> (specialProtocol == specialProtocols + i)
+                    <span class="hljs-keyword">continue</span>;
+
+                <span class="hljs-keyword">if</span> (protocol_conformsToProtocol(specialProtocol-&gt;protocol, specialProtocols[i].protocol))
+                    runningTotal++;
+            }
+
+            <span class="hljs-keyword">return</span> runningTotal;
+        };
+
+        <span class="hljs-keyword">return</span> protocolInjectionPriority(protoB) - protocolInjectionPriority(protoA);
+    });
+
+	  <span class="hljs-comment">// 获取项目中所有的类 😭😭😭.</span>
+    <span class="hljs-keyword">unsigned</span> classCount = objc_getClassList(<span class="hljs-literal">NULL</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span> (!classCount) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"ERROR: No classes registered with the runtime\n"</span>);
+        <span class="hljs-keyword">return</span>;
+    }
+
+	Class *allClasses = (Class *)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Class) * (classCount + <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">if</span> (!allClasses) {
+        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"ERROR: Could not allocate space for %u classes\n"</span>, classCount);
+        <span class="hljs-keyword">return</span>;
+    }
+	classCount = objc_getClassList(allClasses, classCount);
+
+    @autoreleasepool {
+        <span class="hljs-comment">// 遍历所有的要注入的协议结构体.</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>;i &lt; specialProtocolCount;++i) {
+            Protocol *protocol = specialProtocols[i].protocol;
+            
+            <span class="hljs-comment">// 使用 __bridge_transfer 把对象的内存管理交给 ARC.</span>
+            ext_specialProtocolInjectionBlock injectionBlock = (__bridge_transfer id)specialProtocols[i].injectionBlock;
+            specialProtocols[i].injectionBlock = <span class="hljs-literal">NULL</span>;
+
+            <span class="hljs-comment">// 遍历所有的类 😭😭😭.</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> classIndex = <span class="hljs-number">0</span>;classIndex &lt; classCount;++classIndex) {
+                Class <span class="hljs-class"><span class="hljs-keyword">class</span> = <span class="hljs-title">allClasses</span>[<span class="hljs-title">classIndex</span>];</span>
+                
+                <span class="hljs-comment">// 如果这个类遵守了要注入的协议，那么就执行注入.</span>
+				  <span class="hljs-comment">// 注意： 这里是 continue 不是 break，因为一个类可以注入多个协议的方法.</span>
+                <span class="hljs-keyword">if</span> (!class_conformsToProtocol(class, protocol))
+                    <span class="hljs-keyword">continue</span>;
+                
+                injectionBlock(class);
+            }
+        }
+    }
+
+    <span class="hljs-comment">// 管理内存.</span>
+    <span class="hljs-built_in">free</span>(allClasses);
+    <span class="hljs-built_in">free</span>(specialProtocols); specialProtocols = <span class="hljs-literal">NULL</span>;
+    specialProtocolCount = <span class="hljs-number">0</span>;
+    specialProtocolCapacity = <span class="hljs-number">0</span>;
+    specialProtocolsReady = <span class="hljs-number">0</span>;
+}
+<span class="copy-code-btn">复制代码</span></code></pre><p>这一路看下来，原理看的明明白白，是不是也没什么特别的，都是 runtime 的知识。但是这个思路确实是 666。</p>
+<h3 class="heading" data-id="heading-6">04.3. 问题在哪？</h3>
+<p>这不挺好的吗？别人也分析过这个框架的源码，我再写一遍有什么意义？</p>
+<p>这问题挺好，确实是这样，如果一切顺利，我这篇文章没有存在的意义。接下来看一下问题出现在哪？</p>
+<p>看到我刚才的注释了吗？这个笑脸很灿烂。如果项目不大，比如项目只有几百个类，这些都没有问题的，但是我们项目有接近 30000 个类，没错，是三万。我们使用注入的地方有几十上百处，两套 for 循环算下来是一个百万级别的。而且 <code>objc_getClassList</code> 这个方法是非常耗时的而且没有缓存。</p>
+<pre><code class="hljs bash copyable" lang="bash"> // 获取项目中所有的类 😭😭😭.
+// 遍历所有的类 😭😭😭.
+<span class="copy-code-btn">复制代码</span></code></pre><p>在贝聊项目上，这个方法在我的 iPhone 6s Plus 上要耗时一秒，在更老的 iPhone 6 上耗时要 3 秒，iPhone 5 可以想象要更久。而且随着项目迭代，项目中的类会越来越多， 这个耗时也会越来越长。</p>
+<p>这个耗时是 pre-main 耗时，就是用户看那个白屏启动图的时候在做这个操作，严重影响用户体验。我们的产品就因为这个点导致闪屏广告展示出现问题，直接影响业务。</p>
+<h2 class="heading" data-id="heading-7">05. 解决方案</h2>
+<p>从上面的分析可以知道，导致耗时的原因就是原框架获取所有的类进行遍历。其实这是一个自动化的牛逼思路，这也是这个框架高于前面两个框架的核心原因。但是因为项目规模的原因导致这个点成为了实践中的短板，这也是作者始料未及的。</p>
+<p>那我们怎么优化这个点呢？因为要注入方法的类没有做其他的标记，只能扫描所有的类，找到那些遵守了这个协议的再进行注入，这是要注入的类和注入行为的唯一联系点。从设计的角度来说，如果要主动实现注入，确实是这样的，没有更好方案来实现相同的功能。</p>
+<p>但是有一个下策，能显著提高这部分性能，就是退回到上面两个框架所做的那样，让用户自己去标识哪些类需要注入。这样我把这些需要注入的类放到一个集合里，遍历注入，这样做性能是最好的。如果我从头设计一个方案，这也是不错的选择。</p>
+<p>但是我现在做不了这些，我项目里有好几百个地方用了注入，如果我采用上面的方式，我要改好几百个地方。这样做很低效，而且我也不能保证我眼睛不会花出个错。我只能选择自动化去做这个事。</p>
+<p>如果换个思路，我不主动注入，我懒加载，等你调用注入的方法我再执行注入操作呢？如果能实现这个，那问题就解决了。</p>
+<p></p><figure><img class="lazyload" data-src="https://user-gold-cdn.xitu.io/2018/9/10/165c2220869c7416?imageView2/0/w/1280/h/960/ignore-error/1" data-width="1240" data-height="717"><figcaption></figcaption></figure><p></p>
+<ul>
+<li>
+<ol>
+<li>开始我们仍然在 <code>+load</code> 方法中做准备工作，和原有的实现一样，把所有的协议都存到链表中。</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>在 <code>__attribute__((constructor))</code> 中仍然做是否能执行注入的检查。</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>现在我们 hook <code>NSObject</code> 的 <code>+resolveInstanceMethod:</code> 和  <code>+resolveClassMethod:</code> 。</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>在  hook 中进行检查，如果该类有遵守了我们实现了注入的协议，那么就给该类注入容器中的方法。</li>
+</ol>
+</li>
+</ul>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fnewyjp%2FBLMethodInjecting" rel="nofollow noopener noreferrer">对了，代码和 demo 我放这里了，需要的可以下载看下。</a></p>
+<h2 class="heading" data-id="heading-8">06. 最后插播一个招聘广告</h2>
+<p><a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fwww.lagou.com%2Fjobs%2F4945111.html" rel="nofollow noopener noreferrer">贝聊科技招聘 iOS 开发工程师</a>，坐标广州。如果你想和我一起共事，机会不等人，赶紧动手吧！简历发到 <a target="_blank" href="https://link.juejin.im?target=mailto%3A13246884282%40163.com" rel="nofollow noopener noreferrer">13246884282@163.com</a>。</p>
+</div></article><div class="tag-list-box" data-v-d4ff273a data-v-49e91c4b><div class="tag-list-title" data-v-d4ff273a data-v-49e91c4b>关注下面的标签，发现更多相似文章</div><div st:block="tagList" class="tag-list" data-v-d4ff273a data-v-49e91c4b><a href="/tag/iOS" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://user-gold-cdn.xitu.io/1532428449837649233abd9e9cfa8c4104f0ca4210f05.jpg?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>iOS</div></a><a href="/tag/%E5%AE%B9%E5%99%A8" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://user-gold-cdn.xitu.io/153024333442233331e5dd27e1829e0d4f73b714ce46b.jpg?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>容器</div></a><a href="/tag/GitHub" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://lc-gold-cdn.xitu.io/0d614af263aa63aa6a77.png?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>GitHub</div></a><a href="/tag/Objective-C" target="_blank" rel="" st:name="tag" class="item" data-v-49e91c4b><div data-src="https://lc-gold-cdn.xitu.io/71d968ea2fde62410b19.png?imageView2/2/w/42/h/42/q/85/interlace/1" class="lazy thumb tag-icon" style="background-image:none;background-size:contain;" data-v-ae3e3a2c data-v-f14ee652 data-v-49e91c4b></div><div class="tag-title" data-v-49e91c4b>Objective-C</div></a></div></div><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" data-v-49e91c4b><div class="footer-author-block" data-v-49e91c4b><div itemscope="itemscope" itemtype="http://schema.org/Person" class="author" data-v-5a8982d2 data-v-49e91c4b><!----><div class="author-info-block" data-v-5a8982d2><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" class="avatar-link" data-v-5a8982d2><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5a8982d2></div></a><div class="author-info-box" data-v-5a8982d2><div class="profile-box" data-v-5a8982d2><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" class="username ellipsis" data-v-5a8982d2></a><span class="position ellipsis" data-v-5a8982d2></span></div><div class="meta-box" data-v-5a8982d2><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" class="posts" data-v-5a8982d2><span class="count post-count" data-v-5a8982d2>发布了  篇专栏 · </span></a><span class="count" data-v-5a8982d2>获得点赞  次 · </span><span class="count" data-v-5a8982d2>文章被阅读  次</span></div></div><!----></div></div></div></a><div st:block="banner" class="article-banner" data-v-d4ff273a data-v-49e91c4b><a st:name="link" st:state="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" href="https://juejin.im/extension/?utm_source=juejin.im&amp;utm_medium=post&amp;utm_campaign=extension_promotion" target="_blank" class="banner-title" data-v-d4ff273a data-v-49e91c4b>安装掘金浏览器插件</a><div class="banner-content" data-v-d4ff273a data-v-49e91c4b>打开新标签页发现好内容，掘金、GitHub、Dribbble、ProductHunt 等站点内容轻松获取。快来安装掘金浏览器插件获取高质量内容吧！</div></div><!----><!----><div id="comment-box" class="comment-list-box" data-v-3a057265 data-v-49e91c4b><div class="title" data-v-3a057265>评论</div><div class="comment-form comment-form" data-v-5812a629 data-v-3a057265><div class="avatar-box" data-v-5812a629><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-5812a629></div></div><div class="form-box" data-v-5812a629><div class="input-box" data-v-5812a629><div contenteditable="true" spellcheck="false" placeholder="输入评论..." class="rich-input empty" data-v-5812a629><br data-v-5812a629></div><!----></div><!----></div><input type="file" class="hidden" data-v-5812a629></div><!----><!----></div></div><!----><!----><div st:block="sidebar" class="sidebar sidebar" data-v-e8bd85a0 data-v-49e91c4b><div class="sidebar-block author-block shadow" data-v-3614612a data-v-8726068e data-v-e8bd85a0><div class="block-title" data-v-3614612a>关于作者</div><div class="block-body" data-v-3614612a><a href="/post/5b960cbfe51d450e4f388296" target="_blank" rel="" class="user-item item" data-v-8726068e><div data-src="https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg" class="lazy avatar avatar" style="background-image:none;" data-v-ae3e3a2c data-v-0b998e04 data-v-8726068e></div><div class="info-box" data-v-8726068e><div class="username" data-v-8726068e></div><!----></div></a><!----><!----><!----><!----></div></div><!----><!----><!----><!----><!----><div class="sticky-block-box" data-v-e8bd85a0><div class="sidebar-block catalog-block pure" data-v-3614612a data-v-0227ba49 data-v-e8bd85a0><nav class="article-catalog" style="display:none;" data-v-471a2118 data-v-0227ba49><div class="catalog-title" data-v-471a2118>目录</div><div class="catalog-body" data-v-471a2118><ul class="catalog-list" style="margin-top:0px;" data-v-471a2118></ul></div></nav></div></div></div><div class="article-suspended-panel article-suspended-panel" data-v-46f1d695 data-v-49e91c4b><div badge="80" class="like-btn panel-btn like-adjust with-badge" data-v-46f1d695></div><div badge="8" class="comment-btn panel-btn comment-adjust with-badge" data-v-46f1d695></div><div class="collect-btn panel-btn" data-v-46f1d695><!----></div><div class="share-title" data-v-46f1d695>分享</div><div class="weibo-btn share-btn panel-btn" data-v-46f1d695></div><div class="qq-btn share-btn panel-btn" data-v-46f1d695></div><div class="wechat-btn share-btn panel-btn" data-v-46f1d695><img src="" class="wechat-qr-code-img shadow" style="display:none;" data-v-46f1d695></div></div><div class="image-viewer-box" data-v-3cf863bc data-v-49e91c4b><!----></div></div></main></div><!----></div>
+      <div id="jjis" style="display:none;" data-state="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"></div>
+      
+      <script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/runtime.013d3571732a45acc62c.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/0.e83a72128cbe53a747b7.js></script><script type=text/javascript src=https://b-gold-cdn.xitu.io/v3/static/js/1.b6ab58c8b1c5ee2c6ad4.js></script></body></html>
+    

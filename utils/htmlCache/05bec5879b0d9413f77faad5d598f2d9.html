@@ -1,0 +1,299 @@
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="/default.css">
+
+
+<title>mikeash.com: Friday Q&A 2017-09-22: Swift 4 Weak References
+</title><link rel="alternate" type="application/rss+xml" href="https://www.mikeash.com/pyblog/rss.py" title="NSBlog RSS feed" />
+
+</head>
+
+<body>
+
+
+
+<div id="heading"><div>mikeash.com: just this guy, you know?</div></div>
+
+
+
+<div id="menuouter">
+
+    <label id="menutogglelabel" for="menutoggle">☰</label>
+
+    <input type="checkbox" style="display: none" id="menutoggle" checked></input>
+
+    <div id="menuinner">
+
+        <div class="menuitem"><a href="/">Home</a></div>
+
+        <div class="menuitem"><a href="/book.html">Book</a><br><i>The Complete Friday Q&amp;A</i>, advanced topics in Mac OS X and iOS programming.</div>
+
+        <div class="menuitem"><a href="/pyblog/">Blog</a></div>
+
+        <div class="menuitem"><a href="https://github.com/mikeash">GitHub</a><br>My GitHub page, containing various open-source libraries for Mac and iOS development, and some miscellaneous projects</div>
+
+        <div class="menuitem"><a href="/gliders.html">Glider Flying</a>
+
+            <div class="menusubitem"><a href="/glider_first_hd_video.html">HD Ridge Running Video</a></div>
+
+            <div class="menusubitem"><a href="/glider_landouts.html">List of Landouts</a></div>
+
+            <div class="menusubitem"><a href="/glider_day_in_the_life.html">Day in the Life</a></div>
+
+            <div class="menusubitem"><a href="http://skylinesoaring.org/">Skyline Soaring Club</a></div>
+
+            <div class="menusubitem"><a href="http://ssa.org">Soaring Society of America</a></div>
+
+        </div>
+
+        <div class="menuitem"><a href="/getting_answers.html">Getting Answers</a><br>Ten simple points to follow to get good answers on IRC, mailing lists, and other places</div>
+
+        <div class="menuitem"><a href="/miscellaneous.html">Miscellaneous Pages</a><br>Miscellaneous old, rarely-updated content</div>
+
+        <div class="menuitem"><a href="mailto:mike@mikeash.com">mike@mikeash.com</a><br>E-mail me</div>
+
+        <div class="menuitem"></div>
+
+    </div>
+
+</div>
+
+
+
+<div id="content">
+
+    <br>
+
+<div class="blogheaderdiv"><span class="blogheader">    Posted at 2017-09-23 00:57 | <a href="/pyblog/rss.py">RSS feed</a> (<a href="/pyblog/rss.py?mode=fulltext">Full text feed</a>) | <a href="/pyblog/">Blog Index</a><br>Next article: <a href="friday-qa-2017-10-06-type-safe-user-defaults.html">Friday Q&amp;A 2017-10-06: Type-Safe User Defaults
+</a><br>Previous article: <a href="the-best-new-features-in-swift-4.html">The Best New Features in Swift 4
+</a><br>Tags: <a href="./?tag=fridayqna">fridayqna</a> <a href="./?tag=swift">swift</a></span></div>
+<!-- enable-comments -->
+<div class="blogtitle">Friday Q&A 2017-09-22: Swift 4 Weak References
+</div><div class="blogauthor">by <a href="/">Mike Ash</a>&nbsp;&nbsp;</div><div class="blogtranslations">This article is also available in <a href="https://ddddxxx.github.io/2017/09/27/swift-4-weak-references/">Chinese (translation by Xiang Deng)</a>.</div>
+<p>Soon after Swift was initially open sourced, I wrote <a href="https://mikeash.com/pyblog/friday-qa-2015-12-11-swift-weak-references.html">an article about how weak references are implemented</a>. Time moves on and things change, and the implementation is different from what it once was. Today I'm going to talk about the current implementation and how it works compared to the old one, a topic suggested by Guillaume Lessard.</p>
+<p><b>Old Implementation</b><br />For those of you who have forgotten the old implementation and don't feel like reading through the last article, let's briefly recall how it works.</p>
+<p>In the old implementation, Swift objects have two reference counts: a strong count and a weak count. When the strong count reaches zero while the weak count is still non-zero, the object is destroyed but its memory is not deallocated. This leaves a sort of zombie object sitting in memory, which the remaining weak references point to.</p>
+<p>When a weak reference is loaded, the runtime checks to see if the object is a zombie. If it is, it zeroes out the weak reference and decrements the weak reference count. Once the weak count reaches zero, the object's memory is deallocated. This means that zombie objects are eventually cleared out once all weak references to them are accessed.</p>
+<p>I loved the simplicity of this implementation, but it had some flaws. One flaw was that the zombie objects could stay in memory for a long time. For classes with large instances (because they contain a lot of properties, or use something like <code>ManagedBuffer</code> to allocate extra memory inline), this could be a serious waste.</p>
+<p>Another problem, which <a href="https://bugs.swift.org/browse/SR-192">I discovered</a> after writing the old article, was that the implementation wasn't thread-safe for concurrent reads. Oops! This was patched, but the discussion around it revealed that the implementers wanted a better implementation of weak references anyway, which would be more resilient to such things.</p>
+<p><b>Object Data</b><br />There are many pieces of data which make up "an object" in Swift.</p>
+<p>First, and most obviously, there are all of the stored properties declared in the source code. These are directly accessible by the programmer.</p>
+<p>Second, there is the object's class. This is used for dynamic dispatch and the <code>type(of:)</code> built-in function. This is mostly hidden, although dynamic dispatch and <code>type(of:)</code> imply its existence.</p>
+<p>Third, there are the various reference counts. These are completely hidden unless you do naughty things like read the raw memory of your object or convince the compiler to let you call <code>CFGetRetainCount</code>.</p>
+<p>Fourth, you have auxiliary information stored by the Objective-C runtime, like the list of Objective-C weak references (the Objective-C implementation of weak references tracks each weak reference individually) and associated objects.</p>
+<p>Where do you store all of this stuff?</p>
+<p>In Objective-C, the class and stored properties (i.e. instance variables) are stored inline in the object's memory. The class takes up the first pointer-sized chunk, and the instance variables come after. Auxiliary information is stored in external tables. When you manipulate an associated object, the runtime looks it up in a big hash table which is keyed by the object's address. This is somewhat slow and requires locking so that multithreaded access doesn't fail. The reference count is sometimes stored in the object's memory and sometimes stored in an external table, depending on which OS version you're running and which CPU architecture.</p>
+<p>In Swift's old implementation, the class, reference counts, and stored properties were all stored inline. Auxiliary information was still stored in a separate table.</p>
+<p>Putting aside how these languages actually do it, let's ask the question: how <em>should</em> they do it?</p>
+<p>Each location has tradeoffs. Data stored in the object's memory is fast to access but always takes up space. Data stored in an external table is slower to access but takes up zero space for objects which don't need it.</p>
+<p>This is at least part of why Objective-C traditionally didn't store the reference count in the object itself. Objective-C reference counting was created when computers were much less capable than they were now, and memory was extremely limited. Most objects in a typical Objective-C program have a single owner, and thus a reference count of 1. Reserving four bytes of the object's memory to store <code>1</code> all the time would be wasteful. By using an external table, the common value of <code>1</code> could be represented by the absence of an entry, reducing memory usage.</p>
+<p>Every object has a class, and it is constantly accessed. Every dynamic method call needs it. This should go directly in the object's memory. There's no savings from storing it externally.</p>
+<p>Stored properties are expected to be fast. Whether an object has them is determined at compile time. Objects with no stored properties can allocate zero space for them even when stored in the object's memory, so they should go there.</p>
+<p>Every object has reference counts. Not every object has reference counts that aren't <code>1</code>, but it's still pretty common, and memory is a lot bigger these days. This should probably go in the object's memory.</p>
+<p>Most objects don't have any weak references or associated objects. Dedicating space within the object's memory for these would be wasteful. These should be stored externally.</p>
+<p>This is the right tradeoff, but it's annoying. For objects that have weak references and associated objects, they're pretty slow. How can we fix this?</p>
+<p><b>Side Tables</b><br />Swift's new implementation of weak references brings with it the concept of <em>side tables</em>.</p>
+<p>A side table is a separate chunk of memory which stores extra information about an object. It's <em>optional</em>, meaning that an object may have a side table, or it may not. Objects which need the functionality of a side table can incur the extra cost, and objects which don't need it don't pay for it.</p>
+<p>Each object has a pointer to its side table, and the side table has a pointer back to the object. The side table can then store other information, like associated object data.</p>
+<p>To avoid reserving eight bytes for the side table, Swift makes a nifty optimization. Initially, the first word of an object is the class, and the next word stores the reference counts. When an object needs a side table, that second word is repurposed to be a side table pointer instead. Since the object still needs reference counts, the reference counts are stored in the side table. The two cases are distinguished by setting a bit in this field that indicates whether it holds reference counts or a pointer to the side table.</p>
+<p>The side table allows Swift to maintain the basic form of the old weak reference system while fixing its flaws. Instead of pointing to the object, as it used to work, weak references now point directly at the side table.</p>
+<p>Because the side table is known to be small, there's no issue of wasting a lot of memory for weak references to large objects, so that problem goes away. This also points to a simple solution for the thread safety problem: don't preemptively zero out weak references. Since the side table is known to be small, weak references to it can be left alone until those references themselves are overwritten or destroyed.</p>
+<p>I should note that the current side table implementation only holds reference counts and a pointer to the original object. Additional uses like associated objects are currently hypothetical. Swift has no built-in associated object functionality, and the Objective-C API still uses a global table.</p>
+<p>The technique has a lot of potential, and we'll probably see something like associated objects using it before too long. I'm hopeful that this will open the door to stored properties in extensions class types and other nifty features.</p>
+<p><b>Code</b><br />Since Swift is open source, all of the code for this stuff is accessible.</p>
+<p>Most of the side table stuff can be found in <a href="https://github.com/apple/swift/blob/c262440e70896299118a0a050c8a834e1270b606/stdlib/public/SwiftShims/RefCount.h">stdlib/public/SwiftShims/RefCount.h</a>.</p>
+<p>The high-level weak reference API, along with juicy comments about the system, can be found in <a href="https://github.com/apple/swift/blob/c262440e70896299118a0a050c8a834e1270b606/stdlib/public/runtime/WeakReference.h">swift/stdlib/public/runtime/WeakReference.h</a>.</p>
+<p>Some more implementation and comments about how heap-allocated objects work can be found in <a href="https://github.com/apple/swift/blob/c262440e70896299118a0a050c8a834e1270b606/stdlib/public/runtime/HeapObject.cpp">stdlib/public/runtime/HeapObject.cpp</a>.</p>
+<p>I've linked to specific commits of these files, so that people reading from the far future can still see what I'm talking about. If you want to see the latest and greatest, be sure to switch over to the <code>master</code> branch, or whatever is relevant to your interests, after you click the links.</p>
+<p><b>Conclusion</b><br />Weak references are an important language feature. Swift's original implementation was wonderfully clever and had some nice properties, but also had some problems. By adding an optional side table, Swift's engineers were able to solve those problems while keeping the nice, clever properties of the original. The side table implementation also opens up a lot of possibilities for great new features in the future.</p>
+<p>That's it for today. Come back again for more crazy programming-related ghost stories. Until then, if you have a topic you'd like to see covered here, please <a href="mailto:mike@mikeash.com">send it in</a>!</p>
+<div style="background-color: #f0f0f0; border: 1px solid #CCC; padding: 8px 8px 8px 5px;">Did you enjoy this article? I'm selling whole books full of them! Volumes II and III are now out! They're available as ePub, PDF, print, and on iBooks and Kindle. <a href="/book.html">Click here for more information</a>.</div>
+<hr>
+<a name="comments"></a>
+Comments:<p>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-3de13a566eb4c029c417781f4b08062e"><b>K</b></a> <tt>at <a href="#comment-3de13a566eb4c029c417781f4b08062e">2017-09-23 19:00:07</a>:</tt></div>
+        <div class="pagecomment">This is a nice, clear description of weakrefs in Swift.
+<br />
+<br />Did you get this entirely from reading the source?  If so, that's impressive.  (Where do you find hours in the day?)
+<br />
+<br />I assume that the folks on the Swift core team use whiteboards or something.  Is there any way us mortals can get access to any higher-level design specifics?  Swift-evo is neat but that seems to be more documentation after-the-fact.
+<br />
+<br />Or do they actually hash all this out by emails that say "We should do X", "No, that doesn't take into account issue Y", "OK, so Z it is.  I'll write the code now", etc?
+<br />
+<br />I've written compilers before and I don't know how you can write a compiler without a few square miles of whiteboards.</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-8d6fe749bdbc6fee2cf3221112b579d6"><b>Evan Olcott</b></a> <tt>at <a href="#comment-8d6fe749bdbc6fee2cf3221112b579d6">2017-09-23 20:20:33</a>:</tt></div>
+        <div class="pagecomment">This is the first time I’ve seen an honest explanation about why it’s said to “not use objective c for real-time threads because any objective c call can lock”. It’s reading from a shared table and hS to protect access.
+<br />
+<br />So, that said, it appears as though native Swift does not have this problem? Is that true?  Does Swift use any locking in object access? If not, that could open up a whole new world for real-time threads...</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-7ba3e819ff3afea6e520bd30b42edff7"><b>Jean-Daniel</b></a> <tt>at <a href="#comment-7ba3e819ff3afea6e520bd30b42edff7">2017-09-23 21:36:01</a>:</tt></div>
+        <div class="pagecomment">@Evan Olcott: I think that the main issue with Obj-C in real time thread is not the retain count side table, it is the method cache. Any call can require it to grow and doing so require an calloc call that is not safe on real-time thread.
+<br />
+<br /></div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-48909fcd0bfaf2ac108d90945f9b557a"><b><a href="https://mikeash.com">mikeash</a></b></a> <tt>at <a href="#comment-48909fcd0bfaf2ac108d90945f9b557a">2017-09-23 23:40:43</a>:</tt></div>
+        <div class="pagecomment"><b>K:</b> Mostly from reading the source (including the excellent comments within) and some runtime inspection. There are things where looking at the bits and bytes is easier than decoding the C++. My memorydumper2 (<a href="https://github.com/mikeash/memorydumper2">https://github.com/mikeash/memorydumper2</a>) project helped a lot, although it had some trouble due to the low bits used as flags. I have no idea where one might find design info besides the mailing lists.
+<br />
+<br /><b>Evan Olcott</b> and <b>Jean-Daniel:</b> There are several ways for ObjC to go wrong in a real-time thread. Memory allocation is one, as mentioned. Another is the potentially unbounded search time for the target method if the method cache doesn't contain it (which can happen at any time due to other code clearing the cache). In rare cases you can end up trying to acquire locks, such as when you're sending the first message to a class (which could be a dynamically allocated subclass like the ones used with KVO).</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-7a0d259ad4c87934a6142039b0731641"><b>Evan Olcott</b></a> <tt>at <a href="#comment-7a0d259ad4c87934a6142039b0731641">2017-09-24 09:54:16</a>:</tt></div>
+        <div class="pagecomment">Well then, that begs the question (sorta): is the an equivalent locking, dynamic, “function cache”?</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-68851fbe403996e1f7f658c9e42b3243"><b>Michael M. Mayer</b></a> <tt>at <a href="#comment-68851fbe403996e1f7f658c9e42b3243">2017-10-21 19:51:44</a>:</tt></div>
+        <div class="pagecomment">You mentioned on <i>Swift Unwrapped</i> that you were considering doing unowned references as a follow up to this article (which was your usual wonderful).  That would be great if you could explain unowned references under Swift 4. Thanks!</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-7e9e5c0c756d4d227a4c45341426308c"><b><a href="https://mikeash.com/">mikeash</a></b></a> <tt>at <a href="#comment-7e9e5c0c756d4d227a4c45341426308c">2017-10-28 15:06:39</a>:</tt></div>
+        <div class="pagecomment"><b>Michael M. Mayer</b>: Thanks for the reminder. I'll see if I can do that topic soon.</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-e86d923420e019f815231374db336748"><b><a href="http://wingsio0.com ">wings io</a></b></a> <tt>at <a href="#comment-e86d923420e019f815231374db336748">2019-02-25 08:13:08</a>:</tt></div>
+        <div class="pagecomment">Great and useful information. I am glad you shared this useful information with us. Please inform us like this. Thank you for sharing.</div>
+    </div>
+    <div class="commentcontainer">
+        <div class="pagecommentheader"><a name="comment-0ff160344b943b0e8a76b857607d5c6d"><b><a href="https://www.couponpitara.com/offers/hostgator/">hostgator coupon code 2019</a></b></a> <tt>at <a href="#comment-0ff160344b943b0e8a76b857607d5c6d">2019-03-12 13:22:47</a>:</tt></div>
+        <div class="pagecomment">I really loved reading your blog. It was very well authored and easy to understand. Unlike additional blogs I have read which are really not that good. I also found your posts very interesting. In fact after reading. I had to go show it to my friend and he enjoyed it as well!
+<br /></div>
+    </div><hr>
+
+<a href="/commentsrss.py?page=pyblog/friday-qa-2017-09-22-swift-4-weak-references.html">Comments RSS feed for this page</a>
+<p>
+Add your thoughts, post a comment:
+<p>
+<small>Spam and off-topic posts will be deleted without notice. Culprits may be publicly humiliated at my sole discretion.</small>
+<p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
+    <script src="/hashcash.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    <!--
+        function HTMLEscape(s)
+        {
+            return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+        
+        function CommentPreview()
+        {
+            $("#commentPreviewLabelArea").html("<b>Loading comment preview....</b><p>");
+            $.post("/commentsubmit.py", $("#commentForm").serialize() + "&preview=true",
+                function(data) {
+                    $("#commentLoadingArea").html("");
+                    $("#commentPreviewLabelArea").html("<b>Comment preview:</b><p>");
+                    $("#commentPreviewArea").html(data);
+                    
+                    var target = $("#commentPreviewLabelArea");
+                    var top = target.offset().top;
+                    $("html,body").animate({scrollTop : top}, 100);
+                });
+            
+            return false;
+        }
+        
+        $(document).ajaxError(function(event, request, settings) {
+            if(settings.url.indexOf("/commentsubmit.py?") === 0)
+            {
+                $("#commentLoadingArea").html("");
+                $("#commentPreviewLabelArea").html("<b>Error getting comment preview:</b><p>")
+                $("#commentPreviewArea").html(
+                    "Server returned " + request.status + " " + HTMLEscape(request.statusText) + "<p>" +
+                    HTMLEscape(request.responseText));
+            }
+        });
+        
+        var gHashcashStarted = false;
+        function StartHashcashIfNecessary()
+        {
+            if(gHashcashStarted)
+                return;
+            gHashcashStarted = true;
+            
+            $("#commentLoadingArea").text("Fetching salt...");
+            $.getJSON("/commentsubmit.py?action=getsalt", function(result) {
+                var salt = result["salt"];
+                var zeroes = result["zeroes"];
+                var workCount = result["work_count"];
+                
+                $("#commentLoadingArea").text("Computing hashcash....");
+                HashcashBG(salt, zeroes, workCount,
+                    function(progress) {
+                        $("#commentLoadingArea").text("Computing hashcash (" + progress + " complete out of " + workCount + ").");
+                    },
+                    function(buf) {
+                        var hash = Sha1.hash(salt + buf, 0);
+                        $("#saltinput").val(salt);
+                        $("#hashcash").val(buf);
+                        $("#commentLoadingArea").text("");
+                        $("#submit").removeAttr("disabled");
+                    });
+
+            }).error(function(request, status, error) {
+                $("#commentLoadingArea").text("Error loading hashcash salt: " + error);
+                
+                gHashcashStarted = false;
+                setTimeout("StartHashcashIfNecessary()", 2000);
+            });
+        }
+    // -->
+    </script>
+<noscript><b>JavaScript is required to submit comments</b> due to anti-spam measures. Please enable JavaScript and reload the page.<p></noscript>
+<form method="post" action="/commentsubmit.py" id="commentForm">
+    <table>
+        <tr><td align="right">Name:</td><td><input name="name" type="text" size="30" value="" onfocus="StartHashcashIfNecessary()"></td></tr>
+        <tr><td align="right">Web site:</td><td><input name="url" type="text" size="30" value="" onfocus="StartHashcashIfNecessary()"></td></tr>
+        <tr><td align="right">The Answer to the Ultimate Question of Life, the Universe, and Everything?</td><td><input name="maps" type="text" size="30" onfocus="StartHashcashIfNecessary()"></td></tr>
+        <tr><td align="right" valign="top">Comment:</td><td><textarea name="comment" cols="50" rows="15" onfocus="StartHashcashIfNecessary()"></textarea></td></tr>
+        <tr><td></td><td><small>Formatting: <tt>&lt;i&gt; &lt;b&gt; &lt;blockquote&gt; &lt;code&gt;</tt>. URLs are automatically hyperlinked.</small></td></tr>
+        <tr><td></td><td><input type="submit" value="Preview" onclick="CommentPreview(); return false;"><input type="submit" id="submit" name="submit" value="Post Comment" disabled="disabled"></td></tr>
+    </table>
+    <input type="hidden" name="page" value="pyblog/friday-qa-2017-09-22-swift-4-weak-references.html">
+    <input type="hidden" name="salt" id="saltinput" value="">
+    <input type="hidden" name="hashcash" id="hashcash" value="">
+</form>
+<div style="width: 75%; margin-left: 12.5%;">
+    <div id="commentLoadingArea"></div>
+    <div id="commentPreviewLabelArea"></div>
+    <div id="commentPreviewArea"></div>
+</div>
+
+</div>
+
+
+
+<div class="hostingfooter" style="clear: both;">
+
+    Hosted at <a href="https://www.digitalocean.com/?refcode=9a867c2ef697">DigitalOcean</a>.
+
+</div>
+
+
+
+<script type="text/javascript">
+
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+</script>
+
+<script type="text/javascript">
+
+try {
+
+var pageTracker = _gat._getTracker("UA-1982455-1");
+
+pageTracker._trackPageview();
+
+} catch(err) {}</script>
+
+
+
+</body>
+
+</html>

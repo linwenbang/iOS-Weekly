@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Seemingly Impossible Swift Programs</title>
+  <meta name="author" content="Brandon Williams" />
+  <meta name="description" content="Articles about math, functional programming and the Swift programming language.">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://www.fewbutripe.com/2018/12/05/seemingly-impossible.html">
+
+  <meta property="og:type" content="website" />
+<meta property="og:title"
+      content="
+        Seemingly Impossible Swift Programs
+      ">
+<meta property="og:description"
+      content="
+        We will construct Swift programs that should be impossible to implement, yet somehow are not!
+      ">
+<meta property="og:url"
+      content="http://www.fewbutripe.com/2018/12/05/seemingly-impossible.html" />
+
+<meta property="og:site_name" content="Few, but ripe..." />
+
+
+  <meta property="og:image" content="http://www.fewbutripe.com/assets/seemingly-impossible-cover.jpg" />
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@mbrandonw" />
+<meta name="twitter:creator" content="@mbrandonw" />
+
+  <meta name="twitter:title" content="Seemingly Impossible Swift Programs">
+
+
+  <meta name="twitter:url" content="http://www.fewbutripe.com/2018/12/05/seemingly-impossible.html">
+
+
+<meta name="twitter:description"
+      content="We will construct Swift programs that should be impossible to implement, yet somehow are not!" />
+
+
+  <meta name="twitter:image" content="http://www.fewbutripe.com/assets/seemingly-impossible-cover.jpg" />
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-302004-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Few, but ripe...</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/hire-me/">Hire Me</a>
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/talks/">Talks</a>
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Seemingly Impossible Swift Programs</h1>
+    <p class="post-meta">
+      Dec 5, 2018 • <a href="mailto:mbw234@gmail.com">Brandon Williams</a>
+    </p>
+  </header>
+
+  <article class="post-content">
+    <blockquote>
+  <p>It is well known that it is impossible to define equality between arbitrary functions. However, there is a large class of functions for which we can determine equality, and it’s strange and surprising. We explore this idea using the Swift programming language.</p>
+</blockquote>
+
+<p>I spend a lot of my time trying to find new and creative ways to bring seemingly complex functional programming ideas down to earth and make them approachable to a wider audience. I do this while creating episodes for <a href="https://www.pointfree.co">Point-Free</a>, and I do this when I <a href="https://www.fewbutripe.com/hire-me">work with clients</a>. There are a lot of wonderful ideas in functional programming that can be understood by everyone and can help make everyone’s day-to-day code more extensible, transformable and testable.</p>
+
+<p>However, I want to take a break from all of that and discuss something completely impractical. There’s very little chance you will use this in your everyday work, but it does give us an opportunity to explore a strange and surprising result in computation and mathematics. It can help show that the connection between the two topics is perhaps deeper than we may first think.</p>
+
+<p>To show this, we are going to be implementing seemingly impossible Swift programs. That is, we are going to implement some functions in Swift that for all intents and purposes should be absolutely impossible to implement. In fact, the mind kind of boggles when confronted with the implementation because it seems so outlandish and outside the realm of reality.</p>
+
+<p>None of the results in this article are original material by me. I learned of these ideas in a series of papers and articles (<a href="#references">references</a> at the end). The only thing original in this article is the presentation of the material in a (hopefully) approachable way, as the papers can be quite dense. All of the code in this article is available in a <a href="https://gist.github.com/mbrandonw/981f589f32800d3409f817ad4f7c6802">gist</a> that can be copied and pasted into a Swift playground if you want to follow along at home.</p>
+
+<h2 id="completely-possible-programs">Completely possible programs</h2>
+
+<p>Let’s start with something simple and very much possible in Swift. As of Swift 4.2, the standard library has a function <a href="https://developer.apple.com/documentation/swift/array/2994715-allsatisfy"><code class="highlighter-rouge">allSatisfy</code></a> that allows you to run a predicate on every value in an array and determine if the predicate is <code class="highlighter-rouge">true</code> for each element:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="p">}</span> <span class="c1">// false</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="p">}</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>There is a <em>dual</em> version of this operation that checks if <em>any</em> value in a collection is satisfied by a predicate. The standard library calls this <code class="highlighter-rouge">contains</code> for historical reasons, but let’s redefine it to give it a better name:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Array</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">anySatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="k">self</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="nf">p</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">true</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Although the implementation of this function is quite simple, it’s still more complicated than it needs to be, because <code class="highlighter-rouge">anySatisfy</code> can be defined in terms of <code class="highlighter-rouge">allSatisfy</code>. This is given by the so-called <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">De Morgan’s Law</a>, which says that the negation of a disjunction is the conjunction of the negations, i.e.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span><span class="p">(</span><span class="n">a</span> <span class="o">||</span> <span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="o">!</span><span class="n">a</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In particular, negating both sides of this equation we see that:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">||</span> <span class="n">b</span> <span class="o">==</span> <span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="n">a</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This says that “any of <code class="highlighter-rouge">a</code> or <code class="highlighter-rouge">b</code> is true” is equivalent to the negation of “all of <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> are false.” So, we can reimplement <code class="highlighter-rouge">anySatisfy</code> using this observation:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Array</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">anySatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">!</span><span class="k">self</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="o">!</span><span class="nf">p</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>These programs are completely possible to implement today in Swift, and so nothing too surprising here.</p>
+
+<h2 id="approaching-impossible-programs">Approaching impossible programs</h2>
+
+<p>Now let’s construct some functions similar to <code class="highlighter-rouge">allSatisfy</code> and <code class="highlighter-rouge">anySatisfy</code>, but that will naturally lead us down a road of impossibility. What if we wanted to check that a given predicate evaluates to <code class="highlighter-rouge">true</code> for <em>every</em> value inside some type? That seems pretty hard, so let’s start with some small types. For example, <code class="highlighter-rouge">Bool</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Bool</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">allSatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">p</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nf">p</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">Bool</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">}</span>  <span class="c1">// false</span>
+<span class="kt">Bool</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">}</span> <span class="c1">// false</span>
+<span class="kt">Bool</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$0</span> <span class="p">}</span>   <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>Since <code class="highlighter-rouge">Bool</code> only contains two values, we can simply evaluate the predicate on each of its values and confirm that it is <code class="highlighter-rouge">true</code> for both. Using this function we can clearly see that indeed not every boolean is equal to <code class="highlighter-rouge">true</code> or <code class="highlighter-rouge">false</code>, but every boolean <em>or</em> its negation is <code class="highlighter-rouge">true</code>.</p>
+
+<p>More generally, Swift 4.2 has a protocol called <code class="highlighter-rouge">CaseIterable</code> which allows types to explicitly enumerate all of their values. All of those types could also carry this function:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">CaseIterable</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">allSatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">self</span><span class="o">.</span><span class="n">allCases</span><span class="o">.</span><span class="nf">allSatisfy</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To test this out we will define a <code class="highlighter-rouge">Direction</code> enum for the 4 cardinal directions, and then verify that certain properties are satisfied for all values in the type:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">Direction</span><span class="p">:</span> <span class="kt">CaseIterable</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="n">up</span><span class="p">,</span> <span class="n">down</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span>
+
+  <span class="k">var</span> <span class="nv">rotatedLeft</span><span class="p">:</span> <span class="kt">Direction</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">up</span><span class="p">:</span>    <span class="k">return</span> <span class="o">.</span><span class="n">left</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">left</span><span class="p">:</span>  <span class="k">return</span> <span class="o">.</span><span class="n">down</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">down</span><span class="p">:</span>  <span class="k">return</span> <span class="o">.</span><span class="n">right</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">right</span><span class="p">:</span> <span class="k">return</span> <span class="o">.</span><span class="n">up</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">var</span> <span class="nv">rotatedRight</span><span class="p">:</span> <span class="kt">Direction</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">up</span><span class="p">:</span>    <span class="k">return</span> <span class="o">.</span><span class="n">right</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">left</span><span class="p">:</span>  <span class="k">return</span> <span class="o">.</span><span class="n">up</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">down</span><span class="p">:</span>  <span class="k">return</span> <span class="o">.</span><span class="n">left</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">right</span><span class="p">:</span> <span class="k">return</span> <span class="o">.</span><span class="n">down</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">Direction</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">up</span> <span class="p">}</span> <span class="c1">// false</span>
+<span class="kt">Direction</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">rotatedLeft</span><span class="o">.</span><span class="n">rotatedRight</span> <span class="o">==</span> <span class="nv">$0</span> <span class="p">}</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>Here we see that indeed not every <code class="highlighter-rouge">Direction</code> value is equal to <code class="highlighter-rouge">.up</code>. But if you take any value and rotate left and then right, you get back to where you started. And we have verified that property holds for every value in the <code class="highlighter-rouge">Direction</code> type.</p>
+
+<p>So, we’ve now seen that it’s possible to sometimes ask an entire type to check if all of its values satisfy some predicate. In particular, we could do this for <code class="highlighter-rouge">Bool</code> and <code class="highlighter-rouge">CaseIterable</code>.</p>
+
+<h2 id="impossible-programs">Impossible programs</h2>
+
+<p>Now let’s try to generalize the examples from the previous section to see how things bring us into the land of impossibility.</p>
+
+<p>What if instead of asking <code class="highlighter-rouge">Bool</code> if all of its values satisfy a predicate, we asked <code class="highlighter-rouge">Int</code>?</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Int</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">allSatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="c1">// ???</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">Int</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">}</span>                 <span class="c1">// false?</span>
+<span class="kt">Int</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span>                      <span class="c1">// false?</span>
+<span class="kt">Int</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nv">$0</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span> <span class="c1">// true?</span>
+</code></pre></div></div>
+
+<p>If we were able to implement this function then we’d expect the first two invocations of it to return <code class="highlighter-rouge">false</code>, because certainly not all integers are even or greater than zero, but the last one should be <code class="highlighter-rouge">true</code> because indeed every integer is zero, positive or negative.</p>
+
+<p>However, we cannot possibly implement this function. <code class="highlighter-rouge">Int</code> holds way too many values for us to possibly be able to check each one against a predicate in a reasonable amount of time (it’s best to think of <code class="highlighter-rouge">Int</code> as modeling the infinite set of all integers). We could also try implementing this for large type, like <code class="highlighter-rouge">String</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">allSatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="c1">// ???</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">String</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="s">"cat"</span> <span class="p">}</span>   <span class="c1">// false?</span>
+<span class="kt">String</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">}</span>  <span class="c1">// false?</span>
+<span class="kt">String</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">}</span> <span class="c1">// true?</span>
+</code></pre></div></div>
+
+<p>Again, if we were able to implement this function we’d expect the first two invocations to be <code class="highlighter-rouge">false</code> and the last to be <code class="highlighter-rouge">true</code>. But this function is impossible to implement. <code class="highlighter-rouge">String</code> contains infinitely many values, and so there is no way we could possibly check them all against the predicate.</p>
+
+<p>We have finally come face-to-face with impossible functions. But actually impossible, not just seemingly impossible. These functions can never be implemented, and indeed their implementation is equivalent to the <a href="https://en.wikipedia.org/wiki/Halting_problem">halting problem</a>.</p>
+
+<p>These functions may seem silly at first, but they are connected to a very real problem of determining if two functions are equal. For if we could implement the above functions, then we could implement equality between, say, functions <code class="highlighter-rouge">(Int) -&gt; Int</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="p">(</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="p">(</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">Int</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="nf">lhs</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="o">==</span> <span class="nf">rhs</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is yet another impossible function to implement, and also equivalent to the <a href="https://en.wikipedia.org/wiki/Halting_problem">halting problem</a>.</p>
+
+<h2 id="seemingly-impossible-programs">Seemingly impossible programs</h2>
+
+<p>Now that we have surveyed the possible and impossible for implementing a certain type of function, let’s look at something that <em>should</em> be impossible, yet somehow is not.</p>
+
+<p>Consider the following types:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">Bit</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="n">one</span>
+  <span class="k">case</span> <span class="n">zero</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">atIndex</span><span class="p">:</span> <span class="p">(</span><span class="kt">UInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bit</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Bit</code> is a simple type that holds two values, and <code class="highlighter-rouge">BitSequence</code> is the type of functions from non-negative integers into <code class="highlighter-rouge">Bit</code>. The reason it is called <code class="highlighter-rouge">BitSequence</code> is because it is kind of like an infinite sequence of <code class="highlighter-rouge">Bit</code> values, in which you are able to ask what is the value at an index using the <code class="highlighter-rouge">atIndex</code> method. In this interpretation it is best to think of <code class="highlighter-rouge">UInt</code> as the infinite set of non-negative integers.</p>
+
+<p>We can easily define values of <code class="highlighter-rouge">BitSequence</code> by just providing a closure to map <code class="highlighter-rouge">UInt</code>’s to <code class="highlighter-rouge">Bit</code>’s:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="kt">BitSequence</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="o">.</span><span class="n">one</span> <span class="p">}</span>
+<span class="k">let</span> <span class="nv">ys</span> <span class="o">=</span> <span class="kt">BitSequence</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">&lt;</span> <span class="mi">1_000</span> <span class="p">?</span> <span class="o">.</span><span class="nv">zero</span> <span class="p">:</span> <span class="o">.</span><span class="n">one</span> <span class="p">}</span>
+<span class="k">let</span> <span class="nv">zs</span> <span class="o">=</span> <span class="kt">BitSequence</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">?</span> <span class="o">.</span><span class="nv">zero</span> <span class="p">:</span> <span class="o">.</span><span class="n">one</span> <span class="p">}</span>
+
+<span class="n">xs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// .one</span>
+<span class="n">xs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// .one</span>
+<span class="n">xs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1">// .one</span>
+
+<span class="n">ys</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="c1">// .zero</span>
+<span class="n">ys</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="c1">// .zero</span>
+<span class="n">ys</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1_001</span><span class="p">)</span> <span class="c1">// .one</span>
+
+<span class="n">zs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// .zero</span>
+<span class="n">zs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// .one</span>
+<span class="n">zs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1">// .zero</span>
+</code></pre></div></div>
+
+<p>And although we cannot concatenate two infinite sequences together, we can prepend a new head onto an existing sequence. I’m going to overload <code class="highlighter-rouge">+</code> for this purpose:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="o">+</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Bit</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">BitSequence</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">?</span> <span class="nv">lhs</span> <span class="p">:</span> <span class="n">rhs</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="nv">$0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">ws</span> <span class="o">=</span> <span class="o">.</span><span class="n">zero</span> <span class="o">+</span> <span class="n">xs</span>
+
+<span class="n">ws</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// .zero</span>
+<span class="n">ws</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// .one</span>
+<span class="n">ws</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1">// .one</span>
+<span class="n">ws</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1">// .one</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">BitSequence</code> type holds infinitely many values. In fact, it holds an unconscionable number of values. It has more values than <code class="highlighter-rouge">String</code> does. It holds so many values that it cannot be <a href="https://en.wikipedia.org/wiki/Uncountable_set">counted</a> with the natural numbers. It’s an infinity that is even larger than the infinitude of natural numbers. It’s so large that it can hold an infinite number of disjoint copies of the natural numbers inside it!</p>
+
+<p>So, given how massive this type is, it might be surprising to learn that we can define <code class="highlighter-rouge">anySatisfy</code> and <code class="highlighter-rouge">allSatisfy</code> on it, and these functions will terminate in finite time. That means we can exhaustively search the very large infinite space of <code class="highlighter-rouge">BitSequence</code> in finite time. Even more, we can implement equality between functions on <code class="highlighter-rouge">BitSequence</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="o">==</span> <span class="o">&lt;</span><span class="kt">A</span><span class="p">:</span> <span class="kt">Equatable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">A</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+  <span class="c1">// How???</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Surely this must be impossible. How on earth could we expect to determine the equality of two functions whose domains are not only infinite, but a size of infinity that is difficult to even grasp?</p>
+
+<h2 id="achieving-the-seemingly-impossible">Achieving the seemingly impossible</h2>
+
+<p>Let’s take it one step at a time. Let’s first see if we could define an <code class="highlighter-rouge">allSatisfy</code> function:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">allSatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="c1">// ???</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This functions definitively answers the question of whether a given predicate evaluates to <code class="highlighter-rouge">true</code> for <em>every</em> value inside <code class="highlighter-rouge">BitSequence</code>. Well, this seems difficult, so let’s kick the can down the road and appeal to a hypothetically defined <code class="highlighter-rouge">anySatisfy</code> by using De Morgan’s law again:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">allSatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">!</span><span class="kt">BitSequence</span><span class="o">.</span><span class="n">anySatisfy</span> <span class="p">{</span> <span class="o">!</span><span class="nf">p</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So, now we just have to define <code class="highlighter-rouge">anySatisfy</code>. Let’s first get the signature set up:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">anySatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="c1">// ???</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This seems just as difficult as <code class="highlighter-rouge">allSatisfy</code>, so what have we gained? Well, let’s introduce a tiny twist. Suppose there existed a hypothetical <code class="highlighter-rouge">find</code> function such that when given a predicate on <code class="highlighter-rouge">BitSequence</code> it would find a <code class="highlighter-rouge">BitSequence</code> that satisfies the predicate, and if no such value exists it would just return any sequence, the contents of which don’t really matter. Let’s write the signature of such a function:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+    <span class="c1">// ???</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If such a function existed, we could then implement <code class="highlighter-rouge">anySatisfy</code> with:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">anySatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">p</span><span class="p">(</span><span class="kt">BitSequence</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We first <code class="highlighter-rouge">find</code> a sequence satisfying <code class="highlighter-rouge">p</code>, if it exists, and then feed it into the predicate <code class="highlighter-rouge">p</code>. This means that if it does exist we’ll get <code class="highlighter-rouge">true</code>, and if it does not exist we’ll get <code class="highlighter-rouge">false</code>, just like we expect.</p>
+
+<p>It probably feels like we’re just kicking the responsibilities even further down the road without accomplishing anything, but we’ve now boiled down this seemingly impossible program to implementing the <code class="highlighter-rouge">find</code> function:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+    <span class="c1">// ???</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>How can we find a sequence satisfying the predicate <code class="highlighter-rouge">p</code>? Turns out we can actually construct it recursively. For say there exists a sequence <code class="highlighter-rouge">s</code> such that the “larger” sequence <code class="highlighter-rouge">.zero + s</code> is satisfied by the predicate. Then we can peel a <code class="highlighter-rouge">.zero</code> off this hypothetical sequence, and continue our search on the tail. And if no such sequence exists we can try the same process but using <code class="highlighter-rouge">.one</code> instead. Let’s give that a shot in code:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="kt">BitSequence</span><span class="o">.</span><span class="nf">anySatisfy</span><span class="p">({</span> <span class="n">s</span> <span class="k">in</span> <span class="nf">p</span><span class="p">(</span><span class="o">.</span><span class="n">zero</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="p">})</span> <span class="p">{</span>
+      <span class="c1">// We found a sequence `s` such that `.zero + s` satisfies</span>
+      <span class="c1">// the predicate. So, return `.zero +` that found sequence.</span>
+      <span class="k">return</span> <span class="o">.</span><span class="n">zero</span> <span class="o">+</span> <span class="nf">find</span><span class="p">({</span> <span class="n">s</span> <span class="k">in</span> <span class="nf">p</span><span class="p">(</span><span class="o">.</span><span class="n">zero</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="p">})</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// Otherwise try the same, but with prepending `.one` instead</span>
+      <span class="c1">// of `.zero`.</span>
+      <span class="k">return</span> <span class="o">.</span><span class="n">one</span> <span class="o">+</span> <span class="nf">find</span><span class="p">({</span> <span class="n">s</span> <span class="k">in</span> <span class="nf">p</span><span class="p">(</span><span class="o">.</span><span class="n">one</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This now actually compiles in Swift! But it’s really mysterious. Is there any reason to believe this function will ever terminate? Not only does it recursively call itself, but it also calls <code class="highlighter-rouge">anySatisfy</code> which also calls <code class="highlighter-rouge">find</code>.</p>
+
+<p>In fact, Swift is giving us a warning to let us know this isn’t quite right. As of Swift 4.2 the compiler can <a href="https://github.com/apple/swift/pull/11869">prove</a> that all paths through a function will call itself, and hence never terminate:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>⚠️ All paths through this function will call itself
+</code></pre></div></div>
+
+<p>We need to introduce some laziness into our functions so that we do not try to compute everything at once, but instead compute only as much as we need. The recursive calls to <code class="highlighter-rouge">find</code> happen in each of the <code class="highlighter-rouge">if</code>/<code class="highlighter-rouge">else</code> branches, and happen to the right of the concatenation operator <code class="highlighter-rouge">+</code>. In order for this function to ever terminate you would need that at some point the right side of <code class="highlighter-rouge">+</code> does not need to be executed anymore. So, we can lazily defer that by making the right side of <code class="highlighter-rouge">+</code> an <code class="highlighter-rouge">autoclosure</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="o">+</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">Bit</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">BitSequence</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">?</span> <span class="nv">lhs</span> <span class="p">:</span> <span class="nf">rhs</span><span class="p">()</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="nv">$0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Looks a little uglier, but now it’s lazy, and the Swift warning went away! However, there’s still a recursive call happening that will never terminate, and Swift cannot yet detect this one. In order for <code class="highlighter-rouge">find</code> to do its work, it needs to call out to <code class="highlighter-rouge">anySatisfy</code>, but then <code class="highlighter-rouge">anySatisfy</code> immediately calls <code class="highlighter-rouge">find</code> again. We have to make <code class="highlighter-rouge">anySatisfy</code> less eager by hiding some of its work inside a closure. Rather than calling out to <code class="highlighter-rouge">find</code> directly, let’s construct a whole new <code class="highlighter-rouge">BitSequence</code> that calls <code class="highlighter-rouge">find</code> under the hood:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">BitSequence</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">anySatisfy</span><span class="p">(</span><span class="n">_</span> <span class="nv">p</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">found</span> <span class="o">=</span> <span class="kt">BitSequence</span> <span class="p">{</span> <span class="n">n</span> <span class="k">in</span> <span class="nf">find</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">return</span> <span class="nf">p</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is equivalent to what we had before, but now it is sufficiently lazy for Swift to be able to run this program! It’s going to seem incredible, almost magical, but rest assured there are no tricks involved.</p>
+
+<p>Let’s take this for a spin. Let’s try to find a <code class="highlighter-rouge">BitSequence</code> that satisfies the property that it evaluates to <code class="highlighter-rouge">.one</code> on the first 5 even indices:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">oneOnFirstFiveEvens</span> <span class="o">=</span> <span class="kt">BitSequence</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span>
+  <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">one</span>
+    <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">one</span>
+    <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">one</span>
+    <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">one</span>
+    <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">one</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is incredible, but in finite time we have searched the <em>entire</em> infinite space of <code class="highlighter-rouge">BitSequence</code> values and constructed an instance that satisfies the predicate we provided. Don’t believe it? Let’s evaluate it to verify:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1">// .one</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">// .one</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1">// .one</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="c1">// .one</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>  <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>  <span class="c1">// .one</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>  <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="c1">// .zero</span>
+<span class="n">oneOnFirstFiveEvens</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="c1">// .zero</span>
+</code></pre></div></div>
+
+<p>Incredible! We are exhaustively searching an <a href="https://en.wikipedia.org/wiki/Uncountable_set">uncountably</a> infinite space in finite time.</p>
+
+<p>We can also ask to see if <em>every</em> bit sequence satisfies some predicate, or if <em>any</em> bit sequence satisfies it. For example:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">BitSequence</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span>
+  <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">zero</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">one</span>  <span class="c1">// true</span>
+<span class="p">}</span> 
+<span class="kt">BitSequence</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="n">zero</span> <span class="p">}</span> <span class="c1">// false</span>
+</code></pre></div></div>
+
+<p>In the first expression we have determined that every <code class="highlighter-rouge">BitSequence</code> satisfies the property that its first value is either <code class="highlighter-rouge">.zero</code> or <code class="highlighter-rouge">.one.</code> In the second expression we have determined that not every <code class="highlighter-rouge">BitSequence</code> has its first value equal to <code class="highlighter-rouge">.zero</code>.</p>
+
+<p>Another example:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">BitSequence</span><span class="o">.</span><span class="n">anySatisfy</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="p">}</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>Here we have successfully verified that there is at least one bit sequence whose 5th value is equal to its 11th (remember these sequences are 0-based).</p>
+
+<p>We can keep going. Now that we have the <code class="highlighter-rouge">allSatisfy</code> function at our disposal, we can define equality between functions that have <code class="highlighter-rouge">BitSequence</code> as their domains:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="o">==</span> <span class="o">&lt;</span><span class="kt">A</span><span class="p">:</span> <span class="kt">Equatable</span><span class="o">&gt;</span> <span class="p">(</span>
+  <span class="nv">lhs</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">A</span><span class="p">,</span> 
+  <span class="nv">rhs</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">A</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+
+  <span class="k">return</span> <span class="kt">BitSequence</span><span class="o">.</span><span class="n">allSatisfy</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span> <span class="nf">lhs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nf">rhs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is able to deterministically, and in finite time, determine when two functions on <code class="highlighter-rouge">BitSequence</code>’s are equal. This is completely impossible to do with <code class="highlighter-rouge">Int</code>’s and <code class="highlighter-rouge">String</code>’s, but here we have done it for <code class="highlighter-rouge">BitSequence</code>. Let’s give it a spin:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">const1</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="k">let</span> <span class="nv">const2</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">2</span> <span class="p">}</span>
+
+<span class="n">const1</span> <span class="o">==</span> <span class="n">const1</span> <span class="c1">// true</span>
+<span class="n">const2</span> <span class="o">==</span> <span class="n">const2</span> <span class="c1">// true </span>
+<span class="n">const1</span> <span class="o">==</span> <span class="n">const2</span> <span class="c1">// false</span>
+</code></pre></div></div>
+
+<p>Here we have constructed two functions: one always returns <code class="highlighter-rouge">1</code> regardless of input, and the other returns <code class="highlighter-rouge">2</code>. Clearly these functions are equal to themselves and not equal to each other, but here we have actually computed it in real time.</p>
+
+<p>To come up with some more complicated functions let’s introduce a helper that converts a <code class="highlighter-rouge">Bit</code> value into an integer:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Bit</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">toUInt</span><span class="p">:</span> <span class="kt">UInt</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">one</span><span class="p">:</span>  <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">zero</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>With that helper defined, we can cook up some more complicated looking functions on <code class="highlighter-rouge">BitSequence</code>’s:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">f</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span>
+  <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">toUInt</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">toUInt</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">g</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span>
+  <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">toUInt</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">toUInt</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The first multiplies the 2nd and 3rd values of a sequence together, and the second one adds. It certainly seems like these functions are not equal, but let’s check:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f</span> <span class="o">==</span> <span class="n">f</span> <span class="c1">// true</span>
+<span class="n">g</span> <span class="o">==</span> <span class="n">g</span> <span class="c1">// true </span>
+<span class="n">f</span> <span class="o">==</span> <span class="n">g</span> <span class="c1">// false</span>
+</code></pre></div></div>
+
+<p>Incredible! Again we have searched the infinite space of of <code class="highlighter-rouge">BitSequence</code> values and determined that these two functions are not equal to each other.</p>
+
+<p>Let’s introduce another function that looks a little different from <code class="highlighter-rouge">f</code> and <code class="highlighter-rouge">g</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">h</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="p">{</span> <span class="n">s</span> <span class="k">in</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="p">(</span><span class="o">.</span><span class="n">zero</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">.</span><span class="n">zero</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">case</span> <span class="p">(</span><span class="o">.</span><span class="n">one</span><span class="p">,</span> <span class="k">let</span> <span class="nv">other</span><span class="p">),</span> <span class="p">(</span><span class="k">let</span> <span class="nv">other</span><span class="p">,</span> <span class="o">.</span><span class="n">one</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">toUInt</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Do we think this function is equal to either <code class="highlighter-rouge">f</code> or <code class="highlighter-rouge">g</code>?</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">h</span> <span class="o">==</span> <span class="n">f</span> <span class="c1">// true </span>
+<span class="n">h</span> <span class="o">==</span> <span class="n">g</span> <span class="c1">// false </span>
+<span class="n">h</span> <span class="o">==</span> <span class="n">h</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>It seems that <code class="highlighter-rouge">h</code> is equal to <code class="highlighter-rouge">f</code>, and indeed if we look at its definition we see that we always return the non-zero value from <code class="highlighter-rouge">s.atIndex(1)</code> and <code class="highlighter-rouge">s.atIndex(2)</code>, and 0 otherwise, which is equivalent to multiplying bits together.</p>
+
+<p>Let’s try one last function, but something a lot more complicated:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">k</span><span class="p">:</span> <span class="p">(</span><span class="kt">BitSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="p">{</span> <span class="n">s</span> <span class="nf">in</span>
+  <span class="p">((</span><span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">toUInt</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="nf">atIndex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">toUInt</span> <span class="o">+</span> <span class="mi">908</span><span class="p">)</span> <span class="o">%</span> <span class="mi">6</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Is this function equal to any of <code class="highlighter-rouge">f</code>, <code class="highlighter-rouge">g</code> or <code class="highlighter-rouge">h</code>? I have no idea! It’s quite a bit more complicated than the others, so we’d have to do some actual math work to figure out if they are equal. Luckily we have we have a function that can do the work for us!</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">k</span> <span class="o">==</span> <span class="n">f</span> <span class="c1">// true</span>
+<span class="n">k</span> <span class="o">==</span> <span class="n">g</span> <span class="c1">// false</span>
+<span class="n">k</span> <span class="o">==</span> <span class="n">h</span> <span class="c1">// true</span>
+<span class="n">k</span> <span class="o">==</span> <span class="n">k</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>Fascinating! It seems that somehow <code class="highlighter-rouge">k</code> is equivalent to both <code class="highlighter-rouge">f</code> and <code class="highlighter-rouge">h</code>, even though it has a wildly different implementation.</p>
+
+<h2 id="how-is-this-possible">How is this possible?</h2>
+
+<p>The only thing better than implementing a seemingly impossible function is finding out that the explanation of its existence is deeply rooted in mathematics that have been known since the late 1800s. Although, we cannot give a full treatment of this topic, we explain some of the concepts and how they all fit together at a very high level. I try my hardest to draw a narrative line from the mathematics to what we just witnessed in this Swift code, but it’s more of a story than a rigorous exposition.</p>
+
+<h3 id="topology">Topology</h3>
+
+<p>It begins with a field of mathematics known as <a href="https://en.wikipedia.org/wiki/Topology">topology</a>, which is the study of topological spaces and their properties. Intuitively a topological space is an object that comes equipped with a notion of when points in the space are “near” each other. The <a href="https://en.wikipedia.org/wiki/Topological_space">rigorous definition</a> of topological spaces is far more abstract, and at first glance wouldn’t seem connected at all to what we just described.</p>
+
+<p>Just as in programming we see that functions between types tell us a lot about the types themselves, such is true of functions between topological spaces. However, we can’t allow just any such function. We want those functions that “preserve” the structure of the space, and for topological spaces that means the function preserves the closeness of the points. Again, the <a href="https://en.wikipedia.org/wiki/Continuous_function#Continuous_functions_between_topological_spaces">rigorous definition</a> looks nothing like what we have just described, but it is indeed the very general definition of continuity, and in fact subsumes the definition of continuity that you may have learned in calculus.</p>
+
+<p>Now that we know the basic objects we are studying (topological spaces), and the functions that we allow between them (continuous functions), we want to understand their properties. Topological spaces in the large are <a href="https://en.wikipedia.org/wiki/Topologist's_sine_curve">varied</a> and <a href="https://en.wikipedia.org/wiki/Wild_arc">wild</a>. There’s a subset of spaces that have some nice properties called <a href="https://en.wikipedia.org/wiki/Compact_space">“compact”</a> topological spaces. Intuitively these are spaces that have a kind of “finite” quality about them, and for many intents and purposes behave like finite sets even though they can have infinitely many points. Already we are seeing see shadows of our problem in the math, for we are very interested in infinite sets that have finite qualities about them.</p>
+
+<p>We also want to know of some nice subsets of continuous functions, for even though continuous functions seem to be well-behaved in that they preserve closeness of points, there are still some truly <a href="https://en.wikipedia.org/wiki/Weierstrass_function">wild</a> examples of them. There’s a subset of continuous functions known as <a href="https://en.wikipedia.org/wiki/Uniform_continuity">“uniformly continuous”</a>, and they have a lot of nice properties. Intuitively these are functions that not only preserve the closeness of points, but the closeness of the points in the range of the function doesn’t depend on the location of the points in the domain. That is, we get to control the closeness of points in a uniform manner across the domain of the function. It can be shown that every uniformly continuous function is continuous, but not vice versa, hence uniform continuity is a stronger property.</p>
+
+<p>Once you know of the objects and functions you are playing with, and some nice subsets of those things that are well-behaved, you want to start proving some theorems. An important <a href="https://en.wikipedia.org/wiki/Heine–Cantor_theorem">theorem</a> for our seemingly impossible functions is stated as such:</p>
+
+<blockquote>
+  <p>If \(X\) is a compact space and \(Y\) is any space, then every continuous function \(f: X \rightarrow Y\) is uniformly continuous.</p>
+</blockquote>
+
+<p>(NB: This is technically only true for a subset of topological spaces known as <a href="https://en.wikipedia.org/wiki/Metric_space">metric spaces</a>, but that detail is not important for this lay description.)</p>
+
+<p>This is a very powerful theorem. It states that even though it is far from true that continuous functions are uniformly continuous, if the domain of the function is compact, then both types of functions coincide: continuous implies uniformly continuous.</p>
+
+<h3 id="computation">Computation</h3>
+
+<p>Now that we have some topological results at hand, the question remains how to apply this to programming and the Swift programs we constructed above. It turns out there is a very deep and far-reaching connection between math and computation known as the <a href="https://en.wikipedia.org/wiki/Curry–Howard_correspondence">Curry-Howard correspondence</a>. It’s roots are in constructive mathematics, and it roughly says that any proposition in constructive mathematics can be translated into a type, and any proof can be translated into a value of that type.</p>
+
+<p>Constructive mathematics is a weird subject. It’s like classical mathematics, except it does not allow <a href="https://en.wikipedia.org/wiki/Law_of_excluded_middle">the law of excluded middle</a> or <a href="https://en.wikipedia.org/wiki/Double_negation#Double_negative_elimination">double negation elimination</a>. This means that a lot of proofs in classical mechanics are not valid in constructive mathematics, and some theorems are just plain not true. In particular, in constructive mathematics it is true that every constructible function is continuous, which is definitely not true in classical mathematics.</p>
+
+<h3 id="tying-the-knot">Tying the knot</h3>
+
+<p>And we are now able to tie our stories of topology and computation together. It can be shown that the <code class="highlighter-rouge">BitSequence</code> set is compact. In fact, it is equivalent to a well-known object called the <a href="https://en.wikipedia.org/wiki/Cantor_set">Cantor Set</a>, which is constructed by taking the unit interval of real numbers and recursively removing the middle third from it and all subsequent sub-intervals. After taking the limit of this process you are left with all the numbers between 0 and 1 whose ternary representation contains only 0’s and 2’s.</p>
+
+<p>Now that we know <code class="highlighter-rouge">BitSequence</code> is compact, and that all functions on it are continuous, we can apply our theorem to know that all functions on <code class="highlighter-rouge">BitSequence</code> are even uniformly continuous. This means that although <code class="highlighter-rouge">BitSequence</code> is infinitely large, functions on it are determined by their behavior on a finite subset of <code class="highlighter-rouge">BitSequence</code>. The size of that finite set is known as the <a href="https://en.wikipedia.org/wiki/Modulus_of_continuity">modulus of continuity</a> of the function. All of these results together explains why we are able to achieve the seemingly impossible by exhaustively searching an infinite space in finite time.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>We’ve now accomplished what we set out to: construct a seemingly impossible Swift program. We were able to exhaustively search and infinitely large space in finite time, and answer the question of whether two functions were equal at every point. In doing so we not only uncovered something that seems to defy reality, but also can be explained in a very concise way by mathematics that has been known for nearly 150 years.</p>
+
+<p>And although these techniques and results aren’t necessarily useful or practical for everyday Swift programming, I hope they can give you sense of awe at the effectiveness of mathematics in computing. To know that math has been able to produce such a counterintuitive result and give such a concise explanation of why it is the way it is, I begin to feel that I can trust mathematics as a guiding beacon for how programming can be done well. This is why I feel strongly that simple mathematical constructs, like pure functions, monoids, etc., form a strong foundation of abstraction as opposed to the overly complicated, and often ad-hoc, design patterns we see in software engineering.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="http://www.cs.bham.ac.uk/~mhe/papers/exhaustive.pdf">Infinite sets that admit fast exhaustive search</a> – Martín Escardó</li>
+  <li><a href="http://www.cs.bham.ac.uk/~mhe/papers/entcs87.pdf">Synthetic topology of data types and classical spaces</a> – Martín Escardó</li>
+  <li><a href="http://math.andrej.com/2007/09/28/seemingly-impossible-functional-programs/">Seemingly Impossible Functional Programs</a> – Martín Escardó</li>
+  <li><a href="https://www.cs.bham.ac.uk/~mhe/.talks/popl2012/escardo-popl2012.pdf">The topology of Seemingly impossible functional programs (Slides)</a> – Martín Escardó</li>
+  <li><a href="https://gist.github.com/mbrandonw/981f589f32800d3409f817ad4f7c6802">Swift playground with code from this article</a></li>
+  <li><a href="https://www.youtube.com/watch?v=PXI53f2CnVw">Video of a talk I gave on this subject</a></li>
+</ul>
+
+  </article>
+
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="mbrandonw">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <footer>
+    Questions about any of this? <a href="https://twitter.com/intent/tweet?text=@mbrandonw " target="_blank">Ask me</a> on Twitter or <a href="mailto:mbw234@gmail.com">email me</a>.
+  </footer>
+</div>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Few, but ripe...</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Brandon Williams</li>
+          <li><a href="mailto:mbw234@gmail.com">mbw234@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/mbrandonw">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">mbrandonw</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/mbrandonw">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">mbrandonw</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Articles about math, functional programming and the Swift programming language.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

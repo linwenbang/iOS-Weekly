@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Introduction to Multithreading and DispatchQueue</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://use.typekit.net/jdx8jgw.css">
+    <link href="/assets/css/global.css?v=94e2e4126e" rel="stylesheet">
+    <link href="/assets/css/theme.css?v=94e2e4126e" rel="stylesheet">
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="https://fluffy.es/help-my-app-freezes/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    
+    <meta property="og:site_name" content="Fluffy 📱" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Introduction to Multithreading and DispatchQueue" />
+    <meta property="og:description" content="You might have came across situation where suddenly your app hangs and not responding to any user input like this : You might have did some googling before and gotten answer that this is related to main thread being blocked. What does &amp;quot;main thread being blocked&amp;quot; mean? 🤔 In the" />
+    <meta property="og:url" content="https://fluffy.es/help-my-app-freezes/" />
+    <meta property="og:image" content="https://fluffy.es/content/images/2019/03/multithread.png" />
+    <meta property="article:published_time" content="2019-03-08T17:31:31.000Z" />
+    <meta property="article:modified_time" content="2019-03-24T19:33:32.000Z" />
+    <meta property="article:tag" content="threading" />
+    <meta property="article:tag" content="overview" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Introduction to Multithreading and DispatchQueue" />
+    <meta name="twitter:description" content="You might have came across situation where suddenly your app hangs and not responding to any user input like this : You might have did some googling before and gotten answer that this is related to main thread being blocked. What does &amp;quot;main thread being blocked&amp;quot; mean? 🤔 In the" />
+    <meta name="twitter:url" content="https://fluffy.es/help-my-app-freezes/" />
+    <meta name="twitter:image" content="https://fluffy.es/content/images/2019/03/multithread.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Axel Kee" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="threading, overview" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Fluffy 📱",
+        "logo": "https://casper.ghost.org/v1.0.0/images/ghost-logo.svg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Axel Kee",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/2c45ddec665334de89dba55fbb88149c?s=250&d=mm&r=x",
+            "width": 250,
+            "height": 250
+        },
+        "url": "https://fluffy.es/author/axel/",
+        "sameAs": []
+    },
+    "headline": "Introduction to Multithreading and DispatchQueue",
+    "url": "https://fluffy.es/help-my-app-freezes/",
+    "datePublished": "2019-03-08T17:31:31.000Z",
+    "dateModified": "2019-03-24T19:33:32.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://fluffy.es/content/images/2019/03/multithread.png",
+        "width": 400,
+        "height": 300
+    },
+    "keywords": "threading, overview",
+    "description": "You might have came across situation where suddenly your app hangs and not responding to any user input like this : You might have did some googling before and gotten answer that this is related to main thread being blocked. What does &amp;quot;main thread being blocked&amp;quot; mean? 🤔 In the",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://fluffy.es/"
+    }
+}
+    </script>
+
+    <script src="/public/ghost-sdk.min.js?v=94e2e4126e"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "a72ec38e16fc"
+});
+</script>
+    <meta name="generator" content="Ghost 1.25" />
+    <link rel="alternate" type="application/rss+xml" title="Fluffy 📱" href="https://fluffy.es/rss/" />
+    <meta name="google-site-verification" content="euJy_fGrfoSufYt2YTUyQ5s_NFICV10tKVtvisAXviQ" />
+<meta name="google-site-verification" content="HJvr-ZtBxd0hv5_7LufHwBHcVE3ygGY02HYdfng0v9w" />
+
+        <!-- Hightlight JS -->
+    <link href="/assets/css/highlightjs-tomorrow-night.css?v=94e2e4126e" rel="stylesheet">
+    <script src="/assets/js/highlight.pack.js?v=94e2e4126e"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+</head>
+<body class="post-template tag-threading tag-overview">
+
+    
+
+<div class="header">
+  <a href="https://fluffy.es"><h2 class="blog-title">Fluffy 📱</h2></a>
+  <p class="description">Mostly iOS fun stuff</p>
+</div>
+
+<div class="top-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-all-posts" role="menuitem"><a href="https://fluffy.es/archive/">All Posts</a></li>
+    <li class="nav-free-auto-layout-course" role="menuitem"><a href="https://fluffy.es/making-sense-of-auto-layout/">Free Auto Layout Course</a></li>
+    <li class="nav-understanding-optionals" role="menuitem"><a href="https://optionals.fluffy.es">Understanding Optionals</a></li>
+    <li class="nav-about" role="menuitem"><a href="https://fluffy.es/about/">About</a></li>
+    <li class="nav-products" role="menuitem"><a href="https://fluffy.es/products/">Products</a></li>
+    <li class="nav-newsletter" role="menuitem"><a href="https://fluffy.es/newsletter/">Newsletter</a></li>
+</ul>
+
+</div>
+
+ <div class="post-header">
+      <h1 class="post-title">Introduction to Multithreading and DispatchQueue</h1>
+      <div class="post-meta-wrapper">
+        <span>by Axel Kee</span> <br/>
+        <time class="post-meta">9 Mar 2019 <br/> <a href="/tag/threading/">threading</a>, <a href="/tag/overview/">overview</a> </time>
+      </div>
+    </div>
+    
+    <div class="post-content">
+        <div class="kg-card-markdown"><p>You might have came across situation where suddenly your app hangs and not responding to any user input like this :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/frozen.gif" alt="Frozen"></p>
+<p>You might have did some googling before and gotten answer that this is related to <strong>main thread being blocked</strong>. What does &quot;main thread being blocked&quot; mean? 🤔</p>
+<p>In the above demo, the code that was executed when the &quot;Freeze!&quot; button is tapped is as follow:</p>
+<pre><code class="language-swift">@IBAction func freezeButtonTapped(_ sender: UIButton) {
+    // main thread will be blocked until the whole zip file has 
+    // finished downloading
+    // meaning UI will not be responsive until it finishes download
+    let data = try? Data(contentsOf: URL(string: &quot;https://github.com/fluffyes/AppStoreCard/archive/master.zip&quot;)!)
+}
+</code></pre>
+<br>
+<p><code>Data(contentsOf: URL)</code> will attempt to download the data from the URL we provided, as this run on main thread, the main thread is occupied (blocked) with this download task and can't handle our UI interaction hence we feel that the app 'freezes'.</p>
+<p>Just want to jump to the code answer? <a href="#tldr">Click here</a></p>
+<p>Table of contents:</p>
+<ol>
+<li><a href="#core-thread-queue">Core, Thread and Queue</a></li>
+<li><a href="#main">Main Thread and Queue</a></li>
+<li><a href="#ui-main">UI updates should happen in Main thread</a></li>
+<li><a href="#further">Further Reading</a></li>
+<li><a href="#cta">Playground project demo of queue</a></li>
+</ol>
+<p><span id="core-thread-queue"></span></p>
+<h2 id="corethreadandqueue">Core, Thread and Queue</h2>
+<p>To understand the phrase &quot;main thread is blocked&quot;, we first need to understand the concept of thread and concurrency.</p>
+<p>Long time ago, most personal computers have only one CPU core and they can only do one thing/task at a time (ignoring hyperthreading and virtual cores). When you do multiple task on a single-core computer, the CPU splits it time between all these task with very very short interval, giving us mere mortal an illusion that it is running multiple task at once.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/singlecore.png" alt="single core"></p>
+<p>For a multi-core computer, it can actually perform multiple task at the same time on different core, thus increasing performance.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/multicore.png" alt="multicore"></p>
+<p>The concept of multi-core can be further extended into multi-threading in an application. Typically we don't explicitly tell which core of a computer to perform a certain task, usually we group a sequence of task (multiple lines of code/ a function etc) into a thread, and then the Operating System (eg: iOS) will decide which core handles which thread, and pass the thread (with task inside) to the core to execute.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/multithread.png" alt="multi thread"></p>
+<p>By default if we didnt we create any new thread, the code will run on one thread (the default thread). Say we have a code of two for loops like this :</p>
+<pre><code class="language-swift">import Foundation
+
+for a in 1...10 {
+   print(&quot;Default thread printed a - \(a)&quot;)
+}
+
+for b in 1...10 {
+  print(&quot;Default thread printed b - \(b)&quot;)
+}
+</code></pre>
+<br>
+<p>This will result the following output :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/defaultThread.png" alt="default thread"></p>
+<p>Code in the same thread is executed sequentially, meaning from top to bottom, the second loop will only be executed after the first loop has finished.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/singlethread.png" alt="single thread"></p>
+<p>Let's change the code above to create a new thread for the first for loop (for loop A) :</p>
+<pre><code class="language-swift">import Foundation
+
+// create a new thread and execute code inside this new thread
+Thread.detachNewThread {
+    for a in 1...10 {
+        print(&quot;New thread printed \(a)&quot;)
+    }
+}
+
+// this is running on default thread
+for b in 1...10 {
+    print(&quot;Default thread printed b - \(b)&quot;)
+}
+
+</code></pre>
+<br>
+<p>If we run this, the output will be like this :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/concurrency.png" alt="concurrency"></p>
+<p>The two loops are running at the same time! 😳 This is because the two threads are ran concurrently.</p>
+<p>This is what happens under the hood :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/doublethread.png" alt="double thread"></p>
+<p>What if your computer has only one core? Most likely your computer core will switch between threads like this :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/doublethreadsinglecore.png" alt="double thread single core"></p>
+<p>The core will switch between the two for-loops with a very quick interval (milliseconds) , causing an illusion that both for loops are executed on the same time. Chances are, in a multi-core computer, one of the core might keep switching between different thread/task (actually all of the cores might keep switching between different threads).</p>
+<p><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/ThreadMigration/ThreadMigration.html">Apple recommends us to migrate away from dealing with thread</a> directly and use their queue (Dispatch queue / Operation queue) instead.</p>
+<p>Instead of creating a thread to handle task concurrently and managing them, Apple recommends us to put task in a queue and let the operating system to handle the threading stuff like creating threads, placing task into thread, thread communications, etc.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/queue.png" alt="queue"></p>
+<p><span id="main"></span></p>
+<h2 id="mainthreadandqueue">Main Thread and Queue</h2>
+<p>Remember the default thread we mentioned earlier? If we didn't explicitly define a new thread, the code will be executed on the default thread. In iOS, the default thread is also called as <strong>Main thread</strong> or <strong>UI thread</strong>, this is because the user interface (UIKit) of the app runs on the default thread as well, this includes handling button tap, updating label values, scrolling table views, etc..</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/mainthread.png" alt="main thread"></p>
+<p>When we write code inside any UIKit method (eg: viewDidLoad) without explicitly creating a new thread, say like this :</p>
+<pre><code class="language-swift">import Foundation
+import UIKit
+
+class SomeViewController : UIViewController {
+  override func viewDidLoad() {
+    for a in 1...10 {
+       print(&quot;Default thread printed a - \(a)&quot;)
+    }
+
+    for b in 1...10 {
+      print(&quot;Default thread printed b - \(b)&quot;)
+    }
+  }
+}
+
+</code></pre>
+<br>
+<p>The two for loops in the code above are running on main thread, making the task on main thread to look like this :</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/mainthread2.png" alt="mainthread 2"></p>
+<p>The UI is still responsive to our input because the two for loops we added take very tiny amount of time (milliseconds) to run on the main thread. After the loops have finished running, the main thread can respond back to user input.</p>
+<p>As you might have guessed, if we run a non-UI task that takes a long time on the main thread, it will cause the UI to be unresponsive as the main thread needs to finish processing the task before it can go back to handling UI (eg: user input such as tap, and also updating the display/graphic on screen).</p>
+<pre><code class="language-swift">@IBAction func freezeButtonTapped(_ sender: UIButton) {
+  // download the zip file from Github on main thread
+  let data = try? Data(contentsOf: URL(string: &quot;https://github.com/fluffyes/AppStoreCard/archive/master.zip&quot;)!)
+}
+</code></pre>
+<br>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/blocking.png" alt="blocking"></p>
+<p>In this case, the UI stops responding when the zip file download starts and only starts responding after the zip file download has finished. One of the way to solve this is to move the download zip file task into another thread. As Apple encourage us to use queue instead of managing thread directly, we can wrap the download zip file code with a <strong>global queue</strong> like this :</p>
+<p><span id="tldr"></span></p>
+<pre><code class="language-swift">@IBAction func freezeButtonTapped(_ sender: UIButton) {
+  // send the code to global queue, this will be dispatched to one of the background threads instead of main thread
+  DispatchQueue.global().async {
+    let data = try? Data(contentsOf: URL(string: &quot;https://github.com/fluffyes/AppStoreCard/archive/master.zip&quot;)!)
+  }
+}
+</code></pre>
+<br>
+<p>For DispatchQueue, other than creating our own serial / concurrent queue, we can also access the <strong>Main Queue</strong> and <strong>Global Queue</strong> using <code>DispatchQueue.main()</code> and <code>DispatchQueue.global()</code> . The code placed inside main queue will be passed to the main / UI thread, whereas the code placed inside global queue will be passed to different background threads depending on their priority.</p>
+<p>There's multiple background threads but only one main thread. One thing to note is that main queue is a serial queue, where task will execute following order from top to bottom, whereas global queue is a concurrent queue where multiple tasks might be dispatched to different threads at the same time.</p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/mainglobalqueue.png" alt="global and main queue"></p>
+<script async data-uid="644df95883" src="https://f.convertkit.com/644df95883/d3af8370a8.js"></script>
+<p><span id="ui-main"></span></p>
+<h2 id="uiupdatesshouldhappeninmainthread">UI updates should happen in Main thread</h2>
+<p>Now that we have moved the zip file download task to background thread using global queue :</p>
+<p><span id="globalqueue"></span></p>
+<pre><code class="language-swift">@IBAction func freezeButtonTapped(_ sender: UIButton) {
+  // send the code to global queue, this will be dispatched to one of the background threads instead of main thread
+  DispatchQueue.global().async {
+    let data = try? Data(contentsOf: URL(string: &quot;https://github.com/fluffyes/AppStoreCard/archive/master.zip&quot;)!)
+  }
+}
+</code></pre>
+<br>
+<p>What if we want to update a label text using the data we have downloaded? If we update any UI element inside a non-main thread, Xcode will show us a runtime warning like this :</p>
+<pre><code class="language-swift">@IBAction func freezeButtonTapped(_ sender: UIButton) {
+  // send the code to global queue, this will be dispatched to one of the background threads instead of main thread
+  DispatchQueue.global().async {
+    let data = try? Data(contentsOf: URL(string: &quot;https://github.com/fluffyes/AppStoreCard/archive/master.zip&quot;)!)
+    
+    // update UI label, I know its not using the downloaded data
+    // its just for demonstration
+    self.nameLabel.text = &quot;Zip file downloaded&quot;
+  }
+}
+</code></pre>
+<p><br><br></p>
+<p><img src="https://iosimage.s3.amazonaws.com/2019/49-help-my-app-freeze/mustBeUsedOnMainThread.png" alt="warning on updating UI in non-main thread"></p>
+<p><a href="https://developer.apple.com/documentation/code_diagnostics/main_thread_checker">Apple's official documentation</a> mentioned that updating UI on a thread other than the main thread can result in missed UI updates, visual defects, data corruptions, and crashes.</p>
+<p>To fix this issue, we can wrap the UI element inside main queue (inside the global queue) like this :</p>
+<pre><code class="language-swift">@IBAction func freezeButtonTapped(_ sender: UIButton) {
+  // send the code to global queue, this will be dispatched to one of the background threads
+  DispatchQueue.global().async {
+    let data = try? Data(contentsOf: URL(string: &quot;https://github.com/fluffyes/AppStoreCard/archive/master.zip&quot;)!)
+    
+    // jump back to main thread to update the UI
+    // you can use the data downloaded here
+    DispatchQueue.main().async {
+      self.nameLabel.text = &quot;Zip file downloaded&quot;
+    }
+  }
+}
+</code></pre>
+<br>
+<p>One of the key to making performant app is to move as much non-UI related heavy processing to background thread as possible so that user won't experience lag / freeze on the UI.</p>
+<p><span id="further"></span></p>
+<h2 id="furtherreading">Further Reading</h2>
+<p><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html">Dispatch Queues (Concurrency programming guide)</a></p>
+<p><span id="cta"></span></p>
+<script async data-uid="644df95883" src="https://f.convertkit.com/644df95883/d3af8370a8.js"></script>
+</div>
+    </div>
+
+
+    <!-- Hide post-subscribe -->
+
+
+    <div class="post-comment">
+      <div id="disqus_thread"></div>
+        <script>
+        
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = 'https://fluffy.es/help-my-app-freezes/' ;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'ghost-5c8248048da847148d5e53c9'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        var disqus_developer = 1;
+        s.src = 'https://fluffy-1.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+
+
+
+
+    <div class="footer">
+      <div class="copyright">
+         <p>
+          Copyright <strong><a href="https://fluffy.es">Fluffy 📱</a></strong> &copy; 2019 <br />
+          Theme created by <a href="https://littlefox.es">soulchild</a> <br /><br /><br />
+          Proudly published with <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+        </p>
+      </div>
+    </div>
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js?v=94e2e4126e"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=11623386; 
+var sc_invisible=1; 
+var sc_security="b2add79b"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="//c.statcounter.com/11623386/0/b2add79b/1/" alt="Web
+Analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+<!-- Drip -->
+<script type="text/javascript">
+  var _dcq = _dcq || [];
+  var _dcs = _dcs || {};
+  _dcs.account = '1066025';
+
+  (function() {
+    var dc = document.createElement('script');
+    dc.type = 'text/javascript'; dc.async = true;
+    dc.src = '//tag.getdrip.com/1066025.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(dc, s);
+  })();
+</script>
+<!-- end Drip -->
+
+</body>
+</html>

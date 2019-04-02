@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="application/atom+xml" rel="alternate" href="https://felginep.github.io/feed.xml" title="Pierre Felgines" />
+  <title>
+    
+      Implementing Promises in Swift &middot; Pierre Felgines
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+  <meta name="google-site-verification" content="6yNjtGCim19WpLoHtD7M-E5jTuRFXP8TVdHj88dzbQ0" />
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Implementing Promises in Swift | Pierre Felgines</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Implementing Promises in Swift" />
+<meta name="author" content="Pierre Felgines" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I recently have been looking for some resources on how to implement a promise in Swift, and because I did not find any good articles about it, I thought I could write one instead. In this article we’ll implement our own Promise type in order to understand the logic behind it." />
+<meta property="og:description" content="I recently have been looking for some resources on how to implement a promise in Swift, and because I did not find any good articles about it, I thought I could write one instead. In this article we’ll implement our own Promise type in order to understand the logic behind it." />
+<link rel="canonical" href="https://felginep.github.io/2019-01-06/implementing-promises-in-swift" />
+<meta property="og:url" content="https://felginep.github.io/2019-01-06/implementing-promises-in-swift" />
+<meta property="og:site_name" content="Pierre Felgines" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-06T00:00:00+00:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"https://felginep.github.io/2019-01-06/implementing-promises-in-swift","headline":"Implementing Promises in Swift","dateModified":"2019-01-06T00:00:00+00:00","datePublished":"2019-01-06T00:00:00+00:00","author":{"@type":"Person","name":"Pierre Felgines"},"description":"I recently have been looking for some resources on how to implement a promise in Swift, and because I did not find any good articles about it, I thought I could write one instead. In this article we’ll implement our own Promise type in order to understand the logic behind it.","mainEntityOfPage":{"@type":"WebPage","@id":"https://felginep.github.io/2019-01-06/implementing-promises-in-swift"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="/">
+          <h2 class="nav-title">Pierre Felgines</h2>
+        </a>
+        <ul>
+          <li><a href="https://felginep.github.io/about">About</a></li>
+          <li><a href="/">Posts</a></li>
+        </ul>
+    </div>
+  </nav>
+
+    <main>
+      <div class="post">
+  <div class="post-info">
+    <span>Written by&nbsp;</span>Pierre Felgines
+
+    
+      <br>
+      <span>on&nbsp;</span><time datetime="2019-01-06 00:00:00 +0000">January 06, 2019</time>
+    
+  </div>
+
+  <h1 class="post-title">Implementing Promises in Swift</h1>
+  <div class="post-line"></div>
+
+  <p>I recently have been looking for some resources on how to implement a promise in Swift, and because I did not find any good articles about it, I thought I could write one instead. In this article we’ll implement our own <code class="highlighter-rouge">Promise</code> type in order to understand the logic behind it.</p>
+
+<p>Note that the implementation is far from production ready and should not be used as is. For instance, our promise will not provide any error mechanism and threading will not be covered. I’ll link useful resources and complete implementations at the end of this article for those who want to dig deeper.</p>
+
+<p><em>Note</em>: To make this tutorial a little more interesting, I chose to do it in TDD. We will write tests first and make them pass one by one.</p>
+
+<h1 id="our-first-test">Our first test</h1>
+
+<p>Let’s write our first test.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"0. Executor function is called immediately"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">var</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="kt">Promise</span> <span class="p">{</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"foo"</span> <span class="p">}</span>
+    <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="s">"foo"</span><span class="p">)</span>
+    <span class="nf">done</span><span class="p">()</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>In this test we want to implement that the function passed to the initializer of the promise is called immediately.</p>
+
+<p><em>Note</em>: For those who may wonder, we do not use any test framework here, but a custom method <code class="highlighter-rouge">test</code> that simulates assertions in the playground (<a href="https://gist.github.com/felginep/039ca3b21e4f0cabb1c06126d9164680">gist</a>).</p>
+
+<p>When we run the playground, the compiler raises a first error:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:41:9: error: use of unresolved identifier <span class="s1">'Promise'</span>
+    _ <span class="o">=</span> Promise <span class="o">{</span> string <span class="o">=</span> <span class="s2">"foo"</span> <span class="o">}</span>
+        ^~~~~~~</code></pre></figure>
+
+<p>Fair enough, we need to define the <code class="highlighter-rouge">Promise</code> class.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span> <span class="p">{</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>The error now becomes:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:44:17: error: argument passed to call that takes no arguments
+    _ <span class="o">=</span> Promise <span class="o">{</span> string <span class="o">=</span> <span class="s2">"foo"</span> <span class="o">}</span>
+                ^~~~~~~~~~~~~~~~~~</code></pre></figure>
+
+<p>We have to define an initiliazer that takes a closure as an argument. And this closure should be called immediately.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This makes our first test pass! We have almost nothing for now, but be patient, our implementation will grow in the next section!</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">• Test 0. Executor <span class="k">function </span>is called immediately passed <span class="o">(</span>1 assertions<span class="o">)</span></code></pre></figure>
+
+<p>We can comment this test out as the implementation of <code class="highlighter-rouge">Promise</code> will change a bit in the future.</p>
+
+<h1 id="the-bare-minimum">The bare minimum</h1>
+
+<p>Our second test is the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"1.1 Resolution handler is called when promise is resolved sync"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"foo"</span>
+    <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="nf">resolve</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">in</span>
+        <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nf">done</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The test is quite simple, but we add some content to the <code class="highlighter-rouge">Promise</code> class. We create a promise with a resolution handler (the <code class="highlighter-rouge">resolve</code> parameter of the closure) and call it right away with a value.
+In a second time, we use the <code class="highlighter-rouge">then</code> method on the promise to access the value and make an assertion about it.</p>
+
+<p>Before diving into the implementation, we have to introduce a slightly different test at the same time.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"1.2 Resolution handler is called when promise is resolved async"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"foo"</span>
+    <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="nf">after</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">resolve</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">in</span>
+        <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nf">done</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Contrary to the test <code class="highlighter-rouge">1.1</code>, the <code class="highlighter-rouge">resolve</code> method is called after a delay. That means the value will not be available in the <code class="highlighter-rouge">then</code> right away (because the 0.1 seconds are not passed yet when we call <code class="highlighter-rouge">then</code>).</p>
+
+<p>We can start understanding the “problem” here. We have to deal with asynchronicity.</p>
+
+<p>Our promise is a state machine. When it is first created, the promise is in a <code class="highlighter-rouge">pending</code> state. Once the <code class="highlighter-rouge">resolve</code> method is called with a value, our promise pass in a <code class="highlighter-rouge">resolved</code> state and store this value.</p>
+
+<p>The method <code class="highlighter-rouge">then</code> can be called anytime, whatever the internal state of the promise (meaning before or after the promise has a value). If the promise is in <code class="highlighter-rouge">pending</code> state and we call <code class="highlighter-rouge">then</code> on it, the value is not available, so we have to store the callback parameter. And once the promise becomes <code class="highlighter-rouge">resolved</code>, we can trigger this same callback with the resolved value.</p>
+
+<p>Now that we understand a little better what we have to implement, let’s start by fixing the compiler issues.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:54:19: error: cannot specialize non-generic <span class="nb">type</span> <span class="s1">'Promise'</span>
+    <span class="nb">let </span>promise <span class="o">=</span> Promise&lt;String&gt; <span class="o">{</span> resolve <span class="k">in</span>
+                  ^      ~~~~~~~~</code></pre></figure>
+
+<p>We have to make our <code class="highlighter-rouge">Promise</code> type generic. Indeed, a promise is associated with a predefined type and will hold a value of this type once resolved.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now the error becomes:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:54:37: error: contextual closure <span class="nb">type</span> <span class="s1">'() -&gt; Void'</span> expects 0 arguments, but 1 was used <span class="k">in </span>closure body
+    <span class="nb">let </span>promise <span class="o">=</span> Promise&lt;String&gt; <span class="o">{</span> resolve <span class="k">in</span>
+                                    ^</code></pre></figure>
+
+<p>We have to provide a <code class="highlighter-rouge">resolve</code> function to the closure passed in the initializer (the executor).</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="nv">resolve</span><span class="p">:</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note here that the resolve parameter is a function that consume a value: <code class="highlighter-rouge">(Value) -&gt; Void</code>. This function will be called by the outside world once the value is determined.</p>
+
+<p>The compiler is still not happy because we need to provide a <code class="highlighter-rouge">resolve</code> function to the <code class="highlighter-rouge">executor</code>. Let’s create one that will be <code class="highlighter-rouge">private</code>.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="nv">resolve</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">(</span><span class="n">resolve</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="c1">// To implement</span>
+        <span class="c1">// This will be called by the outside world when a value is determined</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We will implement <code class="highlighter-rouge">resolve</code> in a moment, when all the errors will be taken care of.</p>
+
+<p>The next one is simple, the method <code class="highlighter-rouge">then</code> is not defined yet.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:61:5: error: value of <span class="nb">type</span> <span class="s1">'Promise&lt;String&gt;'</span> has no member <span class="s1">'then'</span>
+    promise.then <span class="o">{</span> <span class="o">(</span>value: String<span class="o">)</span> <span class="k">in</span>
+    ^~~~~~~ ~~~~</code></pre></figure>
+
+<p>Let’s fix that.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="nv">resolve</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">(</span><span class="n">resolve</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// To implement</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="c1">// To implement</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now that the compiler is happy, let’s go back where we were before.</p>
+
+<p>We previously said that a <code class="highlighter-rouge">Promise</code> is a state machine with a <code class="highlighter-rouge">pending</code> and a <code class="highlighter-rouge">resolved</code> state. We can define these states with an enum:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">enum</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">pending</span>
+    <span class="k">case</span> <span class="nf">resolved</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The beauty of Swift makes it possible to store the value of the promise directly in the enum.</p>
+
+<p>Now we have to define a default state of <code class="highlighter-rouge">.pending</code> in our <code class="highlighter-rouge">Promise</code> implementation. And we also need a private function that can update the state in case the promise is still in a <code class="highlighter-rouge">.pending</code> state.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="kd">enum</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">pending</span>
+        <span class="k">case</span> <span class="nf">resolved</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">.</span><span class="n">pending</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="nv">resolve</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">(</span><span class="n">resolve</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// To implement</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="c1">// To implement</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">updateState</span><span class="p">(</span><span class="n">to</span> <span class="nv">newState</span><span class="p">:</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">case</span> <span class="o">.</span><span class="n">pending</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">newState</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note that the <code class="highlighter-rouge">updateState(to:)</code> function first checks if the promise is in the <code class="highlighter-rouge">.pending</code> state. If the promise is already in the <code class="highlighter-rouge">.resolved</code> state, it can’t move to another state and will stay <code class="highlighter-rouge">.resolved</code> forever.</p>
+
+<p>Now it’s time to update the state of the promise when needed, meaning when the <code class="highlighter-rouge">resolve</code> function is called from the outside world with a value.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="kd">func</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+    <span class="nf">updateState</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">.</span><span class="nf">resolved</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We are almost done, but there is still the <code class="highlighter-rouge">then</code> method to implement. We said we had to store the callback parameter and call this callback when the promise resolves. Let’s implement that.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="kd">enum</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">pending</span>
+        <span class="k">case</span> <span class="nf">resolved</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">.</span><span class="n">pending</span>
+    <span class="c1">// we store the callback as an instance variable</span>
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">callback</span><span class="p">:</span> <span class="p">((</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="nv">resolve</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">(</span><span class="n">resolve</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// store the callback in all cases</span>
+        <span class="n">callback</span> <span class="o">=</span> <span class="n">onResolved</span>
+        <span class="c1">// and trigger it if needed</span>
+        <span class="nf">triggerCallbackIfResolved</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="nf">updateState</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">.</span><span class="nf">resolved</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">updateState</span><span class="p">(</span><span class="n">to</span> <span class="nv">newState</span><span class="p">:</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">case</span> <span class="o">.</span><span class="n">pending</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">newState</span>
+        <span class="nf">triggerCallbackIfResolved</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">triggerCallbackIfResolved</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// the callback can be triggered only if we have a value,</span>
+        <span class="c1">// meaning the promise is resolved</span>
+        <span class="k">guard</span> <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">resolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="nf">callback</span><span class="p">?(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">callback</span> <span class="o">=</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We define an instance variable <code class="highlighter-rouge">callback</code> that holds the callback while the promise is <code class="highlighter-rouge">.pending</code>. We also create a method <code class="highlighter-rouge">triggerCallbackIfResolved</code> that first checks if the state is <code class="highlighter-rouge">.resolved</code>, unwraps the associated value, and pass it to the callback. This method is called at two locations. In the <code class="highlighter-rouge">then</code> method if the promise is already resolved at the time we call <code class="highlighter-rouge">then</code>. And in the <code class="highlighter-rouge">updateState</code> method, because that’s where the promise updates its state from <code class="highlighter-rouge">.pending</code> to <code class="highlighter-rouge">.resolved</code>.</p>
+
+<p>With these modifications, our tests pass successfully.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">• Test 1.1 Resolution handler is called when promise is resolved sync passed <span class="o">(</span>1 assertions<span class="o">)</span>
+• Test 1.2 Resolution handler is called when promise is resolved async passed <span class="o">(</span>1 assertions<span class="o">)</span></code></pre></figure>
+
+<p>We are on the right path, but there is still a slight change we have to make to get a first real <code class="highlighter-rouge">Promise</code> implementation. Let’s look at the tests first.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"2.1 Promise supports many resolution handlers sync"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"foo"</span>
+    <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="nf">resolve</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+        <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+        <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nf">done</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"2.2 Promise supports many resolution handlers async"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"foo"</span>
+    <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="nf">after</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">resolve</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+        <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+        <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nf">done</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This time we call <code class="highlighter-rouge">then</code> twice on the promise.</p>
+
+<p>Let’s look at the tests outputs.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">• Test 2.1 Promise supports many resolution handlers sync passed <span class="o">(</span>2 assertions<span class="o">)</span>
+• Test 2.2 Promise supports many resolution handlers async passed <span class="o">(</span>1 assertions<span class="o">)</span></code></pre></figure>
+
+<p>The tests pass, but you may have spotted the issue. The test <code class="highlighter-rouge">2.2</code> has only one assertion, but should have two.</p>
+
+<p>If we think about it, it’s logical. Indeed, in the async version (<code class="highlighter-rouge">2.2</code>), when the first <code class="highlighter-rouge">then</code> is called the promise is still <code class="highlighter-rouge">.pending</code>. As we have seen earlier, we store the callback of the first <code class="highlighter-rouge">then</code>. But when we call the <code class="highlighter-rouge">then</code> for the second time, the promise hasn’t resolved yet and is still <code class="highlighter-rouge">.pending</code>, so we erase the callback with the new one. Only the second callback will be executed, the first one being forgotten. That makes the test pass, but with only one assertion instead of two.</p>
+
+<p>The solution here is to store an array of callbacks and to trigger all the callbacks when the promise resolves.</p>
+
+<p>Let’s update our solution with this small update.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="kd">enum</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">pending</span>
+        <span class="k">case</span> <span class="nf">resolved</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">.</span><span class="n">pending</span>
+    <span class="c1">// We now store an array instead of a single function</span>
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">callbacks</span><span class="p">:</span> <span class="p">[(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">executor</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="nv">resolve</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">executor</span><span class="p">(</span><span class="n">resolve</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">callbacks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">onResolved</span><span class="p">)</span>
+        <span class="nf">triggerCallbacksIfResolved</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+        <span class="nf">updateState</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">.</span><span class="nf">resolved</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">updateState</span><span class="p">(</span><span class="n">to</span> <span class="nv">newState</span><span class="p">:</span> <span class="kt">State</span><span class="o">&lt;</span><span class="kt">Value</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">case</span> <span class="o">.</span><span class="n">pending</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">newState</span>
+        <span class="nf">triggerCallbacksIfResolved</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">triggerCallbacksIfResolved</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">resolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">=</span> <span class="n">state</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="c1">// We trigger all the callbacks</span>
+        <span class="n">callbacks</span><span class="o">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">callback</span> <span class="k">in</span> <span class="nf">callback</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">callbacks</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The tests now pass with both two assertions.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">• Test 2.1 Promise supports many resolution handlers sync passed <span class="o">(</span>2 assertions<span class="o">)</span>
+• Test 2.2 Promise supports many resolution handlers async passed <span class="o">(</span>2 assertions<span class="o">)</span></code></pre></figure>
+
+<p>Congratulations! We have created the base of our <code class="highlighter-rouge">Promise</code> class. You can already use it to abstract  asynchronicity but it’s still limited.</p>
+
+<p><strong>Note</strong>: if we take a look at the global picture here, we can see that the <code class="highlighter-rouge">then</code> we have defined could be renamed <code class="highlighter-rouge">observe</code>. Its purpose is to consume the value of the promise once resolved, but it does not return anything. Meaning we can’t chain promises for now.</p>
+
+<p>In the next sections we will create overloads of <code class="highlighter-rouge">then</code> in order to return new promises or new values along the way.</p>
+
+<h1 id="chaining-promises">Chaining Promises</h1>
+
+<p>Our <code class="highlighter-rouge">Promise</code> implementation would not be complete if we can’t chain multiple promises.</p>
+
+<p>Let’s look at the test that will help us implement this feature.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"3. Resolution handlers can be chained"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"foo"</span>
+    <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="nf">after</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">resolve</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">promise</span>
+        <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+            <span class="k">return</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+                <span class="nf">after</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nf">resolve</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="n">value</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span> <span class="c1">// the "observe" previously defined</span>
+            <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">+</span> <span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+            <span class="nf">done</span><span class="p">()</span>
+        <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We can see here that the first <code class="highlighter-rouge">then</code> creates a new <code class="highlighter-rouge">Promise</code> with a whole new value and returns it. The second <code class="highlighter-rouge">then</code>(the one we defined in the previous section, that we called <code class="highlighter-rouge">observe</code>) is chained to access the new value (that will hold <code class="highlighter-rouge">"foofoo"</code> here).</p>
+
+<p>This immediately raises an error in the console.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:143:10: error: value of tuple <span class="nb">type</span> <span class="s1">'()'</span> has no member <span class="s1">'then'</span>
+        .then <span class="o">{</span> value <span class="k">in</span>
+         ^</code></pre></figure>
+
+<p>We have to create an overload of <code class="highlighter-rouge">then</code> that takes a function that returns a promise. And in order to chain other calls of <code class="highlighter-rouge">then</code>, the method has to return a promise too. The prototype of this new method <code class="highlighter-rouge">then</code> is the following.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// to implement</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><em>Note</em>: Attentive readers may have spotted that we are implementing <code class="highlighter-rouge">flatMap</code> on the <code class="highlighter-rouge">Promise</code> type here. In the same way <code class="highlighter-rouge">flatMap</code> is defined for <code class="highlighter-rouge">Optional</code> or <code class="highlighter-rouge">Array</code>, we can define it for the <code class="highlighter-rouge">Promise</code> type.</p>
+
+<p>The “difficulty” starts here. Let’s walk through the implementation of this “flatMap” <code class="highlighter-rouge">then</code> step by step.</p>
+
+<ul>
+  <li>We have to return a <code class="highlighter-rouge">Promise&lt;NewValue&gt;</code>.</li>
+  <li>What gives us such a promise? The <code class="highlighter-rouge">onResolved</code> method does.</li>
+  <li>But <code class="highlighter-rouge">onResolved</code> takes a value of type <code class="highlighter-rouge">Value</code> in parameter. How can we get this value? We can use the previously defined <code class="highlighter-rouge">then</code> (or “<code class="highlighter-rouge">observe</code>”) to access it when available.</li>
+</ul>
+
+<p>If we write this down, here what we get for now:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span> <span class="c1">// the "observe" one</span>
+        <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="nf">onResolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="c1">// `promise` is a Promise&lt;NewValue&gt;</span>
+        <span class="c1">// problem: how do we return `promise` to the outside ??</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="c1">// ??!!</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We are almost there. There is still a small problem to fix: the <code class="highlighter-rouge">promise</code> variable is captured in the closure passed to <code class="highlighter-rouge">then</code>. We can’t use it as a return value for the function.</p>
+
+<p>The trick here is to create a wrapping <code class="highlighter-rouge">Promise&lt;NewValue&gt;</code> that will execute what we wrote so far, and that will resolve at the same time the <code class="highlighter-rouge">promise</code> variable is resolved. In other words, when the promise provided by the <code class="highlighter-rouge">onResolved</code> method will resolve and get a value from the outside, the wrapping promise will resolve too and get the same value.</p>
+
+<p>That may be a little abstract, but if we write it, we will see it better:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// We have to return a promise, so let's return a new one</span>
+    <span class="k">return</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="c1">// this is called immediately as seen in test 0.</span>
+        <span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span> <span class="c1">// the "observe" one</span>
+            <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="nf">onResolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="c1">// `promise` is a Promise&lt;NewValue&gt;</span>
+            <span class="c1">// `promise` has the same type of the Promise wrapper</span>
+            <span class="c1">// we can make the wrapper resolves when the `promise` resolves</span>
+            <span class="c1">// and gets a value</span>
+            <span class="n">promise</span><span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>If we clean the code a bit we now have these two methods :</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// observe</span>
+<span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">callbacks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">onResolved</span><span class="p">)</span>
+    <span class="nf">triggerCallbacksIfResolved</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// flatMap</span>
+<span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+            <span class="nf">onResolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="n">resolve</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And finally, the test pass.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">• Test 3. Resolution handlers can be chained passed <span class="o">(</span>1 assertions<span class="o">)</span></code></pre></figure>
+
+<h1 id="chaining-values">Chaining values</h1>
+
+<p>If you can implement <code class="highlighter-rouge">flatMap</code> on a type, you can implement <code class="highlighter-rouge">map</code> on this same type using <code class="highlighter-rouge">flatMap</code>. What does <code class="highlighter-rouge">map</code> looks like for our <code class="highlighter-rouge">Promise</code> ?</p>
+
+<p>The test we will use here is the following:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="nf">test</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"4. Chaining works with non promise return values"</span><span class="p">)</span> <span class="p">{</span> <span class="n">assert</span><span class="p">,</span> <span class="n">done</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"foo"</span>
+    <span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="nf">after</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">resolve</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">promise</span>
+        <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="k">in</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="n">value</span>
+        <span class="p">}</span>
+        <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span> <span class="c1">// the "observe" then</span>
+            <span class="nf">assert</span><span class="p">(</span><span class="n">string</span> <span class="o">+</span> <span class="n">string</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+            <span class="nf">done</span><span class="p">()</span>
+        <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note here that the first <code class="highlighter-rouge">then</code> that is used does not return a <code class="highlighter-rouge">Promise</code> anymore, but transforms the value it receives. This is a new <code class="highlighter-rouge">then</code> and corresponds to the <code class="highlighter-rouge">map</code> version we want to add.</p>
+
+<p>The compiler emits an error saying we have to implement this method.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">error: Promise.playground:174:26: error: declared closure result <span class="s1">'String'</span> is incompatible with contextual <span class="nb">type</span> <span class="s1">'Void'</span>
+        .then <span class="o">{</span> value -&gt; String <span class="k">in</span>
+                         ^~~~~~
+                         Void</code></pre></figure>
+
+<p>The prototype is very close to the <code class="highlighter-rouge">flatMap</code> version, the only difference is that we return a <code class="highlighter-rouge">NewValue</code> instead of a <code class="highlighter-rouge">Promise&lt;NewValue&gt;</code> in the <code class="highlighter-rouge">onResolved</code> function.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// map</span>
+<span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NewValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// to implement</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We said earlier that we can use <code class="highlighter-rouge">flatMap</code> to implement <code class="highlighter-rouge">map</code>. In our case we see we need to return a <code class="highlighter-rouge">Promise&lt;NewValue&gt;</code>. If we use the “flatMap” <code class="highlighter-rouge">then</code> of the previous section and create a promise that directly resolved with the mapped value, we have finished. Let’s prove it.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// map</span>
+<span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NewValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span> <span class="c1">// the "flatMap" defined before</span>
+        <span class="c1">// must return a Promise&lt;NewValue&gt; here</span>
+        <span class="c1">// this promise directly resolves with the mapped value</span>
+        <span class="k">return</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="nv">newValue</span> <span class="o">=</span> <span class="nf">onResolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="nf">resolve</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Once again the test pass.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">• Test 4. Chaining works with non promise <span class="k">return </span>values passed <span class="o">(</span>1 assertions<span class="o">)</span></code></pre></figure>
+
+<p>If we remove the comments and look at what we achieved, we have three <code class="highlighter-rouge">then</code> methods implemented that can be used and chained.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// observe</span>
+<span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">callbacks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">onResolved</span><span class="p">)</span>
+    <span class="nf">triggerCallbacksIfResolved</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// flatMap</span>
+<span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+        <span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+            <span class="nf">onResolved</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="nf">then</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="n">resolve</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// map</span>
+<span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">onResolved</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NewValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">then</span> <span class="p">{</span> <span class="n">value</span> <span class="k">in</span>
+        <span class="k">return</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">NewValue</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">resolve</span> <span class="k">in</span>
+            <span class="nf">resolve</span><span class="p">(</span><span class="nf">onResolved</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="example-of-use">Example of use</h1>
+
+<p>We will stop here for the implementation. Our <code class="highlighter-rouge">Promise</code> class is complete enough to demonstrate what we can do with it.</p>
+
+<p>Let’s imagine we have some users in our app, that we store in the following struct:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">User</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span>
+    <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Let’s also say we have two methods at our disposable, one that fetch a list of user ids, and one that fetch a user from its id. And let’s say we want to display the name of the first user.</p>
+
+<p>Here is how we can do it very simply with our implementation, using the three <code class="highlighter-rouge">then</code> we previously defined.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">fetchIds</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Int</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">fetchUser</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt">User</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+
+<span class="nf">fetchIds</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">ids</span> <span class="k">in</span> <span class="c1">// flatMap</span>
+        <span class="k">return</span> <span class="nf">fetchUser</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">user</span> <span class="k">in</span> <span class="c1">// map</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span>
+    <span class="p">}</span>
+    <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="n">name</span> <span class="k">in</span> <span class="c1">// observe</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">}</span></code></pre></figure>
+
+<p>The code becomes highly readable, flat and concise!</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>That’s the end of this article, I hope you liked it.</p>
+
+<p>You can find the whole code in this <a href="https://gist.github.com/felginep/039ca3b21e4f0cabb1c06126d9164680">gist</a>. And if you want to dig deeper, here are the sources I used.</p>
+
+<ul>
+  <li><a href="http://khanlou.com/2016/08/promises-in-swift/">Promises in Swift by Khanlou</a></li>
+  <li><a href="https://www.mattgreer.org/articles/promises-in-wicked-detail/">JavaScript Promises … In Wicked Detail</a></li>
+  <li><a href="https://promisekit.org/news/2018/02/PromiseKit-6.0-Released/">PromiseKit 6 Release Details</a></li>
+  <li><a href="https://www.youtube.com/watch?v=C3kUMPtt4hY">TDD Implementation of Promises in JavaScript</a></li>
+</ul>
+
+
+</div>
+
+<div class="pagination">
+  
+    <a href="https://felginep.github.io/2019-01-22/how-to-leverage-http-cache-in-ios" class="left arrow">&#8592;</a>
+  
+  
+    <a href="https://felginep.github.io/2018-11-23/attributed-string-with-style" class="right arrow">&#8594;</a>
+  
+
+  <a href="#" class="top">Top</a>
+</div>
+
+    </main>
+
+    <footer>
+      <span>
+        &copy; <time datetime="2019-03-20 15:55:12 +0000">2019</time> Pierre Felgines. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme.
+      </span>
+    </footer>
+  </body>
+</html>

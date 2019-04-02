@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Creating a Bottom Sheet</title>
+  <meta name="description" content="The Bottom Drawer or Bottom Sheet is a user interface pattern that is used more and more on iOS, showing up in Apple’s own apps like Apple Music and Maps. Bu...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://skagedal.github.io/2018/08/03/bottom-sheet.html">
+  <link rel="alternate" type="application/rss+xml" title="skagedal's oboy" href="http://skagedal.github.io/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">skagedal's oboy</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Creating a Bottom Sheet</h1>
+    <p class="post-meta"><time datetime="2018-08-03T22:00:00+00:00" itemprop="datePublished">Aug 3, 2018</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>The <em>Bottom Drawer</em> or <em>Bottom Sheet</em> is a user interface pattern that is used more and more on iOS, <a href="https://twitter.com/lukew/status/1016388934933217282">showing up</a> in Apple’s own apps like Apple Music and Maps. But as of yet, there is no standard component for app developers to use. In this post I will show an approach to creating this kind of UI.  The purpose of the post is to explain the general idea; if you want to, you can follow along in the commits of <a href="https://github.com/skagedal/BottomSheet">this example project</a>.</p>
+
+<p>We will create a simple Maps application, naturally using an <code class="highlighter-rouge">MKMapView</code>. On top of this, we want a table view that provides some shortcuts to various countries. We put these two main functionalities in a view controller each, <a href="https://github.com/skagedal/BottomSheet/blob/4085bafa86cf3174fe2e3bddb2e8428d25d0e3bd/BottomSheet/MapViewController.swift"><code class="highlighter-rouge">MapViewController</code></a> and <a href="https://github.com/skagedal/BottomSheet/blob/4085bafa86cf3174fe2e3bddb2e8428d25d0e3bd/BottomSheet/CountriesTableViewController.swift"><code class="highlighter-rouge">CountriesTableViewController</code></a>.</p>
+
+<p>I like to use view controller composition to avoid ending up with everything in one big view controller, so we will build a <code class="highlighter-rouge">BottomSheetContainerViewController</code> that on construction takes two UIViewControllers, one that acts as the main, background UI (in our case, the map), and one that acts as the sheet. In our <a href="https://github.com/skagedal/BottomSheet/blob/4085bafa86cf3174fe2e3bddb2e8428d25d0e3bd/BottomSheet/BottomSheetContainerViewController.swift">very first implementation</a>, we just embed the sheet view controller on top of the main view controller with a fixed height.</p>
+
+<figure>
+<img src="/images/bottom-sheet/bottom-sheet-1.gif" class="center" />
+</figure>
+
+<p>But now we want to be able to drag it up to cover the whole screen. While the table view in Apple Maps has three locations – fully covering the map, half-way covering the map or only showing a search box – we will only have two modes; fully covering and half-way covering the map.</p>
+
+<p>One way of doing this would be to install a pan gesture recognizer that changes the height constraint of the table view when panning. This approach has some problems, if we look at the Apple Maps as a goal for how we want things to behave. When overscrolling downwards, we want the same rubber banding behavior as we see in a scroll view. When we scroll the table view up to cover the map, given enough velocity, we want the table view to continue scrolling even after it has reached the top. Trying to make your own gesture recognizers play well with the table view’s can prove quite tricky.</p>
+
+<p>Instead, we’re going to use a different approach. All the gesture recognition and panning movements will be handled by the scroll view itself. To accomplish this, we will do the following:</p>
+
+<ul>
+  <li>We make the table view cover the map view all the way up to the status bar, which we want to be the top position for the bottom sheet.</li>
+  <li>We give the table view a top content inset of 400. (In the end, this should not be a fixed constant, but we let it be for now.)</li>
+  <li>We set the table view’s background color to <code class="highlighter-rouge">.clear</code>.</li>
+  <li>We turn off the vertical scrolling indicator.</li>
+</ul>
+
+<p><a href="https://github.com/skagedal/BottomSheet/commit/229c5955b4b7364208a3313539955cd392cbfe5d">Trying this out</a>, we can already see the shape of how this is going to work. We have a bottom part that we can pull up and pull down, and it behaves mostly as we expect with regards to scrolling. But there are some problems.</p>
+
+<figure>
+<img src="/images/bottom-sheet/bottom-sheet-2.gif" class="center" />
+</figure>
+
+<ul>
+  <li>The “background” of the drawer is now comprised of the table view cell’s backgrounds. When we scroll the cells all the way up, we see a hole in the background at the bottom. And the top doesn’t have the nice rounded corners look we want.</li>
+  <li>We can now scroll the drawer to any position, stopping somewhere in between the “open” and “closed” position. Instead we want it to snap.</li>
+  <li>We can’t interact with the map any more.</li>
+</ul>
+
+<p>We will now look at solutions to these issues in turn.</p>
+
+<h2 id="background-view">Background view</h2>
+
+<p>To make a background for the drawer, we first make our table view cells transparent as well. We then create a new UIView subclass called <code class="highlighter-rouge">BottomSheetBackgroundView</code> which implements the look for this background – as a <a href="https://github.com/skagedal/BottomSheet/commit/1d7037de627bb58452d06d9ca04e64aabffcaa98">first version</a>, we will just make it a solid white view.</p>
+
+<p>We need a method for the table view controller to communicate when it is scrolling so that we can update the position of this background view.  We will do this by a set of protocols.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">BottomSheetDelegate</span><span class="p">:</span> <span class="kt">AnyObject</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">bottomSheet</span><span class="p">(</span><span class="n">_</span> <span class="nv">bottomSheet</span><span class="p">:</span> <span class="kt">BottomSheet</span><span class="p">,</span> <span class="n">didScrollTo</span> <span class="nv">contentOffset</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">BottomSheet</span><span class="p">:</span> <span class="kt">AnyObject</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">bottomSheetDelegate</span><span class="p">:</span> <span class="kt">BottomSheetDelegate</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">typealias</span> <span class="kt">BottomSheetViewController</span> <span class="o">=</span> <span class="kt">UIViewController</span> <span class="o">&amp;</span> <span class="kt">BottomSheet</span>
+</code></pre></div></div>
+
+<p>Recall that the BottomSheetContainerViewController takes a parameter called <code class="highlighter-rouge">sheetViewController</code> of type UIViewController.  This will now instead be required to be a <code class="highlighter-rouge">BottomSheetViewController</code> – that is, a UIVIewController that also conforms to the protocol <code class="highlighter-rouge">BottomSheet</code>.  The BottomSheetContainerViewController will then set itself as the <code class="highlighter-rouge">bottomSheetDelegate</code> of the BottomSheetViewController, which is then expected to call the <code class="highlighter-rouge">bottomSheet(_:didScrollTo:)</code> method whenever the content offset is moved.</p>
+
+<p>But should we do that? Your first thought, when looking at the UIScrollView API:s, may be to implement the UIScrollViewDelegate’s <code class="highlighter-rouge">scrollViewDidScroll</code> method. There’s a problem with that however.  It only fires when the user scrolls, not when the change in content offset is initiated programmatically.  This is by design and a common pattern in UIKit – this way you can know why the delegate was called, and after all, you’re already in programmatic control when you change properties yourself.  However, personally, I’ve found that for purposes of tracking content offset, it becomes difficult.  Suddenly things are out of sync.</p>
+
+<p>There is a different approach.  The <code class="highlighter-rouge">viewDidLayoutSubviews</code> method on the UITableViewController will <em>always</em> be called whenever the scrolling changes. This is what we use in CountriesTableViewController.</p>
+
+<p>When the delegate method <code class="highlighter-rouge">bottomSheet(:didScrollTo:)</code> is called in the container view controller, we update the constant of a constraint that places the background sheet. This causes the desired effect.</p>
+
+<figure>
+<img src="/images/bottom-sheet/bottom-sheet-3.gif" class="center" />
+</figure>
+
+<h2 id="adding-some-style">Adding some style</h2>
+
+<p>Now it’s time to add a little style to that background view.  Here’s probably where your designer would supply some assets for corners and probably one of those handle bar.  For this example, we will just add a corner radius and a border to the layer.</p>
+
+<p>As we don’t want these borders to show on the sides, we modify the size of the layer so that it is just outside the visible view.  While we could have instead chosen to set the constraints to layout the background this way, I like that we can let this be a stylistic implementation detail that the BottomSheetContainerViewController doesn’t have to know about.</p>
+
+<figure>
+<img src="/images/bottom-sheet/bottom-sheet-4.gif" class="center" />
+</figure>
+
+<h2 id="directing-the-taps">Directing the taps</h2>
+
+<p>Next, we want to make it possible to interact with the map. This is easily done by implementing <code class="highlighter-rouge">hitTest(_:with:)</code> on our BottomSheetContainerView – and now we are happy that we chose to implement that as a subclassed UIView instead of putting everything in the view controller, as we now already have access to the things we need.</p>
+
+<p>We use the fact that the <code class="highlighter-rouge">sheetBackground</code> view corresponds to the are where we want the sheet view to be active.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">hitTest</span><span class="p">(</span><span class="n">_</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">,</span> <span class="n">with</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">UIEvent</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">UIView</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">sheetBackground</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">sheetBackground</span><span class="o">.</span><span class="nf">convert</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="k">self</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">sheetView</span><span class="o">.</span><span class="nf">hitTest</span><span class="p">(</span><span class="n">sheetView</span><span class="o">.</span><span class="nf">convert</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="k">self</span><span class="p">),</span> <span class="nv">with</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">mainView</span><span class="o">.</span><span class="nf">hitTest</span><span class="p">(</span><span class="n">mainView</span><span class="o">.</span><span class="nf">convert</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="k">self</span><span class="p">),</span> <span class="nv">with</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<figure>
+<img src="/images/bottom-sheet/bottom-sheet-5.gif" class="center" />
+</figure>
+
+<h2 id="snapping">Snapping</h2>
+
+<p>The way to make a scroll view (such as a table view) snap is to implement the <code class="highlighter-rouge">scrollViewWillEndDragging(_:​withVelocity:​targetContentOffset:)</code> delegate method. The <code class="highlighter-rouge">targetContentOffset</code> is both an input and an output to this method. It tells you where the content offset will end up after scroll deceleration has stopped, if you don’t do anything.  But if you change it, that’s where it will end up.  So that’s what we will do when it is expected to fall in the disallowed region.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">scrollViewWillEndDragging</span><span class="p">(</span><span class="n">_</span> <span class="nv">scrollView</span><span class="p">:</span> <span class="kt">UIScrollView</span><span class="p">,</span> <span class="n">withVelocity</span> <span class="nv">velocity</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">,</span> <span class="nv">targetContentOffset</span><span class="p">:</span> <span class="kt">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">CGPoint</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">targetOffset</span> <span class="o">=</span> <span class="n">targetContentOffset</span><span class="o">.</span><span class="n">pointee</span><span class="o">.</span><span class="n">y</span>
+    <span class="k">let</span> <span class="nv">pulledUpOffset</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">let</span> <span class="nv">pulledDownOffset</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="o">-</span><span class="n">maxVisibleContentHeight</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">pulledDownOffset</span><span class="o">...</span><span class="n">pulledUpOffset</span><span class="p">)</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">targetOffset</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+            <span class="n">targetContentOffset</span><span class="o">.</span><span class="n">pointee</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pulledDownOffset</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">targetContentOffset</span><span class="o">.</span><span class="n">pointee</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pulledUpOffset</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We’re also setting the table view’s <code class="highlighter-rouge">decelerationRate</code> to <code class="highlighter-rouge">.fast</code>.</p>
+
+<figure>
+<img src="/images/bottom-sheet/bottom-sheet-6.gif" class="center" />
+</figure>
+
+<p>One problem you might notice is that if you don’t have as many rows in the table view – try changing the constant <code class="highlighter-rouge">numberOfCountries</code> in CountriesTableViewController to 10 – it can no longer scroll all the way to the top, but stops when all cells are visible, and thus snap at the wrong place. We can fix this by making sure the <code class="highlighter-rouge">contentSize</code> of the table view is always at least a certain size.</p>
+
+<p>We add this into <code class="highlighter-rouge">viewDidLayoutSubviews</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">tableView</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span> <span class="o">&lt;</span> <span class="n">tableView</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">height</span> <span class="p">{</span>
+    <span class="n">tableView</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">height</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I think that the technique I have described here is a pretty nice way to get the desired behavior, although there are a few hoops you have to jump through.  Architecturally, there are some things that we might want to improve.  It would be nice if we could contain everything about the bottom sheet in the BottomSheetContainerViewController – currently we need to do handle stuff in the table view controller itself.  While we could refactor some things, it seems difficult however to make the table view controller completely ignorant of the fact that it’s used as a bottom sheet, since we have to hook into some scroll view delegate methods.</p>
+
+<p>A caveat is that, while I have successfully used this technique in a production app used by many, the variant I have presented here is not battle-tested code and may have issues.  There aren’t many lines of code here; please feel free to use and adapt them however you like.  And do send me any feedback or alternative approaches.</p>
+
+<hr />
+
+<h3 id="notes">Notes</h3>
+
+<p><em>Thanks to Joe Fabisevich for useful comments on an initial draft. GIFs were made with the <a href="https://www.cockos.com/licecap/">LICEcap</a> tool.</em></p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">skagedal's oboy</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>skagedal's oboy</li>
+          <li><a href="mailto:skagedal@gmail.com">skagedal@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/skagedal"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">skagedal</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/skagedal"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">skagedal</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Thoughts on iOS development.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

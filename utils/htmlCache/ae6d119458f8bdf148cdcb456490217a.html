@@ -1,0 +1,3202 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+	<meta charset="utf-8" />
+<meta name="Author" content="Apple Inc." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="mask-icon" href="/apple-logo.svg" color="#333333">
+
+<link rel="stylesheet" href="/assets/styles/globalnav.css?1" type="text/css" />
+<link rel="stylesheet" href="/assets/styles/global.dist.css" type="text/css" />
+
+<script src="/assets/scripts/lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="/assets/scripts/lib/jquery/jquery.retinate.js"></script>
+<script src="/assets/scripts/global.js"></script>
+<script src="/assets/scripts/global-logout.js"></script>
+	<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro+Icons&v=1" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Mono&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=Apple+Icons&amp;v=1" type="text/css" />
+
+		<meta name="omni_page" content="Unified Logging and Activity Tracing - WWDC 2016 - Videos" />
+	<title>Unified Logging and Activity Tracing - WWDC 2016 - Videos - Apple Developer</title>
+		<meta name="robots" content="noodp,noydir" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link type="text/css" rel="stylesheet" href="/videos/styles/videos.css">
+	<meta name="description" content="The new Unified Logging and Tracing System for iOS and macOS uses Activity Tracing for performance, consolidates kernel and user-space...">
+
+	<meta property="og:url" content="developer.apple.com/videos/play/wwdc2016/721/" />
+	<meta property="og:title" content="Unified Logging and Activity Tracing - WWDC 2016 - Videos - Apple Developer" />
+	<meta property="og:description" content="The new Unified Logging and Tracing System for iOS and macOS uses Activity Tracing for performance, consolidates kernel and user-space..." />
+	<meta property="og:site_name" content="Apple Developer" />
+	<meta property="og:type" content="website" />
+		<meta property="og:image" content="https://devimages-cdn.apple.com/wwdc-services/images/1/60/60_wide_250x141_2x.jpg" />
+		<meta property="og:locale" content="en_US" />
+
+</head>
+<body class="view-play">
+
+	<aside id="ac-gn-segmentbar" class="ac-gn-segmentbar" lang="en-US" dir="ltr">
+</aside>
+<input type="checkbox" id="ac-gn-menustate" class="ac-gn-menustate" />
+<nav id="ac-globalnav" class="no-js" role="navigation" aria-label="Global" data-hires="false" data-analytics-region="global nav" lang="en-US" dir="ltr" data-store-locale="us" data-store-api="/[storefront]/shop/bag/status" data-search-locale="en_US" data-search-api="/search-services/suggestions/">
+	<div class="ac-gn-content">
+		<ul class="ac-gn-header">
+			<li class="ac-gn-item ac-gn-menuicon">
+				<label class="ac-gn-menuicon-label" for="ac-gn-menustate" aria-hidden="true">
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-top">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-top"></span>
+					</span>
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-bottom">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-bottom"></span>
+					</span>
+				</label>
+				<a href="#ac-gn-menustate" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-open" id="ac-gn-menuanchor-open">
+					<span class="ac-gn-menuanchor-label">Global Nav Open Menu</span>
+				</a>
+				<a href="#" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-close" id="ac-gn-menuanchor-close">
+					<span class="ac-gn-menuanchor-label">Global Nav Close Menu</span>
+				</a>
+			</li>
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus-small">
+					<span class="ac-gn-link-text">Apple Developer</span>
+				</a>
+			</li>
+		</ul>
+		<div class="ac-gn-search-placeholder-container" role="search">
+			<div class="ac-gn-search ac-gn-search-small">
+				<a id="ac-gn-link-search-small" class="ac-gn-link" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer">
+					<div class="ac-gn-search-placeholder-bar">
+						<div class="ac-gn-search-placeholder-input">
+							<div class="ac-gn-search-placeholder-input-text" aria-hidden="true">
+								<div class="ac-gn-link-search ac-gn-search-placeholder-input-icon"></div>
+								<span class="ac-gn-search-placeholder">Search Developer</span>
+							</div>
+						</div>
+						<div class="ac-gn-searchview-close ac-gn-searchview-close-small ac-gn-search-placeholder-searchview-close">
+							<span class="ac-gn-searchview-close-cancel" aria-hidden="true">Cancel</span>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<ul class="ac-gn-list">
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus">
+					<span class="ac-gn-link-text">Apple Developer</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-discover">
+				<a class="ac-gn-link ac-gn-link-discover" href="/discover/" data-analytics-title="discover">
+					<span class="ac-gn-link-text">Discover</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-design">
+				<a class="ac-gn-link ac-gn-link-design" href="/design/" data-analytics-title="design">
+					<span class="ac-gn-link-text">Design</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-develop">
+				<a class="ac-gn-link ac-gn-link-develop" href="/develop/" data-analytics-title="develop">
+					<span class="ac-gn-link-text">Develop</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-distribute">
+				<a class="ac-gn-link ac-gn-link-distribute" href="/distribute/" data-analytics-title="distribute">
+					<span class="ac-gn-link-text">Distribute</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-dsupport">
+				<a class="ac-gn-link ac-gn-link-dsupport" href="/support/" data-analytics-title="dsupport">
+					<span class="ac-gn-link-text">Support</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-account">
+				<a class="ac-gn-link ac-gn-link-account" href="/account/" data-analytics-title="account">
+					<span class="ac-gn-link-text">Account</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-search" role="search">
+				<a id="ac-gn-link-search" class="ac-gn-link ac-gn-link-search" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer"></a>
+			</li>
+		</ul>
+		<aside id="ac-gn-searchview" class="ac-gn-searchview" role="search" data-analytics-region="search">
+			<div class="ac-gn-searchview-content">
+				<div class="ac-gn-searchview-bar">
+					<div class="ac-gn-searchview-bar-wrapper">
+						<form id="ac-gn-searchform" class="ac-gn-searchform" action="/search/" method="get">
+							<div class="ac-gn-searchform-wrapper">
+								<input id="ac-gn-searchform-input" class="ac-gn-searchform-input" type="text" name="q" aria-label="Search Developer" placeholder="Search Developer" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="true" aria-owns="quicklinks suggestions" />
+								<button id="ac-gn-searchform-submit" class="ac-gn-searchform-submit" type="submit" disabled aria-label="Submit Search"></button>
+								<button id="ac-gn-searchform-reset" class="ac-gn-searchform-reset" type="reset" disabled aria-label="Clear Search">
+										<span class="ac-gn-searchform-reset-background"></span>
+									</button>
+							</div>
+						</form>
+						<button id="ac-gn-searchview-close-small" class="ac-gn-searchview-close ac-gn-searchview-close-small" aria-label="Cancel Search">
+								<span class="ac-gn-searchview-close-cancel" aria-hidden="true">
+									Cancel
+								</span>
+							</button>
+					</div>
+				</div>
+				<aside id="ac-gn-searchresults" class="ac-gn-searchresults" data-string-quicklinks="Quick Links" data-string-suggestions="Suggested Searches" data-string-noresults=""></aside>
+			</div>
+			<button id="ac-gn-searchview-close" class="ac-gn-searchview-close" aria-label="Cancel Search">
+					<span class="ac-gn-searchview-close-wrapper">
+						<span class="ac-gn-searchview-close-left"></span>
+						<span class="ac-gn-searchview-close-right"></span>
+					</span>
+				</button>
+		</aside>
+			</div>
+</nav>
+<div class="ac-gn-blur"></div>
+<div id="ac-gn-curtain" class="ac-gn-curtain"></div>
+<div id="ac-gn-placeholder" class="ac-nav-placeholder"></div>
+<script src="/assets/scripts/ac-globalnav.built.js"></script>
+
+			<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdappledeveloper"
+</script>	
+<script src="/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    s.channel="www.en.developer"
+    s.channel="www.videos.developer";
+
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->	
+	<main id="main" class="main theme-dark" role="main">
+
+		<section class="bg-dark">
+
+			<section class="grid">
+
+				<section class="row">
+					<section class="column large-10 small-12  padding-top-small large-centered no-padding-bottom">
+						<!-- back link -->
+						<p class="back-link smaller">
+														<a class="arrow-left" href="/videos/">More Videos</a>
+													</p>
+					</section>
+				</section>
+
+				<!-- video player -->
+				<section class="video-wrapper row">
+					<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+												<video id="video" class="video large-centered" controls="" src="https://devstreaming-cdn.apple.com/videos/wwdc/2016/721wh2etddp4ghxhpcg/721/hls_vod_mvp.m3u8" autoplay data-id="1206">
+							
+						</video>
+						<div class="no-video-banner hidden">
+							<div class="no-video-copy">
+								<p>Streaming is available in most browsers,<br> and in the WWDC app.</p>
+							</div>
+							</span>
+						</div>
+											</section>
+				</section>
+
+			</section>
+
+		</section>
+
+		<section class="grid">
+
+			<!-- tab menu -->
+			<section class="tab-menu row divider-bottom">
+
+				<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+
+					<ul class="tabs">
+						<li class="tab" data-supplement-id="details"><a href="#"><span class="smaller">Overview</span></a></li>
+
+												<li class="tab" data-supplement-id="transcript"><a href="#"><span class="smaller">Transcript</span></a></li>
+						<li class="tab right active" data-supplement-id="search">
+							<!-- mobile search -->
+							<a href="#"><span><!--icon--></span></a>
+							<!-- desktop search -->
+							<section class="searchbar-wrapper desktop" style="opacity:0;">
+								<button class="search-icon"></button>
+								<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+							</section>
+						</li>
+						
+												<section class="searchbar-wrapper mobile" style="">
+							<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+						</section>
+						
+					</ul>
+				</section>
+
+			</section>
+
+			<!-- supplements -->
+			<section class="row">
+
+				<section class="column large-10 small-12  large-centered no-padding-top no-padding-bottom">
+
+					<ul class="supplements hidden">
+
+						<!-- details -->
+						<li class="supplement details " data-supplement-id="details">
+							
+							<h1>Unified Logging and Activity Tracing</h1>
+							<p>The new Unified Logging and Tracing System for iOS and macOS uses Activity Tracing for performance, consolidates kernel and user-space logging, and has many other improvements. Learn how Logging and Tracing can help you debug and troubleshoot issues with your apps.</p>
+							<p class="smaller lighter">WWDC 2016 - Session 721
+							 - iOS, macOS</p>
+
+														<h2>Resources</h2>
+
+							<ul class="links small">
+																																					<li class="reference"><a href="https://developer.apple.com/documentation/os/logging?language=occ" target="_blank">Unified Logging Reference</a></li>
+																											
+																	<li class="download">
+										<ul class="options">
+																						<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2016/721wh2etddp4ghxhpcg/721/721_hd_unified_logging_and_activity_tracing.mp4?dl=1">HD Video</a></li>
+																																	<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2016/721wh2etddp4ghxhpcg/721/721_sd_unified_logging_and_activity_tracing.mp4?dl=1">SD Video</a></li>
+																					</ul>
+									</li>
+																
+																										<li class="download"><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2016/721wh2etddp4ghxhpcg/721/721_unified_logging_and_activity_tracing.pdf?dl=1">Presentation Slides (PDF)</a></li>
+																								</ul>
+							
+														<div class="divider-top margin-top-small padding-bottom-small"></div>
+							<h2>Related Videos</h2>
+														<h4>WWDC 2018</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/405">Measuring Performance Using Logging</a>
+										</li>
+																	</ul>
+														<h4>WWDC 2016</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/418">Using Time Profiler in Instruments</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2016/236">What's New in Auto Layout</a>
+										</li>
+																	</ul>
+														<h4>WWDC 2014</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2014/714">Fix Bugs Faster using Activity Tracing</a>
+										</li>
+																	</ul>
+														
+							
+						</li>
+
+						<!-- transcript -->
+						<li class="supplement transcript" data-supplement-id="transcript" data-shortcut-base-url="/videos/play/wwdc2016-721/">
+							<section>
+								<div class="margin-bottom-small download-transcript"><span id="get-transcript" class="icon icon-before icon-downloadcircle">Download</span></div>
+								<p><span class="sentence"><span data-start="7.0" data-end="18.0"> 
+[ Music ] </span></span>
+
+<span class="sentence"><span data-start="24.0" data-end="30.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="30.0" data-end="33.0"> 
+ Welcome all of you to the Unified Logging </span></span>
+
+<span class="sentence"><span data-start="33.0" data-end="36.0"> 
+and Tracing Activity session, Logging for the Future.</span></span>
+
+<span class="sentence"><span data-start="36.0" data-end="38.0"> 
+And I'd like to thank all of you for turning </span></span>
+
+<span class="sentence"><span data-start="38.0" data-end="40.0"> 
+out this late on a Friday.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="40.0" data-end="42.0"> 
+So my name is Steve Szymanski, yes.</span></span>
+
+<span class="sentence"><span data-start="43.0" data-end="47.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="48.0" data-end="50.0"> 
+Certainly, didn't expect a full room at this time.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="50.0" data-end="53.0"> 
+So my name is Steven Szymanski and I'll be doing most </span></span>
+
+<span class="sentence"><span data-start="53.0" data-end="55.0"> 
+of the talking and a little bit later I'll be assisted </span></span>
+
+<span class="sentence"><span data-start="55.0" data-end="56.0"> 
+by Matthieu Lucas.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="57.0" data-end="61.0"> 
+So let's get into this, there's a lot to talk about here.</span></span>
+
+<span class="sentence"><span data-start="61.0" data-end="63.0"> 
+I'm going to start with a little bit of an introduction </span></span>
+
+<span class="sentence"><span data-start="63.0" data-end="64.0"> 
+and then go into some </span></span>
+
+<span class="sentence"><span data-start="64.0" data-end="67.0"> 
+of the basic concepts behind the new logging system </span></span>
+
+<span class="sentence"><span data-start="67.0" data-end="68.0"> 
+that we've introduced this week.</span></span>
+
+<span class="sentence"><span data-start="68.0" data-end="72.0"> 
+There will be a short demo, then I'll come back and start talking </span></span>
+
+<span class="sentence"><span data-start="72.0" data-end="73.0"> 
+about how to actually use it.</span></span>
+
+<span class="sentence"><span data-start="73.0" data-end="75.0"> 
+How to use the APIs, how to use the tools, </span></span>
+
+<span class="sentence"><span data-start="76.0" data-end="78.0"> 
+and then some discussion of what we think is the best practices </span></span>
+
+<span class="sentence"><span data-start="78.0" data-end="79.0"> 
+of how to use this.</span></span>
+
+<span class="sentence"><span data-start="80.0" data-end="82.0"> 
+A little talk about how </span></span>
+
+<span class="sentence"><span data-start="82.0" data-end="85.0"> 
+to gather the logs once you've created them and then finally, </span></span>
+
+<span class="sentence"><span data-start="85.0" data-end="87.0"> 
+some talk about some deprecated interfaces.</span></span>
+
+<span class="sentence"><span data-start="88.0" data-end="89.0"> 
+So let's get started.</span></span>
+
+<span class="sentence"><span data-start="90.0" data-end="92.0"> 
+A little bit of background.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="93.0" data-end="95.0"> 
+For those of you who have been around for a while you'll know </span></span>
+
+<span class="sentence"><span data-start="95.0" data-end="97.0"> 
+that back in 2014, </span></span>
+
+<span class="sentence"><span data-start="97.0" data-end="100.0"> 
+Apple introduced the concept of Activity Tracing.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="100.0" data-end="103.0"> 
+This is the ability to keep track of all the work </span></span>
+
+<span class="sentence"><span data-start="104.0" data-end="106.0"> 
+that is done throughout the system </span></span>
+
+<span class="sentence"><span data-start="106.0" data-end="107.0"> 
+on behalf of some operation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="108.0" data-end="110.0"> 
+Whether that work is done inside of an application, </span></span>
+
+<span class="sentence"><span data-start="110.0" data-end="113.0"> 
+inside of a library of framework that's called </span></span>
+
+<span class="sentence"><span data-start="113.0" data-end="116.0"> 
+from that application or even work that's done </span></span>
+
+<span class="sentence"><span data-start="116.0" data-end="119.0"> 
+in a separate process on behalf of the application.</span></span>
+
+<span class="sentence"><span data-start="120.0" data-end="123.0"> 
+Another thing we introduced at that same time was the concept </span></span>
+
+<span class="sentence"><span data-start="123.0" data-end="127.0"> 
+of Faults and Errors, which are special kinds of log events </span></span>
+
+<span class="sentence"><span data-start="127.0" data-end="131.0"> 
+that will trigger additional work to be done by the system </span></span>
+
+<span class="sentence"><span data-start="131.0" data-end="132.0"> 
+to collect additional data.</span></span>
+
+<span class="sentence"><span data-start="134.0" data-end="135.0"> 
+The last thing I want to say by way </span></span>
+
+<span class="sentence"><span data-start="135.0" data-end="137.0"> 
+of introduction is we recognize </span></span>
+
+<span class="sentence"><span data-start="137.0" data-end="141.0"> 
+that Apple has several logging APIs already and hopefully </span></span>
+
+<span class="sentence"><span data-start="141.0" data-end="145.0"> 
+by the end of this talk you'll understand why we're introducing </span></span>
+
+<span class="sentence"><span data-start="145.0" data-end="152.0"> 
+this new API and how that interrelates with the others.</span></span>
+
+<span class="sentence"><span data-start="152.0" data-end="154.0"> 
+So what are the goals of this project? </span></span>
+
+<span class="sentence"><span data-start="155.0" data-end="157.0"> 
+First and foremost, what we wanted </span></span>
+
+<span class="sentence"><span data-start="157.0" data-end="161.0"> 
+to do was build one common efficient logging mechanism </span></span>
+
+<span class="sentence"><span data-start="161.0" data-end="163.0"> 
+across the whole system that could be used </span></span>
+
+<span class="sentence"><span data-start="163.0" data-end="165.0"> 
+in both user mode and kernel mode.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="166.0" data-end="169.0"> 
+One of the purposes of this was to maximize the amount </span></span>
+
+<span class="sentence"><span data-start="169.0" data-end="173.0"> 
+of information that we could collect while minimizing the </span></span>
+
+<span class="sentence"><span data-start="173.0" data-end="174.0"> 
+observer effect.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="174.0" data-end="177.0"> 
+By observer effect I mean the experience that all </span></span>
+
+<span class="sentence"><span data-start="177.0" data-end="180.0"> 
+of us have had as developers where you have some problem, </span></span>
+
+<span class="sentence"><span data-start="180.0" data-end="183.0"> 
+you stick some logging into your code </span></span>
+
+<span class="sentence"><span data-start="183.0" data-end="184.0"> 
+and suddenly the problem stops happening </span></span>
+
+<span class="sentence"><span data-start="184.0" data-end="185.0"> 
+because you've changed the timing.</span></span>
+
+<span class="sentence"><span data-start="186.0" data-end="190.0"> 
+We want a very, very low footprint logging interface </span></span>
+
+<span class="sentence"><span data-start="190.0" data-end="194.0"> 
+that has minimal impact on your code as you go off and call it.</span></span>
+
+<span class="sentence"><span data-start="195.0" data-end="197.0"> 
+So the way we accomplish this as I'll go </span></span>
+
+<span class="sentence"><span data-start="197.0" data-end="199.0"> 
+into more detail in this talk.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="199.0" data-end="200.0"> 
+First off, we compress the data.</span></span>
+
+<span class="sentence"><span data-start="201.0" data-end="206.0"> 
+So you can fit a whole lot more information on the disk </span></span>
+
+<span class="sentence"><span data-start="206.0" data-end="208.0"> 
+without using up more space.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="209.0" data-end="211.0"> 
+Another thing we do that's very, </span></span>
+
+<span class="sentence"><span data-start="211.0" data-end="213.0"> 
+very important is we defer a lot of work.</span></span>
+
+<span class="sentence"><span data-start="213.0" data-end="216.0"> 
+As anything that we can do at the point </span></span>
+
+<span class="sentence"><span data-start="216.0" data-end="219.0"> 
+at which you display the information instead of the point </span></span>
+
+<span class="sentence"><span data-start="219.0" data-end="221.0"> 
+at which we collect it we try to defer to that point.</span></span>
+
+<span class="sentence"><span data-start="222.0" data-end="224.0"> 
+That's one of the key ways that we avoid observer effect.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="226.0" data-end="230.0"> 
+And then another thing we do is we manage the message lifecycle </span></span>
+
+<span class="sentence"><span data-start="230.0" data-end="231.0"> 
+in new ways.</span></span>
+
+<span class="sentence"><span data-start="232.0" data-end="235.0"> 
+The idea being that different kinds of messages may stick </span></span>
+
+<span class="sentence"><span data-start="235.0" data-end="237.0"> 
+around in the system for different lengths of time </span></span>
+
+<span class="sentence"><span data-start="237.0" data-end="239.0"> 
+to maximize the chance that the messages </span></span>
+
+<span class="sentence"><span data-start="239.0" data-end="242.0"> 
+that you want will actually be there </span></span>
+
+<span class="sentence"><span data-start="242.0" data-end="244.0"> 
+when you actually go off and look at them.</span></span>
+
+<span class="sentence"><span data-start="244.0" data-end="247.0"> 
+The background of all that is that we want to be able to have </span></span>
+
+<span class="sentence"><span data-start="247.0" data-end="251.0"> 
+as much logging turned on all of the time in the system </span></span>
+
+<span class="sentence"><span data-start="251.0" data-end="255.0"> 
+without having to go back and say, oh can you turn this on </span></span>
+
+<span class="sentence"><span data-start="255.0" data-end="256.0"> 
+and give me a new log.</span></span>
+
+<span class="sentence"><span data-start="256.0" data-end="258.0"> 
+We want it all on as much as possible.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="260.0" data-end="262.0"> 
+The other thing that motivated this is we want </span></span>
+
+<span class="sentence"><span data-start="262.0" data-end="265.0"> 
+to design privacy into the system from the ground up </span></span>
+
+<span class="sentence"><span data-start="265.0" data-end="267.0"> 
+and I'll talk more about that as well.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="267.0" data-end="272.0"> 
+So what are the key features of the new system? </span></span>
+
+<span class="sentence"><span data-start="273.0" data-end="276.0"> 
+There's new and improved ways of categorizing </span></span>
+
+<span class="sentence"><span data-start="276.0" data-end="278.0"> 
+and filtering log messages.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="278.0" data-end="280.0"> 
+So there's some new tools that we're going to be providing </span></span>
+
+<span class="sentence"><span data-start="280.0" data-end="283.0"> 
+to you for you to categorize your log messages, </span></span>
+
+<span class="sentence"><span data-start="283.0" data-end="286.0"> 
+so when it comes around to looking at the logs it's easier </span></span>
+
+<span class="sentence"><span data-start="286.0" data-end="288.0"> 
+to find log messages that you care about.</span></span>
+
+<span class="sentence"><span data-start="290.0" data-end="294.0"> 
+Another important thing is logging system collects caller </span></span>
+
+<span class="sentence"><span data-start="294.0" data-end="297.0"> 
+information for you, so there's no longer any need for you </span></span>
+
+<span class="sentence"><span data-start="297.0" data-end="302.0"> 
+to pass file, line to identify where this is called from.</span></span>
+
+<span class="sentence"><span data-start="302.0" data-end="304.0"> 
+We are automatically collecting that for you.</span></span>
+
+<span class="sentence"><span data-start="307.0" data-end="311.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="312.0" data-end="315.0"> 
+There's also a whole bunch of new built-in type specifiers </span></span>
+
+<span class="sentence"><span data-start="316.0" data-end="320.0"> 
+that allow us to format binary data for you so you don't have </span></span>
+
+<span class="sentence"><span data-start="320.0" data-end="321.0"> 
+to spend the time doing it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="322.0" data-end="324.0"> 
+There's a new Console application </span></span>
+
+<span class="sentence"><span data-start="324.0" data-end="326.0"> 
+and a new command line tool that we use </span></span>
+
+<span class="sentence"><span data-start="326.0" data-end="327.0"> 
+to access all of these features.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="327.0" data-end="332.0"> 
+This is supported across all of our platforms macOS, iOS, </span></span>
+
+<span class="sentence"><span data-start="332.0" data-end="335.0"> 
+watchOS, tvOS, and all the Simulators.</span></span>
+
+<span class="sentence"><span data-start="336.0" data-end="347.0"> 
+It is supported in the release this week in C, C++, </span></span>
+
+<span class="sentence"><span data-start="347.0" data-end="350.0"> 
+and Objective-C and support for Swift is coming real soon.</span></span>
+
+<span class="sentence"><span data-start="354.0" data-end="357.0"> 
+So to give you a little foretaste of what's coming.</span></span>
+
+<span class="sentence"><span data-start="357.0" data-end="359.0"> 
+This is the current Console application that you see here </span></span>
+
+<span class="sentence"><span data-start="361.0" data-end="364.0"> 
+and this is what the new Console looks like.</span></span>
+
+<span class="sentence"><span data-start="364.0" data-end="365.0"> 
+Now one thing I want to point </span></span>
+
+<span class="sentence"><span data-start="365.0" data-end="373.0"> 
+out to you here is take a close look at the section </span></span>
+
+<span class="sentence"><span data-start="373.0" data-end="374.0"> 
+that I highlighted there.</span></span>
+
+<span class="sentence"><span data-start="374.0" data-end="378.0"> 
+That is a tree showing you the graph of a given activity </span></span>
+
+<span class="sentence"><span data-start="378.0" data-end="381.0"> 
+as it flows from process to process to process, </span></span>
+
+<span class="sentence"><span data-start="381.0" data-end="384.0"> 
+so you can see visually all of the work that's been done </span></span>
+
+<span class="sentence"><span data-start="384.0" data-end="386.0"> 
+on behalf of some operation that you requested.</span></span>
+
+<span class="sentence"><span data-start="388.0" data-end="392.0"> 
+So now let's back up and talk about the theory </span></span>
+
+<span class="sentence"><span data-start="392.0" data-end="394.0"> 
+and the abstract concepts behind us.</span></span>
+
+<span class="sentence"><span data-start="395.0" data-end="396.0"> 
+First off, adoption.</span></span>
+
+<span class="sentence"><span data-start="396.0" data-end="400.0"> 
+If you want to use the new unified logging system all you </span></span>
+
+<span class="sentence"><span data-start="400.0" data-end="402.0"> 
+need to start doing is building with the new SDK </span></span>
+
+<span class="sentence"><span data-start="402.0" data-end="403.0"> 
+that was released this week.</span></span>
+
+<span class="sentence"><span data-start="404.0" data-end="408.0"> 
+What'll happen if you do that is all of the legacy APIs, NSLog, </span></span>
+
+<span class="sentence"><span data-start="408.0" data-end="411.0"> 
+asl log, message syslog, </span></span>
+
+<span class="sentence"><span data-start="411.0" data-end="414.0"> 
+all of those will get redirected into the new system.</span></span>
+
+<span class="sentence"><span data-start="414.0" data-end="416.0"> 
+You don't have to change a line of code </span></span>
+
+<span class="sentence"><span data-start="416.0" data-end="418.0"> 
+to start using the system.</span></span>
+
+<span class="sentence"><span data-start="418.0" data-end="421.0"> 
+Now obviously to use some of the features you need </span></span>
+
+<span class="sentence"><span data-start="421.0" data-end="426.0"> 
+to start using the new APIs, but out-of-the-box if you just build </span></span>
+
+<span class="sentence"><span data-start="426.0" data-end="428.0"> 
+with the new system it'll all get directed </span></span>
+
+<span class="sentence"><span data-start="428.0" data-end="429.0"> 
+into the new logging architecture.</span></span>
+
+<span class="sentence"><span data-start="430.0" data-end="433.0"> 
+On the other hand, if for some reason you don't want </span></span>
+
+<span class="sentence"><span data-start="433.0" data-end="435.0"> 
+to start using the new logging system continue to build </span></span>
+
+<span class="sentence"><span data-start="435.0" data-end="440.0"> 
+with the old SDK and there'll be no changes in your system.</span></span>
+
+<span class="sentence"><span data-start="441.0" data-end="443.0"> 
+So new file formats.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="444.0" data-end="448.0"> 
+In this new system logging data is kept </span></span>
+
+<span class="sentence"><span data-start="448.0" data-end="451.0"> 
+in a compressed binary format on disk, </span></span>
+
+<span class="sentence"><span data-start="451.0" data-end="452.0"> 
+it's called a .tracev3 file.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="454.0" data-end="457.0"> 
+Those files are now stored under /var/db/diagnostics </span></span>
+
+<span class="sentence"><span data-start="458.0" data-end="462.0"> 
+with additional supporting files in /var/db/uuidtext.</span></span>
+
+<span class="sentence"><span data-start="464.0" data-end="466.0"> 
+There are new tools to access that data, </span></span>
+
+<span class="sentence"><span data-start="466.0" data-end="470.0"> 
+there's a new Console, a new log command line tool and one </span></span>
+
+<span class="sentence"><span data-start="470.0" data-end="471.0"> 
+of the things you have to keep in mind is </span></span>
+
+<span class="sentence"><span data-start="471.0" data-end="473.0"> 
+because the data is now stored </span></span>
+
+<span class="sentence"><span data-start="473.0" data-end="477.0"> 
+in a binary format you must use the new tools to access it.</span></span>
+
+<span class="sentence"><span data-start="477.0" data-end="480.0"> 
+So you can no longer grep through logs you have </span></span>
+
+<span class="sentence"><span data-start="480.0" data-end="482.0"> 
+to use our tools to do the surfing through it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="484.0" data-end="486.0"> 
+There's also another new type of file the .logarchive, </span></span>
+
+<span class="sentence"><span data-start="487.0" data-end="489.0"> 
+which is there for portability of log data.</span></span>
+
+<span class="sentence"><span data-start="490.0" data-end="493.0"> 
+Essentially a .logarchive is a collection of information </span></span>
+
+<span class="sentence"><span data-start="494.0" data-end="498.0"> 
+out of /var/db/diagnostics and you uuidtext collected together </span></span>
+
+<span class="sentence"><span data-start="498.0" data-end="502.0"> 
+into a single file that's easier to transfer to email, </span></span>
+
+<span class="sentence"><span data-start="502.0" data-end="507.0"> 
+to attach to bug reports and the like.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="508.0" data-end="509.0"> 
+Another new concept that comes </span></span>
+
+<span class="sentence"><span data-start="509.0" data-end="512.0"> 
+in with this system is subsystems and categories.</span></span>
+
+<span class="sentence"><span data-start="513.0" data-end="515.0"> 
+Log messages can now be associated </span></span>
+
+<span class="sentence"><span data-start="515.0" data-end="518.0"> 
+with a subsystem and a category.</span></span>
+
+<span class="sentence"><span data-start="518.0" data-end="521.0"> 
+They can be used to control how log messages are filtered </span></span>
+
+<span class="sentence"><span data-start="521.0" data-end="522.0"> 
+and displayed.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="523.0" data-end="527.0"> 
+A subsystem can in fact maintain several different categories </span></span>
+
+<span class="sentence"><span data-start="527.0" data-end="530.0"> 
+and you can use as many subsystems </span></span>
+
+<span class="sentence"><span data-start="530.0" data-end="532.0"> 
+and categories as you need.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="533.0" data-end="537.0"> 
+So as an example, you may have some application </span></span>
+
+<span class="sentence"><span data-start="537.0" data-end="539.0"> 
+and you might define a subsystem com.</span></span>
+
+<span class="sentence"><span data-start="539.0" data-end="540.0"> 
+your-company.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="540.0" data-end="544.0"> 
+your-application that has three categories in it setup, </span></span>
+
+<span class="sentence"><span data-start="544.0" data-end="545.0"> 
+inprogress and teardown.</span></span>
+
+<span class="sentence"><span data-start="546.0" data-end="550.0"> 
+In that same application you can define another subsystem com.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="550.0" data-end="552.0"> 
+your-company.</span></span>
+
+<span class="sentence"><span data-start="552.0" data-end="557.0"> 
+test.your-application with a single category of test in it.</span></span>
+
+<span class="sentence"><span data-start="557.0" data-end="559.0"> 
+And you can then use those </span></span>
+
+<span class="sentence"><span data-start="559.0" data-end="562.0"> 
+to control how the log messages get displayed.</span></span>
+
+<span class="sentence"><span data-start="563.0" data-end="566.0"> 
+Logging behavior, this is kind of the heart of the system here.</span></span>
+
+<span class="sentence"><span data-start="567.0" data-end="570.0"> 
+Each log message has a level determined by the API </span></span>
+
+<span class="sentence"><span data-start="570.0" data-end="572.0"> 
+that you used to create it.</span></span>
+
+<span class="sentence"><span data-start="572.0" data-end="576.0"> 
+There are three basic levels Default, Info and Debug </span></span>
+
+<span class="sentence"><span data-start="576.0" data-end="579.0"> 
+and there are two special levels Fault and Error.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="581.0" data-end="585.0"> 
+Each basic level has two characteristics </span></span>
+
+<span class="sentence"><span data-start="585.0" data-end="587.0"> 
+that can be set either system-wide </span></span>
+
+<span class="sentence"><span data-start="587.0" data-end="589.0"> 
+for a specific subsystem </span></span>
+
+<span class="sentence"><span data-start="589.0" data-end="592.0"> 
+or for a specific category within a subsystem.</span></span>
+
+<span class="sentence"><span data-start="593.0" data-end="594.0"> 
+The first of those is, is it enabled, </span></span>
+
+<span class="sentence"><span data-start="594.0" data-end="597.0"> 
+if you make the call does it actually generate a log line.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="598.0" data-end="601.0"> 
+Note that the fault messages are always enabled, </span></span>
+
+<span class="sentence"><span data-start="601.0" data-end="603.0"> 
+you can't turn off default messages.</span></span>
+
+<span class="sentence"><span data-start="604.0" data-end="607.0"> 
+The other characteristic that you can set at all </span></span>
+
+<span class="sentence"><span data-start="607.0" data-end="610.0"> 
+of those levels is, is it stored to disk or to memory.</span></span>
+
+<span class="sentence"><span data-start="611.0" data-end="613.0"> 
+Now storing to disk it's kind of obvious what we mean, </span></span>
+
+<span class="sentence"><span data-start="614.0" data-end="616.0"> 
+but what I mean by storing to memory.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="617.0" data-end="621.0"> 
+Well the new Unified Logging System maintains a large set </span></span>
+
+<span class="sentence"><span data-start="621.0" data-end="623.0"> 
+of in-memory circular buffers </span></span>
+
+<span class="sentence"><span data-start="623.0" data-end="626.0"> 
+to which some log messages can be directed.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="626.0" data-end="630.0"> 
+These messages are then saved to disk only on a Fault and Error.</span></span>
+
+<span class="sentence"><span data-start="631.0" data-end="635.0"> 
+This is very useful for messages that grow stale quickly.</span></span>
+
+<span class="sentence"><span data-start="635.0" data-end="637.0"> 
+So if you have a message for instance </span></span>
+
+<span class="sentence"><span data-start="637.0" data-end="641.0"> 
+that basically the information becomes stale </span></span>
+
+<span class="sentence"><span data-start="642.0" data-end="644.0"> 
+and all you ever look at is the last version </span></span>
+
+<span class="sentence"><span data-start="644.0" data-end="647.0"> 
+of that message whenever you get a log, there's no reason </span></span>
+
+<span class="sentence"><span data-start="647.0" data-end="649.0"> 
+to store hundreds of different copies </span></span>
+
+<span class="sentence"><span data-start="649.0" data-end="650.0"> 
+of that log message on disk.</span></span>
+
+<span class="sentence"><span data-start="651.0" data-end="654.0"> 
+Instead, send it to the memory buffer and then get it captured </span></span>
+
+<span class="sentence"><span data-start="654.0" data-end="657.0"> 
+on a Fault and Error and you'll get that last version </span></span>
+
+<span class="sentence"><span data-start="657.0" data-end="660.0"> 
+that you need without a lot of extra things getting stored.</span></span>
+
+<span class="sentence"><span data-start="660.0" data-end="664.0"> 
+The levels here are hierarchical, so what I mean </span></span>
+
+<span class="sentence"><span data-start="664.0" data-end="667.0"> 
+by that is if you set Debug to go to disk that implies </span></span>
+
+<span class="sentence"><span data-start="667.0" data-end="669.0"> 
+that info will go to disk as well.</span></span>
+
+<span class="sentence"><span data-start="670.0" data-end="673.0"> 
+And all this behavior can be customized </span></span>
+
+<span class="sentence"><span data-start="673.0" data-end="676.0"> 
+by installing profiles or on macOS using the log command.</span></span>
+
+<span class="sentence"><span data-start="676.0" data-end="681.0"> 
+So what's the standard behavior out-of-the-box </span></span>
+
+<span class="sentence"><span data-start="681.0" data-end="684.0"> 
+if you don't install a special profile? </span></span>
+
+<span class="sentence"><span data-start="685.0" data-end="687.0"> 
+Well, default level messages are always enabled </span></span>
+
+<span class="sentence"><span data-start="688.0" data-end="691.0"> 
+and by standard configuration they go to disk.</span></span>
+
+<span class="sentence"><span data-start="692.0" data-end="696.0"> 
+Info level messages are enabled, but they go to memory.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="697.0" data-end="701.0"> 
+Debug level messages are standard off, </span></span>
+
+<span class="sentence"><span data-start="701.0" data-end="703.0"> 
+they're not enabled and of course, </span></span>
+
+<span class="sentence"><span data-start="703.0" data-end="704.0"> 
+since they're off they don't go anywhere.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="706.0" data-end="708.0"> 
+So the other two kinds of messages </span></span>
+
+<span class="sentence"><span data-start="708.0" data-end="710.0"> 
+that occur are Faults and Errors.</span></span>
+
+<span class="sentence"><span data-start="710.0" data-end="714.0"> 
+Faults and Errors are always enabled and always go to disk.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="714.0" data-end="719.0"> 
+So let's talk a moment about privacy.</span></span>
+
+<span class="sentence"><span data-start="719.0" data-end="723.0"> 
+As you know, Apple values customer privacy a great deal.</span></span>
+
+<span class="sentence"><span data-start="723.0" data-end="725.0"> 
+As a guiding principle in everything we design </span></span>
+
+<span class="sentence"><span data-start="725.0" data-end="729.0"> 
+in our apps, in our services, in our new versions of the OS users </span></span>
+
+<span class="sentence"><span data-start="729.0" data-end="731.0"> 
+about their privacy respected.</span></span>
+
+<span class="sentence"><span data-start="732.0" data-end="735.0"> 
+And all developers, including everyone in this room shares </span></span>
+
+<span class="sentence"><span data-start="735.0" data-end="736.0"> 
+that responsibility with us.</span></span>
+
+<span class="sentence"><span data-start="737.0" data-end="738.0"> 
+So how does it apply to logging? </span></span>
+
+<span class="sentence"><span data-start="738.0" data-end="741.0"> 
+What we want to prevent is the accidental logging </span></span>
+
+<span class="sentence"><span data-start="741.0" data-end="745.0"> 
+of personally identifiable information in the logs </span></span>
+
+<span class="sentence"><span data-start="745.0" data-end="747.0"> 
+where someone can actually get at it through the log data.</span></span>
+
+<span class="sentence"><span data-start="748.0" data-end="753.0"> 
+So to that end, dynamic strings, collections, arrays, objects, </span></span>
+
+<span class="sentence"><span data-start="753.0" data-end="756.0"> 
+and the like are assumed to contain private data.</span></span>
+
+<span class="sentence"><span data-start="756.0" data-end="759.0"> 
+Static strings and scalars are assumed to be public.</span></span>
+
+<span class="sentence"><span data-start="760.0" data-end="762.0"> 
+And I'll get into a little bit later </span></span>
+
+<span class="sentence"><span data-start="762.0" data-end="764.0"> 
+about how you can control that.</span></span>
+
+<span class="sentence"><span data-start="765.0" data-end="766.0"> 
+Okay, Faults and Errors.</span></span>
+
+<span class="sentence"><span data-start="766.0" data-end="769.0"> 
+I talked earlier about how as part of the activity </span></span>
+
+<span class="sentence"><span data-start="769.0" data-end="770.0"> 
+of Tracing Release, </span></span>
+
+<span class="sentence"><span data-start="770.0" data-end="773.0"> 
+we introduced the concept of Faults and Errors.</span></span>
+
+<span class="sentence"><span data-start="773.0" data-end="776.0"> 
+One of the basic ideas of Faults and Errors is </span></span>
+
+<span class="sentence"><span data-start="776.0" data-end="781.0"> 
+that we do additional work on doing it Fault and Error, </span></span>
+
+<span class="sentence"><span data-start="781.0" data-end="782.0"> 
+we save additional information.</span></span>
+
+<span class="sentence"><span data-start="783.0" data-end="786.0"> 
+So an Error represents an issue discovered </span></span>
+
+<span class="sentence"><span data-start="786.0" data-end="789.0"> 
+within the different application or library.</span></span>
+
+<span class="sentence"><span data-start="789.0" data-end="792.0"> 
+On an Error what we do is we look </span></span>
+
+<span class="sentence"><span data-start="792.0" data-end="795.0"> 
+through the in-memory buffers and we collect all </span></span>
+
+<span class="sentence"><span data-start="795.0" data-end="798.0"> 
+of the log messages that were from that process and save them </span></span>
+
+<span class="sentence"><span data-start="798.0" data-end="800.0"> 
+out to disk as part of the Error.</span></span>
+
+<span class="sentence"><span data-start="801.0" data-end="805.0"> 
+Alternatively, Faults represent more global problems </span></span>
+
+<span class="sentence"><span data-start="805.0" data-end="807.0"> 
+in the system where something larger has happened.</span></span>
+
+<span class="sentence"><span data-start="808.0" data-end="812.0"> 
+On a Fault we again look through the memory buffers and collect </span></span>
+
+<span class="sentence"><span data-start="812.0" data-end="816.0"> 
+up all the log messages from that process and every process </span></span>
+
+<span class="sentence"><span data-start="816.0" data-end="818.0"> 
+that was involved in the activity.</span></span>
+
+<span class="sentence"><span data-start="818.0" data-end="821.0"> 
+And we also we actually collect some other additional system </span></span>
+
+<span class="sentence"><span data-start="821.0" data-end="825.0"> 
+information that might be useful to us.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="825.0" data-end="828.0"> 
+Faults and Errors and all of the log data that's collected </span></span>
+
+<span class="sentence"><span data-start="828.0" data-end="830.0"> 
+as part of them are actually captured </span></span>
+
+<span class="sentence"><span data-start="830.0" data-end="833.0"> 
+into a separate set of log files.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="834.0" data-end="837.0"> 
+We do that so that normal logging won't push them out </span></span>
+
+<span class="sentence"><span data-start="837.0" data-end="840.0"> 
+and cause them to exceed their quotas </span></span>
+
+<span class="sentence"><span data-start="840.0" data-end="842.0"> 
+and cause us to reclaim the space.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="842.0" data-end="845.0"> 
+So the idea is the Fault and Error data sticks </span></span>
+
+<span class="sentence"><span data-start="845.0" data-end="848.0"> 
+around even longer than normal logging data.</span></span>
+
+<span class="sentence"><span data-start="850.0" data-end="855.0"> 
+So okay, I'm going to give a very, very eyelevel overview </span></span>
+
+<span class="sentence"><span data-start="855.0" data-end="857.0"> 
+of how the system works with a whole lot of details missing.</span></span>
+
+<span class="sentence"><span data-start="858.0" data-end="860.0"> 
+So this is like a broad brush discussion.</span></span>
+
+<span class="sentence"><span data-start="860.0" data-end="866.0"> 
+Okay within each process there's a collection of small buffers </span></span>
+
+<span class="sentence"><span data-start="866.0" data-end="867.0"> 
+into which we log messages.</span></span>
+
+<span class="sentence"><span data-start="868.0" data-end="870.0"> 
+These buffers are actually in memory that's shared </span></span>
+
+<span class="sentence"><span data-start="870.0" data-end="871.0"> 
+with the logging daemon.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="872.0" data-end="875.0"> 
+As these buffers are filled up the logging daemon is triggered </span></span>
+
+<span class="sentence"><span data-start="876.0" data-end="877.0"> 
+to compress that data into a set </span></span>
+
+<span class="sentence"><span data-start="877.0" data-end="879.0"> 
+of larger buffers that it maintains.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="880.0" data-end="884.0"> 
+As those larger buffers are filled up we either save them </span></span>
+
+<span class="sentence"><span data-start="884.0" data-end="886.0"> 
+out to disk or we recycle them as part </span></span>
+
+<span class="sentence"><span data-start="886.0" data-end="888.0"> 
+of the memory only buffers.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="888.0" data-end="892.0"> 
+So the other activity that ends up happening is </span></span>
+
+<span class="sentence"><span data-start="893.0" data-end="895.0"> 
+if you request livestreaming of log data, </span></span>
+
+<span class="sentence"><span data-start="895.0" data-end="898.0"> 
+so you're on the Console and want to see the logs </span></span>
+
+<span class="sentence"><span data-start="898.0" data-end="899.0"> 
+that are happening as they occur.</span></span>
+
+<span class="sentence"><span data-start="900.0" data-end="904.0"> 
+The way we implement that is we immediately do an IPC </span></span>
+
+<span class="sentence"><span data-start="904.0" data-end="906.0"> 
+over to the diagnostic daemon </span></span>
+
+<span class="sentence"><span data-start="906.0" data-end="909.0"> 
+who then distributes those log messages out to all the clients.</span></span>
+
+<span class="sentence"><span data-start="910.0" data-end="912.0"> 
+The side effect of that is </span></span>
+
+<span class="sentence"><span data-start="912.0" data-end="915.0"> 
+that there is a significant performance impact </span></span>
+
+<span class="sentence"><span data-start="915.0" data-end="916.0"> 
+of livestreaming of log data.</span></span>
+
+<span class="sentence"><span data-start="917.0" data-end="920.0"> 
+Basically, a lot of the work that we've done to save effort </span></span>
+
+<span class="sentence"><span data-start="920.0" data-end="924.0"> 
+and speed up logging so it doesn't have an observer effect </span></span>
+
+<span class="sentence"><span data-start="924.0" data-end="927.0"> 
+on your code goes away because we're doing an IPC </span></span>
+
+<span class="sentence"><span data-start="927.0" data-end="930.0"> 
+on every single call.</span></span>
+
+<span class="sentence"><span data-start="930.0" data-end="934.0"> 
+The other thing to note is how individual kinds of messages </span></span>
+
+<span class="sentence"><span data-start="934.0" data-end="938.0"> 
+from applications or particular subsystems get routed </span></span>
+
+<span class="sentence"><span data-start="938.0" data-end="943.0"> 
+through this can be changed by profiles and such.</span></span>
+
+<span class="sentence"><span data-start="943.0" data-end="945.0"> 
+So enough of me talking for a little bit, </span></span>
+
+<span class="sentence"><span data-start="945.0" data-end="947.0"> 
+at this point I will invite Matthieu Lucas </span></span>
+
+<span class="sentence"><span data-start="947.0" data-end="949.0"> 
+up to give a demonstration of this </span></span>
+
+<span class="sentence"><span data-start="950.0" data-end="952.0"> 
+in action using the Console app.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="953.0" data-end="958.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="959.0" data-end="960.0"> 
+ Thanks Steven.</span></span>
+
+<span class="sentence"><span data-start="960.0" data-end="963.0"> 
+So as Steven mentioned earlier in this talk, </span></span>
+
+<span class="sentence"><span data-start="963.0" data-end="966.0"> 
+this year we introduced a brand new Console app.</span></span>
+
+<span class="sentence"><span data-start="966.0" data-end="970.0"> 
+So we wrote it from scratch using Swift.</span></span>
+
+<span class="sentence"><span data-start="970.0" data-end="973.0"> 
+We wanted to leverage a new logging system </span></span>
+
+<span class="sentence"><span data-start="973.0" data-end="977.0"> 
+and making your developing experience easier.</span></span>
+
+<span class="sentence"><span data-start="978.0" data-end="980.0"> 
+Let's look at the app.</span></span>
+
+<span class="sentence"><span data-start="981.0" data-end="982.0"> 
+So here's the new look.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="983.0" data-end="986.0"> 
+As you can see, the layout hasn't really changed.</span></span>
+
+<span class="sentence"><span data-start="986.0" data-end="991.0"> 
+You still have your mainstream on the center, different action </span></span>
+
+<span class="sentence"><span data-start="991.0" data-end="994.0"> 
+on top, and then different sources on the sidebar.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="995.0" data-end="998.0"> 
+Let's look at the sidebar for a minute.</span></span>
+
+<span class="sentence"><span data-start="998.0" data-end="1003.0"> 
+So you can still see your different reports, the system </span></span>
+
+<span class="sentence"><span data-start="1003.0" data-end="1006.0"> 
+or user reports, the different legacy logs </span></span>
+
+<span class="sentence"><span data-start="1006.0" data-end="1008.0"> 
+that you may have the system routes.</span></span>
+
+<span class="sentence"><span data-start="1008.0" data-end="1010.0"> 
+But here you can see that there is a new section.</span></span>
+
+<span class="sentence"><span data-start="1011.0" data-end="1014.0"> 
+Now we display all the devices that are connected </span></span>
+
+<span class="sentence"><span data-start="1014.0" data-end="1016.0"> 
+to your machine and we also show the current machine.</span></span>
+
+<span class="sentence"><span data-start="1021.0" data-end="1027.0"> 
+So we support iOS, tvOS, and watchOS devices in here, </span></span>
+
+<span class="sentence"><span data-start="1027.0" data-end="1030.0"> 
+so you can plug every device you have.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1030.0" data-end="1033.0"> 
+So let's just look at the mainstream for a minute.</span></span>
+
+<span class="sentence"><span data-start="1034.0" data-end="1036.0"> 
+So now the log stream is made of two views.</span></span>
+
+<span class="sentence"><span data-start="1036.0" data-end="1039.0"> 
+You have the messages view and the activities view </span></span>
+
+<span class="sentence"><span data-start="1039.0" data-end="1042.0"> 
+as Steven mentioned earlier.</span></span>
+
+<span class="sentence"><span data-start="1042.0" data-end="1045.0"> 
+So in the activities view you can see the [inaudible] </span></span>
+
+<span class="sentence"><span data-start="1045.0" data-end="1050.0"> 
+activities and the related messages if there is any right </span></span>
+
+<span class="sentence"><span data-start="1050.0" data-end="1053.0"> 
+in the details it tells you in the bottom here.</span></span>
+
+<span class="sentence"><span data-start="1054.0" data-end="1057.0"> 
+Let's switch to the messages now.</span></span>
+
+<span class="sentence"><span data-start="1058.0" data-end="1062.0"> 
+So here you can see a bunch of messages, </span></span>
+
+<span class="sentence"><span data-start="1062.0" data-end="1067.0"> 
+so in order to include Debug and Info messages you need </span></span>
+
+<span class="sentence"><span data-start="1067.0" data-end="1070.0"> 
+to manually do it in the Action menu, so that they show </span></span>
+
+<span class="sentence"><span data-start="1070.0" data-end="1072.0"> 
+up along the default stream.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1073.0" data-end="1077.0"> 
+So now we should see more -- I just launch a few apps, </span></span>
+
+<span class="sentence"><span data-start="1077.0" data-end="1079.0"> 
+so let's create some logs.</span></span>
+
+<span class="sentence"><span data-start="1080.0" data-end="1084.0"> 
+So here now you can see that we have much more information.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1084.0" data-end="1087.0"> 
+So you can see the different message type </span></span>
+
+<span class="sentence"><span data-start="1088.0" data-end="1092.0"> 
+through those color dots on the type columns here.</span></span>
+
+<span class="sentence"><span data-start="1092.0" data-end="1096.0"> 
+So the gray one are the Info messages, </span></span>
+
+<span class="sentence"><span data-start="1097.0" data-end="1100.0"> 
+the yellow ones are the Errors, there is a red one for Fault </span></span>
+
+<span class="sentence"><span data-start="1101.0" data-end="1106.0"> 
+and the dark gray are the Debug ones.</span></span>
+
+<span class="sentence"><span data-start="1106.0" data-end="1109.0"> 
+Whenever there is no dots that's just the default type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1111.0" data-end="1115.0"> 
+So you can also expand </span></span>
+
+<span class="sentence"><span data-start="1115.0" data-end="1120.0"> 
+or collapse your messages directly inline using your left </span></span>
+
+<span class="sentence"><span data-start="1120.0" data-end="1126.0"> 
+or right arrows or using the View menu item here Expand </span></span>
+
+<span class="sentence"><span data-start="1126.0" data-end="1126.0"> 
+or Collapse.</span></span>
+
+<span class="sentence"><span data-start="1128.0" data-end="1129.0"> 
+Then whenever you are </span></span>
+
+<span class="sentence"><span data-start="1129.0" data-end="1133.0"> 
+on the single message you can now see all the details </span></span>
+
+<span class="sentence"><span data-start="1134.0" data-end="1136.0"> 
+of a specific message directly </span></span>
+
+<span class="sentence"><span data-start="1136.0" data-end="1138.0"> 
+in the details view in the bottom.</span></span>
+
+<span class="sentence"><span data-start="1139.0" data-end="1142.0"> 
+So we are able to show you all the information that we have </span></span>
+
+<span class="sentence"><span data-start="1143.0" data-end="1147.0"> 
+about a specific log, that's part of the new logging system.</span></span>
+
+<span class="sentence"><span data-start="1147.0" data-end="1150.0"> 
+So now we can show you the process, </span></span>
+
+<span class="sentence"><span data-start="1150.0" data-end="1151.0"> 
+the library where it comes from.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1152.0" data-end="1155.0"> 
+So as you can see for this one, we can see that it's coming </span></span>
+
+<span class="sentence"><span data-start="1155.0" data-end="1158.0"> 
+from accounts D and then from the account framework.</span></span>
+
+<span class="sentence"><span data-start="1158.0" data-end="1163.0"> 
+You can also see much more information </span></span>
+
+<span class="sentence"><span data-start="1163.0" data-end="1166.0"> 
+as we gather during all the new logging.</span></span>
+
+<span class="sentence"><span data-start="1166.0" data-end="1170.0"> 
+So you can see we have now the subsystem, the category, </span></span>
+
+<span class="sentence"><span data-start="1171.0" data-end="1174.0"> 
+the activity ID, the thread ID or the PID.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1175.0" data-end="1179.0"> 
+Now let's switch to the iPad that I have here.</span></span>
+
+<span class="sentence"><span data-start="1179.0" data-end="1184.0"> 
+So I connected an iPad where I have just a very basic app </span></span>
+
+<span class="sentence"><span data-start="1184.0" data-end="1189.0"> 
+that has some figures and we'll try to find yours by going </span></span>
+
+<span class="sentence"><span data-start="1190.0" data-end="1192.0"> 
+through the different features.</span></span>
+
+<span class="sentence"><span data-start="1193.0" data-end="1197.0"> 
+So first, we can start by just minimizing the column layout, </span></span>
+
+<span class="sentence"><span data-start="1197.0" data-end="1201.0"> 
+so to do so I can right click on the top here </span></span>
+
+<span class="sentence"><span data-start="1201.0" data-end="1205.0"> 
+and then include or add some columns.</span></span>
+
+<span class="sentence"><span data-start="1206.0" data-end="1209.0"> 
+So I'll just add the subsystem, I also add the category, </span></span>
+
+<span class="sentence"><span data-start="1210.0" data-end="1214.0"> 
+and then I will just move that here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1214.0" data-end="1217.0"> 
+So this layout is then persistent, </span></span>
+
+<span class="sentence"><span data-start="1217.0" data-end="1219.0"> 
+so you won't have to do it twice.</span></span>
+
+<span class="sentence"><span data-start="1219.0" data-end="1221.0"> 
+So now we can see that we have a bunch </span></span>
+
+<span class="sentence"><span data-start="1221.0" data-end="1224.0"> 
+of information from this device.</span></span>
+
+<span class="sentence"><span data-start="1224.0" data-end="1230.0"> 
+So in order to refine your search here you have two ways </span></span>
+
+<span class="sentence"><span data-start="1230.0" data-end="1231.0"> 
+to do it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1231.0" data-end="1235.0"> 
+You can first right click on a specific message </span></span>
+
+<span class="sentence"><span data-start="1235.0" data-end="1238.0"> 
+and then you'll get option to mute the subsystem, </span></span>
+
+<span class="sentence"><span data-start="1238.0" data-end="1242.0"> 
+mute the process or show a specific process.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1242.0" data-end="1245.0"> 
+So in that case we can just start </span></span>
+
+<span class="sentence"><span data-start="1245.0" data-end="1248.0"> 
+by muting a specific category.</span></span>
+
+<span class="sentence"><span data-start="1248.0" data-end="1249.0"> 
+Let's say that we want to mute widgets.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1251.0" data-end="1255.0"> 
+Now you can also the second way </span></span>
+
+<span class="sentence"><span data-start="1255.0" data-end="1258.0"> 
+of just refining is to just [inaudible].</span></span>
+
+<span class="sentence"><span data-start="1258.0" data-end="1263.0"> 
+So as you can see, we just added a custom token for widget.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1263.0" data-end="1267.0"> 
+Let's say that I want to just see the Bookmarks app, </span></span>
+
+<span class="sentence"><span data-start="1267.0" data-end="1269.0"> 
+that's the app that [inaudible] on my device here.</span></span>
+
+<span class="sentence"><span data-start="1270.0" data-end="1275.0"> 
+So by doing so now I have only messages coming from Bookmarks </span></span>
+
+<span class="sentence"><span data-start="1275.0" data-end="1277.0"> 
+without the category widgets.</span></span>
+
+<span class="sentence"><span data-start="1278.0" data-end="1283.0"> 
+Let's just add another token to show only the Error type.</span></span>
+
+<span class="sentence"><span data-start="1284.0" data-end="1287.0"> 
+So now we only have messages coming from Bookmarks </span></span>
+
+<span class="sentence"><span data-start="1287.0" data-end="1291.0"> 
+without the category widgets and that has an Error type.</span></span>
+
+<span class="sentence"><span data-start="1292.0" data-end="1296.0"> 
+So we can see that we have different Errors coming </span></span>
+
+<span class="sentence"><span data-start="1296.0" data-end="1299.0"> 
+from the web view, so that's [inaudible] for now, </span></span>
+
+<span class="sentence"><span data-start="1299.0" data-end="1305.0"> 
+we relate it down to what we're looking for.</span></span>
+
+<span class="sentence"><span data-start="1306.0" data-end="1310.0"> 
+So in order to reuse it later you can just save it by clicking </span></span>
+
+<span class="sentence"><span data-start="1310.0" data-end="1313.0"> 
+on the Save button on the top right.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1314.0" data-end="1318.0"> 
+So I'll just name it Bookmark Errors.</span></span>
+
+<span class="sentence"><span data-start="1318.0" data-end="1322.0"> 
+So you can see that all your saved searches will appear </span></span>
+
+<span class="sentence"><span data-start="1322.0" data-end="1324.0"> 
+in this section here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1324.0" data-end="1328.0"> 
+So you can reorder those as you want, you can remove those </span></span>
+
+<span class="sentence"><span data-start="1328.0" data-end="1332.0"> 
+if you want and you also have two saved searches by default, </span></span>
+
+<span class="sentence"><span data-start="1332.0" data-end="1334.0"> 
+which are All Messages and Errors and Faults.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1335.0" data-end="1338.0"> 
+Now let's switch to the activity view see </span></span>
+
+<span class="sentence"><span data-start="1338.0" data-end="1342.0"> 
+if we can find more context about those logs and see </span></span>
+
+<span class="sentence"><span data-start="1342.0" data-end="1344.0"> 
+if we can reproduce [inaudible].</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1345.0" data-end="1349.0"> 
+So here we can see that we have different activities.</span></span>
+
+<span class="sentence"><span data-start="1349.0" data-end="1353.0"> 
+So the activities view is based on the same search mechanism, </span></span>
+
+<span class="sentence"><span data-start="1354.0" data-end="1356.0"> 
+so we could apply the same features </span></span>
+
+<span class="sentence"><span data-start="1356.0" data-end="1359.0"> 
+and then save it as well.</span></span>
+
+<span class="sentence"><span data-start="1359.0" data-end="1365.0"> 
+So here we can see that we have a Bookmarks activity </span></span>
+
+<span class="sentence"><span data-start="1365.0" data-end="1367.0"> 
+with different children.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1367.0" data-end="1369.0"> 
+So we can see that we were preparing for transition, </span></span>
+
+<span class="sentence"><span data-start="1369.0" data-end="1375.0"> 
+then we retrieve an object and then we push the detail view </span></span>
+
+<span class="sentence"><span data-start="1375.0" data-end="1377.0"> 
+and then we configure the detail view </span></span>
+
+<span class="sentence"><span data-start="1377.0" data-end="1378.0"> 
+and then we load the web view.</span></span>
+
+<span class="sentence"><span data-start="1379.0" data-end="1382.0"> 
+So as you can see now, the messages appear directly </span></span>
+
+<span class="sentence"><span data-start="1382.0" data-end="1385.0"> 
+in the bottom of this view, the messages </span></span>
+
+<span class="sentence"><span data-start="1385.0" data-end="1386.0"> 
+that are related to this activity.</span></span>
+
+<span class="sentence"><span data-start="1386.0" data-end="1390.0"> 
+So this message was written </span></span>
+
+<span class="sentence"><span data-start="1390.0" data-end="1392.0"> 
+in this specific activity, so it showed up here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1393.0" data-end="1396.0"> 
+Now we can see that those messages, </span></span>
+
+<span class="sentence"><span data-start="1396.0" data-end="1400.0"> 
+those two failures were part of the loading web view activity.</span></span>
+
+<span class="sentence"><span data-start="1402.0" data-end="1405.0"> 
+So now we know that we have all these contexts </span></span>
+
+<span class="sentence"><span data-start="1406.0" data-end="1409.0"> 
+of what happened to this Error.</span></span>
+
+<span class="sentence"><span data-start="1409.0" data-end="1414.0"> 
+So now we also added the sharing option to Console, </span></span>
+
+<span class="sentence"><span data-start="1414.0" data-end="1417.0"> 
+so you can just select a bunch of activities or messages </span></span>
+
+<span class="sentence"><span data-start="1418.0" data-end="1421.0"> 
+and share it directly to someone or to a note.</span></span>
+
+<span class="sentence"><span data-start="1421.0" data-end="1425.0"> 
+So I'll just add it as a note so that I can debug it later.</span></span>
+
+<span class="sentence"><span data-start="1426.0" data-end="1427.0"> 
+Now the next.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1428.0" data-end="1432.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1433.0" data-end="1438.0"> 
+The other input that we can use is a log archive.</span></span>
+
+<span class="sentence"><span data-start="1438.0" data-end="1440.0"> 
+So [inaudible] log archive </span></span>
+
+<span class="sentence"><span data-start="1440.0" data-end="1443.0"> 
+that was previously generated from another device.</span></span>
+
+<span class="sentence"><span data-start="1444.0" data-end="1447.0"> 
+So if you do have one too you can just double-click on it </span></span>
+
+<span class="sentence"><span data-start="1447.0" data-end="1448.0"> 
+and Console will open it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1449.0" data-end="1453.0"> 
+So as you can see whenever you click on it and then open it, </span></span>
+
+<span class="sentence"><span data-start="1454.0" data-end="1455.0"> 
+it just loads everything.</span></span>
+
+<span class="sentence"><span data-start="1455.0" data-end="1458.0"> 
+And then you can see that we also have the same [inaudible] </span></span>
+
+<span class="sentence"><span data-start="1458.0" data-end="1461.0"> 
+filters as we just said before.</span></span>
+
+<span class="sentence"><span data-start="1462.0" data-end="1466.0"> 
+So in order to see if this specific log archive has the </span></span>
+
+<span class="sentence"><span data-start="1466.0" data-end="1470.0"> 
+same -- contain the same Error messages as the current device </span></span>
+
+<span class="sentence"><span data-start="1470.0" data-end="1473.0"> 
+that we stream we can just click on it </span></span>
+
+<span class="sentence"><span data-start="1473.0" data-end="1478.0"> 
+and it will automatically reapply the same filters.</span></span>
+
+<span class="sentence"><span data-start="1479.0" data-end="1483.0"> 
+So we can see that we have the same errors and we can also look </span></span>
+
+<span class="sentence"><span data-start="1483.0" data-end="1488.0"> 
+at the activities view to see the same activities and so on.</span></span>
+
+<span class="sentence"><span data-start="1489.0" data-end="1491.0"> 
+So that's it for Console </span></span>
+
+<span class="sentence"><span data-start="1491.0" data-end="1494.0"> 
+and I'll let Steven go back on the slides.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1495.0" data-end="1495.0"> 
+Thank you.</span></span>
+
+<span class="sentence"><span data-start="1496.0" data-end="1501.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1506.0" data-end="1508.0"> 
+ So thank you very much Matthieu.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1508.0" data-end="1512.0"> 
+I really like the new Console, it is glorious to use.</span></span>
+
+<span class="sentence"><span data-start="1513.0" data-end="1517.0"> 
+So let's talk about the new Unified Logging System </span></span>
+
+<span class="sentence"><span data-start="1517.0" data-end="1518.0"> 
+and how you actually use it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1519.0" data-end="1521.0"> 
+So to start off with here's a summary </span></span>
+
+<span class="sentence"><span data-start="1521.0" data-end="1523.0"> 
+of all the new APIs that you'll have.</span></span>
+
+<span class="sentence"><span data-start="1524.0" data-end="1526.0"> 
+Os log is your basic logging API </span></span>
+
+<span class="sentence"><span data-start="1526.0" data-end="1529.0"> 
+that logs something with default mode.</span></span>
+
+<span class="sentence"><span data-start="1530.0" data-end="1534.0"> 
+Os log info is the call that by default sends log messages </span></span>
+
+<span class="sentence"><span data-start="1534.0" data-end="1540.0"> 
+into memory and that's for the additional timely information </span></span>
+
+<span class="sentence"><span data-start="1540.0" data-end="1540.0"> 
+that you want to gather.</span></span>
+
+<span class="sentence"><span data-start="1541.0" data-end="1544.0"> 
+Os log debug is for your high-frequency debugging.</span></span>
+
+<span class="sentence"><span data-start="1544.0" data-end="1547.0"> 
+And then there's os log error and os log fault </span></span>
+
+<span class="sentence"><span data-start="1547.0" data-end="1549.0"> 
+for generating a fault and an error.</span></span>
+
+<span class="sentence"><span data-start="1549.0" data-end="1552.0"> 
+And the last call here is os log create </span></span>
+
+<span class="sentence"><span data-start="1552.0" data-end="1554.0"> 
+that creates a log object you can then use </span></span>
+
+<span class="sentence"><span data-start="1554.0" data-end="1555.0"> 
+to customize your behavior.</span></span>
+
+<span class="sentence"><span data-start="1556.0" data-end="1558.0"> 
+So let's dive into that one a little bit more </span></span>
+
+<span class="sentence"><span data-start="1558.0" data-end="1560.0"> 
+because it's probably the one that's least familiar in terms </span></span>
+
+<span class="sentence"><span data-start="1560.0" data-end="1562.0"> 
+of analogy to other stuff.</span></span>
+
+<span class="sentence"><span data-start="1563.0" data-end="1566.0"> 
+So we have a call os log create it takes two parameters, </span></span>
+
+<span class="sentence"><span data-start="1566.0" data-end="1569.0"> 
+the name of the subsystem and the name of the category.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1569.0" data-end="1572.0"> 
+And what it does is it creates a thread-safe singleton object </span></span>
+
+<span class="sentence"><span data-start="1573.0" data-end="1574.0"> 
+that controls the behavior </span></span>
+
+<span class="sentence"><span data-start="1574.0" data-end="1576.0"> 
+of the log calls that you pass it to.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1577.0" data-end="1581.0"> 
+So by default it ends up having the system-wide behavior, </span></span>
+
+<span class="sentence"><span data-start="1581.0" data-end="1584.0"> 
+but you can customize it to have specific behaviors using </span></span>
+
+<span class="sentence"><span data-start="1584.0" data-end="1586.0"> 
+profiles or the log command line tool.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1586.0" data-end="1590.0"> 
+The way you use it is you simply pass it as the first parameter </span></span>
+
+<span class="sentence"><span data-start="1590.0" data-end="1591.0"> 
+to all of the other calls.</span></span>
+
+<span class="sentence"><span data-start="1591.0" data-end="1595.0"> 
+So here I call os log and that first parameter is log, </span></span>
+
+<span class="sentence"><span data-start="1595.0" data-end="1599.0"> 
+which is the value that got returned from os log create.</span></span>
+
+<span class="sentence"><span data-start="1600.0" data-end="1604.0"> 
+What that does is it causes a reference to the category </span></span>
+
+<span class="sentence"><span data-start="1604.0" data-end="1607.0"> 
+and subsystem that was defined with that log object </span></span>
+
+<span class="sentence"><span data-start="1607.0" data-end="1610.0"> 
+to be stored with every log message that it's used with, </span></span>
+
+<span class="sentence"><span data-start="1611.0" data-end="1613.0"> 
+which then can be used on the backend as you saw </span></span>
+
+<span class="sentence"><span data-start="1613.0" data-end="1615.0"> 
+to filter and display messages.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1617.0" data-end="1620.0"> 
+So if you don't care about having your own subsystem </span></span>
+
+<span class="sentence"><span data-start="1620.0" data-end="1622.0"> 
+and category, then the other option is </span></span>
+
+<span class="sentence"><span data-start="1622.0" data-end="1625.0"> 
+to simply pass an os log default, </span></span>
+
+<span class="sentence"><span data-start="1625.0" data-end="1627.0"> 
+which is a default log object that we always provide.</span></span>
+
+<span class="sentence"><span data-start="1628.0" data-end="1631.0"> 
+It doesn't have a subsystem or category, but it's useful </span></span>
+
+<span class="sentence"><span data-start="1631.0" data-end="1633.0"> 
+if you really don't care about that kind of control.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1634.0" data-end="1637.0"> 
+Built-in type formatters.</span></span>
+
+<span class="sentence"><span data-start="1638.0" data-end="1641.0"> 
+We all spend way too much code trying </span></span>
+
+<span class="sentence"><span data-start="1641.0" data-end="1644.0"> 
+to convert binary information into strings </span></span>
+
+<span class="sentence"><span data-start="1644.0" data-end="1645.0"> 
+so that we can log them.</span></span>
+
+<span class="sentence"><span data-start="1645.0" data-end="1648.0"> 
+The Unified Logging System takes over much of that work for you </span></span>
+
+<span class="sentence"><span data-start="1648.0" data-end="1651.0"> 
+by providing built-in formatters for well-known types.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1652.0" data-end="1655.0"> 
+What's even more important is that we save </span></span>
+
+<span class="sentence"><span data-start="1655.0" data-end="1659.0"> 
+that conversion work until we display the log message, </span></span>
+
+<span class="sentence"><span data-start="1659.0" data-end="1661.0"> 
+so you don't have to pay for that conversion </span></span>
+
+<span class="sentence"><span data-start="1661.0" data-end="1663.0"> 
+at the time you generate the log message.</span></span>
+
+<span class="sentence"><span data-start="1664.0" data-end="1669.0"> 
+Avoiding all of the different kinds of observer effects.</span></span>
+
+<span class="sentence"><span data-start="1670.0" data-end="1672.0"> 
+So just to talk a little bit about it.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1672.0" data-end="1675.0"> 
+There's built-in decoding for some common values.</span></span>
+
+<span class="sentence"><span data-start="1675.0" data-end="1680.0"> 
+The syntax is instead of doing %d you would do %(time t)d </span></span>
+
+<span class="sentence"><span data-start="1680.0" data-end="1686.0"> 
+and that basically says that that decimal value </span></span>
+
+<span class="sentence"><span data-start="1686.0" data-end="1690.0"> 
+that you're passing in is actually a time t and that </span></span>
+
+<span class="sentence"><span data-start="1690.0" data-end="1693.0"> 
+when it gets printed it should be printed as a time string.</span></span>
+
+<span class="sentence"><span data-start="1694.0" data-end="1698.0"> 
+Likewise, for errno, if you do %(errno)d it converts </span></span>
+
+<span class="sentence"><span data-start="1698.0" data-end="1701.0"> 
+that into a human readable form of that errno.</span></span>
+
+<span class="sentence"><span data-start="1703.0" data-end="1709.0"> 
+We also have a new basic time format % capital P not lowercase </span></span>
+
+<span class="sentence"><span data-start="1709.0" data-end="1712.0"> 
+P, which has been around for a while that you can use </span></span>
+
+<span class="sentence"><span data-start="1712.0" data-end="1714.0"> 
+to display arbitrary binary data.</span></span>
+
+<span class="sentence"><span data-start="1714.0" data-end="1717.0"> 
+And there's decoders for all sorts of common type </span></span>
+
+<span class="sentence"><span data-start="1717.0" data-end="1719.0"> 
+so for instance %(uuid t).</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1720.0" data-end="1725.0"> 
+And in fact, here is a list of all of the current codes </span></span>
+
+<span class="sentence"><span data-start="1725.0" data-end="1728.0"> 
+which we have, so all the different kinds of time values, </span></span>
+
+<span class="sentence"><span data-start="1728.0" data-end="1733.0"> 
+errno, uuids, all the different kinds of network IDs.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1734.0" data-end="1738.0"> 
+And we do anticipate having more coming out in future releases.</span></span>
+
+<span class="sentence"><span data-start="1738.0" data-end="1742.0"> 
+So Per Parameter Privacy.</span></span>
+
+<span class="sentence"><span data-start="1744.0" data-end="1747.0"> 
+Privacy is now handled on a parameter by parameter basis, </span></span>
+
+<span class="sentence"><span data-start="1748.0" data-end="1751.0"> 
+scalars and static strings are assumed to be public.</span></span>
+
+<span class="sentence"><span data-start="1751.0" data-end="1754.0"> 
+On the other hand, dynamic strings, collections </span></span>
+
+<span class="sentence"><span data-start="1754.0" data-end="1756.0"> 
+and objects are assumed </span></span>
+
+<span class="sentence"><span data-start="1756.0" data-end="1760.0"> 
+to contain private information unless you tell us otherwise.</span></span>
+
+<span class="sentence"><span data-start="1761.0" data-end="1763.0"> 
+So that behavior can be overridden </span></span>
+
+<span class="sentence"><span data-start="1763.0" data-end="1765.0"> 
+on a per-parameter basis.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1765.0" data-end="1771.0"> 
+So instead of doing %@ to say oh this is an object that I want </span></span>
+
+<span class="sentence"><span data-start="1771.0" data-end="1774.0"> 
+to include in my log you do %(public)@ </span></span>
+
+<span class="sentence"><span data-start="1775.0" data-end="1777.0"> 
+to tell us it's an object and everything </span></span>
+
+<span class="sentence"><span data-start="1777.0" data-end="1780.0"> 
+in that object is public, so you don't have to worry about it.</span></span>
+
+<span class="sentence"><span data-start="1781.0" data-end="1783.0"> 
+Alternatively, if you happen to have a case </span></span>
+
+<span class="sentence"><span data-start="1783.0" data-end="1785.0"> 
+where you have some integer </span></span>
+
+<span class="sentence"><span data-start="1785.0" data-end="1790.0"> 
+that for some reason is secret you could do a %(private)d </span></span>
+
+<span class="sentence"><span data-start="1790.0" data-end="1794.0"> 
+to log that data as being private information.</span></span>
+
+<span class="sentence"><span data-start="1794.0" data-end="1799.0"> 
+You can by the way, combine privacy and formatting.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1800.0" data-end="1801.0"> 
+So I could do %(public, </span></span>
+
+<span class="sentence"><span data-start="1801.0" data-end="1806.0"> 
+uuid t).16P to basically say there's a uuid, </span></span>
+
+<span class="sentence"><span data-start="1806.0" data-end="1810.0"> 
+it's public information and it gets formatted as such.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1812.0" data-end="1814.0"> 
+So let's give a little bit of example </span></span>
+
+<span class="sentence"><span data-start="1814.0" data-end="1818.0"> 
+of what the difference this makes to you as you code.</span></span>
+
+<span class="sentence"><span data-start="1818.0" data-end="1821.0"> 
+So log message simplification.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1821.0" data-end="1823.0"> 
+Okay, here's the old way of doing things.</span></span>
+
+<span class="sentence"><span data-start="1823.0" data-end="1825.0"> 
+All right, first off you have to check </span></span>
+
+<span class="sentence"><span data-start="1825.0" data-end="1829.0"> 
+and say is the current log level enabled before you call anything </span></span>
+
+<span class="sentence"><span data-start="1829.0" data-end="1834.0"> 
+and then let's say you have a uuid that you need to display.</span></span>
+
+<span class="sentence"><span data-start="1834.0" data-end="1836.0"> 
+Well the first thing you have to do is call unparse </span></span>
+
+<span class="sentence"><span data-start="1836.0" data-end="1838.0"> 
+to convert that into a string.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1838.0" data-end="1841.0"> 
+You also happen to have a socket address that you then need </span></span>
+
+<span class="sentence"><span data-start="1841.0" data-end="1843.0"> 
+to also convert into a string.</span></span>
+
+<span class="sentence"><span data-start="1844.0" data-end="1846.0"> 
+Then you call NSLog with all </span></span>
+
+<span class="sentence"><span data-start="1846.0" data-end="1849.0"> 
+that stuff that's been converted, but also of course, </span></span>
+
+<span class="sentence"><span data-start="1849.0" data-end="1852.0"> 
+you have to pass the function name and the file </span></span>
+
+<span class="sentence"><span data-start="1852.0" data-end="1853.0"> 
+and the line number for you.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1853.0" data-end="1855.0"> 
+And then when you're done with that don't forget </span></span>
+
+<span class="sentence"><span data-start="1855.0" data-end="1858.0"> 
+to free the string that was created for the socket address.</span></span>
+
+<span class="sentence"><span data-start="1859.0" data-end="1860.0"> 
+And you're done.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1861.0" data-end="1862.0"> 
+Now here's the new way.</span></span>
+
+<span class="sentence"><span data-start="1863.0" data-end="1866.0"> 
+You simply call os log info it takes care </span></span>
+
+<span class="sentence"><span data-start="1866.0" data-end="1867.0"> 
+of checking the log level for you.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1867.0" data-end="1870.0"> 
+In this case I'm passing the default log object.</span></span>
+
+<span class="sentence"><span data-start="1871.0" data-end="1876.0"> 
+I specify in my format string that a given parameter is a uuid </span></span>
+
+<span class="sentence"><span data-start="1876.0" data-end="1878.0"> 
+and a socket address, so I don't do any conversions then.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1879.0" data-end="1882.0"> 
+None of the work happens now the work happens when we display it.</span></span>
+
+<span class="sentence"><span data-start="1883.0" data-end="1886.0"> 
+And then I simply pass the parameters, it's that easy.</span></span>
+
+<span class="sentence"><span data-start="1887.0" data-end="1895.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1896.0" data-end="1898.0"> 
+While I'm doing examples let me give a little bit more </span></span>
+
+<span class="sentence"><span data-start="1898.0" data-end="1900.0"> 
+of an example of using some of the other APIs.</span></span>
+
+<span class="sentence"><span data-start="1901.0" data-end="1903.0"> 
+So here I do a log create </span></span>
+
+<span class="sentence"><span data-start="1903.0" data-end="1906.0"> 
+and I specify a subsystem and a category.</span></span>
+
+<span class="sentence"><span data-start="1906.0" data-end="1909.0"> 
+The subsystem is com.apple.logging.example </span></span>
+
+<span class="sentence"><span data-start="1909.0" data-end="1911.0"> 
+and the category is general </span></span>
+
+<span class="sentence"><span data-start="1911.0" data-end="1913.0"> 
+and so this is my general log object.</span></span>
+
+<span class="sentence"><span data-start="1913.0" data-end="1915.0"> 
+I do the same thing, but this time I create one </span></span>
+
+<span class="sentence"><span data-start="1915.0" data-end="1917.0"> 
+with a category timestamp.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1917.0" data-end="1922.0"> 
+You know, the basic simple call, I call os log, </span></span>
+
+<span class="sentence"><span data-start="1922.0" data-end="1923.0"> 
+I use the general log object, </span></span>
+
+<span class="sentence"><span data-start="1924.0" data-end="1925.0"> 
+pass it a string, it gets logged.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1927.0" data-end="1928.0"> 
+Here's a little bit more of an interesting case.</span></span>
+
+<span class="sentence"><span data-start="1929.0" data-end="1931.0"> 
+I call os log info, so this is something that's going to go </span></span>
+
+<span class="sentence"><span data-start="1931.0" data-end="1934.0"> 
+into the memory buffer and only get saved </span></span>
+
+<span class="sentence"><span data-start="1934.0" data-end="1935.0"> 
+if there's a Fault or an Error.</span></span>
+
+<span class="sentence"><span data-start="1936.0" data-end="1940.0"> 
+And then in my format string I specify %(public)s </span></span>
+
+<span class="sentence"><span data-start="1940.0" data-end="1943.0"> 
+for the filename because the filename is a dynamic string </span></span>
+
+<span class="sentence"><span data-start="1943.0" data-end="1946.0"> 
+and we would assume that it's private information unless you </span></span>
+
+<span class="sentence"><span data-start="1946.0" data-end="1947.0"> 
+tell us that it's public.</span></span>
+
+<span class="sentence"><span data-start="1948.0" data-end="1950.0"> 
+A little bit more complicated case.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1950.0" data-end="1952.0"> 
+I open the file, I check on an error </span></span>
+
+<span class="sentence"><span data-start="1952.0" data-end="1956.0"> 
+if it returns an error I then call os log error </span></span>
+
+<span class="sentence"><span data-start="1956.0" data-end="1959.0"> 
+and in my format string I again say </span></span>
+
+<span class="sentence"><span data-start="1959.0" data-end="1962.0"> 
+that the filename is public information and I say </span></span>
+
+<span class="sentence"><span data-start="1962.0" data-end="1964.0"> 
+to format the errno as an errno.</span></span>
+
+<span class="sentence"><span data-start="1965.0" data-end="1969.0"> 
+Another very example, this time I'm calling fstat, </span></span>
+
+<span class="sentence"><span data-start="1969.0" data-end="1972.0"> 
+but gee I'm calling fstat after I already have the file open, </span></span>
+
+<span class="sentence"><span data-start="1972.0" data-end="1975.0"> 
+so maybe something weird is happening </span></span>
+
+<span class="sentence"><span data-start="1975.0" data-end="1976.0"> 
+if I'm getting an error on that.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1977.0" data-end="1980.0"> 
+So I call os log fault, same kinds of parameters.</span></span>
+
+<span class="sentence"><span data-start="1980.0" data-end="1984.0"> 
+And then the very last thing is I call os log info, </span></span>
+
+<span class="sentence"><span data-start="1984.0" data-end="1987.0"> 
+but this time I pass my timestamp log object </span></span>
+
+<span class="sentence"><span data-start="1988.0" data-end="1991.0"> 
+and then I basically dump all the timestamps from that file.</span></span>
+
+<span class="sentence"><span data-start="1991.0" data-end="1993.0"> 
+What that means is when I go off and look </span></span>
+
+<span class="sentence"><span data-start="1993.0" data-end="1997.0"> 
+at the Console I can basically simply filter it </span></span>
+
+<span class="sentence"><span data-start="1997.0" data-end="2000.0"> 
+and say all I want to see is that timestamp data </span></span>
+
+<span class="sentence"><span data-start="2000.0" data-end="2002.0"> 
+or I don't want to see that timestamp data </span></span>
+
+<span class="sentence"><span data-start="2002.0" data-end="2004.0"> 
+because I'm looking at something else.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2004.0" data-end="2009.0"> 
+So the new Unified Logging System isn't the only change </span></span>
+
+<span class="sentence"><span data-start="2009.0" data-end="2010.0"> 
+in this release.</span></span>
+
+<span class="sentence"><span data-start="2010.0" data-end="2013.0"> 
+There are also some improvements to the Activity Tracing System.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2014.0" data-end="2016.0"> 
+Activities are now first-class objects </span></span>
+
+<span class="sentence"><span data-start="2016.0" data-end="2018.0"> 
+that can be stored and re-used.</span></span>
+
+<span class="sentence"><span data-start="2019.0" data-end="2022.0"> 
+And the act of creation gives you control </span></span>
+
+<span class="sentence"><span data-start="2022.0" data-end="2027.0"> 
+over the relationships between the various activity objects </span></span>
+
+<span class="sentence"><span data-start="2027.0" data-end="2028.0"> 
+at the point at which you create them.</span></span>
+
+<span class="sentence"><span data-start="2028.0" data-end="2031.0"> 
+There's also some new APIs </span></span>
+
+<span class="sentence"><span data-start="2031.0" data-end="2035.0"> 
+that scope the activities within your code.</span></span>
+
+<span class="sentence"><span data-start="2036.0" data-end="2039.0"> 
+So here's all of the new APIs.</span></span>
+
+<span class="sentence"><span data-start="2039.0" data-end="2043.0"> 
+So there's a new os activity create that works just </span></span>
+
+<span class="sentence"><span data-start="2043.0" data-end="2047.0"> 
+like os log create to create a log object only this time it's </span></span>
+
+<span class="sentence"><span data-start="2047.0" data-end="2048.0"> 
+identifying an activity.</span></span>
+
+<span class="sentence"><span data-start="2048.0" data-end="2052.0"> 
+There's two calls that you can then use to apply </span></span>
+
+<span class="sentence"><span data-start="2052.0" data-end="2056.0"> 
+that to your code os activity scope and os activity apply.</span></span>
+
+<span class="sentence"><span data-start="2057.0" data-end="2059.0"> 
+I'll show you examples in a moment </span></span>
+
+<span class="sentence"><span data-start="2059.0" data-end="2060.0"> 
+about how they work differently.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2061.0" data-end="2064.0"> 
+And finally, there's os activity label useraction </span></span>
+
+<span class="sentence"><span data-start="2064.0" data-end="2066.0"> 
+that labels an activity </span></span>
+
+<span class="sentence"><span data-start="2066.0" data-end="2069.0"> 
+as a user action UI-based activity basically.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2071.0" data-end="2072.0"> 
+So let me give an example of doing this.</span></span>
+
+<span class="sentence"><span data-start="2073.0" data-end="2076.0"> 
+First off, I call os activity create to create an activity </span></span>
+
+<span class="sentence"><span data-start="2076.0" data-end="2077.0"> 
+that I'm calling init.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2078.0" data-end="2080.0"> 
+Notice that the second parameter </span></span>
+
+<span class="sentence"><span data-start="2080.0" data-end="2083.0"> 
+of this function is a constant os activity current.</span></span>
+
+<span class="sentence"><span data-start="2083.0" data-end="2086.0"> 
+That's basically saying this init activity is subordinate </span></span>
+
+<span class="sentence"><span data-start="2086.0" data-end="2089.0"> 
+to whatever happens to be the current activity.</span></span>
+
+<span class="sentence"><span data-start="2090.0" data-end="2094.0"> 
+Now I go off and do os activity create for a verify activity, </span></span>
+
+<span class="sentence"><span data-start="2094.0" data-end="2098.0"> 
+but my second parameter is the init activity I just created.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2098.0" data-end="2099.0"> 
+So now I've created the hierarchy </span></span>
+
+<span class="sentence"><span data-start="2099.0" data-end="2102.0"> 
+between these activities manually.</span></span>
+
+<span class="sentence"><span data-start="2104.0" data-end="2106.0"> 
+So now I have a block of code, you know, if it's ready </span></span>
+
+<span class="sentence"><span data-start="2106.0" data-end="2109.0"> 
+and then I have some code between a couple of braces.</span></span>
+
+<span class="sentence"><span data-start="2109.0" data-end="2112.0"> 
+The first thing I do is I call os activity scope </span></span>
+
+<span class="sentence"><span data-start="2113.0" data-end="2115.0"> 
+and I'm passing in this case the verify activity.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2116.0" data-end="2118.0"> 
+What that does is it means all of the rest of the code </span></span>
+
+<span class="sentence"><span data-start="2118.0" data-end="2121.0"> 
+in that block is considered in scope of that activity </span></span>
+
+<span class="sentence"><span data-start="2121.0" data-end="2123.0"> 
+until I hit that closing brace.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2124.0" data-end="2127.0"> 
+There's no need to have to remember to call os activity end </span></span>
+
+<span class="sentence"><span data-start="2127.0" data-end="2130.0"> 
+at the end it just automatically does it for you.</span></span>
+
+<span class="sentence"><span data-start="2130.0" data-end="2132.0"> 
+And as soon as you leave </span></span>
+
+<span class="sentence"><span data-start="2132.0" data-end="2135.0"> 
+that scope you're now no longer part of that activity.</span></span>
+
+<span class="sentence"><span data-start="2136.0" data-end="2139.0"> 
+The other call that we're providing is os activity apply, </span></span>
+
+<span class="sentence"><span data-start="2140.0" data-end="2145.0"> 
+you pass the activity object and then you pass it a block </span></span>
+
+<span class="sentence"><span data-start="2145.0" data-end="2147.0"> 
+and then it basically executes that block </span></span>
+
+<span class="sentence"><span data-start="2147.0" data-end="2149.0"> 
+with that activity as the scope.</span></span>
+
+<span class="sentence"><span data-start="2150.0" data-end="2155.0"> 
+Tools, so Matthieu already gave you a great demo </span></span>
+
+<span class="sentence"><span data-start="2155.0" data-end="2157.0"> 
+of the new Console, I'll just run </span></span>
+
+<span class="sentence"><span data-start="2157.0" data-end="2159.0"> 
+through the functionality very quickly.</span></span>
+
+<span class="sentence"><span data-start="2159.0" data-end="2162.0"> 
+You can view live content from the system.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2163.0" data-end="2164.0"> 
+You can open log archives.</span></span>
+
+<span class="sentence"><span data-start="2165.0" data-end="2168.0"> 
+You can use the new activity centric view of logging tracing.</span></span>
+
+<span class="sentence"><span data-start="2169.0" data-end="2171.0"> 
+You can use advanced filtering and searching </span></span>
+
+<span class="sentence"><span data-start="2172.0" data-end="2174.0"> 
+and you can see logs from your devices.</span></span>
+
+<span class="sentence"><span data-start="2174.0" data-end="2177.0"> 
+Now let me talk a little bit </span></span>
+
+<span class="sentence"><span data-start="2177.0" data-end="2182.0"> 
+about the new log command line tool.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2182.0" data-end="2185.0"> 
+It provides all of the same exact functionality as Console, </span></span>
+
+<span class="sentence"><span data-start="2185.0" data-end="2187.0"> 
+but from the command line.</span></span>
+
+<span class="sentence"><span data-start="2187.0" data-end="2192.0"> 
+So you want to stream live log messages you simply do </span></span>
+
+<span class="sentence"><span data-start="2192.0" data-end="2193.0"> 
+log stream.</span></span>
+
+<span class="sentence"><span data-start="2193.0" data-end="2196.0"> 
+If you want to get fancy, you can do log stream-- </span></span>
+
+<span class="sentence"><span data-start="2196.0" data-end="2201.0"> 
+predicate eventMessage contains my message and what it will do </span></span>
+
+<span class="sentence"><span data-start="2201.0" data-end="2203.0"> 
+for you is it will stream all of the log messages </span></span>
+
+<span class="sentence"><span data-start="2203.0" data-end="2205.0"> 
+that contain the string my message.</span></span>
+
+<span class="sentence"><span data-start="2207.0" data-end="2211.0"> 
+Just like the Console it could let you open up a log archives.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2211.0" data-end="2216.0"> 
+You can display a log archive using the log command.</span></span>
+
+<span class="sentence"><span data-start="2216.0" data-end="2219.0"> 
+You do log show and then give it the name of the file </span></span>
+
+<span class="sentence"><span data-start="2219.0" data-end="2221.0"> 
+and it displays the contents of that log file.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2223.0" data-end="2227.0"> 
+Another thing you can do on macOS is use the log command </span></span>
+
+<span class="sentence"><span data-start="2228.0" data-end="2229.0"> 
+to actually change the configuration </span></span>
+
+<span class="sentence"><span data-start="2229.0" data-end="2231.0"> 
+of your subsystems and categories.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2232.0" data-end="2235.0"> 
+So here's an example, I do log config -- </span></span>
+
+<span class="sentence"><span data-start="2236.0" data-end="2242.0"> 
+mode level:debug and then -system com.mycorp.myapp </span></span>
+
+<span class="sentence"><span data-start="2242.0" data-end="2244.0"> 
+and what that does is it basically enables logging </span></span>
+
+<span class="sentence"><span data-start="2244.0" data-end="2248.0"> 
+on that subsystem for you on your macOS.</span></span>
+
+<span class="sentence"><span data-start="2248.0" data-end="2252.0"> 
+So coming soon.</span></span>
+
+<span class="sentence"><span data-start="2253.0" data-end="2256.0"> 
+We do appreciate that many of you are going </span></span>
+
+<span class="sentence"><span data-start="2256.0" data-end="2260.0"> 
+to be developing applications iOS 10, but sticking </span></span>
+
+<span class="sentence"><span data-start="2260.0" data-end="2264.0"> 
+with macOS 10.11 on your Macs, i.e. El Capitan.</span></span>
+
+<span class="sentence"><span data-start="2264.0" data-end="2271.0"> 
+Tools for being able to access the new logs from El Capitan are </span></span>
+
+<span class="sentence"><span data-start="2271.0" data-end="2278.0"> 
+in fact coming, but in the meantime there is a sort </span></span>
+
+<span class="sentence"><span data-start="2278.0" data-end="2282.0"> 
+of a hackish workaround, which is you can run the new tools </span></span>
+
+<span class="sentence"><span data-start="2282.0" data-end="2284.0"> 
+from inside the simulator.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2284.0" data-end="2286.0"> 
+So xcrun simctl spawn booted </span></span>
+
+<span class="sentence"><span data-start="2287.0" data-end="2289.0"> 
+and then you give log show system logs.logarchive </span></span>
+
+<span class="sentence"><span data-start="2289.0" data-end="2292.0"> 
+and you can run all those commands just </span></span>
+
+<span class="sentence"><span data-start="2292.0" data-end="2293.0"> 
+like you would otherwise.</span></span>
+
+<span class="sentence"><span data-start="2294.0" data-end="2295.0"> 
+The alternative is coming at some point.</span></span>
+
+<span class="sentence"><span data-start="2296.0" data-end="2300.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="2301.0" data-end="2302.0"> 
+So let me talk a moment </span></span>
+
+<span class="sentence"><span data-start="2302.0" data-end="2305.0"> 
+about best practices, logging etiquette.</span></span>
+
+<span class="sentence"><span data-start="2305.0" data-end="2310.0"> 
+Try to ensure that your messages only contain really useful </span></span>
+
+<span class="sentence"><span data-start="2310.0" data-end="2313.0"> 
+information, don't have a lot of extra whitespace </span></span>
+
+<span class="sentence"><span data-start="2313.0" data-end="2315.0"> 
+or filler data in there.</span></span>
+
+<span class="sentence"><span data-start="2315.0" data-end="2316.0"> 
+Try to keep it compact.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2318.0" data-end="2320.0"> 
+Let us do the formatting, </span></span>
+
+<span class="sentence"><span data-start="2320.0" data-end="2323.0"> 
+leverage the built-in formatters that we provided.</span></span>
+
+<span class="sentence"><span data-start="2324.0" data-end="2326.0"> 
+The more work you do to format your strings </span></span>
+
+<span class="sentence"><span data-start="2326.0" data-end="2330.0"> 
+in advance the more that's going to slow down your app as opposed </span></span>
+
+<span class="sentence"><span data-start="2330.0" data-end="2333.0"> 
+to letting us do the formatting at the point </span></span>
+
+<span class="sentence"><span data-start="2333.0" data-end="2335.0"> 
+at which it gets output.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2335.0" data-end="2338.0"> 
+Avoid wrapping os log APIs in other functions.</span></span>
+
+<span class="sentence"><span data-start="2339.0" data-end="2342.0"> 
+If you wrap it in another function you then lose our </span></span>
+
+<span class="sentence"><span data-start="2342.0" data-end="2346.0"> 
+ability to collect the file and line number for you.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2347.0" data-end="2351.0"> 
+If you absolutely have to wrap our APIs, then wrap them </span></span>
+
+<span class="sentence"><span data-start="2351.0" data-end="2352.0"> 
+in macros and not in functions.</span></span>
+
+<span class="sentence"><span data-start="2354.0" data-end="2357.0"> 
+Only log what's needed from dictionaries and archives.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2357.0" data-end="2360.0"> 
+Dictionaries, I mean dictionaries and arrays.</span></span>
+
+<span class="sentence"><span data-start="2361.0" data-end="2363.0"> 
+They take up a lot of space on disk, which means they're going </span></span>
+
+<span class="sentence"><span data-start="2363.0" data-end="2366.0"> 
+to pushing out other log messages that people may need.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2366.0" data-end="2369.0"> 
+Try to only log the parts of those that you really, </span></span>
+
+<span class="sentence"><span data-start="2369.0" data-end="2371.0"> 
+really need for your logs.</span></span>
+
+<span class="sentence"><span data-start="2372.0" data-end="2378.0"> 
+And avoid logging in tight loops in code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2378.0" data-end="2381.0"> 
+So a brief word on what we think the best uses </span></span>
+
+<span class="sentence"><span data-start="2381.0" data-end="2382.0"> 
+of our new APIs are.</span></span>
+
+<span class="sentence"><span data-start="2383.0" data-end="2388.0"> 
+Os log to log basically details on your basic details </span></span>
+
+<span class="sentence"><span data-start="2388.0" data-end="2389.0"> 
+on logging information.</span></span>
+
+<span class="sentence"><span data-start="2389.0" data-end="2392.0"> 
+This is the kind of information you may need from hours ago </span></span>
+
+<span class="sentence"><span data-start="2392.0" data-end="2395.0"> 
+to help debug your problem.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2395.0" data-end="2398.0"> 
+Use os log info for additional information </span></span>
+
+<span class="sentence"><span data-start="2398.0" data-end="2399.0"> 
+that is very, very timely.</span></span>
+
+<span class="sentence"><span data-start="2400.0" data-end="2401.0"> 
+So use this first stuff that's going </span></span>
+
+<span class="sentence"><span data-start="2401.0" data-end="2402.0"> 
+to get stale very, very quickly.</span></span>
+
+<span class="sentence"><span data-start="2403.0" data-end="2407.0"> 
+Use os log debug for high volume debugging during development.</span></span>
+
+<span class="sentence"><span data-start="2408.0" data-end="2412.0"> 
+Error in the case that you want additional information collected </span></span>
+
+<span class="sentence"><span data-start="2412.0" data-end="2413.0"> 
+and captured for your app.</span></span>
+
+<span class="sentence"><span data-start="2414.0" data-end="2418.0"> 
+And fault if you want additional information you want collected </span></span>
+
+<span class="sentence"><span data-start="2418.0" data-end="2419.0"> 
+about the system.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2419.0" data-end="2424.0"> 
+A quick word on gathering logs.</span></span>
+
+<span class="sentence"><span data-start="2424.0" data-end="2427.0"> 
+Sydiagnose is the preferred method </span></span>
+
+<span class="sentence"><span data-start="2427.0" data-end="2429.0"> 
+to capture data for bug reports.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2430.0" data-end="2432.0"> 
+If you do sysdiagnose the logging data </span></span>
+
+<span class="sentence"><span data-start="2433.0" data-end="2435.0"> 
+in the system I've just described will appear </span></span>
+
+<span class="sentence"><span data-start="2435.0" data-end="2439.0"> 
+within that archive as a file called system logs.archive.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2441.0" data-end="2444.0"> 
+You can use key-chords to trigger sysdiagnose.</span></span>
+
+<span class="sentence"><span data-start="2445.0" data-end="2447.0"> 
+If you do a sysdiagnose on an Apple watch it will trigger </span></span>
+
+<span class="sentence"><span data-start="2447.0" data-end="2449.0"> 
+on both the watch and the paired phone.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2451.0" data-end="2454.0"> 
+And then you can use iTunes to transfer that archive </span></span>
+
+<span class="sentence"><span data-start="2454.0" data-end="2458.0"> 
+over to your Mac to do something with.</span></span>
+
+<span class="sentence"><span data-start="2458.0" data-end="2462.0"> 
+This is the file that Apple is going to be wanting to have </span></span>
+
+<span class="sentence"><span data-start="2462.0" data-end="2464.0"> 
+from you when you talk to us about a problem.</span></span>
+
+<span class="sentence"><span data-start="2464.0" data-end="2467.0"> 
+So either attaching it to the radar or delivering it </span></span>
+
+<span class="sentence"><span data-start="2467.0" data-end="2468.0"> 
+to developer technical support.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2468.0" data-end="2471.0"> 
+So here's the various key-chords.</span></span>
+
+<span class="sentence"><span data-start="2471.0" data-end="2475.0"> 
+Shift + Control + Option + Command + Period (.) </span></span>
+
+<span class="sentence"><span data-start="2475.0" data-end="2476.0"> 
+for Mac OS.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2476.0" data-end="2480.0"> 
+Volume up + Volume Down + Power for iOS.</span></span>
+
+<span class="sentence"><span data-start="2480.0" data-end="2483.0"> 
+On the phone you'll get a slight vibration, on iPad you won't.</span></span>
+
+<span class="sentence"><span data-start="2484.0" data-end="2487.0"> 
+On watchOS it's press and hold the digital crown </span></span>
+
+<span class="sentence"><span data-start="2487.0" data-end="2488.0"> 
+and side button for a full second.</span></span>
+
+<span class="sentence"><span data-start="2488.0" data-end="2491.0"> 
+If you don't present it long enough you'll actually get a </span></span>
+
+<span class="sentence"><span data-start="2491.0" data-end="2492.0"> 
+screenshot instead.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2492.0" data-end="2497.0"> 
+There will be a slight haptic vibration when you trigger it.</span></span>
+
+<span class="sentence"><span data-start="2497.0" data-end="2502.0"> 
+Play/Pause + Volume Down tvOS.</span></span>
+
+<span class="sentence"><span data-start="2503.0" data-end="2507.0"> 
+Note that on older remotes for the Apple TV you have </span></span>
+
+<span class="sentence"><span data-start="2507.0" data-end="2509.0"> 
+to actually hold it down for five seconds to trigger.</span></span>
+
+<span class="sentence"><span data-start="2510.0" data-end="2515.0"> 
+Deprecations, so as part of this there be some APIs </span></span>
+
+<span class="sentence"><span data-start="2515.0" data-end="2516.0"> 
+that we're going to be saying farewell to.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2517.0" data-end="2522.0"> 
+First off, all of the ASL logging APIs are now superseded </span></span>
+
+<span class="sentence"><span data-start="2522.0" data-end="2523.0"> 
+by these new APIs and, therefore, </span></span>
+
+<span class="sentence"><span data-start="2523.0" data-end="2525.0"> 
+those old APIs are deprecated.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2526.0" data-end="2527.0"> 
+There is an interesting edge case though.</span></span>
+
+<span class="sentence"><span data-start="2528.0" data-end="2531.0"> 
+A new API for searching the log data is not going </span></span>
+
+<span class="sentence"><span data-start="2531.0" data-end="2533.0"> 
+to be made public in this release.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2533.0" data-end="2535.0"> 
+What that means is that there's no equivalent </span></span>
+
+<span class="sentence"><span data-start="2535.0" data-end="2537.0"> 
+to asl search functionality.</span></span>
+
+<span class="sentence"><span data-start="2537.0" data-end="2541.0"> 
+If you absolutely depend on asl search in your system </span></span>
+
+<span class="sentence"><span data-start="2541.0" data-end="2545.0"> 
+that may be a reason to wait for adopting the new logging system.</span></span>
+
+<span class="sentence"><span data-start="2547.0" data-end="2552.0"> 
+There's also some APIs from activities </span></span>
+
+<span class="sentence"><span data-start="2552.0" data-end="2553.0"> 
+that are being deprecated.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2553.0" data-end="2556.0"> 
+Instead of doing os activity start </span></span>
+
+<span class="sentence"><span data-start="2556.0" data-end="2561.0"> 
+and os activity end we now have you do the os activity create </span></span>
+
+<span class="sentence"><span data-start="2561.0" data-end="2564.0"> 
+as I showed you and then call either scope or apply </span></span>
+
+<span class="sentence"><span data-start="2564.0" data-end="2566.0"> 
+to apply it to a block of code.</span></span>
+
+<span class="sentence"><span data-start="2566.0" data-end="2568.0"> 
+Os activity breadcrumb gets replaced </span></span>
+
+<span class="sentence"><span data-start="2568.0" data-end="2571.0"> 
+with os activity user label.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2571.0" data-end="2573.0"> 
+Os trace with payload gets replaced </span></span>
+
+<span class="sentence"><span data-start="2573.0" data-end="2575.0"> 
+by any of the os log calls.</span></span>
+
+<span class="sentence"><span data-start="2576.0" data-end="2579.0"> 
+Note that these functions as of this release are now no ops.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2579.0" data-end="2581.0"> 
+So if you continue calling these they're not going </span></span>
+
+<span class="sentence"><span data-start="2581.0" data-end="2581.0"> 
+to do anything.</span></span>
+
+<span class="sentence"><span data-start="2583.0" data-end="2589.0"> 
+So in summary, the new logging system is faster, easier to use </span></span>
+
+<span class="sentence"><span data-start="2589.0" data-end="2590.0"> 
+and gives you more control, </span></span>
+
+<span class="sentence"><span data-start="2590.0" data-end="2593.0"> 
+but it does require using new APIs and new tools.</span></span>
+
+<span class="sentence"><span data-start="2594.0" data-end="2597.0"> 
+Related sessions, I've mentioned a few times back </span></span>
+
+<span class="sentence"><span data-start="2597.0" data-end="2601.0"> 
+in 2014 Activity Tracing, this is the talk </span></span>
+
+<span class="sentence"><span data-start="2601.0" data-end="2602.0"> 
+in which we talk about that.</span></span>
+
+<span class="sentence"><span data-start="2602.0" data-end="2604.0"> 
+So if you want go back and look at that.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2604.0" data-end="2606.0"> 
+And if you want to get more information </span></span>
+
+<span class="sentence"><span data-start="2606.0" data-end="2608.0"> 
+about this talk, that's the URL.</span></span>
+
+<span class="sentence"><span data-start="2609.0" data-end="2609.0"> 
+Thank you very much.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2610.0" data-end="2614.0"> 
+</span></span>
+
+</p>
+							</section>
+						</li>
+
+						<!-- search -->
+						<li class="supplement search active" data-supplement-id="search">
+
+							<section class="transcript-results-summary">
+								<p class="message smaller lighter"><!-- to be populated --></p>
+								<p class="instructions smaller lighter text-center">Looking for something specific? Enter a topic above and jump straight to the good stuff.</p>
+								<p class="error smaller lighter italic text-center" style="display:none;">An error occurred when submitting your query. Please check your Internet connection and try again.</p>
+							</section>
+
+							<!-- search results -->
+							<ul class="transcript-results row">
+															</ul>
+
+						</li>
+
+					</ul>
+
+				</section>
+
+			</section>
+
+		</section>
+
+		<input id="analytics-meta" type="hidden" data-event-name="WWDC 2016" 
+		data-event-id="wwdc2016-721" 
+		data-session-id="721" 
+		data-video-name="Unified Logging and Activity Tracing" 
+		data-session-response-id="">
+	</main>
+
+	<div id="globalfooter-wrapper">
+		<footer id="globalfooter" role="contentinfo">
+			<nav class="footer-breadory">
+				<a href="/" class="home breadcrumbs-home"><span aria-hidden="true"></span><span class="breadcrumbs-home-label">Developer</span></a>
+				<section class="breadcrumbs">
+					<ol class="breadcrumbs-list">
+						<li><a href="/videos/">Videos</a></li>
+						<li><a href="/videos/wwdc2016/">WWDC 2016</a></li>						<li>Unified Logging and Activity Tracing</li>
+					</ol>
+				</section>
+				<div id="directorynav" class="directorynav">
+	<div id="dn-cola" class="column">
+		<h3><a href="/discover/">Discover</a></h3>
+		<ul>
+			<li><a href="/macos/">macOS</a></li>
+			<li><a href="/ios/">iOS</a></li>
+			<li><a href="/watchos/">watchOS</a></li>
+			<li><a href="/tvos/">tvOS</a></li>
+			<li><a href="/safari/">Safari and Web</a></li>
+			<li><a href="/games/">Games</a></li>
+			<li><a href="/business/">Business</a></li>
+			<li><a href="/education/">Education</a></li>
+			<li><a href="/wwdc/">WWDC</a></li>
+		</ul>
+	</div>
+	<div id="dn-colb" class="column">
+		<h3><a href="/design/">Design</a></h3>
+		<ul>
+			<li><a href="/design/human-interface-guidelines/">Human Interface Guidelines</a></li>
+			<li><a href="/design/resources/">Resources</a></li>
+			<li><a href="/videos/design/">Videos</a></li>
+			<li><a href="/design/awards/">Apple Design Awards</a></li>
+			<li><a href="/accessibility/">Accessibility</a></li>
+			<li><a href="/internationalization/">Internationalization</a></li>
+			<li><a href="/accessories/">Accessories</a></li>
+		</ul>
+	</div>
+	<div id="dn-colc" class="column">
+		<h3><a href="/develop/">Develop</a></h3>
+		<ul>
+			<li><a href="/xcode/">Xcode</a></li>
+			<li><a href="/swift/">Swift</a></li>
+			<li><a href="/swift-playgrounds/">Swift Playgrounds</a></li>
+			<li><a href="/testflight/">TestFlight</a></li>
+			<li><a href="/documentation/">Documentation</a></li>
+			<li><a href="/videos/">Videos</a></li>
+			<li><a href="/download/">Downloads</a></li>
+		</ul>
+	</div>
+	<div id="dn-cold" class="column">
+		<h3><a href="/distribute/">Distribute</a></h3>
+		<ul>
+			<li><a href="/programs/">Developer Program</a></li>
+			<li><a href="/app-store/">App Store</a></li>
+			<li><a href="/app-store/review/">App Review</a></li>
+			<li><a href="/macos/distribution/">Mac Software</a></li>
+			<li><a href="/business/distribute/">Apps for Business</a></li>
+			<li><a href="/safari/extensions/">Safari Extensions</a></li>
+			<li><a href="/app-store/marketing/guidelines/">Marketing Resources</a></li>
+			<li><a href="/softwarelicensing/">Trademark Licensing</a></li>
+		</ul>
+	</div>
+	<div id="dn-cole" class="column">
+		<h3><a href="/support/">Support</a></h3>
+		<ul>
+			<li><a href="https://forums.developer.apple.com">Developer Forums</a></li>
+			<li><a href="/bug-reporting/">Bug Reporting</a></li>
+			<li><a href="/terms/">License Agreements</a></li>
+			<li><a href="/system-status/">System Status</a></li>
+			<li><a href="/contact/">Contact Us</a></li>
+		</ul>
+		<h3><a href="/account/">Account</a></h3>
+		<ul>
+			<li><a href="/account/ios/certificate/">Certificates, IDs &amp; Profiles</a></li>
+			<li><a href="https://appstoreconnect.apple.com/">App Store Connect</a></li>
+		</ul>
+	</div>
+</div>
+
+			</nav>
+			<div class="ac-gf-footer-legal">
+  <div class="ac-gf-footer-news"> To receive the latest developer news, visit and subscribe to our <a href="/news/">News and Updates</a>. </div>
+  <div class="ac-gf-footer-legal-copyright">Copyright ©  2019 Apple Inc. All rights reserved.</div>
+  <div class="ac-gf-footer-legal-links">
+    <a href="https://www.apple.com/legal/internet-services/terms/site.html" class="first">Terms of Use</a>
+    <a href="https://www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="/bug-reporting/">Report Bugs</a>
+    <a href="/contact/submit/?subject=website-feedback">Feedback</a>
+  </div>
+  <div class="ac-gf-footer-language-links">
+    <a href="/cn/" lang="zh" class="first">简体中文</a>
+    <a href="/jp/" lang="ja">日本語</a>
+    <a href="/kr/" lang="ko">한국어</a>
+  </div>
+</div>
+
+		</footer>
+	</div>
+
+	<script src="/assets/scripts/params.js"></script>
+	<script src="/assets/scripts/watchable.js"></script>
+	<script src="/assets/scripts/timeout.js"></script>
+
+	<script src="/videos/scripts/play/play.js?2"></script>
+	<script src="/videos/scripts/hls/hls.min.js"></script>
+	
+</body>
+</html>

@@ -1,0 +1,4926 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+	<meta charset="utf-8" />
+<meta name="Author" content="Apple Inc." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="mask-icon" href="/apple-logo.svg" color="#333333">
+
+<link rel="stylesheet" href="/assets/styles/globalnav.css?1" type="text/css" />
+<link rel="stylesheet" href="/assets/styles/global.dist.css" type="text/css" />
+
+<script src="/assets/scripts/lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="/assets/scripts/lib/jquery/jquery.retinate.js"></script>
+<script src="/assets/scripts/global.js"></script>
+<script src="/assets/scripts/global-logout.js"></script>
+	<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Pro+Icons&v=1" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=SF+Mono&v=2" type="text/css" />
+<link rel="stylesheet" href="https://www.apple.com/wss/fonts?family=Apple+Icons&amp;v=1" type="text/css" />
+
+		<meta name="omni_page" content="Building Faster in Xcode - WWDC 2018 - Videos" />
+	<title>Building Faster in Xcode - WWDC 2018 - Videos - Apple Developer</title>
+		<meta name="robots" content="noodp,noydir" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link type="text/css" rel="stylesheet" href="/videos/styles/videos.css">
+	<meta name="description" content="Build your apps faster in Xcode 10. Learn how to structure your projects and tweak your code to take full advantage of all processor...">
+
+	<meta property="og:url" content="developer.apple.com/videos/play/wwdc2018/408/" />
+	<meta property="og:title" content="Building Faster in Xcode - WWDC 2018 - Videos - Apple Developer" />
+	<meta property="og:description" content="Build your apps faster in Xcode 10. Learn how to structure your projects and tweak your code to take full advantage of all processor..." />
+	<meta property="og:site_name" content="Apple Developer" />
+	<meta property="og:type" content="website" />
+		<meta property="og:image" content="https://devimages-cdn.apple.com/wwdc-services/images/42/2161/2161_wide_250x141_2x.jpg" />
+		<meta property="og:locale" content="en_US" />
+
+</head>
+<body class="view-play">
+
+	<aside id="ac-gn-segmentbar" class="ac-gn-segmentbar" lang="en-US" dir="ltr">
+</aside>
+<input type="checkbox" id="ac-gn-menustate" class="ac-gn-menustate" />
+<nav id="ac-globalnav" class="no-js" role="navigation" aria-label="Global" data-hires="false" data-analytics-region="global nav" lang="en-US" dir="ltr" data-store-locale="us" data-store-api="/[storefront]/shop/bag/status" data-search-locale="en_US" data-search-api="/search-services/suggestions/">
+	<div class="ac-gn-content">
+		<ul class="ac-gn-header">
+			<li class="ac-gn-item ac-gn-menuicon">
+				<label class="ac-gn-menuicon-label" for="ac-gn-menustate" aria-hidden="true">
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-top">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-top"></span>
+					</span>
+					<span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-bottom">
+						<span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-bottom"></span>
+					</span>
+				</label>
+				<a href="#ac-gn-menustate" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-open" id="ac-gn-menuanchor-open">
+					<span class="ac-gn-menuanchor-label">Global Nav Open Menu</span>
+				</a>
+				<a href="#" role="button" class="ac-gn-menuanchor ac-gn-menuanchor-close" id="ac-gn-menuanchor-close">
+					<span class="ac-gn-menuanchor-label">Global Nav Close Menu</span>
+				</a>
+			</li>
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus-small">
+					<span class="ac-gn-link-text">Apple Developer</span>
+				</a>
+			</li>
+		</ul>
+		<div class="ac-gn-search-placeholder-container" role="search">
+			<div class="ac-gn-search ac-gn-search-small">
+				<a id="ac-gn-link-search-small" class="ac-gn-link" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer">
+					<div class="ac-gn-search-placeholder-bar">
+						<div class="ac-gn-search-placeholder-input">
+							<div class="ac-gn-search-placeholder-input-text" aria-hidden="true">
+								<div class="ac-gn-link-search ac-gn-search-placeholder-input-icon"></div>
+								<span class="ac-gn-search-placeholder">Search Developer</span>
+							</div>
+						</div>
+						<div class="ac-gn-searchview-close ac-gn-searchview-close-small ac-gn-search-placeholder-searchview-close">
+							<span class="ac-gn-searchview-close-cancel" aria-hidden="true">Cancel</span>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<ul class="ac-gn-list">
+			<li class="ac-gn-item ac-gn-apple">
+				<a class="ac-gn-link ac-gn-link-apple-developer" href="/" data-analytics-title="appledeveloper home" id="ac-gn-firstfocus">
+					<span class="ac-gn-link-text">Apple Developer</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-discover">
+				<a class="ac-gn-link ac-gn-link-discover" href="/discover/" data-analytics-title="discover">
+					<span class="ac-gn-link-text">Discover</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-design">
+				<a class="ac-gn-link ac-gn-link-design" href="/design/" data-analytics-title="design">
+					<span class="ac-gn-link-text">Design</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-develop">
+				<a class="ac-gn-link ac-gn-link-develop" href="/develop/" data-analytics-title="develop">
+					<span class="ac-gn-link-text">Develop</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-distribute">
+				<a class="ac-gn-link ac-gn-link-distribute" href="/distribute/" data-analytics-title="distribute">
+					<span class="ac-gn-link-text">Distribute</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-dsupport">
+				<a class="ac-gn-link ac-gn-link-dsupport" href="/support/" data-analytics-title="dsupport">
+					<span class="ac-gn-link-text">Support</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-account">
+				<a class="ac-gn-link ac-gn-link-account" href="/account/" data-analytics-title="account">
+					<span class="ac-gn-link-text">Account</span>
+					</a>
+			</li>
+			<li class="ac-gn-item ac-gn-item-menu ac-gn-search" role="search">
+				<a id="ac-gn-link-search" class="ac-gn-link ac-gn-link-search" href="/search/" data-analytics-title="search" data-analytics-click="search" data-analytics-intrapage-link aria-label="Search Developer"></a>
+			</li>
+		</ul>
+		<aside id="ac-gn-searchview" class="ac-gn-searchview" role="search" data-analytics-region="search">
+			<div class="ac-gn-searchview-content">
+				<div class="ac-gn-searchview-bar">
+					<div class="ac-gn-searchview-bar-wrapper">
+						<form id="ac-gn-searchform" class="ac-gn-searchform" action="/search/" method="get">
+							<div class="ac-gn-searchform-wrapper">
+								<input id="ac-gn-searchform-input" class="ac-gn-searchform-input" type="text" name="q" aria-label="Search Developer" placeholder="Search Developer" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="true" aria-owns="quicklinks suggestions" />
+								<button id="ac-gn-searchform-submit" class="ac-gn-searchform-submit" type="submit" disabled aria-label="Submit Search"></button>
+								<button id="ac-gn-searchform-reset" class="ac-gn-searchform-reset" type="reset" disabled aria-label="Clear Search">
+										<span class="ac-gn-searchform-reset-background"></span>
+									</button>
+							</div>
+						</form>
+						<button id="ac-gn-searchview-close-small" class="ac-gn-searchview-close ac-gn-searchview-close-small" aria-label="Cancel Search">
+								<span class="ac-gn-searchview-close-cancel" aria-hidden="true">
+									Cancel
+								</span>
+							</button>
+					</div>
+				</div>
+				<aside id="ac-gn-searchresults" class="ac-gn-searchresults" data-string-quicklinks="Quick Links" data-string-suggestions="Suggested Searches" data-string-noresults=""></aside>
+			</div>
+			<button id="ac-gn-searchview-close" class="ac-gn-searchview-close" aria-label="Cancel Search">
+					<span class="ac-gn-searchview-close-wrapper">
+						<span class="ac-gn-searchview-close-left"></span>
+						<span class="ac-gn-searchview-close-right"></span>
+					</span>
+				</button>
+		</aside>
+			</div>
+</nav>
+<div class="ac-gn-blur"></div>
+<div id="ac-gn-curtain" class="ac-gn-curtain"></div>
+<div id="ac-gn-placeholder" class="ac-nav-placeholder"></div>
+<script src="/assets/scripts/ac-globalnav.built.js"></script>
+
+			<!-- metrics -->
+<script>
+    /* RSID: */
+    var s_account="awdappledeveloper"
+</script>	
+<script src="/assets/metrics/scripts/analytics.js"></script>
+<script>
+    s.pageName= AC && AC.Tracking && AC.Tracking.pageName();
+    s.channel="www.en.developer"
+    s.channel="www.videos.developer";
+
+    
+    /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+    var s_code=s.t();if(s_code)document.write(s_code)
+</script>
+<!-- /metrics -->	
+	<main id="main" class="main theme-dark" role="main">
+
+		<section class="bg-dark">
+
+			<section class="grid">
+
+				<section class="row">
+					<section class="column large-10 small-12  padding-top-small large-centered no-padding-bottom">
+						<!-- back link -->
+						<p class="back-link smaller">
+														<a class="arrow-left" href="/videos/">More Videos</a>
+													</p>
+					</section>
+				</section>
+
+				<!-- video player -->
+				<section class="video-wrapper row">
+					<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+												<video id="video" class="video large-centered" controls="" src="https://devstreaming-cdn.apple.com/videos/wwdc/2018/408bhgyeffq8acmv/408/hls_vod_mvp.m3u8" autoplay data-id="1883">
+							
+						</video>
+						<div class="no-video-banner hidden">
+							<div class="no-video-copy">
+								<p>Streaming is available in most browsers,<br> and in the WWDC app.</p>
+							</div>
+							</span>
+						</div>
+											</section>
+				</section>
+
+			</section>
+
+		</section>
+
+		<section class="grid">
+
+			<!-- tab menu -->
+			<section class="tab-menu row divider-bottom">
+
+				<section class="column large-10 small-12  padding-top-small padding-bottom-small large-centered">
+
+					<ul class="tabs">
+						<li class="tab" data-supplement-id="details"><a href="#"><span class="smaller">Overview</span></a></li>
+
+												<li class="tab" data-supplement-id="transcript"><a href="#"><span class="smaller">Transcript</span></a></li>
+						<li class="tab right active" data-supplement-id="search">
+							<!-- mobile search -->
+							<a href="#"><span><!--icon--></span></a>
+							<!-- desktop search -->
+							<section class="searchbar-wrapper desktop" style="opacity:0;">
+								<button class="search-icon"></button>
+								<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+							</section>
+						</li>
+						
+												<section class="searchbar-wrapper mobile" style="">
+							<input class="active" type="text" autocomplete="off" autofocus="" placeholder="Search this video…">
+						</section>
+						
+					</ul>
+				</section>
+
+			</section>
+
+			<!-- supplements -->
+			<section class="row">
+
+				<section class="column large-10 small-12  large-centered no-padding-top no-padding-bottom">
+
+					<ul class="supplements hidden">
+
+						<!-- details -->
+						<li class="supplement details " data-supplement-id="details">
+							
+							<h1>Building Faster in Xcode</h1>
+							<p>Build your apps faster in Xcode 10. Learn how to structure your projects and tweak your code to take full advantage of all processor cores. Whether you've made a few small code changes you want to give a try, or you're building your full app for release, these techniques will cut the time it takes to build a running app.</p>
+							<p class="smaller lighter">WWDC 2018 - Session 408
+							 - iOS, macOS, tvOS, watchOS</p>
+
+														<h2>Resources</h2>
+
+							<ul class="links small">
+								
+																	<li class="download">
+										<ul class="options">
+																						<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/408bhgyeffq8acmv/408/408_hd_building_faster_in_xcode.mp4?dl=1">HD Video</a></li>
+																																	<li><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/408bhgyeffq8acmv/408/408_sd_building_faster_in_xcode.mp4?dl=1">SD Video</a></li>
+																					</ul>
+									</li>
+																
+																										<li class="download"><a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/408bhgyeffq8acmv/408/408_building_faster_in_xcode.pdf?dl=1">Presentation Slides (PDF)</a></li>
+																								</ul>
+							
+														<div class="divider-top margin-top-small padding-bottom-small"></div>
+							<h2>Related Videos</h2>
+														<h4>WWDC 2018</h4>
+								<ul class="links small">
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/415">Behind the Scenes of the Xcode Build Process</a>
+										</li>
+																			<li class="video">
+											<a href="/videos/play/wwdc2018/401">What's New in Swift</a>
+										</li>
+																	</ul>
+														
+							
+						</li>
+
+						<!-- transcript -->
+						<li class="supplement transcript" data-supplement-id="transcript" data-shortcut-base-url="/videos/play/wwdc2018-408/">
+							<section>
+								<div class="margin-bottom-small download-transcript"><span id="get-transcript" class="icon icon-before icon-downloadcircle">Download</span></div>
+								<p><span class="sentence"><span data-start="8.0" data-end="15.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="25.0" data-end="29.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="30.0" data-end="31.0"> 
+ Hello, and good morning </span></span>
+
+<span class="sentence"><span data-start="31.0" data-end="31.0"> 
+everybody.</span></span>
+
+<span class="sentence"><span data-start="31.0" data-end="32.0"> 
+I'm glad you could all make it </span></span>
+
+<span class="sentence"><span data-start="32.0" data-end="33.0"> 
+out this morning.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="34.0" data-end="35.0"> 
+My name is David Owens.</span></span>
+
+<span class="sentence"><span data-start="35.0" data-end="37.0"> 
+And I'm an engineer on the Xcode </span></span>
+
+<span class="sentence"><span data-start="37.0" data-end="37.0"> 
+team.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="37.0" data-end="39.0"> 
+And today, with my colleague </span></span>
+
+<span class="sentence"><span data-start="39.0" data-end="41.0"> 
+Jordan Rose, who's an engineer </span></span>
+
+<span class="sentence"><span data-start="41.0" data-end="42.0"> 
+on the Swift team, we're going </span></span>
+
+<span class="sentence"><span data-start="42.0" data-end="44.0"> 
+to be talking to you about </span></span>
+
+<span class="sentence"><span data-start="44.0" data-end="46.0"> 
+building faster in Xcode.</span></span>
+
+<span class="sentence"><span data-start="47.0" data-end="48.0"> 
+Now, depending on your projects, </span></span>
+
+<span class="sentence"><span data-start="48.0" data-end="49.0"> 
+their configurations, and their </span></span>
+
+<span class="sentence"><span data-start="49.0" data-end="51.0"> 
+complexities, there's going to </span></span>
+
+<span class="sentence"><span data-start="51.0" data-end="52.0"> 
+be a different set of </span></span>
+
+<span class="sentence"><span data-start="52.0" data-end="53.0"> 
+opportunities that you're going </span></span>
+
+<span class="sentence"><span data-start="53.0" data-end="55.0"> 
+to be able to take to improve, </span></span>
+
+<span class="sentence"><span data-start="55.0" data-end="57.0"> 
+or in some cases, significantly </span></span>
+
+<span class="sentence"><span data-start="57.0" data-end="58.0"> 
+improve the way in which your </span></span>
+
+<span class="sentence"><span data-start="58.0" data-end="59.0"> 
+builds perform.</span></span>
+
+<span class="sentence"><span data-start="60.0" data-end="62.0"> 
+So today, when we talk about </span></span>
+
+<span class="sentence"><span data-start="62.0" data-end="64.0"> 
+building faster in Xcode, we're </span></span>
+
+<span class="sentence"><span data-start="64.0" data-end="65.0"> 
+going to be looking at it in two </span></span>
+
+<span class="sentence"><span data-start="65.0" data-end="66.0"> 
+different perspectives.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="67.0" data-end="70.0"> 
+The first is going to be around </span></span>
+
+<span class="sentence"><span data-start="70.0" data-end="72.0"> 
+increasing your overall build </span></span>
+
+<span class="sentence"><span data-start="72.0" data-end="72.0"> 
+efficiency.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="72.0" data-end="75.0"> 
+And the second, it'll be about </span></span>
+
+<span class="sentence"><span data-start="75.0" data-end="76.0"> 
+reducing the amount of work that </span></span>
+
+<span class="sentence"><span data-start="76.0" data-end="78.0"> 
+you do on your builds, and </span></span>
+
+<span class="sentence"><span data-start="78.0" data-end="79.0"> 
+especially your incremental </span></span>
+
+<span class="sentence"><span data-start="79.0" data-end="80.0"> 
+builds.</span></span>
+
+<span class="sentence"><span data-start="81.0" data-end="82.0"> 
+Now, I'm going to be walking you </span></span>
+
+<span class="sentence"><span data-start="82.0" data-end="83.0"> 
+through some of the </span></span>
+
+<span class="sentence"><span data-start="83.0" data-end="85.0"> 
+project-level items, including </span></span>
+
+<span class="sentence"><span data-start="85.0" data-end="86.0"> 
+how to parallelize your build </span></span>
+
+<span class="sentence"><span data-start="86.0" data-end="87.0"> 
+process.</span></span>
+
+<span class="sentence"><span data-start="87.0" data-end="89.0"> 
+How to declare and configure </span></span>
+
+<span class="sentence"><span data-start="89.0" data-end="90.0"> 
+your run script phases.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="91.0" data-end="92.0"> 
+And I'll be walking you through </span></span>
+
+<span class="sentence"><span data-start="92.0" data-end="94.0"> 
+some new functionality in Xcode </span></span>
+
+<span class="sentence"><span data-start="94.0" data-end="94.0"> 
+10 </span></span>
+
+<span class="sentence"><span data-start="94.0" data-end="96.0"> 
+around measuring your build </span></span>
+
+<span class="sentence"><span data-start="98.0" data-end="98.0"> 
+times.</span></span>
+
+<span class="sentence"><span data-start="98.0" data-end="99.0"> 
+Now, Jordan is going to be </span></span>
+
+<span class="sentence"><span data-start="99.0" data-end="100.0"> 
+walking us through some of the </span></span>
+
+<span class="sentence"><span data-start="100.0" data-end="101.0"> 
+source-level improvements that </span></span>
+
+<span class="sentence"><span data-start="101.0" data-end="103.0"> 
+we can make to our projects, </span></span>
+
+<span class="sentence"><span data-start="103.0" data-end="104.0"> 
+including understanding our </span></span>
+
+<span class="sentence"><span data-start="104.0" data-end="105.0"> 
+dependence using Swift.</span></span>
+
+<span class="sentence"><span data-start="106.0" data-end="107.0"> 
+Dealing with complex expressions </span></span>
+
+<span class="sentence"><span data-start="107.0" data-end="108.0"> 
+in Swift.</span></span>
+
+<span class="sentence"><span data-start="109.0" data-end="110.0"> 
+And how to limit your </span></span>
+
+<span class="sentence"><span data-start="110.0" data-end="112.0"> 
+Objective-C to Swift interfaces.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="114.0" data-end="115.0"> 
+So let's talk about </span></span>
+
+<span class="sentence"><span data-start="115.0" data-end="116.0"> 
+parallelizing your build.</span></span>
+
+<span class="sentence"><span data-start="116.0" data-end="118.0"> 
+Now, Xcode configures your </span></span>
+
+<span class="sentence"><span data-start="118.0" data-end="120.0"> 
+projects through the use of </span></span>
+
+<span class="sentence"><span data-start="120.0" data-end="120.0"> 
+targets.</span></span>
+
+<span class="sentence"><span data-start="121.0" data-end="124.0"> 
+And targets specify the output </span></span>
+
+<span class="sentence"><span data-start="124.0" data-end="124.0"> 
+or the product that you would </span></span>
+
+<span class="sentence"><span data-start="124.0" data-end="125.0"> 
+like to build.</span></span>
+
+<span class="sentence"><span data-start="126.0" data-end="127.0"> 
+Some examples are iOS app, </span></span>
+
+<span class="sentence"><span data-start="128.0" data-end="130.0"> 
+framework, and unit tests.</span></span>
+
+<span class="sentence"><span data-start="131.0" data-end="132.0"> 
+Now, there's another piece of </span></span>
+
+<span class="sentence"><span data-start="132.0" data-end="133.0"> 
+information, that's the </span></span>
+
+<span class="sentence"><span data-start="133.0" data-end="135.0"> 
+dependency between these </span></span>
+
+<span class="sentence"><span data-start="135.0" data-end="135.0"> 
+targets.</span></span>
+
+<span class="sentence"><span data-start="136.0" data-end="137.0"> 
+And Xcode provides us two ways </span></span>
+
+<span class="sentence"><span data-start="138.0" data-end="139.0"> 
+to define our dependencies.</span></span>
+
+<span class="sentence"><span data-start="139.0" data-end="141.0"> 
+There's an explicit means, which </span></span>
+
+<span class="sentence"><span data-start="141.0" data-end="142.0"> 
+we do through the target </span></span>
+
+<span class="sentence"><span data-start="142.0" data-end="143.0"> 
+dependencies phase.</span></span>
+
+<span class="sentence"><span data-start="144.0" data-end="145.0"> 
+And there's an implicit means, </span></span>
+
+<span class="sentence"><span data-start="145.0" data-end="146.0"> 
+which is primarily done through </span></span>
+
+<span class="sentence"><span data-start="146.0" data-end="148.0"> 
+the linked binary with libraries </span></span>
+
+<span class="sentence"><span data-start="148.0" data-end="148.0"> 
+phase.</span></span>
+
+<span class="sentence"><span data-start="148.0" data-end="149.0"> 
+And we'll be taking a look at </span></span>
+
+<span class="sentence"><span data-start="149.0" data-end="152.0"> 
+those more in depth in just a </span></span>
+
+<span class="sentence"><span data-start="152.0" data-end="152.0"> 
+few moments.</span></span>
+
+<span class="sentence"><span data-start="153.0" data-end="154.0"> 
+Now, throughout this section I </span></span>
+
+<span class="sentence"><span data-start="154.0" data-end="155.0"> 
+want to use a sample project to </span></span>
+
+<span class="sentence"><span data-start="155.0" data-end="156.0"> 
+ground our discussion.</span></span>
+
+<span class="sentence"><span data-start="157.0" data-end="158.0"> 
+And so we're going to take a </span></span>
+
+<span class="sentence"><span data-start="158.0" data-end="160.0"> 
+look at a dependency graph for </span></span>
+
+<span class="sentence"><span data-start="160.0" data-end="160.0"> 
+that project.</span></span>
+
+<span class="sentence"><span data-start="161.0" data-end="163.0"> 
+Now, a dependency graph is </span></span>
+
+<span class="sentence"><span data-start="163.0" data-end="165.0"> 
+simply a listing of all of the </span></span>
+
+<span class="sentence"><span data-start="165.0" data-end="166.0"> 
+targets.</span></span>
+
+<span class="sentence"><span data-start="166.0" data-end="167.0"> 
+And this case we're going to </span></span>
+
+<span class="sentence"><span data-start="167.0" data-end="168.0"> 
+have five targets that we're </span></span>
+
+<span class="sentence"><span data-start="168.0" data-end="168.0"> 
+going to be building.</span></span>
+
+<span class="sentence"><span data-start="170.0" data-end="171.0"> 
+And it has that dependency </span></span>
+
+<span class="sentence"><span data-start="171.0" data-end="172.0"> 
+information between those </span></span>
+
+<span class="sentence"><span data-start="172.0" data-end="173.0"> 
+targets.</span></span>
+
+<span class="sentence"><span data-start="174.0" data-end="175.0"> 
+And based on these two pieces of </span></span>
+
+<span class="sentence"><span data-start="175.0" data-end="178.0"> 
+information Xcode can derive our </span></span>
+
+<span class="sentence"><span data-start="178.0" data-end="179.0"> 
+build order.</span></span>
+
+<span class="sentence"><span data-start="179.0" data-end="181.0"> 
+Now, let's take a look at what </span></span>
+
+<span class="sentence"><span data-start="181.0" data-end="182.0"> 
+this looks like on a timeline </span></span>
+
+<span class="sentence"><span data-start="182.0" data-end="183.0"> 
+graph.</span></span>
+
+<span class="sentence"><span data-start="183.0" data-end="188.0"> 
+So as we can see, each of these </span></span>
+
+<span class="sentence"><span data-start="188.0" data-end="189.0"> 
+targets are building in in </span></span>
+
+<span class="sentence"><span data-start="189.0" data-end="190.0"> 
+order, sequentially.</span></span>
+
+<span class="sentence"><span data-start="191.0" data-end="192.0"> 
+And they each have to wait until </span></span>
+
+<span class="sentence"><span data-start="192.0" data-end="193.0"> 
+the previous target is done </span></span>
+
+<span class="sentence"><span data-start="193.0" data-end="194.0"> 
+building.</span></span>
+
+<span class="sentence"><span data-start="194.0" data-end="196.0"> 
+Now, there's nothing wrong with </span></span>
+
+<span class="sentence"><span data-start="196.0" data-end="197.0"> 
+this build timeline, per se.</span></span>
+
+<span class="sentence"><span data-start="198.0" data-end="200.0"> 
+But it does represent a waste of </span></span>
+
+<span class="sentence"><span data-start="200.0" data-end="202.0"> 
+potential hardware utilization, </span></span>
+
+<span class="sentence"><span data-start="202.0" data-end="203.0"> 
+especially if you have a </span></span>
+
+<span class="sentence"><span data-start="203.0" data-end="204.0"> 
+multi-core or a mini-core </span></span>
+
+<span class="sentence"><span data-start="204.0" data-end="205.0"> 
+machine like an iMac Pro.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="206.0" data-end="208.0"> 
+And what that means to you is a </span></span>
+
+<span class="sentence"><span data-start="208.0" data-end="209.0"> 
+waste of time as a developer.</span></span>
+
+<span class="sentence"><span data-start="210.0" data-end="212.0"> 
+So instead, we want to move to </span></span>
+
+<span class="sentence"><span data-start="212.0" data-end="214.0"> 
+something that looks more like </span></span>
+
+<span class="sentence"><span data-start="217.0" data-end="217.0"> 
+this.</span></span>
+
+<span class="sentence"><span data-start="217.0" data-end="218.0"> 
+Now, there's a couple things -- </span></span>
+
+<span class="sentence"><span data-start="218.0" data-end="219.0"> 
+or a few things I want to note </span></span>
+
+<span class="sentence"><span data-start="219.0" data-end="220.0"> 
+about this.</span></span>
+
+<span class="sentence"><span data-start="220.0" data-end="222.0"> 
+First, the amount of work that </span></span>
+
+<span class="sentence"><span data-start="222.0" data-end="223.0"> 
+we actually did in building our </span></span>
+
+<span class="sentence"><span data-start="223.0" data-end="225.0"> 
+project, it did not change.</span></span>
+
+<span class="sentence"><span data-start="226.0" data-end="228.0"> 
+However, the time to build did </span></span>
+
+<span class="sentence"><span data-start="228.0" data-end="229.0"> 
+decrease.</span></span>
+
+<span class="sentence"><span data-start="230.0" data-end="231.0"> 
+And in this case, it actually </span></span>
+
+<span class="sentence"><span data-start="231.0" data-end="232.0"> 
+decreased by a fairly </span></span>
+
+<span class="sentence"><span data-start="232.0" data-end="233.0"> 
+significant margin.</span></span>
+
+<span class="sentence"><span data-start="233.0" data-end="236.0"> 
+And we were able to decrease our </span></span>
+
+<span class="sentence"><span data-start="236.0" data-end="237.0"> 
+build time by making better </span></span>
+
+<span class="sentence"><span data-start="237.0" data-end="239.0"> 
+utilization of the hardware that </span></span>
+
+<span class="sentence"><span data-start="239.0" data-end="242.0"> 
+we have available to us.</span></span>
+
+<span class="sentence"><span data-start="242.0" data-end="244.0"> 
+So, if parallelization -- or </span></span>
+
+<span class="sentence"><span data-start="244.0" data-end="247.0"> 
+parallelization is such a good </span></span>
+
+<span class="sentence"><span data-start="247.0" data-end="249.0"> 
+thing, why don't we just create </span></span>
+
+<span class="sentence"><span data-start="249.0" data-end="250.0"> 
+a build graph that looks like </span></span>
+
+<span class="sentence"><span data-start="250.0" data-end="250.0"> 
+this? </span></span>
+
+<span class="sentence"><span data-start="250.0" data-end="251.0"> 
+We just build everything at once </span></span>
+
+<span class="sentence"><span data-start="251.0" data-end="253.0"> 
+up front in our build timeline.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="254.0" data-end="256.0"> 
+Well, in the best case, you're </span></span>
+
+<span class="sentence"><span data-start="256.0" data-end="257.0"> 
+going to deterministic build </span></span>
+
+<span class="sentence"><span data-start="257.0" data-end="258.0"> 
+errors.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="259.0" data-end="260.0"> 
+And this because that dependency </span></span>
+
+<span class="sentence"><span data-start="260.0" data-end="262.0"> 
+information is actually a vital </span></span>
+
+<span class="sentence"><span data-start="262.0" data-end="263.0"> 
+part of your project </span></span>
+
+<span class="sentence"><span data-start="263.0" data-end="264.0"> 
+configuration.</span></span>
+
+<span class="sentence"><span data-start="264.0" data-end="265.0"> 
+And when it's set up like this, </span></span>
+
+<span class="sentence"><span data-start="266.0" data-end="268.0"> 
+you're trying to build, for </span></span>
+
+<span class="sentence"><span data-start="268.0" data-end="269.0"> 
+example, your game target before </span></span>
+
+<span class="sentence"><span data-start="269.0" data-end="271.0"> 
+you've built your dependencies.</span></span>
+
+<span class="sentence"><span data-start="271.0" data-end="272.0"> 
+So, this is not a good state to </span></span>
+
+<span class="sentence"><span data-start="272.0" data-end="272.0"> 
+be in.</span></span>
+
+<span class="sentence"><span data-start="274.0" data-end="275.0"> 
+So, how do we get there? </span></span>
+
+<span class="sentence"><span data-start="275.0" data-end="277.0"> 
+How do we get from the long, </span></span>
+
+<span class="sentence"><span data-start="277.0" data-end="279.0"> 
+serialized build timeline to the </span></span>
+
+<span class="sentence"><span data-start="279.0" data-end="283.0"> 
+better parallelized build time? </span></span>
+
+<span class="sentence"><span data-start="284.0" data-end="285.0"> 
+Well first, we need to make sure </span></span>
+
+<span class="sentence"><span data-start="285.0" data-end="288.0"> 
+that Xcode is actually set up </span></span>
+
+<span class="sentence"><span data-start="288.0" data-end="289.0"> 
+and configured to allow our </span></span>
+
+<span class="sentence"><span data-start="289.0" data-end="291.0"> 
+targets to be built in parallel.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="291.0" data-end="292.0"> 
+And we do that through the </span></span>
+
+<span class="sentence"><span data-start="292.0" data-end="293.0"> 
+Scheme Editor.</span></span>
+
+<span class="sentence"><span data-start="293.0" data-end="294.0"> 
+You can get to the Scheme Editor </span></span>
+
+<span class="sentence"><span data-start="294.0" data-end="296.0"> 
+by opening the Scheme Chooser </span></span>
+
+<span class="sentence"><span data-start="297.0" data-end="298.0"> 
+and selecting Edit Scheme.</span></span>
+
+<span class="sentence"><span data-start="298.0" data-end="300.0"> 
+And specifically, you'll need to </span></span>
+
+<span class="sentence"><span data-start="300.0" data-end="301.0"> 
+look at the Build Action.</span></span>
+
+<span class="sentence"><span data-start="302.0" data-end="305.0"> 
+And in there, the Build Options.</span></span>
+
+<span class="sentence"><span data-start="305.0" data-end="306.0"> 
+Now, there are two listed here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="307.0" data-end="308.0"> 
+The first is Parallelize Build.</span></span>
+
+<span class="sentence"><span data-start="308.0" data-end="310.0"> 
+And the second is Find Implicit </span></span>
+
+<span class="sentence"><span data-start="310.0" data-end="311.0"> 
+Dependencies.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="312.0" data-end="313.0"> 
+You'll want to check Parallelize </span></span>
+
+<span class="sentence"><span data-start="313.0" data-end="314.0"> 
+Build.</span></span>
+
+<span class="sentence"><span data-start="314.0" data-end="316.0"> 
+This will allow Xcode to use the </span></span>
+
+<span class="sentence"><span data-start="316.0" data-end="317.0"> 
+dependency information across </span></span>
+
+<span class="sentence"><span data-start="317.0" data-end="319.0"> 
+your targets so that it can </span></span>
+
+<span class="sentence"><span data-start="319.0" data-end="320.0"> 
+attempt to build your targets in </span></span>
+
+<span class="sentence"><span data-start="320.0" data-end="321.0"> 
+parallel.</span></span>
+
+<span class="sentence"><span data-start="321.0" data-end="324.0"> 
+So let's look at how your </span></span>
+
+<span class="sentence"><span data-start="324.0" data-end="325.0"> 
+dependencies are actually </span></span>
+
+<span class="sentence"><span data-start="325.0" data-end="327.0"> 
+configured within Xcode.</span></span>
+
+<span class="sentence"><span data-start="328.0" data-end="329.0"> 
+This is done through the Build </span></span>
+
+<span class="sentence"><span data-start="329.0" data-end="330.0"> 
+Phase Editor.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="330.0" data-end="331.0"> 
+And you can get to the Build </span></span>
+
+<span class="sentence"><span data-start="331.0" data-end="333.0"> 
+Phase Editor by going to your </span></span>
+
+<span class="sentence"><span data-start="333.0" data-end="335.0"> 
+Project Navigator and selecting </span></span>
+
+<span class="sentence"><span data-start="335.0" data-end="336.0"> 
+your project.</span></span>
+
+<span class="sentence"><span data-start="336.0" data-end="337.0"> 
+In this case we're looking at </span></span>
+
+<span class="sentence"><span data-start="337.0" data-end="339.0"> 
+the Game Target -- or the Game </span></span>
+
+<span class="sentence"><span data-start="339.0" data-end="339.0"> 
+Project.</span></span>
+
+<span class="sentence"><span data-start="340.0" data-end="343.0"> 
+Next, you want to click on Build </span></span>
+
+<span class="sentence"><span data-start="343.0" data-end="343.0"> 
+Phases.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="344.0" data-end="346.0"> 
+So, let's take a look at the </span></span>
+
+<span class="sentence"><span data-start="346.0" data-end="346.0"> 
+Game Target.</span></span>
+
+<span class="sentence"><span data-start="346.0" data-end="347.0"> 
+This is the Build Phase Editor </span></span>
+
+<span class="sentence"><span data-start="347.0" data-end="348.0"> 
+for our Game Target.</span></span>
+
+<span class="sentence"><span data-start="348.0" data-end="350.0"> 
+And we're going to look at how </span></span>
+
+<span class="sentence"><span data-start="350.0" data-end="351.0"> 
+its dependencies are configured.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="352.0" data-end="352.0"> 
+And I want to call your </span></span>
+
+<span class="sentence"><span data-start="352.0" data-end="354.0"> 
+attention first to the Link </span></span>
+
+<span class="sentence"><span data-start="355.0" data-end="357.0"> 
+Binary with Libraries phase.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="357.0" data-end="359.0"> 
+Now, this is the phase of your </span></span>
+
+<span class="sentence"><span data-start="359.0" data-end="360.0"> 
+build process where you define </span></span>
+
+<span class="sentence"><span data-start="360.0" data-end="361.0"> 
+all of the items that you would </span></span>
+
+<span class="sentence"><span data-start="361.0" data-end="363.0"> 
+like to link with your target.</span></span>
+
+<span class="sentence"><span data-start="364.0" data-end="366.0"> 
+In this case I have two items.</span></span>
+
+<span class="sentence"><span data-start="366.0" data-end="368.0"> 
+I have Physics and Utilities.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="368.0" data-end="371.0"> 
+Now, these are targets within </span></span>
+
+<span class="sentence"><span data-start="371.0" data-end="372.0"> 
+our project and our workspace.</span></span>
+
+<span class="sentence"><span data-start="373.0" data-end="374.0"> 
+So Xcode can create an implicit </span></span>
+
+<span class="sentence"><span data-start="374.0" data-end="376.0"> 
+dependency on those targets.</span></span>
+
+<span class="sentence"><span data-start="377.0" data-end="379.0"> 
+If you're using other linking </span></span>
+
+<span class="sentence"><span data-start="379.0" data-end="382.0"> 
+features such as Autolink or the </span></span>
+
+<span class="sentence"><span data-start="382.0" data-end="383.0"> 
+other LD Build Flags build </span></span>
+
+<span class="sentence"><span data-start="383.0" data-end="385.0"> 
+setting, those are not going to </span></span>
+
+<span class="sentence"><span data-start="385.0" data-end="387.0"> 
+be made available to you here </span></span>
+
+<span class="sentence"><span data-start="387.0" data-end="387.0"> 
+implicitly.</span></span>
+
+<span class="sentence"><span data-start="388.0" data-end="389.0"> 
+So you either have to make an </span></span>
+
+<span class="sentence"><span data-start="389.0" data-end="390.0"> 
+explicit dependency in this </span></span>
+
+<span class="sentence"><span data-start="390.0" data-end="393.0"> 
+build phase, or in the Target </span></span>
+
+<span class="sentence"><span data-start="393.0" data-end="394.0"> 
+Dependencies build phase.</span></span>
+
+<span class="sentence"><span data-start="395.0" data-end="397.0"> 
+So you can see here that we have </span></span>
+
+<span class="sentence"><span data-start="397.0" data-end="398.0"> 
+another item here called </span></span>
+
+<span class="sentence"><span data-start="398.0" data-end="399.0"> 
+Shaders.</span></span>
+
+<span class="sentence"><span data-start="399.0" data-end="402.0"> 
+And Shaders is something that is </span></span>
+
+<span class="sentence"><span data-start="402.0" data-end="403.0"> 
+not used at link time, but </span></span>
+
+<span class="sentence"><span data-start="403.0" data-end="405.0"> 
+instead it's used by another </span></span>
+
+<span class="sentence"><span data-start="405.0" data-end="407.0"> 
+build phase within our current </span></span>
+
+<span class="sentence"><span data-start="407.0" data-end="407.0"> 
+target.</span></span>
+
+<span class="sentence"><span data-start="408.0" data-end="409.0"> 
+So it's important that we let </span></span>
+
+<span class="sentence"><span data-start="409.0" data-end="410.0"> 
+Xcode know that this is a </span></span>
+
+<span class="sentence"><span data-start="410.0" data-end="412.0"> 
+dependency and that we need to </span></span>
+
+<span class="sentence"><span data-start="412.0" data-end="414.0"> 
+wait for the Shaders to finish </span></span>
+
+<span class="sentence"><span data-start="414.0" data-end="417.0"> 
+its compilation and build before </span></span>
+
+<span class="sentence"><span data-start="417.0" data-end="417.0"> 
+we can actually build the </span></span>
+
+<span class="sentence"><span data-start="417.0" data-end="418.0"> 
+current target we're on.</span></span>
+
+<span class="sentence"><span data-start="419.0" data-end="422.0"> 
+Now, this target actually exists </span></span>
+
+<span class="sentence"><span data-start="422.0" data-end="423.0"> 
+in a different project.</span></span>
+
+<span class="sentence"><span data-start="423.0" data-end="425.0"> 
+And if you would like to make a </span></span>
+
+<span class="sentence"><span data-start="425.0" data-end="426.0"> 
+reference to that project you </span></span>
+
+<span class="sentence"><span data-start="426.0" data-end="428.0"> 
+can do so by dragging the </span></span>
+
+<span class="sentence"><span data-start="428.0" data-end="430.0"> 
+project as a child of the </span></span>
+
+<span class="sentence"><span data-start="430.0" data-end="431.0"> 
+current project you're working </span></span>
+
+<span class="sentence"><span data-start="431.0" data-end="431.0"> 
+in.</span></span>
+
+<span class="sentence"><span data-start="431.0" data-end="433.0"> 
+So I want to walk through the </span></span>
+
+<span class="sentence"><span data-start="433.0" data-end="434.0"> 
+rest of the dependencies of our </span></span>
+
+<span class="sentence"><span data-start="434.0" data-end="435.0"> 
+project.</span></span>
+
+<span class="sentence"><span data-start="436.0" data-end="437.0"> 
+Our Shaders target has a </span></span>
+
+<span class="sentence"><span data-start="437.0" data-end="439.0"> 
+dependency on our Utilities </span></span>
+
+<span class="sentence"><span data-start="439.0" data-end="439.0"> 
+target.</span></span>
+
+<span class="sentence"><span data-start="440.0" data-end="442.0"> 
+Our Utilities target has a </span></span>
+
+<span class="sentence"><span data-start="442.0" data-end="443.0"> 
+dependency on our Physics </span></span>
+
+<span class="sentence"><span data-start="443.0" data-end="444.0"> 
+target.</span></span>
+
+<span class="sentence"><span data-start="445.0" data-end="447.0"> 
+And lastly, our Tests have a </span></span>
+
+<span class="sentence"><span data-start="447.0" data-end="450.0"> 
+dependency on our Shaders and </span></span>
+
+<span class="sentence"><span data-start="450.0" data-end="451.0"> 
+our Utilities targets.</span></span>
+
+<span class="sentence"><span data-start="452.0" data-end="453.0"> 
+So now that we have an </span></span>
+
+<span class="sentence"><span data-start="453.0" data-end="454.0"> 
+understanding of the </span></span>
+
+<span class="sentence"><span data-start="454.0" data-end="455.0"> 
+configuration of our project, </span></span>
+
+<span class="sentence"><span data-start="455.0" data-end="457.0"> 
+let's look at the steps that are </span></span>
+
+<span class="sentence"><span data-start="457.0" data-end="458.0"> 
+necessary to turn this </span></span>
+
+<span class="sentence"><span data-start="458.0" data-end="461.0"> 
+serialized build process into </span></span>
+
+<span class="sentence"><span data-start="461.0" data-end="463.0"> 
+one that we can build more in </span></span>
+
+<span class="sentence"><span data-start="463.0" data-end="463.0"> 
+parallel.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="464.0" data-end="465.0"> 
+And we're going to start by </span></span>
+
+<span class="sentence"><span data-start="465.0" data-end="466.0"> 
+looking at our test </span></span>
+
+<span class="sentence"><span data-start="466.0" data-end="466.0"> 
+dependencies.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="468.0" data-end="470.0"> 
+Now, I've broken down the </span></span>
+
+<span class="sentence"><span data-start="470.0" data-end="471.0"> 
+dependencies into three </span></span>
+
+<span class="sentence"><span data-start="471.0" data-end="472.0"> 
+different classes of </span></span>
+
+<span class="sentence"><span data-start="472.0" data-end="473.0"> 
+dependencies that I want to talk </span></span>
+
+<span class="sentence"><span data-start="473.0" data-end="473.0"> 
+about.</span></span>
+
+<span class="sentence"><span data-start="474.0" data-end="475.0"> 
+This first dependency is the </span></span>
+
+<span class="sentence"><span data-start="475.0" data-end="477.0"> 
+dependency that I call the "Do </span></span>
+
+<span class="sentence"><span data-start="477.0" data-end="478.0"> 
+Everything" dependency.</span></span>
+
+<span class="sentence"><span data-start="479.0" data-end="480.0"> 
+Right? It should a little bit </span></span>
+
+<span class="sentence"><span data-start="480.0" data-end="481.0"> 
+clear here that this test is </span></span>
+
+<span class="sentence"><span data-start="482.0" data-end="483.0"> 
+testing way too many components.</span></span>
+
+<span class="sentence"><span data-start="484.0" data-end="485.0"> 
+It's testing our Game.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="485.0" data-end="486.0"> 
+It's testing our Shaders.</span></span>
+
+<span class="sentence"><span data-start="487.0" data-end="488.0"> 
+And it's testing our Utilities.</span></span>
+
+<span class="sentence"><span data-start="490.0" data-end="491.0"> 
+Now in this case, it'd be better </span></span>
+
+<span class="sentence"><span data-start="491.0" data-end="493.0"> 
+to simply break up our tests so </span></span>
+
+<span class="sentence"><span data-start="493.0" data-end="494.0"> 
+that it's testing each </span></span>
+
+<span class="sentence"><span data-start="494.0" data-end="495.0"> 
+individual component.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="495.0" data-end="497.0"> 
+And we're going to see by doing </span></span>
+
+<span class="sentence"><span data-start="497.0" data-end="498.0"> 
+this, we're going to introduce </span></span>
+
+<span class="sentence"><span data-start="498.0" data-end="500.0"> 
+our first bit of parallelism </span></span>
+
+<span class="sentence"><span data-start="500.0" data-end="501.0"> 
+into our build process.</span></span>
+
+<span class="sentence"><span data-start="503.0" data-end="505.0"> 
+Right? Our test target, which </span></span>
+
+<span class="sentence"><span data-start="505.0" data-end="506.0"> 
+was built in all three can now </span></span>
+
+<span class="sentence"><span data-start="506.0" data-end="507.0"> 
+build just the component that </span></span>
+
+<span class="sentence"><span data-start="507.0" data-end="508.0"> 
+it's looking for in the Game </span></span>
+
+<span class="sentence"><span data-start="508.0" data-end="509.0"> 
+tests.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="510.0" data-end="511.0"> 
+And then our Shaders tests and </span></span>
+
+<span class="sentence"><span data-start="511.0" data-end="513.0"> 
+our Utilities tests can be moved </span></span>
+
+<span class="sentence"><span data-start="513.0" data-end="514.0"> 
+to be built in parallel with our </span></span>
+
+<span class="sentence"><span data-start="514.0" data-end="515.0"> 
+other targets.</span></span>
+
+<span class="sentence"><span data-start="516.0" data-end="517.0"> 
+And they can be built as soon as </span></span>
+
+<span class="sentence"><span data-start="517.0" data-end="518.0"> 
+their respective components are </span></span>
+
+<span class="sentence"><span data-start="518.0" data-end="520.0"> 
+done, Shaders and Utilities.</span></span>
+
+<span class="sentence"><span data-start="522.0" data-end="524.0"> 
+Now, the next type of dependency </span></span>
+
+<span class="sentence"><span data-start="524.0" data-end="526.0"> 
+I want to look at is the </span></span>
+
+<span class="sentence"><span data-start="526.0" data-end="528.0"> 
+dependency that I call the "Nosy </span></span>
+
+<span class="sentence"><span data-start="528.0" data-end="529.0"> 
+Neighbors." </span></span>
+
+<span class="sentence"><span data-start="529.0" data-end="531.0"> 
+This is the dependency that </span></span>
+
+<span class="sentence"><span data-start="531.0" data-end="533.0"> 
+needs to exist.</span></span>
+
+<span class="sentence"><span data-start="533.0" data-end="534.0"> 
+It's look at another target.</span></span>
+
+<span class="sentence"><span data-start="535.0" data-end="536.0"> 
+But it only needs a little bit </span></span>
+
+<span class="sentence"><span data-start="536.0" data-end="537.0"> 
+of that target.</span></span>
+
+<span class="sentence"><span data-start="537.0" data-end="539.0"> 
+But instead it's getting </span></span>
+
+<span class="sentence"><span data-start="539.0" data-end="540.0"> 
+everything that's in that </span></span>
+
+<span class="sentence"><span data-start="540.0" data-end="540.0"> 
+target.</span></span>
+
+<span class="sentence"><span data-start="541.0" data-end="542.0"> 
+So if we look at our game, it </span></span>
+
+<span class="sentence"><span data-start="542.0" data-end="544.0"> 
+has a dependency on Physics, </span></span>
+
+<span class="sentence"><span data-start="544.0" data-end="545.0"> 
+Shaders, and Utilities.</span></span>
+
+<span class="sentence"><span data-start="546.0" data-end="546.0"> 
+This is actually okay.</span></span>
+
+<span class="sentence"><span data-start="548.0" data-end="549.0"> 
+The suspect one is the </span></span>
+
+<span class="sentence"><span data-start="549.0" data-end="551.0"> 
+dependency between our Shaders </span></span>
+
+<span class="sentence"><span data-start="551.0" data-end="553.0"> 
+target and our Utilities target.</span></span>
+
+<span class="sentence"><span data-start="553.0" data-end="555.0"> 
+Now, our Shaders target produces </span></span>
+
+<span class="sentence"><span data-start="555.0" data-end="556.0"> 
+a meta library, which is </span></span>
+
+<span class="sentence"><span data-start="556.0" data-end="558.0"> 
+essentially just a bundle of GPU </span></span>
+
+<span class="sentence"><span data-start="558.0" data-end="559.0"> 
+code that's going to run on our </span></span>
+
+<span class="sentence"><span data-start="559.0" data-end="560.0"> 
+graphics card.</span></span>
+
+<span class="sentence"><span data-start="561.0" data-end="563.0"> 
+And our Utilities target just </span></span>
+
+<span class="sentence"><span data-start="563.0" data-end="564.0"> 
+produces a normal frame, which </span></span>
+
+<span class="sentence"><span data-start="564.0" data-end="565.0"> 
+is just CPU code.</span></span>
+
+<span class="sentence"><span data-start="565.0" data-end="566.0"> 
+So there's already a little bit </span></span>
+
+<span class="sentence"><span data-start="566.0" data-end="568.0"> 
+of a suspect dependency here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="569.0" data-end="570.0"> 
+When we dig into it we see that </span></span>
+
+<span class="sentence"><span data-start="570.0" data-end="572.0"> 
+the utilities target actually </span></span>
+
+<span class="sentence"><span data-start="572.0" data-end="574.0"> 
+has a build phase in it that's </span></span>
+
+<span class="sentence"><span data-start="574.0" data-end="576.0"> 
+generating some information </span></span>
+
+<span class="sentence"><span data-start="576.0" data-end="577.0"> 
+that's used by both targets.</span></span>
+
+<span class="sentence"><span data-start="577.0" data-end="578.0"> 
+Which is totally fine.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="579.0" data-end="580.0"> 
+It's just that Shaders doesn't </span></span>
+
+<span class="sentence"><span data-start="580.0" data-end="582.0"> 
+need anything else from the </span></span>
+
+<span class="sentence"><span data-start="582.0" data-end="582.0"> 
+Utilities target.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="583.0" data-end="586.0"> 
+So it's best to break out that </span></span>
+
+<span class="sentence"><span data-start="586.0" data-end="587.0"> 
+into its own target.</span></span>
+
+<span class="sentence"><span data-start="588.0" data-end="589.0"> 
+And we're going to see that this </span></span>
+
+<span class="sentence"><span data-start="589.0" data-end="590.0"> 
+small incremental change </span></span>
+
+<span class="sentence"><span data-start="590.0" data-end="592.0"> 
+actually has a large and </span></span>
+
+<span class="sentence"><span data-start="592.0" data-end="593.0"> 
+significant impact on our </span></span>
+
+<span class="sentence"><span data-start="593.0" data-end="594.0"> 
+overall build timeline.</span></span>
+
+<span class="sentence"><span data-start="596.0" data-end="598.0"> 
+So the new green box that just </span></span>
+
+<span class="sentence"><span data-start="598.0" data-end="599.0"> 
+moved in is our new code target.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="600.0" data-end="601.0"> 
+So we were able to shrink our </span></span>
+
+<span class="sentence"><span data-start="601.0" data-end="603.0"> 
+utilities target down because we </span></span>
+
+<span class="sentence"><span data-start="603.0" data-end="605.0"> 
+moved that work into Code Gen.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="606.0" data-end="607.0"> 
+And since Code Gen has no other </span></span>
+
+<span class="sentence"><span data-start="607.0" data-end="609.0"> 
+dependencies, it can move to the </span></span>
+
+<span class="sentence"><span data-start="609.0" data-end="611.0"> 
+very front of our build process.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="611.0" data-end="613.0"> 
+It can also be built in parallel </span></span>
+
+<span class="sentence"><span data-start="613.0" data-end="614.0"> 
+with our Physics target, which </span></span>
+
+<span class="sentence"><span data-start="614.0" data-end="615.0"> 
+is the red box on the bottom.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="617.0" data-end="618.0"> 
+And lastly, because Shaders no </span></span>
+
+<span class="sentence"><span data-start="618.0" data-end="620.0"> 
+longer depends on Utilities, it </span></span>
+
+<span class="sentence"><span data-start="620.0" data-end="621.0"> 
+doesn't have to wait for both </span></span>
+
+<span class="sentence"><span data-start="621.0" data-end="624.0"> 
+Utilities and the Physics target </span></span>
+
+<span class="sentence"><span data-start="624.0" data-end="625.0"> 
+to be built.</span></span>
+
+<span class="sentence"><span data-start="625.0" data-end="626.0"> 
+And instead it can be built as </span></span>
+
+<span class="sentence"><span data-start="626.0" data-end="629.0"> 
+soon as that Code Gen target is </span></span>
+
+<span class="sentence"><span data-start="630.0" data-end="630.0"> 
+done.</span></span>
+
+<span class="sentence"><span data-start="630.0" data-end="631.0"> 
+Now, the last dependency I want </span></span>
+
+<span class="sentence"><span data-start="631.0" data-end="633.0"> 
+to talk to you about are the </span></span>
+
+<span class="sentence"><span data-start="633.0" data-end="634.0"> 
+ones that I call the "Forgotten </span></span>
+
+<span class="sentence"><span data-start="634.0" data-end="635.0"> 
+Ones." </span></span>
+
+<span class="sentence"><span data-start="635.0" data-end="637.0"> 
+Throughout the evolution or the </span></span>
+
+<span class="sentence"><span data-start="637.0" data-end="640.0"> 
+lifecycle of our products and </span></span>
+
+<span class="sentence"><span data-start="640.0" data-end="642.0"> 
+our code, we tend to move code </span></span>
+
+<span class="sentence"><span data-start="642.0" data-end="644.0"> 
+around and delete things.</span></span>
+
+<span class="sentence"><span data-start="644.0" data-end="645.0"> 
+And we get things like dead </span></span>
+
+<span class="sentence"><span data-start="645.0" data-end="645.0"> 
+code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="645.0" data-end="647.0"> 
+Well, we get the same thing that </span></span>
+
+<span class="sentence"><span data-start="647.0" data-end="648.0"> 
+happens with our dependencies.</span></span>
+
+<span class="sentence"><span data-start="648.0" data-end="649.0"> 
+Sometimes we simply forget to </span></span>
+
+<span class="sentence"><span data-start="649.0" data-end="650.0"> 
+clean them up.</span></span>
+
+<span class="sentence"><span data-start="651.0" data-end="652.0"> 
+And so in these cases, it's </span></span>
+
+<span class="sentence"><span data-start="652.0" data-end="654.0"> 
+actually safe to just remove </span></span>
+
+<span class="sentence"><span data-start="654.0" data-end="654.0"> 
+that dependency.</span></span>
+
+<span class="sentence"><span data-start="656.0" data-end="658.0"> 
+And this last change tightens up </span></span>
+
+<span class="sentence"><span data-start="658.0" data-end="660.0"> 
+or build graph even further by </span></span>
+
+<span class="sentence"><span data-start="660.0" data-end="663.0"> 
+allowing the Utilities target to </span></span>
+
+<span class="sentence"><span data-start="663.0" data-end="664.0"> 
+be built right after the Code </span></span>
+
+<span class="sentence"><span data-start="664.0" data-end="666.0"> 
+Gen target instead of having to </span></span>
+
+<span class="sentence"><span data-start="666.0" data-end="667.0"> 
+wait for all of the Physics </span></span>
+
+<span class="sentence"><span data-start="667.0" data-end="671.0"> 
+target to be done.</span></span>
+
+<span class="sentence"><span data-start="671.0" data-end="673.0"> 
+Now, previously in Xcode, when </span></span>
+
+<span class="sentence"><span data-start="673.0" data-end="675.0"> 
+you built targets that have a </span></span>
+
+<span class="sentence"><span data-start="675.0" data-end="676.0"> 
+dependency on another target, </span></span>
+
+<span class="sentence"><span data-start="676.0" data-end="678.0"> 
+you have to wait for the </span></span>
+
+<span class="sentence"><span data-start="678.0" data-end="679.0"> 
+dependent target to finish its </span></span>
+
+<span class="sentence"><span data-start="679.0" data-end="681.0"> 
+entire build process.</span></span>
+
+<span class="sentence"><span data-start="681.0" data-end="683.0"> 
+Well, we have a new feature in </span></span>
+
+<span class="sentence"><span data-start="683.0" data-end="684.0"> 
+Xcode 10 that allows us to </span></span>
+
+<span class="sentence"><span data-start="684.0" data-end="687.0"> 
+introduce some parallelism into </span></span>
+
+<span class="sentence"><span data-start="687.0" data-end="688.0"> 
+your build for free.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="688.0" data-end="692.0"> 
+And we do this by starting the </span></span>
+
+<span class="sentence"><span data-start="692.0" data-end="694.0"> 
+compilation of your target as </span></span>
+
+<span class="sentence"><span data-start="694.0" data-end="696.0"> 
+soon as the build phases that go </span></span>
+
+<span class="sentence"><span data-start="696.0" data-end="698.0"> 
+into its dependencies that </span></span>
+
+<span class="sentence"><span data-start="698.0" data-end="700.0"> 
+satisfy our compilation are </span></span>
+
+<span class="sentence"><span data-start="700.0" data-end="700.0"> 
+complete.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="701.0" data-end="702.0"> 
+So things like linking can now </span></span>
+
+<span class="sentence"><span data-start="702.0" data-end="703.0"> 
+be done in parallel.</span></span>
+
+<span class="sentence"><span data-start="705.0" data-end="707.0"> 
+Now, if you have run script </span></span>
+
+<span class="sentence"><span data-start="707.0" data-end="709.0"> 
+phases, this is one of those </span></span>
+
+<span class="sentence"><span data-start="709.0" data-end="710.0"> 
+build phases that your target is </span></span>
+
+<span class="sentence"><span data-start="710.0" data-end="713.0"> 
+going to have to wait on to </span></span>
+
+<span class="sentence"><span data-start="713.0" data-end="714.0"> 
+finish in order before it can </span></span>
+
+<span class="sentence"><span data-start="714.0" data-end="716.0"> 
+start taking advantage of some </span></span>
+
+<span class="sentence"><span data-start="716.0" data-end="718.0"> 
+of these new parallelization </span></span>
+
+<span class="sentence"><span data-start="718.0" data-end="718.0"> 
+benefits.</span></span>
+
+<span class="sentence"><span data-start="718.0" data-end="721.0"> 
+So let's talk about run script </span></span>
+
+<span class="sentence"><span data-start="721.0" data-end="721.0"> 
+phases.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="722.0" data-end="724.0"> 
+Run script phases allow you to </span></span>
+
+<span class="sentence"><span data-start="724.0" data-end="725.0"> 
+customize your build process to </span></span>
+
+<span class="sentence"><span data-start="725.0" data-end="726.0"> 
+meet your needs.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="727.0" data-end="728.0"> 
+And so with this flexibility </span></span>
+
+<span class="sentence"><span data-start="728.0" data-end="730.0"> 
+comes some responsibility for </span></span>
+
+<span class="sentence"><span data-start="730.0" data-end="731.0"> 
+you as a developer as well.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="732.0" data-end="733.0"> 
+And so we want to walk you </span></span>
+
+<span class="sentence"><span data-start="733.0" data-end="734.0"> 
+through the configuration </span></span>
+
+<span class="sentence"><span data-start="734.0" data-end="735.0"> 
+process and make sure that you </span></span>
+
+<span class="sentence"><span data-start="735.0" data-end="737.0"> 
+have your run script phases set </span></span>
+
+<span class="sentence"><span data-start="737.0" data-end="738.0"> 
+up and configured well so that </span></span>
+
+<span class="sentence"><span data-start="738.0" data-end="739.0"> 
+your builds behave.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="742.0" data-end="744.0"> 
+Now, this is your Script Phase </span></span>
+
+<span class="sentence"><span data-start="744.0" data-end="744.0"> 
+Editor.</span></span>
+
+<span class="sentence"><span data-start="745.0" data-end="746.0"> 
+It can also be found within your </span></span>
+
+<span class="sentence"><span data-start="746.0" data-end="747.0"> 
+Build Phase Editor.</span></span>
+
+<span class="sentence"><span data-start="747.0" data-end="748.0"> 
+Now I want to call your </span></span>
+
+<span class="sentence"><span data-start="748.0" data-end="751.0"> 
+attention to first the script </span></span>
+
+<span class="sentence"><span data-start="751.0" data-end="752.0"> 
+body here.</span></span>
+
+<span class="sentence"><span data-start="752.0" data-end="753.0"> 
+You can either put your entire </span></span>
+
+<span class="sentence"><span data-start="753.0" data-end="754.0"> 
+script contents here.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="754.0" data-end="756.0"> 
+Or you can do what I've done and </span></span>
+
+<span class="sentence"><span data-start="756.0" data-end="757.0"> 
+reference another script that's </span></span>
+
+<span class="sentence"><span data-start="757.0" data-end="758.0"> 
+within your project.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="759.0" data-end="760.0"> 
+Now, throughout the entirety of </span></span>
+
+<span class="sentence"><span data-start="760.0" data-end="762.0"> 
+your run script phase, there are </span></span>
+
+<span class="sentence"><span data-start="762.0" data-end="763.0"> 
+a set of build settings that are </span></span>
+
+<span class="sentence"><span data-start="763.0" data-end="764.0"> 
+available to you.</span></span>
+
+<span class="sentence"><span data-start="764.0" data-end="765.0"> 
+And I'm making use of one of </span></span>
+
+<span class="sentence"><span data-start="765.0" data-end="767.0"> 
+those right now, which is the </span></span>
+
+<span class="sentence"><span data-start="767.0" data-end="767.0"> 
+source group.</span></span>
+
+<span class="sentence"><span data-start="768.0" data-end="770.0"> 
+This gives you a convenient way </span></span>
+
+<span class="sentence"><span data-start="770.0" data-end="772.0"> 
+to not have to provide absolute </span></span>
+
+<span class="sentence"><span data-start="772.0" data-end="774.0"> 
+paths or try to do some relative </span></span>
+
+<span class="sentence"><span data-start="774.0" data-end="775.0"> 
+path hacks to get your stuff to </span></span>
+
+<span class="sentence"><span data-start="775.0" data-end="776.0"> 
+work.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="777.0" data-end="779.0"> 
+The next section are you input </span></span>
+
+<span class="sentence"><span data-start="779.0" data-end="780.0"> 
+files.</span></span>
+
+<span class="sentence"><span data-start="780.0" data-end="782.0"> 
+Now, these are very important </span></span>
+
+<span class="sentence"><span data-start="782.0" data-end="783.0"> 
+for your run script phase.</span></span>
+
+<span class="sentence"><span data-start="783.0" data-end="785.0"> 
+As this is one of the key pieces </span></span>
+
+<span class="sentence"><span data-start="785.0" data-end="787.0"> 
+of information that the Xcode </span></span>
+
+<span class="sentence"><span data-start="787.0" data-end="788.0"> 
+Build System will use to </span></span>
+
+<span class="sentence"><span data-start="788.0" data-end="789.0"> 
+determine if your run scripts </span></span>
+
+<span class="sentence"><span data-start="789.0" data-end="792.0"> 
+should actually run or not.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="792.0" data-end="793.0"> 
+So this should include any file </span></span>
+
+<span class="sentence"><span data-start="793.0" data-end="795.0"> 
+that your run script phase, the </span></span>
+
+<span class="sentence"><span data-start="796.0" data-end="797.0"> 
+script content, is actually </span></span>
+
+<span class="sentence"><span data-start="797.0" data-end="798.0"> 
+going to read or look at during </span></span>
+
+<span class="sentence"><span data-start="798.0" data-end="799.0"> 
+its process.</span></span>
+
+<span class="sentence"><span data-start="801.0" data-end="803.0"> 
+Now, some of you may have a lot </span></span>
+
+<span class="sentence"><span data-start="803.0" data-end="805.0"> 
+of inputs into your run script </span></span>
+
+<span class="sentence"><span data-start="805.0" data-end="805.0"> 
+phase.</span></span>
+
+<span class="sentence"><span data-start="805.0" data-end="807.0"> 
+And so this task might seem a </span></span>
+
+<span class="sentence"><span data-start="807.0" data-end="807.0"> 
+little bit daunting.</span></span>
+
+<span class="sentence"><span data-start="808.0" data-end="811.0"> 
+And so new in Xcode 10 we have </span></span>
+
+<span class="sentence"><span data-start="811.0" data-end="812.0"> 
+the ability for you -- or we've </span></span>
+
+<span class="sentence"><span data-start="812.0" data-end="813.0"> 
+provided you the ability to </span></span>
+
+<span class="sentence"><span data-start="813.0" data-end="814.0"> 
+maintain this list in an </span></span>
+
+<span class="sentence"><span data-start="814.0" data-end="817.0"> 
+external file, something we call </span></span>
+
+<span class="sentence"><span data-start="817.0" data-end="818.0"> 
+a File List.</span></span>
+
+<span class="sentence"><span data-start="819.0" data-end="821.0"> 
+Now, a file list is a simple </span></span>
+
+<span class="sentence"><span data-start="821.0" data-end="822.0"> 
+text file that has all of its </span></span>
+
+<span class="sentence"><span data-start="822.0" data-end="824.0"> 
+inputs listed on its own line.</span></span>
+
+<span class="sentence"><span data-start="826.0" data-end="827.0"> 
+You get access to all of the </span></span>
+
+<span class="sentence"><span data-start="827.0" data-end="828.0"> 
+same build settings that were </span></span>
+
+<span class="sentence"><span data-start="828.0" data-end="829.0"> 
+available to you throughout the </span></span>
+
+<span class="sentence"><span data-start="829.0" data-end="831.0"> 
+context of your run script </span></span>
+
+<span class="sentence"><span data-start="831.0" data-end="831.0"> 
+phase.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="832.0" data-end="833.0"> 
+The important thing to note </span></span>
+
+<span class="sentence"><span data-start="833.0" data-end="834.0"> 
+here, though, is that these </span></span>
+
+<span class="sentence"><span data-start="834.0" data-end="836.0"> 
+files cannot be modified or </span></span>
+
+<span class="sentence"><span data-start="836.0" data-end="837.0"> 
+generated throughout your build </span></span>
+
+<span class="sentence"><span data-start="837.0" data-end="838.0"> 
+process.</span></span>
+
+<span class="sentence"><span data-start="838.0" data-end="840.0"> 
+They are read when your build </span></span>
+
+<span class="sentence"><span data-start="840.0" data-end="841.0"> 
+process starts.</span></span>
+
+<span class="sentence"><span data-start="842.0" data-end="843.0"> 
+And all that information is used </span></span>
+
+<span class="sentence"><span data-start="843.0" data-end="843.0"> 
+then.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="843.0" data-end="847.0"> 
+Next I want to talk to you about </span></span>
+
+<span class="sentence"><span data-start="847.0" data-end="848.0"> 
+your output files.</span></span>
+
+<span class="sentence"><span data-start="848.0" data-end="849.0"> 
+Your output files are another </span></span>
+
+<span class="sentence"><span data-start="849.0" data-end="850.0"> 
+key piece of information that's </span></span>
+
+<span class="sentence"><span data-start="850.0" data-end="851.0"> 
+used throughout your build </span></span>
+
+<span class="sentence"><span data-start="851.0" data-end="852.0"> 
+process.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="853.0" data-end="854.0"> 
+And Xcode will use this </span></span>
+
+<span class="sentence"><span data-start="854.0" data-end="855.0"> 
+information to determine if your </span></span>
+
+<span class="sentence"><span data-start="855.0" data-end="857.0"> 
+run script phase actually needs </span></span>
+
+<span class="sentence"><span data-start="857.0" data-end="857.0"> 
+to run.</span></span>
+
+<span class="sentence"><span data-start="857.0" data-end="860.0"> 
+And of course, we have support </span></span>
+
+<span class="sentence"><span data-start="860.0" data-end="863.0"> 
+for output files -- or file </span></span>
+
+<span class="sentence"><span data-start="863.0" data-end="864.0"> 
+lists for your output files as </span></span>
+
+<span class="sentence"><span data-start="864.0" data-end="864.0"> 
+well.</span></span>
+
+<span class="sentence"><span data-start="865.0" data-end="867.0"> 
+So I want to recap for you when </span></span>
+
+<span class="sentence"><span data-start="867.0" data-end="868.0"> 
+your run script phase is </span></span>
+
+<span class="sentence"><span data-start="868.0" data-end="868.0"> 
+actually run.</span></span>
+
+<span class="sentence"><span data-start="869.0" data-end="871.0"> 
+If you have no input files </span></span>
+
+<span class="sentence"><span data-start="871.0" data-end="873.0"> 
+declared, the Xcode build system </span></span>
+
+<span class="sentence"><span data-start="874.0" data-end="875.0"> 
+will need to run to your run </span></span>
+
+<span class="sentence"><span data-start="875.0" data-end="876.0"> 
+script phase on every single </span></span>
+
+<span class="sentence"><span data-start="876.0" data-end="876.0"> 
+build.</span></span>
+
+<span class="sentence"><span data-start="877.0" data-end="878.0"> 
+So this is one of key reasons </span></span>
+
+<span class="sentence"><span data-start="878.0" data-end="880.0"> 
+it's important to declare your </span></span>
+
+<span class="sentence"><span data-start="880.0" data-end="880.0"> 
+inputs.</span></span>
+
+<span class="sentence"><span data-start="882.0" data-end="883.0"> 
+Now if any of your input files </span></span>
+
+<span class="sentence"><span data-start="883.0" data-end="885.0"> 
+change, including the contents </span></span>
+
+<span class="sentence"><span data-start="885.0" data-end="887.0"> 
+of your file lists or any of the </span></span>
+
+<span class="sentence"><span data-start="887.0" data-end="889.0"> 
+inputs that the file lists point </span></span>
+
+<span class="sentence"><span data-start="889.0" data-end="891.0"> 
+to, Xcode will know that it </span></span>
+
+<span class="sentence"><span data-start="891.0" data-end="892.0"> 
+needs to rerun your run script </span></span>
+
+<span class="sentence"><span data-start="892.0" data-end="893.0"> 
+phase for you.</span></span>
+
+<span class="sentence"><span data-start="893.0" data-end="896.0"> 
+And finally, if any of your </span></span>
+
+<span class="sentence"><span data-start="896.0" data-end="898.0"> 
+output files are missing, the </span></span>
+
+<span class="sentence"><span data-start="898.0" data-end="899.0"> 
+Xcode build system will run your </span></span>
+
+<span class="sentence"><span data-start="899.0" data-end="901.0"> 
+run script phase to give you the </span></span>
+
+<span class="sentence"><span data-start="901.0" data-end="903.0"> 
+opportunity to generate those </span></span>
+
+<span class="sentence"><span data-start="903.0" data-end="904.0"> 
+missing output files.</span></span>
+
+<span class="sentence"><span data-start="905.0" data-end="908.0"> 
+Now also new in Xcode 10, we </span></span>
+
+<span class="sentence"><span data-start="908.0" data-end="910.0"> 
+have documentation for the run </span></span>
+
+<span class="sentence"><span data-start="910.0" data-end="911.0"> 
+script phases.</span></span>
+
+<span class="sentence"><span data-start="912.0" data-end="916.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="917.0" data-end="918.0"> 
+So, it goes through more detail </span></span>
+
+<span class="sentence"><span data-start="918.0" data-end="919.0"> 
+of what I just explained and it </span></span>
+
+<span class="sentence"><span data-start="919.0" data-end="920.0"> 
+tells you about all of the </span></span>
+
+<span class="sentence"><span data-start="920.0" data-end="921.0"> 
+additional build settings that </span></span>
+
+<span class="sentence"><span data-start="921.0" data-end="922.0"> 
+are made available to you, </span></span>
+
+<span class="sentence"><span data-start="923.0" data-end="924.0"> 
+including how you can use those </span></span>
+
+<span class="sentence"><span data-start="924.0" data-end="926.0"> 
+file lists within your own </span></span>
+
+<span class="sentence"><span data-start="926.0" data-end="926.0"> 
+script content.</span></span>
+
+<span class="sentence"><span data-start="928.0" data-end="929.0"> 
+Now, when setting up your run </span></span>
+
+<span class="sentence"><span data-start="929.0" data-end="930.0"> 
+script phases and declaring all </span></span>
+
+<span class="sentence"><span data-start="930.0" data-end="932.0"> 
+of these new dependencies, and </span></span>
+
+<span class="sentence"><span data-start="932.0" data-end="934.0"> 
+including when you modify the </span></span>
+
+<span class="sentence"><span data-start="934.0" data-end="935.0"> 
+dependencies in your targets, </span></span>
+
+<span class="sentence"><span data-start="935.0" data-end="937.0"> 
+you may run into a dependency </span></span>
+
+<span class="sentence"><span data-start="937.0" data-end="937.0"> 
+cycle.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="938.0" data-end="940.0"> 
+And a dependency cycle is simply </span></span>
+
+<span class="sentence"><span data-start="940.0" data-end="942.0"> 
+an interdependency graph </span></span>
+
+<span class="sentence"><span data-start="942.0" data-end="943.0"> 
+somewhere there is a loop that's </span></span>
+
+<span class="sentence"><span data-start="943.0" data-end="943.0"> 
+created.</span></span>
+
+<span class="sentence"><span data-start="944.0" data-end="946.0"> 
+Well, new in Xcode 10 we have </span></span>
+
+<span class="sentence"><span data-start="946.0" data-end="948.0"> 
+better diagnostics to detect </span></span>
+
+<span class="sentence"><span data-start="948.0" data-end="949.0"> 
+these cycles and will give you </span></span>
+
+<span class="sentence"><span data-start="949.0" data-end="951.0"> 
+an error, including the ability </span></span>
+
+<span class="sentence"><span data-start="951.0" data-end="953.0"> 
+for you to expand this box to </span></span>
+
+<span class="sentence"><span data-start="953.0" data-end="954.0"> 
+get all of the inputs that the </span></span>
+
+<span class="sentence"><span data-start="954.0" data-end="956.0"> 
+Xcode build system knows that </span></span>
+
+<span class="sentence"><span data-start="956.0" data-end="957.0"> 
+went into creating the cycle.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="958.0" data-end="961.0"> 
+So, cycles are bad for a couple </span></span>
+
+<span class="sentence"><span data-start="961.0" data-end="962.0"> 
+of reasons.</span></span>
+
+<span class="sentence"><span data-start="962.0" data-end="964.0"> 
+One, they represent a </span></span>
+
+<span class="sentence"><span data-start="964.0" data-end="965.0"> 
+configuration issue within your </span></span>
+
+<span class="sentence"><span data-start="965.0" data-end="966.0"> 
+project.</span></span>
+
+<span class="sentence"><span data-start="967.0" data-end="968.0"> 
+And two, they can be the source </span></span>
+
+<span class="sentence"><span data-start="968.0" data-end="970.0"> 
+of spurious rebuilds within your </span></span>
+
+<span class="sentence"><span data-start="970.0" data-end="970.0"> 
+project.</span></span>
+
+<span class="sentence"><span data-start="971.0" data-end="972.0"> 
+Or of getting out-of-date </span></span>
+
+<span class="sentence"><span data-start="972.0" data-end="973.0"> 
+information in your build </span></span>
+
+<span class="sentence"><span data-start="973.0" data-end="973.0"> 
+process.</span></span>
+
+<span class="sentence"><span data-start="975.0" data-end="977.0"> 
+So we also have updated health </span></span>
+
+<span class="sentence"><span data-start="977.0" data-end="979.0"> 
+topics on dependency cycles, </span></span>
+
+<span class="sentence"><span data-start="980.0" data-end="982.0"> 
+including some specific sections </span></span>
+
+<span class="sentence"><span data-start="982.0" data-end="986.0"> 
+that we call out of the most </span></span>
+
+<span class="sentence"><span data-start="986.0" data-end="988.0"> 
+likely dependency cycles that </span></span>
+
+<span class="sentence"><span data-start="988.0" data-end="989.0"> 
+you run into, and ways that you </span></span>
+
+<span class="sentence"><span data-start="989.0" data-end="990.0"> 
+can fix those.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="990.0" data-end="994.0"> 
+So, the last thing I want to </span></span>
+
+<span class="sentence"><span data-start="994.0" data-end="995.0"> 
+talk to you about today, is </span></span>
+
+<span class="sentence"><span data-start="995.0" data-end="997.0"> 
+measuring your build time.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="997.0" data-end="999.0"> 
+We have two new pieces of </span></span>
+
+<span class="sentence"><span data-start="999.0" data-end="1000.0"> 
+functionality in Xcode 10 for </span></span>
+
+<span class="sentence"><span data-start="1000.0" data-end="1000.0"> 
+this.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1002.0" data-end="1005.0"> 
+The first is we have introduced </span></span>
+
+<span class="sentence"><span data-start="1005.0" data-end="1007.0"> 
+in-line task times to give you </span></span>
+
+<span class="sentence"><span data-start="1007.0" data-end="1008.0"> 
+the duration that each of your </span></span>
+
+<span class="sentence"><span data-start="1008.0" data-end="1009.0"> 
+tasks has taken to run.</span></span>
+
+<span class="sentence"><span data-start="1009.0" data-end="1012.0"> 
+Now, I want to point out </span></span>
+
+<span class="sentence"><span data-start="1012.0" data-end="1014.0"> 
+something about your build logs.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1014.0" data-end="1015.0"> 
+There's a filter bar across the </span></span>
+
+<span class="sentence"><span data-start="1015.0" data-end="1016.0"> 
+top.</span></span>
+
+<span class="sentence"><span data-start="1017.0" data-end="1018.0"> 
+And specifically, the All the </span></span>
+
+<span class="sentence"><span data-start="1018.0" data-end="1020.0"> 
+Recent filters.</span></span>
+
+<span class="sentence"><span data-start="1022.0" data-end="1023.0"> 
+When you have "All" selected, </span></span>
+
+<span class="sentence"><span data-start="1023.0" data-end="1024.0"> 
+it's going to show you all of </span></span>
+
+<span class="sentence"><span data-start="1024.0" data-end="1025.0"> 
+the tasks that went into </span></span>
+
+<span class="sentence"><span data-start="1025.0" data-end="1027.0"> 
+creating your entire final </span></span>
+
+<span class="sentence"><span data-start="1027.0" data-end="1028.0"> 
+product outputs.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1029.0" data-end="1030.0"> 
+Which is usually not what you </span></span>
+
+<span class="sentence"><span data-start="1030.0" data-end="1031.0"> 
+want to look at.</span></span>
+
+<span class="sentence"><span data-start="1031.0" data-end="1032.0"> 
+What you want to look at, </span></span>
+
+<span class="sentence"><span data-start="1032.0" data-end="1033.0"> 
+especially when you're trying to </span></span>
+
+<span class="sentence"><span data-start="1033.0" data-end="1035.0"> 
+diagnose issues in your </span></span>
+
+<span class="sentence"><span data-start="1035.0" data-end="1036.0"> 
+incremental builds, is the </span></span>
+
+<span class="sentence"><span data-start="1036.0" data-end="1037.0"> 
+Recent tab.</span></span>
+
+<span class="sentence"><span data-start="1038.0" data-end="1040.0"> 
+That's going to show you all of </span></span>
+
+<span class="sentence"><span data-start="1040.0" data-end="1042.0"> 
+the build paths that went into </span></span>
+
+<span class="sentence"><span data-start="1042.0" data-end="1043.0"> 
+the previous build operation.</span></span>
+
+<span class="sentence"><span data-start="1046.0" data-end="1049.0"> 
+Now, another new feature in </span></span>
+
+<span class="sentence"><span data-start="1049.0" data-end="1051.0"> 
+Xcode 10 is a timing summary.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1051.0" data-end="1052.0"> 
+And you can get to this timing </span></span>
+
+<span class="sentence"><span data-start="1052.0" data-end="1054.0"> 
+summary by going to the Product </span></span>
+
+<span class="sentence"><span data-start="1054.0" data-end="1056.0"> 
+menu, selecting Perform with </span></span>
+
+<span class="sentence"><span data-start="1056.0" data-end="1058.0"> 
+Action, and Build with Timing </span></span>
+
+<span class="sentence"><span data-start="1058.0" data-end="1058.0"> 
+Summary.</span></span>
+
+<span class="sentence"><span data-start="1059.0" data-end="1060.0"> 
+When you do that, you're going </span></span>
+
+<span class="sentence"><span data-start="1060.0" data-end="1062.0"> 
+to get a new log section out at </span></span>
+
+<span class="sentence"><span data-start="1062.0" data-end="1063.0"> 
+the end of your build log.</span></span>
+
+<span class="sentence"><span data-start="1063.0" data-end="1067.0"> 
+And if we focus in, you're going </span></span>
+
+<span class="sentence"><span data-start="1067.0" data-end="1068.0"> 
+to see that it's going to give </span></span>
+
+<span class="sentence"><span data-start="1068.0" data-end="1070.0"> 
+you an aggregate timing of all </span></span>
+
+<span class="sentence"><span data-start="1070.0" data-end="1071.0"> 
+of the tasks that went into your </span></span>
+
+<span class="sentence"><span data-start="1071.0" data-end="1073.0"> 
+last build operation.</span></span>
+
+<span class="sentence"><span data-start="1073.0" data-end="1074.0"> 
+So this is another important </span></span>
+
+<span class="sentence"><span data-start="1074.0" data-end="1076.0"> 
+reason to look at the Recent </span></span>
+
+<span class="sentence"><span data-start="1076.0" data-end="1077.0"> 
+filter tab.</span></span>
+
+<span class="sentence"><span data-start="1077.0" data-end="1080.0"> 
+And there's one specifically I </span></span>
+
+<span class="sentence"><span data-start="1080.0" data-end="1081.0"> 
+want to point to, the Phase </span></span>
+
+<span class="sentence"><span data-start="1081.0" data-end="1083.0"> 
+Script Execution.</span></span>
+
+<span class="sentence"><span data-start="1083.0" data-end="1085.0"> 
+So, you can see in our last </span></span>
+
+<span class="sentence"><span data-start="1085.0" data-end="1086.0"> 
+build that we just did, we had a </span></span>
+
+<span class="sentence"><span data-start="1086.0" data-end="1087.0"> 
+shell script that ran.</span></span>
+
+<span class="sentence"><span data-start="1087.0" data-end="1088.0"> 
+There was only one of them.</span></span>
+
+<span class="sentence"><span data-start="1088.0" data-end="1089.0"> 
+It says one task.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1090.0" data-end="1091.0"> 
+And it's taken 5 seconds.</span></span>
+
+<span class="sentence"><span data-start="1092.0" data-end="1094.0"> 
+If you're seeing these on every </span></span>
+
+<span class="sentence"><span data-start="1094.0" data-end="1095.0"> 
+single one of your incremental </span></span>
+
+<span class="sentence"><span data-start="1095.0" data-end="1097.0"> 
+builds, this is a good </span></span>
+
+<span class="sentence"><span data-start="1097.0" data-end="1098.0"> 
+indication that you have </span></span>
+
+<span class="sentence"><span data-start="1098.0" data-end="1099.0"> 
+something misconfigured in your </span></span>
+
+<span class="sentence"><span data-start="1099.0" data-end="1100.0"> 
+run script phase.</span></span>
+
+<span class="sentence"><span data-start="1100.0" data-end="1101.0"> 
+And that's something you might </span></span>
+
+<span class="sentence"><span data-start="1101.0" data-end="1103.0"> 
+want to address to help decrease </span></span>
+
+<span class="sentence"><span data-start="1103.0" data-end="1104.0"> 
+your overall build times.</span></span>
+
+<span class="sentence"><span data-start="1108.0" data-end="1109.0"> 
+Now, this build timing summary </span></span>
+
+<span class="sentence"><span data-start="1110.0" data-end="1112.0"> 
+is also available to you from </span></span>
+
+<span class="sentence"><span data-start="1112.0" data-end="1114.0"> 
+the Command line by passing in </span></span>
+
+<span class="sentence"><span data-start="1115.0" data-end="1116.0"> 
+the Show Build Timing Summary </span></span>
+
+<span class="sentence"><span data-start="1116.0" data-end="1117.0"> 
+flag.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1119.0" data-end="1120.0"> 
+And so now I want to bring up </span></span>
+
+<span class="sentence"><span data-start="1120.0" data-end="1122.0"> 
+Jordan, who's going to talk to </span></span>
+
+<span class="sentence"><span data-start="1122.0" data-end="1122.0"> 
+you about some of the </span></span>
+
+<span class="sentence"><span data-start="1122.0" data-end="1124.0"> 
+source-level improvements that </span></span>
+
+<span class="sentence"><span data-start="1124.0" data-end="1125.0"> 
+you can make to your project.</span></span>
+
+<span class="sentence"><span data-start="1126.0" data-end="1131.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1132.0" data-end="1133.0"> 
+ Thanks, David.</span></span>
+
+<span class="sentence"><span data-start="1133.0" data-end="1134.0"> 
+All right.</span></span>
+
+<span class="sentence"><span data-start="1134.0" data-end="1136.0"> 
+So we've gone over a bunch of </span></span>
+
+<span class="sentence"><span data-start="1136.0" data-end="1137.0"> 
+ways where you can improve your </span></span>
+
+<span class="sentence"><span data-start="1137.0" data-end="1139.0"> 
+Xcode projects just by doing one </span></span>
+
+<span class="sentence"><span data-start="1139.0" data-end="1140.0"> 
+small change.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1141.0" data-end="1142.0"> 
+And before we get to the </span></span>
+
+<span class="sentence"><span data-start="1142.0" data-end="1143.0"> 
+source-level and file-level </span></span>
+
+<span class="sentence"><span data-start="1143.0" data-end="1145.0"> 
+topics, I want to talk about one </span></span>
+
+<span class="sentence"><span data-start="1145.0" data-end="1147.0"> 
+more that's new in Xcode 10.</span></span>
+
+<span class="sentence"><span data-start="1147.0" data-end="1150.0"> 
+And it's a particular workaround </span></span>
+
+<span class="sentence"><span data-start="1150.0" data-end="1151.0"> 
+that we know that some of you </span></span>
+
+<span class="sentence"><span data-start="1151.0" data-end="1153.0"> 
+have been using on your projects </span></span>
+
+<span class="sentence"><span data-start="1153.0" data-end="1154.0"> 
+to make them build faster if </span></span>
+
+<span class="sentence"><span data-start="1154.0" data-end="1155.0"> 
+they have a lot of Swift files.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1157.0" data-end="1158.0"> 
+You've already heard about this.</span></span>
+
+<span class="sentence"><span data-start="1159.0" data-end="1161.0"> 
+It's the Whole Module setting </span></span>
+
+<span class="sentence"><span data-start="1161.0" data-end="1162.0"> 
+being used in a debug </span></span>
+
+<span class="sentence"><span data-start="1162.0" data-end="1163.0"> 
+configuration.</span></span>
+
+<span class="sentence"><span data-start="1163.0" data-end="1165.0"> 
+So, in previous versions of </span></span>
+
+<span class="sentence"><span data-start="1165.0" data-end="1167.0"> 
+Xcode, for some projects, </span></span>
+
+<span class="sentence"><span data-start="1167.0" data-end="1168.0"> 
+turning on the Whole Module </span></span>
+
+<span class="sentence"><span data-start="1168.0" data-end="1170.0"> 
+Compilation mode, even for debug </span></span>
+
+<span class="sentence"><span data-start="1170.0" data-end="1172.0"> 
+builds, produced a faster </span></span>
+
+<span class="sentence"><span data-start="1172.0" data-end="1174.0"> 
+overall build than when used in </span></span>
+
+<span class="sentence"><span data-start="1174.0" data-end="1176.0"> 
+Default Incremental Modes.</span></span>
+
+<span class="sentence"><span data-start="1177.0" data-end="1179.0"> 
+And, this did improve build </span></span>
+
+<span class="sentence"><span data-start="1179.0" data-end="1180.0"> 
+times because it was able to </span></span>
+
+<span class="sentence"><span data-start="1180.0" data-end="1182.0"> 
+share -- Swift's compiler was </span></span>
+
+<span class="sentence"><span data-start="1182.0" data-end="1184.0"> 
+able to share work across files </span></span>
+
+<span class="sentence"><span data-start="1184.0" data-end="1186.0"> 
+in a way that the Incremental </span></span>
+
+<span class="sentence"><span data-start="1186.0" data-end="1186.0"> 
+Mode was not.</span></span>
+
+<span class="sentence"><span data-start="1187.0" data-end="1188.0"> 
+But it also meant that you were </span></span>
+
+<span class="sentence"><span data-start="1188.0" data-end="1189.0"> 
+giving up your incremental </span></span>
+
+<span class="sentence"><span data-start="1189.0" data-end="1191.0"> 
+builds and would rebuild the </span></span>
+
+<span class="sentence"><span data-start="1191.0" data-end="1192.0"> 
+entire target's worth of Swift </span></span>
+
+<span class="sentence"><span data-start="1192.0" data-end="1194.0"> 
+files every time.</span></span>
+
+<span class="sentence"><span data-start="1195.0" data-end="1197.0"> 
+So in Xcode 10 we've improved </span></span>
+
+<span class="sentence"><span data-start="1197.0" data-end="1198.0"> 
+the incremental build to have </span></span>
+
+<span class="sentence"><span data-start="1198.0" data-end="1200.0"> 
+some of that same work sharing </span></span>
+
+<span class="sentence"><span data-start="1200.0" data-end="1201.0"> 
+across files.</span></span>
+
+<span class="sentence"><span data-start="1201.0" data-end="1202.0"> 
+So you should no longer need to </span></span>
+
+<span class="sentence"><span data-start="1202.0" data-end="1204.0"> 
+use Whole Module mode to get </span></span>
+
+<span class="sentence"><span data-start="1204.0" data-end="1206.0"> 
+good build times.</span></span>
+
+<span class="sentence"><span data-start="1208.0" data-end="1211.0"> 
+</span></span>
+
+<span class="sentence"><span data-start="1211.0" data-end="1213.0"> 
+So, if you've done this in your </span></span>
+
+<span class="sentence"><span data-start="1213.0" data-end="1214.0"> 
+project, then you should go back </span></span>
+
+<span class="sentence"><span data-start="1214.0" data-end="1215.0"> 
+to your Build Settings Editor </span></span>
+
+<span class="sentence"><span data-start="1216.0" data-end="1217.0"> 
+and select the debug </span></span>
+
+<span class="sentence"><span data-start="1217.0" data-end="1218.0"> 
+configuration under the </span></span>
+
+<span class="sentence"><span data-start="1218.0" data-end="1219.0"> 
+Compilation Mode build setting </span></span>
+
+<span class="sentence"><span data-start="1220.0" data-end="1221.0"> 
+and hit Delete.</span></span>
+
+<span class="sentence"><span data-start="1222.0" data-end="1223.0"> 
+That will get it back to Xcode's </span></span>
+
+<span class="sentence"><span data-start="1223.0" data-end="1224.0"> 
+default setting of an </span></span>
+
+<span class="sentence"><span data-start="1224.0" data-end="1225.0"> 
+incremental build.</span></span>
+
+<span class="sentence"><span data-start="1225.0" data-end="1227.0"> 
+I'm not going to talk much more </span></span>
+
+<span class="sentence"><span data-start="1227.0" data-end="1229.0"> 
+about this because you already </span></span>
+
+<span class="sentence"><span data-start="1229.0" data-end="1229.0"> 
+heard about it.</span></span>
+
+<span class="sentence"><span data-start="1230.0" data-end="1231.0"> 
+We mentioned it in the "What's </span></span>
+
+<span class="sentence"><span data-start="1231.0" data-end="1232.0"> 
+New in Swift" talk on Tuesday.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1233.0" data-end="1235.0"> 
+And if you do want to know more, </span></span>
+
+<span class="sentence"><span data-start="1235.0" data-end="1236.0"> 
+we'll cover this and other </span></span>
+
+<span class="sentence"><span data-start="1236.0" data-end="1237.0"> 
+topics about your build in </span></span>
+
+<span class="sentence"><span data-start="1237.0" data-end="1239.0"> 
+greater depth in tomorrow's </span></span>
+
+<span class="sentence"><span data-start="1239.0" data-end="1240.0"> 
+session "Behind the Scenes of </span></span>
+
+<span class="sentence"><span data-start="1240.0" data-end="1242.0"> 
+the Xcode Build Process." </span></span>
+
+<span class="sentence"><span data-start="1242.0" data-end="1246.0"> 
+So we have a lot of topics that </span></span>
+
+<span class="sentence"><span data-start="1246.0" data-end="1247.0"> 
+we're trying to get through </span></span>
+
+<span class="sentence"><span data-start="1247.0" data-end="1247.0"> 
+today.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1247.0" data-end="1249.0"> 
+And David's already covered half </span></span>
+
+<span class="sentence"><span data-start="1249.0" data-end="1249.0"> 
+of them.</span></span>
+
+<span class="sentence"><span data-start="1250.0" data-end="1251.0"> 
+I'm going to talk about the </span></span>
+
+<span class="sentence"><span data-start="1251.0" data-end="1253.0"> 
+remaining three dealing with </span></span>
+
+<span class="sentence"><span data-start="1253.0" data-end="1254.0"> 
+complex expressions at the top </span></span>
+
+<span class="sentence"><span data-start="1254.0" data-end="1255.0"> 
+of that list.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1256.0" data-end="1258.0"> 
+And the reason for this is </span></span>
+
+<span class="sentence"><span data-start="1258.0" data-end="1259.0"> 
+because it's the best one that </span></span>
+
+<span class="sentence"><span data-start="1259.0" data-end="1261.0"> 
+exemplifies a key takeaway for </span></span>
+
+<span class="sentence"><span data-start="1261.0" data-end="1263.0"> 
+both of our sections.</span></span>
+
+<span class="sentence"><span data-start="1263.0" data-end="1265.0"> 
+When a build is taking a long </span></span>
+
+<span class="sentence"><span data-start="1265.0" data-end="1267.0"> 
+time, there's often a key piece </span></span>
+
+<span class="sentence"><span data-start="1267.0" data-end="1268.0"> 
+of information that you can </span></span>
+
+<span class="sentence"><span data-start="1268.0" data-end="1271.0"> 
+provide to Xcode to improve the </span></span>
+
+<span class="sentence"><span data-start="1271.0" data-end="1271.0"> 
+situation.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1273.0" data-end="1273.0"> 
+And so we're going to look at </span></span>
+
+<span class="sentence"><span data-start="1273.0" data-end="1276.0"> 
+that first in the context of </span></span>
+
+<span class="sentence"><span data-start="1276.0" data-end="1277.0"> 
+complex Swift expressions.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1278.0" data-end="1281.0"> 
+So here's an example of some </span></span>
+
+<span class="sentence"><span data-start="1281.0" data-end="1282.0"> 
+code from my latest project.</span></span>
+
+<span class="sentence"><span data-start="1283.0" data-end="1286.0"> 
+And the problem with this struct </span></span>
+
+<span class="sentence"><span data-start="1286.0" data-end="1288.0"> 
+is that I use it all over the </span></span>
+
+<span class="sentence"><span data-start="1288.0" data-end="1289.0"> 
+place.</span></span>
+
+<span class="sentence"><span data-start="1290.0" data-end="1291.0"> 
+And it's perfectly fine to have </span></span>
+
+<span class="sentence"><span data-start="1291.0" data-end="1291.0"> 
+a struct.</span></span>
+
+<span class="sentence"><span data-start="1292.0" data-end="1293.0"> 
+It's perfectly fine to have a </span></span>
+
+<span class="sentence"><span data-start="1293.0" data-end="1294.0"> 
+struct with a property.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1294.0" data-end="1295.0"> 
+And it's fine to have a struct </span></span>
+
+<span class="sentence"><span data-start="1295.0" data-end="1297.0"> 
+with a property with an inferred </span></span>
+
+<span class="sentence"><span data-start="1297.0" data-end="1297.0"> 
+type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1298.0" data-end="1299.0"> 
+But the expression that we're </span></span>
+
+<span class="sentence"><span data-start="1299.0" data-end="1301.0"> 
+inferring that type from here is </span></span>
+
+<span class="sentence"><span data-start="1301.0" data-end="1303.0"> 
+a little bit complicated.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1303.0" data-end="1304.0"> 
+It's not something simple like </span></span>
+
+<span class="sentence"><span data-start="1305.0" data-end="1307.0"> 
+-- Oh, I took out a build from </span></span>
+
+<span class="sentence"><span data-start="1307.0" data-end="1307.0"> 
+my slides.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1308.0" data-end="1310.0"> 
+So I've given away the answer </span></span>
+
+<span class="sentence"><span data-start="1310.0" data-end="1310.0"> 
+here.</span></span>
+
+<span class="sentence"><span data-start="1310.0" data-end="1313.0"> 
+If this were something like 0.0, </span></span>
+
+<span class="sentence"><span data-start="1313.0" data-end="1315.0"> 
+then this inference of double </span></span>
+
+<span class="sentence"><span data-start="1315.0" data-end="1316.0"> 
+here wouldn't really have been </span></span>
+
+<span class="sentence"><span data-start="1316.0" data-end="1317.0"> 
+necessary.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1318.0" data-end="1319.0"> 
+But since we've got this big, </span></span>
+
+<span class="sentence"><span data-start="1319.0" data-end="1321.0"> 
+complicated expression involving </span></span>
+
+<span class="sentence"><span data-start="1321.0" data-end="1323.0"> 
+reduced and the power function </span></span>
+
+<span class="sentence"><span data-start="1323.0" data-end="1326.0"> 
+from the system frameworks, you </span></span>
+
+<span class="sentence"><span data-start="1326.0" data-end="1328.0"> 
+might not have even guessed that </span></span>
+
+<span class="sentence"><span data-start="1328.0" data-end="1329.0"> 
+"double" was inferred type of </span></span>
+
+<span class="sentence"><span data-start="1329.0" data-end="1330.0"> 
+this property.</span></span>
+
+<span class="sentence"><span data-start="1331.0" data-end="1332.0"> 
+And so by providing this </span></span>
+
+<span class="sentence"><span data-start="1332.0" data-end="1334.0"> 
+information here, you've saved </span></span>
+
+<span class="sentence"><span data-start="1334.0" data-end="1335.0"> 
+work that the compiler would </span></span>
+
+<span class="sentence"><span data-start="1335.0" data-end="1337.0"> 
+have to do in every file that </span></span>
+
+<span class="sentence"><span data-start="1337.0" data-end="1338.0"> 
+uses this struct.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1339.0" data-end="1341.0"> 
+And you've also saved work that </span></span>
+
+<span class="sentence"><span data-start="1341.0" data-end="1343.0"> 
+your coworkers would have to do </span></span>
+
+<span class="sentence"><span data-start="1343.0" data-end="1345.0"> 
+to figure out what really is the </span></span>
+
+<span class="sentence"><span data-start="1345.0" data-end="1346.0"> 
+type of that big number </span></span>
+
+<span class="sentence"><span data-start="1346.0" data-end="1346.0"> 
+property.</span></span>
+
+<span class="sentence"><span data-start="1347.0" data-end="1350.0"> 
+So a lot of times you can get </span></span>
+
+<span class="sentence"><span data-start="1350.0" data-end="1351.0"> 
+this extra key piece of </span></span>
+
+<span class="sentence"><span data-start="1351.0" data-end="1352.0"> 
+information that will help your </span></span>
+
+<span class="sentence"><span data-start="1352.0" data-end="1354.0"> 
+build times is also an example </span></span>
+
+<span class="sentence"><span data-start="1354.0" data-end="1356.0"> 
+of a good software engineering </span></span>
+
+<span class="sentence"><span data-start="1356.0" data-end="1356.0"> 
+practice.</span></span>
+
+<span class="sentence"><span data-start="1357.0" data-end="1358.0"> 
+Let's take a look at another </span></span>
+
+<span class="sentence"><span data-start="1358.0" data-end="1360.0"> 
+example involving closures.</span></span>
+
+<span class="sentence"><span data-start="1361.0" data-end="1363.0"> 
+This time I'm trying to define a </span></span>
+
+<span class="sentence"><span data-start="1363.0" data-end="1364.0"> 
+function that will return the </span></span>
+
+<span class="sentence"><span data-start="1364.0" data-end="1367.0"> 
+sum of the non-optional values </span></span>
+
+<span class="sentence"><span data-start="1367.0" data-end="1368.0"> 
+of its arguments.</span></span>
+
+<span class="sentence"><span data-start="1368.0" data-end="1370.0"> 
+And if all three arguments are </span></span>
+
+<span class="sentence"><span data-start="1370.0" data-end="1371.0"> 
+nil, it will return nil.</span></span>
+
+<span class="sentence"><span data-start="1373.0" data-end="1374.0"> 
+And I'm trying to use one of </span></span>
+
+<span class="sentence"><span data-start="1374.0" data-end="1376.0"> 
+Swift's cool features where if </span></span>
+
+<span class="sentence"><span data-start="1376.0" data-end="1378.0"> 
+you have a closure with a single </span></span>
+
+<span class="sentence"><span data-start="1378.0" data-end="1380.0"> 
+expression in its body, then the </span></span>
+
+<span class="sentence"><span data-start="1380.0" data-end="1382.0"> 
+compiler will use that </span></span>
+
+<span class="sentence"><span data-start="1382.0" data-end="1383.0"> 
+expression to help determine the </span></span>
+
+<span class="sentence"><span data-start="1383.0" data-end="1384.0"> 
+type of the closure.</span></span>
+
+<span class="sentence"><span data-start="1385.0" data-end="1386.0"> 
+Sometimes this is really </span></span>
+
+<span class="sentence"><span data-start="1386.0" data-end="1387.0"> 
+convenient.</span></span>
+
+<span class="sentence"><span data-start="1388.0" data-end="1390.0"> 
+Other times it can lead to code </span></span>
+
+<span class="sentence"><span data-start="1390.0" data-end="1390.0"> 
+like this.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1392.0" data-end="1393.0"> 
+That's pretty ugly.</span></span>
+
+<span class="sentence"><span data-start="1393.0" data-end="1394.0"> 
+I don't think I'm going to get </span></span>
+
+<span class="sentence"><span data-start="1394.0" data-end="1396.0"> 
+past code review with that one.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1397.0" data-end="1398.0"> 
+We've got some nested turnery </span></span>
+
+<span class="sentence"><span data-start="1398.0" data-end="1400.0"> 
+operators and some explicit </span></span>
+
+<span class="sentence"><span data-start="1400.0" data-end="1402.0"> 
+comparisons against nil.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1402.0" data-end="1403.0"> 
+And then a force and wrap to go </span></span>
+
+<span class="sentence"><span data-start="1403.0" data-end="1404.0"> 
+with it.</span></span>
+
+<span class="sentence"><span data-start="1404.0" data-end="1406.0"> 
+I don't really think this is </span></span>
+
+<span class="sentence"><span data-start="1406.0" data-end="1406.0"> 
+going to fly.</span></span>
+
+<span class="sentence"><span data-start="1407.0" data-end="1408.0"> 
+And it's got another problem, </span></span>
+
+<span class="sentence"><span data-start="1408.0" data-end="1409.0"> 
+too.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1409.0" data-end="1411.0"> 
+Because this expression is </span></span>
+
+<span class="sentence"><span data-start="1411.0" data-end="1412.0"> 
+getting so large, with so many </span></span>
+
+<span class="sentence"><span data-start="1412.0" data-end="1415.0"> 
+independent pieces, the Swift </span></span>
+
+<span class="sentence"><span data-start="1415.0" data-end="1416.0"> 
+compiler will report that it's </span></span>
+
+<span class="sentence"><span data-start="1416.0" data-end="1418.0"> 
+not able to compile this in a </span></span>
+
+<span class="sentence"><span data-start="1418.0" data-end="1419.0"> 
+reasonable amount of time.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1420.0" data-end="1422.0"> 
+Now, this is the ultimate in </span></span>
+
+<span class="sentence"><span data-start="1422.0" data-end="1423.0"> 
+slow builds when even the </span></span>
+
+<span class="sentence"><span data-start="1423.0" data-end="1424.0"> 
+compiler gives up.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1425.0" data-end="1426.0"> 
+And really, it's telling me </span></span>
+
+<span class="sentence"><span data-start="1426.0" data-end="1428.0"> 
+something about this code.</span></span>
+
+<span class="sentence"><span data-start="1428.0" data-end="1430.0"> 
+So, my first option here would </span></span>
+
+<span class="sentence"><span data-start="1430.0" data-end="1432.0"> 
+be to do the same thing as the </span></span>
+
+<span class="sentence"><span data-start="1432.0" data-end="1433.0"> 
+previous example and provide </span></span>
+
+<span class="sentence"><span data-start="1433.0" data-end="1434.0"> 
+additional types.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1435.0" data-end="1436.0"> 
+With a closure, you can do that </span></span>
+
+<span class="sentence"><span data-start="1436.0" data-end="1437.0"> 
+just before the In Key word.</span></span>
+
+<span class="sentence"><span data-start="1439.0" data-end="1441.0"> 
+But, this may not be the best </span></span>
+
+<span class="sentence"><span data-start="1441.0" data-end="1442.0"> 
+solution for this particular </span></span>
+
+<span class="sentence"><span data-start="1442.0" data-end="1443.0"> 
+problem.</span></span>
+
+<span class="sentence"><span data-start="1443.0" data-end="1444.0"> 
+So let's go back to what we had </span></span>
+
+<span class="sentence"><span data-start="1444.0" data-end="1445.0"> 
+before.</span></span>
+
+<span class="sentence"><span data-start="1446.0" data-end="1448.0"> 
+Recall that I said that I'm </span></span>
+
+<span class="sentence"><span data-start="1448.0" data-end="1449.0"> 
+trying to write a single </span></span>
+
+<span class="sentence"><span data-start="1449.0" data-end="1451.0"> 
+expression here so that it can </span></span>
+
+<span class="sentence"><span data-start="1451.0" data-end="1453.0"> 
+be used to help determine the </span></span>
+
+<span class="sentence"><span data-start="1453.0" data-end="1453.0"> 
+type of the closure.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1455.0" data-end="1456.0"> 
+But in this case, that's not </span></span>
+
+<span class="sentence"><span data-start="1456.0" data-end="1457.0"> 
+really necessary.</span></span>
+
+<span class="sentence"><span data-start="1458.0" data-end="1460.0"> 
+We already know from the call to </span></span>
+
+<span class="sentence"><span data-start="1460.0" data-end="1462.0"> 
+Reduce what this closure has to </span></span>
+
+<span class="sentence"><span data-start="1462.0" data-end="1462.0"> 
+be.</span></span>
+
+<span class="sentence"><span data-start="1463.0" data-end="1464.0"> 
+Reduce is being called on an </span></span>
+
+<span class="sentence"><span data-start="1464.0" data-end="1466.0"> 
+array of optional integers.</span></span>
+
+<span class="sentence"><span data-start="1466.0" data-end="1468.0"> 
+And the result type has to match </span></span>
+
+<span class="sentence"><span data-start="1468.0" data-end="1470.0"> 
+the return type of the function.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1471.0" data-end="1473.0"> 
+So we already know that this </span></span>
+
+<span class="sentence"><span data-start="1473.0" data-end="1475.0"> 
+callback for Reduce is going to </span></span>
+
+<span class="sentence"><span data-start="1475.0" data-end="1477.0"> 
+be operating just on optional </span></span>
+
+<span class="sentence"><span data-start="1477.0" data-end="1477.0"> 
+integers.</span></span>
+
+<span class="sentence"><span data-start="1478.0" data-end="1480.0"> 
+That means there's no need to </span></span>
+
+<span class="sentence"><span data-start="1480.0" data-end="1481.0"> 
+put a single expression in that </span></span>
+
+<span class="sentence"><span data-start="1481.0" data-end="1482.0"> 
+closure.</span></span>
+
+<span class="sentence"><span data-start="1482.0" data-end="1484.0"> 
+And it's perfectly okay to break </span></span>
+
+<span class="sentence"><span data-start="1484.0" data-end="1486.0"> 
+it up into separate, more </span></span>
+
+<span class="sentence"><span data-start="1486.0" data-end="1487.0"> 
+readable statements.</span></span>
+
+<span class="sentence"><span data-start="1488.0" data-end="1489.0"> 
+So here's a direct translation </span></span>
+
+<span class="sentence"><span data-start="1489.0" data-end="1491.0"> 
+of the code that I had before.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1492.0" data-end="1493.0"> 
+But I also have the freedom now </span></span>
+
+<span class="sentence"><span data-start="1494.0" data-end="1495.0"> 
+to make it something more </span></span>
+
+<span class="sentence"><span data-start="1495.0" data-end="1495.0"> 
+Swifty.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1496.0" data-end="1497.0"> 
+This is a lot more readable.</span></span>
+
+<span class="sentence"><span data-start="1498.0" data-end="1499.0"> 
+A lot more maintainable.</span></span>
+
+<span class="sentence"><span data-start="1499.0" data-end="1501.0"> 
+And it compiles in a quick, </span></span>
+
+<span class="sentence"><span data-start="1501.0" data-end="1502.0"> 
+reasonable amount of time.</span></span>
+
+<span class="sentence"><span data-start="1503.0" data-end="1506.0"> 
+Now, the last example I'm going </span></span>
+
+<span class="sentence"><span data-start="1506.0" data-end="1507.0"> 
+to show in this section is </span></span>
+
+<span class="sentence"><span data-start="1507.0" data-end="1509.0"> 
+something that won't apply quite </span></span>
+
+<span class="sentence"><span data-start="1509.0" data-end="1510.0"> 
+as broadly as the previous two.</span></span>
+
+<span class="sentence"><span data-start="1511.0" data-end="1513.0"> 
+It's about this type Any Object.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1514.0" data-end="1517.0"> 
+Now, Any Object is a convenient </span></span>
+
+<span class="sentence"><span data-start="1517.0" data-end="1520.0"> 
+type that describes any class </span></span>
+
+<span class="sentence"><span data-start="1520.0" data-end="1520.0"> 
+instance.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1520.0" data-end="1522.0"> 
+So not a struct or an enum.</span></span>
+
+<span class="sentence"><span data-start="1522.0" data-end="1523.0"> 
+Definitely a class.</span></span>
+
+<span class="sentence"><span data-start="1523.0" data-end="1524.0"> 
+But we don't know which one.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1525.0" data-end="1527.0"> 
+But it also has an additional </span></span>
+
+<span class="sentence"><span data-start="1527.0" data-end="1528.0"> 
+feature carried over from </span></span>
+
+<span class="sentence"><span data-start="1528.0" data-end="1530.0"> 
+Objective-C's ID type.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1531.0" data-end="1533.0"> 
+And that's this method call </span></span>
+
+<span class="sentence"><span data-start="1533.0" data-end="1533.0"> 
+syntax.</span></span>
+
+<span class="sentence"><span data-start="1534.0" data-end="1536.0"> 
+If you try to call a method or </span></span>
+
+<span class="sentence"><span data-start="1536.0" data-end="1538.0"> 
+access a property on a value of </span></span>
+
+<span class="sentence"><span data-start="1538.0" data-end="1540.0"> 
+type Any Object, Swift will </span></span>
+
+<span class="sentence"><span data-start="1540.0" data-end="1542.0"> 
+allow you to do so, as long as </span></span>
+
+<span class="sentence"><span data-start="1542.0" data-end="1545.0"> 
+that method is visible somewhere </span></span>
+
+<span class="sentence"><span data-start="1545.0" data-end="1547.0"> 
+in your project and exposed to </span></span>
+
+<span class="sentence"><span data-start="1547.0" data-end="1548.0"> 
+the Objective-C runtime.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1549.0" data-end="1550.0"> 
+However, this does come at a </span></span>
+
+<span class="sentence"><span data-start="1550.0" data-end="1551.0"> 
+cost.</span></span>
+
+<span class="sentence"><span data-start="1552.0" data-end="1553.0"> 
+Because the compiler doesn't </span></span>
+
+<span class="sentence"><span data-start="1553.0" data-end="1555.0"> 
+know which method you're going </span></span>
+
+<span class="sentence"><span data-start="1555.0" data-end="1557.0"> 
+to call, it has to go search out </span></span>
+
+<span class="sentence"><span data-start="1557.0" data-end="1559.0"> 
+any possible implementations </span></span>
+
+<span class="sentence"><span data-start="1559.0" data-end="1560.0"> 
+throughout your project and the </span></span>
+
+<span class="sentence"><span data-start="1560.0" data-end="1563.0"> 
+frameworks you import and assume </span></span>
+
+<span class="sentence"><span data-start="1563.0" data-end="1564.0"> 
+that they might be the one </span></span>
+
+<span class="sentence"><span data-start="1564.0" data-end="1565.0"> 
+that's going to be used.</span></span>
+
+<span class="sentence"><span data-start="1566.0" data-end="1568.0"> 
+It has to do this because if </span></span>
+
+<span class="sentence"><span data-start="1568.0" data-end="1569.0"> 
+none of them match, it needs to </span></span>
+
+<span class="sentence"><span data-start="1569.0" data-end="1570.0"> 
+present you with an error.</span></span>
+
+<span class="sentence"><span data-start="1572.0" data-end="1574.0"> 
+So instead, we can do something </span></span>
+
+<span class="sentence"><span data-start="1574.0" data-end="1576.0"> 
+much better and much more, </span></span>
+
+<span class="sentence"><span data-start="1576.0" data-end="1578.0"> 
+again, declarative of our </span></span>
+
+<span class="sentence"><span data-start="1578.0" data-end="1579.0"> 
+intent.</span></span>
+
+<span class="sentence"><span data-start="1579.0" data-end="1581.0"> 
+We can define a protocol.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1581.0" data-end="1582.0"> 
+Now, this can be done in the </span></span>
+
+<span class="sentence"><span data-start="1582.0" data-end="1584.0"> 
+same file, or a different file, </span></span>
+
+<span class="sentence"><span data-start="1585.0" data-end="1587.0"> 
+but the important part is that </span></span>
+
+<span class="sentence"><span data-start="1587.0" data-end="1588.0"> 
+once we change this delegate </span></span>
+
+<span class="sentence"><span data-start="1588.0" data-end="1590.0"> 
+property to use our protocol </span></span>
+
+<span class="sentence"><span data-start="1590.0" data-end="1592.0"> 
+instead of Any Object, the </span></span>
+
+<span class="sentence"><span data-start="1592.0" data-end="1594.0"> 
+compiler knows exactly which </span></span>
+
+<span class="sentence"><span data-start="1594.0" data-end="1595.0"> 
+method it's calling.</span></span>
+
+<span class="sentence"><span data-start="1597.0" data-end="1598.0"> 
+And now you also have the </span></span>
+
+<span class="sentence"><span data-start="1598.0" data-end="1599.0"> 
+opportunity for all of your </span></span>
+
+<span class="sentence"><span data-start="1599.0" data-end="1601.0"> 
+implementing types to be checked </span></span>
+
+<span class="sentence"><span data-start="1602.0" data-end="1603.0"> 
+that they implement the method </span></span>
+
+<span class="sentence"><span data-start="1603.0" data-end="1603.0"> 
+correctly.</span></span>
+
+<span class="sentence"><span data-start="1606.0" data-end="1608.0"> 
+So, we've talked about several </span></span>
+
+<span class="sentence"><span data-start="1608.0" data-end="1610.0"> 
+techniques here for decreasing </span></span>
+
+<span class="sentence"><span data-start="1610.0" data-end="1611.0"> 
+the amount of work the compiler </span></span>
+
+<span class="sentence"><span data-start="1611.0" data-end="1613.0"> 
+does once it's already decided </span></span>
+
+<span class="sentence"><span data-start="1613.0" data-end="1615.0"> 
+to recompile a file.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1616.0" data-end="1618.0"> 
+But what about not recompiling </span></span>
+
+<span class="sentence"><span data-start="1618.0" data-end="1619.0"> 
+the file at all? </span></span>
+
+<span class="sentence"><span data-start="1619.0" data-end="1621.0"> 
+What makes the compiler choose </span></span>
+
+<span class="sentence"><span data-start="1621.0" data-end="1623.0"> 
+whether a file needs to be </span></span>
+
+<span class="sentence"><span data-start="1623.0" data-end="1623.0"> 
+recompiled? </span></span>
+
+<span class="sentence"><span data-start="1624.0" data-end="1626.0"> 
+For that, we need to understand </span></span>
+
+<span class="sentence"><span data-start="1626.0" data-end="1627.0"> 
+Swift's dependency model.</span></span>
+
+<span class="sentence"><span data-start="1629.0" data-end="1632.0"> 
+Now, Swift's dependency model is </span></span>
+
+<span class="sentence"><span data-start="1632.0" data-end="1633.0"> 
+based around files.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1634.0" data-end="1635.0"> 
+And it's a little bit tricky </span></span>
+
+<span class="sentence"><span data-start="1635.0" data-end="1637.0"> 
+because in Swift there are no </span></span>
+
+<span class="sentence"><span data-start="1637.0" data-end="1637.0"> 
+header files.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1638.0" data-end="1640.0"> 
+We just see everything that's </span></span>
+
+<span class="sentence"><span data-start="1640.0" data-end="1642.0"> 
+defined somewhere in our target </span></span>
+
+<span class="sentence"><span data-start="1642.0" data-end="1643.0"> 
+by default.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1644.0" data-end="1645.0"> 
+In this case, I'm declaring a </span></span>
+
+<span class="sentence"><span data-start="1645.0" data-end="1646.0"> 
+struct point in the file on the </span></span>
+
+<span class="sentence"><span data-start="1646.0" data-end="1647.0"> 
+left.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1647.0" data-end="1649.0"> 
+And if I bring in a file on the </span></span>
+
+<span class="sentence"><span data-start="1649.0" data-end="1651.0"> 
+right, the compiler knows that </span></span>
+
+<span class="sentence"><span data-start="1651.0" data-end="1652.0"> 
+I'm referring to that first </span></span>
+
+<span class="sentence"><span data-start="1652.0" data-end="1653.0"> 
+declaration.</span></span>
+
+<span class="sentence"><span data-start="1654.0" data-end="1655.0"> 
+The same is true for the use of </span></span>
+
+<span class="sentence"><span data-start="1655.0" data-end="1657.0"> 
+the X and Y properties in that </span></span>
+
+<span class="sentence"><span data-start="1657.0" data-end="1661.0"> 
+file on the right.</span></span>
+
+<span class="sentence"><span data-start="1661.0" data-end="1663.0"> 
+Now, this file-based dependency </span></span>
+
+<span class="sentence"><span data-start="1663.0" data-end="1664.0"> 
+means that if I change the file </span></span>
+
+<span class="sentence"><span data-start="1664.0" data-end="1667.0"> 
+on the left, both files will </span></span>
+
+<span class="sentence"><span data-start="1667.0" data-end="1669.0"> 
+need to be recompiled.</span></span>
+
+<span class="sentence"><span data-start="1670.0" data-end="1671.0"> 
+And that's important because </span></span>
+
+<span class="sentence"><span data-start="1671.0" data-end="1672.0"> 
+we're actually trying to call </span></span>
+
+<span class="sentence"><span data-start="1672.0" data-end="1673.0"> 
+this initializer.</span></span>
+
+<span class="sentence"><span data-start="1674.0" data-end="1675.0"> 
+And we want to make sure that </span></span>
+
+<span class="sentence"><span data-start="1675.0" data-end="1676.0"> 
+we're calling it correctly.</span></span>
+
+<span class="sentence"><span data-start="1677.0" data-end="1680.0"> 
+The compiler is smart enough to </span></span>
+
+<span class="sentence"><span data-start="1680.0" data-end="1681.0"> 
+know that when you make change </span></span>
+
+<span class="sentence"><span data-start="1681.0" data-end="1684.0"> 
+within a function body, in this </span></span>
+
+<span class="sentence"><span data-start="1684.0" data-end="1685.0"> 
+case making the assertion more </span></span>
+
+<span class="sentence"><span data-start="1685.0" data-end="1689.0"> 
+appropriate, that only that file </span></span>
+
+<span class="sentence"><span data-start="1689.0" data-end="1690.0"> 
+will need to be recompiled.</span></span>
+
+<span class="sentence"><span data-start="1691.0" data-end="1693.0"> 
+Other files won't have to change </span></span>
+
+<span class="sentence"><span data-start="1693.0" data-end="1695.0"> 
+how they use the API's from the </span></span>
+
+<span class="sentence"><span data-start="1695.0" data-end="1696.0"> 
+first file.</span></span>
+
+<span class="sentence"><span data-start="1696.0" data-end="1700.0"> 
+However, it does need to be </span></span>
+
+<span class="sentence"><span data-start="1700.0" data-end="1700.0"> 
+conservative.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1701.0" data-end="1702.0"> 
+And so if I add a separate type </span></span>
+
+<span class="sentence"><span data-start="1702.0" data-end="1705.0"> 
+to this file, a human can tell </span></span>
+
+<span class="sentence"><span data-start="1705.0" data-end="1706.0"> 
+that this path segment struct </span></span>
+
+<span class="sentence"><span data-start="1706.0" data-end="1708.0"> 
+won't affect the file on the </span></span>
+
+<span class="sentence"><span data-start="1708.0" data-end="1708.0"> 
+right.</span></span>
+
+<span class="sentence"><span data-start="1709.0" data-end="1710.0"> 
+But the compiler will still be </span></span>
+
+<span class="sentence"><span data-start="1710.0" data-end="1711.0"> 
+conservative and rebuild them </span></span>
+
+<span class="sentence"><span data-start="1711.0" data-end="1712.0"> 
+both.</span></span>
+
+<span class="sentence"><span data-start="1712.0" data-end="1716.0"> 
+Let's see how this applies to </span></span>
+
+<span class="sentence"><span data-start="1716.0" data-end="1717.0"> 
+the game example that David was </span></span>
+
+<span class="sentence"><span data-start="1717.0" data-end="1718.0"> 
+using earlier.</span></span>
+
+<span class="sentence"><span data-start="1719.0" data-end="1720.0"> 
+So here we have the app target </span></span>
+
+<span class="sentence"><span data-start="1720.0" data-end="1721.0"> 
+and the Utilities framework.</span></span>
+
+<span class="sentence"><span data-start="1721.0" data-end="1722.0"> 
+And I'm showing some of the </span></span>
+
+<span class="sentence"><span data-start="1722.0" data-end="1724.0"> 
+Swift files that are in each </span></span>
+
+<span class="sentence"><span data-start="1724.0" data-end="1724.0"> 
+target.</span></span>
+
+<span class="sentence"><span data-start="1725.0" data-end="1727.0"> 
+So if I change a file in the App </span></span>
+
+<span class="sentence"><span data-start="1727.0" data-end="1730.0"> 
+target, well, we know already </span></span>
+
+<span class="sentence"><span data-start="1730.0" data-end="1731.0"> 
+that that file needs to be </span></span>
+
+<span class="sentence"><span data-start="1731.0" data-end="1732.0"> 
+recompiled.</span></span>
+
+<span class="sentence"><span data-start="1732.0" data-end="1733.0"> 
+And of course, anything that </span></span>
+
+<span class="sentence"><span data-start="1733.0" data-end="1735.0"> 
+depends on that file will also </span></span>
+
+<span class="sentence"><span data-start="1735.0" data-end="1736.0"> 
+need to be recompiled.</span></span>
+
+<span class="sentence"><span data-start="1737.0" data-end="1738.0"> 
+But there's no chance that </span></span>
+
+<span class="sentence"><span data-start="1738.0" data-end="1739.0"> 
+anything within the utilities </span></span>
+
+<span class="sentence"><span data-start="1739.0" data-end="1741.0"> 
+target will be recompiled.</span></span>
+
+<span class="sentence"><span data-start="1742.0" data-end="1743.0"> 
+It's in a separate target.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1743.0" data-end="1745.0"> 
+It has an explicit dependency.</span></span>
+
+<span class="sentence"><span data-start="1745.0" data-end="1747.0"> 
+And it doesn't have implicit </span></span>
+
+<span class="sentence"><span data-start="1747.0" data-end="1749.0"> 
+visibility between those two </span></span>
+
+<span class="sentence"><span data-start="1749.0" data-end="1752.0"> 
+sets of files.</span></span>
+
+<span class="sentence"><span data-start="1752.0" data-end="1755.0"> 
+Now, similarly, if I change </span></span>
+
+<span class="sentence"><span data-start="1755.0" data-end="1756.0"> 
+something in the framework </span></span>
+
+<span class="sentence"><span data-start="1756.0" data-end="1757.0"> 
+target, then I would need to </span></span>
+
+<span class="sentence"><span data-start="1757.0" data-end="1760.0"> 
+recompile that file and anything </span></span>
+
+<span class="sentence"><span data-start="1760.0" data-end="1761.0"> 
+else in the utilities framework </span></span>
+
+<span class="sentence"><span data-start="1761.0" data-end="1762.0"> 
+that depends on it.</span></span>
+
+<span class="sentence"><span data-start="1763.0" data-end="1764.0"> 
+However, these dependencies are </span></span>
+
+<span class="sentence"><span data-start="1764.0" data-end="1765.0"> 
+more coarse-grained.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1766.0" data-end="1768.0"> 
+And so Xcode will also recompile </span></span>
+
+<span class="sentence"><span data-start="1768.0" data-end="1769.0"> 
+everything that's in the Game </span></span>
+
+<span class="sentence"><span data-start="1769.0" data-end="1772.0"> 
+target as well, unless the </span></span>
+
+<span class="sentence"><span data-start="1772.0" data-end="1774.0"> 
+changes are entirely confined to </span></span>
+
+<span class="sentence"><span data-start="1774.0" data-end="1774.0"> 
+function bodies.</span></span>
+
+<span class="sentence"><span data-start="1775.0" data-end="1778.0"> 
+So to recap those rules, the </span></span>
+
+<span class="sentence"><span data-start="1778.0" data-end="1779.0"> 
+compiler needs to be </span></span>
+
+<span class="sentence"><span data-start="1779.0" data-end="1780.0"> 
+conservative.</span></span>
+
+<span class="sentence"><span data-start="1781.0" data-end="1782.0"> 
+Even if a human can tell that a </span></span>
+
+<span class="sentence"><span data-start="1782.0" data-end="1783.0"> 
+change doesn't affect other </span></span>
+
+<span class="sentence"><span data-start="1783.0" data-end="1785.0"> 
+files, that doesn't necessarily </span></span>
+
+<span class="sentence"><span data-start="1785.0" data-end="1786.0"> 
+mean that the compiler can.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1787.0" data-end="1789.0"> 
+However, one change that the </span></span>
+
+<span class="sentence"><span data-start="1789.0" data-end="1791.0"> 
+compiler does know how to handle </span></span>
+
+<span class="sentence"><span data-start="1791.0" data-end="1792.0"> 
+is function bodies.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1792.0" data-end="1794.0"> 
+It knows that this doesn't </span></span>
+
+<span class="sentence"><span data-start="1794.0" data-end="1795.0"> 
+affect the file's interface.</span></span>
+
+<span class="sentence"><span data-start="1795.0" data-end="1797.0"> 
+And therefore, will not require </span></span>
+
+<span class="sentence"><span data-start="1797.0" data-end="1799.0"> 
+other files to be recompiled.</span></span>
+
+<span class="sentence"><span data-start="1802.0" data-end="1804.0"> 
+This per-file dependency basis </span></span>
+
+<span class="sentence"><span data-start="1804.0" data-end="1806.0"> 
+happens within a module, which </span></span>
+
+<span class="sentence"><span data-start="1806.0" data-end="1808.0"> 
+is where Swift declarations are </span></span>
+
+<span class="sentence"><span data-start="1808.0" data-end="1809.0"> 
+implicitly visible to one </span></span>
+
+<span class="sentence"><span data-start="1809.0" data-end="1810.0"> 
+another.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1810.0" data-end="1811.0"> 
+When you're dealing with </span></span>
+
+<span class="sentence"><span data-start="1811.0" data-end="1813.0"> 
+cross-module dependencies via </span></span>
+
+<span class="sentence"><span data-start="1813.0" data-end="1815.0"> 
+your imports or your bridging </span></span>
+
+<span class="sentence"><span data-start="1815.0" data-end="1816.0"> 
+header, these are dependencies </span></span>
+
+<span class="sentence"><span data-start="1816.0" data-end="1817.0"> 
+on the entire target.</span></span>
+
+<span class="sentence"><span data-start="1818.0" data-end="1821.0"> 
+So this is all good information </span></span>
+
+<span class="sentence"><span data-start="1821.0" data-end="1824.0"> 
+about Swift dependencies, and </span></span>
+
+<span class="sentence"><span data-start="1824.0" data-end="1825.0"> 
+Swift targets.</span></span>
+
+<span class="sentence"><span data-start="1825.0" data-end="1827.0"> 
+But I know a lot of you out here </span></span>
+
+<span class="sentence"><span data-start="1827.0" data-end="1829.0"> 
+have mixed Objective-C and Swift </span></span>
+
+<span class="sentence"><span data-start="1829.0" data-end="1829.0"> 
+targets.</span></span>
+
+<span class="sentence"><span data-start="1829.0" data-end="1831.0"> 
+And so the last section is going </span></span>
+
+<span class="sentence"><span data-start="1831.0" data-end="1833.0"> 
+to be focused on that, on how to </span></span>
+
+<span class="sentence"><span data-start="1833.0" data-end="1834.0"> 
+reduce the interface between the </span></span>
+
+<span class="sentence"><span data-start="1834.0" data-end="1836.0"> 
+Swift and the Objective-C code </span></span>
+
+<span class="sentence"><span data-start="1836.0" data-end="1837.0"> 
+in a mixed-source app.</span></span>
+
+<span class="sentence"><span data-start="1838.0" data-end="1840.0"> 
+And to do this, we're going to </span></span>
+
+<span class="sentence"><span data-start="1840.0" data-end="1842.0"> 
+have to talk about the parts of </span></span>
+
+<span class="sentence"><span data-start="1842.0" data-end="1842.0"> 
+a mixed-source app.</span></span>
+
+<span class="sentence"><span data-start="1844.0" data-end="1844.0"> 
+And this diagram's going to get </span></span>
+
+<span class="sentence"><span data-start="1844.0" data-end="1846.0"> 
+a little complicated, so bear </span></span>
+
+<span class="sentence"><span data-start="1846.0" data-end="1846.0"> 
+with me.</span></span>
+
+<span class="sentence"><span data-start="1846.0" data-end="1848.0"> 
+And if you're watching on video, </span></span>
+
+<span class="sentence"><span data-start="1848.0" data-end="1849.0"> 
+you may need to pause and </span></span>
+
+<span class="sentence"><span data-start="1849.0" data-end="1849.0"> 
+restart.</span></span>
+
+<span class="sentence"><span data-start="1850.0" data-end="1851.0"> 
+Feel free.</span></span>
+
+<span class="sentence"><span data-start="1852.0" data-end="1854.0"> 
+We start off with the headers </span></span>
+
+<span class="sentence"><span data-start="1854.0" data-end="1856.0"> 
+that describe your Objective-C </span></span>
+
+<span class="sentence"><span data-start="1856.0" data-end="1856.0"> 
+interface.</span></span>
+
+<span class="sentence"><span data-start="1857.0" data-end="1858.0"> 
+This is the parts of your app </span></span>
+
+<span class="sentence"><span data-start="1858.0" data-end="1860.0"> 
+that are written in Objective-C </span></span>
+
+<span class="sentence"><span data-start="1860.0" data-end="1861.0"> 
+that you may want to expose to </span></span>
+
+<span class="sentence"><span data-start="1861.0" data-end="1861.0"> 
+Swift.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1862.0" data-end="1863.0"> 
+Or perhaps you're just declaring </span></span>
+
+<span class="sentence"><span data-start="1863.0" data-end="1865.0"> 
+headers for other Objective-C </span></span>
+
+<span class="sentence"><span data-start="1865.0" data-end="1867.0"> 
+parts of your app.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1868.0" data-end="1869.0"> 
+Then we have the bridging </span></span>
+
+<span class="sentence"><span data-start="1869.0" data-end="1869.0"> 
+header.</span></span>
+
+<span class="sentence"><span data-start="1870.0" data-end="1871.0"> 
+This is the header that collects </span></span>
+
+<span class="sentence"><span data-start="1871.0" data-end="1873.0"> 
+all of the information that you </span></span>
+
+<span class="sentence"><span data-start="1873.0" data-end="1875.0"> 
+want to expose to the Swift part </span></span>
+
+<span class="sentence"><span data-start="1875.0" data-end="1876.0"> 
+of your app.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1877.0" data-end="1879.0"> 
+This is a build setting in Xcode </span></span>
+
+<span class="sentence"><span data-start="1879.0" data-end="1881.0"> 
+that controls which header is </span></span>
+
+<span class="sentence"><span data-start="1881.0" data-end="1881.0"> 
+used.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1881.0" data-end="1883.0"> 
+And once it's set, the Swift </span></span>
+
+<span class="sentence"><span data-start="1883.0" data-end="1885.0"> 
+compiler will know to expose </span></span>
+
+<span class="sentence"><span data-start="1885.0" data-end="1887.0"> 
+those Objective-C interfaces to </span></span>
+
+<span class="sentence"><span data-start="1887.0" data-end="1888.0"> 
+your Swift code.</span></span>
+
+<span class="sentence"><span data-start="1890.0" data-end="1892.0"> 
+The Swift compiler will then </span></span>
+
+<span class="sentence"><span data-start="1892.0" data-end="1894.0"> 
+produce a generated header, </span></span>
+
+<span class="sentence"><span data-start="1895.0" data-end="1896.0"> 
+which does the same thing in </span></span>
+
+<span class="sentence"><span data-start="1896.0" data-end="1896.0"> 
+reverse.</span></span>
+
+<span class="sentence"><span data-start="1897.0" data-end="1899.0"> 
+It describes which parts of your </span></span>
+
+<span class="sentence"><span data-start="1899.0" data-end="1901.0"> 
+Swift code will be exposed to </span></span>
+
+<span class="sentence"><span data-start="1901.0" data-end="1902.0"> 
+Objective-C.</span></span>
+
+<span class="sentence"><span data-start="1903.0" data-end="1905.0"> 
+That can then be used in your </span></span>
+
+<span class="sentence"><span data-start="1905.0" data-end="1907.0"> 
+Objective-C implementation </span></span>
+
+<span class="sentence"><span data-start="1907.0" data-end="1909.0"> 
+files, which probably also use </span></span>
+
+<span class="sentence"><span data-start="1909.0" data-end="1910.0"> 
+some of those headers from the </span></span>
+
+<span class="sentence"><span data-start="1910.0" data-end="1911.0"> 
+first step.</span></span>
+
+<span class="sentence"><span data-start="1911.0" data-end="1913.0"> 
+And then of course, you might </span></span>
+
+<span class="sentence"><span data-start="1913.0" data-end="1915.0"> 
+have Objective-C code that is </span></span>
+
+<span class="sentence"><span data-start="1915.0" data-end="1917.0"> 
+not dependent on any of the </span></span>
+
+<span class="sentence"><span data-start="1917.0" data-end="1918.0"> 
+Swift code.</span></span>
+
+<span class="sentence"><span data-start="1918.0" data-end="1920.0"> 
+But that's less interesting for </span></span>
+
+<span class="sentence"><span data-start="1920.0" data-end="1921.0"> 
+this part of the talk.</span></span>
+
+<span class="sentence"><span data-start="1922.0" data-end="1923.0"> 
+So, I'll step through that from </span></span>
+
+<span class="sentence"><span data-start="1923.0" data-end="1924.0"> 
+left to right again.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1925.0" data-end="1927.0"> 
+We have the Objective-C headers.</span></span>
+
+<span class="sentence"><span data-start="1928.0" data-end="1930.0"> 
+The bridging header for getting </span></span>
+
+<span class="sentence"><span data-start="1930.0" data-end="1931.0"> 
+some of that information into </span></span>
+
+<span class="sentence"><span data-start="1931.0" data-end="1932.0"> 
+Swift.</span></span>
+
+<span class="sentence"><span data-start="1933.0" data-end="1934.0"> 
+Your Swift implementation files.</span></span>
+
+<span class="sentence"><span data-start="1935.0" data-end="1937.0"> 
+A generated header for </span></span>
+
+<span class="sentence"><span data-start="1937.0" data-end="1939.0"> 
+presenting that information back </span></span>
+
+<span class="sentence"><span data-start="1939.0" data-end="1940.0"> 
+to Objective-C.</span></span>
+
+<span class="sentence"><span data-start="1940.0" data-end="1941.0"> 
+And then finally, your </span></span>
+
+<span class="sentence"><span data-start="1941.0" data-end="1943.0"> 
+Objective-C implementation </span></span>
+
+<span class="sentence"><span data-start="1943.0" data-end="1944.0"> 
+files.</span></span>
+
+<span class="sentence"><span data-start="1944.0" data-end="1948.0"> 
+And in a diagram like this, all </span></span>
+
+<span class="sentence"><span data-start="1948.0" data-end="1950.0"> 
+of these arrows represent </span></span>
+
+<span class="sentence"><span data-start="1950.0" data-end="1951.0"> 
+dependencies.</span></span>
+
+<span class="sentence"><span data-start="1951.0" data-end="1952.0"> 
+Not dependencies on a target </span></span>
+
+<span class="sentence"><span data-start="1952.0" data-end="1954.0"> 
+level, but within on a </span></span>
+
+<span class="sentence"><span data-start="1955.0" data-end="1956.0"> 
+file-by-file level within a </span></span>
+
+<span class="sentence"><span data-start="1956.0" data-end="1957.0"> 
+target.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1958.0" data-end="1960.0"> 
+And so, what we want to do is </span></span>
+
+<span class="sentence"><span data-start="1960.0" data-end="1961.0"> 
+focus on the generated header </span></span>
+
+<span class="sentence"><span data-start="1961.0" data-end="1963.0"> 
+and the bridging header, because </span></span>
+
+<span class="sentence"><span data-start="1963.0" data-end="1964.0"> 
+if we can shrink the content in </span></span>
+
+<span class="sentence"><span data-start="1964.0" data-end="1966.0"> 
+these headers, then we know that </span></span>
+
+<span class="sentence"><span data-start="1966.0" data-end="1968.0"> 
+there's fewer chances for things </span></span>
+
+<span class="sentence"><span data-start="1968.0" data-end="1969.0"> 
+to change.</span></span>
+
+<span class="sentence"><span data-start="1969.0" data-end="1971.0"> 
+And therefore, less need to </span></span>
+
+<span class="sentence"><span data-start="1971.0" data-end="1971.0"> 
+rebuild.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1972.0" data-end="1974.0"> 
+So let's take a look.</span></span>
+
+<span class="sentence"><span data-start="1974.0" data-end="1976.0"> 
+For the generated header, your </span></span>
+
+<span class="sentence"><span data-start="1976.0" data-end="1977.0"> 
+strongest tool is going to be </span></span>
+
+<span class="sentence"><span data-start="1977.0" data-end="1978.0"> 
+the private key word.</span></span>
+
+<span class="sentence"><span data-start="1979.0" data-end="1981.0"> 
+So in this example, I have a </span></span>
+
+<span class="sentence"><span data-start="1981.0" data-end="1982.0"> 
+view controller that I'm </span></span>
+
+<span class="sentence"><span data-start="1982.0" data-end="1983.0"> 
+defining in Swift.</span></span>
+
+<span class="sentence"><span data-start="1983.0" data-end="1984.0"> 
+And it has an it an IBOutlet </span></span>
+
+<span class="sentence"><span data-start="1984.0" data-end="1986.0"> 
+property and an IBAction method.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="1987.0" data-end="1989.0"> 
+By default, these will be </span></span>
+
+<span class="sentence"><span data-start="1989.0" data-end="1991.0"> 
+exposed in your generated header </span></span>
+
+<span class="sentence"><span data-start="1992.0" data-end="1994.0"> 
+because they're methods and </span></span>
+
+<span class="sentence"><span data-start="1994.0" data-end="1995.0"> 
+properties exposed to </span></span>
+
+<span class="sentence"><span data-start="1995.0" data-end="1996.0"> 
+Objective-C.</span></span>
+
+<span class="sentence"><span data-start="1997.0" data-end="1998.0"> 
+And they're not declared as </span></span>
+
+<span class="sentence"><span data-start="1998.0" data-end="1998.0"> 
+private.</span></span>
+
+<span class="sentence"><span data-start="2000.0" data-end="2002.0"> 
+But most of the time you don't </span></span>
+
+<span class="sentence"><span data-start="2002.0" data-end="2003.0"> 
+need to expose these to any </span></span>
+
+<span class="sentence"><span data-start="2003.0" data-end="2004.0"> 
+other files in your project.</span></span>
+
+<span class="sentence"><span data-start="2005.0" data-end="2006.0"> 
+They're just for interacting </span></span>
+
+<span class="sentence"><span data-start="2006.0" data-end="2007.0"> 
+with Interface Builder.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2008.0" data-end="2010.0"> 
+And so, in this case, I can mark </span></span>
+
+<span class="sentence"><span data-start="2010.0" data-end="2012.0"> 
+these private and watch as the </span></span>
+
+<span class="sentence"><span data-start="2012.0" data-end="2014.0"> 
+property and method vanish from </span></span>
+
+<span class="sentence"><span data-start="2014.0" data-end="2015.0"> 
+the generated header.</span></span>
+
+<span class="sentence"><span data-start="2017.0" data-end="2019.0"> 
+Another example of this is when </span></span>
+
+<span class="sentence"><span data-start="2019.0" data-end="2021.0"> 
+dealing with methods exposed to </span></span>
+
+<span class="sentence"><span data-start="2021.0" data-end="2023.0"> 
+Objective-C for use with </span></span>
+
+<span class="sentence"><span data-start="2023.0" data-end="2025.0"> 
+Objective-C runtime features </span></span>
+
+<span class="sentence"><span data-start="2025.0" data-end="2026.0"> 
+like #selector.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2026.0" data-end="2027.0"> 
+In this case, I'm using </span></span>
+
+<span class="sentence"><span data-start="2027.0" data-end="2029.0"> 
+foundations Notification Center </span></span>
+
+<span class="sentence"><span data-start="2029.0" data-end="2031.0"> 
+API, which takes a selector to </span></span>
+
+<span class="sentence"><span data-start="2031.0" data-end="2033.0"> 
+use as a callback when the </span></span>
+
+<span class="sentence"><span data-start="2033.0" data-end="2034.0"> 
+notification is sent.</span></span>
+
+<span class="sentence"><span data-start="2035.0" data-end="2038.0"> 
+Once again, the only requirement </span></span>
+
+<span class="sentence"><span data-start="2038.0" data-end="2039.0"> 
+here is that the method is </span></span>
+
+<span class="sentence"><span data-start="2039.0" data-end="2040.0"> 
+exposed to Objective-C.</span></span>
+
+<span class="sentence"><span data-start="2040.0" data-end="2042.0"> 
+It doesn't actually need to be </span></span>
+
+<span class="sentence"><span data-start="2042.0" data-end="2043.0"> 
+used from any other files in my </span></span>
+
+<span class="sentence"><span data-start="2043.0" data-end="2046.0"> 
+project, Swift or Objective-C.</span></span>
+
+<span class="sentence"><span data-start="2046.0" data-end="2049.0"> 
+So I can mark it private.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2050.0" data-end="2051.0"> 
+And once again have that </span></span>
+
+<span class="sentence"><span data-start="2051.0" data-end="2053.0"> 
+reduction in the shape of my </span></span>
+
+<span class="sentence"><span data-start="2053.0" data-end="2054.0"> 
+generated header.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2054.0" data-end="2057.0"> 
+In cases like this, there's </span></span>
+
+<span class="sentence"><span data-start="2057.0" data-end="2059.0"> 
+often another option as well.</span></span>
+
+<span class="sentence"><span data-start="2059.0" data-end="2060.0"> 
+And that's to switch to </span></span>
+
+<span class="sentence"><span data-start="2060.0" data-end="2061.0"> 
+block-based API's.</span></span>
+
+<span class="sentence"><span data-start="2062.0" data-end="2064.0"> 
+In many cases, this can even </span></span>
+
+<span class="sentence"><span data-start="2064.0" data-end="2065.0"> 
+clear up your code because you </span></span>
+
+<span class="sentence"><span data-start="2065.0" data-end="2067.0"> 
+can implicitly capture state </span></span>
+
+<span class="sentence"><span data-start="2067.0" data-end="2068.0"> 
+from the function that's </span></span>
+
+<span class="sentence"><span data-start="2068.0" data-end="2070.0"> 
+registering for the notification </span></span>
+
+<span class="sentence"><span data-start="2070.0" data-end="2071.0"> 
+rather than having to carry it </span></span>
+
+<span class="sentence"><span data-start="2071.0" data-end="2073.0"> 
+along as some kind of context </span></span>
+
+<span class="sentence"><span data-start="2073.0" data-end="2073.0"> 
+object.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2074.0" data-end="2077.0"> 
+Now, the last tip for reducing </span></span>
+
+<span class="sentence"><span data-start="2077.0" data-end="2078.0"> 
+the contents of your generated </span></span>
+
+<span class="sentence"><span data-start="2078.0" data-end="2081.0"> 
+header is actually a very old </span></span>
+
+<span class="sentence"><span data-start="2081.0" data-end="2081.0"> 
+one.</span></span>
+
+<span class="sentence"><span data-start="2081.0" data-end="2083.0"> 
+You can migrate to Swift 4.</span></span>
+
+<span class="sentence"><span data-start="2084.0" data-end="2085.0"> 
+And you've already heard that </span></span>
+
+<span class="sentence"><span data-start="2085.0" data-end="2086.0"> 
+you're going to have to do that </span></span>
+
+<span class="sentence"><span data-start="2086.0" data-end="2087.0"> 
+this year.</span></span>
+
+<span class="sentence"><span data-start="2087.0" data-end="2089.0"> 
+That Xcode 10 will be the last </span></span>
+
+<span class="sentence"><span data-start="2089.0" data-end="2091.0"> 
+set of releases where Swift 3 </span></span>
+
+<span class="sentence"><span data-start="2091.0" data-end="2092.0"> 
+mode is supported.</span></span>
+
+<span class="sentence"><span data-start="2093.0" data-end="2096.0"> 
+And so, this is something you'll </span></span>
+
+<span class="sentence"><span data-start="2096.0" data-end="2097.0"> 
+be doing anyway.</span></span>
+
+<span class="sentence"><span data-start="2097.0" data-end="2099.0"> 
+Edit. Convert.</span></span>
+
+<span class="sentence"><span data-start="2099.0" data-end="2101.0"> 
+To Current Swift Syntax.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2102.0" data-end="2104.0"> 
+However, when you do this </span></span>
+
+<span class="sentence"><span data-start="2104.0" data-end="2106.0"> 
+migration, you may have actually </span></span>
+
+<span class="sentence"><span data-start="2106.0" data-end="2109.0"> 
+selected to keep the Swift 3 </span></span>
+
+<span class="sentence"><span data-start="2109.0" data-end="2111.0"> 
+compatibility mode for a </span></span>
+
+<span class="sentence"><span data-start="2111.0" data-end="2112.0"> 
+particular build setting.</span></span>
+
+<span class="sentence"><span data-start="2112.0" data-end="2114.0"> 
+And that's the Swift 3 @objc </span></span>
+
+<span class="sentence"><span data-start="2114.0" data-end="2115.0"> 
+imprints.</span></span>
+
+<span class="sentence"><span data-start="2116.0" data-end="2117.0"> 
+This is an option when you </span></span>
+
+<span class="sentence"><span data-start="2117.0" data-end="2119.0"> 
+migrate to Swift 4 to keep on a </span></span>
+
+<span class="sentence"><span data-start="2119.0" data-end="2122.0"> 
+rule from Swift 3 which exposes </span></span>
+
+<span class="sentence"><span data-start="2122.0" data-end="2123.0"> 
+internal methods and properties </span></span>
+
+<span class="sentence"><span data-start="2123.0" data-end="2126.0"> 
+to Objective-C automatically on </span></span>
+
+<span class="sentence"><span data-start="2126.0" data-end="2130.0"> 
+any subclass of NS Object.</span></span>
+
+<span class="sentence"><span data-start="2130.0" data-end="2131.0"> 
+Now, if you are writing in Swift </span></span>
+
+<span class="sentence"><span data-start="2131.0" data-end="2133.0"> 
+3, you may be relying on this </span></span>
+
+<span class="sentence"><span data-start="2133.0" data-end="2133.0"> 
+feature.</span></span>
+
+<span class="sentence"><span data-start="2134.0" data-end="2135.0"> 
+But there's a lot of cases where </span></span>
+
+<span class="sentence"><span data-start="2136.0" data-end="2137.0"> 
+you were not actually depending </span></span>
+
+<span class="sentence"><span data-start="2137.0" data-end="2138.0"> 
+on this in any way.</span></span>
+
+<span class="sentence"><span data-start="2139.0" data-end="2140.0"> 
+Not in the runtime sense.</span></span>
+
+<span class="sentence"><span data-start="2140.0" data-end="2142.0"> 
+And definitely not at compile </span></span>
+
+<span class="sentence"><span data-start="2142.0" data-end="2142.0"> 
+time.</span></span>
+
+<span class="sentence"><span data-start="2143.0" data-end="2145.0"> 
+So, once you get to the point </span></span>
+
+<span class="sentence"><span data-start="2145.0" data-end="2147.0"> 
+where you've explicitly marked </span></span>
+
+<span class="sentence"><span data-start="2147.0" data-end="2148.0"> 
+all of your Objective-C </span></span>
+
+<span class="sentence"><span data-start="2148.0" data-end="2151.0"> 
+dependencies as either @objc or </span></span>
+
+<span class="sentence"><span data-start="2152.0" data-end="2154.0"> 
+IBOutlet, IBAction, whatever, as </span></span>
+
+<span class="sentence"><span data-start="2154.0" data-end="2156.0"> 
+appropriate, then you can also </span></span>
+
+<span class="sentence"><span data-start="2156.0" data-end="2157.0"> 
+select this build setting and </span></span>
+
+<span class="sentence"><span data-start="2157.0" data-end="2159.0"> 
+hit Delete to get it back to the </span></span>
+
+<span class="sentence"><span data-start="2159.0" data-end="2161.0"> 
+default mode where the OB-C </span></span>
+
+<span class="sentence"><span data-start="2161.0" data-end="2162.0"> 
+attribute will only be inferred </span></span>
+
+<span class="sentence"><span data-start="2163.0" data-end="2165.0"> 
+for methods and properties that </span></span>
+
+<span class="sentence"><span data-start="2165.0" data-end="2168.0"> 
+satisfy protocol requirements or </span></span>
+
+<span class="sentence"><span data-start="2168.0" data-end="2169.0"> 
+those that override methods that </span></span>
+
+<span class="sentence"><span data-start="2169.0" data-end="2170.0"> 
+come from Objective-C.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2171.0" data-end="2174.0"> 
+So we've talked a lot about the </span></span>
+
+<span class="sentence"><span data-start="2174.0" data-end="2175.0"> 
+generated header and what you </span></span>
+
+<span class="sentence"><span data-start="2175.0" data-end="2177.0"> 
+can do to your Swift code.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2177.0" data-end="2179.0"> 
+But you have Objective-C code as </span></span>
+
+<span class="sentence"><span data-start="2179.0" data-end="2179.0"> 
+well.</span></span>
+
+<span class="sentence"><span data-start="2180.0" data-end="2181.0"> 
+And the Objective-C code, </span></span>
+
+<span class="sentence"><span data-start="2181.0" data-end="2183.0"> 
+likewise, causes rebuilds.</span></span>
+
+<span class="sentence"><span data-start="2184.0" data-end="2185.0"> 
+And so a bridging header looks </span></span>
+
+<span class="sentence"><span data-start="2185.0" data-end="2187.0"> 
+something like this, usually.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2187.0" data-end="2188.0"> 
+It's got a bunch of other </span></span>
+
+<span class="sentence"><span data-start="2188.0" data-end="2189.0"> 
+headers in the project that </span></span>
+
+<span class="sentence"><span data-start="2189.0" data-end="2190.0"> 
+you're trying to expose to </span></span>
+
+<span class="sentence"><span data-start="2190.0" data-end="2191.0"> 
+Swift.</span></span>
+
+<span class="sentence"><span data-start="2192.0" data-end="2194.0"> 
+And we can zoom in on one of </span></span>
+
+<span class="sentence"><span data-start="2194.0" data-end="2194.0"> 
+these headers here, the </span></span>
+
+<span class="sentence"><span data-start="2194.0" data-end="2197.0"> 
+MyViewController header and see </span></span>
+
+<span class="sentence"><span data-start="2197.0" data-end="2198.0"> 
+that it's a perfectly normal </span></span>
+
+<span class="sentence"><span data-start="2198.0" data-end="2199.0"> 
+declaration of a view </span></span>
+
+<span class="sentence"><span data-start="2199.0" data-end="2200.0"> 
+controller.</span></span>
+
+<span class="sentence"><span data-start="2200.0" data-end="2202.0"> 
+But also that it itself includes </span></span>
+
+<span class="sentence"><span data-start="2202.0" data-end="2203.0"> 
+another header.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2204.0" data-end="2206.0"> 
+What that means is that if any </span></span>
+
+<span class="sentence"><span data-start="2206.0" data-end="2208.0"> 
+of these headers change, the </span></span>
+
+<span class="sentence"><span data-start="2208.0" data-end="2209.0"> 
+Swift code in your target has to </span></span>
+
+<span class="sentence"><span data-start="2209.0" data-end="2211.0"> 
+be recompiled because it might </span></span>
+
+<span class="sentence"><span data-start="2211.0" data-end="2212.0"> 
+depend on something that </span></span>
+
+<span class="sentence"><span data-start="2212.0" data-end="2213.0"> 
+changed.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2214.0" data-end="2216.0"> 
+This is suboptimal.</span></span>
+
+<span class="sentence"><span data-start="2216.0" data-end="2219.0"> 
+And now we can notice that in </span></span>
+
+<span class="sentence"><span data-start="2219.0" data-end="2221.0"> 
+this example, the only reason </span></span>
+
+<span class="sentence"><span data-start="2221.0" data-end="2223.0"> 
+we're importing the MyNetwork </span></span>
+
+<span class="sentence"><span data-start="2223.0" data-end="2224.0"> 
+Manager header is to declare </span></span>
+
+<span class="sentence"><span data-start="2224.0" data-end="2226.0"> 
+this property, this network </span></span>
+
+<span class="sentence"><span data-start="2226.0" data-end="2227.0"> 
+manager property on the view </span></span>
+
+<span class="sentence"><span data-start="2227.0" data-end="2228.0"> 
+controller.</span></span>
+
+<span class="sentence"><span data-start="2229.0" data-end="2231.0"> 
+And it's possible that that </span></span>
+
+<span class="sentence"><span data-start="2231.0" data-end="2234.0"> 
+property is never actually used </span></span>
+
+<span class="sentence"><span data-start="2234.0" data-end="2234.0"> 
+from Swift.</span></span>
+
+<span class="sentence"><span data-start="2235.0" data-end="2237.0"> 
+In which case, it's unnecessary </span></span>
+
+<span class="sentence"><span data-start="2237.0" data-end="2239.0"> 
+for us to be declaring it here.</span></span>
+
+<span class="sentence"><span data-start="2240.0" data-end="2241.0"> 
+So what you can do is use </span></span>
+
+<span class="sentence"><span data-start="2241.0" data-end="2243.0"> 
+categories, Objective-C's </span></span>
+
+<span class="sentence"><span data-start="2243.0" data-end="2245.0"> 
+equivalent of extensions, to </span></span>
+
+<span class="sentence"><span data-start="2245.0" data-end="2246.0"> 
+break up this interface.</span></span>
+
+<span class="sentence"><span data-start="2247.0" data-end="2248.0"> 
+So I'm going to define a new </span></span>
+
+<span class="sentence"><span data-start="2248.0" data-end="2250.0"> 
+file here, MyViewController </span></span>
+
+<span class="sentence"><span data-start="2250.0" data-end="2252.0"> 
+Internal, and use the special </span></span>
+
+<span class="sentence"><span data-start="2252.0" data-end="2254.0"> 
+nameless category syntax that </span></span>
+
+<span class="sentence"><span data-start="2254.0" data-end="2256.0"> 
+allows me to declare additional </span></span>
+
+<span class="sentence"><span data-start="2256.0" data-end="2257.0"> 
+properties while still taking </span></span>
+
+<span class="sentence"><span data-start="2257.0" data-end="2259.0"> 
+advantage of the property </span></span>
+
+<span class="sentence"><span data-start="2259.0" data-end="2261.0"> 
+synthesis feature in my main Add </span></span>
+
+<span class="sentence"><span data-start="2261.0" data-end="2262.0"> 
+Implementation block.</span></span>
+
+<span class="sentence"><span data-start="2262.0" data-end="2267.0"> 
+Now I can just move the import </span></span>
+
+<span class="sentence"><span data-start="2267.0" data-end="2268.0"> 
+and the property down to the </span></span>
+
+<span class="sentence"><span data-start="2268.0" data-end="2268.0"> 
+category.</span></span>
+
+<span class="sentence"><span data-start="2269.0" data-end="2270.0"> 
+And voila! </span></span>
+
+<span class="sentence"><span data-start="2270.0" data-end="2272.0"> 
+The headers that are being </span></span>
+
+<span class="sentence"><span data-start="2272.0" data-end="2274.0"> 
+imported into Swift have gotten </span></span>
+
+<span class="sentence"><span data-start="2274.0" data-end="2276.0"> 
+much smaller and are much less </span></span>
+
+<span class="sentence"><span data-start="2276.0" data-end="2278.0"> 
+likely to change now and cause </span></span>
+
+<span class="sentence"><span data-start="2278.0" data-end="2279.0"> 
+an unnecessary rebuild.</span></span>
+
+<span class="sentence"><span data-start="2280.0" data-end="2281.0"> 
+And there's one more note.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2282.0" data-end="2284.0"> 
+This file here that I defined, </span></span>
+
+<span class="sentence"><span data-start="2284.0" data-end="2286.0"> 
+well, it's possible that nothing </span></span>
+
+<span class="sentence"><span data-start="2286.0" data-end="2288.0"> 
+else in my Objective-C code </span></span>
+
+<span class="sentence"><span data-start="2288.0" data-end="2289.0"> 
+needs to access this property, </span></span>
+
+<span class="sentence"><span data-start="2289.0" data-end="2289.0"> 
+either.</span></span>
+
+<span class="sentence"><span data-start="2291.0" data-end="2292.0"> 
+In which case, there's no need </span></span>
+
+<span class="sentence"><span data-start="2292.0" data-end="2293.0"> 
+for a separate file.</span></span>
+
+<span class="sentence"><span data-start="2294.0" data-end="2296.0"> 
+I can put this category directly </span></span>
+
+<span class="sentence"><span data-start="2296.0" data-end="2297.0"> 
+into my .m.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2298.0" data-end="2299.0"> 
+There's nothing wrong with doing </span></span>
+
+<span class="sentence"><span data-start="2299.0" data-end="2299.0"> 
+this.</span></span>
+
+<span class="sentence"><span data-start="2300.0" data-end="2301.0"> 
+Everything will work fine.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2301.0" data-end="2303.0"> 
+And as I said before, property </span></span>
+
+<span class="sentence"><span data-start="2303.0" data-end="2304.0"> 
+synthesis will still work for </span></span>
+
+<span class="sentence"><span data-start="2304.0" data-end="2306.0"> 
+the network manager property.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2306.0" data-end="2308.0"> 
+So what have we seen? </span></span>
+
+<span class="sentence"><span data-start="2309.0" data-end="2312.0"> 
+We used private and block-based </span></span>
+
+<span class="sentence"><span data-start="2312.0" data-end="2314.0"> 
+API's, and turning off that </span></span>
+
+<span class="sentence"><span data-start="2314.0" data-end="2315.0"> 
+Build setting to shrink the </span></span>
+
+<span class="sentence"><span data-start="2315.0" data-end="2317.0"> 
+contents of the generated </span></span>
+
+<span class="sentence"><span data-start="2317.0" data-end="2317.0"> 
+header.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2318.0" data-end="2320.0"> 
+And, we've broken out separate </span></span>
+
+<span class="sentence"><span data-start="2320.0" data-end="2322.0"> 
+contents from the Objective-C </span></span>
+
+<span class="sentence"><span data-start="2322.0" data-end="2324.0"> 
+headers that we declared, which </span></span>
+
+<span class="sentence"><span data-start="2324.0" data-end="2325.0"> 
+shrink the contents of the </span></span>
+
+<span class="sentence"><span data-start="2325.0" data-end="2326.0"> 
+bridging header.</span></span>
+
+<span class="sentence"><span data-start="2327.0" data-end="2329.0"> 
+Less content means less work </span></span>
+
+<span class="sentence"><span data-start="2329.0" data-end="2329.0"> 
+done on each build.</span></span>
+
+<span class="sentence"><span data-start="2330.0" data-end="2331.0"> 
+And it also means fewer </span></span>
+
+<span class="sentence"><span data-start="2331.0" data-end="2333.0"> 
+opportunities for changes, which </span></span>
+
+<span class="sentence"><span data-start="2333.0" data-end="2335.0"> 
+means fewer chances for </span></span>
+
+<span class="sentence"><span data-start="2335.0" data-end="2336.0"> 
+rebuilds.</span></span>
+
+<span class="sentence"><span data-start="2336.0" data-end="2337.0"> 
+We win on both counts.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2339.0" data-end="2341.0"> 
+So let's wrap things up.</span></span>
+
+<span class="sentence"><span data-start="2342.0" data-end="2344.0"> 
+David and I talked a lot about </span></span>
+
+<span class="sentence"><span data-start="2344.0" data-end="2346.0"> 
+quite a few different topics, of </span></span>
+
+<span class="sentence"><span data-start="2346.0" data-end="2347.0"> 
+ways that you can get more </span></span>
+
+<span class="sentence"><span data-start="2347.0" data-end="2349.0"> 
+information from Xcode and that </span></span>
+
+<span class="sentence"><span data-start="2349.0" data-end="2350.0"> 
+you can provide more information </span></span>
+
+<span class="sentence"><span data-start="2351.0" data-end="2353.0"> 
+to Xcode in ways that can speed </span></span>
+
+<span class="sentence"><span data-start="2353.0" data-end="2354.0"> 
+up your builds.</span></span>
+
+<span class="sentence"><span data-start="2354.0" data-end="2356.0"> 
+And this covers both increasing </span></span>
+
+<span class="sentence"><span data-start="2356.0" data-end="2357.0"> 
+the build efficiency when you're </span></span>
+
+<span class="sentence"><span data-start="2357.0" data-end="2359.0"> 
+doing a build and reducing the </span></span>
+
+<span class="sentence"><span data-start="2359.0" data-end="2361.0"> 
+work that you have to do at all </span></span>
+
+<span class="sentence"><span data-start="2361.0" data-end="2361.0"> 
+in a rebuild.</span></span>
+
+<span class="sentence"><span data-start="2363.0" data-end="2365.0"> 
+So, we went through this kind of </span></span>
+
+<span class="sentence"><span data-start="2365.0" data-end="2365.0"> 
+fast.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2365.0" data-end="2366.0"> 
+So if you want to see it again, </span></span>
+
+<span class="sentence"><span data-start="2366.0" data-end="2367.0"> 
+check out the video page.</span></span>
+
+<span class="sentence"><span data-start="2367.0" data-end="2369.0"> 
+And you can also come find us in </span></span>
+
+<span class="sentence"><span data-start="2369.0" data-end="2371.0"> 
+the labs at noon today and </span></span>
+
+<span class="sentence"><span data-start="2371.0" data-end="2373.0"> 
+tomorrow in the afternoon.</span></span>
+
+<span class="sentence"><span data-start="2373.0" data-end="2373.0"> 
+Thank you very much.</span></span>
+
+</p>
+
+<p>
+<span class="sentence"><span data-start="2374.0" data-end="2375.0"> 
+Enjoy the rest of the </span></span>
+
+<span class="sentence"><span data-start="2375.0" data-end="2376.0"> 
+conference.</span></span>
+
+<span class="sentence"><span data-start="2377.0" data-end="2379.0"> 
+</span></span>
+
+</p>
+							</section>
+						</li>
+
+						<!-- search -->
+						<li class="supplement search active" data-supplement-id="search">
+
+							<section class="transcript-results-summary">
+								<p class="message smaller lighter"><!-- to be populated --></p>
+								<p class="instructions smaller lighter text-center">Looking for something specific? Enter a topic above and jump straight to the good stuff.</p>
+								<p class="error smaller lighter italic text-center" style="display:none;">An error occurred when submitting your query. Please check your Internet connection and try again.</p>
+							</section>
+
+							<!-- search results -->
+							<ul class="transcript-results row">
+															</ul>
+
+						</li>
+
+					</ul>
+
+				</section>
+
+			</section>
+
+		</section>
+
+		<input id="analytics-meta" type="hidden" data-event-name="WWDC 2018" 
+		data-event-id="wwdc2018-408" 
+		data-session-id="408" 
+		data-video-name="Building Faster in Xcode" 
+		data-session-response-id="">
+	</main>
+
+	<div id="globalfooter-wrapper">
+		<footer id="globalfooter" role="contentinfo">
+			<nav class="footer-breadory">
+				<a href="/" class="home breadcrumbs-home"><span aria-hidden="true"></span><span class="breadcrumbs-home-label">Developer</span></a>
+				<section class="breadcrumbs">
+					<ol class="breadcrumbs-list">
+						<li><a href="/videos/">Videos</a></li>
+						<li><a href="/videos/wwdc2018/">WWDC 2018</a></li>						<li>Building Faster in Xcode</li>
+					</ol>
+				</section>
+				<div id="directorynav" class="directorynav">
+	<div id="dn-cola" class="column">
+		<h3><a href="/discover/">Discover</a></h3>
+		<ul>
+			<li><a href="/macos/">macOS</a></li>
+			<li><a href="/ios/">iOS</a></li>
+			<li><a href="/watchos/">watchOS</a></li>
+			<li><a href="/tvos/">tvOS</a></li>
+			<li><a href="/safari/">Safari and Web</a></li>
+			<li><a href="/games/">Games</a></li>
+			<li><a href="/business/">Business</a></li>
+			<li><a href="/education/">Education</a></li>
+			<li><a href="/wwdc/">WWDC</a></li>
+		</ul>
+	</div>
+	<div id="dn-colb" class="column">
+		<h3><a href="/design/">Design</a></h3>
+		<ul>
+			<li><a href="/design/human-interface-guidelines/">Human Interface Guidelines</a></li>
+			<li><a href="/design/resources/">Resources</a></li>
+			<li><a href="/videos/design/">Videos</a></li>
+			<li><a href="/design/awards/">Apple Design Awards</a></li>
+			<li><a href="/accessibility/">Accessibility</a></li>
+			<li><a href="/internationalization/">Internationalization</a></li>
+			<li><a href="/accessories/">Accessories</a></li>
+		</ul>
+	</div>
+	<div id="dn-colc" class="column">
+		<h3><a href="/develop/">Develop</a></h3>
+		<ul>
+			<li><a href="/xcode/">Xcode</a></li>
+			<li><a href="/swift/">Swift</a></li>
+			<li><a href="/swift-playgrounds/">Swift Playgrounds</a></li>
+			<li><a href="/testflight/">TestFlight</a></li>
+			<li><a href="/documentation/">Documentation</a></li>
+			<li><a href="/videos/">Videos</a></li>
+			<li><a href="/download/">Downloads</a></li>
+		</ul>
+	</div>
+	<div id="dn-cold" class="column">
+		<h3><a href="/distribute/">Distribute</a></h3>
+		<ul>
+			<li><a href="/programs/">Developer Program</a></li>
+			<li><a href="/app-store/">App Store</a></li>
+			<li><a href="/app-store/review/">App Review</a></li>
+			<li><a href="/macos/distribution/">Mac Software</a></li>
+			<li><a href="/business/distribute/">Apps for Business</a></li>
+			<li><a href="/safari/extensions/">Safari Extensions</a></li>
+			<li><a href="/app-store/marketing/guidelines/">Marketing Resources</a></li>
+			<li><a href="/softwarelicensing/">Trademark Licensing</a></li>
+		</ul>
+	</div>
+	<div id="dn-cole" class="column">
+		<h3><a href="/support/">Support</a></h3>
+		<ul>
+			<li><a href="https://forums.developer.apple.com">Developer Forums</a></li>
+			<li><a href="/bug-reporting/">Bug Reporting</a></li>
+			<li><a href="/terms/">License Agreements</a></li>
+			<li><a href="/system-status/">System Status</a></li>
+			<li><a href="/contact/">Contact Us</a></li>
+		</ul>
+		<h3><a href="/account/">Account</a></h3>
+		<ul>
+			<li><a href="/account/ios/certificate/">Certificates, IDs &amp; Profiles</a></li>
+			<li><a href="https://appstoreconnect.apple.com/">App Store Connect</a></li>
+		</ul>
+	</div>
+</div>
+
+			</nav>
+			<div class="ac-gf-footer-legal">
+  <div class="ac-gf-footer-news"> To receive the latest developer news, visit and subscribe to our <a href="/news/">News and Updates</a>. </div>
+  <div class="ac-gf-footer-legal-copyright">Copyright ©  2019 Apple Inc. All rights reserved.</div>
+  <div class="ac-gf-footer-legal-links">
+    <a href="https://www.apple.com/legal/internet-services/terms/site.html" class="first">Terms of Use</a>
+    <a href="https://www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+    <a href="/bug-reporting/">Report Bugs</a>
+    <a href="/contact/submit/?subject=website-feedback">Feedback</a>
+  </div>
+  <div class="ac-gf-footer-language-links">
+    <a href="/cn/" lang="zh" class="first">简体中文</a>
+    <a href="/jp/" lang="ja">日本語</a>
+    <a href="/kr/" lang="ko">한국어</a>
+  </div>
+</div>
+
+		</footer>
+	</div>
+
+	<script src="/assets/scripts/params.js"></script>
+	<script src="/assets/scripts/watchable.js"></script>
+	<script src="/assets/scripts/timeout.js"></script>
+
+	<script src="/videos/scripts/play/play.js?2"></script>
+	<script src="/videos/scripts/hls/hls.min.js"></script>
+	
+</body>
+</html>

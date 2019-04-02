@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>VIPER best practices for iOS developers - The.Swift.Dev.</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=64c8bc839a" />
+
+    <meta name="description" content="In this tutorial I&#x27;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift." />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/amp/" />
+    
+    <meta property="og:site_name" content="The.Swift.Dev." />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="VIPER best practices for iOS developers - The.Swift.Dev." />
+    <meta property="og:description" content="In this tutorial I&#x27;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift. " />
+    <meta property="og:url" content="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
+    <meta property="article:published_time" content="2019-03-11T16:24:25.000Z" />
+    <meta property="article:modified_time" content="2019-03-11T16:25:58.000Z" />
+    <meta property="article:tag" content="iOS" />
+    <meta property="article:tag" content="Design patterns" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VIPER best practices for iOS developers - The.Swift.Dev." />
+    <meta name="twitter:description" content="In this tutorial I&#x27;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift. " />
+    <meta name="twitter:url" content="https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/" />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Tibor Bödecs" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="iOS, Design patterns" />
+    <meta name="twitter:creator" content="@tiborbodecs" />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="810" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "The.Swift.Dev.",
+        "logo": "https://theswiftdev.com/content/images/2017/10/Logo-2.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Tibor Bödecs",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://theswiftdev.com/content/images/2019/03/tiborbodecs-profile-xs-2019.jpg",
+            "width": 256,
+            "height": 256
+        },
+        "url": "https://theswiftdev.com/author/tiborbodecs/",
+        "sameAs": [
+            "https://theswiftdev.com",
+            "https://twitter.com/tiborbodecs"
+        ]
+    },
+    "headline": "VIPER best practices for iOS developers - The.Swift.Dev.",
+    "url": "https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/",
+    "datePublished": "2019-03-11T16:24:25.000Z",
+    "dateModified": "2019-03-11T16:25:58.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ",
+        "width": 1080,
+        "height": 810
+    },
+    "keywords": "iOS, Design patterns",
+    "description": "In this tutorial I&#x27;m going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift. ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://theswiftdev.com/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.18" />
+    <link rel="alternate" type="application/rss+xml" title="The.Swift.Dev." href="https://theswiftdev.com/rss/" />
+    <link rel="mask-icon" sizes="any" href="/public/swift.svg" />
+ <!-- color="#DE2451"--> 
+<link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/public/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="57x57" href="/public/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/public/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/public/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/public/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/public/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/public/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/public/apple-touch-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon-180x180.png" />
+
+<style>
+.site-logo {
+    max-height: 192px;
+    top: -24px;
+    position: relative;
+}
+h1.site-title {
+    margin-bottom: 15px;
+}
+h2.site-description {
+    font-weight: 500;
+    position: relative;
+    top: -16px;
+    padding: 0px 30px;
+}
+.post-feed {
+    z-index: 999999999 !important;
+}
+h1, h2, h3, h4, h5, h6, h7 {
+    padding-bottom: 1em;
+}
+p.note {
+    border: 1px solid #f5e6a2;
+    border-radius: 1em;
+    padding: 1em;
+    background: #f9f4e2;
+}
+.post-full-content hr {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.gitlab-embed-snippets {
+    width: 100%;
+    margin: 0px 0px 40px 0px !important;
+}
+.sponsorship-box {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.sponsorship-box .sponsor {
+    border: 1px solid #de2451;
+    border-radius: 1em;
+    background: #fff;
+    padding: 1em;
+    margin-bottom: 0px;
+}
+.sponsor-layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+.sponsorship-box .sponsor b {
+    text-transform: uppercase;
+}
+.sponsor-layout .box {
+    padding: 0px;
+    margin: 0px;
+}
+.sponsor-layout h3, .sponsor-layout p {
+    margin: 0px;
+    padding: 1em;
+    padding-bottom: 0em;
+}
+.sponsor-layout h3 {
+    padding-left: 0.8em;
+}
+.sponsor-logo {
+    width: 128px !important;
+}
+.sponsor-text {
+    padding: 1em;
+    padding-top: 0em;
+}
+.sponsor-footer {
+    text-align: right; 
+    color: #222; 
+    margin: 0px; 
+    padding: 0px; 
+    padding-right: 1em; 
+    font-size: 12px;
+    font-family: sans-serif, Verdana;
+}
+.sponsor-footer a {
+    color: #de2451; 
+    box-shadow: none; 
+}
+.overview-layout {
+    text-align: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.overview-layout .box {
+    padding: 0px;
+    margin: 8px;
+    margin-bottom: 32px;
+}
+@media screen and (max-width: 1024px) {
+    .overview-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .sponsor-layout {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .gitlab-embed-snippets .btn-group {
+        width: 72px;
+    }
+    .gitlab-embed-snippets .file-content.code .line-numbers .diff-line-num {
+    }
+    .gitlab-embed-snippets .file-content.code .line-numbers {
+        visibility: hidden;
+        display: none;
+    }
+    .gitlab-embed-snippets .file-content.code .blob-content pre {
+        border-left: none !important;
+    }
+}
+</style>
+<link href="/public/prism.css" rel="stylesheet" />
+
+</head>
+<body class="post-template tag-ios tag-design-patterns">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="https://theswiftdev.com"><img src="https://theswiftdev.com/content/images/2017/10/Logo-2.png" alt="The.Swift.Dev." /></a>
+            <ul class="nav" role="menu">
+    <li class="nav-ask-me" role="menuitem"><a href="https://discord.gg/C4DSQjP">💬 Ask me</a></li>
+    <li class="nav-follow-me" role="menuitem"><a href="https://twitter.com/tiborbodecs/">🔥 Follow me</a></li>
+    <li class="nav-articles" role="menuitem"><a href="https://theswiftdev.com/articles/">📖 Articles</a></li>
+    <li class="nav-sponsorship" role="menuitem"><a href="https://theswiftdev.com/sponsorship-options/">👍 Sponsorship</a></li>
+    <li class="nav-about" role="menuitem"><a href="https://theswiftdev.com/about/">🤓 About</a></li>
+    <li class="nav-newsletter" role="menuitem"><a href="https://theswiftdev.com/#subscribe">📫 Newsletter</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+        </div>
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-ios tag-design-patterns ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2019-03-11">11 March 2019</time>
+                        <span class="date-divider">/</span> <a href="/tag/ios/">iOS</a>
+                </section>
+                <h1 class="post-full-title">VIPER best practices for iOS developers</h1>
+            </header>
+
+            <figure class="post-full-image">
+                <img
+                    srcset="https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 300w,
+                            https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 600w,
+                            https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 1000w,
+                            https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 2000w"
+                    sizes="(max-width: 800px) 400px,
+                            (max-width: 1170px) 700px,
+                            1400px"
+                    src="https://images.unsplash.com/photo-1546770816-270503fdffdd?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ"
+                    alt="VIPER best practices for iOS developers"
+                />
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <p>In this tutorial I'm going to show you a complete guide about how to build a VIPER based iOS application, written entirely in Swift. </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><p><strong>TL;DR:</strong> you can grab the finished project from <a href="https://github.com/theswiftdev/viper-best-practices">github</a>.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="getting-started-with-viper">Getting started with VIPER</h2><p>First of all, you should read my previous (more theoretical) article <a href="https://theswiftdev.com/2018/03/12/the-ultimate-viper-architecture-tutorial/">about the VIPER architecture</a> itself. It's a pretty decent writing explaining all the VIPER components and memory management. I've also polished it a little bit, last week. ⭐️ </p><p>The problem with that article however was that I haven't show you the real deal, aka. the Swift code for implementing VIPER. Now after a full year of projects using this architecture I can finally share all my best practices with you.</p><p>So, let's start by creating a brand new Xcode project, use the single view app template, name the project (VIPER best practices), use Swift and now you're ready to take the next step of making an awesome "enterprise grade" iOS app.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="generating-viper-modules">Generating VIPER modules</h2><p><strong>Lesson 1: </strong>never create a module by hand, always use a code generator, because it's a repetative task, it's <s>fuckin'</s> boring plus you should focus on more important things than making boilerplate code. You can use my lightweight module generator called:</p><h3 id="vipera"><a href="https://github.com/corekit/vipera">VIPERA</a> </h3><p>Just download or clone the repository from github. You can install the binary tool by running <code>swift run install --with-templates</code>. This will install the <code>vipera</code> app under <code>/usr/local/bin/</code> and the basic templates under the <code>~/.vipera</code> directory. You can use your own templates too, but for now I'll work with the default one. 🔨 </p><p>I usually start with a module called <code>Main</code> that's the root view of the application. You can generate it by calling <code>vipera Main</code> in the project directory, so the generator can use the proper project name for the header comments inside the template files.</p><p>Clean up the project structure a little bit, by applying my <a href="https://theswiftdev.com/2016/07/06/conventions-for-xcode/">conventions for Xcode</a>, this means that resources goes to an <code>Assets</code> folder, and all the Swift files into the <code>Sources</code> directory. Nowadays I also change the <code>AppDelegate.swift</code> file, and I make a separate extension for the <code>UIApplicationDelegate</code> protocol.</p><!--kg-card-begin: image--><figure class="kg-card kg-image-card kg-width-full"><img src="https://theswiftdev.com/content/images/2019/03/viper-best-practices-project-setup.jpg" class="kg-image"></figure><!--kg-card-end: image--><p>Create a <code>Modules</code> group (with a physical folder too) under the <code>Sources</code> directory and move the newly generated <code>Main</code> module under that group. Now fix the project issues, by selecting the <code>Info.plist</code> file from the <code>Assets</code> folder for the current target. Also do remove the Main Interface, and after that you can safely delete the <code>Main.storyboard</code> and the <code>ViewController.swift</code> files, because we're not going to need them at all.</p><p>Inside the AppDelegate.swift file, you have to set the Main module's view controller as the root view controller, so it should look somewhat like this: </p><!--kg-card-begin: markdown--><pre><code class="language-swift">import UIKit
+
+@UIApplicationMain
+class AppDelegate: UIResponder {
+
+    var window: UIWindow?
+}
+
+extension AppDelegate: UIApplicationDelegate {
+
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = MainModule().buildDefault()
+        self.window?.makeKeyAndVisible()
+        
+        return true
+    }
+}
+</code></pre>
+<!--kg-card-end: markdown--><p>Congratulations, you've created your very first VIPER module! 🎉 </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="uitabbarcontroller-viper">UITabBarController &amp; VIPER</h2><p> I have a super simple solution for using a tab bar controller in a VIPER module. First let's generate a few new modules, those are going to be the tabs. I'm going to use the <a href="https://jsonplaceholder.typicode.com">JSONPlaceholder</a> service, so let's imagine a separate tab for each of these resources: posts, albums, photos, todos (with the same module name). Generate them all, and move them into the modules folder.</p><p>Now, let's generate one more module called <code>Home</code>. This will implement our tab bar controller view. If you want you can use the Main module for this purpose, but I like to keep that for animation purposes, to have a neat transition between the loading screen and my Home module (it all depends on your needs).</p><p>So the main logic that we're going to implement is this: the main view will notify the presenter about the viewDidAppear event, and the presenter will ask the router to display the Home module. The Home module's <strong>view will be a subclass of a UITabBarController</strong>, it'll also notify it's presenter about viewDidLoad, and the presenter will ask for the proper tabs, by using its router. </p><p>Here is the code, without the interfaces:</p><!--kg-card-begin: markdown--><pre><code class="language-swift">class MainDefaultView: UIViewController {
+    
+    var presenter: MainPresenter?
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.presenter?.viewDidAppear()
+    }
+}
+
+extension MainDefaultPresenter: MainPresenter {
+
+    func viewDidAppear() {
+        self.router?.showHome()
+    }
+}
+
+extension MainDefaultRouter: MainRouter {
+
+    func showHome() {
+        let viewController = HomeModule().buildDefault()
+        self.viewController?.present(viewController, animated: true, completion: nil)
+    }
+}
+
+
+extension HomeDefaultView: HomeView {
+
+    func display(_ viewControllers: [UIViewController]) {
+        self.viewControllers = viewControllers
+    }
+}
+
+// MARK: - Home module
+
+extension HomeDefaultPresenter: HomePresenter {
+
+    func setupViewControllers() {
+        guard let controllers = self.router?.getViewControllers() else {
+            return
+        }
+        self.view?.display(controllers)
+    }
+
+}
+
+extension HomeDefaultRouter: HomeRouter {
+
+    func getViewControllers() -&gt; [UIViewController] {
+        return [
+            PostsModule().buildDefault(),
+            AlbumsModule().buildDefault(),
+            PhotosModule().buildDefault(),
+            TodosModule().buildDefault(),
+        ].map { UINavigationController(rootViewController: $0) }
+    }
+}
+
+class HomeModule {
+
+    func buildDefault() -&gt; UIViewController {
+        /* ... */
+
+        presenter.setupViewControllers()
+        
+        return view
+    }
+}
+
+</code></pre>
+<!--kg-card-end: markdown--><p>There is one additional line inside the Home module builder function that triggers the presenter to setup proper view controllers. That's just because the UITabBarController viewDidLoad method gets called before the init process finishes. This behaviour is quite undocumented but I assume it's an UIKit hack in order to maintain the view references (or just a simple bug... is anyone from Apple here?). 😊  </p><p>Anyway, now you have a proper tab bar inside the project integrated as a VIPER module. It's time to get some data from the server and here comes another important lesson: <strong>not everything is a VIPER module.</strong></p><p></p><!--kg-card-begin: html-->
+<div class="sponsorship-box">
+    <div class="sponsor">
+        <div class="sponsor-layout">
+            <div class="box">
+                <a href="https://go.bitrise.io/swift?utm_source=theswiftdev&utm_medium=web&utm_campaign=viper-best-practices-for-ios-developers">
+                <img class="sponsor-logo" src="https://theswiftdev.com/public/sponsors/bitrise.png" alt="Bitrise - Mobile Continuous Integration and Delivery" title="Bitrise Logo">
+                    </a>
+            </div>
+            <div class="box sponsor-text">
+                <h3>Bitrise - Automate everything</h3>
+                <p>You should <a href="https://go.bitrise.io/swift?utm_source=theswiftdev&utm_medium=web&utm_campaign=viper-best-practices-for-ios-developers">check out</a> my favorite continuous integration & delivery service, because those guys at Bitrise are creating a truly amazing piece of software. It's time to automate your development workflow: save your time, <a href="https://go.bitrise.io/swift?utm_source=theswiftdev&utm_medium=web&utm_campaign=viper-best-practices-for-ios-developers">try Bitrise!</a> </p>
+            </div>
+        </div>
+            <p class="sponsor-footer"><a href="/sponsorship-options">SPONSORED</a></p>
+    </div>
+</div>
+
+
+
+<!--kg-card-end: html--><h2 id="services-and-entities">Services and entities</h2><p>As you might noticed there is no such thing as an Entity inside my modules. I usually wrap APIs, CoreData and many more data providers as a service. This way, all the related entities can be abstracted away, so the service can be easily replaced (with a mock for example) and all my interactors can use the service through the protocol definition without knowing the underlying implementation. </p><p>Another thing is that I always use <a href="https://github.com/corekit/promises">my promise library</a> if I have to deal with async code. The reason behind it is pretty simple: it's way more elegant than using callbacks and optional <a href="https://theswiftdev.com/2019/01/28/how-to-use-the-result-type-to-handle-errors-in-swift/">result</a> elements. You should learn promises too. So here is some part of my service implementation around the JSONPlaceholder API:</p><!--kg-card-begin: markdown--><pre><code class="language-swift">protocol Api {
+
+    func posts() -&gt; Promise&lt;[Post]&gt;
+    func comments(for post: Post) -&gt; Promise&lt;[Comment]&gt;
+    func albums() -&gt; Promise&lt;[Album]&gt;
+    func photos(for album: Album) -&gt; Promise&lt;[Photo]&gt;
+    func todos() -&gt; Promise&lt;[Todo]&gt;
+}
+
+// MARK: - entities
+
+struct Post: Codable {
+
+    let id: Int
+    let title: String
+    let body: String
+}
+
+// MARK: - API implementation
+
+class JSONPlaceholderService {
+    
+    var baseUrl = URL(string: &quot;https://jsonplaceholder.typicode.com/&quot;)!
+    
+    enum Error: LocalizedError {
+        case invalidStatusCode
+        case emptyData
+    }
+    
+    private func request&lt;T&gt;(path: String) -&gt; Promise&lt;T&gt; where T: Decodable {
+        let promise = Promise&lt;T&gt;()
+        let url = baseUrl.appendingPathComponent(path)
+        print(url)
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                promise.reject(error)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                promise.reject(Error.invalidStatusCode)
+                return
+            }
+            guard let data = data else {
+                promise.reject(Error.emptyData)
+                return
+            }
+            do {
+                let model = try JSONDecoder().decode(T.self, from: data)
+                promise.fulfill(model)
+            }
+            catch {
+                promise.reject(error)
+            }
+        }.resume()
+        return promise
+    }
+}
+
+extension JSONPlaceholderService: Api {
+
+    func posts() -&gt; Promise&lt;[Post]&gt; {
+        return self.request(path: &quot;posts&quot;)
+    }
+    
+    /* ... */
+}
+
+
+</code></pre>
+<!--kg-card-end: markdown--><p>Usually I have a mock service implementation next to this one, so I can easily test out everything I want. How do I switch between these services? Well, there is a shared (<a href="https://theswiftdev.com/2018/05/23/swift-singleton-design-pattern/">singleton</a> - don't hate me it's completely fine 🤪) <code>App</code> class that I use mostly for <a href="https://theswiftdev.com/2019/02/19/styling-by-subclassing/">styling purposes</a>, but I also put the dependency injection (<a href="https://theswiftdev.com/2018/07/17/swift-dependency-injection-design-pattern/">DI</a>) related code there too.  This way I can pass around proper service objects for the VIPER modules. </p><!--kg-card-begin: markdown--><pre><code class="language-swift">class App {
+    
+    static let shared = App()
+    
+    private init() {
+        
+    }
+    
+    var apiService: Api {
+        return JSONPlaceholderService()
+    }
+}
+
+// MARK: - module
+
+class PostsModule {
+
+    func buildDefault() -&gt; UIViewController {
+        let view = PostsDefaultView()
+        let interactor = PostsDefaultInteractor(apiService: App.shared.apiService)
+        
+        /* ... */
+        
+        return view
+    }
+}
+
+// MARK: - interactor
+
+class PostsDefaultInteractor {
+
+    weak var presenter: PostsPresenter?
+    
+    var apiService: Api
+    
+    init(apiService: Api) {
+        self.apiService = apiService
+    }
+}
+
+extension PostsDefaultInteractor: PostsInteractor {
+    
+    func posts() -&gt; Promise&lt;[Post]&gt; {
+        return self.apiService.posts()
+    }
+    
+}
+
+
+</code></pre>
+<!--kg-card-end: markdown--><p>You can do this in a 100 other ways, but I currently prefer this approach. This way interactors can directly call the service with some extra details, like filters, order, sort, etc. Basically the service is just a high concept wrapper around the endpoint, and the interactor is creating the fine-tuned (better) API for the presenter. </p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="making-promises">Making promises</h2><p>Implementing the business logic is the task of the presenter. I always use promises so a basic presenter implementation that only loads some content asynchronously and displays the results or the error (plus a loading indicator) is just a few lines long. I'm always trying to implement the three <a href="http://scotthurff.com/posts/why-your-user-interface-is-awkward-youre-ignoring-the-ui-stack">basic UI stack elements</a> (loading, data, error) by using the same protocol naming conventions on the view. 😉 </p><p>On the view side I'm using my good old collection view logic, which significantly reduces the amount of code I have to write. You can go with the traditional way, implementing a few data source &amp; delegate method for a table or collection view is not so much code after all. Here is my view example:</p><!--kg-card-begin: markdown--><pre><code class="language-swift">
+extension PostsDefaultPresenter: PostsPresenter {
+
+    func viewDidLoad() {
+        self.view?.displayLoading()
+        self.interactor?.posts()
+        .onSuccess(queue: .main) { posts  in
+            self.view?.display(posts)
+        }
+        .onFailure(queue: .main) { error in
+            self.view?.display(error)
+        }
+    }
+}
+
+// MARK: - view
+
+class PostsDefaultView: CollectionViewController {
+    
+    var presenter: PostsPresenter?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+
+        self.title = &quot;Posts&quot;
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError(&quot;init(coder:) has not been implemented&quot;)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.presenter?.viewDidLoad()
+    }
+}
+
+extension PostsDefaultView: PostsView {
+
+    func displayLoading() {
+        print(&quot;loading...&quot;)
+    }
+
+    func display(_ posts: [Post]) {
+        let grid = Grid(columns: 1, margin: UIEdgeInsets(all: 8))
+        
+        self.source = CollectionViewSource(grid: grid, sections: [
+            CollectionViewSection(items: posts.map { PostViewModel($0) })
+        ])
+        self.collectionView.reloadData()
+    }
+
+    func display(_ error: Error) {
+        print(error.localizedDescription)
+    }
+}
+
+</code></pre>
+<!--kg-card-end: markdown--><p>The cell and the ViewModel is outside the VIPER module, I tend to dedicate an App folder for the custom application specific views, extensions, view models, etc.</p><!--kg-card-begin: markdown--><pre><code class="language-swift">class PostCell: CollectionViewCell {
+
+    @IBOutlet weak var textLabel: UILabel!
+}
+
+
+class PostViewModel: CollectionViewViewModel&lt;PostCell, Post&gt; {
+
+    override func config(cell: PostCell, data: Post, indexPath: IndexPath, grid: Grid) {
+        cell.textLabel.text = data.title
+    }
+    
+    override func size(data: Post, indexPath: IndexPath, grid: Grid, view: UIView) -&gt; CGSize {
+        let width = grid.width(for: view, items: grid.columns)
+        return CGSize(width: width, height: 64)
+    }
+}
+
+</code></pre>
+<!--kg-card-end: markdown--><p>Nothing special, if you'd like to know more about this collection view architecture, you should read my other <a href="https://theswiftdev.com/2018/04/17/ultimate-uicollectionview-guide-with-ios-examples-written-in-swift/">tutorial about mastering collection views</a>.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="module-communication">Module communication</h2><p>Another important lesson is to learn how to communicate between two VIPER modules. Normally I go with simple variables - and delegates if I have to send back some sort of info to the original module - that I pass around inside the build methods. I'm going to show you a really simple example for this too.</p><!--kg-card-begin: markdown--><pre><code class="language-swift">class PostsDefaultRouter {
+
+    weak var presenter: PostsPresenter?
+    weak var viewController: UIViewController?
+}
+
+extension PostsDefaultRouter: PostsRouter {
+
+    func showComments(for post: Post) {
+        let viewController = PostDetailsModule().buildDefault(with: post, delegate: self)
+        self.viewController?.show(viewController, sender: nil)
+    }
+}
+
+extension PostsDefaultRouter: PostDetailsModuleDelegate {
+
+    func toggleBookmark(for post: Post) {
+        self.presenter?.toggleBookmark(for: post)
+    }
+}
+
+// MARK: - details 
+
+
+protocol PostDetailsModuleDelegate: class {
+    func toggleBookmark(for post: Post)
+}
+
+class PostDetailsModule {
+
+    func buildDefault(with post: Post, delegate: PostDetailsModuleDelegate? = nil) -&gt; UIViewController {
+        let view = PostDetailsDefaultView()
+        let interactor = PostDetailsDefaultInteractor(apiService: App.shared.apiService,
+                                                      bookmarkService: App.shared.bookmarkService)
+        let presenter = PostDetailsDefaultPresenter(post: post)
+        
+        /* ... */
+
+        return view
+    }
+}
+
+class PostDetailsDefaultRouter {
+
+    weak var presenter: PostDetailsPresenter?
+    weak var viewController: UIViewController?
+    weak var delegate: PostDetailsModuleDelegate?
+}
+
+extension PostDetailsDefaultRouter: PostDetailsRouter {
+
+    func toggleBookmark(for post: Post) {
+        self.delegate?.toggleBookmark(for: post)
+    }
+}
+
+
+class PostDetailsDefaultPresenter {
+    
+    var router: PostDetailsRouter?
+    var interactor: PostDetailsInteractor?
+    weak var view: PostDetailsView?
+    
+    let post: Post
+    
+    init(post: Post) {
+        self.post = post
+    }
+}
+
+extension PostDetailsDefaultPresenter: PostDetailsPresenter {
+
+    func reload() {
+        self.view?.setup(with: self.interactor!.bookmark(for: self.post))
+        
+        //display loading...
+        self.interactor?.comments(for: self.post)
+        .onSuccess(queue: .main) { comments in
+            self.view?.display(comments)
+        }
+        .onFailure(queue: .main) { error in
+            //display error...
+        }
+    }
+
+    func toggleBookmark() {
+        self.router?.toggleBookmark(for: self.post)
+        self.view?.setup(with: self.interactor!.bookmark(for: self.post))
+    }   
+}
+</code></pre>
+<!--kg-card-end: markdown--><p>In the builder method I can access every component of the VIPER module so I can simply pass around the variable to the designated place (same applies for the delegate parameter). I usually set input variables on the presenter and delegates on the router. </p><p>It's usually a presenter who needs data from the original module, and I like to store the delegate on the router, because if the navigation pattern changes I don't have to change the presenter at all. This is just a personal preference, but I like the way it looks like in code. It's really hard to write down these things in a single article, so I'd recommend to download my finished <a href="https://github.com/theswiftdev/viper-best-practices\">sample code from github</a>.</p><!--kg-card-begin: hr--><hr><!--kg-card-end: hr--><h2 id="summary">Summary</h2><p>As you can see I'm using various design patterns in this VIPER architecture tutorial. Some say that there is no silver bullet, but I believe that I've found a really amazing methodology that I can turn on my advantage to build quality apps in a short time. </p><p>Combining Promises, MVVM with collection views on top of a VIPER structure simply puts every single piece into the right place. Overengineered? Maybe. For me it's worth the overhead. What do you think about it? Feel free to message me through <a href="https://discord.gg/C4DSQjP">discord</a> or <a href="https://twitter.com/tiborbodecs/">twitter</a>. You can also subscribe to my monthly newsletter below.</p>
+                </div>
+            </section>
+
+            <section class="subscribe-form">
+                <h3 class="subscribe-form-title">Subscribe to The.Swift.Dev.</h3>
+                <p>Get the latest posts delivered right to your inbox</p>
+                <form method="post" action="/subscribe/" id="" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email" placeholder="youremail@example.com" />
+    </div>
+    <button id="" class="" type="submit"><span>Subscribe</span></button>
+    
+<script>
+    (function(g,h,o,s,t){
+        var buster = function(b,m) {
+            h[o]('input.'+b).forEach(function (i) {
+                i.value=i.value || m;
+            });
+        };
+        buster('location', g.location.href);
+        buster('referrer', h.referrer);
+    })(window,document,'querySelectorAll','value');
+</script>
+
+</form>
+
+
+            </section>
+
+            <footer class="post-full-footer">
+
+
+                    
+<section class="author-card">
+        <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+    <section class="author-card-content">
+        <h4 class="author-card-name"><a href="/author/tiborbodecs/">Tibor Bödecs</a></h4>
+            <p>Read <a href="/author/tiborbodecs/">more posts</a> by this author.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="/author/tiborbodecs/">Read More</a>
+</div>
+
+
+            </footer>
+
+
+        </article>
+
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card"
+                            style="background-image: url(/content/images/size/w600/2018/11/background-1.jpg)"
+                >
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">&mdash; The.Swift.Dev. &mdash;</small>
+                        <h3 class="read-next-card-header-title"><a href="/tag/ios/">iOS</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="/2019/03/29/mastering-bitrise-workflows-for-ios-app-delivery/">Mastering Bitrise workflows for continuous iOS app delivery</a></li>
+                            <li><a href="/2019/02/25/top-20-ios-libraries-of-2019/">Top 20 iOS libraries written in Swift</a></li>
+                            <li><a href="/2019/01/02/the-ultimate-swift-developer-toolset/">The ultimate Swift developer toolset</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="/tag/ios/">See all 13 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-design-patterns ">
+
+    <a class="post-card-image-link" href="/2019/03/19/mastering-the-viper-architecture/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 300w,
+                    https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 600w,
+                    https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 1000w,
+                    https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="https://images.unsplash.com/photo-1519645261061-3cee4d216668?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ"
+            alt="Mastering the VIPER architecture"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/2019/03/19/mastering-the-viper-architecture/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">Design patterns</span>
+                <h2 class="post-card-title">Mastering the VIPER architecture</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Learn how to master the VIPER architectural design pattern, with some protocol oriented programming techniques using Swift.</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Tibor Bödecs
+                    </div>
+
+                        <a href="/author/tiborbodecs/" class="static-avatar">
+                            <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+                        </a>
+                </li>
+            </ul>
+
+            <span class="reading-time">4 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-ios ">
+
+    <a class="post-card-image-link" href="/2019/02/25/top-20-ios-libraries-of-2019/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1533470192478-9897d90d5461?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 300w,
+                    https://images.unsplash.com/photo-1533470192478-9897d90d5461?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 600w,
+                    https://images.unsplash.com/photo-1533470192478-9897d90d5461?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 1000w,
+                    https://images.unsplash.com/photo-1533470192478-9897d90d5461?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ 2000w"
+            sizes="(max-width: 1000px) 400px, 700px"
+            src="https://images.unsplash.com/photo-1533470192478-9897d90d5461?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjExNzczfQ"
+            alt="Top 20 iOS libraries written in Swift"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/2019/02/25/top-20-ios-libraries-of-2019/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">iOS</span>
+                <h2 class="post-card-title">Top 20 iOS libraries written in Swift</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>I gathered the best open source Swift frameworks on github that will help you to speed up mobile application development in 2019.</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Tibor Bödecs
+                    </div>
+
+                        <a href="/author/tiborbodecs/" class="static-avatar">
+                            <img class="author-profile-image" src="/content/images/size/w100/2019/03/tiborbodecs-profile-xs-2019.jpg" alt="Tibor Bödecs" />
+                        </a>
+                </li>
+            </ul>
+
+            <span class="reading-time">3 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://theswiftdev.com">
+                <img src="/content/images/size/w30/2017/10/Logo-Square-1.png" alt="The.Swift.Dev. icon" />
+            <span>The.Swift.Dev.</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">VIPER best practices for iOS developers</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=VIPER%20best%20practices%20for%20iOS%20developers&amp;url=https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://theswiftdev.com/2019/03/11/viper-best-practices-for-ios-developers/"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+        </a>
+    </div>
+    <progress id="reading-progress" class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://theswiftdev.com">The.Swift.Dev.</a> &copy; 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="https://theswiftdev.com">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="subscribe" class="subscribe-overlay">
+        <a class="subscribe-overlay-close" href="#"></a>
+        <div class="subscribe-overlay-content">
+                <img class="subscribe-overlay-logo" src="https://theswiftdev.com/content/images/2017/10/Logo-2.png" alt="The.Swift.Dev." />
+            <h1 class="subscribe-overlay-title">Subscribe to The.Swift.Dev.</h1>
+            <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+            <form method="post" action="/subscribe/" id="" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email" placeholder="youremail@example.com" />
+    </div>
+    <button id="" class="" type="submit"><span>Subscribe</span></button>
+    
+<script>
+    (function(g,h,o,s,t){
+        var buster = function(b,m) {
+            h[o]('input.'+b).forEach(function (i) {
+                i.value=i.value || m;
+            });
+        };
+        buster('location', g.location.href);
+        buster('referrer', h.referrer);
+    })(window,document,'querySelectorAll','value');
+</script>
+
+</form>
+
+
+        </div>
+    </div>
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/built/jquery.fitvids.js?v=64c8bc839a"></script>
+
+
+    
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-38095670-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-swift.min.js"></script>
+
+</body>
+</html>

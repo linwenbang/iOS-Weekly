@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Checking for missing translations in iOS projects - Igor Kulman</title>
+  <meta property="og:title" content="Checking for missing translations in iOS projects" />
+  <meta name="twitter:title" content="Checking for missing translations in iOS projects" />
+  <meta name="description" content="When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide any tool to make this easier for you, but there are some 3rd party tools that you can integrate into your workflow.">
+  <meta property="og:description" content="When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide any tool to make this easier for you, but there are some 3rd party tools that you can integrate into your workflow.">
+  <meta name="twitter:description" content="When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide …">
+  <meta name="author" content="Igor Kulman"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Igor Kulman",
+    
+    "url": "https://blog.kulman.sk"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https://blog.kulman.sk"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https://blog.kulman.sk",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https://blog.kulman.sk/checking-for-missing-translations-in-ios/",
+          "name": "Checking for missing translations in i o s projects"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Igor Kulman"
+  },
+  "headline": "Checking for missing translations in iOS projects",
+  "description" : "When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide any tool to make this easier for you, but there are some 3rd party tools that you can integrate into your workflow.",
+  "inLanguage" : "en",
+  "wordCount": 353,
+  "datePublished" : "2018-10-10T08:29:12",
+  "dateModified" : "2018-10-10T08:29:12",
+  "image" : "https://blog.kulman.sk/images/avatar-icon.png",
+  "keywords" : [ "swift, ios, xcode" ],
+  "mainEntityOfPage" : "https://blog.kulman.sk/checking-for-missing-translations-in-ios/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https://blog.kulman.sk",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https://blog.kulman.sk/images/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Checking for missing translations in iOS projects" />
+<meta property="og:description" content="When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide any tool to make this easier for you, but there are some 3rd party tools that you can integrate into your workflow.">
+<meta property="og:image" content="https://blog.kulman.sk/images/verify-string-files-error.png" />
+<meta property="og:url" content="https://blog.kulman.sk/checking-for-missing-translations-in-ios" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Igor Kulman" />
+  <meta name="twitter:title" content="Checking for missing translations in iOS projects" />
+  <meta name="twitter:description" content="When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide …">
+  <meta name="twitter:image" content="https://blog.kulman.sk/images/verify-string-files-error.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@igorkulman" />
+  <meta name="twitter:creator" content="@igorkulman" />
+  <link href='https://blog.kulman.sk/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://blog.kulman.sk/images/verify-string-files-error.png" />
+  <meta name="twitter:image" content="https://blog.kulman.sk/images/verify-string-files-error.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@igorkulman" />
+  <meta name="twitter:creator" content="@igorkulman" />
+  <meta property="og:url" content="https://blog.kulman.sk/checking-for-missing-translations-in-ios" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Igor Kulman" />
+
+  <meta name="generator" content="Hugo 0.52" />
+  <link rel="alternate" href="https://blog.kulman.sk/index.xml" type="application/rss+xml" title="Igor Kulman"><link rel="stylesheet" href="https://blog.kulman.sk/fontawesome/css/all.css" />
+  <link rel="stylesheet" href="https://blog.kulman.sk/css/bootstrap.min.css" /><link rel="stylesheet" href="https://blog.kulman.sk/css/main.css" /><link rel="stylesheet" href="https://blog.kulman.sk/css/fonts.css" /><link rel="stylesheet" href="https://blog.kulman.sk/css/syntax.css" /><link rel="stylesheet" href="https://blog.kulman.sk/css/codeblock.css" />
+ <link rel="stylesheet" href="https://blog.kulman.sk/css/custom.css" />
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://blog.kulman.sk">Igor Kulman</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Projects" href="/projects/">Projects</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About me / contact" href="/about/">About me / contact</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Igor Kulman" href="https://blog.kulman.sk">
+            <img class="avatar-img" src="https://blog.kulman.sk/images/avatar-icon.png" alt="Igor Kulman" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Checking for missing translations in iOS projects</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Posted on October 10, 2018
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;2&nbsp;minutes
+  
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Igor Kulman
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>When you work on an iOS app localized into multiple languages one of the biggest challenges is making sure that everything is translated, no string is missing in any language. Xcode does not provide any tool to make this easier for you, but there are some 3rd party tools that you can integrate into your workflow.</p>
+
+<h3 id="verify-string-files">verify-string-files</h3>
+
+<p>I have recently found a quite old project called <a href="https://github.com/iKenndac/verify-string-files">verify-string-files</a>. It is a command line tool take takes you base localization file and compares it to all the translations, informing you about missing strings. Altough the last commit to this project was way back in 2014 it still works reliably, there have not been any changes to the way iOS does localization.</p>
+
+<p>The best thing about this tool is that you can integrate it to your build process.</p>
+
+<h3 id="build-process-integration">Build process integration</h3>
+
+<p>The tool is available only as source code, so you have to build it first. I put the built binary to a <a href="https://github.com/igorkulman/iOSSampleApp/tree/master/support"><code>support</code></a> folder of my projects.</p>
+
+<p>Then I have a <a href="https://github.com/igorkulman/iOSSampleApp/tree/master/Build-Phases"><code>Build-Phases</code></a> folder with all the script used in the build process. I think it is a much better solution than embedding the script right into the Xcode project.</p>
+
+<p>To integrate <code>verify-string-files</code> you just need a really simple script, providing the path to the base localization file</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">${</span>PROJECT_DIR<span style="color:#e6db74">}</span>/support/verify-string-files -master <span style="color:#e6db74">${</span>SRCROOT<span style="color:#e6db74">}</span>/iOSSampleApp/Resources/Base.lproj/Localizable.strings</code></pre></div>
+
+<p>In Xcode, just add a new <code>Run scrip phase</code> and call <code>$SRCROOT/Build-Phases/check-strings</code> where <code>check-strings</code> is the script name. Just do not forget to <code>chmod +x</code> the actual file.</p>
+
+<p>This will result in build errors when there are missing string, shown directly in the base localization file</p>
+
+
+ 
+
+<div class="image_placeholder" style="max-width: 1328px">
+<div class="placeholder" data-large="https://blog.kulman.sk/checking-for-missing-translations-in-ios/verify-string-files-error.png">  
+  <img src="https://blog.kulman.sk/checking-for-missing-translations-in-ios/verify-string-files-error_hu97036207d70600013c9bfb876699292d_33048_48x0_resize_q20_box_2.png" class="img-small loaded">
+  <div style="padding-bottom: 16.566265060240966%;"></div>
+</div>
+</div>
+
+<p>If you just want it to produce warning instead of errors, you just add <code>-warning-level warning</code> as a parameter</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">${</span>PROJECT_DIR<span style="color:#e6db74">}</span>/support/verify-string-files -master <span style="color:#e6db74">${</span>SRCROOT<span style="color:#e6db74">}</span>/iOSSampleApp/Resources/Base.lproj/Localizable.strings -warning-level warning</code></pre></div>
+
+<p>or you can make it even better but making the tool produce errors in production builds but warning in debug builds</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CONFIGURATION<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Release&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+<span style="color:#e6db74">${</span>PROJECT_DIR<span style="color:#e6db74">}</span>/support/verify-string-files -master <span style="color:#e6db74">${</span>SRCROOT<span style="color:#e6db74">}</span>/iOSSampleApp/Resources/Base.lproj/Localizable.strings
+<span style="color:#66d9ef">else</span>
+<span style="color:#e6db74">${</span>PROJECT_DIR<span style="color:#e6db74">}</span>/support/verify-string-files -master <span style="color:#e6db74">${</span>SRCROOT<span style="color:#e6db74">}</span>/iOSSampleApp/Resources/Base.lproj/Localizable.strings -warning-level warning
+<span style="color:#66d9ef">fi</span></code></pre></div>
+
+<h3 id="ioslocalizationeditor">iOSLocalizationEditor</h3>
+
+<p>If you want to use an external GUI tool, check out my <a href="https://github.com/igorkulman/iOSLocalizationEditor">open-source iOSLocalizationEditor</a> that shows you all your localizations for every language side by side.</p>
+
+<br />
+<div class="github-card" data-github="igorkulman/iOSLocalizationEditor"  data-height="155" data-theme="default"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://blog.kulman.sk/tags/swift/">swift</a>&nbsp;
+            
+              <a href="https://blog.kulman.sk/tags/ios/">ios</a>&nbsp;
+            
+              <a href="https://blog.kulman.sk/tags/xcode/">xcode</a>&nbsp;
+            
+          </div>
+        
+
+        
+
+        
+          
+          
+          <h4 class="see-also">See also</h4>
+          <ul>
+          
+            <li><a href="/why-ios-gestures-lag-at-the-screen-edges/">Why is there a &#34;lag&#34; in iOS gesture detection near the edges of the screen?</a></li>
+          
+            <li><a href="/animating-tab-bar-buttons/">Animating tab bar buttons on tap</a></li>
+          
+            <li><a href="/unit-testing-memory-leaks/">Unit testing view controller memory leaks</a></li>
+          
+          </ul>
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://blog.kulman.sk/automating-ios-development-and-distribution-workflow/" data-toggle="tooltip" data-placement="top" title="Automating your iOS app development and distribution workflow">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://blog.kulman.sk/building-ios-depedencies-with-carthage/" data-toggle="tooltip" data-placement="top" title="Building iOS dependencies with Carthage">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+          
+          <div class="disqus-comments">                  
+            <button id="show-comments" class="btn btn-default" type="button">Show <span class="disqus-comment-count" data-disqus-url="https://blog.kulman.sk/checking-for-missing-translations-in-ios">comments</span></button>
+            <div id="disqus_thread"></div>
+
+            <script type="text/javascript">
+              var disqus_config = function () {
+              this.page.url = 'https:\/\/blog.kulman.sk\/checking-for-missing-translations-in-ios';
+            };
+
+          </script>
+          </div>
+          
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:igor@kulman.sk" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/igorkulman" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/igorkulman" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/users/581164/igor-kulman" title="StackOverflow">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="https://blog.kulman.sk/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Igor Kulman
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2012 - 2019
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://blog.kulman.sk">Igor Kulman</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.52</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="https://blog.kulman.sk/js/jquery.min.js"></script>
+<script src="https://blog.kulman.sk/js/bootstrap.min.js"></script>
+
+<script src="https://blog.kulman.sk/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+$(function(){
+  $('#show-comments').on('click', function(){
+    var disqus_shortname = 'coudingjournal';
+      
+    (function() {
+      var disqus = document.createElement('script'); 
+      disqus.type = 'text/javascript'; 
+      disqus.async = true;
+      disqus.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(disqus);
+    })();
+      
+    $(this).hide(); 
+    });
+  });
+      
+</script>
+<script id="dsq-count-scr" src="//coudingjournal.disqus.com/count.js" async></script>
+
+
+<script type="text/javascript">
+
+
+$(function () {
+    document.querySelectorAll('div.placeholder').forEach( div => {
+        if ( ! div.hasAttribute("data-large")) {
+            return;
+        }
+
+        const original = div.getAttribute("data-large");
+        fetch(original)
+            .then(function (response) {
+                if (response && response.status == 200){                    
+                    var image = new Image();
+                    image.setAttribute("src", original)
+                    image.onload = function () {
+                      image.classList.add('loaded');
+                    };
+                    div.append(image);
+                }
+            })
+            .catch(function(err) {
+                console.error('lazy error: ', err);
+            });
+    });
+});
+</script>
+
+  </body>
+</html>
+

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>基于MVVM构建泊学App - 泊学 - 一个全栈工程师的自学网站</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta id="token" name="csrf-token" content="wQ1pKGwjNyHk5MHyXOa7HOWefnaC7WwH1jnd9eif" />
+
+        <link rel="shortcut icon" href="/favicon.ico">
+
+                    <link rel="stylesheet" href="/css/bx-vendor.css?id=e2677873a6a209968ee2">
+        
+                
+        <script>
+            window.Laravel = {"csrfToken":"wQ1pKGwjNyHk5MHyXOa7HOWefnaC7WwH1jnd9eif"};
+
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "//hm.baidu.com/hm.js?c36c924082e19cadb2f9a18958a8bbea";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+    </head>
+
+    <body>
+        <main id="app">
+                <!-- Header begin -->
+    <header id="js-header" class="u-header u-header--static u-header--change-appearance"
+            data-header-fix-moment="500" data-header-fix-effect="slide">
+        <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3"
+             data-header-fix-moment-exclude="g-bg-white"
+             data-header-fix-moment-classes="g-bg-white-opacity-0_7 u-shadow-v18 g-py-0">
+            <nav class="js-mega-menu navbar navbar-expand-lg py-0">
+                <!-- Responsive Toggle Button -->
+                <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pt-15 g-pr-15 g-pos-abs g-top-3 g-right-0"
+                        type="button"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                        aria-controls="navBar"
+                        data-toggle="collapse"
+                        data-target="#navBar">
+                    <span class="hamburger hamburger--slider">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </span>
+                </button>
+                <!-- End Responsive Toggle Button -->
+
+                <!-- Logo -->
+                <a href="/" class="navbar-brand">
+                    <img src="/assets/images/bx-logo-v4@2x.png" alt="Image Description" width="152px;">
+                </a>
+                <!-- End Logo -->
+
+                <!-- Navigation -->
+                <div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
+                    <ul class="navbar-nav ml-auto text-uppercase g-font-weight-600 u-main-nav-v6 u-sub-menu-v1">
+                                                                            <li class="nav-item hs-has-sub-menu g-mb-5 g-mb-0--lg">
+                                <a href="/#ElementryPhase" class="nav-link" aria-haspopup="true" >
+                                    启蒙修炼
+                                </a>
+                                <!-- Submenu -->
+                                <ul class="hs-sub-menu list-unstyled">
+                                                                        <li>
+                                        <a href="/path/crash-course-of-sketch">一定要会的Sketch设计方法和工作流</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/crash-course-of-vim">真正把Vim用起来</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/just-enough-linux">适应在Linux环境中工作</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/python-as-your-first-language">用Python入门机器学习</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/crash-course-of-modern-web-development">基于Vue和Laravel的现代化Web开发</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/be-fluent-in-english">使用英语流利地表达</a>
+                                    </li>
+                                                                    </ul>
+                                <!-- End Submenu -->
+                            </li>
+                                                    <li class="nav-item hs-has-sub-menu g-mb-5 g-mb-0--lg">
+                                <a href="/#AdvancedPhase" class="nav-link" aria-haspopup="true" >
+                                    进阶修炼
+                                </a>
+                                <!-- Submenu -->
+                                <ul class="hs-sub-menu list-unstyled">
+                                                                        <li>
+                                        <a href="/path/swift-from-wtf-to-omg">Swift - 一把学习编程语言的万能钥匙</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/linux-programming-interface-in-c">在C API层面深入了解Linux</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/just-enough-docker">在开发和生产环境使用Docker的实践</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/performant-your-web-application">掌握必要的逆向技能</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/git-your-source-code">在开发工作中引入git版本控制</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/let-us-build-and-launch-a-forum">一起来开发泊学App吧</a>
+                                    </li>
+                                                                    </ul>
+                                <!-- End Submenu -->
+                            </li>
+                                                    <li class="nav-item hs-has-sub-menu g-mb-5 g-mb-0--lg">
+                                <a href="/#MasterPhase" class="nav-link" aria-haspopup="true" >
+                                    大师修炼
+                                </a>
+                                <!-- Submenu -->
+                                <ul class="hs-sub-menu list-unstyled">
+                                                                        <li>
+                                        <a href="/path/craft-a-programming-language">自己实现一门编程语言</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/modern-cpp-as-a-new-language">把Modern C++当成一门全新的语言</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/master-cpp-template">C++ Templates</a>
+                                    </li>
+                                                                        <li>
+                                        <a href="/path/build-a-working-os-kernel">从零编写的操作系统内核</a>
+                                    </li>
+                                                                    </ul>
+                                <!-- End Submenu -->
+                            </li>
+                                                <li class="nav-item g-mb-5 g-mb-0--lg">
+                            <a href="https://boxueio.com/blackboard" class="nav-link">黑板报</a>
+                        </li>
+                        <li class="nav-item g-mb-5 g-mb-0--lg">
+                            <a href="https://boxueio.com/craft-boxue-app-together" class="nav-link">关于App</a>
+                        </li>
+                        <li class="nav-item g-mb-5 g-mb-0--lg">
+                            <a href="https://boxueio.com/read-select" class="nav-link bx-shop">优阅</a>
+                        </li>
+                                                    <li class="nav-item g-mb-5 g-mb-0--lg">
+                                <a class="nav-link" href="#ModelLogin" data-modal-target="#ModelLogin" data-modal-effect="scale">登录</a>
+                            </li>
+                            <li class="nav-item g-mb-5 g-mb-0--lg">
+                                <a href="https://boxueio.com/join" class="nav-link">立即订阅</a>
+                            </li>
+                                            </ul>
+                </div>
+                <!-- End Navigation -->
+            </nav>
+        </div>
+    </header>
+            <login-form></login-form>
+        <!-- Header end -->
+
+                <!-- Series Banner -->
+    <section class="dzsparallaxer auto-init height-is-based-on-content use-loading mode-scroll loaded dzsprx-readyall">
+        <div class="g-bg-blue-lineargradient-v4-r">
+            <div class="container u-bg-overlay__inner g-py-110">
+                <div class="row align-items-center">
+                    <div class="col-md-8 g-mb-30 text-center--xs">
+                        <div class="g-width-100x">
+                            <a class="u-tags-v1 g-color-white g-bg-blue g-py-4 g-px-10 mb-4" href='#'>BEGINNER</a>
+                        </div>
+                        <h2 class="h1 g-color-white g-font-weght-700">一起来开发泊学App吧</h2>
+                        <h4 class="g-color-white g-font-weight-200 g-mb-50">基于MVVM构建泊学App</h4>
+                        <p class="lead g-color-blue-white-trans">人们总说：万事开头难。这个道理放在开发一个App上，当然也同样适用。如何从头构建一个App呢？起初，围绕着代码的可维护性、可测试性、可重用性以及可协作性，根据项目预期的规模，我们会有很多种不同的选择。在这个系列里，我们就以实现Boxue App举例，基于这样一个真实的项目，以一个独立开发者的视角，尽可能在上面这些考量中，达成让自己满意的实践。<br><br>
+
+项目地址：<a href="https://github.com/puretears/boxue-app-frontend">Boxue App（正式上线前仅邀请终身会员参与开发）</a></p>
+
+                        <hr>
+                        <ul class="u-list-inline g-font-size-15  no-gutters">
+                            <li class="col-md-auto col-12 list-inline-item g-mb-10">
+                                <a class="g-width-100x text-center g-px-30 g-py-10 u-tags-v1 g-color-white g-bg-deeporange g-bg-orange--hover g-rounded-50" 
+                                    href="/series/build-boxue-app-in-mvvm/episode/479">开始观看</a>
+                            </li>
+                                                            <a href="#" class="text-center g-px-30 g-py-10 u-tags-v1 g-color-white g-bg-teal g-bg-aqua--hover g-rounded-50">登录后管理视频并获取通知</a>
+                                                    </ul>
+
+                        <p class='g-color-blue-white-trans'><i>* Series still in development. Check back often for updates.</i></p>
+                    </div>
+
+                    <div class="col-md-4 g-mb-30">
+                        <img class="img-fluid rounded-circle  g-brd-around g-brd-5 g-brd-color-blue-trans" 
+                            src="https://image.boxueio.com/build-boxue-app-in-mvvm-cover@2x.jpg" 
+                            alt="基于MVVM构建泊学App">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+            <series-info-bar back-url="/path/let-us-build-and-launch-a-forum"
+                         last-updated-at="2019-03-24"
+                         episode-count="48"
+                         :is-login="false">
+        </series-info-bar>
+        <!-- End Series Banner -->
+
+    <!-- Video List -->
+    <section class="g-py-50">
+        <div class="container">
+            <div class="row">
+                <episode-table episodes="[{&quot;id&quot;:479,&quot;title&quot;:&quot;\u4ece\u8bbe\u7f6e\u5de5\u7a0b\u7ed3\u6784\u5f00\u59cb&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;01&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:288,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/1-the-project-architecture.mp4&quot;,&quot;hls_url&quot;:&quot;\/1-the-project-architecture.m3u8&quot;,&quot;webm_url&quot;:&quot;\/1-the-project-architecture.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/1-the-project-architecture-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-10-29&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-10-29 04:52:26&quot;,&quot;updated_at&quot;:&quot;2018-10-29 04:52:28&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/479&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/479&quot;,&quot;duration&quot;:&quot;04:48&quot;},{&quot;id&quot;:480,&quot;title&quot;:&quot;\u4f7f\u7528\u76ee\u5f55\u4f5c\u4e3a\u9879\u76ee\u7684\u540d\u5b57\u7a7a\u95f4&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;02&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:287,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/2-the-project-dir-orgnization.mp4&quot;,&quot;hls_url&quot;:&quot;\/2-the-project-dir-orgnization.m3u8&quot;,&quot;webm_url&quot;:&quot;\/2-the-project-dir-orgnization.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/2-the-project-dir-orgnization-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-10-29&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-10-29 04:52:29&quot;,&quot;updated_at&quot;:&quot;2018-10-29 04:52:31&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/480&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/480&quot;,&quot;duration&quot;:&quot;04:47&quot;},{&quot;id&quot;:489,&quot;title&quot;:&quot;\u4e00\u4e2a\u6ca1\u6709storyboard\u7684App\u542f\u52a8\u6d41\u7a0b&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;03&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:336,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/3-launch-without-sb.mp4&quot;,&quot;hls_url&quot;:&quot;\/3-launch-without-sb.m3u8&quot;,&quot;webm_url&quot;:&quot;\/3-launch-without-sb.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/3-launch-without-sb-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-09&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-09 02:33:41&quot;,&quot;updated_at&quot;:&quot;2018-11-09 02:33:44&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/489&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/489&quot;,&quot;duration&quot;:&quot;05:36&quot;},{&quot;id&quot;:490,&quot;title&quot;:&quot;\u5982\u4f55\u7406\u89e3\u4f9d\u8d56\u5173\u7cfb&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;04&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:301,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/4-understand-dependencies.mp4&quot;,&quot;hls_url&quot;:&quot;\/4-understand-dependencies.m3u8&quot;,&quot;webm_url&quot;:&quot;\/4-understand-dependencies.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/4-understand-dependencies-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-09&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-09 02:33:44&quot;,&quot;updated_at&quot;:&quot;2018-11-09 02:33:46&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/490&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/490&quot;,&quot;duration&quot;:&quot;05:01&quot;},{&quot;id&quot;:491,&quot;title&quot;:&quot;\u4e34\u65f6\u7f13\u89e3\u4f9d\u8d56\u5173\u7cfb\u7684\u4e24\u79cd\u65b9\u6cd5&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;05&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:248,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/5-relieve-dependency-condition.mp4&quot;,&quot;hls_url&quot;:&quot;\/5-relieve-dependency-condition.m3u8&quot;,&quot;webm_url&quot;:&quot;\/5-relieve-dependency-condition.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/5-relieve-dependency-condition-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-09&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-09 02:33:48&quot;,&quot;updated_at&quot;:&quot;2018-11-09 02:33:55&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/491&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/491&quot;,&quot;duration&quot;:&quot;04:08&quot;},{&quot;id&quot;:492,&quot;title&quot;:&quot;\u4f7f\u7528DI\u7ba1\u7406\u4f9d\u8d56\u5173\u7cfb - I&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;06&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:299,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/6-di-in-boxue-app.mp4&quot;,&quot;hls_url&quot;:&quot;\/6-di-in-boxue-app.m3u8&quot;,&quot;webm_url&quot;:&quot;\/6-di-in-boxue-app.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/6-di-in-boxue-app-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-16&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-16 01:55:25&quot;,&quot;updated_at&quot;:&quot;2018-11-16 01:55:26&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/492&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/492&quot;,&quot;duration&quot;:&quot;04:59&quot;},{&quot;id&quot;:493,&quot;title&quot;:&quot;\u4f7f\u7528DI\u7ba1\u7406\u4f9d\u8d56\u5173\u7cfb - II&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;07&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:199,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/7-di-in-boxue-app-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/7-di-in-boxue-app-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/7-di-in-boxue-app-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/7-di-in-boxue-app-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-16&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-16 01:55:28&quot;,&quot;updated_at&quot;:&quot;2018-11-16 01:55:30&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/493&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/493&quot;,&quot;duration&quot;:&quot;03:19&quot;},{&quot;id&quot;:494,&quot;title&quot;:&quot;\u4f7f\u7528\u5bb9\u5668\u7ba1\u7406\u7c7b\u5bf9\u8c61\u548c\u5de5\u5382\u65b9\u6cd5&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;08&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:292,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/8-using-factories-approach.mp4&quot;,&quot;hls_url&quot;:&quot;\/8-using-factories-approach.m3u8&quot;,&quot;webm_url&quot;:&quot;\/8-using-factories-approach.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/8-using-factories-approach-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-16&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-16 01:55:31&quot;,&quot;updated_at&quot;:&quot;2018-11-16 01:55:33&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/494&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/494&quot;,&quot;duration&quot;:&quot;04:52&quot;},{&quot;id&quot;:495,&quot;title&quot;:&quot;\u4f7f\u7528\u57fa\u4e8e\u573a\u666f\u7684\u591a\u5c42\u5bb9\u5668\u8bbe\u8ba1&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;09&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:282,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/9-multilayer-container.mp4&quot;,&quot;hls_url&quot;:&quot;\/9-multilayer-container.m3u8&quot;,&quot;webm_url&quot;:&quot;\/9-multilayer-container.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/9-multilayer-container-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-16&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-16 01:55:34&quot;,&quot;updated_at&quot;:&quot;2018-11-16 01:55:36&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/495&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/495&quot;,&quot;duration&quot;:&quot;04:42&quot;},{&quot;id&quot;:496,&quot;title&quot;:&quot;\u4f7f\u7528Repository\u6539\u8fdbView Model\u63a5\u53e3\u7684\u7a33\u5b9a\u6027&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;10&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:303,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/a-repository-pattern-in-boxue.mp4&quot;,&quot;hls_url&quot;:&quot;\/a-repository-pattern-in-boxue.m3u8&quot;,&quot;webm_url&quot;:&quot;\/a-repository-pattern-in-boxue.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/repository-pattern-in-bx-app-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-11-22&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-11-22 01:34:22&quot;,&quot;updated_at&quot;:&quot;2018-11-22 01:34:24&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/496&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/496&quot;,&quot;duration&quot;:&quot;05:03&quot;},{&quot;id&quot;:497,&quot;title&quot;:&quot;\u6784\u5efa\u542f\u52a8\u548c\u6b22\u8fce\u5c4f\u5e55&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;11&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:356,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/b-build-the-launch-and-welcome-view.mp4&quot;,&quot;hls_url&quot;:&quot;\/b-build-the-launch-and-welcome-view.m3u8&quot;,&quot;webm_url&quot;:&quot;\/b-build-the-launch-and-welcome-view.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/the-launch-and-welcome-view-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-06&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-06 00:54:25&quot;,&quot;updated_at&quot;:&quot;2018-12-06 00:54:27&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/497&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/497&quot;,&quot;duration&quot;:&quot;05:56&quot;},{&quot;id&quot;:498,&quot;title&quot;:&quot;Layout\u7684\u77e5\u8bc6\u68b3\u7406 - Autoresizing&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;12&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:428,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/c-about-layouts.mp4&quot;,&quot;hls_url&quot;:&quot;\/c-about-layouts.m3u8&quot;,&quot;webm_url&quot;:&quot;\/c-about-layouts.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/about-layouts-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-06&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-06 00:54:28&quot;,&quot;updated_at&quot;:&quot;2018-12-06 00:54:29&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/498&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/498&quot;,&quot;duration&quot;:&quot;07:08&quot;},{&quot;id&quot;:499,&quot;title&quot;:&quot;Layout\u7684\u77e5\u8bc6\u68b3\u7406 - AutoLayout&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;13&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:544,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/d-auto-layouts-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/d-auto-layouts-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/d-auto-layouts-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/auto-layout-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-06&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-06 00:54:31&quot;,&quot;updated_at&quot;:&quot;2018-12-06 00:54:37&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/499&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/499&quot;,&quot;duration&quot;:&quot;09:04&quot;},{&quot;id&quot;:500,&quot;title&quot;:&quot;Layout\u7684\u77e5\u8bc6\u68b3\u7406 - Anchor&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;14&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:252,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/e-auto-layout-iii.mp4&quot;,&quot;hls_url&quot;:&quot;\/e-auto-layout-iii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/e-auto-layout-iii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/auto-layout-iii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-06&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-06 00:54:38&quot;,&quot;updated_at&quot;:&quot;2018-12-06 00:54:40&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/500&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/500&quot;,&quot;duration&quot;:&quot;04:12&quot;},{&quot;id&quot;:501,&quot;title&quot;:&quot;\u4e86\u89e3View\u5404\u79cd\u5f62\u5f0f\u7684\&quot;\u8fb9\&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;15&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:578,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/f-margins-and-guides.mp4&quot;,&quot;hls_url&quot;:&quot;\/f-margins-and-guides.m3u8&quot;,&quot;webm_url&quot;:&quot;\/f-margins-and-guides.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/margins-and-guides-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-06&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-06 00:54:41&quot;,&quot;updated_at&quot;:&quot;2018-12-06 00:54:42&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/501&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/501&quot;,&quot;duration&quot;:&quot;09:38&quot;},{&quot;id&quot;:502,&quot;title&quot;:&quot;\u57fa\u4e8eview model\u72b6\u6001\u9a71\u52a8\u5bfc\u822a - I&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;16&quot;,&quot;difficulty&quot;:3,&quot;length&quot;:311,&quot;exp&quot;:250,&quot;mp4_url&quot;:&quot;\/g-model-driven-navigation.mp4&quot;,&quot;hls_url&quot;:&quot;\/g-model-driven-navigation.m3u8&quot;,&quot;webm_url&quot;:&quot;\/g-model-driven-navigation.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/model-driven-navigation-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-14&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-14 04:01:55&quot;,&quot;updated_at&quot;:&quot;2018-12-14 04:01:56&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/502&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/502&quot;,&quot;duration&quot;:&quot;05:11&quot;},{&quot;id&quot;:503,&quot;title&quot;:&quot;\u57fa\u4e8eview model\u72b6\u6001\u9a71\u52a8\u5bfc\u822a - II&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;17&quot;,&quot;difficulty&quot;:3,&quot;length&quot;:307,&quot;exp&quot;:250,&quot;mp4_url&quot;:&quot;\/h-model-driven-navigation-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/h-model-driven-navigation-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/h-model-driven-navigation-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/model-driven-navigation-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-14&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-14 04:01:58&quot;,&quot;updated_at&quot;:&quot;2018-12-14 04:01:59&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/503&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/503&quot;,&quot;duration&quot;:&quot;05:07&quot;},{&quot;id&quot;:504,&quot;title&quot;:&quot;\u767b\u5f55UI\u7684\u5b9e\u73b0&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;18&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:484,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/i-implement-signin.mp4&quot;,&quot;hls_url&quot;:&quot;\/i-implement-signin.m3u8&quot;,&quot;webm_url&quot;:&quot;\/i-implement-signin.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/implement-signin-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-23&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-23 02:06:18&quot;,&quot;updated_at&quot;:&quot;2018-12-23 02:06:25&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/504&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/504&quot;,&quot;duration&quot;:&quot;08:04&quot;},{&quot;id&quot;:505,&quot;title&quot;:&quot;ScrollView\u7684\u6280\u672f\u603b\u7ed3 - I&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;19&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:515,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/j-about-scrollview.mp4&quot;,&quot;hls_url&quot;:&quot;\/j-about-scrollview.m3u8&quot;,&quot;webm_url&quot;:&quot;\/j-about-scrollview.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/abouts-scrollview-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-23&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-23 02:06:19&quot;,&quot;updated_at&quot;:&quot;2018-12-23 02:06:28&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/505&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/505&quot;,&quot;duration&quot;:&quot;08:35&quot;},{&quot;id&quot;:506,&quot;title&quot;:&quot;ScrollView\u7684\u6280\u672f\u603b\u7ed3 - II&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;20&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:267,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/k-about-scrollview-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/k-about-scrollview-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/k-about-scrollview-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/about-scrollview-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-23&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-23 02:06:21&quot;,&quot;updated_at&quot;:&quot;2018-12-23 02:06:29&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/506&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/506&quot;,&quot;duration&quot;:&quot;04:27&quot;},{&quot;id&quot;:507,&quot;title&quot;:&quot;ScrollView\u7684\u6280\u672f\u603b\u7ed3 - III&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;21&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:311,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/l-about-scrollview-iii.mp4&quot;,&quot;hls_url&quot;:&quot;\/l-about-scrollview-iii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/l-about-scrollview-iii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/about-scrollview-iii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2018-12-23&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2018-12-23 02:06:23&quot;,&quot;updated_at&quot;:&quot;2018-12-23 02:06:31&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/507&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/507&quot;,&quot;duration&quot;:&quot;05:11&quot;},{&quot;id&quot;:508,&quot;title&quot;:&quot;\u5b9e\u73b0\u767b\u5f55\u754c\u9762\u7684View Model&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;22&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:352,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/m-model-and-vm-of-signin.mp4&quot;,&quot;hls_url&quot;:&quot;\/m-model-and-vm-of-signin.m3u8&quot;,&quot;webm_url&quot;:&quot;\/m-model-and-vm-of-signin.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/model-and-vm-of-signin-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:24:51&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:24:52&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/508&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/508&quot;,&quot;duration&quot;:&quot;05:52&quot;},{&quot;id&quot;:509,&quot;title&quot;:&quot;\u5b9e\u73b0\u767b\u5f55\u754c\u9762\u7684View Controller - I&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;23&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:261,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/n-signin-vc-and-related.mp4&quot;,&quot;hls_url&quot;:&quot;\/n-signin-vc-and-related.m3u8&quot;,&quot;webm_url&quot;:&quot;\/n-signin-vc-and-related.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/sign-vc-and-related-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:24:53&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:24:55&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/509&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/509&quot;,&quot;duration&quot;:&quot;04:21&quot;},{&quot;id&quot;:510,&quot;title&quot;:&quot;\u5b9e\u73b0\u767b\u5f55\u754c\u9762\u7684View Controller - II&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;24&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:249,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/o-signin-vc-and-related-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/o-signin-vc-and-related-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/o-signin-vc-and-related-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/signin-vc-and-related-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:24:56&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:24:57&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/510&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/510&quot;,&quot;duration&quot;:&quot;04:09&quot;},{&quot;id&quot;:511,&quot;title&quot;:&quot;\u901a\u8fc7Fake\u5bf9\u8c61\u7b80\u5316\u5f00\u53d1\u548c\u6d4b\u8bd5&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;25&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:301,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/p-fake-objects-for-easy-dev-and-test.mp4&quot;,&quot;hls_url&quot;:&quot;\/p-fake-objects-for-easy-dev-and-test.m3u8&quot;,&quot;webm_url&quot;:&quot;\/p-fake-objects-for-easy-dev-and-test.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/fake-objs-for-dev-and-test-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:24:58&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:25:00&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/511&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/511&quot;,&quot;duration&quot;:&quot;05:01&quot;},{&quot;id&quot;:512,&quot;title&quot;:&quot;\u5904\u7406\u767b\u5f55\u7ed3\u679c&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;26&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:421,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/q-handle-signin-result.mp4&quot;,&quot;hls_url&quot;:&quot;\/q-handle-signin-result.m3u8&quot;,&quot;webm_url&quot;:&quot;\/q-handle-signin-result.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/handle-signin-result-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:25:01&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:25:02&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/512&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/512&quot;,&quot;duration&quot;:&quot;07:01&quot;},{&quot;id&quot;:513,&quot;title&quot;:&quot;\u767b\u5f55\u754c\u9762\u7684\u5355\u5143\u6d4b\u8bd5 - RxBlocking&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;27&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:341,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/r-unittest-signin-feature.mp4&quot;,&quot;hls_url&quot;:&quot;\/r-unittest-signin-feature.m3u8&quot;,&quot;webm_url&quot;:&quot;\/r-unittest-signin-feature.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/unittest-signin-feature-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:25:04&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:25:05&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/513&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/513&quot;,&quot;duration&quot;:&quot;05:41&quot;},{&quot;id&quot;:514,&quot;title&quot;:&quot;\u767b\u5f55\u754c\u9762\u7684\u5355\u5143\u6d4b\u8bd5 - RxTest&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;28&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:405,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/s-unittest-signin-feature-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/s-unittest-signin-feature-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/s-unittest-signin-feature-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/unittest-signin-feature-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-07&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-07 08:25:07&quot;,&quot;updated_at&quot;:&quot;2019-01-07 08:25:08&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/514&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/514&quot;,&quot;duration&quot;:&quot;06:45&quot;},{&quot;id&quot;:515,&quot;title&quot;:&quot;\u57fa\u4e8e\u9996\u6b21\u542f\u52a8\u529f\u80fd\u8c08\u7c7b\u578b\u548c\u63a5\u53e3\u8bbe\u8ba1&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;29&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:425,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/t-first-launch-of-the-app.mp4&quot;,&quot;hls_url&quot;:&quot;\/t-first-launch-of-the-app.m3u8&quot;,&quot;webm_url&quot;:&quot;\/t-first-launch-of-the-app.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/t-first-launch-of-the-app-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-12&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-12 14:38:45&quot;,&quot;updated_at&quot;:&quot;2019-01-12 14:38:50&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/515&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/515&quot;,&quot;duration&quot;:&quot;07:05&quot;},{&quot;id&quot;:516,&quot;title&quot;:&quot;\u4e3a\u9996\u6b21\u542f\u52a8\u529f\u80fd\u7f16\u5199\u5355\u5143\u6d4b\u8bd5&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;30&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:491,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/u-first-launch-of-the-app-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/u-first-launch-of-the-app-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/u-first-launch-of-the-app-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/first-launch-of-the-app-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-01-12&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-01-12 14:38:52&quot;,&quot;updated_at&quot;:&quot;2019-01-12 14:38:54&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/516&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/516&quot;,&quot;duration&quot;:&quot;08:11&quot;},{&quot;id&quot;:517,&quot;title&quot;:&quot;\u4f7f\u7528Promise\u8868\u8fbe\u5f02\u6b65\u64cd\u4f5c\u7684\u7ed3\u679c&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;31&quot;,&quot;difficulty&quot;:1,&quot;length&quot;:272,&quot;exp&quot;:100,&quot;mp4_url&quot;:&quot;\/v-understanding-promise.mp4&quot;,&quot;hls_url&quot;:&quot;\/v-understanding-promise.m3u8&quot;,&quot;webm_url&quot;:&quot;\/v-understanding-promise.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/v-understanding-promise-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:06&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:08&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/517&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/517&quot;,&quot;duration&quot;:&quot;04:32&quot;},{&quot;id&quot;:518,&quot;title&quot;:&quot;\u81ea\u5b9a\u4e49Promise\u5c01\u88c5API&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;32&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:524,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/w-promise-wrappers.mp4&quot;,&quot;hls_url&quot;:&quot;\/w-promise-wrappers.m3u8&quot;,&quot;webm_url&quot;:&quot;\/w-promise-wrappers.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/w-promise-wrappers-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:10&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:11&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/518&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/518&quot;,&quot;duration&quot;:&quot;08:44&quot;},{&quot;id&quot;:519,&quot;title&quot;:&quot;PromiseKit\u4e2d\u53ef\u80fd\u4f1a\u8ba9\u4f60\u964c\u751f\u7684Swift\u7528\u6cd5&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;33&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:463,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/x-familiar-you-with-swift.mp4&quot;,&quot;hls_url&quot;:&quot;\/x-familiar-you-with-swift.m3u8&quot;,&quot;webm_url&quot;:&quot;\/x-familiar-you-with-swift.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/x-familiar-you-with-swift-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:13&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:15&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/519&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/519&quot;,&quot;duration&quot;:&quot;07:43&quot;},{&quot;id&quot;:520,&quot;title&quot;:&quot;PromiseKit\u6e90\u7801\u5206\u6790 - Box&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;34&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:298,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/y-the-box-type.mp4&quot;,&quot;hls_url&quot;:&quot;\/y-the-box-type.m3u8&quot;,&quot;webm_url&quot;:&quot;\/y-the-box-type.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/y-the-box-type-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:16&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:17&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/520&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/520&quot;,&quot;duration&quot;:&quot;04:58&quot;},{&quot;id&quot;:521,&quot;title&quot;:&quot;PromiseKit\u6e90\u7801\u5206\u6790 - Resolver&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;35&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:161,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z-the-resolver-type.mp4&quot;,&quot;hls_url&quot;:&quot;\/z-the-resolver-type.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z-the-resolver-type.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z-the-resolver-type-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:19&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:21&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/521&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/521&quot;,&quot;duration&quot;:&quot;02:41&quot;},{&quot;id&quot;:522,&quot;title&quot;:&quot;PromiseKit\u6e90\u7801\u5206\u6790 - Promise&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;36&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:178,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z01-the-promise-type.mp4&quot;,&quot;hls_url&quot;:&quot;\/z01-the-promise-type.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z01-the-promise-type.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z01-the-promise-type-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:22&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:25&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/522&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/522&quot;,&quot;duration&quot;:&quot;02:58&quot;},{&quot;id&quot;:523,&quot;title&quot;:&quot;PromiseKit\u6e90\u7801\u5206\u6790 - Thenable&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;37&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:343,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z02-thenable-protocol.mp4&quot;,&quot;hls_url&quot;:&quot;\/z02-thenable-protocol.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z02-thenable-protocol.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z02-thenable-protocol-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:26&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:28&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/523&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/523&quot;,&quot;duration&quot;:&quot;05:43&quot;},{&quot;id&quot;:524,&quot;title&quot;:&quot;PromiseKit\u5927\u5c40\u89c2&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;38&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:348,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z03-promise-conclusion.mp4&quot;,&quot;hls_url&quot;:&quot;\/z03-promise-conclusion.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z03-promise-conclusion.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z03-promise-conclusion-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:29&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:30&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/524&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/524&quot;,&quot;duration&quot;:&quot;05:48&quot;},{&quot;id&quot;:525,&quot;title&quot;:&quot;\u4f7f\u7528\u81ea\u5b9a\u4e49\u8f6c\u573a\u52a8\u753b&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;39&quot;,&quot;difficulty&quot;:1,&quot;length&quot;:355,&quot;exp&quot;:100,&quot;mp4_url&quot;:&quot;\/z04-vc-transition-animator-basics.mp4&quot;,&quot;hls_url&quot;:&quot;\/z04-vc-transition-animator-basics.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z04-vc-transition-animator-basics.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z04-vc-transition-animator-basics-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:32&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:33&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/525&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/525&quot;,&quot;duration&quot;:&quot;05:55&quot;},{&quot;id&quot;:526,&quot;title&quot;:&quot;\u4e86\u89e3\u6cca\u5b66App\u7684\u63a8\u9001\u901a\u77e5\u4ea4\u4e92&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;40&quot;,&quot;difficulty&quot;:1,&quot;length&quot;:293,&quot;exp&quot;:100,&quot;mp4_url&quot;:&quot;\/z05-request-noti-permission.mp4&quot;,&quot;hls_url&quot;:&quot;\/z05-request-noti-permission.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z05-request-noti-permission.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z05-request-noti-permission-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-02-18&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-02-18 08:46:34&quot;,&quot;updated_at&quot;:&quot;2019-02-18 08:46:36&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/526&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/526&quot;,&quot;duration&quot;:&quot;04:53&quot;},{&quot;id&quot;:527,&quot;title&quot;:&quot;\u4f7f\u7528PromiseKit\u5c01\u88c5\u901a\u77e5\u4e2d\u5fc3API&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;41&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:528,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z06-wrap-notification-center-api.mp4&quot;,&quot;hls_url&quot;:&quot;\/z06-wrap-notification-center-api.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z06-wrap-notification-center-api.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z06-wrap-notification-center-api-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:18&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:19&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/527&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/527&quot;,&quot;duration&quot;:&quot;08:48&quot;},{&quot;id&quot;:528,&quot;title&quot;:&quot;\u5728\u4ea4\u4e92\u4e2d\u52a0\u5165\u63a8\u9001\u901a\u77e5\u6743\u9650\u7684\u7533\u8bf7&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;42&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:328,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z07-implement-notification-request.mp4&quot;,&quot;hls_url&quot;:&quot;\/z07-implement-notification-request.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z07-implement-notification-request.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z07-implement-notification-request-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:26&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:28&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/528&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/528&quot;,&quot;duration&quot;:&quot;05:28&quot;},{&quot;id&quot;:529,&quot;title&quot;:&quot;\u63a8\u9001\u901a\u77e5UI\u7684\u5b9e\u73b0&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;43&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:359,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z08-implement-notification-request-i.mp4&quot;,&quot;hls_url&quot;:&quot;\/z08-implement-notification-request-i.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z08-implement-notification-request-i.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z08-implement-notification-request-i-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:29&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:31&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/529&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/529&quot;,&quot;duration&quot;:&quot;05:59&quot;},{&quot;id&quot;:530,&quot;title&quot;:&quot;View Model\u5355\u5143\u6d4b\u8bd5\u7684\u91cd\u6784&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;44&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:425,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z09-refactor-unittests.mp4&quot;,&quot;hls_url&quot;:&quot;\/z09-refactor-unittests.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z09-refactor-unittests.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z09-refactor-unittests-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:32&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:33&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/530&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/530&quot;,&quot;duration&quot;:&quot;07:05&quot;},{&quot;id&quot;:531,&quot;title&quot;:&quot;\u5b8c\u6210\u6240\u6709View Model\u7684\u5355\u5143\u6d4b\u8bd5&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;45&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:450,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z10-refactor-unittests-ii.mp4&quot;,&quot;hls_url&quot;:&quot;\/z10-refactor-unittests-ii.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z10-refactor-unittests-ii.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z10-refactor-unittests-ii-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:34&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:36&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/531&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/531&quot;,&quot;duration&quot;:&quot;07:30&quot;},{&quot;id&quot;:532,&quot;title&quot;:&quot;\u5728\u9879\u76ee\u4e2d\u96c6\u6210Travis CI&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;46&quot;,&quot;difficulty&quot;:1,&quot;length&quot;:263,&quot;exp&quot;:100,&quot;mp4_url&quot;:&quot;\/z11-publish-to-travis-ci.mp4&quot;,&quot;hls_url&quot;:&quot;\/z11-publish-to-travis-ci.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z11-publish-to-travis-ci.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z11-publish-to-travis-ci-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:37&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:38&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/532&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/532&quot;,&quot;duration&quot;:&quot;04:23&quot;},{&quot;id&quot;:533,&quot;title&quot;:&quot;\u9636\u6bb5\u6027\u56de\u987e - \u518d\u4e00\u6b21\u7406\u89e3\u4f9d\u8d56\u5173\u7cfb&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;47&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:283,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z12-di-in-bx-app-review.mp4&quot;,&quot;hls_url&quot;:&quot;\/z12-di-in-bx-app-review.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z12-di-in-bx-app-review.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z12-di-in-bx-app-review-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:40&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:41&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/533&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/533&quot;,&quot;duration&quot;:&quot;04:43&quot;},{&quot;id&quot;:534,&quot;title&quot;:&quot;\u9636\u6bb5\u6027\u56de\u987e - \u5904\u7406\u4f9d\u8d56\u5173\u7cfb\u7684\u5de5\u5177&quot;,&quot;description&quot;:&quot;&quot;,&quot;index&quot;:&quot;48&quot;,&quot;difficulty&quot;:2,&quot;length&quot;:583,&quot;exp&quot;:200,&quot;mp4_url&quot;:&quot;\/z13-handle-di-in-bx-app-review.mp4&quot;,&quot;hls_url&quot;:&quot;\/z13-handle-di-in-bx-app-review.m3u8&quot;,&quot;webm_url&quot;:&quot;\/z13-handle-di-in-bx-app-review.webm&quot;,&quot;playground_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster_url&quot;:&quot;\/z13-handle-di-in-bx-app-review-cover@2x.jpg&quot;,&quot;code_url&quot;:&quot;\&quot;\&quot;&quot;,&quot;cloud_path&quot;:&quot;\&quot;\&quot;&quot;,&quot;poster&quot;:&quot;\&quot;\&quot;&quot;,&quot;type&quot;:3,&quot;release_date&quot;:&quot;2019-03-03&quot;,&quot;series_id&quot;:60,&quot;deleted_at&quot;:null,&quot;created_at&quot;:&quot;2019-03-03 16:24:43&quot;,&quot;updated_at&quot;:&quot;2019-03-03 16:24:44&quot;,&quot;episodeUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/episode\/534&quot;,&quot;readingUrl&quot;:&quot;\/series\/build-boxue-app-in-mvvm\/ebook\/534&quot;,&quot;duration&quot;:&quot;09:43&quot;}]" is-login=""></episode-table>
+                <p class='text-center g-width-100vw h5'><i>* Series still in development. Check back often for updates.</i></p>
+            </div>
+        </div>
+    </section>
+    <!-- End Video List -->
+
+            <!-- Footer -->
+
+    <div class="shortcode-html">
+        <!-- Footer -->
+        <footer class="g-bg-blue-radialgradient-circle g-color-white-opacity-0_8 g-bg-img-hero g-pt-60">
+            <div class="container g-mb-60">
+                <div class="row">
+                    <!-- Footer Content -->
+                    <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+                        <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                            <h2 class="u-heading-v2__title h6 text-uppercase mb-0">
+                                关于我们
+                            </h2>
+                        </div>
+
+                        <div class="g-mb-30">
+                            <p>想循序渐进的跟上最新的技术趋势？想不为了学点东西到处搜索？想找个伙伴一起啃原版技术经典书？技术之外，还想了解高效的工作流技巧？甚至，工作之余，想找点儿东西放松心情？没问题，我们用4K开发视频，配以详尽的技术文档，以及精心准备的广播节目，让你渴望成长的技术需求，也是一种享受。</p>
+                        </div>
+
+                        <address class="mb-0">
+                            <div class="g-mb-30">
+                                <h4 class="h6 g-font-weight-600">Email Address</h4>
+                                <p class="g-mb-10">
+                                    <a class="g-color-white-opacity-0_8" href="mailto:10@boxue.io">10@boxue.io</a>
+                                </p>
+                            </div>
+
+                            <div class="g-mb-30">
+                                <h4 class="h6 g-font-weight-600">客户服务</h4>
+                                <p class="g-mb-10">
+                                    <a class="g-color-white-opacity-0_8" href="#"><i class="fa fa-qq"></i> 2085489246</a>
+                                </p>
+                            </div>
+                        </address>
+                    </div>
+                    <!-- End Footer Content -->
+
+                    <!-- Footer Content -->
+                    <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+                        <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                            <h2 class="u-heading-v2__title h6 text-uppercase mb-0">
+                                相关链接</h2>
+                        </div>
+
+                        <ul class="list-unstyled">
+                            <li class="g-mb-5">
+                                <i class="fa fa-angle-right g-mr-5"></i>
+                                <a class="g-color-white-opacity-0_8" href="https://boxueio.com/copyright-statement">
+                                    版权声明
+                                </a>
+                            </li>
+                            <li class="g-mb-5">
+                                <i class="fa fa-angle-right g-mr-5"></i>
+                                <a class="g-color-white-opacity-0_8" href="https://boxueio.com/terms-of-service">
+                                    用户隐私以及服务条款
+                                </a>
+                            </li>
+                            <li class="g-mb-5">
+                                <i class="fa fa-angle-right g-mr-5"></i>
+                                <a class="g-color-white-opacity-0_8" href="http://www.miibeian.gov.cn/">京ICP备15057653号-1</a>
+                            </li>
+                            <li class="mb-0">
+                                <i class="fa fa-angle-right g-mr-5"></i>
+                                <a class="g-color-white-opacity-0_8" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802020752">京公网安备 11010802020752号</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End Footer Content -->
+
+                    <!-- Footer Content -->
+                    <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+                        <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                            <h2 class="u-heading-v2__title h6 text-uppercase mb-0">
+                                关注我们
+                            </h2>
+                        </div>
+
+                        <p>在任何你常用的社交平台上关注我们，并告诉我们你的任何想法和建议！</p>
+
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item g-mr-10">
+                                <a class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-bg-white-opacity-0_2--hover g-color-white-opacity-0_6 rounded"
+                                   href="https://weibo.com/boxueio">
+                                    <i class="fa fa-weibo"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item g-mr-10">
+                                <a class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-bg-white-opacity-0_2--hover g-color-white-opacity-0_6 rounded"
+                                   href="https://twitter.com/boxueio">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item g-mr-10">
+                                <a class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-bg-white-opacity-0_2--hover g-color-white-opacity-0_6 rounded"
+                                   href="https://plus.google.com/109350680063648284611">
+                                    <i class="fa fa-google-plus-square"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End Footer Content -->
+
+                    <!-- Footer Content -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                            <h2 class="u-heading-v2__title h6 text-uppercase mb-0">
+                                邮件列表
+                            </h2>
+                        </div>
+
+                        <div class="g-mb-30" id="SubscribeMailNoty">
+                            <p>订阅泊学邮件列表以了解泊学视频更新以及最新活动，我们不会向任何第三方公开你的邮箱！</p>
+                            <mail-subscription></mail-subscription>
+                        </div>
+                    </div>
+                    <!-- End Footer Content -->
+                </div>
+            </div>
+
+            <!-- Copyright Footer -->
+            <div class="g-bg-black-opacity-0_1 g-color-white-opacity-0_8 text-center g-py-20">
+                <div class="container">
+                    <small class="g-font-size-default g-mr-10 g-mb-10 g-mb-0--md">2019 © All Rights Reserved. Boxue is created by 10 <i class="g-color-red fa fa-heart"></i> 11.
+                    </small>
+                </div>
+            </div>
+            <!-- End Copyright Footer -->
+        </footer>
+        <!-- End Footer -->
+
+        <a class="js-go-to u-go-to-v1 animated u-animation-was-fired zoomIn"
+           href="#"
+           data-type="fixed"
+           data-position="{
+             'bottom': 15,
+             'right': 15}"
+           data-offset-top="400"
+           data-compensation="#js-header"
+           data-show-effect="zoomIn"
+           style="display: inline-block; position: fixed; bottom: 15px; right: 15px;">
+                <i class="hs-icon hs-icon-arrow-top"></i>
+        </a>
+    </div>
+    <!-- End Footer -->
+        </main>
+
+                    <script src="/js/vendor.js?id=295b19182560c32dd4d3"></script>
+            <script src="/js/hs.js?id=8c37bf8ff8db94702fa1"></script>
+            <script src="/js/app.js?id=525a8183ea163ec4d67d"></script>
+        
+            <script>
+        $(document).ready(function() {
+            $.HSCore.components.HSCarousel.init('.js-carousel');
+
+            // initialization of HSDropdown component
+            $.HSCore.components.HSDropdown.init($('[data-dropdown-target]'));
+
+            $.HSCore.components.HSModalWindow.init('[data-modal-target]');
+        });
+
+        $(window).on('load', function () {
+            // initialization of header
+            $.HSCore.components.HSHeader.init($('#js-header'));
+
+            // initialization of HSMegaMenu component
+            $('.js-mega-menu').HSMegaMenu({
+                event: 'hover',
+                pageContainer: $('.container'),
+                breakpoint: 991
+            });
+        });
+    </script>
+    </body>
+</html>

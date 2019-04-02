@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="The most comprehensive collection of Swift books and videos on the internet">
+    <meta name="keywords" content="hacking with swift, swift 4, swift 3, swift, tutorial, ios, ios 10, ios 11, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, watchkit">
+    <meta name="author" content="Paul Hudson @twostraws">
+    <title>Buy Swift 4.2 and iOS 12 tutorials, books, and videos at the Hacking with Swift store</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Swift Developer News RSS feed" href="https://www.hackingwithswift.com/articles/rss" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /* NOTE: This was added October 12th 2018; can be removed safely in 60 days */
+        div.speaking h4 { 
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        /* NOTE: This was added January 21st 2019; can be removed safely in 60 days */
+        div.hws-sponsor {
+            border: 3px solid firebrick;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        div.hws-sponsor p {
+            margin: 0;
+        }
+
+        div.hws-sponsor a {
+            text-decoration: underline;
+        }
+    </style>
+
+
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Retina.js - Load first for faster HQ mobile images. -->
+    <script src="/js/plugins/retina/retina.min.js"></script>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/fontawesome-stars.css" />
+
+    <link href="/css/vitality-red.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/hws.css">
+    <!-- IE8 support for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="https://www.hackingwithswift.com/store" />
+</head>
+<!-- Alternate Body Classes: .modern and .vintage -->
+
+<body id="page-top">
+    <!-- Navigation -->
+    <!-- Note: navbar-default and navbar-inverse are both supported with this theme. -->
+
+        <nav class="navbar navbar-inverse navbar-fixed-top navbar-expanded">
+    
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <img src="/img/logo.png" class="img-responsive" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/articles">Articles</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Learn <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/career-guide">Swift Career Guide</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/sixty">Swift in Sixty Seconds</a></li>
+                        <li><a href="/read">Hacking with Swift</a></li>
+                        <li><a href="/example-code">Swift Example Code</a></li>
+                        <li><a href="/store">Buy Books and Videos</a></li>
+                        <li><a href="/playgrounds">Swift Playgrounds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/review">Interactive Review</a></li>
+                        <li><a href="/interview-questions">Interview Questions</a></li>
+                        <li><a href="/test">Test your Swift</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/awards">Swift Community Awards</a></li>
+                        <li><a href="/articles">Latest News</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/glossary">Glossary of terms</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/store">See the range</a></li>
+                        <li><a href="/reviews">Reviews</a></li>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/frequent-flyer">Frequent Flyer Club</a></li>
+                        <li><a href="/update-policy">Update Policy</a></li>
+                        <li><a href="/ibooks">Buy on iBooks</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/about">About Hacking with Swift</a></li>
+                        <li><a href="/speaking">Conference Talks</a></li>
+                      </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    
+
+        <header style="background-image: url('/img/bg-header.jpg');">
+        <div class="intro-content">
+            <img src="/img/swift_logo.png" class="img-responsive img-centered" alt="">
+            <div class="brand-name">BUY SWIFT 4.2 AND iOS 12 COURSES</div>
+        </div>
+    </header>
+
+        <section class="reader-logos bg-dark">
+        <div class="container text-center">
+            <div class="row">
+            	<p class="lead" style="margin-bottom: -5px;">Join over 40,000 readers today</p>
+                <p>
+                	<a href="https://www.airbnb.com" target="_blank"><img src="/img/logos/airbnb.png" /></a>
+                	<a href="https://www.apple.com" target="_blank"><img src="/img/logos/apple.png" /></a>
+                	<a href="https://www.bbc.co.uk" target="_blank"><img src="/img/logos/bbc.png" /></a>
+                	<a href="https://www.ebay.com" target="_blank"><img src="/img/logos/ebay.png" /></a>
+                	<a href="https://www.github.com" target="_blank"><img src="/img/logos/github.png" /></a>
+                	<a href="https://www.google.com" target="_blank"><img src="/img/logos/google.png" /></a>
+                	<a href="https://www.ibm.com" target="_blank"><img src="/img/logos/ibm.png" /></a>
+                	<a href="https://www.intel.com" target="_blank"><img src="/img/logos/intel.png" /></a>
+                	<a href="https://www.microsoft.com" target="_blank"><img src="/img/logos/microsoft.png" /></a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container-fluid">
+            <div class="row text-center">
+                <div class="col-lg-12">
+                    <h1>LEARN NO MATTER WHAT YOUR LEVEL</h1>
+                    <p>I offer a complete, hands-on tutorial collection that takes you from beginner to pro the smart way.</p>
+                    <hr class="colored">
+                </div>
+            </div>
+            <div class="row text-center content-row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="about-content">
+                        <p style="font-size: 60px; font-weight: bold; margin-bottom: 0;">1</p>
+                        <h3 style="margin-top: 0;">Hacking with Swift</h3>
+                        <p>Start here if you're new to Swift and iOS: you learn the language and Apple's frameworks using 40 real-world projects. Includes over 1300 pages of tutorials and examples, plus exclusive content.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="about-content">
+                        <p style="font-size: 60px; font-weight: bold; margin-bottom: 0;">2</p>
+                        <h3 style="margin-top: 0;">Pro Swift</h3>
+                        <p>Buy this if you already know Swift: you get a 250-page book with 90+ videos that teach advanced skills like functional programming, protocol-oriented programming, closures, and more.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="about-content">
+                        <p style="font-size: 60px; font-weight: bold; margin-bottom: 0;">3</p>
+                        <h3 style="margin-top: 0;">Swift Coding Challenges</h3>
+                        <p>Looking to get a great job making iOS apps, or perhaps just to hone your skills with algorithms and techniques? Get Swift Coding Challenges and enjoy 64 challenges with fully worked solutions!</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="about-content">
+                        <p style="font-size: 60px; font-weight: bold; margin-bottom: 0;">4</p>
+                        <h3 style="margin-top: 0;">And more…</h3>
+                        <p>Whether you're looking for macOS, watchOS, tvOS, Server-Side Swift, or even Objective-C, there's a book in the Hacking with Swift series for you – all following our proven project-based formula.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section class="cta-form bg-dark">
+        <div class="container text-center">
+            <h3>Subscribe to my newsletter</h3>
+            <p>Get an <u>immediate</u> $5 off the Hacking with Swift e-book sent to your inbox, plus more discounts in the future!</p>
+            <hr class="colored">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div id="mc_embed_signup">
+                        <form role="form" action="https://gumroad.com/follow_from_embed_form" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+                            <div class="input-group input-group-lg">
+                                <input type="email" name="email" class="form-control" id="mce-EMAIL" placeholder="Enter your email address...">
+                                <input name="seller_id" type="hidden" value="1196435742118">
+                                <span class="input-group-btn">
+                                    <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary">Subscribe</button>
+                                </span>
+                            </div>
+                            <div id="mce-responses">
+                                <div class="response" id="mce-error-response" style="display:none"></div>
+                                <div class="response" id="mce-success-response" style="display:none"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="courses" class="bg-gray">
+        <div class="container text-center">
+            <h2>EXPLORE THE RANGE</h2>
+            <hr class="colored">
+
+            <div style="max-width: 800px; margin: auto">
+                <p>I've written a selection of books that help you build your skills from beginner through to advanced. Each book is <strong>completely standalone</strong>, so you can buy whichever one suits you best and dive in.</p>
+                <p>All books come with <a href="/update-policy">free Swift updates for life</a>, free bonus content through the <a href="/frequent-flyer">Swift Frequent Flyer Club</a>, and a complimentary completion certificate to help you track your progression.</p>
+            </div>
+        </div>
+    </section>
+
+        <section class="portfolio-carousel">
+        <div class="item" style="background-image: url('/img/bg-hws.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">HACKING WITH SWIFT</span>
+                            <span class="project-description">Start learning Swift 4.2 with the series that started it all: 1600 pages of tutorials teaching you Swift from scratch, with exclusive extra content available in the download edition.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner – Intermediate</strong></div>
+                            <hr class="colored">
+                            <a href="/read" class="btn btn-outline-light">Read for free <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                            <a href="/store/hacking-with-swift" class="btn btn-outline-light" style="margin-left: 10px;">Buy Download</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-hws.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-sixty.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">SWIFT IN SIXTY SECONDS</span>
+                            <span class="project-description">Want to get started with Swift, but find yourself short on time? This course teaches you the fundamentals of Swift programming in 60-second chunks.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner</strong></div>
+                            <hr class="colored">
+                            <a href="/sixty" class="btn btn-outline-light">Read for free <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                            <a href="https://gumroad.com/l/sixty" class="btn btn-outline-light" style="margin-left: 10px;">Buy Download</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-sixty.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-proswift.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">PRO SWIFT</span>
+                            <span class="project-description">Watch advanced videos that will level up your Swift knowledge: functional programming, protocol-oriented programming, value types, closures, operator overloading, and more.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate - Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/pro-swift" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-proswift.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-designpatterns.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">SWIFT DESIGN PATTERNS</span>
+                            <span class="project-description">Learn smart, idiomatic techniques to design great Swift apps, from using MVC effectively through to MVVM, delegation, protocols, and more.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate - Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/swift-design-patterns" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-designpatterns.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-testing.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">TESTING SWIFT</span>
+                            <span class="project-description">If you're serious about writing great code, you need to be serious about writing great tests. Testing Swift is designed to guide you through unit tests, UI tests, TDD, and much more!</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate</strong></div>
+                            <hr class="colored">
+                            <a href="/store/testing-swift" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-testing.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-codingchallenges.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">SWIFT CODING CHALLENGES</span>
+                            <span class="project-description">Work through real Swift coding problems that help strengthen your skills – perfect for finding and filling holes in your Swift knowlege, and preparing for iOS interviews.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate - Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/swift-coding-challenges" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-codingchallenges.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-ios12.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">PRACTICAL iOS 12</span>
+                            <span class="project-description">Build powerful real-world projects using Apple's latest iOS – there is no faster way to get up to speed.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate - Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/practical-ios12" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-ios12.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-ios10.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">ADVANCED iOS: VOLUME 1</span>
+                            <span class="project-description">Build awesome, real-world projects using APIs introduced in iOS 10, and learn about speech transcription, SiriKit, iMessage apps, the new rich media notifications, and more.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate - Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/advanced-ios-1" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-advanced-ios-1.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-ios11.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">ADVANCED iOS: VOLUME TWO</span>
+                            <span class="project-description">Build powerful real-world projects using powerful technologies like Core ML, ARKit, PDFKit, drag and drop, Core NFC, and more.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate - Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/advanced-ios-2" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-advanced-ios-2.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-diveintospritekit-darker.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">DIVE INTO SPRITEKIT</span>
+                            <span class="project-description">Learn to build high-performance games for iPad with a unique twist: <em>you</em> get to choose what should happen in each game. It's your game – you decide!</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner</strong></div>
+                            <hr class="colored">
+                            <a href="/store/dive-into-spritekit" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-diveintospritekit.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-macos.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">HACKING WITH macOS</span>
+                            <span class="project-description">Power up your desktop by learning to build macOS apps – I'll teach you everything you need to know, while helping you build real-world projects that take full advantage of macOS.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner – Intermediate</strong></div>
+                            <hr class="colored">
+                            <a href="/store/hacking-with-macos" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-macos.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-watchos.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">HACKING WITH watchOS</span>
+                            <span class="project-description">Build powerful, useful apps for Apple's tiniest devices – this book gives you everything you need to make great apps that quite literally never leave your user's side.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner – Intermediate</strong></div>
+                            <hr class="colored">
+                            <a href="/store/hacking-with-watchos" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-watchos.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-tvos.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">HACKING WITH tvOS</span>
+                            <span class="project-description">Build for the biggest screen of all – take full advantage of the Siri remote and build incredible apps and games using UIKit, SpriteKit, and more!</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner – Intermediate</strong></div>
+                            <hr class="colored">
+                            <a href="/store/hacking-with-tvos" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-tvos.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-server.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">SERVER-SIDE SWIFT</span>
+                            <span class="project-description">Transfer your Swift skills to the server and learn to build awesome web apps, APIs, and websites all using Swift.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner - Intermediate</strong></div>
+                            <hr class="colored">
+                            <a href="/store/server-side-swift" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-server.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-objc.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">OBJECTIVE-C FOR SWIFT DEVELOPERS</span>
+                            <span class="project-description">Round out your iOS coding knowledge with Apple's original language – this whole book has been designed to teach you Objective-C as quickly as possible by building on your Swift skills.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/objective-c-for-swift-developers" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-objc.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-beyondcode.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">BEYOND CODE</span>
+                            <span class="project-description">Learn the meta skills you need to be a better coder: regular expressions, Unix command line tools, Git source control, Scrum project management, and more.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Beginner</strong></div>
+                            <hr class="colored">
+                            <a href="/store/beyond-code" data-toggle="modal" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/book-beyondcode.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-videos.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">VIDEOS</span>
+                            <span class="project-description">Buy recordings of online video workshops that teach specific advanced topics, all in 1080p high definition – it's an incredibly convenient way to learn.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: Intermediate – Advanced</strong></div>
+                            <hr class="colored">
+                            <a href="/store/videos" data-toggle="modal" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/videos.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 2px; background-color: white"></div>
+
+        <div class="item" style="background-image: url('/img/bg-merchandise.jpg')">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="project-details">
+                            <span class="project-name">MERCHANDISE</span>
+                            <span class="project-description">Buy some Swift-themed gifts for yourself or your favorite programmer friend and you'll learn Swift faster. Probably.</span>
+                            <div class="project-description" style="margin-top: 10px;"><strong>Level: All</strong></div>
+                            <hr class="colored">
+                            <a href="/store/merchandise" data-toggle="modal" class="btn btn-outline-light">View Details <i class="fa fa-long-arrow-right fa-fw"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 hidden-xs">
+                        <img src="/img/mug.png" class="img-responsive portfolio-image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="bg-gray">
+        <div class="container">
+            <h2 class="text-center">REVIEWS</h2>
+
+            <hr class="colored">
+
+            <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/marc-aupont.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“The projects in this course are created in a way to expose you to real-world code – very practical and extensible! Highly recommended.”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/digimarktech" target="_blank" rel="nofollow" style="color: black;">Marc Aupont</a></strong> on <em>Hacking with Swift</em></p>
+                            </div>
+        </div>
+    </div>
+        <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/anton-novoselov.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“Just finished reading Swift Design Patterns. It&#039;s awesome, just like other books by Paul. It helped me a lot to understand some iOS aspects deeply.”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/ant0nnov" target="_blank" rel="nofollow" style="color: black;">Anton Novoselov</a></strong> on <em>Swift Design Patterns</em></p>
+                            </div>
+        </div>
+    </div>
+     <div class="clearfix"></div>     <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/mario-esposito.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“Paul&#039;s is a warranty of quality. He writes books at a speed that always surprises me for its timing and effectiveness. This book represents all that!”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/windrago" target="_blank" rel="nofollow" style="color: black;">Mario Esposito</a></strong> on <em>Hacking with watchOS</em></p>
+                            </div>
+        </div>
+    </div>
+        <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/julio-ryuuzaki.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“I&#039;m a huge fan of Paul Hudson – more than an in-depth source of technical information, its super easy to understand and learning from him is inspiring!”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/ryuuzakijulio" target="_blank" rel="nofollow" style="color: black;">Julio Ryuuzaki</a></strong> on <em>Hacking with macOS</em></p>
+                            </div>
+        </div>
+    </div>
+     <div class="clearfix"></div>     <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/john-gallaugher.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“Paul Hudson is a Swift community treasure. I regularly turn to Pro Swift and Paul&#039;s other books for reference and inspiration. Thank you!”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/gallaugher" target="_blank" rel="nofollow" style="color: black;">John Gallaugher</a></strong> on <em>Pro Swift</em></p>
+                            </div>
+        </div>
+    </div>
+        <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/caleb-basinger.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“I love the work Paul does. He has a real talent for making complex topics obtainable, fun, and engaging!”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/CalebBasinger" target="_blank" rel="nofollow" style="color: black;">Caleb Basinger</a></strong> on <em>Hacking with Swift</em></p>
+                            </div>
+        </div>
+    </div>
+     <div class="clearfix"></div>     <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/dan-oleary.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“The entire Hacking with Swift series is great! Swift Coding Challenges forces me to think abstractly and dig into the code more than ever.”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/olearydan" target="_blank" rel="nofollow" style="color: black;">Dan O’Leary</a></strong> on <em>Swift Coding Challenges</em></p>
+                            </div>
+        </div>
+    </div>
+        <div class="col-md-6" style="margin-bottom: 30px;">
+        <div class="row">
+            <div class="col-xs-2" style="text-align: right; padding-top: 1%; padding-right: 0"><img class="img-responsive" style="border-radius: 50%; height: auto; width: 80px; display: inline; border: 1px solid black;" src="/img/reviews/jimmy-mcdermott.png" /></div>
+            <div class="col-xs-10">
+                <p style="margin-bottom: 0;">“Paul&#039;s book does an amazing job teaching beginners how to use server-side Swift in an effective, testable, efficient way.”</p>
+                <div style="color: #f1c40f">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+
+                                <p><strong><a href="https://twitter.com/jdmcd17" target="_blank" rel="nofollow" style="color: black;">Jimmy McDermott</a></strong> on <em>Server-Side Swift</em></p>
+                            </div>
+        </div>
+    </div>
+     <div class="clearfix"></div>             </div>
+
+            <p class="text-center"><a href="/reviews" style="white-space: normal;"><button class="btn btn-lg btn-success" style="white-space: normal;">Read More <i class="fa fa-chevron-circle-right"></i></button></a></p>
+        </div>
+    </section>
+
+    <section id="faq" class="testimonials">
+        <div class="container">
+            <h2>FAQ</h2>
+                <div style="max-width: 800px; margin: auto" class="text-left">
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: Will I get updates when new Swift versions are released?</strong></p>
+                    <p>A: Yes! Your purchase is covered by the most awesome book updates policy in existence: books get updates for new Swift versions completely free, for the life of the book. <a href="/update-policy">Click here to read my book update policy in full</a>.</p>
+                
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: What version of Swift do you use in your courses?</strong></p>
+                    <p>A: I use Xcode 10 and Swift 4.2 in all books, except for Objective-C for Swift Developers – that uses Objective-C. Obviously.</p>
+
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: I can already program Swift – will you teach me new stuff?</strong></p>
+                    <p>A: <a href="/store/pro-swift">I wrote a separate book and video course called Pro Swift which teaches advanced Swift coding.</a> It covers functional programming, MVVM, reference and value types, closures, operator overloading, and much more, and includes over 70 videos walking you through the techniques. While Hacking with Swift definitely touches on more advanced topics as you proceed, Pro Swift is all advanced, all the time.</p>
+
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: Is knowing Swift enough? Do I also need to know Objective-C?</strong></p>
+                    <p>A: It's true that most iOS jobs want some Objective-C knowledge, because there are over a million apps written in the language. To help you learn, <a href="/store/objective-c-for-swift-developers">I wrote a book called Objective-C for Swift Developers</a>, which is designed to help you transfer your skills from Swift to Objective-C as quickly as possible.</p>
+
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: Do any of your books overlap?</strong></p>
+                    <p>A: No – they are all designed to be unique, standalone books.</p>
+
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: Can I buy your books on iBooks?</strong></p>
+                    <p>A: Yes, you can buy my books on the iBooks Store. For more information and links to the full range, <a href="/ibooks">click here</a>.</p>
+
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: Do you offer any discounts?</strong></p>
+                    <p>A: I try to keep my books priced as low as possible; if you look around, you'll find other courses sell for twice as much, despite offering far less content. However, if you <a href="https://gumroad.com/twostraws/follow">sign up to my low-volume Swift newsletter</a> you'll get emailed an instant discount on the Hacking with Swift e-book, which contains lots of exclusive content you won't find online.</p>
+                    <p>If you're looking for the biggest discount of all, see the very next question…</p>
+
+                    <p style="margin-top: 40px; margin-bottom: 0;"><strong>Q: Can I buy your books in a bundle?</strong></p>
+                    <p>A: Yes, and the bundles are a great way to save even more money on my low prices:</p>
+
+                    <ul>
+                        <li>My first six books are available in the <a href="/store/swift-power-pack">Swift Power Pack</a> at a big discount – you get all six for just $150, which is a 32% saving on their regular price.</li>
+
+
+                        <li>The next five books are available in the <a href="/store/swift-platform-pack">Swift Platform Pack</a>, also for $150, which is a 37% saving on their regular price.</li>
+                    </ul>
+
+                    <p>Even better, if you buy any of the books from a bundle individually, you can upgrade to the full bundle at a later date just by paying the difference – <a href="mailto:paul@hackingwithswift.com">email me and I can generate the discount for you</a>.</p>
+                </div>
+        </div>
+    </section>
+
+    
+    
+    <footer class="footer" style="background-image: url('/img/bg-footer.jpg')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 contact-details">
+                    <a href="https://twitter.com/twostraws">
+                        <h4><i class="fa fa-twitter fa-4x"></i></h4>
+                        <p>@twostraws</p>
+                    </a>
+                </div>
+                <div class="col-md-6 contact-details">
+                    <a href="mailto:paul@hackingwithswift.com">
+                        <h4><i class="fa fa-envelope-o fa-4x"></i></h4>
+                        <p>paul@hackingwithswift.com
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-lg-12">
+                    <p class="small">Swift, the Swift logo, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright &copy; 1994 Miramax Films. Hacking with Swift &copy;2019 Paul Hudson.</p>
+
+                    <p class="small"><a href="/privacy">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Scripts -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui-custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Plugin Scripts -->
+    <script src="/js/plugins/jquery.easing.min.js"></script>
+    <script src="/js/plugins/classie.js"></script>
+
+        <script src="/js/plugins/cbpAnimatedHeader.js"></script>
+    
+    <script src="/js/plugins/jquery.mixitup.js"></script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/vitality.js"></script>
+
+    <script src="/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript">
+       $(function() {
+            $('#page-rating').barrating('show', {
+              theme: 'fontawesome-stars',
+              onSelect: function(value, text, event) {
+                if (typeof(event) !== 'undefined') {
+                  // rating was selected by a user
+                  var rating = $(event.target).data("rating-value");
+
+                    $.ajax({
+                      type: "POST",
+                      url: "/rating",
+                      data: { "url": window.location.pathname, "rating": rating },
+                    });
+
+                  $("#page-rating-start").hide();
+                  $("#page-rating-end").show();
+                } else {
+                  // rating was selected programmatically
+                  // by calling `set` method
+                }
+              }
+            });
+       });
+    </script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58275818-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!--     { { include('house-ads.html') } }
+
+    <script src="/js/ads.js"></script>
+    <script>
+    if(window.areAdsDisplayed === undefined) {
+        var houseAd = createHouseAd();
+        $('.hws-notices-top').html(houseAd);
+        $('.hws-notices-bottom').html(houseAd);
+    }
+    </script> -->
+
+    </body>
+
+</html>

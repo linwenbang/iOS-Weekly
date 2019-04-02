@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+<![endif]-->
+<!--[if !(IE 7) & !(IE 8)]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Speeding Up Custom Script Phases | Indie Stack</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://indiestack.com/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="https://indiestack.com/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="Indie Stack &raquo; Feed" href="https://indiestack.com/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11.2.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/indiestack.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.1.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://indiestack.com/wp-includes/css/dist/block-library/style.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-theme-css'  href='https://indiestack.com/wp-includes/css/dist/block-library/theme.min.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='parent-style-css'  href='https://indiestack.com/wp-content/themes/twentythirteen/style.css?ver=5.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='twentythirteen-fonts-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A300%2C400%2C700%2C300italic%2C400italic%2C700italic%7CBitter%3A400%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css'  href='https://indiestack.com/wp-content/themes/twentythirteen/genericons/genericons.css?ver=3.03' type='text/css' media='all' />
+<link rel='stylesheet' id='twentythirteen-style-css'  href='https://indiestack.com/wp-content/themes/indiestack-new/style.css?ver=2013-07-18' type='text/css' media='all' />
+<link rel='stylesheet' id='twentythirteen-block-style-css'  href='https://indiestack.com/wp-content/themes/twentythirteen/css/blocks.css?ver=2018-10-18' type='text/css' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='https://indiestack.com/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript' src='https://indiestack.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://indiestack.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='https://indiestack.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://indiestack.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://indiestack.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Xcode Consolation' href='https://indiestack.com/2014/12/xcode-consolation/' />
+<link rel='next' title='Explicit Requirement Satisfied' href='https://indiestack.com/2014/12/explicit-requirement-satisfied/' />
+<meta name="generator" content="WordPress 5.1.1" />
+<link rel="canonical" href="https://indiestack.com/2014/12/speeding-up-custom-script-phases/" />
+<link rel='shortlink' href='https://indiestack.com/?p=183' />
+<link rel="alternate" type="application/json+oembed" href="https://indiestack.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Findiestack.com%2F2014%2F12%2Fspeeding-up-custom-script-phases%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://indiestack.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Findiestack.com%2F2014%2F12%2Fspeeding-up-custom-script-phases%2F&#038;format=xml" />
+
+
+<!-- Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v3.4.5) -->
+<!-- https://wordpress.org/plugins/complete-open-graph/ -->
+<meta property='og:site_name' content='Indie Stack' />
+<meta property='og:url' content='https://indiestack.com/2014/12/speeding-up-custom-script-phases/' />
+<meta property='og:locale' content='en_US' />
+<meta property='og:description' content='Some Xcode projects use a handy feature for extending the build process called a Run Script build phase. These build phases can be added to the linear list of steps that Xcode steps through when building a target, such that custom tasks such as preparing dynamically generated source code, verifying ' />
+<meta property='og:title' content='Speeding Up Custom Script Phases' />
+<meta property='og:type' content='article' />
+<meta property='og:image' content='https://indiestack.com/wp-content/uploads/2018/10/wjyc3FfR_400x400.png' />
+<meta property='og:image:width' content='400' />
+<meta property='og:image:height' content='400' />
+<meta name='twitter:card' content='summary' />
+<meta name='twitter:site' content='@indiestack' />
+<meta name='twitter:title' content='Speeding Up Custom Script Phases' />
+<meta name='twitter:image' content='https://indiestack.com/wp-content/uploads/2018/10/wjyc3FfR_400x400.png' />
+<meta name='twitter:description' content='Some Xcode projects use a handy feature for extending the build process called a Run Script build phase. These build phases can be added to the linear list of steps that Xcode steps through when building a target, such that custom tasks such as preparing dynamically generated source code, verifying ' />
+<!-- End Complete Open Graph. | 0.0024559497833252s -->
+
+<link rel="alternate" type="application/json" title="JSON Feed" href="https://indiestack.com/feed/json/" />
+    <script type="text/javascript">
+    //QuickLogin by Red Sweater Software
+
+    document['onkeyup'] = function(event){
+        var e = event || window.event;
+
+        var triggerKeyCode = 27;
+        var loginPageURL = "https://indiestack.com/wp-login.php?redirect_to=https%3A%2F%2Findiestack.com%2F2014%2F12%2Fspeeding-up-custom-script-phases%2F";
+
+        if ( e.keyCode == triggerKeyCode ) {
+            document.location.href=loginPageURL;
+        }
+    }
+    </script>
+
+    	<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(https://indiestack.com/wp-content/themes/twentythirteen/images/headers/star.png) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+	<style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="post-template-default single single-post postid-183 single-format-standard wp-embed-responsive single-author">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="https://indiestack.com/" title="Indie Stack" rel="home">
+				<h1 class="site-title">Indie Stack</h1>
+				<h2 class="site-description">Hacking the Mac, iOS, and more with Daniel Jalkut</h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>
+					<div class="menu-daniels-other-stuff-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-124" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-124"><a href="http://www.red-sweater.com/">Red Sweater Software</a></li>
+<li id="menu-item-125" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-125"><a href="http://coreint.org/">Core Intuition Podcast</a></li>
+<li id="menu-item-126" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-126"><a href="http://bitsplitting.org/">Bitsplitting Blog</a></li>
+<li id="menu-item-127" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-127"><a href="http://punkitup.com/twitpop/">TwitPOP</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="https://indiestack.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				
+<article id="post-183" class="post-183 post type-post status-publish format-standard hentry category-workflow category-xcode">
+	<header class="entry-header">
+		
+				<h1 class="entry-title">Speeding Up Custom Script Phases</h1>
+		
+		<div class="entry-meta">
+			<span class="date"><a href="https://indiestack.com/2014/12/speeding-up-custom-script-phases/" title="Permalink to Speeding Up Custom Script Phases" rel="bookmark"><time class="entry-date" datetime="2014-12-12T13:44:57-04:00">December 12, 2014</time></a></span><span class="categories-links"><a href="https://indiestack.com/category/workflow/" rel="category tag">Workflow</a>, <a href="https://indiestack.com/category/xcode/" rel="category tag">Xcode</a></span><span class="author vcard"><a class="url fn n" href="https://indiestack.com/author/admin/" title="View all posts by Daniel Jalkut" rel="author">Daniel Jalkut</a></span>					</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p>Some Xcode projects use a handy feature for extending the build process called a <a href="https://developer.apple.com/library/ios/recipes/xcode_help-project_editor/Articles/AddingaRunScriptBuildPhase.html#//apple_ref/doc/uid/TP40010155-CH11-SW1">Run Script build phase</a>. These build phases can be added to the linear list of steps that Xcode steps through when building a target, such that custom tasks such as preparing dynamically generated source code, verifying build results, etc., can call be done as part of Xcode&#8217;s standard build routine.</p>
+<p>A problem you might run into is that a long-running script phase can be a real drag to wait through every single time you build. You can work around this problem in a few ways, depending on what makes sense for your project. Two of the simplest options are:</p>
+<ol>
+<li>Check the box to run the script only &#8220;when installing.&#8221;</li>
+<p> This is particularly handy if the stuff that&#8217;s happening in the build phase <em>really</em> doesn&#8217;t need to be there until the final release build, or if you are willing to manually perform the steps during development.</li>
+<li>Add logic to your build phase script to detect the build configuration, and either perform a more expedient version of the task, or skip it altogether. For example, a build phase that does laborious profiling of your finished product may not need to be done on &#8220;Debug&#8221; builds, so you could add a clause to the script:
+<pre>
+if [ ${CONFIGURATION} == Profiling ] ; then
+	echo "Running a very long profiling task!"
+	...
+	echo "Finished running a very long profiling task!"
+else
+	echo "Skipping long profiling task! Whoo!"
+fi
+</pre>
+<p>(Note: you don&#8217;t have to use bash for your shell script phases. In fact, you can run whatever interpreter you like. I typically use Python, but used bash here as a canonical example).</p>
+</li>
+</ol>
+<p>These tricks work out fine when a script phase is clearly only needed under special circumstances, but what about script phases that have to be done every time you build, rely upon files that may change over time, and take a considerable amount of time to finish? For this we can take advantage of another nuanced feature of Xcode script phases, which is the ability to specify arbitrary input and output files for the script. I think it&#8217;s time for an illustrative screenshot:</p>
+<p><img src="http://indiestack.com/wp-content/uploads/2014/12/ScriptPhase.png" alt="Screenshot of a configured Xcode script phase" title="ScriptPhase.png" border="0" width="559" height="434" /></p>
+<p>Here&#8217;s the low down on the impact of specifying input and output files with script phases in Xcode:</p>
+<ol>
+<li><em>Lack of modification</em> to <em>any</em> of the listed input files encourages Xcode not to run the script phase. Hooray! Fastness!</li>
+<li><em>Non-existence</em> of any listed output file compels Xcode to run your script phase.</li>
+<li>The number of input and output file paths is passed to the script as ${SCRIPT_INPUT_FILE_COUNT} and ${SCRIPT_OUTPUT_FILE_COUNT} environment variables.</li>
+<li>Each input and output path is passed as e.g. ${SCRIPT_INPUT_FILE_0}, ${SCRIPT_OUTPUT_FILE_1}, etc.</li>
+</ol>
+<p>In practice, what does this mean when you go looking to speed up your script phase? It means you should:</p>
+<ol>
+<li>List as an input <em>every file or folder</em> that may affect the results of your script phase.</li>
+<li>List <em>at least one output</em>, even if your script doesn&#8217;t leave any reliable artifacts.</li>
+</ol>
+<p>One frustrating bug I should point out here is that Xcode (as of at least Xcode 6.0 and including 6.2 betas) is not as attentive as it should be about changes to the the input and output file lists. If you make changes to these lists, rebuild several times, and don&#8217;t see the efficiencies you expect being applied, you should close and reopen your Xcode project document. It seems to cache its notion about script phase dependencies, and will stubbornly stick to those rules until forced to re-evaluate them from scratch. I reported this to Apple as Radar #19233769.</p>
+<p>Referring back to the screenshot above, you can that in this contrived example I have listed two input &#8220;files,&#8221; but in this case they are actually directories. This is to illustrate that if you list a directory, Xcode will trigger a re-running of your script phase whenever any <em>shallow change</em> occurs in that directory. For example, if I add, delete, or modify any files in ImportantStuff&#8221;, the script will run on the next build. However, if I modify a file within &#8220;ImportantStuff/Goodies&#8221;, it will not trigger the script to run because Xcode does not monitor for changes recursively.</p>
+<p>You will also see that I&#8217;ve gone to the trouble of artificially adding a bogus file to the derived files folder, indicating the script has run. That has the effect of causing a &#8220;clean&#8221; of the project to wipe out the artificial file and thus cause the script phase to run again even though none of the input files may have changed. If I wanted to ensure that the script phase is skipped as aggressively as possible, I could provide e.g. a path to an output file that is guaranteed to exist, such as a stable file in my project like &#8220;$(SRCROOT)main.m&#8221;. Because the designation &#8220;Output File&#8221; in this case is only a hint to the Xcode build system, you don&#8217;t have to worry (and can&#8217;t expect) that the file will be created or altered unless you do so yourself in the script. This feels a little dodgy to me though, because Apple could choose to change the behavior in the future to e.g. imply that &#8220;clean&#8221; should delete all listed output files for a script phase.</p>
+<p>Script build phases are a woefully under-documented, incredibly useful component of the Xcode build system. They are especially useful when they run blazingly fast or are skipped completely if not needed. I hope this information gives you the resources you need to take full advantage of them.</p>
+	</div><!-- .entry-content -->
+	
+	<footer class="entry-meta">
+		
+			</footer><!-- .entry-meta -->
+</article><!-- #post -->
+					<nav class="navigation post-navigation" role="navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+		<div class="nav-links">
+
+			<a href="https://indiestack.com/2014/12/xcode-consolation/" rel="prev"><span class="meta-nav">&larr;</span> Xcode Consolation</a>			<a href="https://indiestack.com/2014/12/explicit-requirement-satisfied/" rel="next">Explicit Requirement Satisfied <span class="meta-nav">&rarr;</span></a>
+		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+					
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+				<div id="secondary" class="sidebar-container" role="complementary">
+		<div class="widget-area">
+			<aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://indiestack.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+											<li>
+					<a href="https://indiestack.com/2018/11/monolithic-workspace/">Monolithic Workspace</a>
+									</li>
+											<li>
+					<a href="https://indiestack.com/2018/10/supporting-dark-mode-on-the-web/">Supporting Dark Mode: On the Web</a>
+									</li>
+											<li>
+					<a href="https://indiestack.com/2018/10/supporting-dark-mode-in-app-web-content/">Supporting Dark Mode: In-App Web Content</a>
+									</li>
+											<li>
+					<a href="https://indiestack.com/2018/10/supporting-dark-mode-adapting-images/">Supporting Dark Mode: Adapting Images</a>
+									</li>
+											<li>
+					<a href="https://indiestack.com/2018/10/supporting-dark-mode-appearance-sensitive-preferences/">Supporting Dark Mode: Appearance-Sensitive Preferences</a>
+									</li>
+					</ul>
+		</aside><aside id="archives-2" class="widget widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+				<li><a href='https://indiestack.com/2018/11/'>November 2018</a></li>
+	<li><a href='https://indiestack.com/2018/10/'>October 2018</a></li>
+	<li><a href='https://indiestack.com/2018/09/'>September 2018</a></li>
+	<li><a href='https://indiestack.com/2018/08/'>August 2018</a></li>
+	<li><a href='https://indiestack.com/2018/07/'>July 2018</a></li>
+	<li><a href='https://indiestack.com/2018/05/'>May 2018</a></li>
+	<li><a href='https://indiestack.com/2018/04/'>April 2018</a></li>
+	<li><a href='https://indiestack.com/2018/03/'>March 2018</a></li>
+	<li><a href='https://indiestack.com/2018/02/'>February 2018</a></li>
+	<li><a href='https://indiestack.com/2018/01/'>January 2018</a></li>
+	<li><a href='https://indiestack.com/2017/11/'>November 2017</a></li>
+	<li><a href='https://indiestack.com/2017/10/'>October 2017</a></li>
+	<li><a href='https://indiestack.com/2017/09/'>September 2017</a></li>
+	<li><a href='https://indiestack.com/2017/08/'>August 2017</a></li>
+	<li><a href='https://indiestack.com/2017/06/'>June 2017</a></li>
+	<li><a href='https://indiestack.com/2017/05/'>May 2017</a></li>
+	<li><a href='https://indiestack.com/2017/04/'>April 2017</a></li>
+	<li><a href='https://indiestack.com/2017/03/'>March 2017</a></li>
+	<li><a href='https://indiestack.com/2017/01/'>January 2017</a></li>
+	<li><a href='https://indiestack.com/2016/12/'>December 2016</a></li>
+	<li><a href='https://indiestack.com/2016/10/'>October 2016</a></li>
+	<li><a href='https://indiestack.com/2016/08/'>August 2016</a></li>
+	<li><a href='https://indiestack.com/2016/07/'>July 2016</a></li>
+	<li><a href='https://indiestack.com/2016/06/'>June 2016</a></li>
+	<li><a href='https://indiestack.com/2016/05/'>May 2016</a></li>
+	<li><a href='https://indiestack.com/2016/04/'>April 2016</a></li>
+	<li><a href='https://indiestack.com/2016/03/'>March 2016</a></li>
+	<li><a href='https://indiestack.com/2016/02/'>February 2016</a></li>
+	<li><a href='https://indiestack.com/2016/01/'>January 2016</a></li>
+	<li><a href='https://indiestack.com/2015/09/'>September 2015</a></li>
+	<li><a href='https://indiestack.com/2015/08/'>August 2015</a></li>
+	<li><a href='https://indiestack.com/2015/07/'>July 2015</a></li>
+	<li><a href='https://indiestack.com/2015/05/'>May 2015</a></li>
+	<li><a href='https://indiestack.com/2015/04/'>April 2015</a></li>
+	<li><a href='https://indiestack.com/2015/02/'>February 2015</a></li>
+	<li><a href='https://indiestack.com/2015/01/'>January 2015</a></li>
+	<li><a href='https://indiestack.com/2014/12/'>December 2014</a></li>
+	<li><a href='https://indiestack.com/2014/11/'>November 2014</a></li>
+	<li><a href='https://indiestack.com/2014/10/'>October 2014</a></li>
+	<li><a href='https://indiestack.com/2014/09/'>September 2014</a></li>
+	<li><a href='https://indiestack.com/2014/08/'>August 2014</a></li>
+	<li><a href='https://indiestack.com/2014/05/'>May 2014</a></li>
+	<li><a href='https://indiestack.com/2014/01/'>January 2014</a></li>
+	<li><a href='https://indiestack.com/2013/12/'>December 2013</a></li>
+	<li><a href='https://indiestack.com/2013/10/'>October 2013</a></li>
+	<li><a href='https://indiestack.com/2013/09/'>September 2013</a></li>
+	<li><a href='https://indiestack.com/2013/05/'>May 2013</a></li>
+		</ul>
+			</aside><aside id="categories-2" class="widget widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+				<li class="cat-item cat-item-26"><a href="https://indiestack.com/category/accessibility/" >Accessibility</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="https://indiestack.com/category/apple/" >Apple</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://indiestack.com/category/automation/" >Automation</a>
+</li>
+	<li class="cat-item cat-item-17"><a href="https://indiestack.com/category/bug-reports/" >Bug Reports</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="https://indiestack.com/category/cocoa/" >Cocoa</a>
+</li>
+	<li class="cat-item cat-item-27"><a href="https://indiestack.com/category/dark-mode/" >Dark Mode</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="https://indiestack.com/category/debugging/" >Debugging</a>
+</li>
+	<li class="cat-item cat-item-21"><a href="https://indiestack.com/category/hacking/" >Hacking</a>
+</li>
+	<li class="cat-item cat-item-18"><a href="https://indiestack.com/category/humor/" >Humor</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://indiestack.com/category/ios/" >iOS</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="https://indiestack.com/category/links/" >Links</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="https://indiestack.com/category/mac/" >Mac</a>
+</li>
+	<li class="cat-item cat-item-23"><a href="https://indiestack.com/category/objc/" >ObjC</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="https://indiestack.com/category/open-source/" >Open Source</a>
+</li>
+	<li class="cat-item cat-item-15"><a href="https://indiestack.com/category/os-x/" >OS X</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="https://indiestack.com/category/swift/" >Swift</a>
+</li>
+	<li class="cat-item cat-item-22"><a href="https://indiestack.com/category/testing/" >Testing</a>
+</li>
+	<li class="cat-item cat-item-25"><a href="https://indiestack.com/category/tips/" >Tips</a>
+</li>
+	<li class="cat-item cat-item-20"><a href="https://indiestack.com/category/tvos/" >tvOS</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://indiestack.com/category/uncategorized/" >Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-24"><a href="https://indiestack.com/category/watchos/" >watchOS</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="https://indiestack.com/category/webkit/" >WebKit</a>
+</li>
+	<li class="cat-item cat-item-13"><a href="https://indiestack.com/category/worfklow/" >Worfklow</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="https://indiestack.com/category/workflow/" >Workflow</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="https://indiestack.com/category/xcode/" >Xcode</a>
+</li>
+		</ul>
+			</aside><aside id="meta-2" class="widget widget_meta"><h3 class="widget-title">Meta</h3>			<ul>
+						<li><a href="https://indiestack.com/wp-login.php">Log in</a></li>
+			<li><a href="https://indiestack.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://indiestack.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+			</aside>		</div><!-- .widget-area -->
+	</div><!-- #secondary -->
+
+			<div class="site-info">
+												<a href="https://wordpress.org/" class="imprint">
+					Proudly powered by WordPress				</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+	<script type='text/javascript' src='https://indiestack.com/wp-includes/js/imagesloaded.min.js?ver=3.2.0'></script>
+<script type='text/javascript' src='https://indiestack.com/wp-includes/js/masonry.min.js?ver=3.3.2'></script>
+<script type='text/javascript' src='https://indiestack.com/wp-includes/js/jquery/jquery.masonry.min.js?ver=3.1.2b'></script>
+<script type='text/javascript' src='https://indiestack.com/wp-content/themes/twentythirteen/js/functions.js?ver=20160717'></script>
+<script type='text/javascript' src='https://indiestack.com/wp-includes/js/wp-embed.min.js?ver=5.1.1'></script>
+</body>
+</html>
+<!--
+Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/
+
+Page Caching using disk: enhanced 
+
+Served from: indiestack.com @ 2019-04-02 13:03:19 by W3 Total Cache
+-->

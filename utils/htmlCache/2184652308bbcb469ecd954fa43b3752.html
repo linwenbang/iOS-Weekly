@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html id="remysharp-com" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CLI: improved</title>
+    <meta name="source" content="https://github.com/remy/remysharp.com">
+    <meta name="description" content="CLI: improved">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+    <meta name="theme-color" content="#1A1A1A">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Remy Sharp's b:log">
+    <link rel="canonical" href="https://remysharp.com/2018/08/23/cli-improved"><meta name="twitter:description" content="# CLI: improved
+
+I'm not sure many web developers can get away without visiting the command line. As for me, I've been using the command line since 1997, first at university when I felt both super cool l33t-hacker and simultaneously utterly out of my depth.
+
+Over the years my command line habits have improved and I often search for smarter tools for the jobs I commonly do. With that said, here's my current list of improved CLI tools.
+
+">
+    <meta name="twitter:creator" content="@rem">
+    <meta name="twitter:title" content="CLI: improved">
+    <meta name="twitter:site" content="@rem">
+    <meta name="twitter:domain" content="Remy's b:log">
+    <meta name="twitter:image:src" content="https://remysharp.com/images/cli-improved/bat.gif">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="amphtml" href="https://remysharp.com/2018/08/23/cli-improved/amp">
+    <link rel="icon" sizes="192x192" href="/images/avatar-favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/screen.css?399e36b1146a1502d2fe827347a469e67d8a2af5">
+    <script>
+      try {
+       if (localStorage.plain == 1) {
+         document.head.innerHTML += '<link rel="stylesheet" href="/css/plain.css?399e36b1146a1502d2fe827347a469e67d8a2af5">';
+        }
+      } catch (e) {}
+    </script>
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://feeds.feedburner.com/remysharp">
+    <link rel="alternate" type="text/xml" title="RSS .92" href="https://feeds.feedburner.com/remysharp">
+    <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="https://feeds.feedburner.com/remysharp">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-1656750-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body class="month-april" id="blog-cli-improved-page">
+    <nav class="main-nav clearfix subpanel">
+      <form class="search" id="inline-search" aria-hidden="true" action="/search">
+        <input aria-label="Search for text in a blog post" type="text" name="q" placeholder="Search for...">
+        <input type="submit" value="Search">
+      </form>
+      <ul class="post-nav">
+        <li class="left home"><a href="/">Home</a></li>
+        <li class="left search"><a id="search" href="#search">Search</a></li>
+        <li class="next"><a href="/2018/08/30/8-years-on" title="8 years on">Next</a></li>
+        <li class="prev"><a href="/2018/07/31/my-nhs-story" title="My NHS Story">Previous</a></li>
+      </ul>
+    </nav>
+    <main class="content">
+      <article class="post amp-wp-article">
+        <h1 class="title" data-edit="https://github.com/remy/remysharp.com/blob/master/public/blog/cli-improved.md"><a href="/2018/08/23/cli-improved" rel="bookmark" title="Permanent Link: CLI: improved">CLI: improved</a></h1>
+        <div class="post-content"><p>I'm not sure many web developers can get away without visiting the command line. As for me, I've been using the command line since 1997, first at university when I felt both super cool l33t-hacker and simultaneously utterly out of my depth.</p>
+<p>Over the years my command line habits have improved and I often search for smarter tools for the jobs I commonly do. With that said, here's my current list of improved CLI tools.</p>
+<!--more-->
+<h2>Ignoring my improvements</h2>
+<p>In a number of cases I've aliased the new and improved command line tool over the original (as with <code>cat</code> and <code>ping</code>).</p>
+<p>If I want to run the original command, which is sometimes I do need to do, then there's two ways I can do this (I'm on a Mac so your mileage may vary):</p>
+<pre><code class="language-bash">$ \cat # ignore aliases named &quot;cat&quot; - explanation: https://stackoverflow.com/a/16506263/22617
+$ command cat # ignore functions and aliases
+</code></pre>
+<h2>bat &gt; cat</h2>
+<p><code>cat</code> is used to print the contents of a file, but given more time spent in the command line, features like syntax highlighting come in very handy. I found <a href="https://github.com/jingweno/ccat">ccat</a> which offers highlighting then I found <a href="https://github.com/sharkdp/bat">bat</a> which has highlighting, paging, line numbers and git integration.</p>
+<p>The <code>bat</code> command also allows me to search during output (only if the output is longer than the screen height) using the <code>/</code> key binding (similarly to <code>less</code> searching).</p>
+<p><img src="/images/cli-improved/bat.gif" alt="Simple bat output" title="Sample bat output"></p>
+<p>I've also aliased <code>bat</code> to the <code>cat</code> command:</p>
+<pre><code class="language-bash">alias cat='bat'
+</code></pre>
+<p>💾 <a href="https://github.com/sharkdp/bat">Installation directions</a></p>
+<h2>prettyping &gt; ping</h2>
+<p><code>ping</code> is incredibly useful, and probably my goto tool for the &quot;oh crap is X down/does my internet work!!!&quot;. But <code>prettyping</code> (&quot;pretty ping&quot; not &quot;pre typing&quot;!) gives ping a really nice output and just makes me feel like the command line is a bit more welcoming.</p>
+<p><img src="/images/cli-improved/ping.gif" alt="/images/cli-improved/ping.gif" title="Sample ping output"></p>
+<p>I've also aliased <code>ping</code> to the <code>prettyping</code> command:</p>
+<pre><code class="language-bash">alias ping='prettyping --nolegend'
+</code></pre>
+<p>💾 <a href="http://denilson.sa.nom.br/prettyping/">Installation directions</a></p>
+<h2>fzf &gt; ctrl+r</h2>
+<p>In the terminal, using <code>ctrl+r</code> will allow you to <a href="https://lifehacker.com/278888/ctrl%252Br-to-search-and-other-terminal-history-tricks">search backwards</a> through your history. It's a nice trick, albeit a bit fiddly.</p>
+<p>The <code>fzf</code> tool is a <strong>huge</strong> enhancement on <code>ctrl+r</code>. It's a fuzzy search against the terminal history, with a fully interactive preview of the possible matches.</p>
+<iframe class="rounded" src="https://player.vimeo.com/video/217497007?title=0&byline=0&portrait=0" width="640" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p>In addition to searching through the history, <code>fzf</code> can also preview and open files, which is what I've done in the video below:</p>
+<iframe src="https://player.vimeo.com/video/286345188?title=0&byline=0&portrait=0" width="640" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p>For this preview effect, I created an alias called <code>preview</code> which combines <code>fzf</code> with <code>bat</code> for the preview and a custom key binding to open VS Code:</p>
+<pre><code class="language-bash">alias preview=&quot;fzf --preview 'bat --color \&quot;always\&quot; {}'&quot;
+# add support for ctrl+o to open selected file in VS Code
+export FZF_DEFAULT_OPTS=&quot;--bind='ctrl-o:execute(code {})+abort'&quot;
+</code></pre>
+<p>💾 <a href="https://github.com/junegunn/fzf">Installation directions</a></p>
+<h2>htop &gt; top</h2>
+<p><code>top</code> is my goto tool for quickly diagnosing why the CPU on the machine is running hard or my fan is whirring. I also use these tools in production. Annoyingly (to me!) <code>top</code> on the Mac is vastly different (and inferior IMHO) to <code>top</code> on linux.</p>
+<p>However, <code>htop</code> is an improvement on both regular <code>top</code> and crappy-mac <code>top</code>. Lots of colour coding, keyboard bindings and different views which have helped me in the past to understand which processes belong to which.</p>
+<p>Handy key bindings include:</p>
+<ul>
+<li><kbd>P</kbd> - sort by CPU</li>
+<li><kbd>M</kbd> - sort by memory usage</li>
+<li><kbd>F4</kbd> - filter processes by string (to narrow to just &quot;node&quot; for instance)</li>
+<li><kbd>space</kbd> - mark a single process so I can watch if the process is spiking</li>
+</ul>
+<p><img src="/images/cli-improved/htop.jpg" alt="htop output" title="Sample htop output"></p>
+<p>There is a weird bug in Mac Sierra that can be overcome by running <code>htop</code> as root (I can't remember exactly what the bug is, but this alias fixes it - though annoying that I have to enter my password every now and again):</p>
+<pre><code class="language-bash">alias top=&quot;sudo htop&quot; # alias top and fix high sierra bug
+</code></pre>
+<p>💾 <a href="http://hisham.hm/htop/">Installation directions</a></p>
+<h2>diff-so-fancy &gt; diff</h2>
+<p>I'm pretty sure I picked this one up from Paul Irish some years ago. Although I rarely fire up <code>diff</code> manually, my git commands use diff all the time. <code>diff-so-fancy</code> gives me both colour coding but also character highlight of changes.</p>
+<p><img src="/images/cli-improved/diff-so-fancy.jpg" alt="diff so fancy" title="Sample diff output"></p>
+<p>Then in my <code>~/.gitconfig</code> I have included the following entry to enable <code>diff-so-fancy</code> on <code>git diff</code> and <code>git show</code>:</p>
+<pre><code class="language-text">[pager]
+       diff = diff-so-fancy | less --tabs=1,5 -RFX
+       show = diff-so-fancy | less --tabs=1,5 -RFX
+</code></pre>
+<p>💾 <a href="https://github.com/so-fancy/diff-so-fancy">Installation directions</a></p>
+<h2>fd &gt; find</h2>
+<p>Although I use a Mac, I've never been a fan of Spotlight (I found it sluggish, hard to remember the keywords, the database update would hammer my CPU and generally useless!). I use <a href="https://www.alfredapp.com/">Alfred</a> a lot, but even the finder feature doesn't serve me well.</p>
+<p>I tend to turn the command line to find files, but <code>find</code> is always a bit of a pain to remember the right expression to find what I want (and indeed the Mac flavour is slightly different non-mac find which adds to frustration).</p>
+<p><code>fd</code> is a great replacement (by the same individual who wrote <code>bat</code>). It is very fast and the common use cases I need to search with are simple to remember.</p>
+<p>A few handy commands:</p>
+<pre><code class="language-bash">$ fd cli # all filenames containing &quot;cli&quot;
+$ fd -e md # all with .md extension
+$ fd cli -x wc -w # find &quot;cli&quot; and run `wc -w` on each file
+</code></pre>
+<p><img src="/images/cli-improved/fd.png" alt="fd output" title="Sample fd output"></p>
+<p>💾 <a href="https://github.com/sharkdp/fd/">Installation directions</a></p>
+<h2>ncdu &gt; du</h2>
+<p>Knowing where disk space is being taking up is a fairly important task for me. I've used the Mac app <a href="https://daisydiskapp.com/">Disk Daisy</a> but I find that it can be a little slow to actually yield results.</p>
+<p>The <code>du -sh</code> command is what I'll use in the terminal (<code>-sh</code> means summary and human readable), but often I'll want to dig into the directories taking up the space.</p>
+<p><code>ncdu</code> is a nice alternative. It offers an interactive interface and allows for quickly scanning which folders or files are responsible for taking up space and it's very quick to navigate. (Though any time I want to scan my entire home directory, it's going to take a long time, regardless of the tool - my directory is about 550gb).</p>
+<p>Once I've found a directory I want to manage (to delete, move or compress files), I'll use the <kbd>cmd</kbd> + click the pathname at the top of the screen in <a href="https://www.iterm2.com/">iTerm2</a> to launch finder to that directory.</p>
+<p><img src="/images/cli-improved/ncdu.png" alt="ncdu output" title="Sample ncdu output"></p>
+<p>There's another <a href="https://github.com/jarun/nnn">alternative called nnn</a> which offers a slightly nicer interface and although it does file sizes and usage by default, it's actually a fully fledged file manager.</p>
+<p>My <code>ncdu</code> is aliased to the following:</p>
+<pre><code class="language-bash">alias du=&quot;ncdu --color dark -rr -x --exclude .git --exclude node_modules&quot;
+</code></pre>
+<p>The options are:</p>
+<ul>
+<li><code>--color dark</code> - use a colour scheme</li>
+<li><code>-rr</code> - read-only mode (prevents delete and spawn shell)</li>
+<li><code>--exclude</code> ignore directories I won't do anything about</li>
+</ul>
+<p>💾 <a href="https://dev.yorhel.nl/ncdu">Installation directions</a></p>
+<h2>tldr &gt; man</h2>
+<p>It's amazing that nearly every single command line tool comes with a manual via <code>man &lt;command&gt;</code>, but navigating the <code>man</code> output can be sometimes a little confusing, plus it can be daunting given all the technical information that's included in the manual output.</p>
+<p>This is where the TL;DR project comes in. It's a community driven documentation system that's available from the command line. So far in my own usage, I've not come across a command that's not been documented, but you can <a href="https://github.com/tldr-pages/tldr#contributing">also contribute too</a>.</p>
+<p><img src="/images/cli-improved/tldr.png" alt="TLDR output for 'fd'" title="Sample tldr output for 'fd'"></p>
+<p>As a nicety, I've also aliased <code>tldr</code> to <code>help</code> (since it's quicker to type!):</p>
+<pre><code class="language-bash">alias help='tldr'
+</code></pre>
+<p>💾 <a href="http://tldr-pages.github.io/">Installation directions</a></p>
+<h2>ack || ag &gt; grep</h2>
+<p><code>grep</code> is no doubt a powerful tool on the command line, but over the years it's been superseded by a number of tools. Two of which are <code>ack</code> and <code>ag</code>.</p>
+<p>I personally flitter between <code>ack</code> and <code>ag</code> without really remembering which I prefer (that's to say they're both very good and very similar!). I tend to default to <code>ack</code> only because it rolls of my fingers a little easier. Plus, <code>ack</code> comes with the mega <code>ack --bar</code> argument (I'll let you experiment)!</p>
+<p>Both <code>ack</code> and <code>ag</code> will (by default) use a regular expression to search, and extremely pertinent to my work, I can specify the file types to search within using flags like <code>--js</code> or <code>--html</code> (though here <code>ag</code> includes more files in the js filter than <code>ack</code>).</p>
+<p>Both tools also support the usual <code>grep</code> options, like <code>-B</code> and <code>-A</code> for before and after context in the grep.</p>
+<p><img src="/images/cli-improved/ack.png" alt="ack in action" title="Sample ack output with grep args"></p>
+<p>Since <code>ack</code> doesn't come with markdown support (and I write a lot in markdown), I've got this customisation in my <code>~/.ackrc</code> file:</p>
+<pre><code class="language-text">--type-set=md=.md,.mkd,.markdown
+--pager=less -FRX
+</code></pre>
+<p>💾 Installation directions: <a href="https://beyondgrep.com">ack</a>, <a href="https://github.com/ggreer/the_silver_searcher">ag</a></p>
+<p><a href="http://conqueringthecommandline.com/book/ack_ag">Futher reading on ack &amp; ag</a></p>
+<h2>jq &gt; grep et al</h2>
+<p>I'm a massive fanboy of <a href="https://stedolan.github.io/jq">jq</a>. At first I struggled with the syntax, but I've since come around to the query language and use <code>jq</code> on a near daily basis (whereas before I'd either drop into node, use grep or use a tool called <a href="http://trentm.com/json/">json</a> which is very basic in comparison).</p>
+<p>I've even started the process of writing a jq tutorial series (2,500 words and counting) and have published a <a href="https://jqterm.com">web tool</a> and a native mac app (yet to be released).</p>
+<p><code>jq</code> allows me to pass in JSON and transform the source very easily so that the JSON result fits my requirements. One such example allows me to update all my node dependencies in one command (broken into multiple lines for readability):</p>
+<pre><code class="language-bash">$ npm i $(echo $(\
+  npm outdated --json | \
+  jq -r 'to_entries | .[] | &quot;\(.key)@\(.value.latest)&quot;' \
+))
+</code></pre>
+<p>The above command will list all the node dependencies that are out of date, and use npm's JSON output format, then transform the source JSON from this:</p>
+<pre><code class="language-json">{
+  &quot;node-jq&quot;: {
+    &quot;current&quot;: &quot;0.7.0&quot;,
+    &quot;wanted&quot;: &quot;0.7.0&quot;,
+    &quot;latest&quot;: &quot;1.2.0&quot;,
+    &quot;location&quot;: &quot;node_modules/node-jq&quot;
+  },
+  &quot;uuid&quot;: {
+    &quot;current&quot;: &quot;3.1.0&quot;,
+    &quot;wanted&quot;: &quot;3.2.1&quot;,
+    &quot;latest&quot;: &quot;3.2.1&quot;,
+    &quot;location&quot;: &quot;node_modules/uuid&quot;
+  }
+}
+</code></pre>
+<p>…to this:</p>
+<pre><code class="language-text">node-jq@1.2.0
+uuid@3.2.1
+</code></pre>
+<p>That result is then fed into the <code>npm install</code> command and voilà, I'm all upgraded (using the sledgehammer approach).</p>
+<h2>Honourable mentions</h2>
+<p>Some of the other tools that I've started poking around with, but haven't used too often (with the exception of ponysay, which appears when I start a new terminal session!):</p>
+<ul>
+<li><a href="https://github.com/erkin/ponysay">ponysay</a> &gt; cowsay</li>
+<li><a href="https://csvkit.readthedocs.io/en/1.0.3/">csvkit</a> &gt; awk et al</li>
+<li><a href="https://github.com/variadico/noti">noti</a> &gt; <code>display notification</code></li>
+<li><a href="http://www.entrproject.org/">entr</a> &gt; watch</li>
+</ul>
+<h2>What about you?</h2>
+<p>So that's my list. How about you? What daily command line tools have you improved? I'd love to know.</p>
+
+          <p class="metadata">Posted 23-Aug 2018 under web.</p>
+          <footer class="follow update">
+            <script src="https://assets.convertkit.com/assets/CKJS4.js?v=21"></script>
+            <div class="row ck_form_container ck_inline" id="subscribe-form" data-ck-version="6">
+              <div class="c2 s1">
+                <h4 class="ck_form_title" id="want-more">Want more?</h4>
+                <p>Posts, web development learnings & insights, exclusive workshop and training discounts and more, direct to your inbox.</p>
+                <p><small class="ck_guarantee">I won't send you any spam, and you can unsubscribe at any time.&nbsp;<a class="ck_powered_by" href="https://convertkit.com/?utm_campaign=poweredby">Powered by ConvertKit</a></small></p>
+              </div>
+              <div class="ck_form_fields c2 s1">
+                <div id="ck_success_msg" style="display:none;">
+                  <p>Awesome, thanks so much!</p>
+                  <p>Now you'll need check your email to confirm your subscription.</p>
+                </div>
+                <form class="ck_subscribe_form" id="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/231094/subscribe" data-remote="true">
+                  <input id="ck_form_options" type="hidden" value="{&amp;quot;form_style&amp;quot;:&amp;quot;full&amp;quot;,&amp;quot;converted_behavior&amp;quot;:&amp;quot;show&amp;quot;}">
+                  <input id="landing_page_id" type="hidden" name="id" value="231094">
+                  <input id="ck_form_recaptcha" type="hidden" name="ck_form_recaptcha" value="">
+                  <div class="ck_errorArea">
+                    <div id="ck_error_msg" style="display:none">
+                      <p>There was an error submitting your subscription. Please try again.</p>
+                    </div>
+                  </div>
+                  <div class="ck_control_group ck_first_name_field_group c1">
+                    <label class="ck_label" for="ck_firstNameField" hidden>Your name</label>
+                    <input class="ck_first_name" id="ck_firstNameField" type="text" name="first_name" placeholder="Your name">
+                  </div>
+                  <div class="ck_control_group ck_email_field_group c1">
+                    <label class="ck_label" for="ck_emailField" hidden>Your email address</label>
+                    <input class="ck_email_address" id="ck_emailField" type="email" name="email" placeholder="Email address" required>
+                  </div>
+                  <div class="ck_control_group ck_captcha2_h_field_group ck-captcha2-h" style="position: absolute !important;left: -999em !important;">
+                    <label class="ck_label" for="ck_captcha2_h">We use this field to detect spam bots. If you fill this in, you will be marked as a spammer.</label>
+                    <input class="ck-captcha2-h" id="ck_captcha2_h" type="text" name="captcha2_h">
+                  </div>
+                  <label class="c1">
+                    <input class="optIn ck_course_opted" id="optIn" name="course_opted" type="checkbox" checked><span class="ck_opt_in_prompt">I'd like to receive the free command line mini course.</span>
+                  </label>
+                  <button class="subscribe_button ck_subscribe_button btn fields button c1" id="ck_subscribe_button">Subscribe</button>
+                </form>
+              </div>
+            </div>
+          </footer>
+        </div>
+        <div class="comments" id="comments">
+          <h2>Comments</h2>
+          <div id="disqus_thread"></div>
+          <script>
+            var disqus_shortname = 'remysharp';
+            var disqus_url = 'http://remysharp.com/2018/08/23/cli-improved/';
+            var disqus_title = 'CLI: improved';
+          </script>
+        </div>
+      </article>
+    </main>
+    <footer class="site-footer clearfix flex subpanel">
+      <div class="flex-item archives">
+        <h2>Archives</h2>
+        <ul>
+          <li><a href="/archive">All years</a></li>
+          <li><a href="/2019">2019</a></li>
+          <li><a href="/2018">2018</a></li>
+          <li><a href="/2017">2017</a></li>
+          <li><a href="/2016">2016</a></li>
+          <li><a href="/2015">2015</a></li>
+          <li><a href="/2014">2014</a></li>
+          <li><a href="/2013">2013</a></li>
+          <li><a href="/2012">2012</a></li>
+          <li><a href="/2011">2011</a></li>
+          <li><a href="/2010">2010</a></li>
+          <li><a href="/2009">2009</a></li>
+          <li><a href="/2008">2008</a></li>
+          <li><a href="/2007">2007</a></li>
+          <li><a href="/2006">2006</a></li>
+        </ul>
+      </div>
+      <div class="flex-item links">
+        <h2>Links</h2>
+        <ul>
+          <li><a href="/about">About Remy</a></li>
+          <li><a href="/work">Work with Remy</a></li>
+          <li><a href="/speaking">Speaking & Training</a></li>
+          <li><a href="/subscribe">Subscribe</a></li>
+          <li><a href="/ethos">Ethos (WIP)</a></li>
+          <li><a href="/house-rules">House Rules</a></li>
+          <li><a href="/attic">The Attic</a></li>
+          <li><a target="_blank" href="/feed.xml">RSS feed</a></li>
+          <li><a href="/search">Search</a></li>
+          <li><a target="_blank" href="https://github.com/remy">On GitHub</a></li>
+          <li><a target="_blank" href="https://twitter.com/rem">On Twitter</a></li>
+        </ul>
+      </div>
+      <div class="flex-item license">
+        <div class="row">
+          <h2>Remy Sharp<img id="avatar" alt="" src="/images/avatar-300.png" width="60">
+            <div class="twitter-badge ltr ready hcount count-ready">
+              <div class="btn-o"><a class="btn" id="follow-button" href="https://twitter.com/intent/user?screen_name=rem"><i></i><span class="label" id="l">Follow&nbsp;<b>@rem</b></span></a></div>
+              <div class="count-o" id="c"><i></i>
+                <u></u><a class="note" id="count" href="https://twitter.com/intent/user?screen_name=rem">50K followers</a>
+              </div>
+            </div>
+          </h2>
+        </div>
+        <div class="row bio"><p>I'm a JavaScript developer working professionally on the web since 1999. I run my own <a href="/work">consultancy</a>, build products, run training, speak at conferences and curate the UK's best <a href="https://ffconf.org">JavaScript conference</a>.</p>
+
+        </div>
+        <h2>License</h2>
+        <p class="vcard">All content by <a class="url fn" href="https://remysharp.com">Remy Sharp</a> and under <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/">creative commons</a> and code under <a href="http://rem.mit-license.org">MIT&nbsp;license</a>.</p><p>All code and content for this blog is available as <a href="https://github.com/remy/remysharp.com">open source on GitHub</a>.</p>
+
+      </div>
+    </footer>
+    <script src="/js/prism.js"></script>
+    <script src="/js/prism-jq.js"></script>
+    <script src="/js/permalink.js?399e36b1146a1502d2fe827347a469e67d8a2af5"></script>
+    <script src="/js/index.js?399e36b1146a1502d2fe827347a469e67d8a2af5"></script>
+    <script type="awesome/sauce">
+      
+      
+       Carved up by hand using Harp and a shit load of hacking.
+      
+        Also, this:
+      
+      
+      
+                             \_            /;              _.._
+                             `\~--.._     //'            ,(+=\\\\
+                              `//////\  \\/;'             /~ (\\\\
+                                ~/////\~\`)'             /;   ))))
+                                    `~'  |              ((`~/((((\
+                                    ;'_\'\             /'))   )))))
+                                   /~/ '" "'     _.  /'/\_ /^\`((( \
+                                  `\/'       _.-~/--/ (  =(   | ,  |
+                                          _/~\_)_}___/^\/~`\.__\|==|
+                                         /uUUU)        )        |  |
+                                        (   / |      _-=o|\__ /'/~ \
+                                        ' /'  |     /(((((\`\(  |~\/
+                                        /'    |   /' )))))"`\`\|/_/---.._,$$,
+                                  .,ssS$$$Sss|._/_..-((('    )\)>>>      ~\$
+                               ,sS$$$$$$$$$$$|$$$$$$$  |/    //'~`o        `\
+                             ,$$$$$$$$$$$$$$|$$S$$$$'  (    /                \
+                           ,$$$$$$$$$$$$S$$|$$$$$$$'   |   /              ,s$$$
+                         s$$$$$S$$$$$$$$$S|$$$$$$$$    |  /              $$$$$$
+                       _~,$S""''     ``"S|$$S$$$$$"    (_,`\,          ,$$$$$$$;
+                     /~ ,"'             / 'S$$$$$"      \_./|        s$$$$$$$$$$
+                  (~'      _,  \==~~)  /     """         \  |       $$$$$$$$$$$$
+                   (0\   /0/     \-' /'                   \ |  |  ,$$$$$$$$$$$$$,
+                   `/'  '         _-~                     |= \_-\ $$$$$$$$$$$$$$s
+                   (~~~)      _.-~_-   \             \  ,s|= |   `"$$$$$$$$$$$$$$$
+                  ( `-'  )/>-~  _/-__   |            |,$$$|_/,      `"$$$$$$$$$$$$
+                  /V^^^^V~/' _/~/~~  ~~-|            |$$$$$$$$         "$$$$$$$$$$,
+                 /  (^^^^),/' /'        )           /S$$$$$$$;         ,$$$$$$$$$$$,
+               ,$$_  `~~~'.,/'         /     _-ss, /(/-(/-(/'        ,s$$$$$$$$$$$$$
+             ,s$$$$$ssSS$$$'         ,$'.s$$$$$$$$'                  (/-(/-(/-(/-(/'
+            S$$$$$$$$$$$$$$        ,$$$$$$$$$$$$$'
+           (/-(/-(/-(/-(/'      _s$$$$$$$$$$$$$$
+                               (/-(/-(/-(/-(/-'
+      
+      
+      
+           – Remy
+      
+      
+    </script><!-- version: https://github.com/remy/remysharp.com/commit/399e36b1146a1502d2fe827347a469e67d8a2af5 -->
+  </body>
+</html>

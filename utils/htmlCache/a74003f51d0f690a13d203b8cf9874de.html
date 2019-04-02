@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head prefix='og: http://ogp.me/ns# article: http://ogp.me/ns/article#'>
+<meta charset='utf-8'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='width=device-width,initial-scale=1,shrink-to-fit=no' name='viewport'>
+<meta content='NOODP' name='robots'>
+<meta content='A deep dive into configurations.' name='description'>
+<link href='https://twitter.com/p_montalto' rel='author'>
+
+<meta content='summary' name='twitter:card'>
+<meta content='@thoughtbot' name='twitter:site'>
+<meta content='https://thoughtbot.com/blog/let-s-setup-your-ios-environments' name='twitter:url'>
+<meta content='Let&#39;s Set Up Your iOS Environments' name='twitter:title'>
+<meta content='A deep dive into configurations.' name='twitter:description'>
+<meta content='https://images.thoughtbot.com/blog-vellum-image-uploads/kqxD6UKQme19y3DnHW8q_img1.png' name='twitter:image'>
+
+<link rel="shortcut icon" type="image/x-icon" href="https://thoughtbot.com/blog/assets/favicon-f2dbb21c91d2db85a5cb89a59e2b72cca851b16f03caffad1f8375cb8e957e0a.ico" />
+<link rel="apple-touch-icon" type="image/x-icon" href="https://thoughtbot.com/blog/assets/apple-touch-icon-f5660bd740993647d20c17d16b3fae2697e73d818752f2d4f3045e49d8b80153.png" />
+<title>Let&#39;s Set Up Your iOS Environments</title>
+<link as='font' crossorigin href='https://thoughtbot.com/blog/assets/CalibreWeb-Semibold-64e3f6d368a145501964ec17ff971f6c82317cf18caf945e175b3c3983b75042.woff2' rel='preload' type='font/woff2'>
+<link as='font' crossorigin href='https://thoughtbot.com/blog/assets/CalibreWeb-Regular-da9622e19b7a5a81a90396acb72684272ff5505f3ceb94869d7f6a400763b577.woff2' rel='preload' type='font/woff2'>
+<link rel="stylesheet" media="all" href="https://thoughtbot.com/blog/assets/application-ff81542372c174dfad2c25587d6abd87d2b4d27d99bcca8328222f8af442682c.css" />
+
+<link href='https://feeds.feedburner.com/GiantRobotsSmashingIntoOtherGiantRobots' rel='alternate' type='application/rss+xml'>
+</head>
+<body>
+<nav class='site-nav' role='navigation'>
+<a class="site-nav-skip-link" href="#main-content">Skip to main content</a>
+<a class="line-height-zero" href="/blog"><svg xmlns="http://www.w3.org/2000/svg" role="img" width="146" height="35" viewBox="0 0 146 35" aria-labelledby="akodme11vsd3usj55u087kbh920bh0lu" class="site-nav-logo"><title id="akodme11vsd3usj55u087kbh920bh0lu">Blog home</title><g><path d="M25.077 25.778l-.432-.43c.235-.18.387-.463.387-.78 0-.543-.44-.982-.983-.982-.544 0-.983.44-.983.98 0 .32.154.606.392.785l-.433.432c-.348-.29-.57-.785-.57-1.273 0-.392.145-.534.38-1.085h-.193v-4.96h-.277v10.557l.277.267v.75h-4.97v-.75l.67-.353h.157V25.63h-1.655v3.392l.552.267v.846l-4.695.008v-.855l.455-.337-.006-10.488h-.448v4.96h-.256c.236.55.38.692.38 1.084 0 .486-.22.95-.57 1.243l-.43-.418c.237-.18.39-.456.39-.777 0-.542-.44-.977-.98-.977-.544 0-.984.442-.984.983 0 .318.152.602.387.78l-.433.433c-.345-.292-.605-.726-.605-1.212 0-.39.34-.75.34-1.027v-7.695c0-.296.295-.533.59-.533h14.09c.297 0 .507.238.507.534v7.695c.55.276.445.635.445 1.027 0 .484-.153.92-.498 1.21zM14.05 9.094h7.183c.296 0 .582.132.582.427v4.677c0 .294-.286.685-.582.685H14.05c-.293 0-.52-.39-.52-.685V9.52c0-.294.227-.426.52-.426zm6.446-1.52l-.433.616c-.548-.525-1.437-.874-2.418-.874-.985 0-1.877.35-2.425.88l-.432-.617c.684-.616 1.71-1.006 2.857-1.006 1.143 0 2.167.388 2.85 1zm-.007-.96c-.745-.563-1.746-.872-2.818-.872-1.073 0-2.073.31-2.817.87-.176.134-.33.276-.465.427l-.436-.622C14.794 5.558 16.147 5 17.672 5c1.49 0 2.813.532 3.658 1.358l-.434.618c-.12-.128-.256-.25-.407-.363zM17.644 3.49c1.846 0 3.488.662 4.53 1.69l-.43.612c-.894-.94-2.398-1.56-4.1-1.56-1.706 0-3.214.62-4.107 1.566l-.43-.614c1.042-1.03 2.686-1.694 4.537-1.694zM17.642.077C8.022.077.225 7.857.225 17.46c0 9.598 7.798 17.38 17.417 17.38 9.62 0 17.417-7.782 17.417-17.38C35.06 7.857 27.26.076 17.64.076z"></path><path d="M15.812 11.97c-.257 0-.467-.21-.467-.467 0-.26.21-.467.467-.467.26 0 .47.208.47.467 0 .258-.21.467-.47.467zm0-1.38c-.504 0-.913.41-.913.913 0 .503.408.913.912.913.505 0 .915-.41.915-.913 0-.504-.41-.913-.915-.913zM19.483 11.97c-.258 0-.467-.21-.467-.467 0-.26.21-.467.467-.467.258 0 .47.208.47.467 0 .258-.212.467-.47.467zm0-1.38c-.506 0-.916.41-.916.913 0 .503.41.913.916.913.505 0 .915-.41.915-.913 0-.504-.41-.913-.915-.913z"></path></g><g><path d="M61.728 23.69h-2.406v-5.67c0-1.06-.17-1.832-.51-2.313-.34-.482-.916-.722-1.725-.722-.965 0-1.71.346-2.236 1.04v7.665h-2.405V7.765h2.406v6.116c.74-.622 1.563-.934 2.47-.934 2.94 0 4.408 1.692 4.408 5.075v5.67M63.45 18.425c0-.765.126-1.483.374-2.156s.603-1.253 1.065-1.742c.46-.488 1.02-.874 1.68-1.157.66-.282 1.395-.424 2.204-.424.81 0 1.54.142 2.193.425.653.284 1.21.673 1.672 1.17.46.494.818 1.075 1.074 1.74.256.665.383 1.38.383 2.145 0 .764-.124 1.48-.372 2.144-.25.664-.604 1.245-1.065 1.74-.46.496-1.022.885-1.682 1.168-.66.283-1.395.425-2.204.425-.823 0-1.56-.142-2.214-.425-.653-.283-1.21-.67-1.67-1.157-.463-.488-.818-1.065-1.066-1.73-.248-.665-.373-1.387-.373-2.165zm2.47 0c0 1.06.253 1.903.757 2.526.504.624 1.203.935 2.097.935.895 0 1.594-.31 2.098-.934.503-.622.755-1.464.755-2.525 0-1.062-.252-1.9-.755-2.517-.504-.615-1.203-.923-2.098-.923-.894 0-1.593.308-2.097.923-.504.616-.756 1.455-.756 2.517zM84.975 23.69H82.76l-.105-.785c-.71.665-1.555.998-2.534.998-2.866 0-4.3-1.65-4.3-4.948v-5.818h2.406v5.648c0 1.062.178 1.837.532 2.326.355.49.916.733 1.682.733.937 0 1.647-.325 2.13-.977v-7.73h2.405V23.69M91.546 29c-.824 0-1.547-.086-2.172-.256-.625-.17-1.143-.4-1.554-.69-.412-.29-.724-.623-.937-.998-.213-.375-.32-.775-.32-1.2 0-1.033.597-1.82 1.79-2.357-.668-.37-1.002-.857-1.002-1.466 0-.637.37-1.132 1.108-1.486-1.12-.78-1.682-1.918-1.682-3.42 0-.593.1-1.15.3-1.665.197-.517.48-.96.85-1.328.37-.368.82-.658 1.352-.87.532-.212 1.132-.32 1.8-.32.95 0 1.78.228 2.49.68.682-.34 1.47-.51 2.364-.51h.532l-.19 1.55h-.81c-.242 0-.512.022-.81.065.497.693.745 1.486.745 2.378 0 .566-.096 1.1-.288 1.603-.19.504-.472.946-.84 1.328-.37.382-.82.683-1.353.903-.533.22-1.133.33-1.8.33-.44 0-.852-.043-1.235-.128-.213.113-.32.255-.32.425 0 .127.047.234.14.318.09.085.244.163.457.234.213.07.5.137.862.2.362.065.82.132 1.374.202.468.07.95.163 1.447.277.497.112.95.282 1.363.508.412.227.752.524 1.022.892s.42.842.447 1.422c0 1.02-.447 1.837-1.34 2.453-.896.616-2.16.924-3.79.924zm-.47-14.228c-.68 0-1.202.213-1.564.637-.362.424-.543.997-.543 1.72 0 .72.184 1.295.553 1.72.37.424.894.636 1.576.636.68 0 1.202-.216 1.563-.647.362-.433.544-1.01.544-1.732s-.185-1.292-.554-1.71c-.37-.417-.894-.626-1.576-.626zm.576 9.534l-1.47-.212c-.453.14-.822.346-1.106.615-.284.268-.426.587-.426.955 0 .48.25.867.745 1.157.497.29 1.193.436 2.087.436.894 0 1.614-.142 2.16-.425.547-.283.82-.65.82-1.104 0-.412-.24-.72-.723-.925-.484-.205-1.18-.37-2.088-.5zM121.32 23.903c-1.092 0-2.03-.347-2.81-1.04l-.085.827h-2.235V7.765h2.406v6.094c.695-.61 1.604-.914 2.725-.914.767 0 1.463.142 2.088.425.624.284 1.156.67 1.596 1.158.44.49.78 1.07 1.022 1.74.242.674.362 1.392.362 2.157 0 .764-.117 1.48-.35 2.144-.235.664-.572 1.245-1.012 1.74-.44.496-.973.885-1.597 1.168-.626.283-1.328.425-2.11.425zm-.19-8.918c-.824 0-1.47.304-1.938.913-.47.608-.703 1.45-.703 2.527 0 1.104.233 1.957.702 2.558.468.602 1.114.902 1.937.902.85 0 1.53-.32 2.033-.966.504-.645.755-1.476.755-2.495 0-1.02-.248-1.848-.745-2.485-.496-.637-1.178-.955-2.044-.955zM107.016 23.69h-2.406v-5.67c0-1.06-.17-1.832-.51-2.313-.342-.482-.917-.722-1.726-.722-.965 0-1.71.346-2.235 1.04v7.665h-2.407V7.765h2.406v6.116c.737-.622 1.56-.934 2.47-.934 2.937 0 4.406 1.692 4.406 5.075v5.67M114.393 21.928l-.213 1.975h-1.83c-.47 0-.88-.07-1.236-.213-.355-.14-.65-.332-.884-.573-.234-.24-.408-.524-.52-.85-.115-.325-.172-.68-.172-1.06V15.09h-1.597l.214-1.953h1.384V10l2.406-.254v3.39h2.47v1.955h-2.47v5.012c0 .44.014.782.043 1.03.028.247.1.428.213.54.113.115.29.185.532.213.24.03.575.043 1 .043h.66M127.674 18.425c0-.765.124-1.483.373-2.156.248-.673.603-1.253 1.064-1.742.463-.488 1.023-.874 1.683-1.157.66-.282 1.395-.424 2.204-.424.81 0 1.54.142 2.193.425.653.284 1.21.673 1.67 1.17.463.494.82 1.075 1.077 1.74.255.665.383 1.38.383 2.145 0 .764-.124 1.48-.373 2.144-.248.664-.603 1.245-1.064 1.74-.46.496-1.022.885-1.682 1.168-.66.283-1.394.425-2.203.425-.823 0-1.56-.142-2.214-.425-.653-.283-1.21-.67-1.672-1.157-.46-.488-.815-1.065-1.063-1.73-.25-.665-.373-1.387-.373-2.165zm2.47 0c0 1.06.252 1.903.756 2.526.504.624 1.203.935 2.097.935.894 0 1.593-.31 2.097-.934.504-.622.756-1.464.756-2.525 0-1.062-.252-1.9-.756-2.517-.504-.615-1.203-.923-2.097-.923-.894 0-1.593.308-2.097.923-.504.616-.756 1.455-.756 2.517zM145.09 21.928l-.213 1.975h-1.83c-.47 0-.88-.07-1.236-.213-.354-.14-.65-.332-.883-.573-.234-.24-.408-.524-.52-.85-.115-.325-.172-.68-.172-1.06V15.09h-1.597l.213-1.953h1.385V10l2.406-.254v3.39h2.47v1.955h-2.47v5.012c0 .44.015.782.044 1.03.028.247.1.428.213.54.113.115.29.185.532.213.24.03.574.043 1 .043h.66M50.723 21.928l-.213 1.975h-1.83c-.47 0-.88-.07-1.236-.213-.355-.14-.65-.332-.884-.573-.234-.24-.408-.524-.522-.85-.113-.325-.17-.68-.17-1.06V15.09H44.27l.214-1.953h1.384V10l2.406-.254v3.39h2.47v1.955h-2.47v5.012c0 .44.014.782.043 1.03.028.247.1.428.213.54.113.115.29.185.532.213.24.03.575.043 1 .043h.66"></path></g></svg>
+
+</a><div class='site-nav-links'>
+<a class="site-nav-link" href="/blog/tags">All Topics</a>
+<a class="site-nav-link" href="/blog/design">Design</a>
+<a class="site-nav-link" href="/blog/web">Web</a>
+<a class="site-nav-link" href="/blog/ios">iOS</a>
+<a class="site-nav-link" href="/blog/android">Android</a>
+<a class="site-nav-link" href="/blog/search"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 310.42 310.42" role="img" aria-labelledby="al4ea4dbfy47nhl68tweeac4a94rfs4m"><title id="al4ea4dbfy47nhl68tweeac4a94rfs4m">Search</title>
+  <path d="M273.587 214.965c49.11-49.11 49.11-129.02 0-178.132-49.11-49.11-129.02-49.11-178.13 0C53.793 78.497 47.483 140.463 76.51 188.85c0 0 2.085 3.498-.73 6.312-16.066 16.064-64.264 64.263-64.264 64.263-12.79 12.79-15.836 30.675-4.493 42.02l1.953 1.95c11.343 11.346 29.23 8.302 42.02-4.49l64.127-64.127c2.95-2.95 6.448-.866 6.448-.866 48.39 29.026 110.356 22.717 152.02-18.947zM118.71 191.71c-36.287-36.288-36.286-95.332.002-131.62 36.288-36.287 95.332-36.288 131.62 0 36.287 36.287 36.287 95.332 0 131.62-36.29 36.286-95.332 36.286-131.62 0z" fill="#454547"></path>
+  <path d="M126.75 118.424c-1.69 0-3.406-.332-5.06-1.03-6.612-2.8-9.705-10.427-6.907-17.04 17.586-41.558 65.703-61.06 107.26-43.475 6.612 2.794 9.705 10.422 6.907 17.034-2.8 6.612-10.425 9.703-17.04 6.906-28.353-11.997-61.185 1.31-73.182 29.664-2.1 4.96-6.913 7.938-11.978 7.938z" fill="#454547"></path>
+</svg>
+
+</a></div>
+</nav>
+
+<div class='container'>
+
+<article class='post text' data-url='/blog/let-s-setup-your-ios-environments' id='main-content' itemscope itemtype='https://schema.org/CreativeWork' role='main'>
+<header>
+<h1 class='title'>
+Let&#39;s Set Up Your iOS Environments
+</h1>
+<div class='meta'>
+<div class='meta-author'>
+<a href="/blog/authors/patrick-montalto">Patrick Montalto</a>
+</div>
+<time class='meta-date' datetime='2019-03-23T18:22:32Z' itemprop='dateModified'>
+October 30, 2018
+<span class='meta-updated'>updated on</span>
+March 23, 2019
+</time>
+<ul class='meta-tag-list'>
+<li class='meta-tag-item'>
+<a href="/blog/tags/ios">ios</a>
+</li>
+<li class='meta-tag-item'>
+<a href="/blog/tags/swift">swift</a>
+</li>
+<li class='meta-tag-item'>
+<a href="/blog/tags/xcode">xcode</a>
+</li>
+</ul>
+
+</div>
+
+</header>
+<div class='post-body'>
+<p>It’s best practice to have separate environments for your iOS apps, especially if they are communicating with any servers. For instance, consider an iOS app and three different available web backend environments: development, staging, and production.</p>
+
+<p>What’s the best way to switch in the iOS app to use these different servers? What about all the other potential key/value pairs of information, like API keys - and what if some of that information needs to be secure and not checked into version control?</p>
+
+<p>The simplest way is to create a file to store these environment variables as a string or other constants in the native language, like <code>Swift</code>. However, this may lead to numerous issues - whether it be for security reasons or overall bad practices involving hardcoding flag values or relying on macros. Instead, let’s use separate files that we can avoid checking into version control that explicitly outline the properties of the app that will change on an environmental basis.</p>
+<h2 id="using-xcconfig-files">
+  <a href="#using-xcconfig-files">
+    Using .xcconfig Files
+  </a>
+</h2>
+
+<p><code>.xcconfig</code> files are supplemental files that aid in configuring a specific build type. You can easily edit these files outside of Xcode. They are plain text files that define and override the build settings for a particular build configuration of a project or target. Although they have very specific formatting rules, they make build settings easier to understand. In addition, they can serve as reusable template between projects. There’s less chance of human error, and less fussing around with the Build Settings pane in Xcode (and who <em>doesn’t</em> love that?). Overall, it’s a straightforward process with a considerable upside - so let’s get started!</p>
+<h2 id="configurations">
+  <a href="#configurations">
+    Configurations
+  </a>
+</h2>
+
+<p>In Xcode, a project can have multiple configurations. By default, a new Xcode project will have <strong>two</strong> configurations: <code>Debug</code> and <code>Release</code>. Sometimes, these two configurations may suffice. However, that’s usually not my experience. For this walkthrough, we’ll define three environments, <code>Development</code>, <code>Staging</code> and <code>Production</code>. Each of these will have a corresponding <strong>configuration</strong>, <code>debug</code> and <code>release</code>. Let’s create these now.</p>
+
+<p>In the Navigator Area, select the project file (the top-most file). Then, from within the Editor Area, make sure the project is selected as well as the Info tab. Take a look at the <strong>Configurations</strong> section.</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/kqxD6UKQme19y3DnHW8q_img1.png" alt=""></p>
+
+<p>Creating a new configuration is straightforward. Since we’ll have three environments, each with a <code>Debug</code> and <code>Release</code> configuration, we’ll create the following:</p>
+
+<ul>
+<li>Debug (Development)</li>
+<li>Debug (Staging)</li>
+<li>Debug (Production)</li>
+<li>Release (Development)</li>
+<li>Release (Staging)</li>
+<li>Release (Production)</li>
+</ul>
+
+<p>Select the + icon at the bottom of the Configurations section and <em>Duplicate “Debug” Configuration</em></p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/9tEdQYkLTduKnNUOzILA_img2.png" alt=""></p>
+
+<p>Repeat this and rename the existing Configurations until you have the following:</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/ilwCrHZRTMCuyFsxT0hX_img3.png" alt=""></p>
+<h2 id="schemes">
+  <a href="#schemes">
+    Schemes
+  </a>
+</h2>
+
+<p>Xcode projects also come with <strong>one</strong> scheme by default that’s named after the project. An Xcode scheme defines a collection of configurations to use when building, as well as tests to execute and a collection of targets to build. Schemes are accessible via the scheme selector in the toolbar. For this project, we’ll have one scheme per environment. Let’s create the other two now.</p>
+
+<p>From the Xcode toolbar, head to the Scheme selector. Open the Scheme pop-up menu and select <em>Manage Schemes…</em></p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/uzP1zD8QS6OaMp1bD9ek_img4.png" alt=""></p>
+
+<p>In the Scheme manager we see a list of schemes available in the project, what container they are in and whether or not they are shared. Click the current scheme, and at the bottom, click the cog to open the settings pop-up. Select <em>Duplicate</em></p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/USf2XyJmRwqBzi0u5cJi_img5.png" alt=""></p>
+
+<p>This scheme we’re creating will be the <strong>Development</strong> scheme. Ensure that the appropriate configuration is set for each action like so:</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/qNUaj7DET061HeA8akdp_img6.png" alt=""></p>
+
+<p>Create another scheme for <strong>Staging</strong> and ensure the correct configurations are set as well. Finally, verify that the default scheme is using <strong>Production</strong> configurations, and make sure all are marked as <em>Shared</em> so that they are not strictly local to only your own Xcode environment, but available project-wide. If this is not checked, others opening this project cannot utilize these schemes! You should have something like this when done:</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/fvpB2iJVThO9p0TTZYlQ_img7.png" alt=""></p>
+<h2 id="project-structure">
+  <a href="#project-structure">
+    Project Structure
+  </a>
+</h2>
+
+<p>Having a clean project structure is important as it helps organize files of similar categories and responsibilities. It can be a big help when you can’t remember what a particular file was called and Open Quickly can’t seem to track it down. Another benefit is serving as documentation for new team members on the project, expediting the onboarding process.</p>
+
+<p>For this walkthrough, I’ll share an example recommended project structure for the project. Structures of production-ready apps change relative to their architecture and team preferences, but largely follow the same principle of not abandoning files in a root folder and grouping related files together. In larger apps, these folders may be segmented further, splitting into different screens and flows of the application.</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/Nt0i30frTViiBh2kGNj4_img8.png" alt=""></p>
+
+<p>We’ve created a few folders and generally split them up by type of object detailed in the files.</p>
+
+<ul>
+<li>Configs</li>
+<li>Controllers</li>
+<li>Models</li>
+<li>Resources</li>
+<li>Storyboards</li>
+<li>ViewControllers</li>
+</ul>
+<h2 id="creating-xcconfig-files">
+  <a href="#creating-xcconfig-files">
+    Creating xcconfig files
+  </a>
+</h2>
+
+<p>Now that a simple project structure is set up, let’s create the xcconfig files our Configurations will be using. Within the Config folder, add a new file and select the <em>Configuration Settings File</em>.</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/9armWSiZS7K4JtmLnidJ_img9.png" alt=""></p>
+
+<p>Name the file Development, and ensure that no Target is selected - you don’t want these in the application bundle as they are not being compiled.</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/8UppdQZARBOSHz9ImGgj_img10.png" alt=""></p>
+
+<p>Repeat the above steps for <strong>Staging</strong> and <strong>Production.</strong></p>
+
+<p>Now, let’s actually enter configuration variables.</p>
+
+<p>These files are used to store key-value pairs of settings. Our keys will be xcconfig variables. Variables are assigned in xcconfig files using the <code>=</code> operator after a variable name, such as <code>MY_FLAG = bar</code> (whitespace will be ignored on either side of the equals sign). In our example, each environment will have a different <code>ROOT_URL</code>, <code>API_KEY</code> , <code>APP_NAME</code> and <code>BUNDLE_IDENTIFIER</code>. Having different app names and bundle identifiers lets us have a different copy of the app on a device or simulator for each environment&hellip;all at the same time!</p>
+
+<p>Here’s what <code>Development.xcconfig</code> looks like:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>// Development.xcconfig&#x000A;// Server URL&#x000A;ROOT_URL = http:/$()/localhost:3000&#x000A;&#x000A;// Keys&#x000A;API_KEY = 783u9djd8a_hkzos7jd803001nd&#x000A;&#x000A;// App Settings&#x000A;APP_NAME = MyTestApp (dev)&#x000A;APP_BUNDLE_ID = com.thoughtbot.MyTestApp.dev&#x000A;</code></pre></div>
+<p>Repeat the above for <strong>Staging</strong> and <strong>Production</strong> environments, changing the settings as follows:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>// Staging.xcconfig&#x000A;// Server URL&#x000A;ROOT_URL = https:/$()/www.staging.mytestapp.thoughtbot.com&#x000A;&#x000A;// Keys&#x000A;API_KEY = 89dhdyd93380dkqmoe_hd830dhq&#x000A;&#x000A;// App Settings&#x000A;APP_NAME = MyTestApp (staging)&#x000A;APP_BUNDLE_ID = com.thoughtbot.MyTestApp.staging&#x000A;</code></pre></div><div class="highlight"><pre class="highlight plaintext"><code>// Production.xcconfig&#x000A;// Server URL&#x000A;ROOT_URL = https:/$()/www.mytestapp.thoughtbot.com&#x000A;&#x000A;// Keys&#x000A;API_KEY = 9ud0930djd_md9zdjdko3830lb0d&#x000A;&#x000A;// App Settings&#x000A;APP_NAME = MyTestApp&#x000A;APP_BUNDLE_ID = com.thoughtbot.MyTestApp&#x000A;</code></pre></div>
+<p><strong>Note:</strong> You may have noticed some strangeness with the <code>ROOT_URL</code> formatting. This is due to the way characters are escaped in xcconfig files. In order to have the <code>//</code> in <code>https://</code>, we need to split it with an empty variable substitution via <code>$()</code>. A minor annoyance, but simple when you know to do it.</p>
+<h2 id="setting-xcconfig-files-for-configurations">
+  <a href="#setting-xcconfig-files-for-configurations">
+    Setting xcconfig files for Configurations
+  </a>
+</h2>
+
+<p>Now that we have our xcconfig files set up, we need to set the appropriate file for each Configuration we created previously.</p>
+
+<p>Head back to the Project Info tab in the Editor view. Click the disclosure indicator for a given Configuration, and notice that the target has no configuration set. From the dropdown on the right, select the appropriate configuration file. Repeat until all the Configurations are set as follows:</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/1zRoZl9ZTMqQ8q2zlR6F_img11.png" alt=""></p>
+
+<p><strong>CocoaPods note for existing projects:</strong>
+If you’re using CocoaPods with an existing project and want to follow along, you’ll have to do a tiny bit of extra work to have it set up as CocoaPods has it’s own xcconfig files.</p>
+
+<ul>
+<li>Delete the <code>.xcworkspace</code> file</li>
+<li>Delete the <code>Podfile.lock</code> file and <code>Pods/</code> directory</li>
+<li><strong>Keep the Podfile</strong></li>
+<li>Rerun <code>pod install</code></li>
+</ul>
+
+<p>You’ll see in Terminal that CocoaPods did not set the configuration since we already set custom configurations. CocoaPods provides a link to be included in each</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/T5klHT0RIibz2JX9yvxH_img12.png" alt=""></p>
+
+<ul>
+<li>Open new <code>.xcworkspace</code></li>
+<li>Include .xcconfig path for CocoaPods in your .xcconfig files by prepending an <code>#include</code> statement like the following:
+#include &ldquo;Pods/Target Support Files/Pods-MyTestApp/Pods-MyTestApp.release.xcconfig&rdquo;
+## Accessing configuration values from project settings</li>
+</ul>
+
+<p>To actually use our new configuration settings for our project, let’s begin with editing the <strong>Info.plist.</strong></p>
+
+<p>Recall that we intend each environment to have a different <code>APP_NAME</code> and <code>APP_BUNDLE_ID</code>. We can use variable substitution in the .plist for the appropriate keys, substituting our custom variables from the xcconfig files. Here, we’ve changed <code>Bundle name</code>&lsquo;s value to <code>$(APP_NAME)</code> and <code>Bundle Identifier</code> to <code>$(APP_BUNDLE_ID)</code>.</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/ViyhICQDSRGW2oKJoM1Z_img13.png" alt=""></p>
+
+<p>With these changes, build and run the app using different schemes from the Scheme selector. The result is three different versions of the app, each using their corresponding environment.</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/EfeyTZAsR2mZ6nqqP7H0_img14.png" alt=""></p>
+<h2 id="accessing-configuration-values-from-code">
+  <a href="#accessing-configuration-values-from-code">
+    Accessing configuration values from code
+  </a>
+</h2>
+
+<p>While we’ve used variable substitution in our <strong>Info.plist</strong> file to specify some project settings per-environment, we also need to be able to access some of our config variables from actual code - such as our  <code>ROOT_URL</code> and <code>API_KEY</code>. Let’s begin by adding them to our <strong>Info.plist</strong>.</p>
+
+<p>Since Xcode projects don’t include a <code>ROOT_URL</code> or <code>API_KEY</code> key in the plist by default, we’ll have to add two new entries. To do so, tap the plus button anywhere in the file. Set the Type to <strong>String</strong> and the value to the substituted value from our xcconfig files like so:</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/EaXdbiwGQAyVWAleQr09_img15.png" alt=""></p>
+
+<p>Now that these variables are in our plist, we can access them from Swift. One recommended way of doing so is creating an <code>Environment.swift</code> file. This will contain an enum with no cases to serve as a namespace to access the plist and the variables contained within. We’ll create two static properties, <code>rootURL</code> and <code>apiKey</code> that will return a <code>URL</code> and a <code>String</code> respectively. We’ll initialize them in a closure to contain the logic of retrieving them from the plist, and call <code>fatalError:</code> with the appropriate message.</p>
+
+<p>Note that we’ve explicitly decided to call <code>fatalError:</code> in this case as it signifies a programming error, rather than encountering an expected nil state. We do not intend the xcconfig files or <strong>Info.plist</strong> to not have these values, and crashing the app while providing this helpful message will give context and allow for correction by the programmer.</p>
+
+<p>Add this file to the <em>Configs</em> folder:</p>
+<div class="highlight"><pre class="highlight swift"><code><span class="c1">// Environment.swift</span>&#x000A;&#x000A;<span class="kd">import</span> <span class="kt">Foundation</span>&#x000A;&#x000A;<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Environment</span> <span class="p">{</span>&#x000A;  <span class="kd">private</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">infoDictionary</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">dict</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">infoDictionary</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Plist file not found"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">return</span> <span class="n">dict</span>&#x000A;  <span class="p">}()</span>&#x000A;&#x000A;  <span class="kd">static</span> <span class="k">let</span> <span class="nv">rootURL</span><span class="p">:</span> <span class="kt">URL</span> <span class="o">=</span> <span class="p">{</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">rootURLstring</span> <span class="o">=</span> <span class="kt">Environment</span><span class="o">.</span><span class="n">infoDictionary</span><span class="p">[</span><span class="s">"ROOT_URL"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Root URL not set in plist for this environment"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">rootURLstring</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Root URL is invalid"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">return</span> <span class="n">url</span>&#x000A;  <span class="p">}()</span>&#x000A;&#x000A;  <span class="kd">static</span> <span class="k">let</span> <span class="nv">apiKey</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="p">{</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">apiKey</span> <span class="o">=</span> <span class="kt">Environment</span><span class="o">.</span><span class="n">infoDictionary</span><span class="p">[</span><span class="s">"API_KEY"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"API Key not set in plist for this environment"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">return</span> <span class="n">apiKey</span>&#x000A;  <span class="p">}()</span>&#x000A;<span class="p">}</span>&#x000A;</code></pre></div>
+<p>Now we’re capable of accessing the <code>rootURL</code> and <code>apiKey</code> throughout our Swift code. But let’s make one more adjustment. It’s often considered a best practice to remove stringly-typed code as much as possible, and we have potential to do so when accessing the values within our <code>infoDictionary</code>.  Let’s create an enum that will contain these plist keys and add it to our <code>Environment.swift</code> file:</p>
+<div class="highlight"><pre class="highlight swift"><code><span class="c1">// Environment.swift</span>&#x000A;&#x000A;<span class="kd">import</span> <span class="kt">Foundation</span>&#x000A;&#x000A;<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Environment</span> <span class="p">{</span>&#x000A;  <span class="c1">// MARK: - Keys</span>&#x000A;  <span class="kd">enum</span> <span class="kt">Keys</span> <span class="p">{</span>&#x000A;    <span class="kd">enum</span> <span class="kt">Plist</span> <span class="p">{</span>&#x000A;      <span class="kd">static</span> <span class="k">let</span> <span class="nv">rootURL</span> <span class="o">=</span> <span class="s">"ROOT_URL"</span>&#x000A;      <span class="kd">static</span> <span class="k">let</span> <span class="nv">apiKey</span> <span class="o">=</span> <span class="s">"API_KEY"</span>&#x000A;    <span class="p">}</span>&#x000A;  <span class="p">}</span>&#x000A;&#x000A;  <span class="c1">// MARK: - Plist</span>&#x000A;  <span class="kd">private</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">infoDictionary</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">dict</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">infoDictionary</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Plist file not found"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">return</span> <span class="n">dict</span>&#x000A;  <span class="p">}()</span>&#x000A;&#x000A;  <span class="c1">// MARK: - Plist values</span>&#x000A;  <span class="kd">static</span> <span class="k">let</span> <span class="nv">rootURL</span><span class="p">:</span> <span class="kt">URL</span> <span class="o">=</span> <span class="p">{</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">rootURLstring</span> <span class="o">=</span> <span class="kt">Environment</span><span class="o">.</span><span class="n">infoDictionary</span><span class="p">[</span><span class="kt">Keys</span><span class="o">.</span><span class="kt">Plist</span><span class="o">.</span><span class="n">rootURL</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Root URL not set in plist for this environment"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">rootURLstring</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Root URL is invalid"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">return</span> <span class="n">url</span>&#x000A;  <span class="p">}()</span>&#x000A;&#x000A;  <span class="kd">static</span> <span class="k">let</span> <span class="nv">apiKey</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="p">{</span>&#x000A;    <span class="k">guard</span> <span class="k">let</span> <span class="nv">apiKey</span> <span class="o">=</span> <span class="kt">Environment</span><span class="o">.</span><span class="n">infoDictionary</span><span class="p">[</span><span class="kt">Keys</span><span class="o">.</span><span class="kt">Plist</span><span class="o">.</span><span class="n">apiKey</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span> <span class="k">else</span> <span class="p">{</span>&#x000A;      <span class="nf">fatalError</span><span class="p">(</span><span class="s">"API Key not set in plist for this environment"</span><span class="p">)</span>&#x000A;    <span class="p">}</span>&#x000A;    <span class="k">return</span> <span class="n">apiKey</span>&#x000A;  <span class="p">}()</span>&#x000A;<span class="p">}</span>&#x000A;</code></pre></div>
+<p>We’re now able to access entries of the <code>infoDictionary</code> using our <code>Keys.Plist</code> enum’s static properties. While it may not appear as a large change on the surface, it helps to have a single point of configuration and eliminate potential confusion. It’s apparently obvious to the programmer reading this file that we’re intentionally accessing the <code>rootURL</code> of the <code>infoDictionary</code> as we’ve explicitly added a property to do so.</p>
+
+<p>Now that we’ve created a structured way to access these values, let’s test it out!</p>
+
+<p>In the stock <code>ViewController.swift</code> file, add the following line to <code>viewDidLoad</code> to print the <code>API_KEY</code> and <code>ROOT_URL</code>:</p>
+<div class="highlight"><pre class="highlight swift"><code> <span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>&#x000A;&#x000A;  <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>&#x000A;    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>&#x000A;&#x000A;    <span class="nf">print</span><span class="p">(</span><span class="kt">Environment</span><span class="o">.</span><span class="n">apiKey</span><span class="p">)</span>&#x000A;    <span class="nf">print</span><span class="p">(</span><span class="kt">Environment</span><span class="o">.</span><span class="n">rootURL</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">)</span>&#x000A;  <span class="p">}</span>&#x000A;<span class="p">}</span>&#x000A;</code></pre></div>
+<p>Select a scheme, build and run and observe the console output!</p>
+
+<p><img src="https://images.thoughtbot.com/blog-vellum-image-uploads/YSo0NGxxQTK2bDexUHfB_img16.png" alt=""></p>
+
+<p>Look familiar?</p>
+<h2 id="security-considerations">
+  <a href="#security-considerations">
+    Security Considerations
+  </a>
+</h2>
+
+<p>Since these files will potentially contain secure information, such as <code>API_KEY</code>,  I’d recommend not checking them into version control and instead using a secure file storage system like 1Password to contain copies of <code>Development.xcconfig</code>, <code>Staging.xcconfig</code> and <code>Production.xcconfig</code>.</p>
+<h2 id="final-thoughts">
+  <a href="#final-thoughts">
+    Final thoughts
+  </a>
+</h2>
+
+<p>Using Xcode configuration files is an elegant and powerful solution for configuring different build settings. While we’ve covered a considerable amount of project tweaking here to get our environments set up the way we want them to be, it’s largely formulaic after you’ve grown comfortable doing so. Feel free to take the template we’ve worked on here and customize it to fit your project’s needs! It’s always worthwhile spending a bit more time configuring things just <em>once</em> than to constantly have to revisit and fix things in the future. 🚀</p>
+
+</div>
+<aside class='related-articles'>
+<h2>If you enjoyed this post, you might also like:</h2>
+<ol>
+<li>
+<a href="/blog/templating-tmux-with-tmuxinator">Templating tmux with tmuxinator</a>
+</li>
+<li>
+<a href="/blog/the-magic-behind-configure-make-make-install">The magic behind configure, make, make install</a>
+</li>
+<li>
+<a href="/blog/sass-source-maps-chrome-magic">Sass Source Maps + Chrome = Magic</a>
+</li>
+</ol>
+</aside>
+</article>
+<script src="https://thoughtbot.com/blog/assets/office_location-dea3f47cb1f81fc68a88df022896ec7d26c0719febfe0e648f08212f25072ed1.js" defer="defer"></script>
+
+</div>
+<section class='container'>
+<div id='promoted'>
+<div class='etc ad-android'>
+<p>
+Need an expert, integrated, in-person team of designers,
+<a href="https://thoughtbot.com/services/android-development?utm_campaign=ad&amp;utm_medium=referral&amp;utm_source=robots.thoughtbot.com&amp;utm_term=https://thoughtbot.com/blog/let-s-setup-your-ios-environments">Android developers</a>,
+<a href="https://thoughtbot.com/services/ios-development?utm_campaign=ad&amp;utm_medium=referral&amp;utm_source=robots.thoughtbot.com&amp;utm_term=https://thoughtbot.com/blog/let-s-setup-your-ios-environments">iOS developers</a>,
+and back-end developers?
+We have folks in
+<a href="https://thoughtbot.com/locations?utm_campaign=ad&amp;utm_medium=referral&amp;utm_source=robots.thoughtbot.com&amp;utm_term=https://thoughtbot.com/blog/let-s-setup-your-ios-environments">7 cities</a>,
+who've
+built software for more than 700 clients.
+</p>
+<p>
+<a href="http://thoughtbot.com/hire-us?utm_campaign=ad&amp;utm_medium=referral&amp;utm_source=robots.thoughtbot.com&amp;utm_term=https://thoughtbot.com/blog/let-s-setup-your-ios-environments">Talk to us</a>
+about your Android design or technical questions
+like Java vs. Kotlin vs. React Native.
+</p>
+</div>
+
+
+</div>
+
+</section>
+<div class='global-footer'>
+<div class='container container-wide'>
+<nav class='global-footer-link-section'>
+<dl class='global-footer-link-group'>
+<dt class='global-footer-link-list-title'>
+Products
+</dt>
+<dd class='global-footer-link-list'>
+<ul>
+<li>
+<a href="https://thoughtbot.com/upcase">Upcase
+</a></li>
+<li>
+<a href="https://formkeep.com">FormKeep
+</a></li>
+<li>
+<a href="https://houndci.com">Hound
+</a></li>
+</ul>
+</dd>
+</dl>
+<dl class='global-footer-link-group'>
+<dt class='global-footer-link-list-title'>
+Services
+</dt>
+<dd class='global-footer-link-list'>
+<ul>
+<li>
+<a href="https://thoughtbot.com/services/android-development">Android
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/design">Design
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/elixir-phoenix">Elixir/Phoenix
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/go">Go
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/ios-development">iOS
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/python-django">Python/Django
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/react-native">React Native
+</a></li>
+<li>
+<a href="https://thoughtbot.com/services/ruby-on-rails">Ruby/Rails
+</a></li>
+</ul>
+</dd>
+</dl>
+<dl class='global-footer-link-group'>
+<dt class='global-footer-link-list-title'>
+Open Source
+</dt>
+<dd class='global-footer-link-list'>
+<ul>
+<li>
+<a href="https://github.com/thoughtbot/Argo">Argo
+</a></li>
+<li>
+<a href="http://bourbon.io">Bourbon
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot/capybara-webkit">Capybara Webkit
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot/clearance">Clearance
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot/dotfiles">Dotfiles
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot/factory_bot">Factory Bot
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot/laptop">Laptop
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot/suspenders">Suspenders
+</a></li>
+<li>
+<a href="https://github.com/thoughtbot">More...
+</a></li>
+</ul>
+</dd>
+</dl>
+<dl class='global-footer-link-group'>
+<dt class='global-footer-link-list-title'>
+Locations
+</dt>
+<dd class='global-footer-link-list'>
+<ul>
+<li>
+<a href="https://thoughtbot.com/austin">Austin, TX
+</a></li>
+<li>
+<a href="https://thoughtbot.com/boston">Boston, MA
+</a></li>
+<li>
+<a href="https://thoughtbot.com/london">London, UK
+</a></li>
+<li>
+<a href="https://thoughtbot.com/new-york-city">New York, NY
+</a></li>
+<li>
+<a href="https://thoughtbot.com/raleigh">Raleigh, NC
+</a></li>
+<li>
+<a href="https://thoughtbot.com/san-francisco">San Francisco, CA
+</a></li>
+</ul>
+</dd>
+</dl>
+<dl class='global-footer-link-group'>
+<dt class='global-footer-link-list-title'>
+Podcasts
+</dt>
+<dd class='global-footer-link-list'>
+<ul>
+<li>
+<a href="http://bikeshed.fm/">The Bike Shed
+</a></li>
+<li>
+<a href="http://buildphase.fm/">Build Phase
+</a></li>
+<li>
+<a href="http://giantrobots.fm/">Giant Robots
+</a></li>
+<li>
+<a href="http://tentative.fm/">Tentative
+</a></li>
+</ul>
+</dd>
+</dl>
+</nav>
+<footer class='global-footer-copywright-section'>
+<p class='global-footer-copywright-prose'>
+&copy; 2019
+<a href="https://thoughtbot.com">thoughtbot, inc.</a>
+The design of a robot and thoughtbot are registered trademarks of
+thoughtbot, inc.
+<a href="//www.iubenda.com/privacy-policy/7827608">Privacy Policy</a>
+</p>
+</footer>
+</div>
+</div>
+
+
+  <script>
+    !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
+    analytics.load("wperrhev8f");
+    analytics.page();
+    }}();
+  </script>
+
+
+</body>
+</html>

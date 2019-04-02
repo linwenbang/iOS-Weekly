@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>UIFieldBehavior - NSHipster</title>
+    <meta name="description" content="With the design refresh of iOS in its 7th release, skeuomorphic design was famously sunset. In its place, a new paradigm emerged, in which UI controls were made to _feel_ like physical objects rather than simply look like them.
+"/>
+    <link rel="canonical" href="https://nshipster.com/uifieldbehavior/"/>
+    <meta name="revisit-after" content="7 days"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="alternate" type="application/atom+xml" title="NSHipster Atom Feed" href="/feed.xml"/>
+    <link rel="preload" as="font" href="/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2" type="font/woff2" crossorigin="anonymous" />
+    <style rel="stylesheet" type="text/css" integrity="sha256-GB6zv4eY5LHAXnwka4XIuiynYq1dPsuvZJezWwfWZdQ=" crossorigin="anonymous">
+      ﻿html{border-top:3px #ff8000 solid}html body{background-color:#fefefe;color:#282a36}#logo #ns{fill:#ff8000}a,a:visited{color:#ff8000}a:hover,a:visited:hover{text-decoration:none}@keyframes twirl{0%{transform:scale(1) rotate(0)}10%,20%{transform:scale(0.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.1) rotate(3deg)}40%,60%,80%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1) rotate(0)}}@font-face{font-family:"Merriweather";src:local("Merriweather Regular"),local("Merriweather-Regular"),url(/assets/Merriweather-Regular-e50fe78e902ad7649d2a9ec69a67c9a941657604540b0b077b720a0562072915.woff2) format("woff2"),url(/assets/Merriweather-Regular-4549033d084e479d2c53500851ca2e5fd43fd83ac4ae26445e0974ae73cd3d05.woff) format("woff");font-weight:normal;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light"),local("Merriweather-Light"),url(/assets/Merriweather-Light-c2ef5188a3d41db369bfec98586cacc22c1aefa23a02333101c05b6c7e35ed59.woff2) format("woff2"),url(/assets/Merriweather-Light-5d5f2b4aac0254b3ef80c3e04bcbbd021ab468e6205dade23a9943277ed2f15b.woff) format("woff");font-weight:300;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black"),local("Merriweather-Black"),url(/assets/Merriweather-Black-fd0c4da3e1b331a0f3c05ca30ef2f73d3248c19377f0e347bbd27f5ca3ace049.woff2) format("woff2"),url(/assets/Merriweather-Black-0abb3a596dcef7e60a0ce4000352ae834fa7e6f49f48f1f568dd1b16db037faa.woff) format("woff");font-weight:900;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold"),local("Merriweather-Bold"),url(/assets/Merriweather-Bold-66b60fab0c23051945cad3a206665130e9a8742ad25afc03675df8e30f9bd1f1.woff2) format("woff2"),url(/assets/Merriweather-Bold-91e91f3c9d8e79d7f50076508c711118d17335ad0d8adaaed9e82e7e0c88f2a3.woff) format("woff");font-weight:bold;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black Italic"),local("Merriweather-BlackItalic"),url(/assets/Merriweather-BlackItalic-78fadd58be94cb66b7b96e9368a431cb7ba39853c24dfbac96af11b2566cc80a.woff2) format("woff2"),url(/assets/Merriweather-BlackItalic-25d34bcb442b873300a27a1fda06b53db76b343b21b1d2967ebf8d50fc98820c.woff) format("woff");font-weight:900;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Italic"),local("Merriweather-Italic"),url(/assets/Merriweather-Italic-c8cb2c6ad2cb79fd515ac3eef6b70c481f0641f344e3e7154324eab0d9b442e7.woff2) format("woff2"),url(/assets/Merriweather-Italic-2ff5301c0bc5e6bb36aa90461a2778925615296b30cb68de03adfbe30f3ba034.woff) format("woff");font-weight:normal;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold Italic"),local("Merriweather-BoldItalic"),url(/assets/Merriweather-BoldItalic-6555d0e597bb610c9885788f6ea9fcc1bdc2cdb1a27d6fa789b26286f0236d96.woff2) format("woff2"),url(/assets/Merriweather-BoldItalic-c5af58f9b3ca849796e320463efb479012c8da669fade00fb76169e37ec6b408.woff) format("woff");font-weight:bold;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light Italic"),local("Merriweather-LightItalic"),url(/assets/Merriweather-LightItalic-83b26b2f59b0bbd312f3f4b8551f5295a64cbc9645711d6b006faaa79c7753d3.woff2) format("woff2"),url(/assets/Merriweather-LightItalic-1f79f78c181a7a35d38ed8a5bee789c2680726e3b74ddaebc3486af3af749235.woff) format("woff");font-weight:300;font-style:italic;font-display:optional}@font-face{font-family:'Batang';src:url(/assets/Batang-bbbbbe277f4e2bd33819a38b51e599824aed97db7b51b0aa6bf683bf40b171ce.woff2) format("woff2"),url(/assets/Batang-d1c9b135751404713e2fdc6fcd9f6d9d534d2a8bfc11e57fe05a7aa13e883838.woff) format("woff");font-weight:normal;font-style:normal;font-display:auto;unicode-range:U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF}html,body{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-size:15pt;line-height:1.5;font-weight:300;font-kerning:normal;-webkit-font-kerning:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}html[lang="ko-KR"] body{font-family:"Batang", "Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:lighter}html[lang="ko-KR"] a.readmore,html[lang="ko-KR"] section>h1,html[lang="ko-KR"] article p em,html[lang="ko-KR"] article p dfn,html[lang="ko-KR"] cite,html[lang="zh-Hans"] a.readmore,html[lang="zh-Hans"] section>h1,html[lang="zh-Hans"] article p em,html[lang="zh-Hans"] article p dfn,html[lang="zh-Hans"] cite{font-style:normal;font-weight:bold}html[lang="ko-KR"] [role="article"] header .byline,html[lang="zh-Hans"] [role="article"] header .byline{font-style:normal}html[lang="ko-KR"] .archive ol li time,html[lang="ko-KR"] .archive ul li time,html[lang="zh-Hans"] .archive ol li time,html[lang="zh-Hans"] .archive ul li time{font-style:normal;font-weight:bold}html[lang="ko-KR"] #promotion h4,html[lang="zh-Hans"] #promotion h4{font-style:normal;font-weight:bold}html[lang="ko-KR"] .highlight span,html[lang="zh-Hans"] .highlight span{font-style:normal !important}h1,h2,h3,h4,h5,h6{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";line-height:1.1em;margin:0 0 1rem 0}h1{font-size:2.5em}h2{font-size:2em}h3{font-size:1.5em}h4{font-size:1.25em}h5{font-size:1.125em}h6{font-size:1em}p{margin:0 0 1rem 0}a{-webkit-transition:color 0.1s linear;-moz-transition:color 0.1s linear;transition:color 0.1s linear;text-decoration:none}a:hover{text-decoration:underline}a:active,a:focus{outline:none}a code{white-space:nowrap}p>small{font-size:inherit;font-variant:small-caps;text-transform:lowercase}:not(pre)>code{user-select:all}a code,p code,li code,dd code,td code{background:#f8f8f2;padding:.25em;font-size:smaller;border-radius:3px}p code,li code,dd code,td code{color:#49178f}ol li,ul li{margin-bottom:0.5em}pre{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}code,samp{font-family:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace}pre code,samp{font-size:smaller;line-height:1.1em}samp{white-space:pre;overflow:scroll;-webkit-overflow-scrolling:touch;display:block;padding:0.5em 0}section>h1{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:300;font-size:1.5em;text-align:center;margin-bottom:2rem;margin-top:2rem}article.excerpt h1{font-size:1.5em}a.readmore{font-style:italic}a:hover{text-decoration:underline}kbd{color:#282a36;background-color:#f8f8f2;border-radius:3px;border:1px solid #747683;box-shadow:0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin:0 .1em;padding:.1em .6em;text-transform:lowercase}.placeholder{background:#f8f8f2;display:inline-block;padding:0 0.25em;border:1px #282a36 solid;border-radius:5px;font-style:normal}.highlight .placeholder{background:transparent;border-color:#f8f8f2}h1:hover .anchor::before,h2:hover .anchor::before,h3:hover .anchor::before,h4:hover .anchor::before,h5:hover .anchor::before,h6:hover .anchor::before{opacity:1}.title{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700}.anchor::before{content:"#";opacity:0;transition:300ms opacity;position:absolute;float:left;margin-left:-1.5em;padding:0 0.5em;color:#747683 !important;text-decoration:none}.anchor::before :focus{outline:none}.tagline{font-size:1.5em}#latest small,#announcement small{font-style:italic}[role="article"] header h1{font-size:3.5em;line-height:1;margin-bottom:0.5rem;padding:0.5rem 0}#archive dd{font-size:smaller;display:list-item;list-style:circle}.admonition{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";border-left-width:4px;border-left-style:solid;padding:5px 40px;margin:1.5em 0;display:block;clear:both;overflow:visible}.admonition p{margin:0.5em 0;font-size:smaller}.admonition pre code{font-size:small}.admonition.info{background:#edf5fa;border-color:#4DAAFC}.admonition.info a{color:#0088ff}.admonition.info:before{content:" ";background-image:url(/assets/info-f73d3a68c0c3bfa07e64909be26a8d512c2d50bf2729bf30f76d8b63250d0671.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.warning{background:#fcfaf6;border-color:#F9D780}.admonition.warning a{color:#f0b112}.admonition.warning:before{content:" ";background-image:url(/assets/warning-47e47a5723ab3badf6c9352852c0acbe46a94b493175685797a01b7a2c832fc4.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.error{background:#fcf2f6;border-color:#f5569d}.admonition.error a{color:#e62279}.admonition.error:before{content:" ";background-image:url(/assets/error-0950677a2585decd810c2737096155b036dee719e35feb1c0c6ade04202daafc.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}@font-face{font-family:"NSHipster Icons";font-style:normal;font-weight:700;font-display:block;src:url(/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2) format("woff2"),url(/assets/nshipster-743868430209628f9d7933ea65c7e31cdf597e9a27d01d372c33fc501f4c6722.woff) format("woff")}[class^="icon-"],[class*=" icon-"]{font-family:"NSHipster Icons" !important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-warning:before{content:"\e900"}.icon-error:before{content:"\e901"}.icon-info:before{content:"\e902"}.icon-podcasts:before{content:"\e903"}.icon-wechat:before{content:"\e904"}.icon-sinaweibo:before{content:"\e905"}.icon-feed:before{content:"\e906"}.icon-youtube:before{content:"\e908"}.icon-apple:before{content:"\f8ff"}.icon-facebook:before{content:"\e90a"}.icon-github:before{content:"\e90b"}.icon-twitter:before{content:"\e90c"}.icon-googleplus:before{content:"\e90d"}.icon-swift:before{content:"\e90e"}.icon-nc:before{content:"\e90f"}.icon-cc:before{content:"\e907"}.icon-by:before{content:"\e911"}.icon-command:before{content:"\2318"}.icon-shift:before{content:"\21e7"}.icon-ctrl:before{content:"\2303"}.icon-opt:before{content:"\2325"}html,body{margin:0}body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);border-top:3px #ff8000 solid}hr{border:none;margin:1em 0;padding:1em 0;display:block}img{margin:0;max-width:100%}video{margin:0 auto;max-width:100%;display:block}blockquote{border-left:2px solid #ddd;color:#595959;margin:1.5em 0;padding-left:0.75em}cite{color:#737373;font-style:italic}cite:before{content:"— "}table{border-collapse:collapse;margin:0.75em 0;table-layout:fixed;width:100%}th{border-bottom:1px solid #b7b7b7;font-weight:bold;padding:0.75em 0;text-align:left}td{border-bottom:1px solid #ddd;padding:0.75em 0}tr,td,th{vertical-align:middle}ul,ol{margin:0;padding:0;list-style-type:none}dl{margin-bottom:0.75em}dl dt{font-weight:bold;margin:1em 0}dl dd{margin:0 0 0.25rem 1em}.container{max-width:100%;margin-left:auto;margin-right:auto;max-width:960px;margin:0 auto;padding:2em}.container:after{content:"";display:table;clear:both}.container section{display:block;max-width:100%;margin-left:auto;margin-right:auto;margin-bottom:2em;padding-bottom:1em}.container section:after{content:"";display:table;clear:both;content:"";display:table;clear:both}html[lang="fr-FR"] [role="banner"] #logo{margin-right:5.5em}html[lang="fr-FR"] [role="banner"] .tagline{font-size:1.33em}html[lang="zh-Hans"] [role="banner"] #logo{margin-right:9.5em}html[lang="zh-Hans"] [role="banner"] .tagline{font-size:1.75em;padding-bottom:1em}html[lang="ko-KR"] [role="banner"] .tagline{font-size:1.4em}[role="banner"]{display:flex;margin-bottom:1.5em;padding-bottom:1.5em}[role="banner"] #logo{display:block;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:1em;height:6em;margin:0.25em 6em 0 0}[role="banner"] #logo a{display:block}[role="banner"] #logo svg{width:146px;height:84px;overflow:visible;margin-left:-3px}[role="banner"] #logo svg #mustache{position:absolute;transform:rotate(0) scale(1);transform-origin:50% 70% 0;transition:transform 1s}[role="banner"] #logo svg:hover,[role="banner"] #logo svg.animated{position:relative;z-index:2}[role="banner"] #logo svg:hover #mustache,[role="banner"] #logo svg.animated #mustache{animation:twirl 1s ease-in-out}[role="banner"] .tagline{flex:1}#latest h1,#announcement h1{margin-bottom:0.5rem}#announcement{background-color:rgba(255,128,0,0.2);margin-left:-1em;margin-right:-1em;padding:1em}#recent ul{display:grid;grid-template-columns:repeat(3, 1fr);gap:1em 2em}#recent ul li{min-height:15em}#recent ul li .title{height:4em;font-size:1.75em;display:table-cell;line-height:1;vertical-align:bottom;padding-bottom:1em}#recent ul li p{font-size:smaller;display:-webkit-box;overflow:hidden;max-lines:5;-webkit-line-clamp:5;-webkit-box-orient:vertical;text-overflow:ellipsis}#merchandise{margin-top:-30px}#merchandise h1{margin-bottom:15px}#follow ul{float:left;display:block;margin-right:2.35765%;width:31.76157%}#follow ul:last-child{margin-right:0}#follow ul li{float:left;display:block;margin-right:7.42297%;width:19.43277%;font-size:2em}#follow ul li:last-child,#follow ul li:nth-of-type(4n){margin-right:0}#follow ul li a:hover{text-decoration:none}#follow form{float:left;display:block;margin-right:2.35765%;width:57.35098%;margin-left:8.5298%;margin-right:0}#follow form:last-child{margin-right:0}#follow form input[type="email"]{float:left;display:block;margin-right:3.57866%;width:61.158%}#follow form input[type="email"]:last-child{margin-right:0}#follow form input[type="submit"]{float:left;display:block;margin-right:3.57866%;width:35.26334%;border-radius:10px;background:#ff8000;font-size:0.75em;padding:15px 0}#follow form input[type="submit"]:last-child{margin-right:0}article.author,article.translator{padding-top:2em}article.author header,article.translator header{display:grid;grid-template:"avatar . title" "avatar . description";grid-template-columns:1fr 1em 3fr;grid-template-rows:1fr 2fr;gap:1em 1em;margin-bottom:1em;padding-bottom:1em}article.author header .avatar,article.translator header .avatar{grid-area:avatar}article.author header h1,article.translator header h1{grid-area:title}article.author header p,article.translator header p{grid-area:description}[role="article"]{margin-bottom:1em;overflow-x:hidden}[role="article"] table{overflow:scroll;-webkit-overflow-scrolling:touch;margin:2em 0}[role="article"] table caption{margin:2em 0 1em 0}[role="article"] header{display:block;text-align:center;margin-bottom:3em}[role="article"] header .byline{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;color:#a3a39e}[role="article"] header .byline a,[role="article"] header .byline span,[role="article"] header .byline time{white-space:nowrap}[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" — "}[role="article"] .content{margin-bottom:4em}[role="article"] .content h1,[role="article"] .content h2,[role="article"] .content h3,[role="article"] .content h4,[role="article"] .content h5{margin-top:2.5rem}[role="article"] .content object,[role="article"] .content embed,[role="article"] .content figure,[role="article"] .content svg{margin:1em auto;display:block;width:auto}[role="article"] .content img{margin:1em auto;display:block}[role="article"] .content ul,[role="article"] .content ol{margin:1.5em 0;padding:0 3em}[role="article"] .content ul ul,[role="article"] .content ul ol,[role="article"] .content ol ul,[role="article"] .content ol ol{margin-top:0.5em}[role="article"] .content ul li,[role="article"] .content ol li{list-style:disc}[role="article"] .content figure{text-align:center}[role="article"] .content ins{background-color:rgba(255,128,0,0.2);text-decoration:none}[role="article"] .content dl{padding:1em 0}[role="article"] .content blockquote{margin:2em;margin-right:4em;border-left:3px #ff8000 solid}[role="article"] .content blockquote cite{margin-top:1em;display:block}[role="article"] .content table thead th{text-align:center}[role="article"] .content table td{padding:1em}[role="article"] sup{font-size:50%;margin-right:-0.5em}[role="article"] footer .contributor{float:left;display:block;margin-right:2.35765%;width:48.82117%;padding:1em 0}[role="article"] footer .contributor:last-child,[role="article"] footer .contributor:nth-child(2n){margin-right:0}[role="article"] footer .contributor:nth-child(2n+1){clear:left}[role="article"] footer .contributor:only-child{width:100%}[role="article"] footer .contributor:only-child .avatar{padding:0 1em}[role="article"] footer .contributor .avatar{float:left;display:block;margin-right:4.82916%;width:30.11389%}[role="article"] footer .contributor .avatar:last-child{margin-right:0}[role="article"] footer .contributor .details{float:left;display:block;margin-right:4.82916%;width:65.05695%;margin-right:0;margin-top:1em}[role="article"] footer .contributor .details:last-child{margin-right:0}[role="article"] footer .contributor .details span{font-weight:700}[role="article"] footer .contributor .details p{font-size:0.75em;margin-top:1em}[role="article"] footer small{display:block;font-size:1em;font-weight:700;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin-bottom:1em}[role="complementary"]{border-top:1px #ddd solid;padding-top:2em}[role="contentinfo"]{text-align:center;margin-top:2em;padding:1em}[role="contentinfo"] section{margin-bottom:0;padding-bottom:0}.avatar{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;max-width:200px;max-height:200px;border-radius:50%;pointer-events:none;user-select:none}#contributors ul{display:flex;justify-content:center;align-content:space-between;flex-flow:row wrap}#contributors ul li{flex:0;display:block;margin-bottom:1em;flex-basis:20%}#contributors ul li .avatar{display:block;margin:0 auto 1em auto;width:70%}#contributors ul li a{text-align:center;display:block}.archive dl{float:left;display:block;margin-right:2.5%;width:30%}.archive dl:last-child,.archive dl:nth-of-type(3),.archive dl:nth-of-type(4),.archive dl:nth-of-type(6){margin-right:0}.archive ol,.archive ul{list-style:none}.archive ol li,.archive ul li{margin:2em 0}.archive ol span,.archive ol time,.archive ul span,.archive ul time{display:block}.archive ol time,.archive ul time{white-space:nowrap;font-style:italic;font-weight:300;margin-bottom:1em}#sharing ul{display:block;float:right}#sharing ul:after{content:"";display:table;clear:both}#sharing li{font-size:1.5em;display:block;margin:0.5em;float:left}#sharing li a:hover{text-decoration:none;color:#4c3150 !important}#publications .books{display:flex}#publications .book{flex:1}#publications .book img{display:block;margin:0 auto;width:200px;border:4px transparent solid;transition:0.25s ease-in-out border-color;filter:none !important}#publications .book img:hover{padding:0;border:4px #ff8000 solid}.tagline{clear:both;font-weight:300}.highlight-group{margin-top:1em}[role="tablist"]{display:flex;flex-direction:row;justify-content:flex-end;padding-right:3px}[role="tablist"] button{cursor:pointer;flex:0;padding-left:0.5em;color:#282a36 !important;text-decoration:none;transition:opacity 0.5s;background:transparent !important;padding:0;margin:0 0 0 0.5em}[role="tablist"] button:not([aria-selected="true"]){opacity:0.25}[role="tablist"] button:not([aria-selected="true"]):hover{opacity:0.5}[role="tablist"] button.active{opacity:1}[role="tablist"] button:focus{outline:thin dotted;outline-offset:2px}[role="tabpanel"]{margin-top:0.25em}[role="tabpanel"]:focus{outline:0}#promotion .book img{margin:0}#promotion h3{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}#promotion h4{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;margin-bottom:1em}#promotion p{font-size:0.75em}#promotion a.buy{background:#ff8000;border-radius:10px;color:#fff !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700;margin-top:1em;padding:15px;text-align:center;display:inline-block}#promotion a.buy:hover{text-decoration:none !important}#promotion.home{margin-top:-15px;padding:35px 44px;background:#eee;border-radius:20px}#promotion.home p{font-size:1em}#promotion.home small{display:block;font-size:1.2em;font-weight:700;margin-left:5px;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps}table#status{table-layout:fixed;margin-top:2em}table#status caption{padding:1em 0;color:#777}table#status .version{text-align:center}table#status .version em{color:#777}table#customplaygrounddisplayconvertible-categories{table-layout:auto}table#customplaygrounddisplayconvertible-categories tbody th{padding-left:10px;text-align:center}table#customplaygrounddisplayconvertible-categories ul{padding:0 0 0 20px}table#customplaygrounddisplayconvertible-categories ul li{margin:0}table#customplaygrounddisplayconvertible-categories td img{margin:0}@media screen and (max-width: 600px){table#customplaygrounddisplayconvertible-categories thead tr th:last-child,table#customplaygrounddisplayconvertible-categories tbody tr td:last-child{display:none}}.conversation{margin:1em auto;max-width:650px}.conversation:after{content:" ";display:block;clear:both}.conversation ruby{ruby-align:start;ruby-position:over;display:block;clear:both;max-width:550px}.conversation ruby.boke{float:left;text-align:left;margin-bottom:0.5em}.conversation ruby.tsukkomi{float:right;color:#ff8000;text-align:right;margin-bottom:1.5em}.highlight{background:#282a36;border:1px transparent solid;border-radius:5px;overflow:auto;padding:0.5em 1em;margin-bottom:1em}.highlight code{color:#f8f8f2;background:transparent !important}.highlight ::selection{color:inherit}.highlight ::-moz-selection{color:inherit}.highlight .hll,.highlight .s,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .dl,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx,.highlight .sr,.highlight .s1,.highlight .ss{color:#f1fa8c}.highlight .go{color:#747683}.highlight .err,.highlight .g,.highlight .l,.highlight .n,.highlight .x,.highlight .p,.highlight .ge,.highlight .gr,.highlight .gh,.highlight .gi,.highlight .gp,.highlight .gs,.highlight .gu,.highlight .gt,.highlight .ld,.highlight .no,.highlight .nd,.highlight .ni,.highlight .ne,.highlight .nn,.highlight .nx,.highlight .py,.highlight .w,.highlight .bp{color:#f8f8f2}.highlight .gh,.highlight .gi,.highlight .gu{font-weight:bold}.highlight .ge{text-decoration:underline}.highlight .c,.highlight .ch,.highlight .cm,.highlight .cpf,.highlight .c1,.highlight .cs{color:#bfc6d8}.highlight .kd,.highlight .kt,.highlight .nb,.highlight .nl,.highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#8be9fd}.highlight .na,.highlight .nc,.highlight .nf,.highlight .fm{color:#ff8000}.highlight .k,.highlight .o,.highlight .cp,.highlight .kc,.highlight .kn,.highlight .kp,.highlight .kr,.highlight .nt,.highlight .ow{color:#ff79c6}.highlight .m,.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#bd93f9}.highlight .gd{color:#ff5555}.highlight[data-lang="JWT"]{white-space:pre-wrap}button,input[type="submit"]{-moz-appearance:none;-ms-appearance:none;-o-appearance:none;-webkit-appearance:none;-webkit-font-smoothing:antialiased;appearance:none;background-color:#ff8000;border-radius:5px;border:none;color:white;cursor:pointer;display:inline-block;font-size:1em;font-weight:bold;line-height:1;padding:0.75em 1em;text-decoration:none;transition:background-color 0.25s;user-select:none;vertical-align:middle;white-space:nowrap}button:hover,input[type="submit"]:hover{background-color:#cc6600;color:white}@media screen and (max-width: 768px){[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" ";display:block}.container{padding:1em}#recent ul{display:block}#recent ul li{min-height:auto;margin-bottom:2em}#recent ul li .title{display:block;height:auto;padding-bottom:0.5rem}#follow ul{width:100%}#follow form{width:100%;margin-left:0;margin-top:2em}[role="article"]{font-size:smaller}[role="article"] .content{overflow:hidden}[role="article"] .content blockquote{margin:1em 0}[role="article"] footer .contributor{width:100%;margin-bottom:1em}[role="article"] footer .contributor:not(:first-child){border-top:none}[role="article"] footer .contributor .avatar{padding:0}[role="article"] footer .contributor .details{margin-top:0}[role="complementary"] #continue,[role="complementary"] #related{width:100%}[role="complementary"] #related{margin-top:1em}[role="complementary"] #related li{font-size:1em}#sharing ul{width:100%}#sharing li{display:none !important;margin:0;float:left;display:block;margin-right:2.35765%;width:23.23176%}#sharing li:last-child,#sharing li:nth-child(4){margin-right:0}#sharing li:nth-child(5){clear:left}#sharing li a,#sharing li i{display:block;margin:0 auto;font-size:1.25em}#promotion .book img{margin:0 auto}#contributors ul li{flex-basis:33%}#recent article{float:none;display:block;width:100%}#recent article:last-child,#recent article:nth-of-type(2n){margin-right:0}.archive dl{width:100%;margin:0;float:none}.archive dl dt{margin:2em 0 0.5em 0}}@media screen and (max-width: 960px){[role="banner"]{display:block;margin-bottom:0;padding-bottom:0}[role="banner"] #logo{margin:0 !important;height:auto;padding-bottom:0.5em}[role="banner"] #logo svg{width:25vw;display:block;margin:0 auto 1.5em auto}[role="banner"] .tagline{font-size:4.4vw;padding-bottom:2em}#recent ul{grid-template-columns:repeat(2, 1fr)}.anchor{font-size:smaller}#announcement{margin-left:0;margin-right:0}article.author header,article.translator header{display:block}article.author header .avatar,article.translator header .avatar{margin:0 auto 1em auto;display:block}article.author header h1,article.translator header h1{text-align:center}}@media (hover: none){#logo #mustache{animation-iteration-count:1}}@media (inverted-colors){*{text-shadow:none !important;box-shadow:none !important}img{filter:invert(100%)}}@media (monochrome) and (false), print and (false), (prefers-contrast: high), screen and (-ms-high-contrast: active){html{border-top-color:black}html body{background:white}html body #logo a:hover{background:transparent !important}html body #logo #ns{fill:white;stroke:black;stroke-width:10px}html body #logo #mustache{fill:black}html body a{transition:none}html body a,html body a:visited{text-decoration:underline;color:black !important}html body a:hover{text-decoration:none}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6,html body p,html body li,html body dt,html body dd,html body span{color:black !important}html body div.highlight{color:black;background:#fff !important;border:2px black solid}html body div.highlight code,html body div.highlight code span{color:black !important}html body div.highlight .c,html body div.highlight .ch,html body div.highlight .cm,html body div.highlight .cpf,html body div.highlight .c1,html body div.highlight .cs,html body div.highlight .ge,html body div.highlight .s,html body div.highlight .sa,html body div.highlight .sb,html body div.highlight .sc,html body div.highlight .dl,html body div.highlight .sd,html body div.highlight .s2,html body div.highlight .sh,html body div.highlight .sx,html body div.highlight .sr,html body div.highlight .s1,html body div.highlight .ss{font-style:italic}html body div.highlight .k,html body div.highlight .gh,html body div.highlight .gp,html body div.highlight .gs,html body div.highlight .gu,html body div.highlight .kc,html body div.highlight .kd,html body div.highlight .kn,html body div.highlight .kr,html body div.highlight .nc,html body div.highlight .ni,html body div.highlight .ne,html body div.highlight .nn,html body div.highlight .nt,html body div.highlight .ow{font-weight:bold}html body div.highlight .se,html body div.highlight .si{font-weight:bold;font-style:italic}html body .admonition{background:white !important;border:2px black solid !important;border-radius:5px}html body .admonition:before{visibility:hidden}html body blockquote{border-left-color:black !important;color:black}}@media (prefers-color-scheme: dark){body{background:#2c2a28 !important;color:#f8f8f2 !important}body blockquote{color:#f8f8f2 !important}body div.highlight{border:1px #f8f8f2 solid !important}body .language-toggle a{color:#f8f8f2 !important}body .info{background:#333c44 !important}body .warning{background:#484131 !important}body .error{background:#592e41 !important}article img[src$=".svg"],i img[src$=".svg"]{filter:invert(100%)}kbd{color:#f8f8f2;background-color:#282a36;box-shadow:0 1px 0 rgba(255,255,255,0.2),0 0 0 2px #222 inset}.placeholder{color:#f8f8f2;background-color:#282a36;border-color:#f8f8f2}a>code,p>code,li>code,dd>code,td>code{background:#282a36}p code,li code,dd code,td code{color:#bd93f9}}@media (prefers-contrast: high), screen and (-ms-high-contrast: active){a{transition:none}a,a:visited{text-decoration:underline;color:black !important}h1,h2,h3,h4,h5,h6,p,li,dt,dd,span{color:black !important}h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,p a:hover,li a:hover,dt a:hover,dd a:hover,span a:hover{text-decoration:none;background:black;color:white !important}}@media (prefers-reduced-motion: reduce){#logo #mustache{animation:none !important}}@media print{@page{margin:0.5in}@page{@bottom-center{content:"Page " counter(page) " of " counter(pages);font-size:small}@footnote{border-top:1pt black solid;padding-top:1em;font-size:smaller;padding-left:1.5em}}html{border-top:none}html body{font-size:12pt !important}#logo{height:3em !important}#logo svg{transform:scale(0.5);transform-origin:top left}img,p,blockquote,aside,ul,ol,table,figure,.highlight-group{page-break-inside:avoid}.highlight-group{page-break-before:avoid}h1,h2,h3,h4,h5,h6{page-break-before:avoid;page-break-after:avoid}img{max-width:100% !important}p a{word-wrap:break-word}p a[href^="#"]:after{display:none}p a[href^="http://"]:after,p a[href^="https://"]:after{content:attr(href);float:footnote;color:#333;text-decoration:none;text-align:left;page-break-inside:avoid;page-break-before:avoid}article [title]::after{content:" (" attr(title) ") ";float:footnote}.highlight-group a{font-size:50%}div.highlight{border-radius:5px;border:2px black solid}[role="article"] .content{margin-bottom:1em !important}[role="complementary"]{display:none}[role="contentinfo"]{page-break-inside:avoid;font-size:small}.admonition{padding:0 0 0 1em}.admonition::before{visibility:hidden}}@media print and (color){*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}::selection{background:rgba(76,49,80,0.5);color:#ffffff}::-moz-selection{background:rgba(76,49,80,0.5);color:#ffffff}#type-encodings tr>td:first-child,#method-encodings tr>td:first-child{width:12em;padding-left:3em}@media screen and (max-width: 480px){#gpuimage table{font-size:50%}}#gpuimage #gpuimage-benchmarks td{text-align:center}#gpuimage #gpuimage-benchmarks td:first-child{text-align:left}#gpuimage #gpuimage-benchmarks td:last-child{text-align:right}#gpuimage #gpuimage-filters td{vertical-align:top;font-size:75%}#gpuimage blockquote{font-size:75%}table.core-data-versus-nskeyedarchiver td{text-align:center}table.core-data-versus-nskeyedarchiver td:first-child{text-align:left;font-weight:bold}table#xcode-key-bindings-modifiers{width:100%}table#xcode-key-bindings-modifiers td,table#xcode-key-bindings-modifiers th{width:20%;text-align:center}#cfstringtransform table{display:block}#cfstringtransform table td:first-child{width:60%}#icloud header time{background-color:rgba(255,128,0,0.2)}
+      /*# sourceMappingURL=/assets/source-maps/screen.scss.map */
+      /*# sourceURL=assets/css/screen.scss */
+    </style>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#292724"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="NSHipster"/>
+    <meta name="application-name" content="NSHipster"/>
+    <meta name="msapplication-TileColor" content="#f8f7f5"/>
+    <meta name="theme-color" content="#f8f7f5"/>
+    <link rel="author" type="text/plain" href="/humans.txt"/>
+    <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@NSHipster"/>
+    <meta name="twitter:title" content="UIFieldBehavior"/>
+    <meta name="twitter:description" content="With the design refresh of iOS in its 7th release, skeuomorphic design was famously sunset. In its place, a new paradigm emerged, in which UI controls were made to feel like physical objects rather than simply look like them.
+"/>
+    <meta name="twitter:label1" value="Category" />
+    <meta name="twitter:data1" value="Cocoa" />
+    <meta name="twitter:account_id" content="629523445"/>
+    <meta property="og:site_name" content="NSHipster"/>
+    <meta property="og:image" content="https://nshipster.com/logo.png"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="UIFieldBehavior"/>
+    <meta property="og:url" content="https://nshipster.com/uifieldbehavior/"/>
+    <meta property="og:description" content="With the design refresh of iOS in its 7th release, skeuomorphic design was famously sunset. In its place, a new paradigm emerged, in which UI controls were made to feel like physical objects rather than simply look like them.
+"/>
+    <meta property="article:published_time" content="2018-09-24T00:00:00-07:00"/>
+    <meta property="article:modified_time" content="2019-04-02T08:39:53-07:00"/>
+    <meta property="article:tag" content="Cocoa"/>
+    <meta property="article:publisher" content="https://www.facebook.com/NSHipster">
+    <link rel="next" href="https://nshipster.com/macos-dynamic-desktop/" />
+    <link rel="prev" href="https://nshipster.com/ios-12/" />
+  </head>
+  <body>
+    <div class="container">
+      <header role="banner">
+        <h1 id="logo">
+          <a href="/" title="NSHipster">
+            <?xml version="1.0"?>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.4 266.34">
+                <g id="ns">
+                  <path d="M16.05 5.37h68.38l88.78 157.52h.72V5.37h62.64V261H168.2L79.42 101.67h-.72V261H16.05z"/>
+                  <path d="M294.78 175.06c1.43 30.07 20 39.73 48.33 39.73 20 0 40.81-7.16 40.81-26.13 0-22.55-36.52-26.85-73.39-37.23-36.52-10.38-74.82-26.85-74.82-73.75C235.71 21.84 291.91 0 339.88 0c50.84 0 102 24.7 102.39 82.34h-66.59c1.08-23.27-20.76-30.79-41.17-30.79-14.32 0-32.21 5-32.21 21.84 0 19.69 36.87 23.27 74.1 33.65 36.87 10.38 74.1 27.56 74.1 73.74 0 64.8-55.13 85.56-111.33 85.56-58.71 0-110.62-25.77-111-91.28z"/>
+                </g>
+                <g id="mustache">
+                  <path d="M168.07 104.61c-59.6 3-113.84 79.27-168.07 12.52 0 90 141.25 181.77 237.2 97.14 95.36 84 237.2-7.75 237.2-97.14-74.5 91.78-149-85.83-237.2 26.81-23.84-31.58-47.08-40.52-69.13-39.33z"/>
+                </g>
+              </svg>
+            </a>
+          </h1>
+        </header>
+        <main>
+          <article role="article" itemscope itemtype="https://schema.org/Article">
+            <header role="heading">
+              <h1 class="title" itemprop="name">
+                <a href="/uifieldbehavior/">UIField​Behavior</a>
+              </h1>
+              <div class="byline">
+                Written by
+                <span class="authors">
+                  <a class="author" href="/authors/jordan-morgan/">Jordan Morgan</a>
+                </span>
+                <time datetime="2018-09-24T00:00:00-07:00" itemprop="datePublished">September 24<sup>th</sup>, 2018</time>
+                <time datetime="2018-09-24T00:00:00-07:00" itemprop="dateModified" hidden aria-hidden="true">September 24<sup>th</sup>, 2018</time>
+              </div>
+              <link itemprop="image" href="https://nshipster.com/logo.png"/>
+              <meta itemprop="headline" content="UIFieldBehavior"/>
+              <div itemprop="publisher" itemscope itemtype="http://schema.org/Organization" hidden aria-hidden="true">
+                <meta itemprop="name" content="NSHipster"/>
+                <meta itemprop="logo" content="https://nshipster.com/logo.png"/>
+              </div>
+            </header>
+            <div class="content" itemprop="articleBody">
+              <p>The decade mark for iOS has come and gone.
+                Once a nascent craft,
+                iOS development today has a well-worn, broken-in feel to it.</p>
+              <p>And yet, when I step outside my comfort zone of
+                table views, labels, buttons, and the like,
+                I often find myself stumbling upon pieces of Cocoa Touch
+                that I’d either overlooked or completely forgotten about.
+                When I do, it’s like picking an old book from a shelf;
+                the anticipation of what might be tucked away in its pages
+                invariably swells up within you.</p>
+              <p>Recently, <code>UIField<wbr></wbr>Behavior</code> has been my dust-covered tome
+              sitting idly inside UIKit.
+              An API built to model complex field physics for UI elements
+              isn’t a typical use case,
+              nor is it likely to be the hot topic among fellow engineers.
+              But, when you need it, you <em>need</em> it, and not much else will do.
+              And as purveyors of the oft-forgotten or seldom used,
+              it serves as an excellent topic for this week’s NSHipster article.</p>
+            <hr>
+            <p>With the design refresh of iOS in its 7th release,
+              skeuomorphic design was famously sunset.
+              In its place,
+              a new paradigm emerged,
+              in which UI controls were made to <em>feel</em> like physical objects
+              rather than simply look like them.
+              New APIs would be needed to usher in this new era of UI design,
+              and so we were introduced to
+              <a href="https://developer.apple.com/documentation/uikit/animation_and_haptics/uikit_dynamics" rel="noopener noreferrer">UIKit Dynamics</a>.</p>
+            <p>Examples of this reach out across the entire OS:
+              the bouncy lock screen,
+              the flickable photos,
+              those oh-so-bubbly message bubbles —
+              these and many other interactions leverage some flavor of UIKit Dynamics
+              (of which there are several).</p>
+            <ul>
+              <li>
+                <code>UIAttachment<wbr></wbr>Behavior</code>:
+              Creates a relationship between two items,
+              or an item and a given anchor point.</li>
+            <li>
+              <code>UICollision<wbr></wbr>Behavior</code>:
+            Causes one or more objects to bounce off of one another
+            instead of overlapping without interaction.</li>
+          <li>
+            <code>UIField<wbr></wbr>Behavior</code>:
+          Enables an area or item to participate in field-based physics.</li>
+        <li>
+          <code>UIGravity<wbr></wbr>Behavior</code>:
+        Applies a gravitational force, or pull.</li>
+      <li>
+        <code>UIPush<wbr></wbr>Behavior</code>:
+      Creates an instantaneous or continuous force.</li>
+    <li>
+      <code>UISnap<wbr></wbr>Behavior</code>:
+    Produces a motion that dampens over time.</li>
+</ul>
+<p>For this article,
+  let’s take a look at <code>UIField<wbr></wbr>Behavior</code>,
+which our good friends in Cupertino used to build the
+<abbr title="picture-in-picture">PiP</abbr> functionality
+seen in FaceTime calls.</p>
+<p><img alt="FaceTime" title="Image: Apple Inc. All Rights reserved." integrity="sha256-nf7+E+2nT+vVJrLAETzv3ew7Z0R+91d74nMWhjAj3vw=" crossorigin="anonymous" src="/assets/facetime-picture-in-picture-9dfefe13eda74febd526b2c0113cefddec3b67447ef7577be27316863023defc.png"></p>
+<h2>
+  <a class="anchor" aria-hidden="true" id="understanding-field-behaviors" href="#understanding-field-behaviors"></a>Understanding Field Behaviors</h2>
+<p>Apple mentions that <code>UIField<wbr></wbr>Behavior</code> applies “field-based” physics,
+but what does that mean, exactly?
+Thankfully, it’s more relatable that one might think.</p>
+<p>There are plenty of examples of field-based physics in the real world,
+  whether it’s
+  the pull of a magnet,
+  the *sproing* of a spring,
+  the force of gravity pulling you down to earth.
+  Using <code>UIField<wbr></wbr>Behavior</code>,
+we can designate areas of our view to apply certain physics effects
+whenever an item enters into them.</p>
+<p>Its approachable API design allows us to complex physics
+  without much more than a factory method:</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-1-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-1-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-1-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-1-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-1-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-1-swift-tab"><code><span class="k">let</span> <span class="nv">drag</span> <span class="o">=</span> <span class="kt">UIField<wbr></wbr>Behavior</span><span class="o">.</span><span class="nf">drag<wbr></wbr>Field</span><span class="p">()</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-1-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-1-objective-c-tab" hidden="hidden"><code><span class="n">UIField<wbr></wbr>Behavior</span> <span class="o">*</span><span class="n">drag</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIField<wbr></wbr>Behavior</span> <span class="nf">drag<wbr></wbr>Field</span><span class="p">];</span>
+</code></pre>
+</div>
+<p>Once we have a field force at our disposal,
+  it’s a matter of placing it on the screen
+  and defining its area of influence.</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-2-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-2-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-2-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-2-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-2-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-2-swift-tab"><code><span class="n">drag</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">center</span>
+<span class="n">drag</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="kt">UIRegion</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-2-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-2-objective-c-tab" hidden="hidden"><code><span class="n">drag</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">center</span><span class="p">;</span>
+<span class="n">drag</span><span class="p">.</span><span class="n">region</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIRegion</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init<wbr></wbr>With<wbr></wbr>Size</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
+</code></pre>
+</div>
+<p>If you need more granular control over a field’s behavior,
+  you can configure its <code>strength</code> and <code>falloff</code>,
+  as well as any additional properties specific to that field type.</p>
+<hr>
+<p>All UIKit Dynamics behaviors require some setup to take effect,
+  and <code>UIField<wbr></wbr>Behavior</code> is no exception.
+The flow looks generally something like this:</p>
+<ul>
+  <li>Create an instance of a <code>UIDynamic<wbr></wbr>Animator</code>
+  to provide the context for any animations affecting its dynamic items.</li>
+<li>Initialize the desired behaviors to use.</li>
+<li>Add the views you wish to be involved with each behavior.</li>
+<li>Add those behaviors to the dynamic animator from step one.</li>
+</ul>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-3-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-3-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-3-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-3-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-3-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-3-swift-tab"><code><span class="kd">lazy</span> <span class="k">var</span> <span class="nv">animator</span><span class="p">:</span><span class="kt">UIDynamic<wbr></wbr>Animator</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">UIDynamic<wbr></wbr>Animator</span><span class="p">(</span><span class="nv">reference<wbr></wbr>View</span><span class="p">:</span> <span class="n">view</span><span class="p">)</span>
+<span class="p">}()</span>
+
+<span class="k">let</span> <span class="nv">drag</span> <span class="o">=</span> <span class="kt">UIField<wbr></wbr>Behavior</span><span class="o">.</span><span class="nf">drag<wbr></wbr>Field</span><span class="p">()</span>
+
+<span class="c1">// view<wbr></wbr>Did<wbr></wbr>Load:</span>
+<span class="n">drag</span><span class="o">.</span><span class="nf">add<wbr></wbr>Item</span><span class="p">(</span><span class="n">another<wbr></wbr>View</span><span class="p">)</span>
+<span class="n">animator</span><span class="o">.</span><span class="nf">add<wbr></wbr>Behavior</span><span class="p">(</span><span class="n">drag</span><span class="p">)</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-3-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-3-objective-c-tab" hidden="hidden"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nonnull</span><span class="p">)</span> <span class="n">UIDynamic<wbr></wbr>Animator</span> <span class="o">*</span><span class="n">animator</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nonnull</span><span class="p">)</span> <span class="n">UIField<wbr></wbr>Behavior</span> <span class="o">*</span><span class="n">drag</span><span class="p">;</span>
+
+<span class="c1">// view<wbr></wbr>Did<wbr></wbr>Load:</span>
+<span class="n">self</span><span class="p">.</span><span class="n">animator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIDynamic<wbr></wbr>Animator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init<wbr></wbr>With<wbr></wbr>Reference<wbr></wbr>View</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+<span class="n">self</span><span class="p">.</span><span class="n">drag</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIField<wbr></wbr>Behavior</span> <span class="nf">drag<wbr></wbr>Field</span><span class="p">];</span>
+
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">drag</span> <span class="nf">add<wbr></wbr>Item</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">another<wbr></wbr>View</span><span class="p">];</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">animator</span> <span class="nf">add<wbr></wbr>Behavior</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">drag</span><span class="p">];</span>
+</code></pre>
+</div>
+<aside class="admonition warning">
+  <p>Take care to keep a strong reference to you <code>UIKit<wbr></wbr>Dynamic<wbr></wbr>Animator</code> object.
+You don’t typically need to do this for behaviors
+because the animator takes ownership to a behavior once it’s added.</p>
+</aside>
+<p>For a <em>bona fide</em> example of <code>UIField<wbr></wbr>Behavior</code>,
+let’s take a look at how FaceTime leverages it
+to make the small rectangular view of the front-facing camera
+stick to each corner of the view’s bounds.</p>
+<h2>
+  <a class="anchor" aria-hidden="true" id="face-to-face-with-spring-fields" href="#face-to-face-with-spring-fields"></a>Face to Face with Spring Fields</h2>
+<p>During a FaceTime call,
+  you can flick your picture-in-picture
+  to one of the corners of the screen.
+  How do we get it to move fluidly but still stick?</p>
+<p>One approach might entail
+  checking a gesture recognizer’s end state,
+  calculating which corner to settle into,
+  and animating as necessary.
+  The problem here is that we likely would lose the “secret sauce”
+  that Apple painstakingly applies to these little interactions,
+  such as the interpolation and dampening that occurs
+  as the avatar settles into a corner.</p>
+<p>This is a textbook situation for <code>UIField<wbr></wbr>Behavior</code>’s spring field.
+If we think about how a literal spring works,
+it exerts a linear force equal to the amount of strain that’s put on it.
+So, if we push down on a coiled spring
+we expect it to snap back into place once we let go.</p>
+<p>This is also why spring fields
+  can help contain items within a particular part of your UI.
+  You could think of a boxing ring
+  and how its elastic rope keeps contestants within the ring.
+  With springs, though, the rope would originate from the center of the ring
+  and be pulled back to each edge.</p>
+<p>A spring field works a lot like this.
+  Imagine if our view’s bounds were divided into four rectangles,
+  and we had these springs hanging out around the edges of each one.
+  The springs would be “pushed” down from the center of the rectangle
+  to the edge of its corner.
+  When the avatar enters any of the corners,
+  the spring is “let go” and gives us that nice little push that we’re after.</p>
+<aside class="admonition info">
+  <p>The spring field is created by replicating
+    <a href="https://phys.org/news/2015-02-law.html" rel="noopener noreferrer">Hooke’s Law</a>
+    to calculate how much force should be applied to the objects within the field.</p>
+</aside>
+<p>To take care of the avatar settling into each corner,
+  we can do something clever like this:</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-4-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-4-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-4-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-4-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-4-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-4-swift-tab"><code><span class="k">let</span> <span class="nv">scale</span> <span class="o">=</span> <span class="kt">CGAffine<wbr></wbr>Transform</span><span class="p">(</span><span class="nv">scale<wbr></wbr>X</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">vertical</span> <span class="k">in</span> <span class="p">[\</span><span class="kt">UIEdge<wbr></wbr>Insets</span><span class="o">.</span><span class="n">left</span><span class="p">,</span>
+                 <span class="p">\</span><span class="kt">UIEdge<wbr></wbr>Insets</span><span class="o">.</span><span class="n">right</span><span class="p">]</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="n">horizontal</span> <span class="k">in</span> <span class="p">[\</span><span class="kt">UIEdge<wbr></wbr>Insets</span><span class="o">.</span><span class="n">top</span><span class="p">,</span>
+                       <span class="p">\</span><span class="kt">UIEdge<wbr></wbr>Insets</span><span class="o">.</span><span class="n">bottom</span><span class="p">]</span>
+    <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">spring<wbr></wbr>Field</span> <span class="o">=</span> <span class="kt">UIField<wbr></wbr>Behavior</span><span class="o">.</span><span class="nf">spring<wbr></wbr>Field</span><span class="p">()</span>
+        <span class="n">spring<wbr></wbr>Field</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span>
+            <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">layout<wbr></wbr>Margins</span><span class="p">[</span><span class="nv">key<wbr></wbr>Path</span><span class="p">:</span> <span class="n">horizontal</span><span class="p">],</span>
+                    <span class="nv">y</span><span class="p">:</span> <span class="n">layout<wbr></wbr>Margins</span><span class="p">[</span><span class="nv">key<wbr></wbr>Path</span><span class="p">:</span> <span class="n">vertical</span><span class="p">])</span>
+        <span class="n">spring<wbr></wbr>Field</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span>
+            <span class="kt">UIRegion</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="nf">applying</span><span class="p">(</span><span class="n">scale</span><span class="p">))</span>
+
+        <span class="n">animator</span><span class="o">.</span><span class="nf">add<wbr></wbr>Behavior</span><span class="p">(</span><span class="n">spring<wbr></wbr>Field</span><span class="p">)</span>
+        <span class="n">spring<wbr></wbr>Field</span><span class="o">.</span><span class="nf">add<wbr></wbr>Item</span><span class="p">(</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-4-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-4-objective-c-tab" hidden="hidden"><code><span class="n">UIField<wbr></wbr>Behavior</span> <span class="o">*</span><span class="n">top<wbr></wbr>Left<wbr></wbr>Corner<wbr></wbr>Field</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIField<wbr></wbr>Behavior</span> <span class="nf">spring<wbr></wbr>Field</span><span class="p">];</span>
+
+<span class="c1">// Top left corner</span>
+<span class="n">top<wbr></wbr>Left<wbr></wbr>Corner<wbr></wbr>Field</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPoint<wbr></wbr>Make</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">layout<wbr></wbr>Margins</span><span class="p">.</span><span class="n">left</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">layout<wbr></wbr>Margins</span><span class="p">.</span><span class="n">top</span><span class="p">);</span>
+<span class="n">top<wbr></wbr>Left<wbr></wbr>Corner<wbr></wbr>Field</span><span class="p">.</span><span class="n">region</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIRegion</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init<wbr></wbr>With<wbr></wbr>Size</span><span class="p">:</span><span class="n">CGSize<wbr></wbr>Make</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mi">2</span><span class="p">)];</span>
+
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">animator</span> <span class="nf">add<wbr></wbr>Behavior</span><span class="p">:</span><span class="n">top<wbr></wbr>Left<wbr></wbr>Corner<wbr></wbr>Field</span><span class="p">];</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">top<wbr></wbr>Left<wbr></wbr>Corner<wbr></wbr>Field</span> <span class="nf">add<wbr></wbr>Item</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">];</span>
+
+<span class="c1">// Continue to create a spring field for each corner...</span>
+</code></pre>
+</div>
+<h2>
+  <a class="anchor" aria-hidden="true" id="debugging-physics" href="#debugging-physics"></a>Debugging Physics</h2>
+<p>It’s not easy to conceptualize the interactions of invisible field forces.
+  Thankfully, Apple anticipated as much
+  and provides a somewhat out-of-the-box way to solve this problem.</p>
+<p>Tucked away inside of <code>UIDynamic<wbr></wbr>Animator</code> is a Boolean property, <code>debug<wbr></wbr>Enabled</code>.
+Setting it to <code>true</code> paints the interface with red lines
+to visualize field-based effects and their influence.
+This can go quite a long way to help you
+make sense of how their dynamics are working.</p>
+<p>This API isn’t exposed publicly,
+  but you can unlock its potential through a category
+  or using key-value coding:</p>
+<pre class="highlight" data-lang="Objective-C"><code><span class="k">@import</span> <span class="n">UIKit</span><span class="p">;</span>
+
+<span class="cp">#if DEBUG
+</span>
+<span class="k">@interface</span> <span class="nc">UIDynamic<wbr></wbr>Animator</span> <span class="p">(</span><span class="nl">Debugging</span><span class="p">)</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">is<wbr></wbr>Debug<wbr></wbr>Enabled</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">debug<wbr></wbr>Enabled</span><span class="p">;</span>
+<span class="k">@end</span>
+
+<span class="cp">#endif
+</span></code></pre>
+<p>or</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-5-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-5-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-5-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-5-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-5-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-5-swift-tab"><code><span class="n">animator</span><span class="o">.</span><span class="nf">set<wbr></wbr>Value</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="nv">for<wbr></wbr>Key</span><span class="p">:</span> <span class="s">"debug<wbr></wbr>Enabled"</span><span class="p">)</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-5-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-5-objective-c-tab" hidden="hidden"><code><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">animator</span> <span class="nf">set<wbr></wbr>Value</span><span class="p">:</span><span class="mi">@1</span> <span class="nf">for<wbr></wbr>Key</span><span class="p">:</span><span class="s">@"debug<wbr></wbr>Enabled"</span><span class="p">];</span>
+</code></pre>
+</div>
+<p>Although creating a category involves a bit more legwork, it’s the safer option.
+  The slippery slope of key-value coding can rear its exception-laden head
+  with any iOS release in the future,
+  as the price of convenience is typically anything but free.</p>
+<p>With debugging enabled,
+  it appears as though each corner has a spring effect attached to it.
+  Running and using our fledgling app, however,
+  reveals that it’s not enough to complete the effect we’re seeking.</p>
+<p><img integrity="sha256-2dqsQbjCqK9o1kbn73aTQgxblO9QS/H7KtgNyeH55Gk=" crossorigin="anonymous" src="/assets/uidynamicanimator-debug-d9daac41b8c2a8af68d646e7ef7693420c5b94ef504bf1fb2ad80dc9e1f9e469.jpg"></p>
+<h2>
+  <a class="anchor" aria-hidden="true" id="aggregating-behaviors" href="#aggregating-behaviors"></a>Aggregating Behaviors</h2>
+<p>Let’s take stock of our current situation
+  to deepen our understanding of field physics.
+  Currently, we’ve got a few issues:</p>
+<ol>
+  <li>The avatar could fly off the screen with nothing to keep it constrained
+    aside from spring fields</li>
+  <li>It has a knack for rotating in circles.</li>
+  <li>Also, it’s a tad slow.</li>
+</ol>
+<p>UIKit Dynamics simulates physics —
+  perhaps too well.</p>
+<p>Fortunately, we can mitigate all of these undesirable side effects.
+  To wit, they are rather trivial fixes,
+  but it’s the <em>reason</em> why they’re needed that’s key.</p>
+<p>The first issue is solved in a rather trivial fashion
+  with what is likely UIKit Dynamics most easily understood behavior:
+  the collision.
+  To better hone in on how the avatar view should react
+  once it’s acted upon by a spring field,
+  we need to describe its physical properties in a more intentional manner.
+  Ideally, we’d want it to behave like it would in real life,
+  with gravity and friction acting to slow down its momentum.</p>
+<p>For such occasions,
+  <code>UIDynamic<wbr></wbr>Item<wbr></wbr>Behavior</code> is ideal.
+It lets us attach physical properties to what would otherwise be mere
+abstract view instances interacting with a physics engine.
+Though UIKit does provide default values for each of these properties
+when interacting with the physics engine,
+they are likely not tuned to your specific use case.
+And UIKit Dynamics almost always falls into the “specific use case” bucket.</p>
+<p>It’s not hard to foresee how the lack of such an API
+  could quickly turn problematic.
+  If we want to model things like a push, pull or velocity
+  but have no way to specify the object’s mass or density,
+  we’d be omitting a critical piece of the puzzle.</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-6-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-6-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-6-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-6-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-6-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-6-swift-tab"><code><span class="k">let</span> <span class="nv">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="o">=</span> <span class="kt">UIDynamic<wbr></wbr>Item<wbr></wbr>Behavior</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="p">[</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">])</span>
+<span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="o">.</span><span class="n">allows<wbr></wbr>Rotation</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="o">.</span><span class="n">resistance</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="mf">0.02</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-6-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-6-objective-c-tab" hidden="hidden"><code><span class="n">UIDynamic<wbr></wbr>Item<wbr></wbr>Behavior</span> <span class="o">*</span><span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIDynamic<wbr></wbr>Item<wbr></wbr>Behavior</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init<wbr></wbr>With<wbr></wbr>Items</span><span class="p">:@[</span><span class="n">self</span><span class="p">.</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">]];</span>
+<span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="p">.</span><span class="n">allows<wbr></wbr>Rotation</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="p">.</span><span class="n">resistance</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="n">avatar<wbr></wbr>Physical<wbr></wbr>Properties</span><span class="p">.</span><span class="n">density</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">02</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>Now the avatar view more closely mirrors real-world physics
+  in that it slows down a tinge after pushed by a spring field.
+  The configurations available from <code>UIDynamic<wbr></wbr>Item<wbr></wbr>Behavior</code> are impressive,
+as support for elasticity, charge and anchoring are also available
+to ensure you can continuing tweaking things until they feel right.</p>
+<p>Further, it also includes out-of-the-box support
+  for attaching linear or angular velocity to an object.
+  This serves as the perfect bookend to our journey with <code>UIDynamic<wbr></wbr>Item<wbr></wbr>Behavior</code>,
+as we probably want to give our FaceTime avatar a friendly nudge
+at the end of the gesture recognizer
+to send it off to its nearest corner,
+thus letting the relevant spring field take over:</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-7-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-7-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-7-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-7-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-7-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-7-swift-tab"><code><span class="c1">// Inside a switch for a gesture recognizer...</span>
+<span class="k">case</span> .canceled, .ended:
+<span class="k">let</span> <span class="nv">velocity</span> <span class="o">=</span> <span class="n">pan<wbr></wbr>Gesture</span><span class="o">.</span><span class="nf">velocity</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="n">view</span><span class="p">)</span>
+<span class="n">facetime<wbr></wbr>Avatar<wbr></wbr>Behavior</span><span class="o">.</span><span class="nf">add<wbr></wbr>Linear<wbr></wbr>Velocity</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="n">facetime<wbr></wbr>Avatar</span><span class="p">)</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-7-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-7-objective-c-tab" hidden="hidden"><code><span class="c1">// Inside a switch for a gesture recognizer...</span>
+<span class="k">case</span> <span class="n">UIGesture<wbr></wbr>Recognizer<wbr></wbr>State<wbr></wbr>Cancelled</span><span class="p">:</span>
+<span class="k">case</span> <span class="n">UIGesture<wbr></wbr>Recognizer<wbr></wbr>State<wbr></wbr>Ended</span><span class="p">:</span>
+<span class="p">{</span>
+<span class="n">CGPoint</span> <span class="n">velocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">pan<wbr></wbr>Gesture</span> <span class="nf">velocity<wbr></wbr>In<wbr></wbr>View</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+<span class="p">[</span><span class="n">facetime<wbr></wbr>Avatar<wbr></wbr>Behavior</span> <span class="nf">add<wbr></wbr>Linear<wbr></wbr>Velocity</span><span class="p">:</span><span class="n">velocity</span> <span class="nf">for<wbr></wbr>Item</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">];</span>
+<span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>We’re almost finished creating our faux FaceTime UI.</p>
+<p>To pull the entire experience together,
+  we need to account for what our FaceTime avatar should do
+  when it reaches the corners of the animator’s view.
+  We want it to stay contained within it,
+  and currently,
+  nothing is keeping it from flying off the screen.
+  UIKit Dynamics offers us such behavior
+  to account for these situations by way of <code>UICollision<wbr></wbr>Behavior</code>.</p>
+<p>Creating a collision follows a similar pattern
+  as with using any other UIKit Dynamics behavior,
+  thanks to consistent API design:</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-8-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-8-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-8-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-8-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-8-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-8-swift-tab"><code><span class="k">let</span> <span class="nv">parent<wbr></wbr>View<wbr></wbr>Bounds<wbr></wbr>Collision</span> <span class="o">=</span> <span class="kt">UICollision<wbr></wbr>Behavior</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="p">[</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">])</span>
+<span class="n">parent<wbr></wbr>View<wbr></wbr>Bounds<wbr></wbr>Collision</span><span class="o">.</span><span class="n">translates<wbr></wbr>Reference<wbr></wbr>Bounds<wbr></wbr>Into<wbr></wbr>Boundary</span> <span class="o">=</span> <span class="kc">true</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-8-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-8-objective-c-tab" hidden="hidden"><code><span class="n">UICollision<wbr></wbr>Behavior</span> <span class="o">*</span><span class="n">parent<wbr></wbr>View<wbr></wbr>Bounds<wbr></wbr>Collision</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UICollision<wbr></wbr>Behavior</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init<wbr></wbr>With<wbr></wbr>Items</span><span class="p">:@[</span><span class="n">self</span><span class="p">.</span><span class="n">facetime<wbr></wbr>Avatar</span><span class="p">]];</span>
+<span class="n">parent<wbr></wbr>View<wbr></wbr>Bounds<wbr></wbr>Collision</span><span class="p">.</span><span class="n">translates<wbr></wbr>Reference<wbr></wbr>Bounds<wbr></wbr>Into<wbr></wbr>Boundary</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>Take note of <code>translates<wbr></wbr>Reference<wbr></wbr>Bounds<wbr></wbr>Into<wbr></wbr>Boundary</code>.
+When <code>true</code>,
+it treats our animator view’s bounds as its collision boundaries.
+Recall that this was our initial step in setting up our dynamics stack:</p>
+<div class="highlight-group">
+  <div role="tablist" aria-label="Languages">
+    <button role="tab" id="code-listing-9-swift-tab" class="swift" aria-label="Languages" aria-controls="code-listing-9-swift" aria-selected="true" tabindex="-1">
+      Swift
+    </button>
+    <button role="tab" id="code-listing-9-objective-c-tab" class="objective-c" aria-label="Languages" aria-controls="code-listing-9-objective-c" aria-selected="false" tabindex="-1">
+      Objective-C
+    </button>
+  </div>
+  <pre class="highlight" data-lang="Swift" id="code-listing-9-swift" role="tabpanel" tabindex="0" aria-labelledby="code-listing-9-swift-tab"><code><span class="kd">lazy</span> <span class="k">var</span> <span class="nv">animator</span><span class="p">:</span><span class="kt">UIDynamic<wbr></wbr>Animator</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">UIDynamic<wbr></wbr>Animator</span><span class="p">(</span><span class="nv">reference<wbr></wbr>View</span><span class="p">:</span> <span class="n">view</span><span class="p">)</span>
+<span class="p">}()</span>
+</code></pre>
+  <pre class="highlight" data-lang="Objective-C" id="code-listing-9-objective-c" role="tabpanel" tabindex="0" aria-labelledby="code-listing-9-objective-c-tab" hidden="hidden"><code><span class="n">self</span><span class="p">.</span><span class="n">animator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIDynamic<wbr></wbr>Animator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init<wbr></wbr>With<wbr></wbr>Reference<wbr></wbr>View</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+</code></pre>
+</div>
+<p>By aggregating several behaviors to work as one,
+  we can now bask in our work:</p>
+<video preload="none" src="/assets/uifieldbehavior-demo-9722440c99889c7d4c5d32383fd7f55a3a9f71b8143f4e53d5bfa53de7f6ad75.mp4" poster="/assets/uifieldbehavior-demo-626528978fcb2e794ff3f76ca681a3ac33e1272ba9c36a31efcfef48198d4907.png" width="320" controls=""></video>
+<p><br>
+</p>
+<p>If you want to stray from the FaceTime “sticky” corners,
+  you are in an ideal position to do so.
+  <code>UIField<wbr></wbr>Behavior</code> has many more field physics to offer other than just a spring.
+You could experiment by replacing it with a magnetism effect,
+or constantly have the avatar rotate around a given point.</p>
+<hr>
+<p>iOS has largely parted ways with skeuomorphism,
+  and user experience has come a long way as a result.
+  We no longer necessarily require
+  <a href="/assets/game-center-felt-27ef2ba3e6d220b2d65a1fc96def714460cb206d5b085e4e3d69b1e5b279328d.jpg">green felt</a>
+  to know that Game Center represents games and how we can manage them.</p>
+<p>Instead, UIKit Dynamics introduces an entirely new way
+  for users to interact and connect with iOS.
+  Making UI components behave as they do in the real world
+  instead of simply looking like them
+  is a good illustration of how far user experience has evolved since 2007.</p>
+<p>Stripping away this layer across the OS
+  opened the door for UIKit Dynamics to connect
+  our expectations of how visual elements should react to our actions.
+  These little connections may seem inconsequential at first glance,
+  but take them away,
+  and you’ll likely start to realize that things would feel “off.”</p>
+<p>UIKit Dynamics offers up many flavors of physical behaviors to leverage,
+  and its field behaviors are perhaps some of the most interesting and versatile.
+  The next time you see an opportunity to create a connection in your app,
+  <code>UIField<wbr></wbr>Behavior</code> might give you the start you need.</p>
+</div>
+<footer role="complementary">
+  <section id="revisions">
+    <small>NSMutableHipster</small>
+    <p>
+      Questions? Corrections? <a href="https://github.com/NSHipster/articles/issues">Issues</a> and <a href="https://github.com/NSHipster/articles/blob/master/2018-09-24-uifieldbehavior.md">pull requests</a> are always welcome.
+    </p>
+    <p class="status">
+      <em>This article uses Swift version 4.2.</em>
+      Find status information for all articles on the <a href="/status/">status page</a>.
+    </p>
+  </section>
+  <section id="attribution">
+    <div class="contributor" itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <small>Written by</small>
+      <img class="avatar" alt="Jordan Morgan" itemprop="image" src="/assets/jordan-morgan-13fd6232a07d6992c95e32357b8f6737f61dc86e50a6a80b092f2902063ba5c9.jpg" draggable="false"/>
+      <div class="details">
+        <span itemprop="name"><a href="/authors/jordan-morgan/">Jordan Morgan</a></span>
+        <p>Jordan Morgan is a software developer from Ozark, who created
+          <a href="https://dreaminginbinary.co" rel="noopener noreferrer">Dreaming In Binary</a>
+          as a creative outlet for his side projects.
+          Currently, he is an iOS engineer at <a href="https://buffer.com" rel="noopener noreferrer">Buffer</a>.
+          Jordan is focused on helping the community by
+          doing talks about iOS and remote work and
+          writing books and blogs posts,
+          and considers himself a lifelong student for all forms of software engineering.</p>
+        <a href="https://plus.google.com/?rel=author" rel="author"></a>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div id="continue">
+      <small>Next Article</small>
+      <article>
+        <h1 class="title">
+          <a rel="next" href="/macos-dynamic-desktop/" title="macOS Dynamic Desktop">mac​OS Dynamic Desktop</a>
+        </h1>
+        <p>Dark Mode is one of the most popular additions to macOS — especially among us developer types. If you triangulate between that and Night Shift,  introduced a couple of years prior, you get the Dynamic Desktop feature, new in Mojave.</p>
+      </article>
+    </div>
+  </section>
+</footer>
+</article>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https://nshipster.com",
+          "name": "Articles"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@id": "https://nshipster.com/uifieldbehavior/",
+          "name": "UIFieldBehavior"
+        }
+      }
+    ]
+  }
+</script>
+</main>
+<footer role="contentinfo">
+  <section class="credits colophon">
+    <p>
+      <i aria-hidden="true" class="icon-cc" title="Creative Commons"></i>
+      <i aria-hidden="true" class="icon-by" title="Attribution"></i>
+      <i aria-hidden="true" class="icon-nc" title="Non-Commercial"></i>
+      NSHipster.com is released under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">Creative Commons BY-NC License</a>.
+    </p>
+    <p>
+      NSHipster is also available in
+      <a href="https://nshipster.cn" hreflang="zh-Hans">Chinese (Simplified)</a>,
+      <a href="https://nshipster.co.kr" hreflang="ko">Korean</a>,
+      <a href="https://nshipster.fr" hreflang="fr">French</a>, and
+      <a href="https://nshipster.es" hreflang="es">Spanish</a>
+      .
+    </p>
+    <a href="https://plus.google.com/105091289906267717942" rel="publisher" hidden aria-hidden="true"></a>
+  </section>
+</footer>
+</div>
+<script async="async" src="/assets/application-7c59b22d22e826c0d17fc358aa9a2008daa8b396741ab2ef1a854e4780b0c624.js" integrity="sha256-fFmyLSLoJsDRf8NYqpogCNqos5Z0GrLvGoVOR4CwxiQ=" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NSHipster",
+    "legalName": "NSHipster, LLC",
+    "url": "https://nshipster.com",
+    "logo": "https://nshipster.com/logo.png",
+    "foundingDate": "2012",
+    "founders": [{
+      "@type": "Person",
+      "name": "Mattt"
+    }],
+    "sameAs": [
+      "https://twitter.com/nshipster",
+      "https://github.com/nshipster",
+      "https://plus.google.com/+NSHipster",
+      "https://www.facebook.com/NSHipster"
+    ]
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://nshipster.com",
+    "name": "NSHipster",
+    "author": {
+      "@type": "Person",
+      "name": "Mattt"
+    },
+    "description": "NSHipster is a journal of the overlooked bits in Objective-C, Swift, and Cocoa. Updated weekly.
+  ",
+    "publisher": "Read Evaluate Press, LLC"
+  }
+</script>
+<script type="application/cereal+json">
+    {
+        "endpoint": "https://analytics.nshipster.com/",
+        "property": 1
+    }
+</script>
+<script async defer src="https://analytics.nshipster.com/tracker.js"></script></body>
+</html>

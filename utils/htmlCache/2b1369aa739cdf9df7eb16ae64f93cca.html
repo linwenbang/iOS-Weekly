@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.54.0 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="Benoit Pasquier">
+<meta name="keywords" content="Swift4, iOS, iOS Architecture, RxSwift, Benoit Pasquier, mobile development">
+<meta name="description" content="It took me quite some time to get into Reactive Programming and its variant adapted for iOS development with RxSwift and RxCocoa. However, being fan of MVVM architecture and using an observer design pattern with it, it was natural for me to revisit my approach and use RxSwift instead. Thats what I’m going to cover in this post.">
+
+
+<meta property="og:description" content="It took me quite some time to get into Reactive Programming and its variant adapted for iOS development with RxSwift and RxCocoa. However, being fan of MVVM architecture and using an observer design pattern with it, it was natural for me to revisit my approach and use RxSwift instead. Thats what I’m going to cover in this post.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to integrate RxSwift in your MVVM architecture">
+<meta name="twitter:title" content="How to integrate RxSwift in your MVVM architecture">
+<meta property="og:url" content="https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+<meta property="twitter:url" content="https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+<meta property="og:site_name" content="Benoit Pasquier - Senior iOS developer">
+<meta property="og:description" content="It took me quite some time to get into Reactive Programming and its variant adapted for iOS development with RxSwift and RxCocoa. However, being fan of MVVM architecture and using an observer design pattern with it, it was natural for me to revisit my approach and use RxSwift instead. Thats what I’m going to cover in this post.">
+<meta name="twitter:description" content="It took me quite some time to get into Reactive Programming and its variant adapted for iOS development with RxSwift and RxCocoa. However, being fan of MVVM architecture and using an observer design pattern with it, it was natural for me to revisit my approach and use RxSwift instead. Thats what I’m going to cover in this post.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-02-06T08:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-02-06T08:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="Mobile">
+    
+  
+  
+    
+      <meta property="article:tag" content="RxSwift">
+    
+      <meta property="article:tag" content="iOS Architecture">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://benoitpasquier.com/images/2019/02/rxswift-mvvm-integration.png">
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/4ab83bab3154705233b2ba6c110cb64a?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/4ab83bab3154705233b2ba6c110cb64a?s=640">
+
+
+    <title>How to integrate RxSwift in your MVVM architecture</title>
+
+    <link rel="icon" href="https://benoitpasquier.com/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://benoitpasquier.com/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://benoitpasquier.com/custom.css">
+      
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://benoitpasquier.com/">Benoit Pasquier - Senior iOS developer</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://benoitpasquier.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/4ab83bab3154705233b2ba6c110cb64a?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://benoitpasquier.com/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/4ab83bab3154705233b2ba6c110cb64a?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Benoit Pasquier</h4>
+        
+          <h5 class="sidebar-profile-bio">I&rsquo;m a software engineer blogging about mobile development, UI/UX and self-improvement.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://benoitpasquier.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://benoitpasquier.com/benoit-pasquier-resume.pdf">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Resume</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://benoitpasquier.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://benoitpasquier.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/popei69" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/benoitpasquier/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://benoitpasquier.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="5"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      How to integrate RxSwift in your MVVM architecture
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-02-06T08:00:00Z">
+        
+  February 6, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://benoitpasquier.com/categories/mobile">Mobile</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>It took me quite some time to get into Reactive Programming and its variant adapted for iOS development with RxSwift and RxCocoa. However, being fan of MVVM architecture and using an <em><a href="https://benoitpasquier.com/observer-design-pattern-swift/">observer design pattern</a></em> with it, it was natural for me to revisit my approach and use RxSwift instead. Thats what I’m going to cover in this post.</p>
+
+<h2 id="prerequisite">Prerequisite</h2>
+
+<p>If you didn’t get chance to look into <a href="https://github.com/ReactiveX/RxSwift">Reactive Programming in Swift</a>, there are a lot resources online you can look into. On the other side, if you are not familiar with MVVM architecture in Swift, I can only recommend you to start <a href="https://benoitpasquier.com/ios-swift-mvvm-pattern/">here</a>.</p>
+
+<p>I’m actually going to reuse the Currency Converter app previously used for the MVVM introduction and update the code and use RxSwift. That is the best way to get a vue of <em>before / after</em> and what we get from that migration.</p>
+
+<h2 id="first-steps">First steps</h2>
+
+<p>To make it as easy as possible to migrate the code, I’m going to go step by step and update each files along the way, starting first with the protocol that defined my service.</p>
+
+<pre><code>// old code
+protocol CurrencyServiceProtocol : class {
+    func fetchConverter(_ completion: @escaping ((Result&lt;Converter, ErrorResult&gt;) -&gt; Void))
+}
+
+// new code
+protocol CurrencyServiceObservable : class {
+    func fetchConverter() -&gt; Observable&lt;Converter&gt;
+}
+</code></pre>
+
+<p>First, I’ve defined a new service protocol returning an observable. Notice that I have changed the returned argument from <code>Result</code> in completion handler to  <code>Converter</code> in my observable. The reason behind is RxSwift has its own way to handle error, therefore the <code>Result</code> state in less necessary. Let’s leave it for now.</p>
+
+<p>The same changes apply to the parser</p>
+
+<pre><code>// old code
+switch T.parseObject(dictionary: dictionary) {
+    case .failure(let error):
+        completion(.failure(error))
+        break
+    case .success(let newModel):
+        completion(.success(newModel))
+        break
+}
+
+// new code
+switch T.parseObject(dictionary: dictionary) {
+    case .failure(let error):
+        return Observable.error(error)
+    case .success(let newModel):
+        return Observable.just(newModel)
+}
+</code></pre>
+
+<p>Instead of using completion block with a specific state result, we return an observable of the element: <code>Observable.error</code> or <code>Observable.just</code> defining our both states.</p>
+
+<p>Finally we need to implement our observable protocol to our previous service. Here I’m using a mocked service instead of an API for testing purpose</p>
+
+<pre><code>extension FileDataService : CurrencyServiceObservable {
+
+    func fetchConverter() -&gt; Observable&lt;Converter&gt; {
+
+        // giving a sample json file
+        guard let data = FileManager.readJson(forResource: &quot;sample&quot;) else {
+            return Observable.error(ErrorResult.custom(string: &quot;No file or data&quot;))
+        }
+
+        return ParserHelper.parse(data: data)
+    }
+}
+</code></pre>
+
+<p>Great! So far we converted our service to return an observable element with RxSwift, as well as our former <code>ParserHelper</code>. Now let’s see what’s left for the <em>View</em> and <em>ViewModel</em>.</p>
+
+<h2 id="viewmodel-and-rxswift">ViewModel and RxSwift</h2>
+
+<p>My <em>ViewModel</em> is the one that requires the most changes. It used to have a service, a datasource, and an error handler. However, we’ve seen how the error can be triggered in RxSwift, so we only need to catch it on the view side.</p>
+
+<p>Same for the datasource, RxSwift includes wrappers around <code>UITableView</code> and <code>UICollectionView</code> that won’t require us to do much work on the <em>ViewModel</em> side, so I removed it as well.</p>
+
+<p>However, if we remove the datasource, we still need something to keep a reference of <code>CurrencyRate</code>. Since the <em>ViewModel</em> is by definition between <em>View</em> and <em>Model</em>, it&rsquo;s best to leave it to him.</p>
+
+<p>Here what’s left:</p>
+
+<pre><code>struct CurrencyViewModel {
+
+    weak var service: CurrencyServiceObservable?
+
+    // outputs
+    let rates : Observable&lt;[CurrencyRate]&gt;
+
+    init(service: CurrencyServiceObservable = FileDataService.shared) {
+        self.service = service
+
+        rates = service.fetchConverter()
+            .map({ $0.rates })
+    }
+}
+</code></pre>
+
+<p>Notice that I’ve changed each protocols to use my new observable service. The <em>ViewModel</em> looks quite simple so far. Let’s see what’s left in the <em>View</em>.</p>
+
+<h2 id="view-and-rxswift">View and RxSwift</h2>
+
+<p>First we’re going to bind our the data to our <code>UITableView</code>. This was the work of our previous dataSource but since our <em>View</em> is quite simple, let’s keep the code simple as well.</p>
+
+<pre><code>private func bindViews() {
+
+    // bind data to tableview
+    self.viewModel.rates
+        .bind(to: self.tableView.rx.items(cellIdentifier: “CurrencyCell”, cellType: CurrencyCell.self)) { (row, currencyRate, cell) in
+
+            cell.currencyRate = currencyRate
+        }
+        .disposed(by: disposeBag)
+}
+</code></pre>
+
+<blockquote>
+<p>But what if an error happen?</p>
+</blockquote>
+
+<p>That’s where we can take advantage of RxSwift and catch the error in the same subscription</p>
+
+<pre><code>private func bindViews() {
+
+    // bind data to tableview
+    self.viewModel.rates
+        .subscribeOn(MainScheduler.instance)
+        .catchError { [weak self] error -&gt; Observable&lt;[CurrencyRate]&gt; in
+            self?.showError(error as? ErrorResult)
+            return Observable.just([])
+        }
+        .bind(to: self.tableView.rx.items(cellIdentifier: &quot;CurrencyCell&quot;, cellType: CurrencyCell.self)) { (row, currencyRate, cell) in
+            cell.currencyRate = currencyRate
+        }
+        .disposed(by: disposeBag)
+}
+</code></pre>
+
+<p>In that example, any error returned would be caught and the view will show an error to the user. At the same time, it would return a new empty array to clean and reload the <code>UITableView</code>.</p>
+
+<p>Another quick note regarding this observable, notice we subscribe on <code>MainScheduler</code>. This is to make sure each block will be executed on the main thread: we’ll display the error dialog properly.</p>
+
+<p>We could have kept our dataSource and convert it as well to use <code>Observable</code> to keep a separation of concern but I’m not sure it was worth it here. if you want to go further in that direction, I would suggest to look into <a href="https://github.com/RxSwiftCommunity/RxDataSources">RxDataSources</a> that goes even further in <em>DataSource manipulation</em>.</p>
+
+<p>We haven’t covered our code of unit tests and update previous one, that&rsquo;s intentional, that will be the subject of another day.</p>
+
+<hr />
+
+<p>At the end, we’ve managed to update our MVVM architecture to integrate functional programming with RxSwift and take advantage of its observable pattern to simplify our code. This code is available in on <a href="https://github.com/popei69/TemplateProject/tree/rxswift">Github</a> under <code>rxswift</code> branch.</p>
+
+<p>There are still many other ways to integrate RxSwift in your architecture, I have only covered a simple case. Regardless of the code approach and tool used, always keep in mind what you want to achieve, keep a clean code easy to test and maintain with a clear logic and following a separation of concern.</p>
+
+<p><em>Thanks for reading!</em></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://benoitpasquier.com/tags/rxswift/">RxSwift</a>
+
+  <a class="tag tag--primary tag--small" href="https://benoitpasquier.com/tags/ios-architecture/">iOS Architecture</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://benoitpasquier.com/machine-learning-fashion-swift/" data-tooltip="Create a machine learning model to classify Fashion images in Swift">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://benoitpasquier.com/delegate-design-pattern-swift/" data-tooltip="Design pattern in Swift - Delegation">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Benoit Pasquier. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://benoitpasquier.com/machine-learning-fashion-swift/" data-tooltip="Create a machine learning model to classify Fashion images in Swift">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://benoitpasquier.com/delegate-design-pattern-swift/" data-tooltip="Design pattern in Swift - Delegation">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbenoitpasquier.com%2Fintegrate-rxswift-in-mvvm%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fbenoitpasquier.com%2Fintegrate-rxswift-in-mvvm%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/4ab83bab3154705233b2ba6c110cb64a?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Benoit Pasquier</h4>
+    
+      <div id="about-card-bio">I&rsquo;m a software engineer blogging about mobile development, UI/UX and self-improvement.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Senior Software Engineer ZALORA SEA
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Singapore
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/coordinator-pattern-navigation-back-button-swift/">
+                <h3 class="media-heading">Coordinator &amp; MVVM - Clean Navigation and Back Button in Swift</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>After introducing how to implement Coordinator pattern with an MVVM structure, it feels natural for me to go further and cover some of the blank spots of Coordinator and how to fix along the way.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/reversi-ab-testing-framework-ios/">
+                <h3 class="media-heading">Reversi - An elegant A/B testing framework for iOS in Swift.</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Couple weeks ago, I heard somebody talking about A/B testing in iOS and how &ldquo;<em>mobile native A/B testing is hard to implement</em>&rdquo;. It didn’t sound right to me. So I build a tiny framework for that in Swift. Here is <strong><a href="https://github.com/popei69/reversi">Reversi</a></strong>.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/dos-donts-onboarding-ios/">
+                <h3 class="media-heading">Dos and Don’ts for creating an onboarding journey on iOS</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>I was recently searching for onboarding journey in iOS, that succession of screens displayed at the first launch of a freshly installed mobile app. But regardless how beautiful the design can be, why so many people are tempted to skip it. I listed things to consider while creating an onboarding journey for your iOS app.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/coordinator-pattern-swift/">
+                <h3 class="media-heading">Introduction to Coordinator pattern in Swift</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>After some times creating different iOS apps following an <a href="https://benoitpasquier.com/ios-swift-mvvm-pattern/">MVVM pattern</a>, I’m often not sure how to implement the navigation. If the View handles the rendering and user’s interactions and the ViewModel the service or business logic, where does the navigation sit? <em>That’s where Coordinator pattern takes place.</em></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/how-to-create-customer-focused-mobile-app/">
+                <h3 class="media-heading">How to create a customer focused mobile app</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Last year, I launched with a friend <a href="https://benoitpasquier.com/japan-direct-ios-app/">Japan Direct</a>, an itinerary app for Japan travellers. Even if the first version came up quite quickly, I kept iterate but always staying focus on customer feedback first. Almost a year later, it’s good time for synthesis, see what worked and how we created a customer focused app.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/adaptive-layout-collectionview-swift/">
+                <h3 class="media-heading">Adaptive Layout and UICollectionView in Swift</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Apple introduced in iOS8 trait variations that let developers create more adaptive design for their mobile apps, reducing code complexity and avoiding duplicated code between devices. But how to take advantage of variations for UICollectionView?</p>
+
+<p>This post will cover how to setup variations via Interface Builder as well but also programatically, using AutoLayout and UITraitVariation with a UICollectionView to create a unique adaptive design.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/rxswift-mvvm-alternative-structure-for-viewmodel/">
+                <h3 class="media-heading">RxSwift &amp; MVVM - An alternative structure for your ViewModel</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>For last couple weeks, I’ve worked a lot about how to integrate RxSwift into an iOS project but I wasn’t fully satisfied with the view model. After reading many documentation and trying on my side, I’ve finally found a structure I’m happy with.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/machine-learning-fashion-swift/">
+                <h3 class="media-heading">Create a machine learning model to classify Fashion images in Swift</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Since WWDC18, Apple made it way easier to developers to create model for machine learning to integrate iOS apps. I have tried myself in the past different models, one for face detection and create another with Tensorflow to fashion classification during a <a href="https://benoitpasquier.com/image-classification-tensorflow-hackathon">hackathon</a>. Today I’ll share with you how I create a model dedicated to fashion brands.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/integrate-rxswift-in-mvvm/">
+                <h3 class="media-heading">How to integrate RxSwift in your MVVM architecture</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>It took me quite some time to get into Reactive Programming and its variant adapted for iOS development with RxSwift and RxCocoa. However, being fan of MVVM architecture and using an <em><a href="https://benoitpasquier.com/observer-design-pattern-swift/">observer design pattern</a></em> with it, it was natural for me to revisit my approach and use RxSwift instead. Thats what I’m going to cover in this post.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://benoitpasquier.com/delegate-design-pattern-swift/">
+                <h3 class="media-heading">Design pattern in Swift - Delegation</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>The delegation pattern is one of the most common design pattern in iOS. You probably use it on daily basis without noticing, every time you create a UITableView or UICollectionView and implementing their delegates. Let’s see how it works and how to implement it in Swift.</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         87 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://benoitpasquier.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+  
+    <script src="https://benoitpasquier.com/js/custom_analytics.js"></script>
+  
+
+  
+    <script src="https://benoitpasquier.com/js/highlight.pack.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/benoitpasquier.com\/integrate-rxswift-in-mvvm\/';
+          
+            this.page.identifier = '\/integrate-rxswift-in-mvvm\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'benoitpasquier';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

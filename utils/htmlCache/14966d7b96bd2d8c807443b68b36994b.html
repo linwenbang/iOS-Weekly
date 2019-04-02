@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RamboCodes">
+<link rel="apple-touch-icon" href="/assets/img/touchicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<script src="/assets/js/themeswitcher.js"></script>
+<meta property="og:image" content="/assets/img/3/opengraph.png">
+
+<title>Animations are assets: using Core Animation archives on iOS | Rambo.codes</title>
+<meta name="generator" content="Jekyll v3.8.4" />
+<meta property="og:title" content="Animations are assets: using Core Animation archives on iOS" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I should start by explaining what I mean by “animations are assets”. I don’t mean that every single animation in an app must be represented by an asset and can’t be done programmatically, since that would be dumb. What I do believe in is that complex animations, especially ones that are not very dependent on dynamic data that’s only known at runtime, should be assets." />
+<meta property="og:description" content="I should start by explaining what I mean by “animations are assets”. I don’t mean that every single animation in an app must be represented by an asset and can’t be done programmatically, since that would be dumb. What I do believe in is that complex animations, especially ones that are not very dependent on dynamic data that’s only known at runtime, should be assets." />
+<link rel="canonical" href="https://rambo.codes/ios/2018/11/11/animations-are-assets.html" />
+<meta property="og:url" content="https://rambo.codes/ios/2018/11/11/animations-are-assets.html" />
+<meta property="og:site_name" content="Rambo.codes" />
+<meta property="og:image" content="https://rambo.codes/assets/img/3/opengraph.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-11T13:00:00-02:00" />
+<script type="application/ld+json">
+{"description":"I should start by explaining what I mean by “animations are assets”. I don’t mean that every single animation in an app must be represented by an asset and can’t be done programmatically, since that would be dumb. What I do believe in is that complex animations, especially ones that are not very dependent on dynamic data that’s only known at runtime, should be assets.","@type":"BlogPosting","url":"https://rambo.codes/ios/2018/11/11/animations-are-assets.html","image":"https://rambo.codes/assets/img/3/opengraph.png","headline":"Animations are assets: using Core Animation archives on iOS","dateModified":"2018-11-11T13:00:00-02:00","datePublished":"2018-11-11T13:00:00-02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rambo.codes/ios/2018/11/11/animations-are-assets.html"},"@context":"http://schema.org"}</script>
+
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://rambo.codes/feed.xml" title="Rambo.codes" /></head>
+<body class=""><header id="rambo-banner">
+<a href="/">
+<img src="/assets/img/2018header_v2.jpg">
+</a>
+</header>
+<main class="page-content" aria-label="Content">
+<div class="wrapper">
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<header class="post-header">
+<h1 class="post-title p-name" itemprop="name headline">Animations are assets: using Core Animation archives on iOS</h1>
+<p class="post-meta">
+<time class="dt-published" datetime="2018-11-11T13:00:00-02:00" itemprop="datePublished">Nov 11, 2018
+</time></p>
+</header>
+<div class="post-content e-content" itemprop="articleBody">
+<p>I should start by explaining what I mean by “animations are assets”. I don’t mean that every single animation in an app must be represented by an asset and can’t be done programmatically, since that would be dumb. What I do believe in is that complex animations, especially ones that are not very dependent on dynamic data that’s only known at runtime, should be assets.</p>
+<p>I’ve always been in favor of letting assets be assets. If you have a button and that button has an icon, that icon should be an asset, either a set of PNGs or a PDF if you’d like to keep the vector data. Some people like to draw everything in code, even using apps such as PaintCode to generate it for them. I’m not a fan of that approach, and the same thing goes for animations.</p>
+<p>One way to represent animations as assets is to encode them as video files and play them back using something like <code class="highlighter-rouge">AVFoundation</code>. That’s a valid approach depending on what you’re doing. If you don’t have to support a very large variety of screen shapes and dimensions, a simple video should work. If you need animated vector graphics that can be scaled and possibly transformed in other ways at runtime, you’re better off by using another technique.</p>
+<p>The one I’m going to propose today is not used a lot by third-party apps, but it is used a lot by Apple’s apps and system components. There’s this thing called a “Core Animation Archive”, you can find one if you look into Apple’s apps and frameworks, usually represented by a file with the extension <code class="highlighter-rouge">.caar</code>. These files are actually fairly straightforward: they consist of a Core Animation layer tree which is archived using <code class="highlighter-rouge">NSKeyedArchiver</code>, resulting in a “frozen” layer tree you can store on disk and then load again at runtime.</p>
+<p>If you’re not familiar with <code class="highlighter-rouge">NSKeyedArchiver</code>, all you need to know is that it’s a very old API (being old doesn’t mean bad or deprecated, it’s just old) that takes objects from memory and encodes them in a way that can be stored on disk and then transformed back into objects later. Storyboards and XIBs work this way at runtime: they’re kinda like freeze-dried objects.</p>
+<p>So all you need to know to create yourself a Core Animation Archive is how to use <code class="highlighter-rouge">NSKeyedArchiver</code> and which format the archive should be in. CAAR files usually consist of a dictionary as the root object, this dictionary has a key called <code class="highlighter-rouge">rootLayer</code>, with its value being, you guessed it, the root layer of the archive that should be read by the application and drawn on screen.</p>
+<p>Here’s a simple way to create a Core Animation Archive programmatically:</p>
+<pre class="splash"><code><span class="comment">//</span> <span class="comment">Create</span> <span class="comment">a</span> <span class="comment">simple</span> <span class="comment">square</span> <span class="comment">layer</span>
+
+<span class="keyword">let</span> layer = <span class="type">CAShapeLayer</span>()
+
+<span class="keyword">let</span> rect = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">200</span>, height: <span class="number">200</span>)
+
+layer.<span class="property">path</span> = <span class="type">CGPath</span>(roundedRect: rect, cornerWidth: <span class="number">5</span>, cornerHeight: <span class="number">5</span>, transform: <span class="keyword">nil</span>)
+layer.<span class="property">frame</span> = rect
+
+layer.<span class="property">fillColor</span> = <span class="type">UIColor</span>.<span class="property">red</span>.<span class="property">cgColor</span>
+layer.<span class="property">strokeColor</span> = <span class="type">UIColor</span>.<span class="property">white</span>.<span class="property">cgColor</span>
+layer.<span class="property">lineWidth</span> = <span class="number">2</span>
+
+<span class="comment">//</span> <span class="comment">Create</span> <span class="comment">dictionary</span> <span class="comment">required</span> <span class="comment">to</span> <span class="comment">comply</span> <span class="comment">with</span> <span class="comment">the</span> <span class="comment">CAAR</span> <span class="comment">format</span>
+
+<span class="keyword">let</span> caar = [<span class="string">"rootLayer"</span>: layer]
+
+<span class="keyword">do</span> {
+    <span class="comment">//</span> <span class="comment">Use</span> <span class="comment">NSKeyedArchiver</span> <span class="comment">to</span> <span class="comment">"freeze-dry"</span> <span class="comment">the</span> <span class="comment">layer</span> <span class="comment">tree</span>
+
+    <span class="keyword">let</span> data = <span class="keyword">try</span> <span class="type">NSKeyedArchiver</span>.<span class="call">archivedData</span>(withRootObject: caar, requiringSecureCoding: <span class="keyword">false</span>)
+    
+    <span class="comment">//</span> <span class="comment">Write</span> <span class="comment">test</span> <span class="comment">CAAR</span> <span class="comment">file</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">Documents</span> <span class="comment">directory</span>
+
+    <span class="keyword">let</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.<span class="dotAccess">documentDirectory</span>, .<span class="dotAccess">userDomainMask</span>, true)[<span class="number">0</span>]
+    <span class="keyword">let</span> url = <span class="type">URL</span>(fileURLWithPath: <span class="string">"</span>\(path)/<span class="string">redSquare.caar"</span>)
+
+    <span class="keyword">try</span> data.<span class="call">write</span>(to: url)
+} <span class="keyword">catch</span> {
+	<span class="call">print</span>(error)
+}
+</code></pre>
+<p>If you open this file using my <a href="https://github.com/insidegui/CAARPlayer">CAARPlayer</a> app, this is the result:</p>
+<p><img src="/assets/img/3/1.png" alt="" /></p>
+<p>To load and display this file programmatically, you have to do something like this:</p>
+<pre class="splash"><code><span class="keyword">let</span> data: <span class="type">Data</span> = <span class="comment">//</span> <span class="comment">load</span> <span class="comment">file</span> <span class="comment">from</span> <span class="comment">disk</span>
+
+<span class="comment">//</span> <span class="comment">Force-unwrapping</span> <span class="comment">for</span> <span class="comment">demo</span> <span class="comment">purposes,</span> <span class="comment">"!"</span> <span class="comment">is</span> <span class="comment">evil,</span> <span class="comment">don't</span> <span class="comment">use</span> <span class="comment">it</span>
+<span class="keyword">let</span> caar = <span class="keyword">try</span>! <span class="type">NSKeyedUnarchiver</span>.<span class="call">unarchiveTopLevelObjectWithData</span>(data) <span class="keyword">as</span>! [<span class="type">String</span>: <span class="type">Any</span>]
+
+<span class="keyword">let</span> rootLayer = caar[<span class="string">"rootLayer"</span>] <span class="keyword">as</span>! <span class="type">CALayer</span>
+
+<span class="comment">//</span> <span class="comment">Do</span> <span class="comment">something</span> <span class="comment">with</span> <span class="comment">rootLayer,</span> <span class="comment">such</span> <span class="comment">as</span> <span class="comment">add</span> <span class="comment">it</span> <span class="comment">to</span> <span class="comment">a</span> <span class="comment">view</span>
+</code></pre>
+<p>We’re just doing the reverse of what we did before: loading the data, unarchiving it as a dictionary with <code class="highlighter-rouge">String</code> keys and <code class="highlighter-rouge">Any</code> values, and grabbing the <code class="highlighter-rouge">rootLayer</code> key, which will be of type <code class="highlighter-rouge">CALayer</code>.</p>
+<p>To make things nicer, we could write an <code class="highlighter-rouge">AnimationArchive</code> class, like this one:</p>
+<pre class="splash"><code><span class="keyword">final</span> <span class="keyword">class</span> AnimationArchive {
+
+    <span class="keyword">let</span> rootLayer: <span class="type">CALayer</span>
+
+    <span class="keyword">enum</span> LoadError: <span class="type">Error</span> {
+        <span class="keyword">case</span> assetNotFound
+        <span class="keyword">case</span> invalidFormat
+        <span class="keyword">case</span> missingRootLayer
+    }
+
+    <span class="keyword">init</span>(assetNamed name: <span class="type">String</span>, bundle: <span class="type">Bundle</span> = .<span class="dotAccess">main</span>) <span class="keyword">throws</span> {
+        <span class="keyword">let</span> data: <span class="type">Data</span>
+
+        <span class="keyword">if</span> <span class="keyword">let</span> catalogData = <span class="type">NSDataAsset</span>(name: name, bundle: bundle)?.data {
+            data = catalogData
+        } <span class="keyword">else</span> {
+            <span class="keyword">guard</span> <span class="keyword">let</span> url = bundle.<span class="call">url</span>(forResource: name, withExtension: <span class="string">"caar"</span>) <span class="keyword">else</span> {
+                <span class="keyword">throw</span> <span class="type">LoadError</span>.<span class="property">assetNotFound</span>
+            }
+
+            data = <span class="keyword">try</span> <span class="type">Data</span>(contentsOf: url)
+        }
+
+        <span class="keyword">guard</span> <span class="keyword">let</span> caar = <span class="keyword">try</span> <span class="type">NSKeyedUnarchiver</span>.<span class="call">unarchiveTopLevelObjectWithData</span>(data) <span class="keyword">as</span>? [<span class="type">String</span>: <span class="type">Any</span>] <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="type">LoadError</span>.<span class="property">invalidFormat</span>
+        }
+
+        <span class="keyword">guard</span> <span class="keyword">let</span> layer = caar[<span class="string">"rootLayer"</span>] <span class="keyword">as</span>? <span class="type">CALayer</span> <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="type">LoadError</span>.<span class="property">missingRootLayer</span>
+        }
+
+        <span class="keyword">self</span>.<span class="property">rootLayer</span> = layer
+    }
+
+}
+</code></pre>
+<p>Then loading the archive is as simple as:</p>
+<pre class="splash"><code><span class="keyword">do</span> {
+    <span class="keyword">let</span> archive = <span class="keyword">try</span> <span class="type">AnimationArchive</span>(assetNamed: <span class="string">"redSquare"</span>)
+} <span class="keyword">catch</span> {
+    <span class="call">print</span>(<span class="string">"Error</span> <span class="string">loading</span> <span class="string">archive:</span> \(error)<span class="string">"</span>)
+}
+</code></pre>
+<p>Notice the code will first try to find the asset on an asset catalog. That’s the way I prefer to ship assets with my apps, including animation assets. You can read more about asset catalogs and how to use data assets on <a href="https://rambo.codes/ios/2018/10/03/unleashing-the-power-of-asset-catalogs-and-bundles-on-ios.html">this article</a>. If it can’t find the asset in a catalog, it will try to load it from the bundle’s resources folder, assuming the <code class="highlighter-rouge">caar</code> extension.</p>
+<h2 id="using-kite">Using Kite</h2>
+<p>The example above was used to illustrate how simple it is to create and read Core Animation Archives. It’s not always practical to create the animation in code, if we were always creating the animation in code there would be no need to archive it to disk and load it later (we could just use the code directly).</p>
+<p>But there’s a tool that makes creating animations with CoreAnimation much easier: <a href="https://kiteapp.co">Kite</a>. I think of Kite as “Sketch, but for Core Animation”. My workflow usually goes like this: create animation assets in Sketch, import with Kite, animate and export to CAAR.</p>
+<p>Let’s say there’s a flow in my app the user must do and I want to reward them at the end with a nice haptic feedback and a custom, animated checkmark.</p>
+<p>I start by creating a simple checkmark in Sketch, which is then imported into Kite. In Kite, I animate the <code class="highlighter-rouge">strokeEnd</code> property for both the checkmark and the circle around it, creating a nice little animation. Then I choose the <code class="highlighter-rouge">Export &gt; Core Animation Archive</code> option, save the <code class="highlighter-rouge">caar</code> file and add it to my asset catalog.</p>
+<p><img src="/assets/img/3/2.png" alt="" /></p>
+<p>I then create a simple <code class="highlighter-rouge">UIView</code> subclass that can be initialized with an instance of that <code class="highlighter-rouge">AnimationArchive</code> class I showed earlier:</p>
+<pre class="splash"><code><span class="keyword">class</span> AnimationView: <span class="type">UIView</span> {
+
+    <span class="keyword">let</span> animationLayer: <span class="type">CALayer</span>
+
+    <span class="keyword">init</span>(archive: <span class="type">AnimationArchive</span>) {
+        animationLayer = archive.<span class="property">rootLayer</span>
+
+        <span class="keyword">super</span>.<span class="call">init</span>(frame: .<span class="dotAccess">zero</span>)
+
+        <span class="call">stop</span>()
+    }
+
+    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) {
+        <span class="call">fatalError</span>(<span class="string">"init(coder:)</span> <span class="string">has</span> <span class="string">not</span> <span class="string">been</span> <span class="string">implemented"</span>)
+    }
+
+    <span class="keyword">override</span> <span class="keyword">func</span> layoutSubviews() {
+        <span class="keyword">super</span>.<span class="call">layoutSubviews</span>()
+
+        <span class="type">CATransaction</span>.<span class="call">begin</span>()
+        <span class="type">CATransaction</span>.<span class="call">setDisableActions</span>(true)
+        <span class="type">CATransaction</span>.<span class="call">setAnimationDuration</span>(<span class="number">0</span>)
+
+        <span class="call">installAnimationLayerIfNeeded</span>()
+        <span class="call">layoutAnimationLayer</span>()
+
+        <span class="type">CATransaction</span>.<span class="call">commit</span>()
+    }
+
+    <span class="keyword">private</span> <span class="keyword">func</span> installAnimationLayerIfNeeded() {
+        <span class="keyword">guard</span> animationLayer.<span class="property">superlayer</span> == <span class="keyword">nil</span> <span class="keyword">else</span> { <span class="keyword">return</span> }
+
+        animationLayer.<span class="property">isGeometryFlipped</span> = <span class="keyword">false</span>
+        layer.<span class="call">addSublayer</span>(animationLayer)
+    }
+    
+    <span class="comment">//</span> <span class="comment">...</span>
+}
+</code></pre>
+<p>The code above is fairly straightforward. The <code class="highlighter-rouge">AnimationView</code> class is initialized with an <code class="highlighter-rouge">AnimationArchive</code>, from which it gets its <code class="highlighter-rouge">animationLayer</code>. I use <code class="highlighter-rouge">layoutSubviews</code> as the signal to install the animation layer on view’s layer tree and to also layout it according to the view’s bounds, the <code class="highlighter-rouge">CATransaction</code> calls are required to prevent CoreAnimation from automatically animating the changes we do to the layer in those methods.</p>
+<p>Setting <code class="highlighter-rouge">isGeometryFlipped</code> on the animation layer is necessary because we exported it from macOS, but are using it on iOS, which has a different coordinate system.</p>
+<p>The method <code class="highlighter-rouge">layoutAnimationLayer</code> is not shown, but you can find it in the <a href="https://github.com/insidegui/CheckmarkDemo">sample project</a>. It does some math to transform the animation layer so it fits the view’s bounds, without distorting its contents.</p>
+<p>To control the playback of the animation, I implemented <code class="highlighter-rouge">stop()</code> and <code class="highlighter-rouge">play()</code> methods:</p>
+<pre class="splash"><code><span class="keyword">func</span> stop() {
+    animationLayer.<span class="property">timeOffset</span> = <span class="number">0</span>
+    animationLayer.<span class="property">speed</span> = <span class="number">0</span>
+}
+
+<span class="keyword">func</span> play() {
+    animationLayer.<span class="property">speed</span> = <span class="number">1</span>
+    animationLayer.<span class="property">beginTime</span> = <span class="type">CACurrentMediaTime</span>()
+}
+</code></pre>
+<p>Those are very straightforward: <code class="highlighter-rouge">stop()</code> rewinds the layer so it goes back to the beginning of its timeline, then sets its speed to zero, preventing any animations from playing. The <code class="highlighter-rouge">play()</code> method sets the speed of the animation layer to 1 and it’s <code class="highlighter-rouge">beginTime</code> to <code class="highlighter-rouge">CACurrentMediaTime()</code> to make sure the animation starts playing from the beginning immediately after it’s called.</p>
+<p>That’s it! There are other things you can implement by messing around with the <code class="highlighter-rouge">timeOffset</code> and <code class="highlighter-rouge">speed</code> properties of the animation layer such as reversing the animation or driving the animation using a gesture recognizer, which is what I did for the onboarding <a href="https://rambo.codes/ios/2018/10/22/airpower.html">shown on my previous article</a>.</p>
+<h2 id="background">Background</h2>
+<p>So now that I’ve shown how it’s done, maybe I should explain why I prefer to treat animations as assets instead of coding them by hand or using 3rd party animation frameworks.</p>
+<p>The use case that made me adopt Core Animation Archives wasn’t directly related to animations. When I was making the first version of my app <a href="https://chibi.app">ChibiStudio</a>, I wanted a way to store vector data that could be manipulated at runtime (such as changing the fill color of a layer) for the items a user can pick to create their character.</p>
+<p>I thought about using SVGs, but there’s no native way to turn an SVG into CoreAnimation layers on iOS, which means I would need to ship a large dependency such as SVGKit with my app to do it at runtime. Shipping SVGs with the app would also make the app a lot larger and have a performance impact because those SVGs would have to be parsed and turned into CoreAnimation layers at runtime.</p>
+<p>Then I learned about Core Animation Archives while doing some reverse engineering of iOS and decided to use them instead. The app has been up since 2016 and this technique has been proven to work very well for its needs.</p>
+<p>I’ve been asked before if this is using a private API, to which the answer is: definitely not. The <code class="highlighter-rouge">CALayer</code> (public) class adopts the <code class="highlighter-rouge">NSCoding</code> (public) protocol and we use <code class="highlighter-rouge">NSKeyedArchiver</code> and <code class="highlighter-rouge">NSKeyedUnarchiver</code> (both public) to save/read the archive. There’s no private API involved, we’re just using <code class="highlighter-rouge">NSCoding</code> for <code class="highlighter-rouge">CALayer</code> like we would for any other object such as <code class="highlighter-rouge">NSString</code>, <code class="highlighter-rouge">NSNumber</code>, etc. <code class="highlighter-rouge">CALayer</code>’s conformance to <code class="highlighter-rouge">NSCoding</code> (more specifically <code class="highlighter-rouge">NSSecureCoding</code>) is even <a href="https://developer.apple.com/documentation/quartzcore/calayer?language=objc">documented</a>.</p>
+<p>So no, this is not using a private API and it’s not likely to break any time soon. I wish this technique was more widely known and documented by Apple because I think many apps could benefit from it.</p>
+<h2 id="main-advantages">Main advantages</h2>
+<p>These are, in my opinion, the main advantages of using this technique instead of code generation or a 3rd party animation framework:</p>
+<ul>
+<li>You get to use Kite (a visual editor) but without having to use its generated code, which can be big and not necessarily pretty</li>
+<li>It avoids adding another dependency to the app, which for me is always a win</li>
+<li>Since the output is a CoreAnimation layer tree, manipulation can be done to change colors, transform layers or change the animation behavior</li>
+<li>Being an asset means that it can be added to an asset catalog, directly to a bundle or even downloaded from a server</li>
+</ul>
+<p>I hope this article has inspired you to try out this technique. As always, you can reach me <a href="https://twitter.com/_inside">on Twitter</a>.</p>
+<p><em>I’d like to thank my friend <a href="https://twitter.com/natanrolnik">Natan</a> for his help with this article.</em></p>
+</div><a class="u-url" href="/ios/2018/11/11/animations-are-assets.html" hidden></a>
+</article>
+</div>
+</main><footer class="site-footer h-card">
+<data class="u-url" href="/"></data>
+<div class="wrapper">
+<h2 class="footer-heading">Rambo.codes</h2>
+<div class="footer-col-wrapper">
+<div class="footer-col footer-col-1"><div id="theme-switcher">
+<p>Theme: <a href="?theme=light" class="theme-switch" data-theme="light">Light</a> | <a href="?theme=dark" class="theme-switch" data-theme="dark">Dark</a></p>
+</div><ul class="contact-list">
+<li class="p-name">Rambo.codes</li>
+</ul>
+</div>
+<div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/insidegui"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">insidegui</span></a></li><li><a href="https://www.twitter.com/_inside"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">_inside</span></a></li></ul>
+</div>
+<div class="footer-col footer-col-3">
+<p>Guilherme Rambo writes about his coding and reverse engineering adventures.</p>
+</div>
+</div>
+</div>
+</footer>
+<script>
+
+</script></body>
+</html>

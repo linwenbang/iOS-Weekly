@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Understanding Xcode Build System</title>
+
+  <meta name="author" content="Vadim Bulavin" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="YASB - A blog about Swift development by Vadim Bulavin" href="/feed.xml" />
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+
+  
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W67XF7Z');</script>
+    <!-- End Google Tag Manager -->
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+  <meta property="fb:app_id" content="200980057336922" />
+  
+
+  
+  <meta property="og:title" content="Understanding Xcode Build System" />
+  
+
+   
+  <meta property="og:description" content="Every Swift program undergoes a number of transformations before it can be run on a real device. This process is usually handled by an Xcode Build System. In this article we’ll take a look at each part of Xcode Build System. Problem Statement Any computer system is double-sided: it has...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://www.vadimbulavin.com/xcode-build-system/" />
+  <link rel="canonical" href="http://www.vadimbulavin.com/xcode-build-system/" />
+  
+
+  
+  <meta property="og:image" content="http://www.vadimbulavin.com/img/xcode-build-system/share.png" />
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@V8tr" />
+  <meta name="twitter:creator" content="@V8tr" />
+
+  
+  <meta name="twitter:title" content="Understanding Xcode Build System" />
+  
+
+  
+  <meta name="twitter:description" content="Every Swift program undergoes a number of transformations before it can be run on a real device. This process is usually handled by an Xcode Build System. In this article we’ll take a look at each part of Xcode Build System. Problem Statement Any computer system is double-sided: it has...">
+  
+
+  
+  <meta name="twitter:image" content="http://www.vadimbulavin.com/img/xcode-build-system/share.png" />
+  
+
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Understanding Xcode Build System | YASB</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Understanding Xcode Build System" />
+<meta name="author" content="Vadim Bulavin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Every Swift program undergoes a number of transformations before it can be run on a real device. This process is usually handled by an Xcode Build System. In this article we’ll take a look at each part of Xcode Build System." />
+<meta property="og:description" content="Every Swift program undergoes a number of transformations before it can be run on a real device. This process is usually handled by an Xcode Build System. In this article we’ll take a look at each part of Xcode Build System." />
+<link rel="canonical" href="http://www.vadimbulavin.com/xcode-build-system/" />
+<meta property="og:url" content="http://www.vadimbulavin.com/xcode-build-system/" />
+<meta property="og:site_name" content="YASB" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-24T00:00:00+03:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"Understanding Xcode Build System","dateModified":"2018-10-24T00:00:00+03:00","url":"http://www.vadimbulavin.com/xcode-build-system/","datePublished":"2018-10-24T00:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.vadimbulavin.com/xcode-build-system/"},"author":{"@type":"Person","name":"Vadim Bulavin"},"description":"Every Swift program undergoes a number of transformations before it can be run on a real device. This process is usually handled by an Xcode Build System. In this article we’ll take a look at each part of Xcode Build System.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+  <body>
+
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W67XF7Z"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://www.vadimbulavin.com">Vadim Bulavin</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="http://www.vadimbulavin.com">Home</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Understanding Xcode Build System</h1>
+		  
+		  
+		  
+      <span class="post-meta">
+          Posted on October 24, 2018 by
+          <a href="https://twitter.com/V8tr" target="_blank">@V8tr</a>
+        </span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+      
+      <article role="main" class="blog-post">
+        <p>Every Swift program undergoes a number of transformations before it can be run on a real device. This process is usually handled by an Xcode Build System. In this article we’ll take a look at each part of Xcode Build System.</p>
+
+<h3 id="problem-statement">Problem Statement</h3>
+
+<p>Any computer system is double-sided: it has <em>software</em> and <em>hardware</em> part.</p>
+
+<p><em>Hardware</em> is the physical part of a computer, such as the monitor or keyboard. <em>Hardware</em> is usually controlled by <em>software</em> which is a collection of instructions that tells hardware how to work. Since software orchestrates the process and hardware actually does the work, neither can be used on its own.</p>
+
+<p>As software engineers, our primary focus is software part. However, hardware does not directly understand code written in Swift. It only accepts instructions in the form of electric charge that contains two levels, named <em>‘Logic 0’</em> and <em>‘Logic 1’</em>.</p>
+
+<p><em>Here comes the question</em>: “how is the Swift code transformed into a form that hardware can tolerate”? The answer is <em>language processing system</em>.</p>
+
+<h3 id="language-processing-system">Language Processing System</h3>
+
+<p><em>Language processing system</em> is a collection of programs that lend themselves to producing an executable program out of a set of instructions written in arbitrary source language. It allows programmers to use higher-level languages instead of writing machine code which greatly reduces programming complexity.</p>
+
+<p>The language processing system that we are daily using in iOS or macOS development is named <strong>Xcode Build System</strong>.</p>
+
+<h3 id="xcode-build-system">Xcode Build System</h3>
+
+<p>The main goal of <em>Xcode Build System</em> is to orchestrate execution of various tasks that will eventually produce an executable program.</p>
+
+<p>Xcode runs a number of tools and passes dozens of arguments between them, handles their order of execution, parallelism and much much more. This is definitely not what you want to be dealing with manually when writing your next Swift project.</p>
+
+<p>The majority of language processing systems, including <em>Xcode Build Sytem</em>, consist out of 5 parts:</p>
+
+<ul>
+  <li>Preprocessor</li>
+  <li>Compiler</li>
+  <li>Assembler</li>
+  <li>Linker</li>
+  <li>Loader</li>
+</ul>
+
+<p>These pieces play together in a way depicted on the diagram below:</p>
+
+<p align="center">
+    <a href="http://www.vadimbulavin.com/img/xcode-build-system/language-processing-system.svg">
+        <img src="/img/xcode-build-system/language-processing-system.svg" width="350" alt="Understanding Xcode Build System - Language processing system" />
+    </a>
+</p>
+
+<p>Let’s take a closer look at each of these steps.</p>
+
+<h3 id="preprocessing">Preprocessing</h3>
+
+<p>The purpose of preprocessing step is to transform your program in a way that it can be fed to a compiler. It replaces macros with their definitions, discovers dependencies and resolves preprocessor directives.</p>
+
+<p>Considering that <em>Swift</em> compiler does not have a preprocessor, we are not allowed to define macros in our <em>Swift</em> projects. Nonetheless <em>Xcode Build System</em> partially compensates it and does preprocessing by means of <em>Active Compilation Conditions</em> that can be set in your project build settings.</p>
+
+<p><em>Xcode</em> resolves dependencies by means of lower-level build system <em>llbuild</em>. It is open source and you can find additional information on <a href="https://github.com/apple/swift-llbuild">swift-llbuild Github page</a>.</p>
+
+<h3 id="compiler">Compiler</h3>
+
+<p><em>Compiler</em> is a program that maps a source program in one language into a semantically equivalent target program in another language. In other words, it transforms <em>Swift</em>, <em>Objective-C</em> and <em>C/C++</em> code into machine code without losing the former’s meaning.</p>
+
+<p><em>Xcode</em> uses two different compilers: one for <em>Swift</em> and the other for <em>Objective-C</em>, <em>Objective-C++</em> and <em>C/C++</em> files.</p>
+
+<p><code class="highlighter-rouge">clang</code> is Apple’s official compiler for the <em>C</em> languages family. It is open-sourced here: <a href="https://github.com/apple/swift-clang">swift-clang</a>.</p>
+
+<p><code class="highlighter-rouge">swiftc</code> is a <em>Swift</em> compiler executable which is used by <em>Xcode</em> to compile and run <em>Swift</em> source code. I’d venture to guess that you have already visited this link at least once: it is located in <a href="https://github.com/apple/swift">Swift language repository</a>.</p>
+
+<p><em>Compiler</em> phase is depicted on below diagram:</p>
+
+<p align="center">
+    <a href="http://www.vadimbulavin.com/img/xcode-build-system/xcode-compiler.svg">
+        <img src="/img/xcode-build-system/xcode-compiler.svg" width="350" alt="Understanding Xcode Build System - Xcode uses two compilers: clang and swiftc" />
+    </a>
+</p>
+
+<p>Compiler consists out of 2 main parts: <em>front end</em> and <em>back end</em>.</p>
+
+<p>The <em>front end</em> part splits the source program into separate pieces without any semantic or type information and enforces a grammatical structure on them. Then the <em>compiler</em> uses this structure to produce an <em>intermediate representation</em> of the source program. It also creates and manages the <em>symbol table</em> that collects information about the source program.</p>
+
+<p class="box-note"><em>Symbol is a name for a fragment of code or data.</em></p>
+
+<p>The <em>symbol table</em> stores names of variables, functions, classes, you name it, where each <em>symbol</em> is mapped to a certain piece of data.</p>
+
+<p>In case of <em>Swift compiler</em>, intermediate representation is named <em>Swift Intermediate Language (SIL)</em>. It is used for further analysis and optimization of the code. It is not possible to generate machine code directly from <em>Swift Intermediate Language</em>, thus <em>SIL</em> undergoes one more transformation into <em>LLVM Intermediate Representation</em>.</p>
+
+<p>During the <em>back end</em> phase, the intermediate representation is transformed into assembly code.</p>
+
+<h3 id="assembler">Assembler</h3>
+
+<p><em>Assembler</em> translates human-readable assembly code into <em>relocatable machine code</em>. It produces <em>Mach-O files</em> which are basically a collection of code and data.</p>
+
+<p>The <em>machine code</em> and <em>Mach-O file</em> terms from the above definition require further explanation.</p>
+
+<p><em>Machine code</em> is a numeric language that represents a set of instructions that can be executed directly by CPU. It is named relocatable, because no matter where that object file is in the address space, the instructions will be executed relatively to that space.</p>
+
+<p><em>Mach-O file</em> is a special file format for iOS and macOS operating systems that is used for object files, executables and libraries. It is a stream of bytes grouped in some meaningful chunks that will run on the ARM processor of an iOS device or the Intel processor on a Mac.</p>
+
+<h3 id="linker">Linker</h3>
+
+<p><em>Linker</em> is a computer program that merges various object files and libraries together in order to make a single <em>Mach-O</em> executable file that can be run on iOS or macOS system. <em>Linker</em> takes two kinds of files as its input. These are object files that come out of <em>assembler</em> phase and libraries of several types (<code class="highlighter-rouge">.dylib</code>, <code class="highlighter-rouge">.tbd</code> and <code class="highlighter-rouge">.a</code>).</p>
+
+<p>An attentive reader might have noticed that both <em>assembler</em> and <em>linker</em> produce <em>Mach-O</em> files as their outputs. There must be some difference between them, right?</p>
+
+<p>The object files coming out of assembly phase are not finished yet. Some of them contain missing pieces that reference other object files or libraries. For example, if you were using <code class="highlighter-rouge">printf</code> in your code, it is the <em>linker</em> that glues this symbol together with <em>libc</em> library where <code class="highlighter-rouge">printf</code> function is implemented. It uses the <em>symbol table</em> created during the <em>compiler</em> phase to resolve references across different object files and libraries.</p>
+
+<p class="box-note">You might have already stumbled upon <em>“undefined symbol”</em> error when building your <em>Swift</em> project in <em>Xcode</em> which has the aforementioned nature.</p>
+
+<h3 id="loader">Loader</h3>
+
+<p>Lastly, <em>loader</em> which is a part of operating system, brings a program into memory and executes it. Loader allocates memory space required to run the program and initializes registers to initial state.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>It is difficult to underestimate the importance of <em>language processing systems</em> in software engineering. Instead of writing binary code of ones and zeros that hardware understands, we are free to pick almost any higher-level programming language, say <em>Swift</em> or <em>Objective-C</em>. The language processing system will do the rest to produce an executable program that can be run on iPhone, Mac or any other end device.</p>
+
+<p>As iOS and macOS developers we are using <em>Xcode Build System</em> on our daily basis. The main components of it are: <em>preprocessor</em>, <em>compiler</em>, <em>assembler</em>, <em>linker</em> and <em>loader</em>. <em>Xcode</em> uses different compilers for <em>Swift</em> and <em>Objective-C</em> languages, which are <code class="highlighter-rouge">swiftc</code> and <code class="highlighter-rouge">clang</code> correspondingly.</p>
+
+<p>Understanding <em>Xcode</em> compilation process is foundational knowledge and is highly relevant for both beginners and seasoned developers.</p>
+
+<hr />
+
+<p><em>I’d love to meet you in Twitter: <a href="https://twitter.com/V8tr">@V8tr</a>. I appreciate you sharing this article if you find it useful.</em></p>
+
+<hr />
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Understanding+Xcode+Build+System+http://www.vadimbulavin.com/xcode-build-system/ via @V8tr"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.vadimbulavin.com/xcode-build-system/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://www.vadimbulavin.com/xcode-build-system/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/sticky-grid-collection-view/" data-toggle="tooltip" data-placement="top" title="Collection View with Sticky Rows and Columns: Step by Step Tutorial">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/static-dynamic-frameworks-and-libraries/" data-toggle="tooltip" data-placement="top" title="Static and Dynamic Libraries and Frameworks in iOS">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'v8tr-github-io';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/vadim.bulavin" title="Facebook">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Facebook</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="https://github.com/V8tr" title="GitHub">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">GitHub</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/V8tr" title="Twitter">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Twitter</span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:vadymbulavin@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Email me</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://linkedin.com/in/vadim-bulavin" title="LinkedIn">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">LinkedIn</span>
+            </a>
+          </li>
+          
+		  
+		  
+          <li>
+            <a href="https://stackoverflow.com/users/6870041/vadim-bulavin" title="StackOverflow">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">StackOverflow</span>
+            </a>
+          </li>
+          
+      
+      
+      
+      
+      
+		  
+      
+      
+      
+        </ul>
+        <p class="copyright text-muted">
+		  Vadim Bulavin
+		  &nbsp;&bull;&nbsp;
+		  2019
+
+		  
+	    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-115440667-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>

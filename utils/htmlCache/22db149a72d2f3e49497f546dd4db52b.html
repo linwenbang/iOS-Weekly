@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Contiguous Collection Protocols - Pitches - Swift Forums</title>
+    <meta name="description" content="Introduce Contiguous Collection Protocols
+
+Proposal: SE-NNNN
+
+Authors: Ben Cohen
+
+Implementation: apple/swift#20484
+
+
+Introduction
+This proposal introduces two new protocols, ContiguousCollection, and a mutable version M&amp;hellip;">
+    <meta name="author" content="">
+<meta name="generator" content="Discourse 2.3.0.beta5 - https://github.com/discourse/discourse version b9ab393d70a682b9249d0642e1f59c02f6a28f7c">
+<link rel="icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/6/610ef4c64700c53fad713dda8c9563c461d82e41.ico">
+<link rel="apple-touch-icon" type="image/png" href="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="canonical" href="https://forums.swift.org/t/contiguous-collection-protocols/17875" />
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","url":"https://forums.swift.org","potentialAction":{"@type":"SearchAction","target":"https://forums.swift.org/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<link rel="search" type="application/opensearchdescription+xml" href="https://forums.swift.org/opensearch.xml" title="Swift Forums Search">
+
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_fc38bc1627f273b322141d8e39871e8f1a4ed2f7.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop" data-theme-id="2"/>
+      <link href="https://discourse-cdn-sjc1.com/swift/stylesheets/desktop_theme_2_059b9cade5b9070983e4a1b8712b96266620ec9d.css?__ws=forums.swift.org" media="all" rel="stylesheet" data-target="desktop_theme" data-theme-id="2"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS feed of &#39;Contiguous Collection Protocols&#39;" href="https://forums.swift.org/t/contiguous-collection-protocols/17875.rss" />
+  <meta property="og:site_name" content="Swift Forums" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:image" content="https://discourse-cdn-sjc1.com/swift/uploads/default/original/1X/0a90dde98a223f5841eeca49d89dc9f57592e8d6.png" />
+<meta property="og:url" content="https://forums.swift.org/t/contiguous-collection-protocols/17875" />
+<meta name="twitter:url" content="https://forums.swift.org/t/contiguous-collection-protocols/17875" />
+<meta property="og:title" content="Contiguous Collection Protocols" />
+<meta name="twitter:title" content="Contiguous Collection Protocols" />
+<meta property="og:description" content="Introduce Contiguous Collection Protocols  Proposal: SE-NNNN  Authors: Ben Cohen  Implementation: apple/swift#20484   Introduction This proposal introduces two new protocols, ContiguousCollection, and a mutable version MutableContiguousCollection. These protocols will allow generic code to make use of the withUnsafe{Mutable}BufferPointer idiom, as well as provide fast paths in the standard library for adopting types.  Motivation Almost every feature of Array is made available via one of the prot..." />
+<meta name="twitter:description" content="Introduce Contiguous Collection Protocols  Proposal: SE-NNNN  Authors: Ben Cohen  Implementation: apple/swift#20484   Introduction This proposal introduces two new protocols, ContiguousCollection, and a mutable version MutableContiguousCollection. These protocols will allow generic code to make use of the withUnsafe{Mutable}BufferPointer idiom, as well as provide fast paths in the standard library for adopting types.  Motivation Almost every feature of Array is made available via one of the prot..." />
+<meta name="twitter:label1" value="Reading time" />
+<meta name="twitter:data1" value="5 mins 🕑" />
+<meta name="twitter:label2" value="Likes" />
+<meta name="twitter:data2" value="50 ❤" />
+<meta property="article:published_time" content="2018-11-10T20:06:02+00:00" />
+<meta property="og:ignore_canonical" content="true" />
+
+
+
+    
+  </head>
+  <body class="crawler">
+    
+    <header>
+      <a href="/">
+          <img src="https://discourse-cdn-sjc1.com/swift/uploads/default/original/2X/0/0d7ab3b633e07bf8ec99bdc18e22ad89d8934801.png" alt="Swift Forums" id="site-logo" style="max-width: 150px;">
+      </a>
+    </header>
+    <div id="main-outlet" class="wrap">
+      <h1>
+  <a href="/t/contiguous-collection-protocols/17875">Contiguous Collection Protocols</a>
+</h1>
+
+<div id='breadcrumbs'>
+    <div id="breadcrumb-0" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+        itemref="breadcrumb-1"
+      >
+      <a href="/c/evolution" itemprop="url">
+        <span itemprop="title">Evolution</span>
+      </a>
+    </div>
+    <div id="breadcrumb-1" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"
+>
+      <a href="/c/evolution/pitches" itemprop="url">
+        <span itemprop="title">Pitches</span>
+      </a>
+    </div>
+</div>
+
+
+
+
+
+<hr>
+
+
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <meta itemprop='datePublished' content='2018-11-10T20:06:02Z'>
+            <time itemprop='dateModified' datetime='2018-11-10T20:06:31Z'>
+              2018-11-10 20:06:31 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#1</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <h1>Introduce Contiguous Collection Protocols</h1>
+<ul>
+<li>Proposal: <a>SE-NNNN</a>
+</li>
+<li>Authors: <a href="https://github.com/airspeedswift">Ben Cohen</a>
+</li>
+<li>Implementation: <a href="https://github.com/apple/swift/pull/20484">apple/swift#20484</a>
+</li>
+</ul>
+<h2>Introduction</h2>
+<p>This proposal introduces two new protocols, <code>ContiguousCollection</code>, and a mutable version <code>MutableContiguousCollection</code>. These protocols will allow generic code to make use of the <code>withUnsafe{Mutable}BufferPointer</code> idiom, as well as provide fast paths in the standard library for adopting types.</p>
+<h2>Motivation</h2>
+<p>Almost every feature of <code>Array</code> is made available via one of the protocols in the standard library, and so most code written against <code>Array</code> can be rewritten generically as an extension of one or more protocols.</p>
+<p>The exceptions to this are the operations <code>withUnsafeBufferPointer</code> and <code>withUnsafeMutableBufferPointer</code>, which are only available on the concrete types. Given the usefulness of these methods, they should also be made available generically.</p>
+<h2>Proposed solution</h2>
+<p>Introduce two new protocols, with requirements representing the with-unsafe capabilities of <code>Array</code> &amp; co:</p>
+<pre><code class="lang-swift">/// A collection that supports access to its underlying contiguous storage.
+public protocol ContiguousCollection: Collection
+where SubSequence: ContiguousCollection {
+  /// Calls a closure with a pointer to the array's contiguous storage.
+  func withUnsafeBufferPointer&lt;R&gt;(
+    _ body: (UnsafeBufferPointer&lt;Element&gt;) throws -&gt; R
+  ) rethrows -&gt; R
+}
+
+/// A collection that supports mutable access to its underlying contiguous
+/// storage.
+public protocol MutableContiguousCollection: ContiguousCollection, MutableCollection
+where SubSequence: MutableContiguousCollection {
+  /// Calls the given closure with a pointer to the array's mutable contiguous
+  /// storage.
+  mutating func withUnsafeMutableBufferPointer&lt;R&gt;(
+    _ body: (inout UnsafeMutableBufferPointer&lt;Element&gt;) throws -&gt; R
+  ) rethrows -&gt; R
+}
+</code></pre>
+<p>Conformances will be added for the following types:</p>
+<ul>
+<li>
+<code>Array</code>, <code>ArraySlice</code> and <code>ContiguousArray</code> will conform to <code>MutableContiguousCollection</code>
+</li>
+<li>
+<code>UnsafeBufferPointer</code> will conform to <code>ContiguousCollection</code>
+</li>
+<li>
+<code>UnsafeMutableBufferPointer</code> will conform to <code>MutableContiguousCollection</code>
+</li>
+<li>
+<code>Slice</code> will conditionally conform:
+<ul>
+<li>to <code>ContiguousCollection where Base: ContiguousCollection</code>
+</li>
+<li>to <code>MutableContiguousCollection where Base: MutableContiguousCollection</code>
+</li>
+</ul>
+</li>
+</ul>
+<p>In addition, the following customization point should be added to <code>MutableCollection</code>, with a default implementation when the collection is mutably contiguously stored:</p>
+<pre><code class="lang-swift">protocol MutableCollection {
+  /// Call `body(p)`, where `p` is a pointer to the collection's
+  /// mutable contiguous storage.  If no such storage exists, it is
+  /// first created.  If the collection does not support an internal
+  /// representation in a form of mutable contiguous storage, `body` is not
+  /// called and `nil` is returned.
+  public mutating func withUnsafeMutableBufferPointerIfSupported&lt;R&gt;(
+    _ body: (inout UnsafeMutableBufferPointer&lt;Element&gt;) throws -&gt; R
+  ) rethrows -&gt; R?
+}
+</code></pre>
+<p>This customization point already exists with an underscore in the standard library (it just returns <code>nil</code> by default), and should be exposed to general users, with a default implementation when the collection conforms to <code>MutableContiguousCollection</code>.</p>
+<p>Use of this entry point can provide significant speedups in some algorithms, e.g. our current <a href="https://github.com/apple/swift/blob/6662ccc16dba27418eefd3cb7856bddda5a33386/stdlib/public/core/Sort.swift#L249"><code>sort</code></a> which needs to move elements of a collection back and forth between some storage.</p>
+<h2>Source compatibility</h2>
+<p>These are additive changes and do not affect source compatibility.</p>
+<h2>Effect on ABI stability</h2>
+<p>These are additive changes and do not affect ABI stability.</p>
+<h2>Alternatives considered</h2>
+<p>Some collections are not fully contiguous, but instead consist of multiple contiguous regions (for example, a ring buffer is one or two separate contiguous regions). A protocol that exposed a collection of contiguous regions could be implemented on top of this protocol.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:17'>
+      <meta itemprop='interactionCount' content='UserComments:2'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <meta itemprop='datePublished' content='2018-11-10T20:11:37Z'>
+            <time itemprop='dateModified' datetime='2018-11-10T20:13:25Z'>
+              2018-11-10 20:13:25 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#2</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Note, this proposal includes some methods that are only useful in a generic context. For example, <code>withUnsafeMutableBufferPointerIfSupported</code> is pointless if you know you have an <code>Array</code>. Similarly, <code>withUnsafeBufferPointer</code> is pointless if you already have one.</p>
+<p>These are probably more examples of the <a href="https://forums.swift.org/t/se-0229-simd-vectors/16518/128">discussion we've had elsewhere</a> of being able to fine-tune autocomplete suggestions and documentation depending on context, but should probably be discussed separately to this pitch itself.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/anandabits'><b itemprop='author'>anandabits</b></a>
+          (Matthew Johnson)
+            <time itemprop='datePublished' datetime='2018-11-10T21:08:22Z'>
+              2018-11-10 21:08:22 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#3</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>My understanding is that <code>Array</code> doesn't actually guarantee storage in contiguous memory (because of bridging, etc) and this is (part of?) the reason <code>ContiguousArray</code> exists.  Further, my understanding is that an array  will <strong>copy</strong> its elements to contiguous storage if necessary when providing a buffer pointer.</p>
+<p>Despite this, the naming and documentation of this protocol strongly implies that internal storage <em>is guaranteed to be contiguous</em> (i.e. "access to its <strong>underlying</strong> contiguous storage").  This is not a trivial dissonance - it is a difference of guaranteed constant time access to the storage vs a potentially O(N) time and space cost to access the contiguous storage.  IMO we should be explicitly clear in both naming and documentation what the intended semantics are.</p>
+<p>Unless I am mistaken about the behavior of <code>Array</code>, I think if it is going to conform these protocols they should be renamed to something along the lines of <code>ContiguouslyAccessibleCollection</code>.  The semantics could be that internal contiguous storage is <em>possible</em> (but not guaranteed).  On the other hand, if the semantics should really be <em>guaranteed</em> constant time access to an internal buffer then <code>Array</code> should not conform.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:2'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/torquato'><b itemprop='author'>torquato</b></a>
+          
+            <time itemprop='datePublished' datetime='2018-11-10T22:23:15Z'>
+              2018-11-10 22:23:15 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#4</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote group-core-team" data-post="1" data-topic="17875" data-full="true">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/ben_cohen/40/296_1.png" class="avatar"> Ben_Cohen:</div>
+<blockquote>
+<p><code>ContiguousCollection</code>, and a mutable version <code>MutableContiguousCollection</code>.</p>
+</blockquote>
+</aside>
+<p>As a side node this reminds me terrifyingly of <code>NSArray - NSMutableArray, NSString - NSMutableString, NSData - NSMutableData</code>… and the rest of the schlepp of this kind we have inherited from Objective-C Foundation. o_O<br>
+I thought we got rid of this marking mutability by the type name…?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Karl'><b itemprop='author'>Karl</b></a>
+          (❌)
+            <meta itemprop='datePublished' content='2018-11-10T23:07:33Z'>
+            <time itemprop='dateModified' datetime='2018-11-10T23:13:48Z'>
+              2018-11-10 23:13:48 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#5</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>This looks good. A few questions:</p>
+<ol>
+<li>
+<p>Will <code>_copyToContiguousArray</code> and the like benefit from this? I found overriding this can make a big difference to custom data structures, even if they just wrap an Array for storage. The downside, of course, is that it's underscored so not necessarily source/binary-stable.</p>
+</li>
+<li>
+<p>I thought one of the motivations for this protocol was to remove the <code>ArraySlice</code> type entirely in favour of the conditional conformance on the regular <code>Slice&lt;T&gt;</code>. Does that just turn out not to be so performant, or what happened to that idea?</p>
+</li>
+</ol>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <meta itemprop='datePublished' content='2018-11-11T01:02:41Z'>
+            <time itemprop='dateModified' datetime='2018-11-11T01:18:36Z'>
+              2018-11-11 01:18:36 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#6</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="3" data-topic="17875">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/anandabits/40/355_1.png" class="avatar"> anandabits:</div>
+<blockquote>
+<p>My understanding is that <code>Array</code> doesn't actually guarantee storage in contiguous memory (because of bridging, etc) and this is (part of?) the reason <code>ContiguousArray</code> exists.</p>
+</blockquote>
+</aside>
+<p>It's not quite the reason <code>ContiguousArray</code> exists.* To be fair, I don't think we've done the best job of explaining exactly the nature of Swift's <code>Array</code>. <code>Array</code> at its core <strong>is a contiguously stored block of memory</strong>, with one specific carved-out exception to grease the wheels of ObjC interop. This is very different from <code>NSArray</code>, which abstracts away the storage to a much greater degree, giving it flexibility to present an "array-like" interface to multiple different backings.</p>
+<p>Here's a run-down of when <code>Array</code> will be contiguously stored:</p>
+<ul>
+<li>Arrays created in Swift will always be contiguously stored;</li>
+<li>Arrays of structs and enums will always be contiguously stored;</li>
+<li>Arrays on platforms without an Objective-C runtime (i.e. non-Darwin platforms) are always contiguously stored;</li>
+<li>The only time an array <em>won't</em> be contiguously stored is if it is of classes <em>and</em> has been bridged from an <code>NSArray</code>
+<ul>
+<li>Even then, in many cases, the <code>NSArray</code> will be contiguously stored and can present a pointer at no or amortized cost</li>
+</ul>
+</li>
+</ul>
+<p>edit: accidentally hit post early, sorry, still writing...</p>
+<p>This last case is what we call "lazy bridging". The hope is it will diminish over time, and in the long term, vanish altogether. I can't go into much detail about exactly how/when because that is a matter for Apple's internal platforms rather than Swift. But it should become at most an edge case at some point.</p>
+<p>For all these reasons, I believe it would be a big mistake to bake the caveat into the name of the protocol. As the saying goes, <strong>protocols are not just bags of syntax</strong>. You must read and understand the guarantees they offer, and that can include documenting the edge cases such as lazily bridged arrays. This goes triple for unsafe operations. If you are calling a method with "unsafe" in the name, but don't read the documentation to understand exactly what you're doing, then far worse fates are likely to befall you than an accidentally quadratic loop.</p>
+<p>Also bear in mind, this API is not intended to be used in a loop. The idea is, if you are optimizing (and this is for <em>very low level</em> optimizations, not to be undertaken lightly) then you should wrap the body of the bulk of your code in this method. If you are darting in and out of <code>withUnsafeBufferPointer</code> inside a hot loop, you are misusing the API. In almost all use cases, you are going to be performing an O(n) operation with the buffer, so in the rare cases it makes a copy, your algorithm remains O(n).</p>
+<p>Finally, note that these caveats only apply to the un-mutable variant. The first thing an array does when you call a mutating method is ensure that it's uniquely referenced and contiguous, so even lazily bridged arrays will become contiguous at that point.</p>
+<p>* <code>ContiguousArray</code> exists because the optimizer cannot eliminate the branch that checks for lazy bridging on each element fetch from an <code>Array</code> e.g. when iterating, when that array contains classes. So sometimes you might find that using a <code>ContiguousArray</code> yields a slight speed-up for some code. This is usually a nano-optimization, and also never applies on Linux or with arrays of structs.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:12'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/anandabits'><b itemprop='author'>anandabits</b></a>
+          (Matthew Johnson)
+            <time itemprop='datePublished' datetime='2018-11-11T02:58:14Z'>
+              2018-11-11 02:58:14 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#7</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>This is all great detail, thanks Ben!  After reading a detailed explanation of how narrow the edge case is, I agree with the name as it is proposed.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:3'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <meta itemprop='datePublished' content='2018-11-11T04:47:03Z'>
+            <time itemprop='dateModified' datetime='2018-11-11T04:48:02Z'>
+              2018-11-11 04:48:02 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#8</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="4" data-topic="17875">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/torquato/40/1203_1.png" class="avatar"> torquato:</div>
+<blockquote>
+<p>I thought we got rid of this marking mutability by the type name…?</p>
+</blockquote>
+</aside>
+<p>There's a good reason for the similarity between the naming of the Objective-C types and the <code>Unsafe*BufferPointer</code> types: they both have reference semantics.</p>
+<p>In Swift we can indeed move away from having to represent mutability as part of the type name. Values types, <code>mutating</code> methods, and copy-on-write let us create types with value semantics. That way, both the vendor and recipient of a type can safely ignore the problems caused by mutation, because they both hold independent values. And local mutability can be controlled with <code>let</code> vs <code>var</code>.</p>
+<p>But unsafe buffer pointers can't be value types. They have reference semantics by their very nature. Hence you need to represent whether they're mutable or not in the type system.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:6'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/taylorswift'><b itemprop='author'>taylorswift</b></a>
+          (^)
+            <time itemprop='datePublished' datetime='2018-11-11T19:03:32Z'>
+              2018-11-11 19:03:32 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#9</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote group-core-team" data-post="1" data-topic="17875">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/ben_cohen/40/296_1.png" class="avatar"> Ben_Cohen:</div>
+<blockquote>
+<p>In addition, the following customization point should be added to <code>MutableCollection</code> , with a default implementation when the collection is mutably contiguously stored:</p>
+<pre><code class="lang-swift">protocol MutableCollection {
+  /// Call `body(p)`, where `p` is a pointer to the collection's
+  /// mutable contiguous storage.  If no such storage exists, it is
+  /// first created.  If the collection does not support an internal
+  /// representation in a form of mutable contiguous storage, `body` is not
+  /// called and `nil` is returned.
+  public mutating func withUnsafeMutableBufferPointerIfSupported&lt;R&gt;(
+    _ body: (inout UnsafeMutableBufferPointer&lt;Element&gt;) throws -&gt; R
+  ) rethrows -&gt; R?
+}
+</code></pre>
+<p>This customization point already exists with an underscore in the standard library (it just returns <code>nil</code> by default), and should be exposed to general users, with a default implementation when the collection conforms to <code>MutableContiguousCollection</code> .</p>
+<p>Use of this entry point can provide significant speedups in some algorithms, e.g. our current <a href="https://github.com/apple/swift/blob/6662ccc16dba27418eefd3cb7856bddda5a33386/stdlib/public/core/Sort.swift#L249"> <code>sort</code> </a> which needs to move elements of a collection back and forth between some storage.</p>
+</blockquote>
+</aside>
+<p>This seems a little smelly. Wouldn’t it be better to provide an optimized sort on the correct protocol to begin with, the same way we override <code>.index(_:offsetBy:)</code> on <code>RandomAccessCollection</code>?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <time itemprop='datePublished' datetime='2018-11-11T20:18:54Z'>
+              2018-11-11 20:18:54 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#10</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="9" data-topic="17875">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/taylorswift/40/1037_1.png" class="avatar"> taylorswift:</div>
+<blockquote>
+<p>This seems a little smelly. Wouldn’t it be better to provide an optimized sort on the correct protocol to begin with, the same way we override <code>.index(_:offsetBy:)</code> on <code>RandomAccessCollection</code> ?</p>
+</blockquote>
+</aside>
+<p>That approach doesn't scale. <code>sort</code> is just a single example – the point of adding this customization point is not to optimize just one method, but to optimize any algorithm which could benefit from access to an underlying storage buffer. Bear in mind, only the standard library can add customization points. So while it could add them for each of its own algorithms as needed (even though that bloats the witness tables, so is still not a good idea), users adding their own algorithms outside the standard library cannot.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Karl'><b itemprop='author'>Karl</b></a>
+          (❌)
+            <meta itemprop='datePublished' content='2018-11-12T07:43:25Z'>
+            <time itemprop='dateModified' datetime='2018-11-12T07:52:10Z'>
+              2018-11-12 07:52:10 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#11</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I'm guessing that in the future we'd rather write this as a failable downcast to MCC. It's a shame this must become ABI, but there's no alternative if <code>sort</code> is to remain inlineable.</p>
+<p>Also: Given that piecewise-contiguous collections are not supposed to support this protocol, doesn't it make sense that you can randomly access a collection with contiguous storage? Why not refine <code>RandomAccessCollection</code>?</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/lukasa'><b itemprop='author'>lukasa</b></a>
+          (Cory Benfield)
+            <time itemprop='datePublished' datetime='2018-11-12T10:46:40Z'>
+              2018-11-12 10:46:40 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#12</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>I'm in favour of this proposal.</p>
+<p>SwiftNIO has defined a <a href="https://github.com/apple/swift-nio/blob/a0b3b19cf43936c6831b7be7a2764ed7c1a69866/Sources/NIO/ContiguousCollection.swift#L15-L19" rel="nofollow noopener">constrained version</a> of this protocol for collections where the collection can expose its contents as <code>UnsafeRawBufferPointer</code>s. A version where <code>Element</code> is <code>UInt8</code> is likely to be very helpful.</p>
+<p>In principle NIO's protocol differs slightly (<code>Array&lt;FooStruct&gt;</code> still conforms to NIO's <code>ContiguousCollection</code> protocol, as we can obtain the contiguous bytes of the storage). I think that NIO's broader application might not be a good thing, though: constraining ourselves to collections of <code>UInt8</code>s in most cases is likely to be a good thing.</p>
+<p>Regardless, this is a thing that we've used a lot, and will likely continue to use in future, so +1.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/johannesweiss'><b itemprop='author'>johannesweiss</b></a>
+          (Johannes Weiss)
+            <time itemprop='datePublished' datetime='2018-11-12T13:09:23Z'>
+              2018-11-12 13:09:23 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#13</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>+1 and what Cory says. The NIO version of this protocol isn't actually super smart (but good enough for our use-cases), would love to see the stdlib have <code>ContiguousCollection</code> as proposed.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <time itemprop='datePublished' datetime='2018-11-12T20:51:18Z'>
+              2018-11-12 20:51:18 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#14</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Small thoughts:</p>
+<ul>
+<li>
+<p>It should be documented that successive calls to <code>withUnsafeBufferPointer</code> are not guaranteed to give you the same pointer, and that <code>withUnsafeMutableBufferPointer</code> is not guaranteed to give you the same pointer as a previous call to <code>withUnsafeBufferPointer</code> or vice versa. In practice this won't usually be different except for performing a copy-on-write, but I could see us wanting the flexibility for things like small strings where spilling to a stack buffer is a valid implementation strategy with negligible overhead. (A packed representation of some fixed-size or limited-size collection, for example.)</p>
+</li>
+<li>
+<p>It's also worth documenting why the <code>UnsafeMutableBufferPointer</code> closure parameter is <code>inout</code>, since it confuses people.</p>
+</li>
+<li>
+<p><code>withUnsafeMutableBufferPointer</code> needs documentation about its guarantees (or lack thereof) if the closure throws.</p>
+</li>
+<li>
+<p>Can ContiguousCollection and MutableContiguousCollection provide reasonable default implementations for the other Collection protocols, or is that a bad idea for performance reasons?</p>
+</li>
+<li>
+<p>On that note, I also like the idea of ContiguousCollection refining RandomAccessCollection.</p>
+</li>
+</ul>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:4'>
+      <meta itemprop='interactionCount' content='UserComments:2'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/jrose'><b itemprop='author'>jrose</b></a>
+          (Jordan Rose)
+            <meta itemprop='datePublished' content='2018-11-12T21:55:32Z'>
+            <time itemprop='dateModified' datetime='2018-11-12T21:57:30Z'>
+              2018-11-12 21:57:30 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#15</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <aside class="quote no-group" data-post="14" data-topic="17875">
+<div class="title">
+<div class="quote-controls"></div>
+<img alt width="20" height="20" src="https://discourse-cdn-sjc1.com/swift/user_avatar/forums.swift.org/jrose/40/408_1.png" class="avatar"> jrose:</div>
+<blockquote>
+<ul>
+<li>Can ContiguousCollection and MutableContiguousCollection provide reasonable default implementations for the other Collection protocols, or is that a bad idea for performance reasons?</li>
+</ul>
+</blockquote>
+</aside>
+<p>*answers self* It might be able to provide some (for example, a different <del>iterator</del> index type that just wraps Int) but it can't provide <code>_read</code> or <code>_modify</code> for subscripts, so maybe this isn't worth it.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:1'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <time itemprop='datePublished' datetime='2018-11-12T23:08:19Z'>
+              2018-11-12 23:08:19 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#16</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Yeah, also, once you are random-access and have an integer index, you get all the index advance/distance methods defaulted for you anyway.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:0'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+  </div>
+  <div itemscope itemtype='http://schema.org/DiscussionForumPosting'>
+      <div class='creator'>
+        <span>
+          <a href='/u/Ben_Cohen'><b itemprop='author'>Ben_Cohen</b></a>
+          (Ben Cohen)
+            <time itemprop='datePublished' datetime='2018-11-16T02:13:03Z'>
+              2018-11-16 02:13:03 UTC
+            </time>
+        </span>
+        <span itemprop='position'>#17</span>
+      </div>
+      <div class='post' itemprop='articleBody'>
+        <p>Thanks Jordan, I took all that feedback into the proposal except the part about defaults.</p>
+      </div>
+      <meta itemprop='interactionCount' content='UserLikes:1'>
+      <meta itemprop='interactionCount' content='UserComments:0'>
+      <meta itemprop='headline' content='Contiguous Collection Protocols'>
+      <hr>
+            <a href="https://forums.swift.org/t/arrayslice-capacity-any-legitimate-use-cases/15966/14">ArraySlice.capacity: any legitimate use cases?</a>
+            <hr>
+  </div>
+
+
+
+
+
+
+    </div>
+    <footer class="container">
+      <nav class='crawler-nav' itemscope itemtype='http://schema.org/SiteNavigationElement'>
+        <a href='/'>Home</a>
+        <a href="/categories">Categories</a>
+        <a href="/guidelines">FAQ/Guidelines</a>
+        <a href="/tos">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+      </nav>
+      <p class='powered-by-link'>Powered by <a href="https://www.discourse.org">Discourse</a>, best viewed with JavaScript enabled</p>
+    </footer>
+    
+  </body>
+  
+</html>

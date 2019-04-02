@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="The least you need to know to make XCTest work with user interfaces">
+    <meta name="keywords" content="hacking with swift, apple, developer, news, tutorials, swift, ios, macos, watchos, tvos, api, swift 4, swift 3, swift, tutorial, ios, ios 10, ios 11, ios 12, wwdc, apple, ipad, iphone, free, tutorial, guide, objective c, watchos, tvos, macOS, watchkit">
+    <meta name="author" content="Paul Hudson @twostraws">
+    <title>Xcode UI Testing Cheat Sheet – Hacking with Swift</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Swift Developer News RSS feed" href="https://www.hackingwithswift.com/articles/rss" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /* NOTE: This was added October 12th 2018; can be removed safely in 60 days */
+        div.speaking h4 { 
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        /* NOTE: This was added January 21st 2019; can be removed safely in 60 days */
+        div.hws-sponsor {
+            border: 3px solid firebrick;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        div.hws-sponsor p {
+            margin: 0;
+        }
+
+        div.hws-sponsor a {
+            text-decoration: underline;
+        }
+    </style>
+
+    <meta property="og:image" content="https://www.hackingwithswift.com/uploads/app-blueprint-1.jpg" />
+    <meta property="og:title" content="Xcode UI Testing Cheat Sheet" />
+    <meta property="og:description" content="The least you need to know to make XCTest work with user interfaces" />
+    <meta property="og:url" content="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet" />
+    <meta property="og:site_name" content="Hacking with Swift" />
+    <meta property="og:type" content="article" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twostraws" />
+    <meta name="twitter:title" content="Xcode UI Testing Cheat Sheet" />
+    <meta name="twitter:description" content="The least you need to know to make XCTest work with user interfaces" />
+    <meta name="twitter:creator" content="@twostraws" />
+    <meta name="twitter:image" content="https://www.hackingwithswift.com/uploads/app-blueprint-1.jpg" />
+    <meta name="twitter:domain" content="hackingwithswift.com" />
+    <meta name="twitter:dnt" content="on">
+
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Retina.js - Load first for faster HQ mobile images. -->
+    <script src="/js/plugins/retina/retina.min.js"></script>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/fontawesome-stars.css" />
+
+    <link href="/css/vitality-red.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/hws.css">
+    <!-- IE8 support for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet" />
+</head>
+<!-- Alternate Body Classes: .modern and .vintage -->
+
+<body id="page-top">
+    <!-- Navigation -->
+    <!-- Note: navbar-default and navbar-inverse are both supported with this theme. -->
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+    
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">
+                    <img src="/img/logo.png" class="img-responsive" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/articles">Articles</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Learn <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/career-guide">Swift Career Guide</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/sixty">Swift in Sixty Seconds</a></li>
+                        <li><a href="/read">Hacking with Swift</a></li>
+                        <li><a href="/example-code">Swift Example Code</a></li>
+                        <li><a href="/store">Buy Books and Videos</a></li>
+                        <li><a href="/playgrounds">Swift Playgrounds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/review">Interactive Review</a></li>
+                        <li><a href="/interview-questions">Interview Questions</a></li>
+                        <li><a href="/test">Test your Swift</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/awards">Swift Community Awards</a></li>
+                        <li><a href="/articles">Latest News</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/glossary">Glossary of terms</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/store">See the range</a></li>
+                        <li><a href="/reviews">Reviews</a></li>
+                        <li><a href="/#faq">FAQ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/frequent-flyer">Frequent Flyer Club</a></li>
+                        <li><a href="/update-policy">Update Policy</a></li>
+                        <li><a href="/ibooks">Buy on iBooks</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                      <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="/about">About Hacking with Swift</a></li>
+                        <li><a href="/speaking">Conference Talks</a></li>
+                      </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+        <skybar id="latestTutorial">
+    <div class="container" style="background-color: firebrick; margin: 0; width: 100%;">
+         <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="/100" style="color: white;" target="_blank"><span class="pure-evil">FREE:</span> <strong>Follow my new 100 Days of Swift challenge!</strong> &gt;&gt;</a></p>
+
+<!--
+        <p style="margin-top: 5px; color: #999999; margin: 6px; color: white; text-align: center;"><a href="http://anchor.fm/swiftovercoffee" target="_blank" style="color: white;"><span class="pure-evil">NEW:</span> <strong>Check out my podcast with Sean Allen, Swift over Coffee!</strong> &gt;&gt;</a></p>
+-->
+    </div>
+</skybar>
+
+    
+
+    
+    <section class="read">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-top">
+	
+<a href="/store/hacking-with-macos?source=macos-1"><img src="/assets/notice-macos-1.png" style="border: 1px solid black;" class="img-responsive center-block" /></a>
+
+
+<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="9393216522"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style="margin: 10px 0 0 0;">Xcode UI Testing Cheat Sheet</h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="margin: 0;"><a href="/about">Paul Hudson</a> &nbsp;&nbsp; <time itemprop="dateModified" datetime="2019-03-29T23:37:14+00:00">March 29th 2019</time>
+<meta itemprop="datePublished" content="2018-12-13T14:59:35+00:00"> &nbsp;&nbsp; <i class="fa fa-twitter" aria-hidden="true" style="color: #4099ff"></i> <a href="https://twitter.com/twostraws" target="_blank">@twostraws</a></p>
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <img src="/uploads/app-blueprint-1.jpg" class="img-responsive" style="width: 100%; max-height: 400px; object-fit: cover; border: 1px solid #dcdcdc;" />
+                        </div>
+                    </div>
+                        
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <p>User interface testing is the ultimate integration test, because you’re seeing the app exactly how users do – there’s no special knowledge of how code is structured as we get with unit tests, and you can’t add mocks or stubs to isolate functionality.</p>
+<p>Instead, user interface tests access your app using iOS’s accessibility system: they scan the interface for controls you request, manipulate them to follow instructions you’ve provided, then make assertions about the end state. This makes them much more fragile than unit tests because small changes can cause tests to fail, but on the other hand do provide excellent proof that your app workflows function as intended.</p>
+<p>Previously I’ve written about <a href="/articles/83/how-to-test-your-user-interface-using-xcode">how to test your user interface using Xcode</a>, so in this article we’re going to cut to the chase: here are some quick code snippets that help you solve a variety of problems using Xcode’s UI testing system.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Finding elements</h3>
+<p>If you only have one a specific element in your interface, you can use these accessors to find them:</p>
+<pre><code class="language-swift">app.alerts.element
+app.buttons.element
+app.collectionViews.element
+app.images.element
+app.maps.element
+app.navigationBars.element
+app.pickers.element
+app.progressIndicators.element
+app.scrollViews.element
+app.segmentedControls.element
+app.staticTexts.element
+app.switches.element
+app.tabBars.element
+app.tables.element
+app.textFields.element
+app.textViews.element
+app.webViews.element</code></pre>
+<p><strong>Note:</strong> <code>staticTexts</code> refers to labels on iOS.</p>
+<p>For more specific elements, set an accessibility identifier like this:</p>
+<pre><code class="language-swift">helpLabel.accessibilityIdentifier = "Help"</code></pre>
+<p>You can then find it like this:</p>
+<pre><code class="language-swift">app.staticTexts["Help"]</code></pre>
+<p>The accessibility identifier is designed for internal use only, unlike the other two accessibility text fields that are read to the user when Voiceover is activated.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Advanced queries</h3>
+<p>XCTest runs queries on the app’s user interface, attempting to find some piece of user interface. While the queries above are fine when you’re just getting started, there are lots of advanced queries we can run to find specific elements:</p>
+<pre><code class="language-swift">// the only button
+app.buttons.element
+
+// the button titled "Help"
+app.buttons["Help"]
+
+// all buttons inside a specific scroll view (direct subviews only)
+app.scrollViews["Main"].children(matching: .button)
+
+// all buttons anywhere inside a specific scroll view (subviews, sub-subviews, sub-sub-subviews, etc)
+app.scrollViews["Main"].descendants(matching: .button)    
+
+// find the first and fourth buttons
+app.buttons.element(boundBy: 0)
+app.buttons.element(boundBy: 3)
+
+// find the first button
+app.buttons.firstMatch</code></pre>
+<p>Some of those seem similar, so let me clarify a few things:</p>
+<ul>
+<li>If you use <code>element</code> to read precisely one element, and there is more than one matching element (e.g. several buttons) your test will fail.</li>
+<li><code>firstMatch</code> will return the first item that matches your query, even if you have more than one matching element.</li>
+<li>On the plus side, this makes <code>firstMatch</code> significantly faster than <code>element</code> because it won’t check for duplicates. On the down side, using <code>firstMatch</code> won’t warn you of accidental duplicates.</li>
+<li><code>children(matching:)</code> only reads immediate subviews, whereas <code>descdendant(matching:)</code> reads all subviews and subviews of subviews.</li>
+<li>For that reason, <code>children(matching:)</code> is significantly more efficient than <code>descdendant(matching:)</code>.</li>
+</ul>
+<p>Remember, Xcode literally scans your user interface to discover what’s available – user interface test code is a series of instructions telling Xcode what to look for, so the more precise we can be the better.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Interacting with elements</h3>
+<p>XCTest gives us five different ways to trigger taps on elements:</p>
+<ol>
+<li><code>tap()</code> triggers a standard tap, which will trigger buttons or active text fields for editing.</li>
+<li><code>doubleTap()</code> taps twice in quick succession.</li>
+<li><code>twoFingerTap()</code> uses two fingers to tap once on an element.</li>
+<li><code>tap(withNumberOfTaps:numberOfTouches:)</code> lets you control tap and touch count at the same time.</li>
+<li><code>press(forDuration:)</code> triggers long presses over a set number of seconds.</li>
+</ol>
+<p>There are also specific methods for gesture control:</p>
+<ul>
+<li><code>swipeLeft()</code>, <code>swipeRight()</code>, <code>swipeUp()</code>, and <code>swipeDown()</code> execute single swipes in a specific direction, although there is no control over speed or distance.</li>
+<li><code>pinch(withScale:velocity:)</code> pinches and zooms on something like a map. Specify scales between 0 and 1 to zoom out, or scales greater than 1 to zoom in. Velocity is specified as “scale factor per second” and causes a little overscroll after you zoom – use 0 to make the zoom precise.</li>
+<li><code>rotate(_: withVelocity:)</code> rotates around an element. The first parameter is a <code>CGFloat</code> specifying an angle in radians, and the second is radians per second.</li>
+</ul>
+<p>So, you can tap on the only text field like this:</p>
+<pre><code class="language-swift">app.textFields.element.tap()</code></pre>
+<p>Or double tap on a specific button like this:</p>
+<pre><code class="language-swift">app.buttons["Blue"].doubleTap()</code></pre>
+<p>There are two more element-specific methods you’ll want to use:</p>
+<ul>
+<li>For pickers, use <code>adjust(toPickerWheelValue: 1)</code> to make a picker scroll through to select a particular value.</li>
+<li>For sliders, use <code>adjust(toNormalizedSliderPosition: 0.5)</code> to move it to a specific position, </li>
+</ul>
+<h3 style="font-weight: normal; margin-top: 60px;">Typing text</h3>
+<p>You can activate a text field and type individual letters in the keyboard:</p>
+<pre><code class="language-swift">app.textFields.element.tap()
+app.keys["t"].tap()
+app.keys["e"].tap()
+app.keys["s"].tap()
+app.keys["t"].tap()</code></pre>
+<p>Alternatively, you can select and type whole strings like this:</p>
+<pre><code class="language-swift">app.textFields.element.typeText("test")   </code></pre>
+<h3 style="font-weight: normal; margin-top: 60px;">Making assertions</h3>
+<p>Once you’ve found the element you want to test, you can make assertions against it using the regular XCTest functions:</p>
+<pre><code class="language-swift">XCTAssertEqual(app.buttons.element.title, "Buy")
+XCTAssertEqual(app.staticTexts.element.label, "test")</code></pre>
+<p>There are two things that might catch you out. First, percentages for things like progress indicators are reported as strings with “%” attached. So, to check them you might write code like this:</p>
+<pre><code class="language-swift">guard let completion = app.progressIndicators.element.value as? String else {
+    XCTFail("Unable to find the progress indicator.")
+    return
+}
+
+XCTAssertEqual(completion, "0%")</code></pre>
+<p>Second, checking whether an element exists can be done using the <code>exists</code> check, like this:</p>
+<pre><code class="language-swift">XCTAssertTrue(app.alerts["Warning"].exists)</code></pre>
+<p>However, it’s usually a good idea to allow a little leeway because you’re working with a real device – animations might be happening, for example. So, instead of using <code>exists</code> it’s common to use <code>waitForExistence(timeout:)</code> instead, like this:</p>
+<pre><code class="language-swift">XCTAssertTrue(app.alerts["Warning"].waitForExistence(timeout: 1))</code></pre>
+<p>If that element exists immediately then the method returns immediately and the test passes, but if it doesn’t then the method will wait for up to one second – it’s still really fast.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">Controlling tests</h3>
+<p>Creating an instance of <code>XCUIApplication</code> with no parameters lets you control whichever application is specified as the “Target Application” in Xcode’s target settings. So, you can create and launch your target application like this:</p>
+<pre><code class="language-swift">XCUIApplication().launch()</code></pre>
+<p>You can also create an application with a specific bundle identifier, which is helpful if you have two apps and want to test exchanging data between the two of them:</p>
+<pre><code class="language-swift">XCUIApplication(bundleIdentifier: "com.hackingwithswift.hairforceone").launch()</code></pre>
+<p>If you want to pass specific arguments to your app, perhaps to make it perform some test-specific set up, you can do that using the <code>launchArguments</code> array:</p>
+<pre><code class="language-swift">let app = XCUIApplication()
+app.launchArguments = ["enable-testing"]
+app.launch()</code></pre>
+<p>That will pass “enable-testing” to the app when it’s launched, which it can then respond to, like this:</p>
+<pre><code class="language-swift">#if DEBUG
+if CommandLine.arguments.contains("enable-testing") {
+    configureAppForTesting()
+}
+#endif</code></pre>
+<p>What <code>configureAppForTesting()</code> does is down to you, but you might want to consider running <code>UIView.setAnimationsEnabled(false)</code> to disable animations during testing.</p>
+<p>If the system will throw up alerts during your test – for example, if you ask for permission to read the user’s location –  you can set a closure to run that can evaluate the system interruption and take any action you want. If you handled the interruption successfully your closure should return true; if not return false, and any other interruption monitors can be run.</p>
+<p>For example:</p>
+<pre><code class="language-swift">addUIInterruptionMonitor(withDescription: "Automatically allow location permissions") { alert in
+    alert.buttons["OK"].tap()
+    return true
+}</code></pre>
+<p>Remember, a failing UI test means your application isn’t in the visual state it expected to be, which in turn means later tests are likely to fail. As a result, it’s common to keep this line inside your <code>setUp()</code> method:</p>
+<pre><code class="language-swift">continueAfterFailure = false</code></pre>
+<h3 style="font-weight: normal; margin-top: 60px;">Handling screenshots</h3>
+<p>Xcode automatically takes screenshots as it runs your UI tests, and automatically deletes them if your tests succeed. But if the tests <em>fails</em> then Xcode will keep the screenshots to help you step through visually and figure out what went wrong.</p>
+<p>You can also take screenshots by hand when something important has happened, attaching a label of your choosing such as “User authentication” or “Cancelling purchase”, for example. You can also ask Xcode to keep your screenshots even when tests pass, overriding the default behavior.</p>
+<p>To create a screenshot, just call <code>screenshot()</code> on any element. That might be a single control in your app, or it might be the whole app itself, in which case you’ll get the whole screen. Once you have that, wrap it in an instance of <code>XCTAttachment</code>, optionally add a name and lifespan, then call <code>add()</code> to add it to your test run.</p>
+<p>For example:</p>
+<pre><code class="language-swift">let screenshot = app.screenshot()
+let attachment = XCTAttachment(screenshot: screenshot)
+attachment.name = "My Great Screenshot"
+attachment.lifetime = .keepAlways
+add(attachment)</code></pre>
+<p><code>XCTAttachment</code> is good for storing things other than screenshots: it has convenience initializers for any <code>Codable</code> and <code>NSCoding</code> objects, or you can just write a <code>Data</code> instance into there.</p>
+<h3 style="font-weight: normal; margin-top: 60px;">What now?</h3>
+<p>I hope this has given you a good starting point from which you can write your own user interface tests. Previously Xcode’s UI testing system got a pretty bad rap, partly because the recording system was (and is) still fundamentally broken, but partly also because it’s easy to write slow, flaky tests if you don’t pay attention.</p>
+<p>So, make sure you prefer <code>waitForExistence(timeout:)</code> over a regular <code>exists</code> check, prefer using <code>firstMatch</code> over <code>element</code> where possible, and try to write the most specific queries you can – it all helps improve speed and help keep your tests working into the future.</p>
+<p>If you have any tips and tricks for UI testing that aren't covered here, <a rel="nofollow" target="_blank" href="https://twitter.com/twostraws">send me a tweet</a> and I'll add them!</p><!-- <div class="hws-sponsor"><p><strong class="label label-danger">Sponsored</strong> You’re already busy updating your app for Swift 4.2 and iOS 12, so why not let Instabug help you find and fix bugs? <strong>Add just two lines of code</strong> to your project and receive comprehensive reports with all the feedback you need to ship a world-class app – <a href="https://try.instabug.com/ios/?utm_source=hackingwithswift&utm_medium=native_ads&utm_campaign=hackingwithswiftv3">click here to learn more</a>!</div> --><p align="center" style="margin: 30px;"><a href="https://twitter.com/share" data-dnt="true" class="twitter-share-button" data-url="https://www.hackingwithswift.com/articles/148/xcode-ui-testing-cheat-sheet" data-text="Xcode UI Testing Cheat Sheet – The least you need to know to make XCTest work with user interfaces" data-via="twostraws" data-size="large" data-hashtags="swiftlang" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p><p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                                <style>
+                    div.books-sidebar {
+                        text-align: center;
+                        padding-top: 5px
+                    }
+
+                    div.books-sidebar img {
+                        border: 1px solid #cccccc;
+                        margin-bottom: 5px;
+                    }
+
+                    @media (max-width: 991px) {
+                        div.books-sidebar {
+                            display: none;
+                        }
+                    }
+                </style>
+
+                <div class="col-md-3" style="padding: 0; padding-top: 20px;">
+                    <div class="books-sidebar" style="text-align: center;">
+                        <strong>MASTER SWIFT NOW</strong>
+                    </div>
+                    <div class="books-sidebar">
+                        <a href="/store/testing-swift"><img src="/img/covers-flat/testing.png" alt="Buy Testing Swift" width="95" /></a>
+                        <a href="/store/practical-ios12"><img src="/img/covers-flat/ios12.png" alt="Buy Practical iOS 12" width="95" /></a>
+                        <a href="/store/pro-swift"><img src="/img/covers-flat/pro-swift.png" alt="Buy Pro Swift" width="95" /></a>
+                        <a href="/store/swift-design-patterns"><img src="/img/covers-flat/patterns.png" alt="Buy Swift Design Patterns" width="95" /></a>
+                        <a href="/store/swift-coding-challenges"><img src="/img/covers-flat/swiftcc.png" alt="Buy Swift Coding Challenges" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/vapor.png" alt="Buy Server-Side Swift (Vapor Edition)" width="95" /></a>
+                        <a href="/store/server-side-swift"><img src="/img/covers-flat/kitura.png" alt="Buy Server-Side Swift (Kitura Edition)" width="95" /></a>
+                        <a href="/store/hacking-with-macos"><img src="/img/covers-flat/macos.png" alt="Buy Hacking with macOS" width="95" /></a>
+                        <a href="/store/advanced-ios-1"><img src="/img/covers-flat/advanced-ios-1.png" alt="Buy Advanced iOS Volume One" width="95" /></a>
+                        <a href="/store/advanced-ios-2"><img src="/img/covers-flat/advanced-ios-2.png" alt="Buy Advanced iOS Volume Two" width="95" /></a>                        
+                        <a href="/store/hacking-with-watchos"><img src="/img/covers-flat/watchos.png" alt="Buy Hacking with watchOS" width="95" /></a>
+                        <a href="/store/hacking-with-tvos"><img src="/img/covers-flat/tvos.png" alt="Buy Hacking with tvOS" width="95" /></a>
+                        <a href="/store/hacking-with-swift"><img src="/img/covers-flat/hws.png" alt="Buy Hacking with Swift" width="95" /></a>
+                        <a href="/store/dive-into-spritekit"><img src="/img/covers-flat/spritekit.png" alt="Buy Dive Into SpriteKit" width="95" /></a>
+                        <a href="/sixty"><img src="/img/covers-flat/sixty.png" alt="Buy Swift in Sixty Seconds" width="95" /></a>
+                        <a href="/store/objective-c-for-swift-developers"><img src="/img/covers-flat/objc.png" alt="Buy Objective-C for Swift Developers" width="95" /></a>
+                        <a href="/store/beyond-code"><img src="/img/covers-flat/beyond-code.png" alt="Buy Beyond Code" width="95" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+            <div class="row">
+    <div class="col-sm-1" style="text-align: left;"></div>
+    <div class="col-sm-2">
+        <p style="text-align: center;"><img src="/img/paul.png" class="img-responsive" style="border-radius: 64px; border: 1px solid black; margin: auto;" /></p>
+        <p style="text-align: center;"><a href="https://twitter.com/twostraws">@twostraws</a></p>
+    </div>
+    <div class="col-sm-8" style="text-align: left;"><h3 style="margin: 0">About the author</h3><p>Paul Hudson is the creator of Hacking with Swift, the <a href="/store">most comprehensive series of Swift books</a> in the world. He's also the editor of <a href="/articles">Swift Developer News</a>, the maintainer of the <a href="/example-code">Swift Knowledge Base</a>, and Mario Kart world champion. OK, so that last part isn't true. If you're curious you can <a href="/about">learn more here</a>.</p></div>
+    <div class="col-sm-1" style="text-align: left;"></div>
+</div>            </div>
+
+            <div class="row" style="margin-top: 40px">            
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="margin-bottom: 10px;"><a href="/articles">More articles</a></p>
+                </div>
+
+                <div class="col-xs-6 hws-news-others">
+                    <p class="lead" style="text-align: right; margin-bottom: 10px;"><img src="/img/feed.png" style="height: 22px; vertical-align: middle; margin-bottom: 4px;" /> <a href="/articles/rss">
+                    RSS feed</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/183/apple-announces-swift-enterprise-edition">
+                            <img src="/uploads/enterprise.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Apple announces Swift Enterprise Edition</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/182/whats-new-in-swift-5-1">
+                            <img src="/uploads/swift-evolution-1.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>What’s new in Swift 5.1</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/181/why-using-isempty-is-faster-than-checking-count-0">
+                            <img src="/uploads/typography.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Why using isEmpty is faster than checking count == 0</h4>
+                            </div>
+                        </a>
+                    </div>
+                                    <div class="col-sm-3" style="margin-bottom: 30px;">
+                        <a href="/articles/180/interview-antoine-van-der-lee">
+                            <img src="/uploads/zz-antoine-van-der-lee.jpg" class="img-responsive" style="border: 1px solid #dcdcdc;" />
+                            <div>
+                                <h4>Interview: Antoine van der Lee</h4>
+                            </div>
+                        </a>
+                    </div>
+                            </div>
+
+            <div class="row" style="margin-bottom: 80px;">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="hws-notices-bottom">
+	<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3949792738673622"
+     data-ad-slot="1869949723"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+<!--<a href="https://devmounta.in/ios-immersive?utm_source=HackingWithSwift&utm_medium=HackingWithSwift&utm_campaign=HackingWithSwift">
+	<img src="/assets/devmountain.png" style="border: 0;">
+</a>-->
+</div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </section>
+
+
+            <section class="page-rating-container bg-gray">
+        <div class="container text-center">
+            <div class="row">
+                <div id="page-rating-start">
+                  <p>Was this page useful? Let me know!</p>
+                	<select id="page-rating">
+                      <option value=""></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                </div>
+
+                                <p><small>Average rating: 4.6/5</small></p>
+                
+                <div id="page-rating-end" style="display: none">
+                    <p>Thank you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="application/ld+json">{
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "author": "Paul Hudson",
+      "datePublished": "2018-12-13",
+      "dateModified": "2019-03-29",
+      "headline": "Xcode UI Testing Cheat Sheet",
+      "image": {
+        "@type": "imageObject",
+        "url": "https://www.hackingwithswift.com/uploads/app-blueprint-1.jpg"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.6",
+            "worstRating": "1.0",
+            "bestRating": "5.0",
+            "reviewCount": "10"
+        },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hacking with Swift",
+        "logo": {
+          "@type": "imageObject",
+            "url": "https://www.hackingwithswift.com/files/logo-large.png"
+          }
+        }
+      }
+    </script>
+    
+    
+        <a href="/store" class="btn btn-block btn-full-width" style="white-space: normal;">Click here to visit the Hacking with Swift store &gt;&gt;</a>
+    
+    <footer class="footer" style="background-image: url('/img/bg-footer.jpg')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6 contact-details">
+                    <a href="https://twitter.com/twostraws">
+                        <h4><i class="fa fa-twitter fa-4x"></i></h4>
+                        <p>@twostraws</p>
+                    </a>
+                </div>
+                <div class="col-md-6 contact-details">
+                    <a href="mailto:paul@hackingwithswift.com">
+                        <h4><i class="fa fa-envelope-o fa-4x"></i></h4>
+                        <p>paul@hackingwithswift.com
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-lg-12">
+                    <p class="small">Swift, the Swift logo, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright &copy; 1994 Miramax Films. Hacking with Swift &copy;2019 Paul Hudson.</p>
+
+                    <p class="small"><a href="/privacy">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Core Scripts -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui-custom.min.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Plugin Scripts -->
+    <script src="/js/plugins/jquery.easing.min.js"></script>
+    <script src="/js/plugins/classie.js"></script>
+
+    
+    <script src="/js/plugins/jquery.mixitup.js"></script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/vitality.js"></script>
+
+    <script src="/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript">
+       $(function() {
+            $('#page-rating').barrating('show', {
+              theme: 'fontawesome-stars',
+              onSelect: function(value, text, event) {
+                if (typeof(event) !== 'undefined') {
+                  // rating was selected by a user
+                  var rating = $(event.target).data("rating-value");
+
+                    $.ajax({
+                      type: "POST",
+                      url: "/rating",
+                      data: { "url": window.location.pathname, "rating": rating },
+                    });
+
+                  $("#page-rating-start").hide();
+                  $("#page-rating-end").show();
+                } else {
+                  // rating was selected programmatically
+                  // by calling `set` method
+                }
+              }
+            });
+       });
+    </script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58275818-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!--     { { include('house-ads.html') } }
+
+    <script src="/js/ads.js"></script>
+    <script>
+    if(window.areAdsDisplayed === undefined) {
+        var houseAd = createHouseAd();
+        $('.hws-notices-top').html(houseAd);
+        $('.hws-notices-bottom').html(houseAd);
+    }
+    </script> -->
+
+    </body>
+
+</html>

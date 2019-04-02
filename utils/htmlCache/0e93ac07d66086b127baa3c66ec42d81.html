@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+        <link rel="stylesheet" href="/style.css" type="text/css" media="all" />
+        <link rel="alternate" type="application/atom+xml" href="/feed.atom" title="Site updates" />
+        <style type="text/css">
+            header .item1-ncdu, header .item2-ncdu, header .item3-ncdu { color: #03a }
+        </style>
+        <title>NCurses Disk Usage</title>
+    </head>
+    <body>
+        <div id="body">
+            <label for="menu"><b>&#x2261;</b> menu</label>
+            <input type="checkbox" id="menu">
+            <header>
+                <nav>
+                                                                                                    <h1>~ Ncdu ~</h1>
+                    <ul>
+                        <li><a href="/ncdu" class="item2-ncdu">Info</a></li>
+                        <li><a href="/ncdu/man" class="item2-ncdu-man">Manual</a>
+                            <ul>
+                                <li><a href="/ncdu/jsonfmt" class="item2-ncdu-jsonfmt">File Format</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/ncdu/changes" class="item2-ncdu-changes">Changelog</a></li>
+                        <li><a href="/ncdu/scr" class="item2-ncdu-scr">Screenshots</a></li>
+                        <li><a href="https://code.blicky.net/yorhel/ncdu/issues" class="special">Issues </a></li>
+                        <li><a href="/" class="small special">Projects home </a></li>
+                    </ul>
+                                                                                                </nav>
+
+                <p>
+                    Yoran Heling
+                    <br>
+                    <a href="mailto:projects@yorhel.nl">projects@yorhel.nl</a>
+                    <br>
+                      <a href="https://yorhel.nl/">home</a>
+                    - <a href="https://g.blicky.net/">git</a>
+                    - <a href="https://niu.moe/@ayo">@ayo</a>
+                    <br>
+                    <b>= donate =</b>
+                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=BBF8LGT2LLNFN&amp;lc=US&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted">paypal</a>
+                    <br>
+                    <b>= pgp =</b>
+                    only used for releases
+                    <br>
+                      <a href="https://yorhel.nl/key.asc">key</a>
+                    - <a href="http://pgp.mit.edu:11371/pks/lookup?search=0x8c2739fa">mit</a>
+                    <br>
+                    <i>7446 0D32 B808 10EB A9AF A2E9 6239 4C69 8C27 39FA</i>
+                </p>
+
+                <img id="scissors" src="/img/scissors.png" alt="Cute decorative scissors, cutting through your code.">
+            </header>
+
+            <main class="page-">
+                <h1 class="title">NCurses Disk Usage</h1>
+<p>Ncdu is a disk usage analyzer with an ncurses interface. It is designed to find space hogs on a remote server where you don't have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple and easy to use, and should be able to run in any minimal POSIX-like environment with ncurses installed.</p>
+<h2 id="download">Download</h2>
+<dl>
+<dt>Latest version</dt>
+<dd><p>1.14 (<span class="fileinfo"><input id="fileinfo_406300225" type="checkbox"><span><label for="fileinfo_406300225">close</label><em>File:</em> <a href="/download/ncdu-1.14.tar.gz">ncdu-1.14.tar.gz</a><br><em>Size:</em> 142.5 KiB (145.911 bytes)<br><em>PGP:</em> <a href="/download/ncdu-1.14.tar.gz.asc">ncdu-1.14.tar.gz.asc</a><br><em>MD5:</em> <code>d26c0aa57728c19969c3c5036fa272a0</code><br><em>SHA1:</em> <code>28c7003ad23d2e3a2d22d2c349bb0c7170752396</code><br><em>SHA-256:</em> <code>c694783aab21e27e64baad314b7c1ff34541bfa219fe9645ef6780f1c5558c44</code></span><a href="/download/ncdu-1.14.tar.gz">ncdu-1.14.tar.gz</a> <label for="fileinfo_406300225"><img src="/img/info.svg"></label></span> - <a href="/ncdu/changes">changes</a>)</p>
+<p>I also have convenient static binaries for Linux <span class="fileinfo"><input id="fileinfo_3431662466" type="checkbox"><span><label for="fileinfo_3431662466">close</label><em>File:</em> <a href="/download/ncdu-linux-i486-1.14.tar.gz">ncdu-linux-i486-1.14.tar.gz</a><br><em>Size:</em> 193.4 KiB (198.066 bytes)<br><em>PGP:</em> <a href="/download/ncdu-linux-i486-1.14.tar.gz.asc">ncdu-linux-i486-1.14.tar.gz.asc</a><br><em>MD5:</em> <code>adcdc01ec3fde7d5c0d7bbe7b24c8cad</code><br><em>SHA1:</em> <code>fb932b8f479c18baa16456d018417808d1297df3</code><br><em>SHA-256:</em> <code>76926d78a33e331575b93e10585c0cad4f18bdedfc649780aa35a7157b8ba109</code></span><a href="/download/ncdu-linux-i486-1.14.tar.gz">i486</a> <label for="fileinfo_3431662466"><img src="/img/info.svg"></label></span> and <span class="fileinfo"><input id="fileinfo_1009084034" type="checkbox"><span><label for="fileinfo_1009084034">close</label><em>File:</em> <a href="/download/ncdu-linux-arm-1.14.tar.gz">ncdu-linux-arm-1.14.tar.gz</a><br><em>Size:</em> 172.5 KiB (176.657 bytes)<br><em>PGP:</em> <a href="/download/ncdu-linux-arm-1.14.tar.gz.asc">ncdu-linux-arm-1.14.tar.gz.asc</a><br><em>MD5:</em> <code>46fb5fe8de7ba4c5b69634114843fef8</code><br><em>SHA1:</em> <code>a37043ae1a4b1b06c9df8a56a3a65061e4be4f0c</code><br><em>SHA-256:</em> <code>b1c42ae5a18a9f68acdb82eacd82a8b0003b34860559c9746229d7132b6f6dd5</code></span><a href="/download/ncdu-linux-arm-1.14.tar.gz">ARM</a> <label for="fileinfo_1009084034"><img src="/img/info.svg"></label></span>. Download, extract and run; no compilation or installation necessary (uses <a href="http://www.musl-libc.org/">musl</a>).</p>
+</dd>
+<dt>Development version</dt>
+<dd>The most recent code is available on a git repository and can be cloned with <code>git clone git://g.blicky.net/ncdu.git/</code>. The repository is also available for <a href="https://g.blicky.net/ncdu.git/">online browsing</a>.
+</dd>
+</dl>
+<p>Ncdu is entirely written in C and available under a liberal MIT license.</p>
+<h2 id="packages-and-ports">Packages and ports</h2>
+<p>Ncdu has been packaged for quite a few systems, here's a list of the ones I am aware of:</p>
+<p><a href="http://www.perzl.org/aix/index.php?n=Main.Ncdu">AIX</a> - <a href="http://pkgs.alpinelinux.org/packages?name=ncdu">Alpine Linux</a> - <a href="http://sisyphus.ru/en/srpm/ncdu">ALT Linux</a> - <a href="https://www.archlinux.org/packages/?q=ncdu">Arch Linux</a> - <a href="https://crux.nu/portdb/?q=ncdu&amp;a=search">CRUX</a> - <a href="https://cygwin.com/cgi-bin2/package-grep.cgi?grep=ncdu">Cygwin</a> - <a href="http://packages.debian.org/ncdu">Debian</a> - <a href="https://apps.fedoraproject.org/packages/ncdu">Fedora</a> - <a href="https://www.freebsd.org/cgi/ports.cgi?query=ncdu&amp;stype=all">FreeBSD</a> - <a href="http://frugalware.org/packages/?op=pkg&amp;srch=ncdu&amp;arch=all&amp;ver=all">Frugalware</a> - <a href="https://packages.gentoo.org/packages/sys-fs/ncdu">Gentoo</a> - <a href="https://www.gnu.org/software/guix/package-list.html">GNU Guix</a> - <a href="http://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/sysutils/ncdu/">OpenBSD</a> - Mac OS X (<a href="http://pdb.finkproject.org/pdb/package.php/ncdu">Fink</a> - <a href="https://formulae.brew.sh/formula/ncdu">Homebrew</a> - <a href="http://www.macports.org/ports.php?by=name&amp;substr=ncdu">MacPorts</a>) - <a href="http://www.murga-linux.com/puppy/viewtopic.php?t=35024">Puppy Linux</a> - <a href="http://www.opencsw.org/packages/ncdu">Solaris</a> - <a href="http://slackbuilds.org/repository/14.2/system/ncdu/">Slackware</a> - <a href="http://www.slax.org/modules.php?detail=ncdu">Slax Linux</a> - <a href="http://packages.ubuntu.com/search?searchon=sourcenames&amp;keywords=ncdu">Ubuntu</a> - <a href="https://voidlinux.org/packages/">Void Linux</a></p>
+<p>Packages for RHEL and (open)SUSE can be found on the <a href="https://software.opensuse.org//download.html?project=utilities&amp;package=ncdu">Open Build Service</a>.</p>
+<p>Packages for NetBSD, DragonFlyBSD, MirBSD and others can be found on <a href="http://pkgsrc.se/sysutils/ncdu">pkgsrc</a>.</p>
+<p>A port to z/OS is available <a href="https://dovetail.com/community/ncdu.html">here</a>.</p>
+<h2 id="similar-projects">Similar projects</h2>
+<ul>
+<li><a href="http://duc.zevv.nl/">Duc</a> - Multiple user interfaces.</li>
+<li><a href="http://gt5.sourceforge.net/">gt5</a> - Quite similar to ncdu, but a different approach.</li>
+<li><a href="http://webonastick.com/tdu/">tdu</a> - Another small ncurses-based disk usage visualization utility.</li>
+<li><a href="https://bitbucket.org/josephpaul0/tdu">tdu</a> - Go command-line tool with ncdu JSON export.</li>
+<li><a href="http://treesize.sourceforge.net/">TreeSize</a> - GTK, using a treeview.</li>
+<li><a href="http://www.marzocca.net/linux/baobab.html">Baobab</a> - GTK, using pie-charts, a treeview and a treemap. Comes with GNOME.</li>
+<li><a href="http://gdmap.sourceforge.net/">GdMap</a> - GTK, with a treemap display.</li>
+<li><a href="http://www.methylblue.com/filelight/">Filelight</a> - KDE, using pie-charts.</li>
+<li><a href="http://kdirstat.sourceforge.net/">KDirStat</a> - KDE, with a treemap display.</li>
+<li><a href="http://qt-apps.org/content/show.php/QDiskUsage?content=107012">QDiskUsage</a> - Qt, using pie-charts.</li>
+<li><a href="http://xdiskusage.sourceforge.net/">xdiskusage</a> - FLTK, with a treemap display.</li>
+<li><a href="http://fsv.sourceforge.net/">fsv</a> - 3D visualization.</li>
+<li><a href="http://zevv.nl/play/code/philesight/">Philesight</a> - Web-based clone of Filelight.</li>
+</ul>
+            </main>
+
+            <footer><p>all lefts and rights reversed</p></footer>
+        </div>
+    </body>
+</html>

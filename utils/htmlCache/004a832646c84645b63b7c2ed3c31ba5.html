@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="pingback" href="https://kenb.us/xmlrpc.php"/>
+
+	<title>Best strategies for configuring multiple environments in Xcode projects &#8211; Ken Boreham</title>
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Ken Boreham &raquo; Feed" href="https://kenb.us/feed" />
+<link rel="alternate" type="application/rss+xml" title="Ken Boreham &raquo; Comments Feed" href="https://kenb.us/comments/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/kenb.us\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.0.4"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='wp-block-library-css'  href='https://kenb.us/wp-includes/css/dist/block-library/style.min.css?ver=5.0.4' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-email-subscribe-css'  href='https://kenb.us/wp-content/plugins/jetpack/modules/shortcodes/css/jetpack-email-subscribe.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='mks_shortcodes_fntawsm_css-css'  href='https://kenb.us/wp-content/plugins/meks-flexible-shortcodes/css/font-awesome/css/font-awesome.min.css?ver=1.3.1' type='text/css' media='screen' />
+<link rel='stylesheet' id='mks_shortcodes_simple_line_icons-css'  href='https://kenb.us/wp-content/plugins/meks-flexible-shortcodes/css/simple-line/simple-line-icons.css?ver=1.3.1' type='text/css' media='screen' />
+<link rel='stylesheet' id='mks_shortcodes_css-css'  href='https://kenb.us/wp-content/plugins/meks-flexible-shortcodes/css/style.css?ver=1.3.1' type='text/css' media='screen' />
+<link rel='stylesheet' id='smartmenus-bootstrap-css'  href='https://kenb.us/wp-content/themes/lana-site/css/smartmenus-bootstrap.min.css?ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='lana-site-style-css'  href='https://kenb.us/wp-content/themes/lana-site/style.css?ver=5.0.4' type='text/css' media='all' />
+<link rel='stylesheet' id='animate-css'  href='https://kenb.us/wp-content/themes/lana-site/css/animate.min.css?ver=3.5.0' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css'  href='https://kenb.us/wp-content/themes/lana-site/css/font-awesome.min.css?ver=4.6.3' type='text/css' media='all' />
+<link rel='stylesheet' id='bootstrap-css'  href='https://kenb.us/wp-content/themes/lana-site/css/bootstrap.min.css?ver=3.3.6' type='text/css' media='all' />
+<link rel='stylesheet' id='ie10-viewport-bug-workaround-css'  href='https://kenb.us/wp-content/themes/lana-site/css/ie10-viewport-bug-workaround.css?ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='lana-site-theme-css'  href='https://kenb.us/wp-content/themes/lana-site/css/lana-site-theme.min.css?ver=1.1.1' type='text/css' media='all' />
+<style id='lana-site-theme-inline-css' type='text/css'>
+body { background-color:#37434b; }
+.header .site-title { font-family:"Pacifico"; }
+.header .site-description { color:#fff; }
+</style>
+<link rel='stylesheet' id='lana-site-print-style-css'  href='https://kenb.us/wp-content/themes/lana-site/css/print-style.min.css?ver=1.1.1' type='text/css' media='print' />
+<link rel='stylesheet' id='lana-carousel-css'  href='https://kenb.us/wp-content/plugins/lana-widgets//assets/css/v3/lana-carousel.css?ver=1.1.3' type='text/css' media='all' />
+<link rel='stylesheet' id='magnific-popup-css'  href='https://kenb.us/wp-content/plugins/lana-widgets//assets/libs/magnific-popup/css/jquery-magnific-popup.min.css?ver=1.1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='header-font-css'  href='http://fonts.googleapis.com/css?family=Pacifico&#038;ver=5.0.4' type='text/css' media='all' />
+<link rel='stylesheet' id='prism-theme-css'  href='https://kenb.us/wp-content/plugins/ank-prism-for-wp/out/prism-css.min.css?ver=1538244985' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css'  href='https://kenb.us/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=1' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='https://kenb.us/wp-content/plugins/jetpack/css/jetpack.css?ver=6.9' type='text/css' media='all' />
+<script type='text/javascript' src='https://kenb.us/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://kenb.us/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/meks-flexible-shortcodes/js/main.js?ver=1.3.1'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/themes/lana-site/js/bootstrap.min.js?ver=3.3.6'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/themes/lana-site/js/respond.min.js?ver=1.4.2'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/lana-widgets//assets/libs/magnific-popup/js/jquery-magnific-popup.min.js?ver=1.1.0'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/lana-widgets//assets/js/lana-magnific-popup-image.js?ver=1.1.3'></script>
+<link rel='https://api.w.org/' href='https://kenb.us/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://kenb.us/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://kenb.us/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Add some color to your tvOS buttons' href='https://kenb.us/add-some-color-to-your-tvos-buttons' />
+<meta name="generator" content="WordPress 5.0.4" />
+<link rel="canonical" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects" />
+<link rel='shortlink' href='https://wp.me/p7YBT0-7N' />
+<link rel="alternate" type="application/json+oembed" href="https://kenb.us/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fkenb.us%2Fbest-strategies-for-configuring-multiple-environments-in-xcode-projects" />
+<link rel="alternate" type="text/xml+oembed" href="https://kenb.us/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fkenb.us%2Fbest-strategies-for-configuring-multiple-environments-in-xcode-projects&#038;format=xml" />
+
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<style type='text/css'>img#wpstats{display:none}</style>
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Best strategies for configuring multiple environments in Xcode projects" />
+<meta property="og:url" content="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects" />
+<meta property="og:description" content="What things do you configure based on different environments? You might have views that are only for debugging, or you might want to turn off logging for release builds. You probably have multiple …" />
+<meta property="article:published_time" content="2018-10-21T22:19:43+00:00" />
+<meta property="article:modified_time" content="2018-10-22T04:26:46+00:00" />
+<meta property="og:site_name" content="Ken Boreham" />
+<meta property="og:image" content="https://kenb.us/wp-content/uploads/2018/10/change-choices-choose-277615.jpg" />
+<meta property="og:image:width" content="3000" />
+<meta property="og:image:height" content="1600" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@KenBoreham" />
+<meta name="twitter:text:title" content="Best strategies for configuring multiple environments in Xcode projects" />
+<meta name="twitter:image" content="https://kenb.us/wp-content/uploads/2018/10/change-choices-choose-277615.jpg?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- End Jetpack Open Graph Tags -->
+</head>
+
+<body class="post-template-default single single-post postid-483 single-format-standard lana-background-image shattered">
+
+
+
+    <div class="lana-main-navigation navbar-in-header wide-navigation">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#lana-navbar" aria-expanded="false" aria-controls="lana-navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="lana-navbar" class="navbar-collapse collapse">
+					<ul id="menu-main-menu" class="nav navbar-nav"><li id="menu-item-293" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-293"><a href="https://kenb.us/">Home</a></li>
+<li id="menu-item-148" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-148"><a href="https://kenb.us/contact">Contact</a></li>
+<li id="menu-item-292" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-292"><a href="http://twitter.com/kenboreham">Twitter</a></li>
+</ul>                </div>
+            </div>
+        </nav>
+    </div>
+
+
+<div class="main-container main-wide">
+
+    <div class="header inverse">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+					                        <h1 class="site-title animated bounce">
+                            <a href="https://kenb.us/"
+                               title="Ken Boreham" rel="home">
+								Ken Boreham                            </a>
+                        </h1>
+                        <p class="site-description">
+							conquering complex code                        </p>
+					                </div>
+				            </div>
+        </div>
+    </div>
+
+	
+	
+	
+    <div class="main-content">
+        <div class="wide-content container">
+    <div class="row">
+
+        <div class="col-md-9">
+
+			
+                <div class="panel panel-primary" id="post-483">
+					
+    <div class="panel-body post-483 post type-post status-publish format-standard has-post-thumbnail hentry category-general-coding tag-config tag-configuration tag-debug tag-dev tag-development tag-environment tag-info-plist tag-plist tag-prod tag-production tag-release tag-scheme tag-setting tag-side-by-side tag-staging tag-stg tag-target tag-xcode comment-closed">
+        <div class="media">
+			            <div class="media-body">
+                <h2 class="media-heading">
+                    <a href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects">
+						Best strategies for configuring multiple environments in Xcode projects                    </a>
+                </h2>
+
+                <div class="media-meta">
+                    <p class="meta-info meta-date">
+                        <span class="glyphicon glyphicon-time"></span>
+                        <a href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects">
+							October 21, 2018                        </a>
+                    </p>
+					                        <p class="meta-info meta-category">
+                            <span class="glyphicon glyphicon-folder-open"></span>
+							<a href="https://kenb.us/category/general-coding" rel="category tag">General Coding</a>                        </p>
+										                        <p class="meta-info meta-comment">
+                            <span class="glyphicon glyphicon-comment"></span>
+							<span>Comments Off<span class="screen-reader-text"> on Best strategies for configuring multiple environments in Xcode projects</span></span>                        </p>
+					                    <p class="meta-info meta-user pull-right">
+                        <span class="glyphicon glyphicon-user"></span>
+						<a href="https://kenb.us/author/kgboreham" title="Posts by Ken Boreham" rel="author">Ken Boreham</a>                    </p>
+                </div>
+
+                <hr class="meta-hr"/>
+
+				                    <a class="pull-left thumbnail" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects">
+						<img width="150" height="150" src="https://kenb.us/wp-content/uploads/2018/10/change-choices-choose-277615-150x150.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" />                    </a>
+								<p>What things do you configure based on different environments? You might have views that are only for debugging, or you might want to turn off logging for release builds. You probably have multiple backend environments to configure like dev, QA, UAT, stage, prod, etc. Each of these requires different root URLs, API keys and app secrets. The app may also integrate with social media, crash reporting tool, or other analytics tools and we shouldn&#8217;t pollute this data with our testing efforts. We might also want to change the app icon and app name to make it visible which environment an installed app is running.</p>
+<p>It&#8217;s easy enough to develop simple iOS apps and not worry too much about configurations. When you are just starting, it&#8217;s probably ok to do some setup with code, modifying the values as needed. You might even try commenting/uncommenting lines of code to switch between different configurations. Some people use #if DEBUG. Either of these will become problematic, quickly. It&#8217;s error-prone and time-consuming. So, what do we do?</p>
+<p><span id="more-483"></span></p>
+<p>Let&#8217;s walk through an example of setting up a project with multiple environments. <strong>I&#8217;ll only do two, but the steps can be repeated as needed.</strong></p>
+<h2>Setup</h2>
+<p>You can use an existing project or create a new one. A single view app is ok for this demo. I called mine &#8220;EnvironmentsTest.&#8221; By default, you will have one scheme and two configurations (Debug and Release). Let&#8217;s start with a struct to hold our configurable properties.</p>
+<pre><code class="language-swift">struct Config {
+    let scheme: String
+    let host: String
+    let key: String
+    
+    init() {
+        scheme = "https"
+        host = "api.testapp.com"
+        key = "key.testapp.prod"
+    }
+}
+extension Config {
+    static var current: Config = Config()
+}</code></pre>
+<p>To test this, we can print the configuration when the application finishes launching. Note: don&#8217;t forget to remove this, you don&#8217;t want your app leaking this information in production.</p>
+<pre class="line-numbers"><code class="language-swift">func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {        
+    print(Config.current)
+    return true
+}</code></pre>
+<p>In the console, you should see the configuration as expected.</p>
+<pre class="line-numbers"><code class="language-markup">Config(scheme: "https", host: "api.testapp.com", key: "key.testapp.prod")</code></pre>
+<h2>Debug &amp; Release vs. Dev &amp; Prod</h2>
+<p>When you only have two environments to worry about it almost seems natural to assign debug to dev and release to prod. I&#8217;ve seen this a lot. Unfortunately, this doesn&#8217;t work. Dev and prod represent environment configurations while debug and release are build configurations. You should be able to mix and match them to some extent. For example, you might want to debug a prod build. You would never release a dev build, but you might want to profile a dev build, and we usually use release configuration for that. And, of course, this completely falls apart when you add more environments.</p>
+<h2>Injecting configuration through info.plist</h2>
+<p>We can create entries in the Info.plist file that can be read in to replace the default configuration.</p>
+<pre class="line-numbers"><code class="language-yaml">&lt;key&gt;Config&lt;/key&gt;
+	&lt;dict&gt;
+		&lt;key&gt;scheme&lt;/key&gt;
+		&lt;string&gt;http&lt;/string&gt;
+		&lt;key&gt;host&lt;/key&gt;
+		&lt;string&gt;dev-api.testapp.com&lt;/string&gt;
+		&lt;key&gt;key&lt;/key&gt;
+		&lt;string&gt;key.testapp.dev&lt;/string&gt;
+	&lt;/dict&gt;</code></pre>
+<h2><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-2.52.59-PM-1.png"><img class="size-medium wp-image-486 alignnone" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-2.52.59-PM-1-600x85.png" alt="" width="600" height="85" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-2.52.59-PM-1-600x85.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-2.52.59-PM-1-768x108.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-2.52.59-PM-1-1024x145.png 1024w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-2.52.59-PM-1.png 1070w" sizes="(max-width: 600px) 100vw, 600px" /></a></h2>
+<p>Then change the Config extension to read it. It may be tempting to use infoDictionary directly, especially when we only have three values, but as your configurations get more complicated, it&#8217;s going to be nicer to have a decodable.</p>
+<pre class="line-numbers"><code class="language-swift">struct ConfigContainer: Decodable {
+    let Config: Config
+}
+
+extension Config: Decodable {
+    static var current: Config = {
+        guard let infoURL = Bundle.main.url(forResource: "Info", withExtension: "plist") else { fatalError("No info.plist in main bundle") }
+        do {
+            let infoData = try Data(contentsOf: infoURL)
+            let decoder = PropertyListDecoder()
+            let item = try decoder.decode(ConfigContainer.self, from: infoData)
+            return item.Config
+        } catch {
+            return Config()
+        }
+    }()
+}</code></pre>
+<p>Now we see the configuration for the dev environment.</p>
+<pre class="line-numbers"><code class="language-markup">Config(scheme: "http", host: "dev-api.testapp.com", key: "key.testapp.dev")</code></pre>
+<p>So, now we are injecting the configuration through the info.plist which is a step in the right direction. Now, how do you switch between these environments? We need a way to define all of the configurations and then have the ability to pick between them.</p>
+<h2>Targets</h2>
+<p>Developers often jump to adding targets when they want to have multiple versions (different environments) of the app installed on the same device. Most of the time, adding targets is overkill. When you add a target, you will have to remember to set each target&#8217;s settings. For example, if you want to enable camera access in your app, you will have to set the required Info.plist entries for each target individually. Also, whenever you add a file to the project, you will have to ensure that it&#8217;s correctly added to each target.</p>
+<p>What we&#8217;re really after, is to just select the environment/configuration from a dropdown and run it. Schemes are a great way to do this. First, we need to set up some build configurations.</p>
+<h2>Build Configurations</h2>
+<p>We start with Debug and Release configurations. Let&#8217;s combine these with our prod environment. Just rename Debug to Prod-Debug and Release to Prod-Release. Next, create a new configuration, duplicate Prod-Debug. Rename the new configuration Dev-Debug.</p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-6.55.22-PM.png"><img class="aligncenter size-medium wp-image-488" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-6.55.22-PM-600x366.png" alt="" width="600" height="366" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-6.55.22-PM-600x366.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-6.55.22-PM-768x469.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-14-at-6.55.22-PM-1024x625.png 1024w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>In most cases, you don&#8217;t need to duplicate release builds. Doing Debug and Release for every environment gets messy and harder to maintain. I suggest only adding release configurations for environments that you are going to be profiling or distributing.</p>
+<h2>Schemes</h2>
+<p>Now that the build configurations are set up, we can create schemes. Click on the schemes drop-down and choose <strong>&#8220;Edit Scheme&#8230;&#8221;</strong></p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-11.56.09-AM.png"><img class="aligncenter size-medium wp-image-494" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-11.56.09-AM-600x119.png" alt="" width="600" height="119" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-11.56.09-AM-600x119.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-11.56.09-AM-768x152.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-11.56.09-AM-1024x203.png 1024w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-11.56.09-AM.png 1122w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>Select the &#8220;Duplicate Scheme&#8221; button in the bottom left corner. Name the new scheme to indicate the target and environment; I&#8217;ll call this &#8220;EnvironmentsTest &#8211; Dev.&#8221;</p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.35.32-PM.png"><img class="aligncenter wp-image-500 size-medium" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.35.32-PM-600x338.png" alt="" width="600" height="338" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.35.32-PM-600x338.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.35.32-PM-768x432.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.35.32-PM-1024x576.png 1024w" sizes="(max-width: 600px) 100vw, 600px" /></a>Make sure the scheme is shared. Even if you aren&#8217;t working with a team, this will ensure the settings are saved if you move to another computer.</p>
+<p>For each type of build on the left (<strong>Run, Test, Profile, Analyze</strong>) select the <strong>Info</strong> tab, then set the <strong>Build Configuration</strong> to <strong>Dev-Debug</strong>.</p>
+<p>If you created a release configuration for this environment, you should use that for Profile. The consequences of profiling in a Debug configuration are outside of the scope of this article, in some cases it&#8217;s ok, only know that you may have different results in Release.</p>
+<p>I always leave Archive set to Prod-Release. This way, no matter what scheme is selected, and archive build will build for Prod. Then I don&#8217;t have to worry about accidentally uploading a Dev build. Ultimately, it&#8217;s better to rely on other workflow tools to prevent mistakes like this, but that&#8217;s a topic for another day.</p>
+<p>Press the <strong>Close</strong> button when you have finished.</p>
+<p>&nbsp;</p>
+<p>At this point, we have added build configurations and schemes to build for different environments. However, if you run the app, you get the same results for each environment. How do we actually customize it?</p>
+<h2>Configuration Settings File</h2>
+<p>A configuration settings file is a great place to set these, per environment, configuration settings. Go to <strong>File -&gt; New -&gt; File&#8230;</strong> or press <strong>⌘N</strong>. Scroll down to the &#8220;Other&#8221; section and select <strong>Configuration Settings File</strong>. Press <strong>Next</strong> and name it Dev.xcconfig and <strong>Create</strong>. Type or copy in the following:</p>
+<pre class="line-numbers"><code class="language-swift">scheme = "http"
+host = "dev-api.testapp.com"
+key = "key.testapp.dev"</code></pre>
+<p>Then go back to your <strong>Info.plist</strong> file and replace the Config section with the following.</p>
+<pre class="line-numbers"><code class="language-swift">&lt;key&gt;Config&lt;/key&gt;
+	&lt;dict&gt;
+		&lt;key&gt;scheme&lt;/key&gt;
+		&lt;string&gt;$(scheme)&lt;/string&gt;
+		&lt;key&gt;host&lt;/key&gt;
+		&lt;string&gt;$(host)&lt;/string&gt;
+		&lt;key&gt;key&lt;/key&gt;
+		&lt;string&gt;$(key)&lt;/string&gt;
+	&lt;/dict&gt;</code></pre>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.17.39-PM.png"><img class="size-medium wp-image-499 alignnone" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.17.39-PM-600x91.png" alt="" width="600" height="91" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.17.39-PM-600x91.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.17.39-PM-768x117.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.17.39-PM.png 972w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>Finally, go back to where you created the project configurations. You&#8217;ll notice the right column is <strong>Based on Configuration File</strong>. Modify the Dev-Debug project to use the <strong>Dev</strong> configuration.</p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.33.50-PM.png"><img class="size-medium wp-image-501 alignnone" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.33.50-PM-600x203.png" alt="" width="600" height="203" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.33.50-PM-600x203.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.33.50-PM-768x260.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.33.50-PM-1024x346.png 1024w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-20-at-1.33.50-PM.png 1064w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>Now, when you run the project with the Dev scheme, you will see the results of the Dev configuration, and when you run the project with the Prod scheme, you will see an empty configuration. It makes sense, then, that we should create another configuration settings file for Prod builds. However, I don&#8217;t like this solution because of exposure. I suggest we handle prod a different way.</p>
+<h2>Prod config</h2>
+<p>The Info.plist isn&#8217;t the right place to put any application secrets if you are going to distribute it to the public. Because of this, we need to find another way to configure for Prod. Genuinely securing these values is outside of the scope of this article but a good start is to move these values out of the Info.plist and into the compiled code. If you look back at our Config struct, it&#8217;s already there. All we have to do is remove the (empty) values from Info.plist, and the code should load our default configuration which is Prod.</p>
+<p>Select the project from the Project Navigator, select the target and go to the <strong>Build Phases</strong> tab. Click the <strong>+</strong> button and choose New Run<strong> Script Phase</strong>. Click on the title to rename it to something less generic. I&#8217;ll set the title to &#8220;Remove Prod Config.&#8221; Copy the following into the script area.</p>
+<pre class="line-numbers"><code class="language-bash">PLISTBUDDY="/usr/libexec/PlistBuddy"
+INFO_PLIST="${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
+if [[ -z ${host} ]]; then
+$PLISTBUDDY -c "Delete :Config" "${INFO_PLIST}" || true
+fi</code></pre>
+<p>What this is saying is that if the &#8220;host&#8221; variable is empty (or doesn&#8217;t exist) then delete the Config object from the Info.plist file.</p>
+<p><strong>Note: </strong>You have to do a clean build (<strong>⌘⇧K</strong>) to force the build phase to run.</p>
+<p>Now you will get the right results in each scheme! 🎉</p>
+<h2>App Transport Security</h2>
+<p>As you&#8217;re probably aware, Apple now requires apps to support best practice <b>HTTPS</b> security. It&#8217;s usually a good idea to follow this rule for every environment, even when developing in Dev. However, you can&#8217;t always do this (e.g., when preparing for a &#8220;Local&#8221; environment) or maybe it&#8217;s just not configured yet, but you still need to move forward on development. We can handle this with another Run Script Phase. Name this one &#8220;Http &#8211; Allows Arbitrary Loads&#8221; and copy the following into the script area.</p>
+<pre class="line-numbers"><code class="language-bash">PLISTBUDDY="/usr/libexec/PlistBuddy"
+INFO_PLIST="${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
+if [ ${scheme} == "http" ]; then
+$PLISTBUDDY -c "Add :NSAppTransportSecurity dict" "${INFO_PLIST}"
+$PLISTBUDDY -c "Add :NSAppTransportSecurity:NSAllowsArbitraryLoads bool true" "${INFO_PLIST}" || true
+$PLISTBUDDY -c "Set :NSAppTransportSecurity:NSAllowsArbitraryLoads true" "${INFO_PLIST}"
+else
+$PLISTBUDDY -c "Delete :NSAppTransportSecurity:NSAllowsArbitraryLoads" "${INFO_PLIST}" || true
+fi</code></pre>
+<p>Test this with each scheme by adding printing the value in application(_:didFinishLaunchingWithOptions:)</p>
+<pre class="line-numbers"><code class="language-swift">print(String(describing: Bundle.main.infoDictionary?["NSAppTransportSecurity"]))</code></pre>
+<p>Pretty sweet, right?</p>
+<h2>Run Dev and Prod side-by-side</h2>
+<p>Sometimes it is convenient to have both a Dev build and a Prod build installed on the same device so that you can switch between the two. All you have to do to make this happen is change the bundle id. You&#8217;ll also want an easy way to determine which one is which. To do this, we can change the display name and the icon.</p>
+<p><strong>Note: </strong>For all these settings, I always leave the Production Release build as is; this is the build that goes to the App Store and should not be modified. Because of this rule, it is also easily identified since it doesn&#8217;t have any modifiers.</p>
+<h4>Bundle Identifier</h4>
+<p>To change the Bundle Identifier, go to your target&#8217;s build settings and search for &#8220;bundle identifier&#8221; and click the arrow to expand all of the configurations. I usually append a &#8220;-&#8221; followed by the configuration name.</p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-9.55.13-AM.png"><img class="aligncenter size-medium wp-image-504" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-9.55.13-AM-600x124.png" alt="" width="600" height="124" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-9.55.13-AM-600x124.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-9.55.13-AM-768x159.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-9.55.13-AM-1024x212.png 1024w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<h4>Display Name</h4>
+<p>The steps are the same as Bundle Identifier, but this time search for &#8220;product name.&#8221; For this, I recommend replacing the name with the environment. Otherwise, the text may be too long to be useful.</p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-10.11.08-AM.png"><img class="aligncenter size-medium wp-image-505" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-10.11.08-AM-600x123.png" alt="" width="600" height="123" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-10.11.08-AM-600x123.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-10.11.08-AM-768x157.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-10.11.08-AM-1024x210.png 1024w" sizes="(max-width: 600px) 100vw, 600px" /></a>You can also use the version number in the display name to quickly determine which version is installed.</p>
+<h4>Icon</h4>
+<p>Changing the icon is almost just as easy. On the same screen, search for &#8220;icon.&#8221; You should see &#8220;Asset Catalog App Icon Set Name.&#8221; Again, add a dash followed by the configuration name.</p>
+<p><a href="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-11.59.54-AM.png"><img class="aligncenter size-medium wp-image-506" src="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-11.59.54-AM-600x123.png" alt="" width="600" height="123" srcset="https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-11.59.54-AM-600x123.png 600w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-11.59.54-AM-768x157.png 768w, https://kenb.us/wp-content/uploads/2018/10/Screen-Shot-2018-10-21-at-11.59.54-AM-1024x209.png 1024w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>Now, create icon sets, in your asset catalog, for each of those configurations.</p>
+<h2>Conclusion<b><br />
+</b></h2>
+<p>Performing all of these steps for each configuration might seem like a lot of work to change a few settings, but it&#8217;s well worth it. Sure, it takes some time to get it all set up, but switching becomes trivial <span style="background-color: #f5f6f5;">when </span>completed. Take the time to do it right, and you&#8217;ll save time in the long run. You&#8217;ll save time by quickly switching between environments. You&#8217;ll save yourself the hassle of making mistakes when doing it manually.</p>
+<p>I&#8217;d love to hear your feedback, questions or thoughts; find me on twitter <a href="http://twitter.com/kenboreham">@kenboreham</a></p>
+<p>Thanks for reading! 🔥👍</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-483" class="share-twitter sd-button share-icon no-text" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-483" class="share-facebook sd-button share-icon no-text" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects?share=facebook" target="_blank" title="Click to share on Facebook"><span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)</span></a></li><li class="share-tumblr"><a rel="nofollow noopener noreferrer" data-shared="" class="share-tumblr sd-button share-icon no-text" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects?share=tumblr" target="_blank" title="Click to share on Tumblr"><span></span><span class="sharing-screen-reader-text">Click to share on Tumblr (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-483" class="share-linkedin sd-button share-icon no-text" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects?share=reddit" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-pocket"><a rel="nofollow noopener noreferrer" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects?share=pocket" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div>                <div class="clearfix"></div>
+
+				<hr/><span class="tags"><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/config" rel="tag">config</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/configuration" rel="tag">configuration</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/debug" rel="tag">debug</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/dev" rel="tag">dev</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/development" rel="tag">development</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/environment" rel="tag">environment</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/info-plist" rel="tag">info.plist</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/plist" rel="tag">plist</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/prod" rel="tag">prod</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/production" rel="tag">production</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/release" rel="tag">release</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/scheme" rel="tag">scheme</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/setting" rel="tag">setting</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/side-by-side" rel="tag">side-by-side</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/staging" rel="tag">staging</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/stg" rel="tag">stg</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/target" rel="tag">target</a><span class="glyphicon glyphicon-tag"></span><a href="https://kenb.us/tag/xcode" rel="tag">Xcode</a></span>								            </div>
+        </div>
+    </div>
+
+
+					                </div>
+
+			
+			
+        </div>
+
+        <div class="col-md-3">
+			<div id="authors-2" class="widget-wrapper widget_authors"><h3 class="widget-title"></h3><ul><li><a href="https://kenb.us/author/kgboreham"> <img alt='1' src='https://secure.gravatar.com/avatar/bda75bf9868c844e94d5d320ae33fcde?s=96&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/bda75bf9868c844e94d5d320ae33fcde?s=192&#038;d=mm&#038;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /> <strong>Ken Boreham</strong></a></li></ul></div><hr/><div id="blog_subscription-2" class="widget-wrapper widget_blog_subscription jetpack_subscription_widget"><h3 class="widget-title">Subscribe via Email</h3>
+			<form action="#" method="post" accept-charset="utf-8" id="subscribe-blog-blog_subscription-2">
+									<div id="subscribe-text"><p>Enter your email address to subscribe to this blog and receive notifications of new posts by email.</p>
+</div>					<p id="subscribe-email">
+						<label id="jetpack-subscribe-label"
+							   for="subscribe-field-blog_subscription-2">
+							Email Address						</label>
+						<input type="email" name="email" required="required" class="required"
+							   value=""
+							   id="subscribe-field-blog_subscription-2"
+							   placeholder="Email Address"/>
+					</p>
+
+					<p id="subscribe-submit">
+						<input type="hidden" name="action" value="subscribe"/>
+						<input type="hidden" name="source" value="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects"/>
+						<input type="hidden" name="sub-type" value="widget"/>
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-2"/>
+												<input type="submit" value="Subscribe"
+							   name="jetpack_subscriptions_widget"/>
+					</p>
+							</form>
+
+			<script>
+				/*
+				Custom functionality for safari and IE
+				 */
+				( function( d ) {
+					// In case the placeholder functionality is available we remove labels
+					if (( 'placeholder' in d.createElement( 'input' ) )) {
+						var label = d.querySelector( 'label[for=subscribe-field-blog_subscription-2]' );
+						label.style.clip = 'rect(1px, 1px, 1px, 1px)';
+						label.style.position = 'absolute';
+						label.style.height = '1px';
+						label.style.width = '1px';
+						label.style.overflow = 'hidden';
+					}
+
+					// Make sure the email value is filled in before allowing submit
+					var form = d.getElementById( 'subscribe-blog-blog_subscription-2' ),
+						input = d.getElementById( 'subscribe-field-blog_subscription-2' ),
+						handler = function( event ) {
+							if ('' === input.value) {
+								input.focus();
+
+								if (event.preventDefault) {
+									event.preventDefault();
+								}
+
+								return false;
+							}
+						};
+
+					if (window.addEventListener) {
+						form.addEventListener( 'submit', handler, false );
+					} else {
+						form.attachEvent( 'onsubmit', handler );
+					}
+				} )( document );
+			</script>
+		
+</div><hr/><div id="custom_html-2" class="widget_text widget-wrapper widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://kenb.us/feed">RSS Feed</a></div></div><hr/>		<div id="recent-posts-2" class="widget-wrapper widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+											<li>
+					<a href="https://kenb.us/best-strategies-for-configuring-multiple-environments-in-xcode-projects">Best strategies for configuring multiple environments in Xcode projects</a>
+									</li>
+											<li>
+					<a href="https://kenb.us/add-some-color-to-your-tvos-buttons">Add some color to your tvOS buttons</a>
+									</li>
+											<li>
+					<a href="https://kenb.us/how-to-customize-uisegmentedcontrol-without-losing-your-mind">How to customize UISegmentedControl without losing your mind</a>
+									</li>
+											<li>
+					<a href="https://kenb.us/master-map-compactmap-flatmap-reduce-and-filter-by-creating-your-own-implementation">Master map, compactMap, flatMap, reduce and filter by creating your own implementation</a>
+									</li>
+											<li>
+					<a href="https://kenb.us/bigger-integers">Beyond 128-bit integers</a>
+									</li>
+					</ul>
+		</div><hr/><div id="categories-2" class="widget-wrapper widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+	<li class="cat-item cat-item-55"><a href="https://kenb.us/category/uikit/button" >Button</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="https://kenb.us/category/general-coding" >General Coding</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://kenb.us/category/lighting" >Lighting</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="https://kenb.us/category/performance" >Performance</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="https://kenb.us/category/playground" >Playground</a>
+</li>
+	<li class="cat-item cat-item-2"><a href="https://kenb.us/category/reference" >Reference</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="https://kenb.us/category/spritekit" >SpriteKit</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="https://kenb.us/category/text" >Text</a>
+</li>
+	<li class="cat-item cat-item-54"><a href="https://kenb.us/category/tvos" >tvOS</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://kenb.us/category/uikit" >UIKit</a>
+</li>
+		</ul>
+</div><hr/><div id="twitter_timeline-2" class="widget-wrapper widget_twitter_timeline"><h3 class="widget-title">Swift Tweets</h3><a class="twitter-timeline" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-tweet-limit="5" data-lang="EN" data-partner="jetpack" data-chrome="noheader nofooter noborders noscrollbar transparent" href="https://twitter.com/kenboreham" href="https://twitter.com/kenboreham">My Tweets</a></div><hr/>        </div>
+
+    </div>
+
+</div>
+</div>
+<div class="clearfix"></div>
+</div>
+
+<div class="pre-footer inverse">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+				            </div>
+            <div class="col-md-4">
+				            </div>
+            <div class="col-md-4">
+				            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer inverse">
+    <div class="container">
+
+        <p class="footer-copyright pull-right">
+			Copyright            &copy;
+            <a href="https://kenb.us/">Ken Boreham</a>
+			2019        </p>
+
+		
+		
+        <div class="clearfix"></div>
+
+        <a class="scroll-to-top" href="#">
+            <span class="up-icon">
+                <i class="fa fa-angle-up"></i>
+            </span>
+        </a>
+    </div>
+</div>
+
+	<div style="display:none">
+	<div class="grofile-hash-map-bda75bf9868c844e94d5d320ae33fcde">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/kenb.us\/best-strategies-for-configuring-multiple-environments-in-xcode-projects":483};
+	</script>
+				<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201914'></script>
+<script type='text/javascript' src='https://secure.gravatar.com/js/gprofiles.js?ver=2019Apraa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/jetpack/modules/wpgroho.js?ver=5.0.4'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/themes/lana-site/js/smartmenus.min.js?ver=1.0.0'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/themes/lana-site/js/smartmenus-bootstrap.min.js?ver=1.0.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var lana_site_navbar_sticky = {"theme_mod":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://kenb.us/wp-content/themes/lana-site/js/custom-theme.js?ver=1.1.1'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/themes/lana-site/js/ie10-viewport-bug-workaround.js?ver=1.0.0'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/jetpack/_inc/build/twitter-timeline.min.js?ver=4.0.0'></script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/ank-prism-for-wp/out/prism-js.min.js?ver=1538244985'></script>
+<script type='text/javascript' src='https://kenb.us/wp-includes/js/wp-embed.min.js?ver=5.0.4'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://kenb.us/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=6.9'></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-tumblr', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtumblr', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-pocket', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+</script>
+<script type='text/javascript' src='https://stats.wp.com/e-201914.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.9',blog:'117879670',post:'483',tz:'0',srv:'kenb.us'} ]);
+	_stq.push([ 'clickTrackerInit', '117879670', '483' ]);
+</script>
+</body>
+</html>

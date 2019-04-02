@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例）</title>
+    
+    <meta name="description" content="面向信仰编程 - Draveness's Blog" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css?version=1548181197" />
+    <link rel="stylesheet" type="text/css"
+      href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/prism.css?version=1548181197" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/toc.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js"></script>
+
+<link rel="canonical" href="/" />
+<meta name="referrer" content="origin" />
+<link rel="next" href="/page2/" />
+
+<meta property="og:site_name" content="面向信仰编程" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例）" />
+
+<meta property="og:description" content="" />
+
+<meta property="og:url" content="https://draveness.me/dsl" />
+<meta property="og:image" content="" />
+
+
+<meta name="keywords" content="iOS,Cocoapods,Ruby" />
+
+<meta property="article:tag" content="iOS">
+
+<meta property="article:tag" content="Cocoapods">
+
+<meta property="article:tag" content="Ruby">
+
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例）" />
+
+<meta name="twitter:description" content="" />
+
+<meta name="twitter:url" content="https://draveness.me/dsl" />
+<meta name="twitter:image:src" content="" />
+
+<script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "Website",
+  "publisher": "Draveness",
+  "url": "https://draveness.me/dsl",
+  "image": "",
+  "description": ""
+  }
+</script>
+
+<meta name="generator" content="Jekyll 3.0.0" />
+<link rel="alternate" type="application/rss+xml" title="面向信仰编程" href="/feed.xml" />
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-56898419-1', 'auto');
+ ga('send', 'pageview', location.pathname);
+
+</script>
+
+<script>
+ var _hmt = _hmt || [];
+ (function() {
+   var hm = document.createElement("script");
+   hm.src = "https://hm.baidu.com/hm.js?e9208862845c46a0f79e7828f495e407";
+   var s = document.getElementsByTagName("script")[0];
+   s.parentNode.insertBefore(hm, s);
+ })();
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                                                      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                                                        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                                                          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+ })(window,document,'script','dataLayer','GTM-T64KWCZ');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-56898419-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments)};
+ gtag('js', new Date());
+
+ gtag('config', 'UA-56898419-1');
+</script>
+
+
+  </head>
+  <body class=" post-template nav-closed">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T64KWCZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+    <div class="nav">
+  <h3 class="nav-title">Home</h3>
+  <a href="#" class="nav-close">
+    <span class="hidden">Close</span>
+  </a>
+  <ul>
+    <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+    <!-- <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+    <li class="nav-author " role="presentation"><a href="/author/casper">Author</a></li> -->
+  </ul>
+  <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+      <!-- [[! Everything else gets inserted here ]] -->
+      <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+<!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav overlay clearfix">
+    <a class="back-button icon-arrow-left" href="/">Home</a>
+    <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+  </nav>
+</header>
+
+<main class="content" role="main">
+
+  <article class="post">
+
+    <header class="post-template post-header">
+      <h1 class="post-title">谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例）</h1>
+      <section class="post-meta">
+        <time class="post-date" datetime="2016-10-03">03 Oct 2016</time>
+        <!-- <a href='/'>Draveness</a> -->
+        <!-- [[tags prefix=" on "]] -->
+        
+        
+        <a href='/tag/iOS'>iOS</a>
+        
+        <a href='/tag/Cocoapods'>Cocoapods</a>
+        
+        <a href='/tag/Ruby'>Ruby</a>
+        
+        
+      </section>
+    </header>
+
+    <section class="post-content">
+
+      <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#没有银弹">没有银弹？</a></li>
+<li class="toc-entry toc-h2"><a href="#dsl-是什么">DSL 是什么？</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#几个栗子">几个栗子</a></li>
+<li class="toc-entry toc-h3"><a href="#features">Features</a></li>
+<li class="toc-entry toc-h3"><a href="#构建-dsl">构建 DSL</a></li>
+<li class="toc-entry toc-h3"><a href="#设计原则和妥协">设计原则和妥协</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#embedded-dsl嵌入式-dsl">Embedded DSL（嵌入式 DSL）</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#rails-和-embedded-dsl">Rails 和 Embedded DSL</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#ruby-dsl-和-ios">Ruby、 DSL 和 iOS</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#why-ruby">Why Ruby？</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#一切皆对象">一切皆对象</a></li>
+<li class="toc-entry toc-h4"><a href="#block">block</a></li>
+<li class="toc-entry toc-h4"><a href="#eval">eval</a></li>
+<li class="toc-entry toc-h4"><a href="#格式和约定">格式和约定</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#podfile-是什么">Podfile 是什么</a></li>
+<li class="toc-entry toc-h3"><a href="#简单搞个-embedded-dsl">简单搞个 Embedded DSL</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#原理">原理</a></li>
+<li class="toc-entry toc-h4"><a href="#实现">实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#写在后面">写在后面</a></li>
+<li class="toc-entry toc-h2"><a href="#reference">Reference</a></li>
+<li class="toc-entry toc-h2"><a href="#其它">其它</a></li>
+</ul><blockquote>
+  <p>最近在公司做了一次有关 DSL 在 iOS 开发中的应用的分享，这篇文章会简单介绍这次分享的内容。</p>
+
+  <p>因为 DSL 以及 DSL 的界定本身就是一个比较模糊的概念，所以难免有与他人观点意见相左的地方，如果有不同的意见，我们可以具体讨论。</p>
+</blockquote>
+
+<p>这次文章的题目虽然是谈谈 DSL 以及 DSL 的应用，不过文章中主要侧重点仍然是 DSL，会简单介绍 DSL 在 iOS 开发中（CocoaPods）是如何应用的。</p>
+
+<h2 id="没有银弹">
+<a id="没有银弹" class="anchor" href="#%E6%B2%A1%E6%9C%89%E9%93%B6%E5%BC%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>没有银弹？</h2>
+
+<p>1987 年，IBM 大型电脑之父 Fred Brooks 发表了一篇关于软件工程中的论文 <a href="No%20Silver%20Bullet%E2%80%94Essence%20and%20Accidents%20of%20Software%20Engineering">No Silver Bullet—Essence and Accidents of Software Engineering</a> 文中主要围绕这么一个观点：没有任何一种技术或者方法能使软件工程的生产力在十年之内提高十倍。</p>
+
+<blockquote>
+  <p>There is no single development, in either technology or management technique, which by itself promises even one order-of-magnitude improvement within a decade in productivity, in reliability, in simplicity.</p>
+</blockquote>
+
+<p>时至今日，我们暂且不谈银弹在软件工程中是否存在（<del>这句话在老板或者项目经理要求加快项目进度时，还是十分好用的</del>），作为一个开发者也不是很关心这种抽象的理论，我们更关心的是开发效率能否有实质的提升。</p>
+
+<p><img src="https://img.draveness.me/2016-10-03-silver-bullet.jpg-1000width" alt="silver-bullet"></p>
+
+<p>而今天要介绍的 DSL 就可以真正的提升生产力，减少不必要的工作，在一些领域帮助我们更快的实现需求。</p>
+
+<h2 id="dsl-是什么">
+<a id="dsl-是什么" class="anchor" href="#dsl-%E6%98%AF%E4%BB%80%E4%B9%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>DSL 是什么？</h2>
+
+<blockquote>
+  <p>笔者是在两年以前，在大一的一次分享上听到 DSL 这个词的，但是当时并没有对这个名词有多深的理解与认识，听过也就忘记了，但是最近做的一些开源项目让我重新想起了 DSL，也是这次分享题目的由来。</p>
+</blockquote>
+
+<p>DSL 其实是 Domain Specific Language 的缩写，中文翻译为<em>领域特定语言</em>（下简称 DSL）；而与 DSL 相对的就是 GPL，这里的 GPL 并不是我们知道的开源许可证，而是 General Purpose Language 的简称，即<em>通用编程语言</em>，也就是我们非常熟悉的 Objective-C、Java、Python 以及 C 语言等等。</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Domain-specific_language">Wikipedia</a> 对于 DSL 的定义还是比较简单的：</p>
+
+<blockquote>
+  <p>A specialized computer language designed for a specific task.</p>
+
+  <p>为了解决某一类任务而专门设计的计算机语言。</p>
+</blockquote>
+
+<p>与 GPL 相对，DSL 与传统意义上的通用编程语言 C、Python 以及 Haskell 完全不同。通用的计算机编程语言是可以用来编写任意计算机程序的，并且能表达任何的<strong>可被计算</strong>的逻辑，同时也是 <a href="https://en.wikipedia.org/wiki/Turing_completeness">图灵完备</a> 的。</p>
+
+<blockquote>
+  <p>这一小节中的 DSL 指外部 DSL，下一节中会介绍 <a href="#embedded-dsl%E5%B5%8C%E5%85%A5%E5%BC%8F-dsl">内部 DSL/嵌入式 DSL</a></p>
+</blockquote>
+
+<p>但是在里所说的 DSL 并不是图灵完备的，它们的<strong>表达能力有限</strong>，只是在特定领域解决特定任务的。</p>
+
+<blockquote>
+  <p>A computer programming language of limited expressiveness focused on a particular domain.</p>
+</blockquote>
+
+<p>另一个世界级软件开发大师 Martin Fowler 对于领域特定语言的定义在笔者看来就更加具体了，<strong>DSL 通过在表达能力上做的妥协换取在某一领域内的高效</strong>。</p>
+
+<p>而有限的表达能力就成为了 GPL 和 DSL 之间的一条界限。</p>
+
+<h3 id="几个栗子">
+<a id="几个栗子" class="anchor" href="#%E5%87%A0%E4%B8%AA%E6%A0%97%E5%AD%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>几个栗子</h3>
+
+<p>最常见的 DSL 包括 Regex 以及 HTML &amp; CSS，在这里会对这几个例子进行简单介绍</p>
+
+<ul>
+  <li>Regex
+    <ul>
+      <li>正则表达式仅仅指定了字符串的 pattern，其引擎就会根据 pattern 判断当前字符串跟正则表达式是否匹配。
+  <img src="https://img.draveness.me/2016-10-03-regex.jpg-1000width" alt="regex">
+</li>
+    </ul>
+  </li>
+  <li>SQL
+    <ul>
+      <li>SQL 语句在使用时也并没有真正的执行，我们输入的 SQL 语句最终还要交给数据库来进行处理，数据库会从 SQL 语句中<strong>读取</strong>有用的信息，然后从数据库中返回使用者期望的结果。</li>
+    </ul>
+  </li>
+  <li>HTML &amp; CSS
+    <ul>
+      <li>HTML 和 CSS 只是对 Web 界面的结构语义和样式进行描述，虽然它们在构建网站时非常重要，但是它们并非是一种编程语言，正相反，我们可以认为 HTML 和 CSS 是在 Web 中的领域特定语言。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="features">
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h3>
+
+<p>上面的几个🌰明显的缩小了通用编程语言的概念，但是它们确实在自己领域表现地非常出色，因为这些 DSL 就是根据某一个特定领域的特点塑造的；而通用编程语言相比领域特定语言，在设计时是为了解决更加抽象的问题，而关注点并不只是在某一个领域。</p>
+
+<p>上面的几个例子有着一些共同的特点：</p>
+
+<ul>
+  <li>没有计算和执行的概念；</li>
+  <li>其本身并不需要直接表示计算；</li>
+  <li>使用时只需要声明规则、事实以及某些元素之间的层级和关系；</li>
+</ul>
+
+<p>虽然了解了 DSL 以及 DSL 的一些特性，但是，到目前为止，我们对于如何构建一个 DSL 仍然不是很清楚。</p>
+
+<h3 id="构建-dsl">
+<a id="构建-dsl" class="anchor" href="#%E6%9E%84%E5%BB%BA-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>构建 DSL</h3>
+
+<p>DSL 的构建与编程语言其实比较类似，想想我们在重新实现编程语言时，需要做那些事情；实现编程语言的过程可以简化为定义语法与语义，然后实现编译器或者解释器的过程，而 DSL 的实现与它也非常类似，我们也需要对 DSL 进行语法与语义上的设计。</p>
+
+<p><img src="https://img.draveness.me/2016-10-03-compiler.png-1000width" alt="compile"></p>
+
+<p>总结下来，实现 DSL 总共有这么两个需要完成的工作：</p>
+
+<ol>
+  <li>设计语法和语义，定义 DSL 中的元素是什么样的，元素代表什么意思</li>
+  <li>实现 parser，对 DSL 解析，最终通过解释器来执行</li>
+</ol>
+
+<p>以 HTML 为例，HTML 中所有的元素都是包含在尖括号 <code>&lt;&gt;</code> 中的，尖括号中不同的元素代表了不同的标签，而这些标签会被浏览器<strong>解析</strong>成 DOM 树，再经过一系列的过程调用 Native 的图形 API 进行绘制。</p>
+
+<p><img src="https://img.draveness.me/2016-10-03-dom-tree.png-1000width" alt="dom-tree"></p>
+
+<p>再比如，我们使用下面这种方式对一个模型进行定义，实现一个 ORM 领域的 DSL：</p>
+
+<pre><code class="language-ruby">define :article do
+  attr :name
+  attr :content
+  attr :upvotes, :int
+
+  has_many :comments
+end
+</code></pre>
+
+<p>在上面的 DSL 中，使用 <code>define</code> 来定义一个新的模型，使用 <code>attr</code> 来为模型添加属性，使用 <code>has_many</code> 建立数据模型中的一对多关系；我们可以使用 DSL 对这段“字符串”进行解析，然后交给代码生成器来生成代码。</p>
+
+<pre><code class="language-swift">public struct Article {
+    public var title: String
+    public var content: String
+    public var createdAt: Date
+
+    public init(title: String, content: String, createdAt: Date)
+
+    static public func new(title: String, content: String, createdAt: Date) -&gt; Article
+    static public func create(title: String, content: String, createdAt: Date) -&gt; Article?
+    ...
+}
+</code></pre>
+
+<p>这里创建的 DSL 中的元素数量非常少，只有 <code>define</code> <code>attr</code> 以及 <code>has_many</code> 等几个关键字，但是通过这几个关键字就可以完成在模型层需要表达的绝大部分语义。</p>
+
+<h3 id="设计原则和妥协">
+<a id="设计原则和妥协" class="anchor" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%92%8C%E5%A6%A5%E5%8D%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>设计原则和妥协</h3>
+
+<p>DSL 最大的设计原则就是<strong>简单</strong>，通过简化语言中的元素，降低使用者的负担；无论是 Regex、SQL 还是 HTML 以及 CSS，其说明文档往往只有几页，非常易于学习和掌握。但是，由此带来的问题就是，DSL 中缺乏抽象的概念，比如：模块化、变量以及方法等。</p>
+
+<blockquote>
+  <p>抽象的概念并不是某个领域所关注的问题，就像 Regex 并不需要有模块、变量以及方法等概念。</p>
+</blockquote>
+
+<p>由于抽象能力的缺乏，在我们的项目规模变得越来越大时，DSL 往往满足不了开发者的需求；我们仍然需要编程语言中的模块化等概念对 DSL 进行补充，以此解决 DSL 并不是真正编程语言的问题。</p>
+
+<p><img src="https://img.draveness.me/2016-10-03-css-sass.jpg-1000width" alt="css-sass"></p>
+
+<p>在当今的 Web 前端项目中，我们在开发大规模项目时往往不会直接手写 CSS 文件，而是会使用 Sass 或者 Less 为 CSS 带来更强大的抽象能力，比如嵌套规则，变量，混合以及继承等特性。</p>
+
+<pre><code class="language-css">nav {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li { display: inline-block; }
+
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+  }
+}
+</code></pre>
+
+<p>也就是说，在使用 DSL 的项目规模逐渐变大时，开发者会通过增加抽象能力的方式，对已有的 DSL 进行拓展；但是这种扩展往往需要重新实现通用编程语言中的特性，所以一般情况下都是比较复杂的。</p>
+
+<h2 id="embedded-dsl嵌入式-dsl">
+<a id="embedded-dsl嵌入式-dsl" class="anchor" href="#embedded-dsl%E5%B5%8C%E5%85%A5%E5%BC%8F-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Embedded DSL（嵌入式 DSL）</h2>
+
+<p>那么，是否有一种其它的方法为 DSL 快速添加抽象能力呢？而这也就是这一小节的主题，嵌入式 DSL。</p>
+
+<p>在上一节讲到的 DSL 其实可以被称为外部 DSL；而这里即将谈到的嵌入式 DSL 也有一个别名，内部 DSL。</p>
+
+<p>这两者最大的区别就是，内部 DSL 的实现往往是嵌入一些编程语言的，比如 iOS 的依赖管理组件 CocoaPods 和 Android 的主流编译工具 Gradle，前者的实现是基于 Ruby 语言的一些特性，而后者基于 Groovy。</p>
+
+<p><img src="https://img.draveness.me/2016-10-03-cocoapods.png-1000width" alt="cocoapods"></p>
+
+<p>CocoaPods 以及其它的嵌入式 DSL 使用了宿主语言（host language）的抽象能力，并且省去了实现复杂语法分析器（Parser）的过程，并不需要重新实现模块、变量等特性。</p>
+
+<p>嵌入式 DSL 的产生其实模糊了框架和 DSL 的边界，不过这两者看起来也没有什么比较明显的区别；不过，DSL 一般会使用宿主语言的特性进行创造，在设计 DSL 时，也不会考虑宿主语言中有哪些 API 以及方法，而框架一般都是对语言中的 API 进行组合和再包装。</p>
+
+<blockquote>
+  <p>我们没有必要争论哪些是框架，哪些是 DSL，因为这些争论并没有什么意义。</p>
+</blockquote>
+
+<h3 id="rails-和-embedded-dsl">
+<a id="rails-和-embedded-dsl" class="anchor" href="#rails-%E5%92%8C-embedded-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rails 和 Embedded DSL</h3>
+
+<p>最出名也最成功的嵌入式 DSL 应该就是 Ruby on Rails 了，虽然对于 Rails 是否是 DSL 有争议，不过 Rails 为 Web 应用的创建提供大量的内置的支撑，使我们在开发 Web 应用时变得非常容易。</p>
+
+<p><img src="https://img.draveness.me/2016-10-03-rails.jpeg" alt="rails"></p>
+
+<h2 id="ruby-dsl-和-ios">
+<a id="ruby-dsl-和-ios" class="anchor" href="#ruby-dsl-%E5%92%8C-ios" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ruby、 DSL 和 iOS</h2>
+
+<blockquote>
+  <p>为了保证这篇文章的完整性，这一小节中有的一些内容都出自上一篇文章 <a href="https://github.com/Draveness/iOS-Source-Code-Analyze/blob/master/contents/CocoaPods/CocoaPods%20%E9%83%BD%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F.md">CocoaPods 都做了什么？</a>。</p>
+</blockquote>
+
+<p>笔者同时作为 iOS 和 Rails 开发者接触了非常多的 DSL，而在 iOS 开发中最常见的 DSL 就是 CocoaPods 了，而这里我们以 CocoaPods 为例，介绍如何使用 Ruby 创造一个嵌入式 DSL。</p>
+
+<h3 id="why-ruby">
+<a id="why-ruby" class="anchor" href="#why-ruby" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Ruby？</h3>
+
+<p>看到这里有人可能会问了，为什么使用 Ruby 创造嵌入式 DSL，而不是使用 C、Java、Python 等等语言呢，这里大概有四个原因：</p>
+
+<ul>
+  <li>一切皆对象的特性减少了语言中的元素，不存在基本类型、操作符；</li>
+  <li>向 Ruby 方法中传入代码块非常方便；</li>
+  <li>作为解释执行的语言，eval 模糊了数据和代码的边界；</li>
+  <li>不对代码的格式进行约束，同时一些约定减少了代码中的噪音。</li>
+</ul>
+
+<h4 id="一切皆对象">
+<a id="一切皆对象" class="anchor" href="#%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>一切皆对象</h4>
+
+<p>在许多语言，比如 Java 中，数字与其他的基本类型都不是对象，而在 Ruby 中所有的元素，包括基本类型都是对象，同时也不存在运算符的概念，所谓的 <code>1 + 1</code>，其实只是 <code>1.+(1)</code> 的语法糖而已。</p>
+
+<p>得益于一切皆对象的概念，在 Ruby 中，你可以向任意的对象发送 <code>methods</code> 消息，在运行时自省，所以笔者在每次忘记方法时，都会直接用 <code>methods</code> 来“查阅文档”：</p>
+
+<pre><code class="language-ruby">2.3.1 :003 &gt; 1.methods
+ =&gt; [:%, :&amp;, :*, :+, :-, :/, :&lt;, :&gt;, :^, :|, :~, :-@, :**, :&lt;=&gt;, :&lt;&lt;, :&gt;&gt;, :&lt;=, :&gt;=, :==, :===, :[], :inspect, :size, :succ, :to_s, :to_f, :div, :divmod, :fdiv, :modulo, ...]
+</code></pre>
+
+<p>比如在这里向对象 <code>1</code> 调用 <code>methods</code> 就会返回它能响应的所有方法。</p>
+
+<p>一切皆对象不仅减少了语言中类型的数量，消灭了基本数据类型与对象之间的边界；这一概念同时也简化了组成语言的元素，这样 Ruby 中只有对象和方法，这两个概念，极大降低了这门语言的复杂度：</p>
+
+<ul>
+  <li>使用对象存储状态</li>
+  <li>对象之间通过方法通信</li>
+</ul>
+
+<h4 id="block">
+<a id="block" class="anchor" href="#block" aria-hidden="true"><span class="octicon octicon-link"></span></a>block</h4>
+
+<p>Ruby 对函数式编程范式的支持是通过 block，这里的 block 和 Objective-C 中的 block 有些不同。</p>
+
+<p>首先 Ruby 中的 block 也是一种对象，即 <code>Proc</code> 类的实例，也就是所有的 block 都是 first-class 的，可以作为参数传递，返回。</p>
+
+<p>下面的代码演示了两种向 Ruby 方法中传入代码块的方式：</p>
+
+<pre><code class="language-ruby">def twice(&amp;proc)
+	2.times { proc.call() } if proc
+end
+
+def twice
+	2.times { yield } if block_given?
+end
+</code></pre>
+
+<p><code>yield</code> 会调用外部传入的 block，<code>block_given?</code> 用于判断当前方法是否传入了 <code>block</code>。</p>
+
+<pre><code class="language-ruby">twice do
+	puts "Hello"
+end
+
+twice { puts "hello" }
+</code></pre>
+
+<p>向 <code>twice</code> 方法传入 block 也非常简单，使用 <code>do</code>、<code>end</code> 或者 <code>{</code>、<code>}</code> 就可以向任何的 Ruby 方法中传入代码块。</p>
+
+<h4 id="eval">
+<a id="eval" class="anchor" href="#eval" aria-hidden="true"><span class="octicon octicon-link"></span></a>eval</h4>
+
+<p>早在几十年前的 Lisp 语言就有了 <code>eval</code> 这个方法，这个方法会将字符串当做代码来执行，也就是说 <code>eval</code> 模糊了代码与数据之间的边界。</p>
+
+<pre><code class="language-ruby">&gt; eval "1 + 2 * 3"
+ =&gt; 7
+</code></pre>
+
+<p>有了 <code>eval</code> 方法，我们就获得了更加强大的动态能力，在运行时，使用字符串来改变控制流程，执行代码并可以直接利用当前语言的解释器；而不需要去手动解析字符串然后执行代码。</p>
+
+<h4 id="格式和约定">
+<a id="格式和约定" class="anchor" href="#%E6%A0%BC%E5%BC%8F%E5%92%8C%E7%BA%A6%E5%AE%9A" aria-hidden="true"><span class="octicon octicon-link"></span></a>格式和约定</h4>
+
+<p>编写 Ruby 脚本时并不需要像 Python 一样对代码的格式有着严格的规定，没有对空行、Tab 的要求，完全可以想怎么写就怎么写，这样极大的增加了 DSL 设计的可能性。</p>
+
+<p>同时，在一般情况下，Ruby 在方法调用时并不需要添加括号：</p>
+
+<pre><code class="language-ruby">puts "Wello World!"
+puts("Hello World!")
+</code></pre>
+
+<p>这样减少了 DSL 中的噪音，能够帮助我们更加关心语法以及语义上的设计，降低了使用者出错的可能性。</p>
+
+<p>最后，Ruby 中存在一种特殊的数据格式 <code>Symbol</code>：</p>
+
+<pre><code class="language-ruby">&gt; :symbol.to_s
+ =&gt; "symbol"
+&gt; "symbol".to_sym
+ =&gt; :symbol
+</code></pre>
+
+<p>Symbol 可以通过 Ruby 中内置的方法与字符串之间无缝转换。那么作为一种字符串的替代品，它的使用也能够降低使用者出错的成本并提升使用体验，我们并不需要去写两边加上引号的字符串，只需要以 <code>:</code> 开头就能创建一个 Symbol 对象。</p>
+
+<h3 id="podfile-是什么">
+<a id="podfile-是什么" class="anchor" href="#podfile-%E6%98%AF%E4%BB%80%E4%B9%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>Podfile 是什么</h3>
+
+<p>对 Ruby 有了一些了解之后，我们就可以再看一下使用 CocoaPods 的工程中的 Podfile 到底是什么了：</p>
+
+<pre><code class="language-ruby">source 'https://github.com/CocoaPods/Specs.git'
+
+target 'Demo' do
+	pod 'Mantle', '~&gt; 1.5.1'
+	...
+end
+</code></pre>
+
+<blockquote>
+  <p>如果不了解 iOS 开发后者没有使用过 CocoaPods，笔者在这里简单介绍一下这个文件中的一些信息。</p>
+
+  <p><code>source</code> 可以看作是存储依赖元信息（包括依赖的对应的  GitHub 地址）的源地址；</p>
+
+  <p><code>target</code> 表示需要添加依赖的工程的名字；</p>
+
+  <p><code>pod</code> 表示依赖，<code>Mantle</code> 为依赖的框架，后面是版本号。</p>
+</blockquote>
+
+<p>上面是一个使用 Podfile 定义依赖的一个例子，不过 Podfile 对约束的描述其实是这样的：</p>
+
+<pre><code class="language-ruby">source('https://github.com/CocoaPods/Specs.git')
+
+target('Demo') do
+	pod('Mantle', '~&gt; 1.5.1')
+	...
+end
+</code></pre>
+
+<p>Podfile 中对于约束的描述，其实都可以看作是代码的简写，在解析时会当做 Ruby 代码来执行。</p>
+
+<h3 id="简单搞个-embedded-dsl">
+<a id="简单搞个-embedded-dsl" class="anchor" href="#%E7%AE%80%E5%8D%95%E6%90%9E%E4%B8%AA-embedded-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>简单搞个 Embedded DSL</h3>
+
+<p>使用 Ruby 实现嵌入式 DSL 一般需要三个步骤，这里以 CocoaPods 为例进行简单介绍：</p>
+
+<ul>
+  <li>创建一个 Podfile 中“代码”执行的上下文，也就是一些方法；</li>
+  <li>读取 Podfile 中的内容到脚本中；</li>
+  <li>使用 <code>eval</code> 在上下文中执行 Podfile 中的“代码”；</li>
+</ul>
+
+<h4 id="原理">
+<a id="原理" class="anchor" href="#%E5%8E%9F%E7%90%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>原理</h4>
+
+<p>CocoaPods 对于 DSL 的实现基本上就是我们创建一个 DSL 的过程，定义一系列必要的方法，比如 <code>source</code>、<code>pod</code> 等等，创造一个执行的上下文；然后去读存储 DSL 的文件，并且使用 <code>eval</code> 执行。</p>
+
+<p><strong>信息的传递一般都是通过参数</strong>来进行的，比如：</p>
+
+<pre><code class="language-ruby">source 'https://github.com/CocoaPods/Specs.git'
+</code></pre>
+
+<p><code>source</code> 方法的参数就是依赖元信息 <code>Specs</code> 的 Git 地址，在 <code>eval</code> 执行时就会被读取到 CocoaPods 中，然后进行分析。</p>
+
+<h4 id="实现">
+<a id="实现" class="anchor" href="#%E5%AE%9E%E7%8E%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>实现</h4>
+
+<p>下面是一个非常常见的 Podfile 内容：</p>
+
+<pre><code class="language-ruby">source 'http://source.git'
+platform :ios, '8.0'
+
+target 'Demo' do
+    pod 'AFNetworking'
+    pod 'SDWebImage'
+    pod 'Masonry'
+    pod "Typeset"
+    pod 'BlocksKit'
+    pod 'Mantle'
+    pod 'IQKeyboardManager'
+    pod 'IQDropDownTextField'
+end
+</code></pre>
+
+<p>因为这里的 <code>source</code>、<code>platform</code>、<code>target</code> 以及 <code>pod</code> 都是方法，所以在这里我们需要构建一个包含上述方法的上下文：</p>
+
+<pre><code class="language-ruby"># eval_pod.rb
+$hash_value = {}
+
+def source(url)
+end
+
+def target(target)
+end
+
+def platform(platform, version)
+end
+
+def pod(pod)
+end
+</code></pre>
+
+<p>使用一个全局变量 <code>hash_value</code> 存储 Podfile 中指定的依赖，并且构建了一个 Podfile 解析脚本的骨架；我们先不去完善这些方法的实现细节，先尝试一下读取 Podfile 中的内容并执行 <code>eval</code> 看看会不会有问题。</p>
+
+<p>在 <code>eval_pod.rb</code> 文件的最下面加入这几行代码：</p>
+
+<pre><code class="language-ruby">content = File.read './Podfile'
+eval content
+p $hash_value
+</code></pre>
+
+<p>这里读取了 Podfile 文件中的内容，并把其中的内容当做字符串执行，最后打印 <code>hash_value</code> 的值。</p>
+
+<pre><code class="language-bash">$ ruby eval_pod.rb
+</code></pre>
+
+<p>运行这段 Ruby 代码虽然并没有什么输出，但是并没有报出任何的错误，接下来我们就可以完善这些方法了：</p>
+
+<pre><code class="language-ruby">def source(url)
+    $hash_value['source'] = url
+end
+
+def target(target)
+    targets = $hash_value['targets']
+    targets = [] if targets == nil
+    targets &lt;&lt; target
+    $hash_value['targets'] = targets
+    yield if block_given?
+end
+
+def platform(platform, version)
+end
+
+def pod(pod)
+    pods = $hash_value['pods']
+    pods = [] if pods == nil
+    pods &lt;&lt; pod
+    $hash_value['pods'] = pods
+end
+</code></pre>
+
+<p>在添加了这些方法的实现之后，再次运行脚本就会得到 Podfile 中的依赖信息了，不过这里的实现非常简单的，很多情况都没有处理：</p>
+
+<pre><code class="language-bash">$ ruby eval_pod.rb
+{"source"=&gt;"http://source.git", "targets"=&gt;["Demo"], "pods"=&gt;["AFNetworking", "SDWebImage", "Masonry", "Typeset", "BlocksKit", "Mantle", "IQKeyboardManager", "IQDropDownTextField"]}
+</code></pre>
+
+<p>不过使用 Ruby 构建一个嵌入式 DSL 的过程大概就是这样，使用语言内建的特性来进行创作，创造出一个在使用时看起来并不像代码的 DSL。</p>
+
+<h2 id="写在后面">
+<a id="写在后面" class="anchor" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2" aria-hidden="true"><span class="octicon octicon-link"></span></a>写在后面</h2>
+
+<p>在最后，笔者想说的是，当我们在某一个领域经常需要解决重复性问题时，可以考虑实现一个 DSL 专门用来解决这些类似的问题。</p>
+
+<p>而使用嵌入式 DSL 来解决这些问题是一个非常好的办法，我们并不需要重新实现解释器，也可以利用宿主语言的抽象能力。</p>
+
+<p>同时，在嵌入式 DSL 扩展了 DSL 的范畴之后，不要纠结于某些东西到底是框架还是领域特定语言，这些都不重要，重要的是，在遇到了某些问题时，我们能否跳出来，使用文中介绍的方法减轻我们的工作量。</p>
+
+<h2 id="reference">
+<a id="reference" class="anchor" href="#reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference</h2>
+
+<ul>
+  <li><a href="No%20Silver%20Bullet%E2%80%94Essence%20and%20Accidents%20of%20Software%20Engineering">No Silver Bullet—Essence and Accidents of Software Engineering</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Domain-specific_language">Domain-specific language</a></li>
+  <li><a href="http://martinfowler.com/bliki/DomainSpecificLanguage.html">DomainSpecificLanguage</a></li>
+  <li><a href="http://taligarsiel.com/Projects/howbrowserswork1.htm">How browsers work</a></li>
+</ul>
+
+<h2 id="其它">
+<a id="其它" class="anchor" href="#%E5%85%B6%E5%AE%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>其它</h2>
+
+<blockquote>
+  <p>GitHub Repo：<a href="https://github.com/draveness/iOS-Source-Code-Analyze">iOS-Source-Code-Analyze</a></p>
+
+</blockquote>
+
+<blockquote>
+
+  <p>Source: https://draveness.me/dsl</p>
+</blockquote>
+
+
+      <h3>关于图片和转载</h3>
+
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>进行许可。
+
+      转载时请注明原文链接，图片在使用时请保留图片中的全部内容，可适当缩放并在引用处附上图片所在的文章链接，图片使用 Sketch 进行绘制。
+
+      <h3>微信公众号</h3>
+
+      <img src="https://img.draveness.me/20181227-wechat-account-qrcode.png" alt="wechat-account-qrcode">
+
+      <h3>关于评论和留言</h3>
+
+      如果对本文 <a href="/dsl">谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例）</a> 的内容有疑问，请在下面的评论系统中留言，谢谢。
+
+      <blockquote>
+        <p>原文链接：<a href="/dsl">谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例） · 面向信仰编程</a></p>
+
+        <p>Follow: <a href="https://github.com/Draveness">Draveness · GitHub</a></p>
+      </blockquote>
+
+      <!-- Begin Mailchimp Signup Form -->
+      <!-- <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css"> -->
+      <!-- <style type="text/css"> -->
+	    <!-- #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; } -->
+	    <!-- /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block. -->
+	    <!-- We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */ -->
+      <!-- </style> -->
+      <!-- <div id="mc_embed_signup"> -->
+      <!-- <form action="https://draveness.us19.list-manage.com/subscribe/post?u=772e1ac1c31323b184d0f9d42&amp;id=0f1492945e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate> -->
+      <!-- <div id="mc_embed_signup_scroll"> -->
+	    <!-- <h2>Subscribe to Draven's Blog | 面向信仰编程</h2> -->
+      <!-- <div class="mc-field-group"> -->
+	    <!-- <label for="mce-EMAIL">Email </label> -->
+	    <!-- <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"> -->
+      <!-- </div> -->
+	    <!-- <div id="mce-responses" class="clear"> -->
+		  <!-- <div class="response" id="mce-error-response" style="display:none"></div> -->
+		  <!-- <div class="response" id="mce-success-response" style="display:none"></div> -->
+	    <!-- </div> -->
+      <!-- <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_772e1ac1c31323b184d0f9d42_0f1492945e" tabindex="-1" value=""></div> -->
+      <!-- <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div> -->
+      <!-- </div> -->
+      <!-- </form> -->
+      <!-- </div> -->
+      <!--End mc_embed_signup-->
+
+    </section>
+
+    <footer class="post-footer">
+
+      <!-- Everything inside the #author tags pulls data from the author -->
+      <!-- #author-->
+
+      
+      <figure class="author-image">
+        <a class="img" href="https://github.com/draveness" style="background-image: url(/assets/images/draven.png)"><span class="hidden">'s Picture</span></a>
+      </figure>
+      
+
+      <section class="author">
+        <h4><a href="https://github.com/draveness">Draveness</a></h4>
+
+        
+        <p> Go / Rails / Rust</p>
+        
+        <div class="author-meta">
+          <span class="author-location icon-location"> Beijing, China</span>
+          <span class="author-link icon-link"><a href="https://draveness.me"> draveness.me</a></span>
+        </div>
+      </section>
+
+      <!-- /author  -->
+
+      <section class="share">
+        <h4>Share this post</h4>
+        <a class="icon-twitter" href="http://twitter.com/share?text=谈谈 DSL 以及 DSL 的应用（以 CocoaPods 为例）&amp;url=https://draveness.medsl"
+          onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <span class="hidden">Twitter</span>
+        </a>
+        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://draveness.medsl"
+          onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <span class="hidden">Facebook</span>
+        </a>
+        <a class="icon-google-plus" href="https://plus.google.com/share?url=https://draveness.medsl"
+          onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <span class="hidden">Google+</span>
+        </a>
+      </section>
+
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+      <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+      <script>
+       const gitalk = new Gitalk({
+         clientID: '9b9309114bace01e2a7e',
+         clientSecret: '74e636d9c5ffbfeff0c5cdbe1471dce4eca75358',
+         repo: 'blog-comments',
+         owner: 'Draveness',
+         admin: ['Draveness'],
+         // labels: ['Gitalk', 'gitment'].concat(["iOS","Cocoapods","Ruby"]),
+         // id: location.origin + location.pathname,
+         id: "/dsl",
+         // facebook-like distraction free mode
+         distractionFreeMode: false
+       });
+
+       gitalk.render('gitalk-container')
+      </script>
+
+      <!-- <div id="gitmentContainer"></div>
+           <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+           <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+           <script>
+           var gitment = new Gitment({
+           owner: 'Draveness',
+           repo: 'blog-comments',
+           id: "https://draveness.me/dsl",
+           // labels: ['Gitalk'].concat(["iOS","Cocoapods","Ruby"]),
+           oauth: {
+           client_id: '9b9309114bace01e2a7e',
+           client_secret: '74e636d9c5ffbfeff0c5cdbe1471dce4eca75358',
+           },
+           });
+           gitment.render('gitmentContainer');
+           </script> -->
+
+    </footer>
+
+  </article>
+
+</main>
+
+<aside class="read-next">
+
+  <!-- [[! next_post ]] -->
+  
+  <a class="read-next-story no-cover" href="preload">
+    <section class="post">
+      <h2>预加载与智能预加载（iOS）</h2>
+      <p>> 前两次的分享分别介绍了 ASDK 对于渲染的优化以及 ASDK 中使用的另一种布局模型；这两个新机制的引入分别解决了 iOS 在主线程渲染视图以及 Auto Layout 的性能问题，而这一次讨论的主要内容是 ASDK 如何预先请求服务器数据，达到看似无限滚动列表的效果的。 这篇文章是 ASDK...</p>
+    </section>
+  </a>
+  
+  <!-- [[! /next_post ]] -->
+  <!-- [[! prev_post ]] -->
+  
+  <a class="read-next-story prev no-cover" href="cocoapods">
+    <section class="post">
+      <h2>CocoaPods 都做了什么？</h2>
+      <p>稍有 iOS 开发经验的人应该都是用过 CocoaPods，而对于 CI、CD 有了解的同学也都知道 Fastlane。而这两个在 iOS 开发中非常便捷的第三方库都是使用 Ruby 来编写的，这是为什么？ 先抛开这个话题不谈，我们来看一下 CocoaPods 和 Fastlane...</p>
+    </section>
+  </a>
+  
+  <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+      <footer class="site-footer clearfix">
+        <section class="copyright"><a href="/">面向信仰编程</a> &copy; 2019</section>
+        <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+      </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+    <script type="text/javascript" src="/assets/js/search.js"></script>
+    <script type="text/javascript" src="/assets/js/prism.js"></script>
+    <script type="text/javascript" src="/assets/js/toc.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

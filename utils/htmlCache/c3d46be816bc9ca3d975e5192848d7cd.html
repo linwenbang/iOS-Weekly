@@ -1,0 +1,3377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://blog.csdn.net/Hello_Hwc/article/details/85226147"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"深入浅出iOS编译 - Leo的专栏"}'>
+    
+    <link href="https://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+    <title>深入浅出iOS编译 - Leo的专栏 - CSDN博客</title>
+
+        
+                    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/detail-0395476d0b.min.css">
+            
+            <script type="application/ld+json">{"@context":"https:\/\/ziyuan.baidu.com\/contexts\/cambrian.jsonld","@id":"https:\/\/blog.csdn.net\/Hello_Hwc\/article\/details\/85226147","appid":"1563894916825412","title":"\u6df1\u5165\u6d45\u51faiOS\u7f16\u8bd1 - Leo\u7684\u4e13\u680f","images":["https:\/\/img-blog.csdnimg.cn\/20181223202823680.png?x-oss-process=image\/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70","https:\/\/img-blog.csdnimg.cn\/20181223202903860.png?x-oss-process=image\/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70","https:\/\/img-blog.csdnimg.cn\/20181223203001113.png?x-oss-process=image\/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70"],"pubDate":"2019-04-03T01:03:15"}</script>
+        
+          <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-9b39979775.min.css">
+        <script type="text/javascript">
+        var username = "Hello_Hwc";
+        var userPermission = false;
+        var blog_address = "https://blog.csdn.net/hello_hwc";
+        var static_host = "https://csdnimg.cn/release/phoenix/";
+        var currentUserName = "";
+        var currentUserPermission = false;
+        var isShowAds = false;
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/Hello_Hwc/article/details/85226147"
+        var blogUrl = "https://blog.csdn.net/";
+        //页面皮肤样式
+        var curSkin = "skin3-template";
+        // 第四范式所需数据
+        var articleTitles = "深入浅出iOS编译 - Leo的专栏";
+        var articleID = "85226147";
+        
+        var nickName = "黄文臣";
+        var isCorporate = false;
+        var subDomainBlogUrl = "https://blog.csdn.net/"
+        var digg_base_url = "https://blog.csdn.net/hello_hwc/phoenix/comment";
+    </script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="https://csdnimg.cn/rabbit/exposure-click/main-1.0.6.js"></script>
+    <script src="//g.csdnimg.cn/fixed-sidebar/1.1.3/fixed-sidebar.js" type="text/javascript"></script>
+    <!-- 新版上报 -->
+    <script src="//g.csdnimg.cn/track/1.2.4/track.js" type="text/javascript"></script>
+    <!-- 新版上报end -->
+            <link rel="stylesheet" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+</head>
+<!-- nodata 第三栏接口无数据时样式不变 -->
+<body class="nodata " > 
+    <link rel="stylesheet" href="https://csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+    <script id="toolbar-tpl-scriptId" src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="https://blog.csdn.net/"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/blog_code-c3a0c33d5c.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.css">
+<script type="text/javascript">
+	// 容错处理
+	var NEWS_FEED = function(){}
+</script>
+<script type="text/javascript" src="//static.mediav.com/js/mvf_news_feed.js"></script>
+<script type="text/javascript" src="//g.csdnimg.cn/copyright/1.0.3/copyright.js"></script>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/chart-3456820cac.css" />
+<script src="https://dup.baidustatic.com/js/ds.js"></script>
+<div class="container clearfix" id="mainBox">
+			<div class="recommend-right">
+  <ul class="recommend-fixed-box">
+    
+  </ul>
+</div>	
+    <main>
+        <div class="blog-content-box">
+	<div class="article-header-box">
+		<div class="article-header">
+			<div class="article-title-box">
+				<span class="article-type type-1 float-left">原</span>				<h1 class="title-article">深入浅出iOS编译</h1>
+			</div>
+			<div class="article-info-box">
+				<div class="article-bar-top">
+																				<span class="time">2018年12月23日 20:59:26</span>
+					<a class="follow-nickName" href="https://me.csdn.net/Hello_Hwc" target="_blank">黄文臣</a>
+						<span class="read-count">阅读数：11546</span>
+						
+																					<div class="tags-box space">
+								<span class="label">个人分类：</span>
+																<a class="tag-link" href="https://blog.csdn.net/Hello_Hwc/article/category/5933595"  target="_blank">iOS进阶																</a>
+							</div>
+																					<div class="tags-box space">
+								<span class="label">所属专栏：</span>
+																<a class="tag-link" href="https://blog.csdn.net/column/details/huangwenchen-ios-sdk.html" target="_blank">iOS开发详解</a>
+																</a>
+							</div>
+																	</div>
+				<div class="operating">
+									</div>
+			</div>
+		</div>
+	</div>
+	<article class="baidu_pl">
+		<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog"  data-mod=popu_307  data-dsm = "post" >
+								<div class="article-copyright">
+                  					
+					版权声明：本文为博主原创文章，如需转载请注明作者和出处					https://blog.csdn.net/Hello_Hwc/article/details/85226147				</div>
+								<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-f57960eb32.css" />
+								            <div id="content_views" class="markdown_views prism-atom-one-dark">
+							<!-- flowchart 箭头图标 勿删 -->
+							<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path></svg>
+							<h2><a id="_0"></a>前言</h2>
+<p>两年前曾经写过一篇关于编译的文章《<a href="https://github.com/LeoMobileDeveloper/Blogs/blob/master/iOS/iOS%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8.md" rel="nofollow">iOS编译过程的原理和应用</a>》，这篇文章介绍了iOS编译相关基础知识和简单应用，但也很有多问题都没有解释清楚：</p>
+<ul>
+<li>Clang和LLVM究竟是什么</li>
+<li>源文件到机器码的细节</li>
+<li>Linker做了哪些工作</li>
+<li>编译顺序如何确定</li>
+<li>头文件是什么？XCode是如何找到头文件的？</li>
+<li>Clang Module</li>
+<li>签名是什么？为什么要签名</li>
+</ul>
+<p>为了搞清楚这些问题，我们来挖掘下XCode编译iOS应用的细节。</p>
+<h2><a id="_14"></a>编译器</h2>
+<blockquote>
+<p>把一种编程语言(原始语言)转换为另一种编程语言(目标语言)的程序叫做<a href="https://en.wikipedia.org/wiki/Compiler" rel="nofollow">编译器</a>。</p>
+</blockquote>
+<p>大多数编译器由两部分组成：前端和后端。</p>
+<ul>
+<li>前端负责词法分析，语法分析，生成中间代码；</li>
+<li>后端以中间代码作为输入，进行行架构无关的代码优化，接着针对不同架构生成不同的机器码。</li>
+</ul>
+<blockquote>
+<p>前后端依赖统一格式的中间代码(IR)，使得前后端可以独立的变化。新增一门语言只需要修改前端，而新增一个CPU架构只需要修改后端即可。</p>
+</blockquote>
+<p>Objective C/C/C++使用的编译器前端是<a href="https://clang.llvm.org/docs/index.html" rel="nofollow">clang</a>，swift是<a href="https://swift.org/compiler-stdlib/#compiler-architecture" rel="nofollow">swift</a>，后端都是<a href="https://llvm.org/" rel="nofollow">LLVM</a>。</p>
+ <img src="https://img-blog.csdnimg.cn/20181223202823680.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<h3><a id="LLVM_29"></a>LLVM</h3>
+<p>LLVM(Low Level Virtual Machine)是一个强大的编译器开发工具套件，听起来像是虚拟机，但实际上LLVM和传统意义的虚拟机关系不大，只不过项目最初的名字是LLVM罢了。</p>
+<p>LLVM的核心库提供了现代化的source-target-independent<a href="https://llvm.org/docs/Passes.html" rel="nofollow">优化器</a>和支持诸多流行CPU架构的代码生成器，这些核心代码是围绕着LLVM IR(中间代码)建立的。</p>
+<p>基于LLVM，又衍生出了一些强大的子项目，其中iOS开发者耳熟能详的是：<a href="http://clang.llvm.org/" rel="nofollow">Clang</a>和<a href="http://lldb.llvm.org/" rel="nofollow">LLDB</a>。</p>
+<h3><a id="clang_37"></a>clang</h3>
+<p>clang是C语言家族的编译器前端，诞生之初是为了替代GCC，提供更快的编译速度。一张图了解clang编译的大致流程：</p>
+ <img src="https://img-blog.csdnimg.cn/20181223202903860.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<p>接下来，从代码层面看一下具体的转化过程，新建一个main.c:</p>
+<pre><code>#include &lt;stdio.h&gt;
+// 一点注释
+#define DEBUG 1
+int main() {
+#ifdef DEBUG
+  printf("hello debug\n");
+#else
+  printf("hello world\n");
+#endif
+  return 0;
+}
+</code></pre>
+<h3><a id="preprocessor_60"></a>预处理(preprocessor)</h3>
+<p><strong>预处理会替进行头文件引入，宏替换，注释处理，条件编译(#ifdef)等操作</strong>。</p>
+<p><code>#include "stdio.h"</code>就是告诉预处理器将这一行替换成头文件<code>stdio.h</code>中的内容，这个过程是递归的：因为<code>stdio.h</code>也有可能包含其头文件。</p>
+<p>用clang查看预处理的结果：</p>
+<pre><code>xcrun clang -E main.c
+</code></pre>
+<p>预处理后的文件有400多行，在文件的末尾，可以找到main函数</p>
+<pre><code>int main() {
+  printf("hello debug\n");
+  return 0;
+}
+</code></pre>
+<p>可以看到，在预处理的时候，注释被删除，条件编译被处理。</p>
+<h3><a id="lexical_anaysis_83"></a>词法分析(lexical anaysis)</h3>
+<p>词法分析器读入源文件的字符流，将他们组织称有意义的词素(lexeme)序列，对于每个词素，此法分析器产生词法单元（token）作为输出。</p>
+<pre><code>$ xcrun clang -fmodules -fsyntax-only -Xclang -dump-tokens main.c
+</code></pre>
+<p>输出：</p>
+<pre><code>annot_module_include '#include &lt;s'		Loc=&lt;main.c:1:1&gt;
+int 'int'	 [StartOfLine]	Loc=&lt;main.c:4:1&gt;
+identifier 'main'	 [LeadingSpace]	Loc=&lt;main.c:4:5&gt;
+....
+</code></pre>
+<p><code>Loc=&lt;main.c:1:1&gt;</code>标示这个token位于源文件main.c的第1行，从第1个字符开始。保存token在源文件中的位置是方便后续clang分析的时候能够找到出错的原始位置。</p>
+<h3><a id="semantic_analysis_102"></a>语法分析(semantic analysis)</h3>
+<p>词法分析的Token流会被解析成一颗抽象语法树(abstract syntax tree - AST)。</p>
+<pre><code>$ xcrun clang -fsyntax-only -Xclang -ast-dump main.c | open -f
+</code></pre>
+<p>main函数AST的结构如下：</p>
+<pre><code>[0;34m`-[0m[0;1;32mFunctionDecl[0m[0;33m 0x7fcc188dc700[0m &lt;[0;33mmain.c:4:1[0m, [0;33mline:11:1[0m&gt; [0;33mline:4:5[0m[0;1;36m main[0m [0;32m'int ()'[0m
+[0;34m  `-[0m[0;1;35mCompoundStmt[0m[0;33m 0x7fcc188dc918[0m &lt;[0;33mcol:12[0m, [0;33mline:11:1[0m&gt;
+[0;34m    |-[0m[0;1;35mCallExpr[0m[0;33m 0x7fcc188dc880[0m &lt;[0;33mline:6:3[0m, [0;33mcol:25[0m&gt; [0;32m'int'[0m[0;36m[0m[0;36m[0m
+[0;34m    | |-[0m[0;1;35mImplicitCastExpr[0m[0;33m 0x7fcc188dc868[0m &lt;[0;33mcol:3[0m&gt; [0;32m'int (*)(const char *, ...)'[0m[0;36m[0m[0;36m[0m &lt;[0;31mFunctionToPointerDecay[0m&gt;
+[0;34m    | | `-[0m[0;1;35mDeclRefExpr[0m[0;33m 0x7fcc188dc7a0[0m &lt;[0;33mcol:3[0m&gt; [0;32m'int (const char *, ...)'[0m[0;36m[0m[0;36m[0m [0;1;32mFunction[0m[0;33m 0x7fcc188c5160[0m[0;1;36m 'printf'[0m [0;32m'int (const char *, ...)'[0m
+[0;34m    | `-[0m[0;1;35mImplicitCastExpr[0m[0;33m 0x7fcc188dc8c8[0m &lt;[0;33mcol:10[0m&gt; [0;32m'const char *'[0m[0;36m[0m[0;36m[0m &lt;[0;31mBitCast[0m&gt;
+[0;34m    |   `-[0m[0;1;35mImplicitCastExpr[0m[0;33m 0x7fcc188dc8b0[0m &lt;[0;33mcol:10[0m&gt; [0;32m'char *'[0m[0;36m[0m[0;36m[0m &lt;[0;31mArrayToPointerDecay[0m&gt;
+[0;34m    |     `-[0m[0;1;35mStringLiteral[0m[0;33m 0x7fcc188dc808[0m &lt;[0;33mcol:10[0m&gt; [0;32m'char [13]'[0m[0;36m lvalue[0m[0;36m[0m[0;1;36m "hello debug\n"[0m
+[0;34m    `-[0m[0;1;35mReturnStmt[0m[0;33m 0x7fcc188dc900[0m &lt;[0;33mline:10:3[0m, [0;33mcol:10[0m&gt;
+[0;34m      `-[0m[0;1;35mIntegerLiteral[0m[0;33m 0x7fcc188dc8e0[0m &lt;[0;33mcol:10[0m&gt; [0;32m'int'[0m[0;36m[0m[0;36m[0m[0;1;36m 0[0m
+</code></pre>
+<p>有了抽象语法树，clang就可以对这个树进行分析，找出代码中的错误。比如类型不匹配，亦或Objective C中向target发送了一个未实现的消息。</p>
+<p><strong>AST是开发者编写clang插件主要交互的数据结构</strong>，clang也提供很多API去读取AST。更多细节：<a href="https://clang.llvm.org/docs/IntroductionToTheClangAST.html" rel="nofollow">Introduction to the Clang AST</a>。</p>
+<h3><a id="CodeGen_129"></a>CodeGen</h3>
+<p>CodeGen遍历语法树，生成LLVM LR代码。LLVM IR是前端的输出，后端的输入。</p>
+<pre><code>xcrun clang -S -emit-llvm main.c -o main.ll
+</code></pre>
+<p>main.ll文件内容：</p>
+<pre><code>...
+@.str = private unnamed_addr constant [13 x i8] c"hello debug\0A\00", align 1
+
+; Function Attrs: noinline nounwind optnone ssp uwtable
+define i32 @main() #0 {
+  %1 = alloca i32, align 4
+  store i32 0, i32* %1, align 4
+  %2 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str, i32 0, i32 0))
+  ret i32 0
+}
+...
+</code></pre>
+<p>Objective C代码在这一步会进行runtime的桥接：property合成，ARC处理等。</p>
+<p>LLVM会对生成的IR进行优化，优化会调用相应的Pass进行处理。Pass由多个节点组成，都是<a href="http://llvm.org/doxygen/classllvm_1_1Pass.html" rel="nofollow">Pass</a>类的子类，每个节点负责做特定的优化，更多细节：<a href="https://llvm.org/docs/WritingAnLLVMPass.html" rel="nofollow">Writing an LLVM Pass</a>。</p>
+<h3><a id="_157"></a>生成汇编代码</h3>
+<p>LLVM对LR进行优化后，会针对不同架构生成不同的目标代码，最后以汇编代码的格式输出：</p>
+<p>生成arm 64汇编：</p>
+<pre><code>$ xcrun clang -S main.c -o main.s
+</code></pre>
+<p>查看生成的main.s文件，篇幅有限，对汇编感兴趣的同学可以看看我的这篇文章：<a href="https://github.com/LeoMobileDeveloper/Blogs/blob/master/Basic/iOS%20assembly%20toturial%20part%201.md" rel="nofollow">iOS汇编快速入门</a>。</p>
+<pre><code>_main:                                  ## @main
+        .cfi_startproc
+## %bb.0:
+        pushq   %rbp
+        .cfi_def_cfa_offset 16
+        .cfi_offset %rbp, -16
+        movq    %rsp, %rbp
+...
+</code></pre>
+<h3><a id="_180"></a>汇编器</h3>
+<p>汇编器以汇编代码作为输入，将汇编代码转换为机器代码，最后输出目标文件(object file)。</p>
+<pre><code>$ xcrun clang -fmodules -c main.c -o main.o
+</code></pre>
+<p>还记得我们代码中调用了一个函数<code>printf</code>么？通过nm命令，查看下main.o中的符号</p>
+<pre><code>$ xcrun nm -nm main.o
+                 (undefined) external _printf
+0000000000000000 (__TEXT,__text) external _main
+</code></pre>
+<p><code>_printf</code>是一个是undefined external的。undefined表示在当前文件暂时找不到符号<code>_printf</code>，而external表示这个符号是外部可以访问的，对应表示文件私有的符号是<code>non-external</code>。</p>
+<p><strong>Tips</strong>：什么是符号(Symbols)? 符号就是指向一段代码或者数据的名称。还有一种叫做WeakSymols，也就是并不一定会存在的符号，需要在运行时决定。比如iOS 12特有的API，在iOS11上就没有。</p>
+<h3><a id="_200"></a>链接</h3>
+<p><strong>连接器把编译产生的.o文件和（dylib,a,tbd）文件，生成一个mach-o文件。</strong></p>
+<pre><code>$ xcrun clang main.o -o main
+</code></pre>
+<p>我们就得到了一个mach o格式的可执行文件</p>
+<pre><code>$ file main
+main: Mach-O 64-bit executable x86_64
+$ ./main 
+hello debug
+</code></pre>
+<p>在用nm命令，查看可执行文件的符号表：</p>
+<pre><code>$ nm -nm main
+                 (undefined) external _printf (from libSystem)
+                 (undefined) external dyld_stub_binder (from libSystem)
+0000000100000000 (__TEXT,__text) [referenced dynamically] external __mh_execute_header
+0000000100000f60 (__TEXT,__text) external _main
+</code></pre>
+<p>_printf仍然是<code>undefined</code>，但是后面多了一些信息：<code>from libSystem</code>，表示这个符号来自于<code>libSystem</code>，会在运行时动态绑定。</p>
+<h2><a id="XCode_229"></a>XCode编译</h2>
+<p>通过上文我们大概了解了Clang编译一个C语言文件的过程，但是XCode开发的项目不仅仅包含了代码文件，还包括了图片，plist等。XCode中编译一次都要经过哪些过程呢？</p>
+<p>新建一个单页面的Demo工程：CocoaPods依赖AFNetworking和SDWebImage，同时依赖于一个内部Framework。按下Command+B，在XCode的Report Navigator模块中，可以找到编译的详细日志：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203001113.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<p>详细的步骤如下：</p>
+<ul>
+<li>创建Product.app的文件夹</li>
+<li>把Entitlements.plist写入到DerivedData里，处理打包的时候需要的信息（比如application-identifier）。</li>
+<li>创建一些辅助文件，比如各种.hmap，这是headermap文件，具体作用下文会讲解。</li>
+<li>执行CocoaPods的编译前脚本：检查Manifest.lock文件。</li>
+<li>编译.m文件，生成.o文件。</li>
+<li>链接动态库，o文件，生成一个mach o格式的可执行文件。</li>
+<li>编译assets，编译storyboard，链接storyboard</li>
+<li>拷贝动态库Logger.framework，并且对其签名</li>
+<li>执行CocoaPods编译后脚本：拷贝CocoaPods Target生成的Framework</li>
+<li>对Demo.App签名，并验证（validate）</li>
+<li>生成Product.app</li>
+</ul>
+<blockquote>
+<p>Tips: Entitlements.plist保存了App需要使用的特殊权限，比如iCloud，远程通知，Siri等。</p>
+</blockquote>
+<h2><a id="_253"></a>编译顺序</h2>
+<p>编译的时候有很多的Task(任务)要去执行，XCode如何决定Task的执行顺序呢？</p>
+<blockquote>
+<p>答案是：依赖关系。</p>
+</blockquote>
+<p>还是以刚刚的Demo项目为例，整个依赖关系如下：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203028742.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<p>可以从XCode的Report Navigator看到Target的编译顺序：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203050144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="600">
+<blockquote>
+<p>XCode编译的时候会尽可能的利用多核性能，多Target并发编译。</p>
+</blockquote>
+<p>那么，XCode又从哪里得到了这些依赖关系呢？</p>
+<ul>
+<li>Target Dependencies - 显式声明的依赖关系</li>
+<li>Linked Frameworks and Libraries - 隐式声明的依赖关系</li>
+<li>Build Phase - 定义了编译一个Target的每一步</li>
+</ul>
+<h2><a id="_275"></a>增量编译</h2>
+<p>日常开发中，一次完整的编译可能要几分钟，甚至几十分钟，而增量编译只需要不到1分钟，为什么增量编译会这么快呢？</p>
+<p>因为XCode会对每一个Task生成一个哈希值，只有哈希值改变的时候才会重新编译。</p>
+<p>比如，修改了ViewControler.m，只有图中灰色的三个Task会重新执行（这里不考虑build phase脚本）。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203112508.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<h2><a id="_285"></a>头文件</h2>
+<p>C语言家族中，头文件(.h)文件用来引入函数/类/宏定义等声明，让开发者更灵活的组织代码，而不必把所有的代码写到一个文件里。</p>
+<p>头文件对于编译器来说就是一个promise。头文件里的声明，编译会认为有对应实现，在链接的时候再解决具体实现的位置。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203137350.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<p>当只有声明，没有实现的时候，链接器就会报错。</p>
+<blockquote>
+<p>Undefined symbols for architecture arm64:<br>
+“_umimplementMethod”, referenced from:<br>
+-[ClassA method] in ClassA.o<br>
+ld: symbol(s) not found for architecture arm64<br>
+clang: error: linker command failed with exit code 1 (use -v to see invocation)</p>
+</blockquote>
+<p>Objective C的方法要到运行时才会报错，因为Objective C是一门动态语言，编译器无法确定对应的方法名(SEL)在运行时到底有没有实现(IMP)。</p>
+<p>日常开发中，两种常见的头文件引入方式：</p>
+<pre><code>#include "CustomClass.h" //自定义
+#include &lt;Foundation/Foundation.h&gt; //系统或者内部framework
+</code></pre>
+<p>引入的时候并没有指明文件的具体路径，编译器是如何找到这些头文件的呢？</p>
+<p>回到XCode的Report Navigator，找到上一个编译记录，可以看到编译ViewController.m的具体日志：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203209531.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<p>把这个日志整体拷贝到命令行中，然后最后加上<code>-v</code>，表示我们希望得到更多的日志信息，执行这段代码，在日志最后可以看到clang是如何找到头文件的：</p>
+<pre><code>#include "..." search starts here:
+ /Users/.../Build/Intermediates.noindex/Demo.build/Debug-iphoneos/Demo.build/Demo-generated-files.hmap (headermap)
+ /Users/.../Build/Intermediates.noindex/Demo.build/Debug-iphoneos/Demo.build/Demo-project-headers.hmap (headermap)
+ /Users/.../Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers
+ /Users/.../Build/Products/Debug-iphoneos/SDWebImage/SDWebImage.framework/Headers
+ 
+#include &lt;...&gt; search starts here:
+ /Users/.../Build/Intermediates.noindex/Demo.build/Debug-iphoneos/Demo.build/Demo-own-target-headers.hmap (headermap)
+ /Users/.../Build/Intermediates.noindex/Demo.build/Debug-iphoneos/Demo.build/Demo-all-non-framework-target-headers.hmap (headermap)
+ /Users/.../Build/Intermediates.noindex/Demo.build/Debug-iphoneos/Demo.build/DerivedSources
+ /Users/.../Build/Products/Debug-iphoneos (framework directory)
+ /Users/.../Build/Products/Debug-iphoneos/AFNetworking (framework directory)
+ /Users/.../Build/Products/Debug-iphoneos/SDWebImage (framework directory)
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+ $SDKROOT/usr/include
+ $SDKROOT/System/Library/Frameworks (framework directory)
+ 
+End of search list.
+
+</code></pre>
+<p>这里有个文件类型叫做heademap，headermap是帮助编译器找到头文件的辅助文件：存储这头文件到其物理路径的映射关系。</p>
+<p>可以通过一个辅助的小工具<a href="https://github.com/milend/hmap" rel="nofollow">hmap</a>查看hmap中的内容：</p>
+<pre><code>192:Desktop Leo$ ./hmap print Demo-project-headers.hmap 
+AppDelegate.h -&gt; /Users/huangwenchen/Desktop/Demo/Demo/AppDelegate.h
+Demo-Bridging-Header.h -&gt; /Users/huangwenchen/Desktop/Demo/Demo/Demo-Bridging-Header.h
+Dummy.h -&gt; /Users/huangwenchen/Desktop/Demo/Framework/Dummy.h
+Framework.h -&gt; Framework/Framework.h
+TestView.h -&gt; /Users/huangwenchen/Desktop/Demo/Demo/View/TestView.h
+ViewController.h -&gt; /Users/huangwenchen/Desktop/Demo/Demo/ViewController.h
+</code></pre>
+<blockquote>
+<p>Tips: 这就是为什么备份/恢复Mac后，需要clean build folder，因为两台mac对应文件的物理位置可能不一样。</p>
+</blockquote>
+<p>clang发现<code>#import "TestView.h"</code>的时候，先在headermap(Demo-generated-files.hmap,Demo-project-headers.hmap)里查找，如果headermap文件找不到，接着在own target的framework里找：</p>
+<pre><code>/Users/.../Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework/Headers/TestView.h
+/Users/.../Build/Products/Debug-iphoneos/SDWebImage/SDWebImage.framework/Headers/TestView.h
+</code></pre>
+<p>系统的头文件查找的时候也是优先headermap，headermap查找不到会查找own target framework，最后查找SDK目录。</p>
+<p>以<code>#import &lt;Foundation/Foundation.h&gt;</code>为例，在SDK目录查找时：</p>
+<p>首先查找framework是否存在</p>
+<pre><code>$SDKROOT/System/Library/Frameworks/Foundation.framework
+</code></pre>
+<p>如果framework存在，再在headers目录里查找头文件是否存在</p>
+<pre><code>$SDKROOT/System/Library/Frameworks/Foundation.framework/headers/Foundation.h
+</code></pre>
+<h2><a id="Clang_Module_380"></a>Clang Module</h2>
+<p>传统的<code>#include/#import</code>都是文本语义：预处理器在处理的时候会把这一行替换成对应头文件的文本，这种简单粗暴替换是有很多问题的：</p>
+<ol>
+<li>大量的预处理消耗。假如有N个头文件，每个头文件又<code>#include</code>了M个头文件，那么整个预处理的消耗是<strong>N*M</strong>。</li>
+<li>文件导入后，宏定义容易出现问题。因为是文本导入，并且按照include依次替换，当一个头文件定义了<code>#define std hello_world</code>，而第另一个个头文件刚好又是C++标准库，那么<code>include</code>顺序不通，可能会导致所有的std都会被替换。</li>
+<li>边界不明显。拿到一组.a和.h文件，很难确定.h是属于哪个.a的，需要以什么样的顺序导入才能正确编译。</li>
+</ol>
+<p><a href="https://clang.llvm.org/docs/Modules.html" rel="nofollow">clang module</a>不再使用文本模型，而是采用更高效的语义模型。clang module提供了一种新的导入方式:<code>@import</code>，module会被作为一个独立的模块编译，并且产生独立的缓存，从而大幅度提高预处理效率，这样时间消耗从<strong>M*N</strong>变成了<strong>M+N</strong>。</p>
+<p>XCode创建的Target是Framework的时候，默认define module会设置为YES，从而支持module，当然像Foundation等系统的framwork同样支持module。</p>
+<p><code>#import &lt;Foundation/NSString.h&gt;</code>的时候，编译器会检查<code>NSString.h</code>是否在一个module里，如果是的话，这一行会被替换成<code>@import Foundation</code>。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203254361.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<p>那么，如何定义一个module呢？答案是：modulemap文件，这个文件描述了一组头文件如何转换为一个module，举个例子：</p>
+<pre><code>framework module Foundation  [extern_c] [system] {
+	umbrella header "Foundation.h" // 所有要暴露的头文件
+ 	export *
+	module * {
+ 		export *
+ 	}
+ 	explicit module NSDebug { //submodule
+ 		header "NSDebug.h"
+ 		export *
+ 	}
+ }
+</code></pre>
+<p>swift是可以直接<code>import</code>一个clang module的，比如你有一些C库，需要在Swift中使用，就可以用modulemap的方式。</p>
+<h2><a id="Swift_414"></a>Swift编译</h2>
+<p>现代化的语言几乎都抛弃了头文件，swift也不例外。问题来了，swift没有头文件又是怎么找到声明的呢？</p>
+<blockquote>
+<p><strong>编译器干了这些脏活累活</strong>。编译一个Swift头文件，需要解析module中所有的Swift文件，找到对应的<strong>声明</strong>。</p>
+</blockquote>
+<img src="https://img-blog.csdnimg.cn/2018122320334069.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="600">
+<p>当开发中难免要有Objective C和Swfit相互调用的场景，两种语言在编译的时候查找符号的方式不同，如何一起工作的呢？</p>
+<p><strong>Swift引用Objective C</strong>：</p>
+<p><a href="https://swift.org/compiler-stdlib/" rel="nofollow">Swift的编译器</a>内部使用了clang，所以swift可以直接使用clang module，从而支持直接import Objective C编写的framework。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203411553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="300">
+<p><strong>swift编译器会从objective c头文件里查找符号</strong>，头文件的来源分为两大类：</p>
+<ul>
+<li><code>Bridging-Header.h</code>中暴露给swfit的头文件</li>
+<li>framework中公开的头文件，根据编写的语言不通，可能从modulemap或者umbrella header查找</li>
+</ul>
+<p>XCode提供了宏定义<code>NS_SWIFT_NAME</code>来让开发者定义Objective C =&gt; Swift的符号映射，可以通过Related Items -&gt; Generate Interface来查看转换后的结果：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203438604.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="400">
+<p><strong>Objective引用swift</strong></p>
+<p><strong>xcode会以module为单位，为swift自动生成头文件，供Objective C引用</strong>，通常这个文件命名为<code>ProductName-Swift.h</code>。</p>
+<p>swift提供了关键词<code>@objc</code>来把类型暴露给Objective C和Objective C Runtime。</p>
+<pre><code>@objc public class MyClass
+</code></pre>
+<h2><a id="Linker_449"></a>深入理解Linker</h2>
+<blockquote>
+<p>链接器会把编译器编译生成的多个文件，链接成一个可执行文件。链接并不会产生新的代码，只是在现有代码的基础上做移动和补丁。</p>
+</blockquote>
+<p>链接器的输入可能是以下几种文件：</p>
+<ul>
+<li>object file(.o)，单个源文件的编辑结果，包含了由符号表示的代码和数据。</li>
+<li>动态库(.dylib)，mach o类型的可执行文件，链接的时候只会绑定符号，动态库会被拷贝到app里，运行时加载</li>
+<li>静态库(.a)，由ar命令打包的一组.o文件，链接的时候会把具体的代码拷贝到最后的mach-o</li>
+<li>tbd，只包含符号的库文件</li>
+</ul>
+<p>这里我们提到了一个概念：符号(Symbols)，那么符号是什么呢？</p>
+<blockquote>
+<p>符号是一段代码或者数据的名称，一个符号内部也有可能引用另一个符号。</p>
+</blockquote>
+<p>以一段代码为例，看看链接时究竟发生了什么？</p>
+<p>源代码：</p>
+<pre><code>- (void)log{
+	printf("hello world\n");
+}
+</code></pre>
+<p>.o文件：</p>
+<pre><code>#代码
+adrp    x0, l_.str@PAGE
+add     x0, x0, l_.str@PAGEOFF
+bl      _printf
+
+#字符串符号
+l_.str:                                 ; @.str
+        .asciz  "hello world\n"
+</code></pre>
+<p>在.o文件中，字符串"hello world\n"作为一个符号(<code>l_.str</code>)被引用，汇编代码读取的时候按照<code>l_.str</code>所在的页加上偏移量的方式读取，然后调用printf符号。到这一步，CPU还不知道怎么执行，因为还有两个问题没解决：</p>
+<ol>
+<li>l_.str在可执行文件的哪个位置？</li>
+<li>printf函数来自哪里？</li>
+</ol>
+<p>再来看看链接之后的mach o文件：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203515396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="400">
+<p>链接器如何解决这两个问题呢？</p>
+<ol>
+<li>链接后，不再是以<strong>页+偏移量</strong>的方式读取字符串，而是直接读虚拟内存中的地址，解决了l_.str的位置问题。</li>
+<li>链接后，不再是调用符号_printf，而是在DATA段上创建了一个函数指针<code>_printf$ptr</code>，初始值为0x0(null)，代码直接调用这个函数指针。启动的时候，dyld会把DATA段上的指针进行动态绑定，绑定到具体虚拟内存中的<code>_printf</code>地址。更多细节，可以参考我之前的这篇文章：<a href="https://blog.csdn.net/Hello_Hwc/article/details/78317863" rel="nofollow">深入理解iOS App的启动过程</a>。</li>
+</ol>
+<blockquote>
+<p>Tips: Mach-O有一个区域叫做LINKEDIT，这个区域用来存储启动的时dyld需要动态修复的一些数据：比如刚刚提到的printf在内存中的地址。</p>
+</blockquote>
+<h2><a id="_503"></a>理解签名</h2>
+<h3><a id="_505"></a>基础回顾</h3>
+<p>非对称加密。在密码学中，非对称加密需要两个密钥：公钥和私钥。私钥加密的只能用公钥解密，公钥加密的只能用私钥解密。</p>
+<p>数字签名。数字签名表示我对数据做了个标记，表示这是我的数据，没有经过篡改。</p>
+<p>数据发送方Leo产生一对公私钥，私钥自己保存，公钥发给接收方Lina。Leo用摘要算法，对发送的数据生成一段摘要，摘要算法保证了只要数据修改，那么摘要一定改变。然后用私钥对这个摘要进行加密，和数据一起发送给Lina。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203602714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="400">
+<p>Lina收到数据后，用公钥解密签名，得到Leo发过来的摘要；然后自己按照同样的摘要算法计算摘要，如果计算的结果和Leo的一样，说明数据没有被篡改过。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203617772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="400">
+<p>但是，现在还有个问题：Lina有一个公钥，假如攻击者把Lina的公钥替换成自己的公钥，那么攻击者就可以伪装成Leo进行通信，所以<strong>Lina需要确保这个公钥来自于Leo</strong>，可以通过数字证书来解决这个问题。</p>
+<blockquote>
+<p>数字证书由CA（Certificate Authority）颁发，以Leo的证书为例，里面包含了以下数据：<strong>签发者</strong>；<strong>Leo的公钥</strong>；<strong>Leo使用的Hash算法</strong>；<strong>证书的数字签名</strong>；到期时间等。</p>
+</blockquote>
+<p>有了数字证书后，Leo再发送数据的时候，把自己从CA申请的证书一起发送给Lina。Lina收到数据后，先用CA的公钥验证证书的数字签名是否正确，如果正确说明证书没有被篡改过，然后以信任链的方式判断是否信任这个证书，如果信任证书，取出证书中的数据，可以判断出证书是属于Leo的，最后从证书中取出公钥来做数据签名验证。</p>
+<h3><a id="iOS_App_525"></a>iOS App签名</h3>
+<p>为什么要对App进行签名呢？<strong>签名能够让iOS识别出是谁签名了App，并且签名后App没有被篡改过</strong>，</p>
+<p>除此之外，Apple要严格控制App的分发：</p>
+<ol>
+<li>App来自Apple信任的开发者</li>
+<li>安装的设备是Apple允许的设备</li>
+</ol>
+<h4><a id="_534"></a>证书</h4>
+<p>通过上文的讲解，我们知道数字证书里包含着申请证书设备的公钥，所以在Apple开发者后台创建证书的时候，需要上传CSR文件(Certificate Signing Request)，用keychain生成这个文件的时候，就生成了一对公/私钥：<strong>公钥在CSR里，私钥在本地的Mac上</strong>。Apple本身也有一对公钥和私钥：<strong>私钥保存在Apple后台，公钥在每一台iOS设备上</strong>。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203643784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<h4><a id="Provisioning_Profile_540"></a>Provisioning Profile</h4>
+<p>iOS App安装到设备的途径(非越狱)有以下几种：</p>
+<ol>
+<li>开发包(插线，或者archive导出develop包)</li>
+<li>Ad Hoc</li>
+<li>App Store</li>
+<li>企业证书</li>
+</ol>
+<p>开发包和Ad Hoc都会严格限制安装设备，为了把设备uuid等信息一起打包进App，开发者需要配置Provisioning Profile。</p>
+<img src="https://img-blog.csdnimg.cn/20181223203709162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70" width="300">
+<p>可以通过以下命令来查看Provisioning Profile中的内容：</p>
+<pre><code>security cms -D -i embedded.mobileprovision &gt; result.plist
+open result.plist
+</code></pre>
+<p>本质上就是一个编码过后的plist</p>
+<img src="https://img-blog.csdnimg.cn/20181223203738399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<h4><a id="iOS_565"></a>iOS签名</h4>
+<p>生成安装包的最后一步，XCode会调用<code>codesign</code>对Product.app进行签名。</p>
+<p>创建一个额外的目录<code>_CodeSignature</code>以plist的方式存放安装包内每一个文件签名</p>
+<pre><code>&lt;key&gt;Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib&lt;/key&gt;
+&lt;data&gt;
+T2g5jlq7EVFHNzL/ip3fSoXKoOI=
+&lt;/data&gt;
+&lt;key&gt;Info.plist&lt;/key&gt;
+&lt;data&gt;
+5aVg/3m4y30m+GSB8LkZNNU3mug=
+&lt;/data&gt;
+&lt;key&gt;PkgInfo&lt;/key&gt;
+&lt;data&gt;
+n57qDP4tZfLD1rCS43W0B4LQjzE=
+&lt;/data&gt;
+&lt;key&gt;embedded.mobileprovision&lt;/key&gt;
+&lt;data&gt;
+tm/I1g+0u2Cx9qrPJeC0zgyuVUE=
+&lt;/data&gt;
+...
+</code></pre>
+<p>代码签名会直接写入到mach-o的可执行文件里，值得注意的是签名是以页(Page)为单位的，而不是整个文件签名：</p>
+<img src="https://img-blog.csdnimg.cn/20181223203806388.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hlbGxvX0h3Yw==,size_16,color_FFFFFF,t_70">
+<h4><a id="_596"></a>验证</h4>
+<p>在安装App的时候，</p>
+<ul>
+<li>从embedded.mobileprovision取出证书，验证证书是否来自Apple信任的开发者</li>
+<li>证书验证通过后，从证书中取出Leo的公钥</li>
+<li>读取<code>_CodeSignature</code>中的签名结果，用Leo的公钥验证每个文件的签名是否正确</li>
+<li>文件<code>embedded.mobileprovision</code>验证通过后，读取里面的设备id列表，判断当前设备是否可安装(App Store和企业证书不做这步验证)</li>
+<li>验证通过后，安装App</li>
+</ul>
+<p>启动App的时候：</p>
+<ul>
+<li>验证bundle id，entitlements和<code>embedded.mobileprovision</code>中的AppId，entitlements是否一致</li>
+<li>判断device id包含在embedded.mobileprovision里
+<ul>
+<li>App Store和企业证书不做验证</li>
+</ul>
+</li>
+<li>如果是企业证书，验证用户是否信任企业证书</li>
+<li>App启动后，当缺页中断(page fault)发生的时候，系统会把对应的mach-o页读入物理内存，然后验证这个page的签名是否正确。</li>
+<li>以上都验证通过，App才能正常启动</li>
+</ul>
+<h2><a id="_616"></a>小结</h2>
+<p>如有内容错误，欢迎<a href="https://github.com/LeoMobileDeveloper/Blogs" rel="nofollow">issue</a>指正。</p>
+
+            </div>
+						<link href="https://csdnimg.cn/release/phoenix/mdeditor/markdown_views-258a4616f7.css" rel="stylesheet">
+                      </div>
+	</article>
+</div>
+  <div class="hide-article-box hide-article-pos text-center">
+    <div class="border"></div>
+        <a class="btn article-footer-btn" id="btn-readmore" data-track-view='{"mod":"popu_376","con":",https://blog.csdn.net/Hello_Hwc/article/details/85226147,"}' data-track-click='{"mod":"popu_376","con":",https://blog.csdn.net/Hello_Hwc/article/details/85226147,"}'>阅读更多</a>
+        <a class="btn article-footer-btn article-footer-bookmark-btn" >
+      <svg class="icon no-active hover-hide" aria-hidden="true">
+        <use xlink:href="#csdnc-bookmark"></use>
+      </svg>
+      <span>收藏</span>
+    </a>
+    <div class="btn article-footer-btn  bds_weixin article-footer-share-btn" data-cmd="weixin" title="分享">
+      <svg class="icon no-active hover-hide" aria-hidden="true">
+        <use xlink:href="#csdnc-share"></use>
+      </svg>
+      <span>分享</span>
+      <div class="bdsharebuttonbox">
+        <a href="#"class="bds_weixin clear-share-style-article-footer" data-cmd="weixin" title="分享"></a>
+      </div>
+    </div>
+    
+  </div>
+  <script>
+  (function(){
+    function collection(){
+      if (currentUserName) {
+        var markObj = {};
+            markObj.imgUrl ='https://csdnimg.cn/release/phoenix/static_blog/images/appqr.png';
+        var markPrompt = (new window.csdn.publicPrompt).init(markObj);
+        var maeked = '您已经收藏过';
+        if (!$(this).hasClass("liked")) {
+          $.ajax({
+            url: 'https://my.csdn.net/my/favorite/do_add/2',
+            dataType: 'json',
+            type: 'POST',
+            xhrFields: {
+              withCredentials: true
+            },
+            data: {
+              title: articleTit,
+              url: 'https://blog.csdn.net/Hello_Hwc/article/details/85226147',
+              share: 1,
+              map_name: ''
+            },
+            success: function(data) {
+              
+              if (data.succ == 1) {
+                $('.btn-bookmark').addClass("liked");
+                $('.article-footer-bookmark-btn').addClass("liked").children('span').text('已收藏');
+                markPrompt.show({})
+                // alert('收藏成功,可以在个人中心查看我的收藏');
+              } else {
+                if (data.msg === "您已经收藏过") {
+                  $('.btn-bookmark').addClass("liked");
+                  $('.article-footer-bookmark-btn').addClass("liked").children('span').text('已收藏');
+                  markPrompt.show({
+                    titleStr: maeked
+                  })
+                }else{
+                  alert(data.msg);
+                  
+                }
+              }
+            }
+          });
+        } else {
+          markPrompt.show({
+            titleStr: maeked
+          })
+        }
+      } else {
+        window.csdn.loginBox.show();
+      }
+    }
+    function permissionCheck(dom){
+      var returnData = false;
+      switch (true) {
+        case currentUserPermission && userPermission:
+          clearReadMoreBtn(dom)
+          returnData = true;
+          break;
+        case userPermission:
+          dom.text('VIP阅读');
+          returnData = false;
+          break;
+        default:
+          
+      }
+      return returnData;
+    }
+    window.csdn = window.csdn ? window.csdn : {};
+    window.csdn.articleCollection = collection;
+    function clearReadMoreBtn(dom) {
+      if(userPermission && !(dom instanceof jQuery)) {
+        window.open('https://mall.csdn.net/vip_code?utm_source=brv')
+        return false;
+      }
+      dom = dom instanceof jQuery ? dom : $(this);
+      $("div.article_content").removeAttr("style");
+      dom.parent().remove();
+    }
+    function setArticleH(btnReadmore,posi){
+      var winH = $(window).height();
+      var articleBox = $("div.article_content");
+      var artH = articleBox.height();
+      if(artH > winH*posi){
+        articleBox.css({
+          'height':winH*posi+'px',
+          'overflow':'hidden'
+        })
+        btnReadmore.click(clearReadMoreBtn)
+      }else{
+        btnReadmore.parent().remove()
+      }
+    }
+    var btnReadmore = $("#btn-readmore");
+    $('.article-footer-bookmark-btn').click(window.csdn.articleCollection)
+    if(btnReadmore.length>0){
+      if (permissionCheck(btnReadmore)) {
+        return false;
+      }
+      if(currentUserName){
+        setArticleH(btnReadmore,3);
+      }else{
+        setArticleH(btnReadmore,1.2);
+      }
+    }else{
+      $('.hide-article-box').addClass('hide-article-style');
+    }
+  })()
+</script>
+<script>
+		$(".MathJax").remove();
+		if($('div.markdown_views pre.prettyprint code.hljs').length > 0 ){
+				$('div.markdown_views')[0].className = 'markdown_views';
+		}
+</script>
+                <a id="commentBox"></a>
+<div class="comment-box">
+	
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" target="_blank">
+				<img class="show_loginbox" src="//g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<input type="hidden" id="comment_replyId">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="想对作者说点什么"></textarea>
+			<div class="opt-box"> <!-- d-flex -->
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="85226147">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div style="display: none;" class="csdn-tracking-statistics tracking-click" data-mod="popu_384"><a href="#" target="_blank" class="comment_area_btn">发表评论</a></div>
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<div class="txt-selected text-truncate">添加代码片</div>
+					<svg class="icon d-block" aria-hidden="true">
+						<use xlink:href="#csdnc-triangledown"></use>
+					</svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>  
+				<div class="right-box">
+					<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+					<input type="submit" class="btn btn-sm btn-red btn-comment" value="发表评论">
+				</div>
+			</div>
+		</form>
+	</div>
+
+		<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<button class="btn btn-sm btn-link-blue" id="btnMoreComment"></button>
+		</div>
+	</div>
+</div>
+        <div class="recommend-box">
+            		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/woaizijiheni/article/details/50905235,BlogCommendFromThirdService_0"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/woaizijiheni/article/details/50905235" target="_blank" title="iOS 安全攻防系列(五): nm 命令详解">
+				<h4 class="text-truncate oneline">
+						<em>iOS</em> 安全攻防系列(五): nm 命令详解				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-16</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3187</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/woaizijiheni/article/details/50905235" target="_blank" title="iOS 安全攻防系列(五): nm 命令详解">
+							<span class="desc oneline">在学习iOS安全的时候，老是看到有个nm命令，今天就来好好梳理下nm这个命令。符号表先来说说符号表，符号表可以提供应用软件及其动态加载的苦衷引用的函数、类、方法等信息。通常，符号表中包含比类转储更多的...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/woaizijiheni">来自：	<span class="blog_title"> 再见依然的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/Future_One/article/details/81882359,BlogCommendFromThirdService_1"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/Future_One/article/details/81882359" target="_blank" title="浅谈iOS编译过程">
+				<h4 class="text-truncate oneline">
+						浅谈<em>iOS</em><em>编译</em>过程				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">08-21</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							655</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/Future_One/article/details/81882359" target="_blank" title="浅谈iOS编译过程">
+							<span class="desc oneline">引言维基百科：编译语言（英语：Compiledlanguage）是一种以编译器来实现的编程语言。它不像解释型语言一样，由解释器将代码一句一句运行，而是以编译器，先将代码编译为机器码，再加以运行。理论上...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/Future_One">来自：	<span class="blog_title"> Future_One的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/aas319/article/details/78606342,BlogCommendFromThirdService_2"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/aas319/article/details/78606342" target="_blank" title="iOS App 的编译过程">
+				<h4 class="text-truncate oneline">
+						<em>iOS</em> App 的<em>编译</em>过程				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-22</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3613</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/aas319/article/details/78606342" target="_blank" title="iOS App 的编译过程">
+							<span class="desc oneline">在iOS开发的过程中，Xcode为我们提供了非常完善的编译能力，正常情况下，我们只需要Command+R就可以将应用运行到设备上，即使打包也是一个相对愉快的过程。但正如我们写代码无法避开Bug一样，项...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/aas319">来自：	<span class="blog_title"> KLTec.</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/yimixgg/article/details/79442175,BlogCommendFromThirdService_3"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/yimixgg/article/details/79442175" target="_blank" title="linux  启动 pycharm程序的命令（pycharm已安装好）">
+				<h4 class="text-truncate oneline">
+						linux  启动 pycharm程序的命令（pycharm已安装好）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-05</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/yimixgg/article/details/79442175" target="_blank" title="linux  启动 pycharm程序的命令（pycharm已安装好）">
+							<span class="desc oneline">方法一：步骤：进入pycharm安装路径下的bin目录下，输入如下命令：./pycharm.sh方法二：设置桌面快捷方式：参考博客：http://blog.csdn.net/tmosk/article...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/yimixgg">来自：	<span class="blog_title"> yimixgg的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/wuchengzeng/article/details/50037611,BlogCommendFromThirdService_4"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/wuchengzeng/article/details/50037611" target="_blank" title="jquery/js实现一个网页同时调用多个倒计时(最新的)">
+				<h4 class="text-truncate oneline">
+						jquery/js实现一个网页同时调用多个倒计时(最新的)				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-25</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							43万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/wuchengzeng/article/details/50037611" target="_blank" title="jquery/js实现一个网页同时调用多个倒计时(最新的)">
+							<span class="desc oneline">jquery/js实现一个网页同时调用多个倒计时(最新的)最近需要网页添加多个倒计时.查阅网络,基本上都是千遍一律的不好用.自己按需写了个.希望对大家有用.有用请赞一个哦!//js//js2varpl...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/wuchengzeng">来自：	<span class="blog_title"> Websites</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/u012460084/article/details/70168134,BlogCommendFromBaidu_5"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/u012460084/article/details/70168134" target="_blank" title="iOS 编译过程的原理和应用">
+				<h4 class="text-truncate oneline">
+						<em>iOS</em> <em>编译</em>过程的原理和应用				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">04-14</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3914</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/u012460084/article/details/70168134" target="_blank" title="iOS 编译过程的原理和应用">
+							<span class="desc oneline">来源：黄文臣 blog.csdn.net/hello_hwc/article/details/53557308前言一般可以将编程语言分为两种，编译语言和直译式语言。像C++,ObjectiveC都是编...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/u012460084">来自：	<span class="blog_title"> 江湖两把刀的技术博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/shanchelicun/article/details/49906777,BlogCommendFromBaidu_6"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/shanchelicun/article/details/49906777" target="_blank" title="&quot;_OBJC_CLASS_$_RefreshHeader&quot;, referenced from:错误">
+				<h4 class="text-truncate oneline">
+						&quot;_OBJC_CLASS_$_RefreshHeader&quot;, referenced from:错误				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-18</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							689</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/shanchelicun/article/details/49906777" target="_blank" title="&quot;_OBJC_CLASS_$_RefreshHeader&quot;, referenced from:错误">
+							<span class="desc oneline">多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：Undefinedsymbolsforarchitecturei386:&quot;_OBJC_CLASS_$_xx文件名&quot;,referenced...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/shanchelicun">来自：	<span class="blog_title"> shancheli的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/willproud/article/details/40745041,BlogCommendFromBaidu_7"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/willproud/article/details/40745041" target="_blank" title="iOS &quot;directory not found for option '-L/Users/.../Pods/build/Debug-iphoneos&quot;解决方案">
+				<h4 class="text-truncate oneline">
+						<em>iOS</em> &quot;directory not found for option '-L/Users/.../Pods/build/Debug-iphoneos&quot;解决方案				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-03</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/willproud/article/details/40745041" target="_blank" title="iOS &quot;directory not found for option '-L/Users/.../Pods/build/Debug-iphoneos&quot;解决方案">
+							<span class="desc oneline">问题重述：在删掉原来工作空间，重新installpods之后，遇到warning：ld:warning:directorynotfoundforoption'-L/Users/.../Pods/bui...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/willproud">来自：	<span class="blog_title"> 野草志</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/k7arm/article/details/49560357,BlogCommendFromBaidu_8"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/k7arm/article/details/49560357" target="_blank" title="使用AFNetworking遇到的2个警告解决方法。">
+				<h4 class="text-truncate oneline">
+						使用AFNetworking遇到的2个警告解决方法。				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-01</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							2330</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/k7arm/article/details/49560357" target="_blank" title="使用AFNetworking遇到的2个警告解决方法。">
+							<span class="desc oneline">1.编译警告objectfile(/Users/liangchris/Library/Developer/Xcode/DerivedData/ShowTracker-frpchxkxofnchfgnt...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/k7arm">来自：	<span class="blog_title"> What the Fuck</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/cang1994cang/article/details/50886950,BlogCommendFromQuerySearch_9"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/cang1994cang/article/details/50886950" target="_blank" title="侯捷《深入浅出MFC》中“Hello, MFC”如何改写到VS2012中">
+				<h4 class="text-truncate oneline">
+						侯捷《<em>深入浅出</em>MFC》中“Hello, MFC”如何改写到VS2012中				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-14</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							859</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/cang1994cang/article/details/50886950" target="_blank" title="侯捷《深入浅出MFC》中“Hello, MFC”如何改写到VS2012中">
+							<span class="desc oneline">侯捷先生《深入浅出MFC》一书已经成书十余年了，当时用的还是VC6.0，而现在大多数人用的都是从VS2010到VS2015这些版本。今年刚毕业的我进入公司学习使用MFC，就是用的VS2012.与侯捷先...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/cang1994cang">来自：	<span class="blog_title"> cang1994cang的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+          <div class="recommend-item-box blog-expert-recommend-box">
+				<div class="d-flex">
+					<div class="blog-expert-recommend">
+						<div class="blog-expert">
+							<div class="blog-expert-flexbox"></div>
+						</div>
+					</div>
+				</div>
+      </div>
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/openglnewbee/article/details/42643321,BlogCommendFromQuerySearch_10"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/openglnewbee/article/details/42643321" target="_blank" title="深入浅出https协议(ssl/tls)">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>https协议(ssl/tls)				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">01-12</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1626</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/openglnewbee/article/details/42643321" target="_blank" title="深入浅出https协议(ssl/tls)">
+							<span class="desc oneline">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.htmlios底层是openssl支持的，android的应该也一样；mac下使用openssl命令查看到...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/openglnewbee">来自：	<span class="blog_title"> 移动应用开发技术专栏—by 阿尘</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/mr_raptor/article/details/20933439,BlogCommendFromQuerySearch_11"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/mr_raptor/article/details/20933439" target="_blank" title="深入浅出 - Android系统移植与平台开发（四）- 搭建Linux编译环境">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em> - Android系统移植与平台开发（四）- 搭建Linux<em>编译</em>环境				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-10</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/mr_raptor/article/details/20933439" target="_blank" title="深入浅出 - Android系统移植与平台开发（四）- 搭建Linux编译环境">
+							<span class="desc oneline">Android的源码开发可以在MacOS上或Ubuntu系统上，目前不支持在Windows下进行源码开发，在Ubuntu上建立开发环境的步骤如下：Ø 建立Linux编译环境Ø 安装JDKØ 安装编译必...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/mr_raptor">来自：	<span class="blog_title"> mr_raptor的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/kuangdacaikuang/article/details/53446675,BlogCommendFromQuerySearch_12"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/kuangdacaikuang/article/details/53446675" target="_blank" title="iOS 开发 深入浅出Runtime运行时之官方指南翻译--runtime介绍">
+				<h4 class="text-truncate oneline">
+						<em>iOS</em> 开发 <em>深入浅出</em>Runtime运行时之官方指南翻译--runtime介绍				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">12-03</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							763</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/kuangdacaikuang/article/details/53446675" target="_blank" title="iOS 开发 深入浅出Runtime运行时之官方指南翻译--runtime介绍">
+							<span class="desc oneline">官方指南结构图runtime官方指南连接IntroductionTheObjective-Clanguagedefersasmanydecisionsasitcanfromcompiletimeand...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/kuangdacaikuang">来自：	<span class="blog_title"> IOS开发工程师--周玉的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/e98123/10040346,BlogCommendFromQuerySearch_13"}'>
+			<a href="https://download.csdn.net/download/e98123/10040346" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							Head First_<em>深入浅出</em>iPhone/iPad开发(中文第2版)_带书签_高清完整版 0300						</h4>
+						<span class="data float-right">10-26</span>
+					</div>
+					<div class="desc oneline">
+							[美] Dan Pilone 等 著；杨光伟 等 译
+
+文件大小：137.61MB					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/wuzuyu365/article/details/52574365,BlogCommendFromThirdService_14"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/wuzuyu365/article/details/52574365" target="_blank" title="SeetaFace编译成功（有windows及Android源码）">
+				<h4 class="text-truncate oneline">
+						SeetaFace<em>编译</em>成功（有windows及Android源码）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">09-18</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							2万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/wuzuyu365/article/details/52574365" target="_blank" title="SeetaFace编译成功（有windows及Android源码）">
+							<span class="desc oneline">声明：由于本人水平有限，所提供的代码、dll、so等必然存在很多问题，仅用于学习，不适合工业级使用，请谨慎使用，如果造成损失，责任自负。对齐： 这张照片第3个人的特征点检测有点问题  研发人员很快修正...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/wuzuyu365">来自：	<span class="blog_title"> walle的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/Yan_Chou/article/details/53406095,BlogCommendFromThirdService_15"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/Yan_Chou/article/details/53406095" target="_blank" title="frp配置本地服务端口到服务器80端口">
+				<h4 class="text-truncate oneline">
+						frp配置本地服务端口到服务器80端口				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-30</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							2万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/Yan_Chou/article/details/53406095" target="_blank" title="frp配置本地服务端口到服务器80端口">
+							<span class="desc oneline">搭建环境：ubuntu16.04LTS（本地服务计算机）ubuntu14.04LTS(阿里云服务器)apachetomcat7java7frp0.8.1linux搭建过程：资源准备frp0.8.1li...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/Yan_Chou">来自：	<span class="blog_title"> Anteoy的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_29350001/article/details/77941902,BlogCommendFromThirdService_16"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq_29350001/article/details/77941902" target="_blank" title="DM368开发 -- 编码并实时播放">
+				<h4 class="text-truncate oneline">
+						DM368开发 -- 编码并实时播放				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">09-12</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							7565</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq_29350001/article/details/77941902" target="_blank" title="DM368开发 -- 编码并实时播放">
+							<span class="desc oneline">最近正好又用到DM368开发板，就将之前做的编解码的项目总结一下。话说一年多没碰，之前做的笔记全忘记是个什么鬼了。还好整理了一下出图像了。不过再看看做的这个东西，真是够渣的，只能作为参考了。项目效果就...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq_29350001">来自：	<span class="blog_title"> 不积跬步，无以至千里</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/xringm/article/details/51005122,BlogCommendFromQuerySearch_17"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/xringm/article/details/51005122" target="_blank" title="简单而完整：MFC骨干程序（深入浅出MFC之读书笔记）">
+				<h4 class="text-truncate oneline">
+						简单而完整：MFC骨干程序（<em>深入浅出</em>MFC之读书笔记）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-29</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1581</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/xringm/article/details/51005122" target="_blank" title="简单而完整：MFC骨干程序（深入浅出MFC之读书笔记）">
+							<span class="desc oneline">Document/VIew是MFC的灵魂。CDocument可以内嵌其他对象（用来处理基本数据类型如链表、数组等等）。有关档案读写的操作在CDocument的Serialize函数中进行，有关画面显示...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/xringm">来自：	<span class="blog_title"> xringm的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_18505715/article/details/50888706,BlogCommendFromQuerySearch_18"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq_18505715/article/details/50888706" target="_blank" title="ios  深入浅出多线程(GCD)">
+				<h4 class="text-truncate oneline">
+						<em>ios</em>  <em>深入浅出</em>多线程(GCD)				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-14</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							627</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq_18505715/article/details/50888706" target="_blank" title="ios  深入浅出多线程(GCD)">
+							<span class="desc oneline">一、前言相信很多人跟我有不谋而合的想法，对多线程编程存在一定的误解。一个比较直接的说法就是:新开一个线程，能提高速度，避免阻塞主线程!二、线程与进程1、进程(1)正在进行中的程序被称为进程,负责程序运...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq_18505715">来自：	<span class="blog_title"> 风中的劲草</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/hucoy/article/details/1877769,BlogCommendFromQuerySearch_19"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/hucoy/article/details/1877769" target="_blank" title="又买了一本《深入浅出设计模式》的书，唉。。。">
+				<h4 class="text-truncate oneline">
+						又买了一本《<em>深入浅出</em>设计模式》的书，唉。。。				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-10</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1050</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/hucoy/article/details/1877769" target="_blank" title="又买了一本《深入浅出设计模式》的书，唉。。。">
+							<span class="desc oneline">不知不觉大学里养成了买经典书籍的嗜好，一有好书（特别是计算机方面的书籍）出来就忍不住要买，罗列一下，好多：《C++Primer中文版》，《Programming ASP.ENT中文版》，《JAVA编程...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/hucoy">来自：	<span class="blog_title"> 做最好的自己</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/ylzyd12345/article/details/84095373,BlogCommendFromQuerySearch_20"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/ylzyd12345/article/details/84095373" target="_blank" title="Framework源码下载及编译（sundy深入浅出）之基础概念">
+				<h4 class="text-truncate oneline">
+						Framework源码下载及<em>编译</em>（sundy<em>深入浅出</em>）之基础概念				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">12-06</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							11</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/ylzyd12345/article/details/84095373" target="_blank" title="Framework源码下载及编译（sundy深入浅出）之基础概念">
+							<span class="desc oneline"> 写在前面的话：本系列主要是学习sundy的Android深入浅出视频中的一些记录，心得。方便自己以后查阅。也供大家查看。欢迎交流，补充。一般作为面试题（有些有答案，有些没有。问题一般从sundy老师...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/ylzyd12345">来自：	<span class="blog_title"> ylzyd12345的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/lingxingchen/2737902,BlogCommendFromQuerySearch_21"}'>
+			<a href="https://download.csdn.net/download/lingxingchen/2737902" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							<em>深入浅出</em>MFC简体中文版源码						</h4>
+						<span class="data float-right">10-07</span>
+					</div>
+					<div class="desc oneline">
+							深入浅出MFC简体中文版源码   只有源码，自己编译即能运行,侯捷（侯俊杰）的版本
+
+本人也上传了深入浅出MFC简体中文版的pdf，只不过不在这个
+
+文件中。					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/qq_28848199/10137885,BlogCommendFromQuerySearch_22"}'>
+			<a href="https://download.csdn.net/download/qq_28848199/10137885" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							<em>ios</em> sdk 11.0						</h4>
+						<span class="data float-right">11-29</span>
+					</div>
+					<div class="desc oneline">
+							ios sdk 11.0 编译库  ios sdk 11.0 编译库  ios sdk 11.0 编译库					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/ChristopherWu/article/details/51705396,BlogCommendFromQuerySearch_23"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/ChristopherWu/article/details/51705396" target="_blank" title="C/C++编译链接与装载深入浅出">
+				<h4 class="text-truncate oneline">
+						C/C++<em>编译</em>链接与装载<em>深入浅出</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">06-18</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1026</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/ChristopherWu/article/details/51705396" target="_blank" title="C/C++编译链接与装载深入浅出">
+							<span class="desc oneline">我博客上的阅读排版更好:http://yonghaowu.github.io/2016/05/09/Linker_And_Loaders/谢谢大家编译的详细过程以hello.c的源文件为例,C/C++...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/ChristopherWu">来自：	<span class="blog_title"> 弹指间与键盘上的梦想之光~</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/yang198907/article/details/50708990,BlogCommendFromQuerySearch_24"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/yang198907/article/details/50708990" target="_blank" title="深入浅出－iOS Block原理和内存中位置">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>－<em>iOS</em> Block原理和内存中位置				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">02-21</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							516</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/yang198907/article/details/50708990" target="_blank" title="深入浅出－iOS Block原理和内存中位置">
+							<span class="desc oneline">《深入浅出－iOSBlock原理和内存中位置》</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/yang198907">来自：	<span class="blog_title"> Yangsc</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/Tomstrong_369/article/details/59123182,BlogCommendFromQuerySearch_25"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/Tomstrong_369/article/details/59123182" target="_blank" title="DPDK分析--深入浅出">
+				<h4 class="text-truncate oneline">
+						DPDK分析--<em>深入浅出</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-01</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							5219</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/Tomstrong_369/article/details/59123182" target="_blank" title="DPDK分析--深入浅出">
+							<span class="desc oneline">概述随着互联网的高速发展,云产业的快速突起，基础架构网络逐渐偏向基于通用计算平台或模块化计算平台的架构融合，来支持多样化的网络功能，传统的PC机器在分布式计算平台上的优势更为明显。在这些针对海量数据处...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/Tomstrong_369">来自：	<span class="blog_title"> Tomstrong_369的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/gg_18826075157/article/details/78508323,BlogCommendFromQuerySearch_26"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/gg_18826075157/article/details/78508323" target="_blank" title="深入浅出的webpack3入门教程">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>的webpack3入门教程				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-11</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							2266</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/gg_18826075157/article/details/78508323" target="_blank" title="深入浅出的webpack3入门教程">
+							<span class="desc oneline">webpack3的相关介绍和剖析，还附带详尽的代码示例。</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/gg_18826075157">来自：	<span class="blog_title"> hyman.lu</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/mr_raptor/article/details/7954474,BlogCommendFromQuerySearch_27"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/mr_raptor/article/details/7954474" target="_blank" title="深入浅出 - Android系统移植与平台开发（二） -  准备Android开发环境">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em> - Android系统移植与平台开发（二） -  准备Android开发环境				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">09-07</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/mr_raptor/article/details/7954474" target="_blank" title="深入浅出 - Android系统移植与平台开发（二） -  准备Android开发环境">
+							<span class="desc oneline">编译Android源码关于android系统的编译，Android的官方网站上也给出了详细的说明。http://source.android.com/source/building.html Ø 初始...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/mr_raptor">来自：	<span class="blog_title"> mr_raptor的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/u010349060/7170115,BlogCommendFromQuerySearch_28"}'>
+			<a href="https://download.csdn.net/download/u010349060/7170115" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							清华大学<em>ios</em>参考模型讲义						</h4>
+						<span class="data float-right">04-10</span>
+					</div>
+					<div class="desc oneline">
+							详解ios参考模型，清华大学网络工程老师，深入浅出。					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/kaizi318/article/details/80089989,BlogCommendFromQuerySearch_29"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/kaizi318/article/details/80089989" target="_blank" title="sip通信">
+				<h4 class="text-truncate oneline">
+						sip通信				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">04-26</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							390</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/kaizi318/article/details/80089989" target="_blank" title="sip通信">
+							<span class="desc oneline"></span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/kaizi318">来自：	<span class="blog_title">                                           你在他乡还好吗？</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/wangtaomtk/article/details/80917081,BlogCommendFromQuerySearch_30"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/wangtaomtk/article/details/80917081" target="_blank" title="深入浅出HTTPS工作原理">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>HTTPS工作原理				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">07-10</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1796</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/wangtaomtk/article/details/80917081" target="_blank" title="深入浅出HTTPS工作原理">
+							<span class="desc oneline"> &amp;amp;lt;!DOCTYPEhtml&amp;amp;gt; &amp;amp;lt;htmllang=&amp;quot;zh-CN&amp;quot;&amp;amp;gt; &amp;amp;lt;head&amp;amp;gt; &amp;amp;l...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/wangtaomtk">来自：	<span class="blog_title"> XINJing的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/macdroid/article/details/50515790,BlogCommendFromQuerySearch_31"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/macdroid/article/details/50515790" target="_blank" title="深入浅出 Makefile 简单实现">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em> Makefile 简单实现				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">01-14</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1678</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/macdroid/article/details/50515790" target="_blank" title="深入浅出 Makefile 简单实现">
+							<span class="desc oneline">最近在看makefile规则，简单写了一个samplecode验证了一把首先是代码目录架构，有A/B/C三个文件夹：A文件夹中的代码如下：Ahello.c#includevoidahello(cons...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/macdroid">来自：	<span class="blog_title"> macdroid的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/lgh1117/article/details/51278395,BlogCommendFromQuerySearch_32"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/lgh1117/article/details/51278395" target="_blank" title="深入浅出ES6（三）：生成器 Generators">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>ES6（三）：生成器 Generators				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">04-28</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							401</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/lgh1117/article/details/51278395" target="_blank" title="深入浅出ES6（三）：生成器 Generators">
+							<span class="desc oneline">ES6生成器（Generators）简介什么是生成器？我们从一个示例开始：function*quips(name){yield&quot;你好&quot;+name+&quot;!&quot;;yield&quot;希望你能喜欢这篇介绍ES6的译文&quot;...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/lgh1117">来自：	<span class="blog_title"> lgh1117的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/kesalin/article/details/6691766,BlogCommendFromQuerySearch_33"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/kesalin/article/details/6691766" target="_blank" title="[iOS]深入浅出 iOS 之生命周期">
+				<h4 class="text-truncate oneline">
+						[<em>iOS</em>]<em>深入浅出</em> <em>iOS</em> 之生命周期				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">08-16</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/kesalin/article/details/6691766" target="_blank" title="[iOS]深入浅出 iOS 之生命周期">
+							<span class="desc oneline">深入浅出iOS之生命周期罗朝辉（http://blog.csdn.net/kesalin） 转载请注明出处iOS应用程序的生命周期相比Android应用程序的生命周期来说，没那么简明易懂，但是也并不复...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/kesalin">来自：	<span class="blog_title"> 罗朝辉（飘飘白云）</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/svrsimon/article/details/8137197,BlogCommendFromQuerySearch_34"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/svrsimon/article/details/8137197" target="_blank" title="IOS深入浅出 iOS 之生命周期">
+				<h4 class="text-truncate oneline">
+						<em>IOS</em><em>深入浅出</em> <em>iOS</em> 之生命周期				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-01</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1248</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/svrsimon/article/details/8137197" target="_blank" title="IOS深入浅出 iOS 之生命周期">
+							<span class="desc oneline">iOS应用程序的生命周期又根据系统是否支持多线程分为两种：不支持多线程的iOS4之前的系统以及支持多线程的iOS4及其之后的系统。iOS4 之前系统，app的生命周期如下所示：step 1，点击 ap...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/svrsimon">来自：	<span class="blog_title"> 沈阳斌子</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/liu_jiuyang/article/details/83754128,BlogCommendFromQuerySearch_35"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/liu_jiuyang/article/details/83754128" target="_blank" title="IOS11，Swift4从入门到精通-02swift语言介绍">
+				<h4 class="text-truncate oneline">
+						<em>IOS</em>11，Swift4从入门到精通-02swift语言介绍				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-05</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							202</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/liu_jiuyang/article/details/83754128" target="_blank" title="IOS11，Swift4从入门到精通-02swift语言介绍">
+							<span class="desc oneline">谁适合阅读本教程？本教程适合想从事移动端(iphone)开发或OSX应用的编程人员，如果之前有编程基础更好。Swift简介Swift是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/liu_jiuyang">来自：	<span class="blog_title"> liu_jiuyang的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/mindfloating/article/details/39474123,BlogCommendFromQuerySearch_36"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/mindfloating/article/details/39474123" target="_blank" title="深入浅出 RPC - 深入篇">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em> RPC - 深入篇				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">09-22</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							29万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/mindfloating/article/details/39474123" target="_blank" title="深入浅出 RPC - 深入篇">
+							<span class="desc oneline"> 《深入篇》我们主要围绕RPC的功能目标和实现考量去展开，一个基本的RPC框架应该提供什么功能，满足什么要求以及如何去实现它？ RPC功能目标RPC的主要功能目标是让构建分布式计算（应用）更容易，在提...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/mindfloating">来自：	<span class="blog_title"> 瞬息之间</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/vic_chang/article/details/8455820,BlogCommendFromQuerySearch_37"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/vic_chang/article/details/8455820" target="_blank" title="深入浅出C语言(1) ----编译器的作用">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>C语言(1) ----<em>编译</em>器的作用				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">12-31</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3490</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/vic_chang/article/details/8455820" target="_blank" title="深入浅出C语言(1) ----编译器的作用">
+							<span class="desc oneline">在学习C语言的时候，一般人可能着重点在于C语法上，忽略了编译器的作用。而真正深入理解C语言是绝不能离开编译器的。C语言跟其他诸如C++，Java,C#，Perl等应该算是一种符号标准，真正实现这种标准...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/vic_chang">来自：	<span class="blog_title"> vic_chang的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/gameatp/8745257,BlogCommendFromQuerySearch_38"}'>
+			<a href="https://download.csdn.net/download/gameatp/8745257" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							protobuf 2.6.1 android <em>ios</em><em>编译</em>工程及<em>编译</em>好的库支持64位<em>ios</em>						</h4>
+						<span class="data float-right">05-27</span>
+					</div>
+					<div class="desc oneline">
+							protobuf 2.6.1 android ios编译工程及编译好的库支持64位ios					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/baidu_23886177/8193073,BlogCommendFromQuerySearch_39"}'>
+			<a href="https://download.csdn.net/download/baidu_23886177/8193073" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							<em>ios</em>常见<em>编译</em>问题						</h4>
+						<span class="data float-right">11-24</span>
+					</div>
+					<div class="desc oneline">
+							ios常见编译问题,xcode编译过程中出现的编译问题					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/llj549430243/6876325,BlogCommendFromQuerySearch_40"}'>
+			<a href="https://download.csdn.net/download/llj549430243/6876325" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							一步一步学习 <em>iOS</em> 5 编程(第三版).pdf						</h4>
+						<span class="data float-right">01-23</span>
+					</div>
+					<div class="desc oneline">
+							一步一步学习 iOS 5 编程(第三版).pdf，深入浅出，很详细，适合ios的学习者们。					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/j380587868/9913816,BlogCommendFromQuerySearch_41"}'>
+			<a href="https://download.csdn.net/download/j380587868/9913816" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							faac<em>编译</em>,libbfaac,<em>ios</em>						</h4>
+						<span class="data float-right">07-28</span>
+					</div>
+					<div class="desc oneline">
+							iOS 编译faac					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/yangzm/8597135,BlogCommendFromQuerySearch_42"}'>
+			<a href="https://download.csdn.net/download/yangzm/8597135" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							<em>ios</em> 上边ffmpeg <em>编译</em>包						</h4>
+						<span class="data float-right">04-15</span>
+					</div>
+					<div class="desc oneline">
+							ios ffmpeg 编译工具包。					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/liu0bing/8893809,BlogCommendFromQuerySearch_43"}'>
+			<a href="https://download.csdn.net/download/liu0bing/8893809" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							hadoop2.x入门视频，传智播客7天内部视频						</h4>
+						<span class="data float-right">07-13</span>
+					</div>
+					<div class="desc oneline">
+							这次分享的是部分hadoop的入门视频，适合入门学者，还需要深入学习的可以留言将加强的教程也分享给大家。
+入门视频我已经看过了，非常适合初学者，老手请绕过。					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq769651718/article/details/79357884,BlogCommendFromQuerySearch_44"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq769651718/article/details/79357884" target="_blank" title="Qt深入浅出（二）Qt编译机制">
+				<h4 class="text-truncate oneline">
+						Qt<em>深入浅出</em>（二）Qt<em>编译</em>机制				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">02-24</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							683</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq769651718/article/details/79357884" target="_blank" title="Qt深入浅出（二）Qt编译机制">
+							<span class="desc oneline">3Qt的编译机制3.1编译过程​	使用qmake.exe工具解析.pro文件，然后生成Makefile,通过makefile-32bit.exe解析Makefile文件来编译,可通过查看QtCreat...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq769651718">来自：	<span class="blog_title"> qq769651718的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/a86322803/article/details/72626560,BlogCommendFromQuerySearch_45"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/a86322803/article/details/72626560" target="_blank" title="ios 编译期和运行期">
+				<h4 class="text-truncate oneline">
+						<em>ios</em> <em>编译</em>期和运行期				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">05-22</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1035</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/a86322803/article/details/72626560" target="_blank" title="ios 编译期和运行期">
+							<span class="desc oneline">http://blog.csdn.net/Hello_Hwc/article/details/53557308http://blog.sina.com.cn/s/blog_12f70aa790102v...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/a86322803">来自：	<span class="blog_title"> a86322803的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/roger_zhou_feng/6446273,BlogCommendFromQuerySearch_46"}'>
+			<a href="https://download.csdn.net/download/roger_zhou_feng/6446273" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							<em>深入浅出</em>SQL(清晰带书签)中文版.pdf						</h4>
+						<span class="data float-right">10-24</span>
+					</div>
+					<div class="desc oneline">
+							你将从本书学到什么？.
+
+在如今的世界，数据就是力量，但是成功的真正秘诀却是管理你的数据的力量。本书带你进入sql语言的心脏地带，从使用insert和select这些基本的查询语法到使用子查询(subquery)、连接(join)和事务(...					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/nihao19871216/7171293,BlogCommendFromQuerySearch_47"}'>
+			<a href="https://download.csdn.net/download/nihao19871216/7171293" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							《<em>深入浅出</em>MFC》（中文pdf集合zip包 侯捷译）						</h4>
+						<span class="data float-right">04-10</span>
+					</div>
+					<div class="desc oneline">
+							《深入浅出MFC》（中文pdf集合zip包 侯捷译）。经典书籍，该书对C++编程水平的提高以及一些设计模式的理解有很好的帮助，不多说，建议大家认真看完。					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    			<div class="recommend-item-box recommend-box-ident recommend-download-box clearfix"  data-track-click='{"mod":"popu_387","con":",https://download.csdn.net/download/laoge/7437143,BlogCommendFromQuerySearch_48"}'>
+			<a href="https://download.csdn.net/download/laoge/7437143" target="_blank">
+				<div class="content clearfix">
+					<div class="">
+						<h4 class="text-truncate oneline clearfix">
+							<em>深入浅出</em>Excel，高清完整扫描PDF版						</h4>
+						<span class="data float-right">06-02</span>
+					</div>
+					<div class="desc oneline">
+							【感谢大家对我父亲的祝福，现病情已稳定但右手还是不能动，期待能早日康复。再次感谢大家！特与大家分享下新书！这是Head First系列的书，很是不错，我个人比较喜欢这样的风格！】
+    《深入浅出Excel》属于HeadFirst系列图...					</div>
+          <span class="type-show type-show-download">下载</span>
+				</div>
+			</a>
+		</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/zfbanddl/article/details/80744332,BlogCommendFromQuerySearch_49"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/zfbanddl/article/details/80744332" target="_blank" title="深入浅出nodejs">
+				<h4 class="text-truncate oneline">
+						<em>深入浅出</em>nodejs				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">06-20</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							199</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/zfbanddl/article/details/80744332" target="_blank" title="深入浅出nodejs">
+							<span class="desc oneline">下载地址 目录第1章  Node简介1.1  Node的诞生历程1.2  Node的命名与起源1.2.1  为什么是JavaScript1.2.2  为什么叫Node1.3  Node给JavaScr...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/zfbanddl">来自：	<span class="blog_title"> zfbanddl的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/suwangbber/article/details/72803095,BlogCommendHotData_1"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/suwangbber/article/details/72803095" target="_blank" title="Android studio 下百度定位API 505 错误 签名问题">
+				<h4 class="text-truncate oneline">
+						Android studio 下百度定位API 505 错误 签名问题				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">05-29</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							936</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/suwangbber/article/details/72803095" target="_blank" title="Android studio 下百度定位API 505 错误 签名问题">
+							<span class="desc oneline">使用百度定位API 时，一直出现505错误
+看到这篇 http://blog.csdn.net/zwp5566/article/details/52680474
+在申请KEY时使用cmd 在.an...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/suwangbber">来自：	<span class="blog_title"> suwangbber的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/a493823882/article/details/79282425,BlogCommendHotData_2"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/a493823882/article/details/79282425" target="_blank" title="MATLAB K-means聚类的介绍与使用">
+				<h4 class="text-truncate oneline">
+						MATLAB K-means聚类的介绍与使用				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">02-07</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/a493823882/article/details/79282425" target="_blank" title="MATLAB K-means聚类的介绍与使用">
+							<span class="desc oneline">K-means算法是硬聚类算法，是典型的基于原型的目标函数聚类方法的代表，它是数据点到原型的某种距离作为优化的目标函数，利用函数求极值的方法得到迭代运算的调整规则。K-means算法以偶是距离作为相似...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/a493823882">来自：	<span class="blog_title"> Seth的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/liangzaiEvil/article/details/78775602,BlogCommendHotData_3"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/liangzaiEvil/article/details/78775602" target="_blank" title="Linux kernel启动流程第一阶段">
+				<h4 class="text-truncate oneline">
+						Linux kernel启动流程第一阶段				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">12-11</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							358</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/liangzaiEvil/article/details/78775602" target="_blank" title="Linux kernel启动流程第一阶段">
+							<span class="desc oneline">kernel启动第一阶段：
+工作需要对kernel部分的启动流程进行学习，其中均为查找网络资源所得。...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/liangzaiEvil">来自：	<span class="blog_title"> liangzaiEvil的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/lubiaopan/article/details/6233517,BlogCommendHotData_4"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/lubiaopan/article/details/6233517" target="_blank" title=".NET和java的RSA互通，仅此而已">
+				<h4 class="text-truncate oneline">
+						.NET和java的RSA互通，仅此而已				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-09</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/lubiaopan/article/details/6233517" target="_blank" title=".NET和java的RSA互通，仅此而已">
+							<span class="desc oneline">RSA .net jva 互通 解决不能互通的问题</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/lubiaopan">来自：	<span class="blog_title"> lubiaopan的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_36381855/article/details/79809560,BlogCommendHotData_5"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq_36381855/article/details/79809560" target="_blank" title="Spring为Controller添加通知（异常通知）">
+				<h4 class="text-truncate oneline">
+						Spring为Controller添加通知（异常通知）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">04-03</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							159</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq_36381855/article/details/79809560" target="_blank" title="Spring为Controller添加通知（异常通知）">
+							<span class="desc oneline">（一）为什么要为 @Controller 添加通知可能会通过service层--&amp;amp;gt;Serviceimpl层--&amp;amp;gt;Dao层返回一个错误的请求信息。【需要抛出自定义异常---&amp;...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq_36381855">来自：	<span class="blog_title"> Zeus_龙的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/sx341125/article/details/39086717,BlogCommendHotData_6"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/sx341125/article/details/39086717" target="_blank" title="关于Arcgis数据导入mdb完成后如何立刻解除mdb的锁定">
+				<h4 class="text-truncate oneline">
+						关于Arcgis数据导入mdb完成后如何立刻解除mdb的锁定				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">09-05</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							5686</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/sx341125/article/details/39086717" target="_blank" title="关于Arcgis数据导入mdb完成后如何立刻解除mdb的锁定">
+							<span class="desc oneline">今天尝试</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/sx341125">来自：	<span class="blog_title"> Sean的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/z_demon801/article/details/79001297,BlogCommendHotData_7"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/z_demon801/article/details/79001297" target="_blank" title="Maven Web 简单的搭建程序">
+				<h4 class="text-truncate oneline">
+						Maven Web 简单的搭建程序				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">01-08</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							62</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/z_demon801/article/details/79001297" target="_blank" title="Maven Web 简单的搭建程序">
+							<span class="desc oneline">一、配置maven的环境
+
+
+       下载地址： http://maven.apache.org/download.cgi（window下载(Binary
+ zip)的）
+
+    ...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/z_demon801">来自：	<span class="blog_title"> 炕头-杂货铺</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/themagickeyjianan/article/details/52386981,BlogCommendHotData_8"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/themagickeyjianan/article/details/52386981" target="_blank" title="python图片处理类之~PIL.Image模块(ios android icon图标自动生成处理)">
+				<h4 class="text-truncate oneline">
+						python图片处理类之~PIL.Image模块(ios android icon图标自动生成处理)				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">08-31</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							5万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/themagickeyjianan/article/details/52386981" target="_blank" title="python图片处理类之~PIL.Image模块(ios android icon图标自动生成处理)">
+							<span class="desc oneline">1.从pyCharm提示下载PIL包
+
+ http://www.pythonware.com/products/pil/
+
+ 
+
+2.解压后，进入到目录下
+
+
+cd /Users/jianan/Dow...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/themagickeyjianan">来自：	<span class="blog_title"> 专注于cocos+unity+服务器全栈</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/csdn_aiyang/article/details/73177084,BlogCommendHotData_9"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/csdn_aiyang/article/details/73177084" target="_blank" title="23种开发设计模式总结，追求高内聚低耦合的编程思想。">
+				<h4 class="text-truncate oneline">
+						23种开发设计模式总结，追求高内聚低耦合的编程思想。				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">06-13</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							3926</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/csdn_aiyang/article/details/73177084" target="_blank" title="23种开发设计模式总结，追求高内聚低耦合的编程思想。">
+							<span class="desc oneline">一、概述
+二、7个设计原则
+三、创建型模式(5种)
+四、结构型模式(7种)
+五、行为型模式(11种)
+六、总结
+
+前言：熟练地掌握设计模式，并能在实际编程开发中灵活运用它们，不仅能使代码更规范，重用性...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/csdn_aiyang">来自：	<span class="blog_title"> csdn_aiyang的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/silentpebble/article/details/41279285,BlogCommendHotData_10"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/silentpebble/article/details/41279285" target="_blank" title="centos 查看命令源码">
+				<h4 class="text-truncate oneline">
+						centos 查看命令源码				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-19</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							7万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/silentpebble/article/details/41279285" target="_blank" title="centos 查看命令源码">
+							<span class="desc oneline"># yum install yum-utils
+
+
+设置源:
+[base-src]
+name=CentOS-5.4 - Base src -
+baseurl=http://vault.ce...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/silentpebble">来自：	<span class="blog_title"> linux/unix</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq574857122/article/details/16361033,BlogCommendHotData_11"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq574857122/article/details/16361033" target="_blank" title="强连通分量及缩点tarjan算法解析">
+				<h4 class="text-truncate oneline">
+						强连通分量及缩点tarjan算法解析				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-16</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							56万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq574857122/article/details/16361033" target="_blank" title="强连通分量及缩点tarjan算法解析">
+							<span class="desc oneline">强连通分量：
+简言之 就是找环（每条边只走一次，两两可达）
+孤立的一个点也是一个连通分量 
+ 
+使用tarjan算法 在嵌套的多个环中优先得到最大环( 最小环就是每个孤立点）
+ 
+定义：
+int Ti...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq574857122">来自：	<span class="blog_title"> 九野的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/u013541140/article/details/53222770,BlogCommendHotData_12"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/u013541140/article/details/53222770" target="_blank" title="《算法（第4版）》课后练习答案及相关问题解决方案">
+				<h4 class="text-truncate oneline">
+						《算法（第4版）》课后练习答案及相关问题解决方案				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">11-18</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/u013541140/article/details/53222770" target="_blank" title="《算法（第4版）》课后练习答案及相关问题解决方案">
+							<span class="desc oneline">《算法（第4版）》一书的代码和课后练习的答案我都分享到了我的GitHub上面，地址如下：
+https://github.com/jimmysuncpt/Algorithms
+如果对您有帮助，觉得还...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/u013541140">来自：	<span class="blog_title"> 孙强Jimmy的技术博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/zhangyihui1986/article/details/13065199,BlogCommendHotData_13"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/zhangyihui1986/article/details/13065199" target="_blank" title="RUtils -- 建立在Rserve之上的Java与R语言通信工具集">
+				<h4 class="text-truncate oneline">
+						RUtils -- 建立在Rserve之上的Java与R语言通信工具集				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">10-26</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							5087</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/zhangyihui1986/article/details/13065199" target="_blank" title="RUtils -- 建立在Rserve之上的Java与R语言通信工具集">
+							<span class="desc oneline">注1：RUtils是我偶然发现的一个工具包，它建立在Rserve之上，可以很大程度上简化我们的程序，关于Rserve网络上有很多相关的内容，这里不对其进行介绍，比如这里：http://blog.fen...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/zhangyihui1986">来自：	<span class="blog_title"> 竹叶青的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_24693837/article/details/70335491,BlogCommendHotData_15"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq_24693837/article/details/70335491" target="_blank" title="Java中BIO、NIO和AIO的区别和应用场景">
+				<h4 class="text-truncate oneline">
+						Java中BIO、NIO和AIO的区别和应用场景				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">04-21</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq_24693837/article/details/70335491" target="_blank" title="Java中BIO、NIO和AIO的区别和应用场景">
+							<span class="desc oneline">最近一直在准备面试，为了使自己的Java水平更上一个档次，拜读了李林峰老师的《Netty权威指南》，了解了Java关于IO的发展和最新的技术，真是受益匪浅，现在把我总结的关于BIO、NIO和AIO的区...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq_24693837">来自：	<span class="blog_title"> 我的编程世界</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_36892341/article/details/73918672,BlogCommendHotData_16"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/qq_36892341/article/details/73918672" target="_blank" title="linux上安装Docker(非常简单的安装方法)">
+				<h4 class="text-truncate oneline">
+						linux上安装Docker(非常简单的安装方法)				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">06-29</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							19万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/qq_36892341/article/details/73918672" target="_blank" title="linux上安装Docker(非常简单的安装方法)">
+							<span class="desc oneline">最近比较有空，大四出来实习几个月了，作为实习狗的我，被叫去研究Docker了，汗汗！
+
+Docker的三大核心概念：镜像、容器、仓库
+镜像：类似虚拟机的镜像、用俗话说就是安装文件。
+容器：类似一个轻量...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/qq_36892341">来自：	<span class="blog_title"> 我走小路的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/a378881925/article/details/42835497,BlogCommendHotData_17"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/a378881925/article/details/42835497" target="_blank" title="Android 卸载监听详解">
+				<h4 class="text-truncate oneline">
+						Android 卸载监听详解				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">01-18</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							4万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/a378881925/article/details/42835497" target="_blank" title="Android 卸载监听详解">
+							<span class="desc oneline">目前市场上比较多的应用在用户卸载后会弹出意见反馈界面，比如360手机卫士，腾讯手机管家，应用宝等等，虽然本人不太认同其交互方式，但是在技术实现上还是可以稍微研究下的。其实要实现这个功能，最主要的就是监...</span>
+						</a>
+						  <span class="blog_title_box oneline no-title">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/lijieneptune/article/details/3010127,BlogCommendHotData_18"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/lijieneptune/article/details/3010127" target="_blank" title="数据挖掘算法分析">
+				<h4 class="text-truncate oneline">
+						数据挖掘算法分析				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">10-02</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							1万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/lijieneptune/article/details/3010127" target="_blank" title="数据挖掘算法分析">
+							<span class="desc oneline"> 分类         分类是用于识别什么样的事务属于哪一类的方法，可用于分类的算法有决策树、bayes分类、神经网络、支持向量机等等。决策树例1         一个自行车厂商想要通过广告宣传来吸引...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/lijieneptune">来自：	<span class="blog_title"> lijieneptune的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/gefangshuai/article/details/50328451,BlogCommendHotData_19"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/gefangshuai/article/details/50328451" target="_blank" title="关于SpringBoot bean无法注入的问题（与文件包位置有关）">
+				<h4 class="text-truncate oneline">
+						关于SpringBoot bean无法注入的问题（与文件包位置有关）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">12-16</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							16万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/gefangshuai/article/details/50328451" target="_blank" title="关于SpringBoot bean无法注入的问题（与文件包位置有关）">
+							<span class="desc oneline">问题场景描述整个项目通过Maven构建，大致结构如下：
+核心Spring框架一个module spring-boot-base
+service和dao一个module server-core
+提供系统...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/gefangshuai">来自：	<span class="blog_title"> 开发随笔</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/yangwei282367751/article/details/52426911,BlogCommendHotData_20"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/yangwei282367751/article/details/52426911" target="_blank" title="关于计算时间复杂度和空间复杂度">
+				<h4 class="text-truncate oneline">
+						关于计算时间复杂度和空间复杂度				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">09-04</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							5万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/yangwei282367751/article/details/52426911" target="_blank" title="关于计算时间复杂度和空间复杂度">
+							<span class="desc oneline">相信学习编程的同学，或多或少都接触到算法的时间复杂度和空间复杂度了，那我来讲讲怎么计算。
+       常用的算法的时间复杂度和空间复杂度 一，求解算法的时间复杂度，其具体步骤是：
+
+　　⑴ 找出算法...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/yangwei282367751">来自：	<span class="blog_title"> 杨威的博客</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/d7011800/article/details/8692624,BlogCommendHotData_21"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/d7011800/article/details/8692624" target="_blank" title="(原创)easyui前台改变datagrid某单元格的值">
+				<h4 class="text-truncate oneline">
+						(原创)easyui前台改变datagrid某单元格的值				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-19</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							6万+</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/d7011800/article/details/8692624" target="_blank" title="(原创)easyui前台改变datagrid某单元格的值">
+							<span class="desc oneline">有时候前台完成某个操作后要修改datagrid的值,
+也许这个datagrid是没有保存的,
+所以要修改后才能传递到后台;
+也许要其他操作过后才需请求后台;
+这些情况都需要前台对datagri...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/d7011800">来自：	<span class="blog_title"> d7011800的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+    		<div class="recommend-item-box recommend-box-ident type_blog clearfix"  data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/dongweionly/article/details/88058873,BlogCommendHotData_22"}'>
+			<div class="content">
+				<a href="https://blog.csdn.net/dongweionly/article/details/88058873" target="_blank" title="Requests后用Beautifulsoup找不到指定元素(原来是页面元素被注释)">
+				<h4 class="text-truncate oneline">
+						Requests后用Beautifulsoup找不到指定元素(原来是页面元素被注释)				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="date-and-readNum oneline">
+						<span class="date hover-show">03-01</span>
+						<span class="read-num hover-hide">
+              阅读数 
+							20</span>
+						</p>
+					</div>
+				</a>
+					<p class="content">
+						<a href="https://blog.csdn.net/dongweionly/article/details/88058873" target="_blank" title="Requests后用Beautifulsoup找不到指定元素(原来是页面元素被注释)">
+							<span class="desc oneline">这个问题是在Requests抓取百度贴吧内容列表时出现，可能在抓取其他某些网页时也会出现这个问题。
+
+在用Requests时大家习惯加上header，这个header往往是Chrome的header。...</span>
+						</a>
+						  <span class="blog_title_box oneline ">
+							                <span class="type-show type-show-blog type-show-after">博文</span>
+                                  <a target="_blank" href="https://blog.csdn.net/dongweionly">来自：	<span class="blog_title"> William_Dong的专栏</span></a>
+                							              </span>
+					</p>
+			</div>
+					</div>
+	
+    
+    
+        <div class="recommend-item-box type_hot_word">
+            <div class="content clearfix">
+        <div class="word float-left">
+                          <span>
+            <a href="https://edu.csdn.net/courses/o230_s287_k " target="_blank">
+            iOS          </a></span>
+                                  <span>
+            <a href="https://edu.csdn.net/courses/o230_s287_k " target="_blank">
+            iOS课程          </a></span>
+                                  <span>
+            <a href="https://edu.csdn.net/courses/o230_s287_k " target="_blank">
+            iOS学费          </a></span>
+                                  <span>
+            <a href="https://edu.csdn.net/courses/o230_s287_k " target="_blank">
+            iOS培训          </a></span>
+                                  <span>
+            <a href="https://edu.csdn.net/combos/o230_s287_l0_t " target="_blank">
+            iOS课程          </a></span>
+                        </div>
+      </div>
+                  <div class="content clearfix">
+        <div class="float-left">
+                  <span>
+            <a href="https://www.csdn.net/gather_1a/MtjaEg4sMDU2My1kb3dubG9hZAO0O0OO0O0O.html" target="_blank">
+            ios获取idfa</a>
+          </span>
+                  <span>
+            <a href="https://www.csdn.net/gather_11/MtjaIgwsNzk3Ni1kb3dubG9hZAO0O0OO0O0O.html" target="_blank">
+            ios 动态修改约束</a>
+          </span>
+                  <span>
+            <a href="https://www.csdn.net/gather_10/MtTaYgwsNzkyMS1kb3dubG9hZAO0O0OO0O0O.html" target="_blank">
+            server的安全控制模型是什么 sql</a>
+          </span>
+                  <span>
+            <a href="https://www.csdn.net/gather_12/MtTakgxsODg1Ni1kb3dubG9hZAO0O0OO0O0O.html" target="_blank">
+            android title搜索</a>
+          </span>
+                  <span>
+            <a href="https://www.csdn.net/gather_4a/MtzaUgzsNDItZWR1.html" target="_blank">
+            产品经理深入浅出课程</a>
+          </span>
+                  <span>
+            <a href="https://www.csdn.net/gather_4a/MtzaUg0sODMtZWR1.html" target="_blank">
+            产品经理深入浅出视频</a>
+          </span>
+                </div>
+      </div>
+          </div>
+
+
+            <div class="recommend-loading-box">
+                <img src='https://csdnimg.cn/release/phoenix/images/feedLoading.gif'>
+            </div>
+            <div class="recommend-end-box">
+                <p class="text-center">没有更多推荐了，<a href="https://blog.csdn.net/" class="c-blue c-blue-hover c-blue-focus">返回首页</a></p>
+            </div>
+        </div>
+    </main>
+
+    <aside>
+		    <div id="asideProfile" class="aside-box">
+    <!-- <h3 class="aside-title">个人资料</h3> -->
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/Hello_Hwc">
+                <img src="https://avatar.csdn.net/C/3/C/3_hello_hwc.jpg" class="avatar_pic">
+            </a>
+            
+        </div>
+        <div class="user-info d-flex justify-content-center flex-column">
+            <p class="name csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a href="https://blog.csdn.net/Hello_Hwc" target="_blank" class="" id="uid">黄文臣</a>
+            </p>
+                          <p class="flag expert">
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#csdnc-blogexpert"></use>
+                </svg>
+                博客专家
+              </p>
+                    </div>
+                <div class="opt-box d-flex justify-content-center flex-column">
+            <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a class="btn btn-sm btn-red-hollow attention" id="btnAttent">关注</a>
+            </span>
+        </div>
+            </div>
+    <div class="data-info d-flex item-tiling">
+                <dl class="text-center" title="300">
+                        <dt><a href="https://blog.csdn.net/hello_hwc?t=1">原创</a></dt>
+            <dd><a href="https://blog.csdn.net/hello_hwc?t=1"><span class="count">300</span></a></dd>
+                    </dl>
+        <dl class="text-center" id="fanBox" title="1305">
+            <dt>粉丝</dt>
+            <dd><span class="count" id="fan">1305</span></dd>
+        </dl>
+        <dl class="text-center" title="1096">
+            <dt>喜欢</dt>
+            <dd><span class="count">1096</span></dd>
+        </dl>
+        <dl class="text-center" title="376">
+            <dt>评论</dt>
+            <dd><span class="count">376</span></dd>
+        </dl>
+    </div>
+    <div class="grade-box clearfix">
+        <dl>
+            <dt>等级：</dt>
+            <dd>
+                <a href="https://blog.csdn.net/home/help.html#level" title="7级,点击查看等级说明" target="_blank">
+                    <svg class="icon icon-level" aria-hidden="true">
+                        <use xlink:href="#csdnc-bloglevel-7"></use>
+                    </svg>
+                </a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>访问：</dt>
+            <dd title="1625477">
+                162万+            </dd>
+        </dl>
+        <dl>
+            <dt>积分：</dt>
+            <dd title="17414">
+                1万+            </dd>
+        </dl>
+        <dl title="921">
+            <dt>排名：</dt>
+            <dd>921</dd>
+        </dl>
+    </div>
+        <div class="badge-box d-flex">
+        <span>勋章：</span>
+                <div class="icon-badge" title="专栏达人">
+            <div class="mouse-box">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#csdnc-m-columns"></use>
+                </svg>
+                <div class="icon-arrow"></div>
+            </div>
+            <div class="grade-detail-box">
+                <div class="pos-box">
+                    <div class="left-box d-flex justify-content-center align-items-center flex-column">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#csdnc-m-columns"></use>
+                        </svg>
+                        <p>专栏达人</p>
+                    </div>
+                    <div class="right-box d-flex justify-content-center align-items-center">
+                        授予成功创建个人博客专栏的用户。专栏中添加五篇以上博文即可点亮！撰写博客专栏浓缩技术精华，专栏达人就是你！
+                    </div>
+                </div>
+            </div>
+        </div>
+                                                        <script>
+            (function ($) {
+                setTimeout(function(){
+                    $('div.icon-badge.show-moment').removeClass('show-moment');
+                }, 5000);
+            })(window.jQuery)
+        </script>
+    </div>
+    </div>
+		    		    <!--自定义模块-->
+<div id="asideCustom42071412" class="aside-box custom-box">
+    <h3 class="aside-title">Github & StackOverflow</h3>
+    <div class="aside-content clearfix">
+        <a href="https://github.com/LeoMobileDeveloper">
+<img src="https://raw.githubusercontent.com/LeoMobileDeveloper/React-Native-Files/master/flair.png" width="208">
+</a>
+</br>
+<a href="https://stackoverflow.com/users/3940672/leo"><img src="https://stackexchange.com/users/flair/4889039.png" width="208" height="58" alt="profile for Leo on Stack Exchange, a network of free, community-driven Q&A sites" title="profile for Leo on Stack Exchange, a network of free, community-driven Q&A sites"></a>    </div>
+</div>
+		    <div id="asideNewArticle" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/Hello_Hwc/article/details/84311933" target="_blank">iOS 性能优化 - TimeProfiler分析代码耗时</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/Hello_Hwc/article/details/83241475" target="_blank">iOS 性能优化 - Allocations分析内存分配</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/Hello_Hwc/article/details/82891405" target="_blank">XCode 10打包上传后在iOS 9上Crash（2018）</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/Hello_Hwc/article/details/81609183" target="_blank">聊聊AppDelegate解耦</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/Hello_Hwc/article/details/81023561" target="_blank">实现一个优雅的iOS事件总线</a>
+            </li>
+                    </ul>
+    </div>
+</div>
+		    <div id="asideColumn" class="aside-box flexible-box">
+    <h3 class="aside-title">博主专栏</h3>
+    <div class="aside-content">
+        <ul class="column-box csdn-tracking-statistics tracking-click" data-mod="popu_520" >
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/swift-hwc">
+                            <img src="https://img-blog.csdn.net/20151123180046083?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/swift-hwc">learning swift with hwc</a></p>
+                        <div class="data">文章数：<span class="count">18 篇</span> 访问量：<span>5万+</span></div>
+                    </div>
+                </li>
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/hwclinux">
+                            <img src="https://img-blog.csdn.net/20151123180053552?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/hwclinux">由浅至深学习Linux</a></p>
+                        <div class="data">文章数：<span class="count">14 篇</span> 访问量：<span>13万+</span></div>
+                    </div>
+                </li>
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/swfitexperience">
+                            <img src="https://img-blog.csdn.net/20151123180056270?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/swfitexperience">Swift实用技术</a></p>
+                        <div class="data">文章数：<span class="count">14 篇</span> 访问量：<span>8万+</span></div>
+                    </div>
+                </li>
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/swift-gcd">
+                            <img src="https://img-blog.csdn.net/20170602162343841?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/swift-gcd">Swift下的GCD详解</a></p>
+                        <div class="data">文章数：<span class="count">5 篇</span> 访问量：<span>6万+</span></div>
+                    </div>
+                </li>
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/hwc-xiaozhao">
+                            <img src="https://img-blog.csdn.net/20151123180107677?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/hwc-xiaozhao">校招面试</a></p>
+                        <div class="data">文章数：<span class="count">2 篇</span> 访问量：<span>6085</span></div>
+                    </div>
+                </li>
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/huangwenchen-ios-sdk">
+                            <img src="https://img-blog.csdn.net/20151123180146099?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/huangwenchen-ios-sdk">iOS开发详解</a></p>
+                        <div class="data">文章数：<span class="count">73 篇</span> 访问量：<span>41万+</span></div>
+                    </div>
+                </li>
+                            <li class="clearfix">
+                    <div class="img-box float-left">
+                        <a class="d-flex align-items-center" href="https://leomobiledeveloper.blog.csdn.net/column/info/wenchen-ios-app">
+                            <img src="https://img-blog.csdn.net/20151123180248614?imageView2/5/w/120/h/120" alt="">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <p class="title"><a href="https://leomobiledeveloper.blog.csdn.net/column/info/wenchen-ios-app">iOS项目实战</a></p>
+                        <div class="data">文章数：<span class="count">3 篇</span> 访问量：<span>2万+</span></div>
+                    </div>
+                </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideCategory" class="aside-box flexible-box">
+    <h3 class="aside-title">个人分类</h3>
+    <div class="aside-content">
+        <ul>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/3108657">
+                    <span class="title oneline">自己的iOS库</span>
+                    <span class="count float-right">12篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/5933595">
+                    <span class="title oneline">iOS进阶</span>
+                    <span class="count float-right">40篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/3089269">
+                    <span class="title oneline">Swift</span>
+                    <span class="count float-right">23篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/6826664">
+                    <span class="title oneline">React Native</span>
+                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/3046579">
+                    <span class="title oneline">数据持久化＋CoreData</span>
+                    <span class="count float-right">17篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2470499">
+                    <span class="title oneline">iOS基础</span>
+                    <span class="count float-right">29篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2611845">
+                    <span class="title oneline">Swift入门教程（1.0）</span>
+                    <span class="count float-right">30篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2826893">
+                    <span class="title oneline">CoreAnimation</span>
+                    <span class="count float-right">16篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2836491">
+                    <span class="title oneline">Foundation</span>
+                    <span class="count float-right">14篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/3046883">
+                    <span class="title oneline">UIKit</span>
+                    <span class="count float-right">23篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2885601">
+                    <span class="title oneline">iOS 网络编程</span>
+                    <span class="count float-right">8篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2885607">
+                    <span class="title oneline">iOS 多线程</span>
+                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2470501">
+                    <span class="title oneline">C++</span>
+                    <span class="count float-right">14篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2470497">
+                    <span class="title oneline">Linux</span>
+                    <span class="count float-right">17篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2840017">
+                    <span class="title oneline">小技巧</span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/2608419">
+                    <span class="title oneline">综合</span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/6003037">
+                    <span class="title oneline">设计模式</span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/6510683">
+                    <span class="title oneline">吐槽</span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a class="clearfix" href="https://blog.csdn.net/hello_hwc/article/category/7741586">
+                    <span class="title oneline">iOS代码调试</span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+							<li>
+					<a href="https://blog.csdn.net/hello_hwc/article/details/40118129">Linux Sed命令详解+如何替换换行符&amp;quot;\n&amp;quot;(很多面试问道)</a>
+					<p class="read">阅读数 <span>69641</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/hello_hwc/article/details/51612139">React Native开发之IDE（Atom+Nuclide）安装，运行，调试</a>
+					<p class="read">阅读数 <span>56910</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/hello_hwc/article/details/51859330">RxSwift使用教程</a>
+					<p class="read">阅读数 <span>37964</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/hello_hwc/article/details/51775696">React Native开发之动画(Animations)</a>
+					<p class="read">阅读数 <span>35572</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/hello_hwc/article/details/44748785">Linux时间同步＋国内常用的NTP服务器地址</a>
+					<p class="read">阅读数 <span>28235</span></p>
+				</li>
+					</ul>
+	</div>
+</div>
+		<div id="asideFooter">
+				<div class="aside-box">
+			<div class="persion_article">
+			</div>
+		</div>
+	</div>
+</aside>
+<script src="https://csdnimg.cn/pubfooter/js/publib_footer-1.0.3.js" data-isfootertrack="false" type="text/javascript"></script>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).remove();
+	})
+</script>
+</div>
+<div class="mask-dark"></div>
+<div class="pulllog-box" style="display: block;">
+	<div class="pulllog clearfix">
+		<span class="text float-left">
+            <div id="dmp_ad_69"><div id="kp_box_69" data-pid="69" data-track-view='{"mod":"kp_popu_69-864","con":",,"}' data-track-click='{"mod":"kp_popu_69-864","con":",,"}'><div style="float:left;margin-right:5px;border:1px solid #f13d3d;padding:2px 5px 0px 5px;">
+<a href="https://edu.csdn.net/topic/python115?utm_source=ditong" target="_blank" style="color:#f13d3d;font-weight:bold;text-decoration:none;font-size:15px;">Python全面学习指南</a>
+</div>
+
+<div style="float:left;margin-right:5px;border:1px solid #00BFFF;padding:2px 5px 0px 5px;background:#FFF0F5;">
+<a href="https://edu.csdn.net/topic/ai30?utm_source=ditong" target="_blank" style="color:#00BFFF;font-weight:bold;text-decoration:none;font-size:15px;">转型AI人工智能指南</a>
+</div>
+
+<div style="float:left;margin-right:5px;border:1px solid #f13d3d;padding:2px 5px 0px 5px;">
+<a href="https://edu.csdn.net/topic/ai30?utm_source=ditong" target="_blank" style="color:#f13d3d;font-weight:bold;text-decoration:none;font-size:15px;">BAT的AI岗要求</a>
+</div>
+
+<div style="float:left;margin-right:5px;border:1px solid #00BFFF;padding:2px 5px 0px 5px;background:#FFF0F5;">
+<a href="https://gitbook.cn/gitchat/column/5c86261f029620739b167498?utm_source=wzl190315" target="_blank" style="color:#00BFFF;font-weight:bold;text-decoration:none;font-size:15px;">28 天算法训练营</a>
+</div>
+
+<div style="float:left;margin-right:5px;border:1px solid #f13d3d;padding:2px 5px 0px 5px;">
+<a href="https://pythondevdays2019.csdn.net/?utm_source=dbad" target=" target="_blank" style="color:#f13d3d;font-weight:bold;text-decoration:none;font-size:15px;">2019 Python 开发者日</a>
+</div>
+
+
+
+<div style="float:left;">
+<script type="text/javascript" src="//rabc1.iteye.com/common/js/ndr3h.js?b=wosyvccl"></script>
+<!-- 长文字链
+<script type="text/javascript" src="//rabc1.iteye.com/common/5klj5.js?kfxbghx=bx"></script>
+-->
+</div></div></div>            		</span>
+		<div class="pulllog-btn float-right clearfix">
+            <div class="float-left csdn-tracking-statistics tracking-click" data-mod="popu_557">
+                <a class="pulllog-login">登录</a>
+            </div>
+            <div class="pulllog-sigin float-left csdn-tracking-statistics tracking-click" data-mod="popu_558">
+                <a href="https://passport.csdn.net/account/mobileregister" target="_blank">注册</a>
+            </div>
+            <button class="btn-close">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#csdnc-times"></use>
+                </svg>
+            </button>
+		</div>
+	</div>
+</div>
+<div id="loginWrap" style="display:none"></div>
+<div class="tool-box">
+	<ul class="meau-list">
+		<li class="btn-like-box long-width">
+			<button class=" long-height hover-box btn-like " title="点赞">
+				<svg class="icon active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup-ok"></use>
+				</svg>
+				<svg class="icon no-active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup"></use>
+				</svg>
+				<span class="hover-show text-box text">
+					<span class="no-active">点赞</span>
+					<span class="active">取消点赞</span>
+				</span>
+				<p>14</p>
+			</button>
+		</li>
+		<li class="">
+						<a class="btn-comments long-height hover-box" title="写评论" href="#commentBox">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-comments"></use>
+				</svg>
+				<span class="hover-show text">评论</span>
+				<p class="">
+						7				</p>
+			</a>
+		</li>
+		<li class="toc-container-box" id="liTocBox">
+			<button class="btn-toc low-height hover-box" title="目录">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-contents"></use>
+				</svg>
+				<span class="hover-show text">目录</span>
+			</button>
+			<div class="toc-container">
+				<div class="pos-box">
+					<div class="icon-arrow"></div>
+					<div class="scroll-box">
+						<div class="toc-box"></div>
+					</div>
+				</div>
+				<div class="opt-box">
+					<button class="btn-opt prev nomore" title="向上">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevronup"></use>
+						</svg>
+					</button>
+					<button class="btn-opt next">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevrondown"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<button class="btn-bookmark low-height hover-box" title="收藏">
+				<svg class="icon active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark-ok"></use>
+				</svg>
+				<svg class="icon no-active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark"></use>
+				</svg>
+					<span class="hover-show text">收藏</span>
+				<!-- <span class="hover-show text-box text">
+					<span class="no-active">收藏</span>
+					<span class="active">取消收藏</span>
+				</span> -->
+			</button>
+		</li>
+		<li class="bdsharebuttonbox">
+			<div class="weixin-qr btn-comments low-height hover-box" >
+        <a href="#" class="bds_weixin clear-share-style" data-cmd="weixin" title="手机看"></a>
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-usephone"></use>
+				</svg>
+				<span class="hover-show text text3">
+					手机看
+				</span>
+			</div>
+		</li>
+							<li class="widescreen-hide">
+				<a class="btn-comments low-height hover-box" href="https://blog.csdn.net/hello_hwc/article/details/84311933" title="iOS 性能优化 - TimeProfiler分析代码耗时">
+					<svg class="icon hover-hide" aria-hidden="true">
+						<use xlink:href="#csdnc-chevronleft"></use>
+					</svg>
+					<span class="hover-show text text3">上一篇</span>
+				</a>
+			</li>
+								<!-- 宽屏更多按钮 -->
+		<li class="widescreen-more">
+			<a class="btn-comments chat-ask-button low-height hover-box" title="快问" href="#chatqa">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-more"></use>
+				</svg>
+				<span class="hover-show text">更多</span>
+				
+			</a>
+			<ul class="widescreen-more-box">
+													<li class="widescreen-more">
+						<a class="btn-comments low-height hover-box" href="https://blog.csdn.net/hello_hwc/article/details/84311933" title="iOS 性能优化 - TimeProfiler分析代码耗时">
+							<svg class="icon hover-hide" aria-hidden="true">
+								<use xlink:href="#csdnc-chevronleft"></use>
+							</svg>
+							<span class="hover-show text text3">上一篇</span>
+						</a>
+					</li>
+											</ul>
+		</li>
+	</ul>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'https://csdnimg.cn/static/api/js/share.js?v=89860594'];</script>
+<script>
+    var recommendCount = 71;
+    recommendCount = recommendCount > 1 ? (recommendCount + (recommendCount>6 ? 2 : 1)) : recommendCount;
+    var articleTit = articleTitles;
+    var ChannelId = 1;
+    var articleId = "85226147";
+    var commentscount = 7;
+    var islock = false;
+    var curentUrl = "https://blog.csdn.net/Hello_Hwc/article/details/85226147";
+    var myUrl = "https://my.csdn.net/";
+    //1禁止评论，2正常
+    var commentAuth = 2;
+    //百度搜索
+    var baiduKey = "深入浅出iOS编译 - Leo的专栏";
+    var needInsertBaidu = true;
+    // 代码段样式
+    var codeStyle = 'atom-one-dark';
+		var highlight = ["\u6df1\u5165\u6d45\u51fa","ios","\u7f16\u8bd1"];//高亮数组
+		// 相关推荐博主数据
+    var RecommendBlogExpertList = [{"user_name":"openglnewbee","nick_name":"openglnewbee","avatar":"https:\/\/avatar.csdn.net\/C\/9\/A\/3_openglnewbee.jpg","is_expert":true,"article_count":384,"rank":"3000+"},{"user_name":"mr_raptor","nick_name":"mr_raptor","avatar":"https:\/\/avatar.csdn.net\/7\/B\/C\/3_mr_raptor.jpg","is_expert":true,"article_count":210,"rank":"1000+"},{"user_name":"kesalin","nick_name":"\u98d8\u98d8\u767d\u4e91","avatar":"https:\/\/avatar.csdn.net\/1\/5\/F\/3_kesalin.jpg","is_expert":true,"article_count":252,"rank":"707"},{"user_name":"mindfloating","nick_name":"mindwind-_-","avatar":"https:\/\/avatar.csdn.net\/6\/8\/8\/3_mindfloating.jpg","is_expert":true,"article_count":134,"rank":"4000+"},{"user_name":"cang1994cang","nick_name":"cang1994cang","avatar":"https:\/\/avatar.csdn.net\/9\/2\/5\/3_cang1994cang.jpg","is_expert":false,"article_count":1,"rank":"\u5343\u91cc\u4e4b\u5916"},{"user_name":"kuangdacaikuang","nick_name":"\u4e0a\u8fdb\u6c42\u77e5,\u8ba4\u771f\u601d\u8fa8","avatar":"https:\/\/avatar.csdn.net\/A\/E\/F\/3_kuangdacaikuang.jpg","is_expert":false,"article_count":257,"rank":"7000+"},{"user_name":"xringm","nick_name":"xringm","avatar":"https:\/\/avatar.csdn.net\/0\/1\/4\/3_xringm.jpg","is_expert":false,"article_count":103,"rank":"\u5343\u91cc\u4e4b\u5916"},{"user_name":"qq_18505715","nick_name":"YFL_iOS","avatar":"https:\/\/avatar.csdn.net\/2\/D\/5\/3_qq_18505715.jpg","is_expert":false,"article_count":164,"rank":"\u5343\u91cc\u4e4b\u5916"},{"user_name":"hucoy","nick_name":"hucoy","avatar":"https:\/\/avatar.csdn.net\/7\/8\/6\/3_hucoy.jpg","is_expert":false,"article_count":15,"rank":"\u5343\u91cc\u4e4b\u5916"},{"user_name":"ylzyd12345","nick_name":"ylzyd12345","avatar":"https:\/\/avatar.csdn.net\/B\/E\/1\/3_ylzyd12345.jpg","is_expert":false,"article_count":0,"rank":"\u5343\u91cc\u4e4b\u5916"}];
+	var articleType = 1;
+	var CopyrightContent = '本文为博主原创文章，如需转载请注明作者和出处';
+    var current_user_name = '';
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.js"></script>
+<script src='https://csdnimg.cn/public/common/gotop/js/goTop-v1.0.min.js?v201811201455'></script>
+<script>
+    GoTop({
+        right: 8,
+        hasReport: true,
+        reportFun: function() {
+            showReport(false,articleTit);
+        }
+    })
+</script>
+</body>
+
+<!-- 高亮未与 markdown兼容  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.3.8/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-dark.css">
+	<script type="text/javascript" src="https://csdnimg.cn/release/phoenix/production/pc_wap_common-3bc59f8f2b.js" /></script>
+	
+	<!-- <script type="text/javascript" src="https://csdnimg.cn/release/phoenix/production/markdownCopy-5c7fa7386e.js" /></script> -->
+
+
+<script src="//g.csdnimg.cn/??login-box/1.0.5/login-box.js,login-box/1.0.5/login-auto.js?t=20190307095522"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/common-38af002ba7.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/detail-715f188409.min.js"></script>
+
+	<script src="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-fc7383b956.min.js"></script>
+
+<script src="//g.csdnimg.cn/baidu-search/1.0.0/baidu-search.js"  type="text/javascript"></script>
+
+
+<!-- <script type="text/javascript" src="//g.csdnimg.cn/check-adb/1.0.2/check-adb.js"></script> -->
+
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript">
+    </script>
+<script src="https://gh.bdstatic.com/static/gh/js/sdk/bword.min.js"></script>
+</html>

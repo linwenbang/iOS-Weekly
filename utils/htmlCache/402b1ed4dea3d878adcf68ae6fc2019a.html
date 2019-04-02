@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="no-js">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>A modular analytics layer in Swift | Lord Codes</title>
+
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="A modular analytics layer in Swift" />
+<meta name="author" content="Andrew Lord" />
+<meta property="og:locale" content="en_GB" />
+<meta name="description" content="Ensuring your analytics implementation is easy to use, alter and extend can be difficult. Let’s have a look at a possible solution by building a modular analytics layer together in Swift." />
+<meta property="og:description" content="Ensuring your analytics implementation is easy to use, alter and extend can be difficult. Let’s have a look at a possible solution by building a modular analytics layer together in Swift." />
+<link rel="canonical" href="https://www.lordcodes.com/posts/a-modular-analytics-layer-in-swift" />
+<meta property="og:url" content="https://www.lordcodes.com/posts/a-modular-analytics-layer-in-swift" />
+<meta property="og:site_name" content="Lord Codes" />
+<meta property="og:image" content="https://www.lordcodes.com/assets/img/posts/analytics-pencils.jpg" />
+<meta property="og:image:height" content="902" />
+<meta property="og:image:width" content="1600" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-27T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@lordcodes" />
+<meta name="twitter:creator" content="@lordcodes" />
+<script type="application/ld+json">
+{"description":"Ensuring your analytics implementation is easy to use, alter and extend can be difficult. Let’s have a look at a possible solution by building a modular analytics layer together in Swift.","author":{"@type":"Person","name":"Andrew Lord"},"@type":"BlogPosting","url":"https://www.lordcodes.com/posts/a-modular-analytics-layer-in-swift","image":{"width":1600,"height":902,"feature":"/assets/img/posts/analytics-pencils.jpg","url":"https://www.lordcodes.com/assets/img/posts/analytics-pencils.jpg","@type":"imageObject"},"headline":"A modular analytics layer in Swift","dateModified":"2019-01-24T00:00:00+00:00","datePublished":"2018-11-27T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.lordcodes.com/posts/a-modular-analytics-layer-in-swift"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+    
+
+    
+      <meta property="article:author" content="https://www.lordcodes.com/about" />
+    
+    
+     <meta property="article:section" content="ios" />
+    
+    
+      
+        <meta property="article:tag" content="api-design" />
+      
+    
+  
+
+  <meta property="og:type" content="article" />
+
+  
+    <link href="https://micro.blog/lordcodes" rel="me" />
+  
+
+  <meta name="google-site-verification" content="8FruC-rM4vfdJWF3le-2-pJaKonvk0dG08xB4WSOIWE" />
+  <meta name="msvalidate.01" content="21B015C389C821A664B8C8D67FD26071" />
+  <meta name="yandex-verification" content="f1a97077c982aba4" />
+
+  <!-- Icons -->
+
+  <link rel="apple-touch-icon" sizes="57x57" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-57x57.png?v=5">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-60x60.png?v=5">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-72x72.png?v=5">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-76x76.png?v=5">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-114x114.png?v=5">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-120x120.png?v=5">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-144x144.png?v=5">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-152x152.png?v=5">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.lordcodes.com/assets/img/icon/apple-touch-icon-180x180.png?v=5">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.lordcodes.com/assets/img/icon/favicon-32x32.png?v=5">
+  <!-- <link rel="icon" type="image/png" sizes="194x194" href="https://www.lordcodes.com/assets/img/icon/favicon-194x194.png?v=5"> -->
+  <link rel="icon" type="image/png" sizes="192x192" href="https://www.lordcodes.com/assets/img/icon/android-chrome-192x192.png?v=5">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.lordcodes.com/assets/img/icon/favicon-16x16.png?v=5">
+  <link rel="mask-icon" href="https://www.lordcodes.com/assets/img/icon/safari-pinned-tab.svg?v=5" color="#395781">
+  <link rel="manifest" href="https://www.lordcodes.com/site.webmanifest?v=5">
+  <meta name="apple-mobile-web-app-title" content="Lord Codes">
+  <meta name="application-name" content="Lord Codes">
+  <meta name="msapplication-TileColor" content="#395781">
+  <meta name="msapplication-TileImage" content="https://www.lordcodes.com/assets/img/icon/mstile-144x144.png?v=5">
+  <meta name="msapplication-config" content="https://www.lordcodes.com/browserconfig.xml?v=5">
+  <meta name="theme-color" content="#395781">
+
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css?v=1"/>
+
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+  
+  
+  
+    <link rel="alternate" title="Lord Codes Feed" type="application/atom+xml" href="https://www.lordcodes.com/feeds/main.xml">
+  
+    <link rel="alternate" title="Lord Codes &#8211; Android Feed" type="application/atom+xml" href="https://www.lordcodes.com/feeds/android.xml">
+  
+    <link rel="alternate" title="Lord Codes &#8211; iOS Feed" type="application/atom+xml" href="https://www.lordcodes.com/feeds/ios.xml">
+  
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+      document.querySelector("html")
+        .classList.toggle('no-js')
+    });
+  </script>
+</head>
+
+
+  <body class="t--day page-body preload">
+    <script type="text/javascript">
+  const themeDay = "day"
+  const themeNight = "night"
+  const themeStorageKey = "current-theme"
+
+  applyStoredTheme()
+
+  function applyStoredTheme() {
+    var currentTheme = localStorage.getItem(themeStorageKey)
+    applyThemeStyle(currentTheme)
+
+    document.addEventListener('DOMContentLoaded', function() {
+      activateThemeOnSelectors(currentTheme)
+      addThemeSelectorClickHandlers()
+    }, false)
+  }
+
+  function applyThemeStyle(theme) {
+    if (theme === themeDay) {
+      document.body.classList.remove('t--night')
+      document.body.classList.add('t--day')
+    } else if (theme === themeNight) {
+      document.body.classList.add('t--night')
+      document.body.classList.remove('t--day')
+    }
+  }
+
+  function activateThemeOnSelectors(theme) {
+    var selectDay = document.querySelectorAll(".theme-selector .select-theme-day")
+    var selectNight = document.querySelectorAll(".theme-selector .select-theme-night")
+    
+    if (theme === themeDay) {
+      selectDay.forEach((button) => {
+        button.classList.add('theme-active')
+        button.disabled = true
+      });
+
+      selectNight.forEach((button) => {
+        button.classList.remove('theme-active')
+        button.disabled = false
+      });
+    } else if (theme === themeNight) {
+      selectDay.forEach((button) => {
+        button.classList.remove('theme-active')
+        button.disabled = false
+      });
+
+      selectNight.forEach((button) => {
+        button.classList.add('theme-active')
+        button.disabled = true
+      });
+    }
+  }
+
+  function addThemeSelectorClickHandlers() {
+    document.querySelectorAll(".theme-selector .select-theme-day")
+      .forEach((button) => {
+        button.addEventListener('click', function() {
+          changeThemeSelection(themeDay)
+        }, false)
+      });
+
+    document.querySelectorAll(".theme-selector .select-theme-night")
+      .forEach((button) => {
+        button.addEventListener('click', function() {
+          changeThemeSelection(themeNight)
+        }, false)
+      });
+  }
+
+  function changeThemeSelection(theme) {
+    localStorage.setItem(themeStorageKey, theme)
+    applyThemeStyle(theme)
+    activateThemeOnSelectors(theme)
+  }
+</script>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="container">
+    <div class="header__inner">
+      <a class="header__logo" href="/" aria-label="Main blog page">
+        <div class="header__logo--container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewbox="0 0 6020 6020"><g><path d="M1240 4990l0-100 1785 0 1785 0 0 100 0 100-1785 0-1785 0 0-100z"></path><path d="M742 4865c-82-92-147-211-193-350-22-68-23-85-29-545-6-449-8-479-28-540-62-190-227-327-417-348l-60-7 0-95 0-95 55-6c195-21 364-164 426-359 15-48 18-119 24-530 6-452 8-479 29-550 31-103 91-222 153-304 79-103 76-102 154-25l66 66-52 64c-28 35-69 100-90 144-70 144-72 155-79 685-6 462-7 477-30 540-46 130-142 262-240 330-27 19-50 37-50 40-1 3 15 16 34 29 102 69 202 201 251 331l28 75 7 470c6 434 8 476 27 548 26 96 77 195 144 277l50 63-63 63c-35 35-69 64-75 64-7 0-26-16-42-35z"></path><path d="M5171 4836l-63-63 50-63c67-82 118-181 144-277 19-72 21-113 27-548l7-470 26-72c47-131 131-247 231-318 31-22 56-42 56-45 0-3-23-21-50-40-98-68-194-200-240-330-23-63-24-78-30-540-7-530-9-541-79-685-21-44-62-109-90-144l-52-64 66-66c78-77 75-78 154 25 62 82 122 201 153 304 21 71 23 98 29 550 8 521 8 526 72 639 80 140 254 251 395 251l43 0 0 100 0 100-44 0c-102 0-257 76-331 163-48 55-89 129-111 197-15 48-18 116-24 530-6 460-7 477-29 545-13 39-36 98-51 131-45 100-157 254-184 254-6 0-40-29-75-64z"></path><path d="M3813 4284c-345-75-625-358-698-705-22-104-22-1085 0-1189 74-351 358-633 712-706 109-23 339-15 443 16 150 43 327 152 421 259 58 65 121 160 114 171-5 9-147 90-158 90-3 0-26-29-51-64-136-191-344-296-585-296-131 0-196 16-321 77-80 39-109 60-186 137-77 77-98 106-138 186-82 169-81 158-81 725 0 563 1 570 75 720 74 148 181 254 335 330 119 59 186 75 316 75 250 0 470-116 604-318 15-23 31-41 34-40 44 20 161 92 161 98 0 5-28 47-63 92-136 178-325 298-540 342-93 20-306 20-394 0z"></path><path d="M1250 2980l0-1280 90 0 90 0 0 1190 0 1190 725 0 725 0 0 90 0 90-815 0-815 0 0-1280z"></path><path d="M1220 1030l0-100 1795 0 1795 0 0 100 0 100-1795 0-1795 0 0-100z"></path></g></svg>
+
+        </div>
+      </a>
+      <div class="theme-selector">
+        <button type="button" class="label select-theme-day theme-active" disabled>☀️ Day</button>
+        <button type="button" class="label select-theme-night">🌙 Night</button>
+      </div>
+      <nav class="header__links" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+        <div class="container header__links-wrapper">
+          
+            
+            
+            
+            <a class="header__link " href="/index.html" itemprop="url">
+              <span itemprop="name">Blog</span>
+            </a>
+          
+            
+            
+            
+            <a class="header__link " href="/about/" itemprop="url">
+              <span itemprop="name">About</span>
+            </a>
+          
+            
+            
+            
+            <a class="header__link " href="/subscribe/" itemprop="url">
+              <span itemprop="name">Subscribe</span>
+            </a>
+          
+            
+            
+            
+            <a class="header__link " href="/topics/" itemprop="url">
+              <span itemprop="name">Topics</span>
+            </a>
+          
+        </div>
+      </nav>
+      <div class="header__toggle">
+        <input type="checkbox" class="header__toggle-input">
+
+        <div class="drawer-icon">
+          <span class="drawer-bar"></span>
+          <span class="drawer-bar"></span>
+          <span class="drawer-bar"></span>
+        </div>
+
+        <div class="header__overlay"></div>
+
+        <ul class="header__drawer-menu" aria-label="Main navigation">
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/index.html" itemprop="url">
+                Blog
+              </a>
+            </li>
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/about/" itemprop="url">
+                About
+              </a>
+            </li>
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/subscribe/" itemprop="url">
+                Subscribe
+              </a>
+            </li>
+          
+            
+            
+            
+            <li itemprop="name">
+              <a class="" href="/topics/" itemprop="url">
+                Topics
+              </a>
+            </li>
+          
+          <li class="theme-selector">
+            <strong class="theme-marker">Theme</strong>
+            <button type="button" class="label select-theme-day theme-active" disabled>☀️ Day</button>
+            <button type="button" class="label select-theme-night">🌙 Night</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <section class="hero post-hero">
+  <div class="hero__content">
+    
+      <div class="hero__categories">
+        
+        
+          
+          
+          <a class="label" href="/ios">iOS | Swift</a>
+          
+        
+      </div>
+    
+    <h1 class="hero__title">A modular analytics layer in Swift</h1>
+    <p class="hero__tagline">
+      <span>
+        <time>Nov 27, 2018</time>
+      </span>
+      
+       · 
+      <span>
+          
+
+
+
+
+  9 minute read
+
+
+      </span>
+      
+    </p>
+  </div>
+</section>
+
+<main class="body__content">
+  <div class="container">
+    <article class="post-content" itemprop="articleBody">
+      <p>There is a saying, “<em>if a tree falls in a forest and no one is around to hear it, does it make a sound?</em>” Monitoring user behaviour is a bit like that; if people are using your app in a particular way, but you don’t know about it, then how can you work out how to improve it.</p>
+
+<p>There are many different options available to us in order to monitor user behaviour, such as user testing, collecting surveys and analytics. Here we are going to be discussing the topic of analytics, specifically using it within a Swift app.</p>
+
+<p>When building and improving your apps, knowing how it is being used by real users <em>in the wild</em> can be very valuable. It allows you to make data-informed decisions rather than just estimating what you think is a good idea. You can also use it to verify and test out ideas once they have been released to your users.</p>
+
+<p>Whilst adding analytics to an app can be quick and easy, ensuring the implementation is easy to use, alter and extend can be more complex. The implementation should be able to stand the test of time and give us the flexibility to make changes to the analytics data we are reporting in the future. We are going to look through one way of building an analytics layer in Swift, that is both modular and extensible.</p>
+
+<figure class="">
+  <picture class="">
+    
+      <source media="(min-width: 1366px)" srcset="/assets/img/resized/1366/analytics-pencils.jpg"></source>
+    
+      <source media="(min-width: 1024px)" srcset="/assets/img/resized/1024/analytics-pencils.jpg"></source>
+    
+      <source media="(min-width: 768px)" srcset="/assets/img/resized/768/analytics-pencils.jpg"></source>
+    
+      <source media="(min-width: 640px)" srcset="/assets/img/resized/640/analytics-pencils.jpg"></source>
+    
+      <source media="(min-width: 480px)" srcset="/assets/img/resized/480/analytics-pencils.jpg"></source>
+    
+      <source media="(min-width: 320px)" srcset="/assets/img/resized/320/analytics-pencils.jpg"></source>
+    
+    <img class="" src="/assets/img/posts/analytics-pencils.jpg" alt="Analytics letters placed on a board" srcset="    /assets/img/resized/1366/analytics-pencils.jpg 1366w,    /assets/img/resized/1024/analytics-pencils.jpg 1024w,    /assets/img/resized/768/analytics-pencils.jpg 768w,    /assets/img/resized/640/analytics-pencils.jpg 640w,    /assets/img/resized/480/analytics-pencils.jpg 480w,    /assets/img/resized/320/analytics-pencils.jpg 320w, /assets/img/posts/analytics-pencils.jpg 1600w">
+  </picture>
+  
+    <figcaption>Let's talk about analytics</figcaption>
+  
+</figure>
+
+<h2 id="section-backend">Backend</h2>
+
+<p>When analytics data is captured within our apps, we would normally want to submit this to our preferred backend. This allows data to be collected over time and analysis to be ran over the data.</p>
+
+<p>It is very common for this backend to be a third-party SDK such as: <a href="https://firebase.google.com/docs/analytics/ios/start" target="_blank" rel="noopener noreferrer">Firebase Analytics</a> or <a href="https://developer.mixpanel.com/docs/swift" target="_blank" rel="noopener noreferrer">MixPanel</a>. You may also want to use a tool such as <a href="https://segment.com/docs/sources/mobile/ios/" target="_blank" rel="noopener noreferrer">Segment</a>, to control where the data is sent and have the flexibility to change the destination whenever you want.</p>
+
+<p>Your backend may be an in-house analytics system, reporting data to your own backend API or pumping data into a data warehouse of some kind. This can be beneficial if your data is specialised or you need to do something with it that the third-party destinations don’t support.</p>
+
+<p>Whichever backend solution has been settled on, it is good to wrap its API in one of your own, to avoid the codebase being littered with a specific analytics API. Doing this will give you the flexibility to change the solution more easily and help make your code more maintainable. 👷‍</p>
+
+<h2 id="section-features">Features</h2>
+
+<p>We are going to build a layer that avoids using a static API, puts any backend APIs behind a protocol, uses the power of Swift enums and pairs each event with the pieces of data it needs to contain.</p>
+
+<p>More specifically it should:</p>
+
+<ol>
+  <li>Be easy to report new and existing events.</li>
+  <li>Allow the data be sent to whichever analytics backend we wish to use, even multiple.</li>
+  <li>Be testable and mockable, allowing it to be an <a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank" rel="noopener noreferrer">injected dependency</a>.</li>
+  <li>Allow events to be reported from anywhere in the app, but encourage best practices.</li>
+  <li>Have compile-time safety of events and their properties.</li>
+</ol>
+
+<p>There are a few different components that make up our analytics layer, each covering part of the process.</p>
+
+<h2 id="section-the-main-event">The main event</h2>
+
+<p>The events themselves can be modelled through our <code class="highlighter-rouge">AnalyticsEvent</code> enum.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">AnalyticsEvent</span><span class="p">:</span> <span class="kt">Equatable</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="n">addContactTapped</span>
+  <span class="k">case</span> <span class="nf">contactSelected</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span>
+  <span class="k">case</span> <span class="nf">messageSent</span><span class="p">(</span><span class="nv">threadType</span><span class="p">:</span> <span class="kt">ThreadType</span><span class="p">,</span> <span class="nv">length</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span>
+  <span class="k">case</span> <span class="n">userSignedIn</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The enum contains a case for each event we want to fire, with associated values for any pieces of data that need to be attached to the event. When we report an event, we are required to provide any data it needs. By writing events in this way we can reduce the amount of code required to report an event, whilst checking for correctness at compile time.</p>
+
+<p>When the event is passed further it provides the set of parameters that are attached to it. These parameters use an enum for their names, to allow them to be mapped differently later on, similar to the events themselves.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">AnalyticsEvent</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="kt">Parameter</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="n">addContactTapped</span><span class="p">,</span>
+         <span class="o">.</span><span class="nv">userSignedIn</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">[:]</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="k">case</span> <span class="nf">contactSelected</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+      <span class="k">return</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nv">contactIndex</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="nv">describing</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+      <span class="p">]</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">messageSent</span><span class="p">(</span><span class="n">threadType</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+      <span class="k">return</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nv">threadType</span><span class="p">:</span> <span class="n">threadType</span><span class="o">.</span><span class="n">rawValue</span><span class="p">,</span>
+        <span class="o">.</span><span class="nv">messageLength</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="nv">describing</span><span class="p">:</span> <span class="n">length</span><span class="p">)</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">enum</span> <span class="kt">Parameter</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">Equatable</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">contactIndex</span>
+    <span class="k">case</span> <span class="n">messageLength</span>
+    <span class="k">case</span> <span class="n">threadType</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For writing the switch statement over the <code class="highlighter-rouge">AnalyticsEvent</code> enum it is best to avoid using a default case, as this enforces that each new event is handled.</p>
+
+<h2 id="section-providers">Providers</h2>
+
+<p>Each backend you wish to report data to will conform to our <code class="highlighter-rouge">AnalyticsProvider</code> protocol. This will document the different analytics operations we can perform.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">AnalyticsProvider</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">report(event:)</code> function is taking our event enum as an argument. This allows each provider to map the event to whichever format they need it in. For example, Firebase Analytics requires events to contain underscores (_) instead of hyphens (-). Once the event has been mapped, it would then be reported to the destination for that particular provider, often calling through to the provider’s SDK.</p>
+
+<p>A final solution may also report screens, user properties, preferences and more. These would be added to the <code class="highlighter-rouge">AnalyticsProvider</code> protocol.</p>
+
+<h2 id="section-lets-implement-a-provider">Let’s implement a provider</h2>
+
+<p>Making our backend conform to the provider protocol is relatively simple, let’s start by building one for Firebase Analytics. The event name and parameters are mapped to strings, before being passed through to the Firebase Analytics SDK <code class="highlighter-rouge">logEvent</code> function.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">FirebaseAnalyticsProvider</span><span class="p">:</span> <span class="kt">AnalyticsProvider</span> <span class="p">{</span>
+  <span class="kd">private</span> <span class="k">let</span> <span class="nv">eventMapper</span> <span class="o">=</span> <span class="kt">AnalyticsEventMapper</span><span class="p">()</span>
+
+  <span class="kd">func</span> <span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">eventMapper</span><span class="o">.</span><span class="nf">eventName</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">parameters</span> <span class="o">=</span> <span class="n">eventMapper</span><span class="o">.</span><span class="nf">parameters</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+    <span class="kt">Analytics</span><span class="o">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="n">parameters</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The flexibility of the solution means we can easily build another provider to log events to the console.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">LoggingAnalyticsProvider</span><span class="p">:</span> <span class="kt">AnalyticsProvider</span> <span class="p">{</span>
+  <span class="kd">private</span> <span class="k">let</span> <span class="nv">eventMapper</span> <span class="o">=</span> <span class="kt">AnalyticsEventMapper</span><span class="p">()</span>
+
+  <span class="kd">func</span> <span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">eventMapper</span><span class="o">.</span><span class="nf">eventName</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Event reported: </span><span class="se">\(</span><span class="n">name</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We can create a provider for whichever destination we wish to use. 🚀</p>
+
+<h2 id="section-get-mapping">Get mapping</h2>
+
+<p>Each provider needs to convert the event enum into a reporting format. Most analytics SDKs require events in a string format and so it an be a good idea to provide a default mapper that does this.</p>
+
+<p>If a particular app doesn’t need the flexibility for each provider to control the mapping, we can instead return data in the correct format directly within the <code class="highlighter-rouge">AnalyticsEvent</code>.</p>
+
+<p>For now we will give ourselves full flexibility, by using a separate mapper.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">AnalyticsEventMapper</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">eventName</span><span class="p">(</span><span class="k">for</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="o">...</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">parameters</span><span class="p">(</span><span class="k">for</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="p">{</span>
+    <span class="o">...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The first part to the mapping process is to get a name for the event. This is as simple as using a switch statement to map each event case to a <code class="highlighter-rouge">String</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">eventName</span><span class="p">(</span><span class="k">for</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="n">event</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">addContactTapped</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"addContact_tapped"</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">contactSelected</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"contact_selected"</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">messageSent</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"message_sent"</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">userSignedIn</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"user_signedIn"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The second part is getting a dictionary of event parameters.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">parameters</span><span class="p">(</span><span class="k">for</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">newParameters</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]()</span>
+  <span class="n">event</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">newKey</span> <span class="o">=</span> <span class="nf">parameterName</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>
+    <span class="n">newParameters</span><span class="p">[</span><span class="n">newKey</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">newParameters</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">parameterName</span><span class="p">(</span><span class="k">for</span> <span class="nv">parameter</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="o">.</span><span class="kt">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="n">parameter</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">contactIndex</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"contact_index"</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">messageLength</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"message_length"</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">threadType</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s">"thread_type"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">parameters(for:)</code> function is simply converting the dictionary keys from an enum to a <code class="highlighter-rouge">String</code>. If used in multiple places, it can be easily extracted to a generic extension on <code class="highlighter-rouge">Dictionary</code>.</p>
+
+<h2 id="section-putting-it-all-together">Putting it all together</h2>
+
+<p>We now need to bring together all of the components we have built and create the API for our analytics layer, the <code class="highlighter-rouge">AnalyticsReporter</code>. The reporter is the dependency you will be injecting and using throughout your app to report events.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">AnalyticsReporter</span> <span class="p">{</span>
+  <span class="kd">private</span> <span class="k">let</span> <span class="nv">providers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnalyticsProvider</span><span class="p">]</span>
+
+  <span class="nf">init</span><span class="p">(</span><span class="nv">providers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnalyticsProvider</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">providers</span> <span class="o">=</span> <span class="n">providers</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">providers</span><span class="o">.</span><span class="n">forEach</span> <span class="p">{</span>
+      <span class="nv">$0</span><span class="o">.</span><span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This reporter allows multiple analytics providers to be used, obviously if an app only required a single provider we could decide whether this was worth supporting or not. Due to each analytics backend being wrapped with our provider, the reporter is pretty simple.</p>
+
+<p>As with the provider, a final solution may also include reporting of other entities such as screens and user properties.</p>
+
+<h2 id="section-time-to-use-it">Time to use it</h2>
+
+<p>We can now put our implementation into practice to see how it is to use.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ContactsViewModel</span> <span class="p">{</span>
+  <span class="kd">private</span> <span class="k">let</span> <span class="nv">coordinator</span><span class="p">:</span> <span class="kt">ContactsCoordinator</span>
+  <span class="kd">private</span> <span class="k">let</span> <span class="nv">analyticsReporter</span><span class="p">:</span> <span class="kt">AnalyticsReporter</span>
+
+  <span class="nf">init</span><span class="p">(</span><span class="nv">coordinator</span><span class="p">:</span> <span class="kt">ContactsCoordinator</span><span class="p">,</span> <span class="nv">analyticsReporter</span><span class="p">:</span> <span class="kt">AnalyticsReporter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">coordinator</span> <span class="o">=</span> <span class="n">coordinator</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">analyticsReporter</span> <span class="o">=</span> <span class="n">analyticsReporter</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">contactSelected</span><span class="p">(</span><span class="n">at</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">analyticsReporter</span><span class="o">.</span><span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="o">.</span><span class="nf">contactSelected</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="n">index</span><span class="p">))</span>
+    <span class="n">coordinator</span><span class="o">.</span><span class="nf">startContactThreads</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">addContactTapped</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">analyticsReporter</span><span class="o">.</span><span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="o">.</span><span class="n">addContactTapped</span><span class="p">)</span>
+    <span class="n">coordinator</span><span class="o">.</span><span class="nf">startContactCreation</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">AnalyticsReporter</code> can be injected wherever we wish to use it, in the case above in a <code class="highlighter-rouge">ContactsViewModel</code>. Using the API is as simple as selecting the correct event and providing any values it requires.</p>
+
+<p>If we need to report a new event, we just need to add it to the <code class="highlighter-rouge">AnalyticsEvent</code> enum, provide its parameters and update any mapping code. ⚒</p>
+
+<h2 id="section-testing">Testing</h2>
+
+<p>It is very important that our analytics code be testable and that it doesn’t make any other code more difficult to test. To verify the correct events have been reported, we can create a <code class="highlighter-rouge">TestingAnalyticsProvider</code> within our unit test sources. The test provider stores reported events so that they can be asserted on afterwards.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">TestingAnalyticsProvider</span><span class="p">:</span> <span class="kt">AnalyticsProvider</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">eventsReported</span> <span class="o">=</span> <span class="p">[</span><span class="kt">AnalyticsEvent</span><span class="p">]()</span>
+
+  <span class="kd">func</span> <span class="nf">report</span><span class="p">(</span><span class="nv">event</span><span class="p">:</span> <span class="kt">AnalyticsEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">eventsReported</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="section-conclusion">Conclusion</h2>
+
+<p>That wraps up implementing, using and testing our new analytics layer. In general the approach we have put forward is flexible and can be altered where necessary to suit a particular app’s needs.</p>
+
+<p>We have seen that:</p>
+
+<ul>
+  <li>Our implementation uses a modular approach that should minimise the impact analytics has on the rest of the app.</li>
+  <li>It is easy to configure and report both new and existing events.</li>
+  <li>Each destination is wrapped in a provider protocol, giving the flexibility to support any backend we wish to use, including a test one.</li>
+  <li>By avoiding a static API, we encourage the reporter dependency to be instantiated or provided via dependency injection, whilst it still being easy to do so.</li>
+  <li>The use of an enum for the event type enforces compile-time safety for events and the properties they each require.</li>
+</ul>
+
+<p>What are your thoughts on the analytics system we have built? Please reach out to me on <a href="https://www.twitter.com/lordcodes" target="_blank" rel="noopener noreferrer">Twitter @lordcodes</a> with any questions or thoughts you have on this, or anything else. I would love to discuss any alternative ideas or the way you implement analytics in your apps.</p>
+
+<p>If you like what you have read, please don’t hesitate to share the article and <a href="/subscribe">subscribe to my feed</a> if you are interested.</p>
+
+<p>Thanks for reading and happy coding! 🙏</p>
+
+<p><a href="https://github.com/lordcodes/lordcodes-samples/tree/master/ios/a-modular-analytics-layer-in-swift" target="_blank" rel="noopener noreferrer">Check out the sample code</a> for this article on GitHub.</p>
+
+    </article>
+    <section class="post-section last-updated-container">
+      <em>
+        Last updated on <time>Jan 24, 2019</time>
+      </em>
+    </section>
+    <section class="post-section tags-container">
+      <ul>
+        
+          
+          <li><a href="/topics/#tag-api-design">API design</a></li>
+        
+      </ul>
+    </section>
+    
+      <section class="post-section share-bar">
+        <h3 class="share-bar__heading">Like what you read? Please spread the word.</h3>
+        <p>If you would like to share the article, it would be very much appreciated.</p>
+        <nav class="social-nav">
+
+          
+          
+          
+
+          <a class="twitter" aria-label="Share on Twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?via=lordcodes&amp;text=A+modular+analytics+layer+in+Swift%3A&amp;url=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fa-modular-analytics-layer-in-swift">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="-1 -2 18 18" width="20" height="20"><path d="M16 3.1c-0.6 0.3-1.2 0.4-1.9 0.5 0.7-0.4 1.2-1 1.4-1.8 -0.6 0.4-1.3 0.6-2.1 0.8 -0.6-0.6-1.4-1-2.4-1 -1.8 0-3.3 1.5-3.3 3.3 0 0.3 0 0.5 0.1 0.7C5.2 5.4 2.8 4.1 1.1 2.1 0.9 2.6 0.7 3.2 0.7 3.8c0 1.1 0.6 2.1 1.5 2.7C1.6 6.5 1.1 6.3 0.7 6.1c0 0 0 0 0 0 0 1.6 1.1 2.9 2.6 3.2C3 9.4 2.7 9.4 2.4 9.4c-0.2 0-0.4 0-0.6-0.1 0.4 1.3 1.6 2.2 3.1 2.3 -1.1 0.9-2.5 1.4-4.1 1.4 -0.3 0-0.5 0-0.8 0 1.4 0.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3 0-0.1 0-0.3 0-0.4C15 4.3 15.5 3.7 16 3.1z"></path></svg>
+
+          </a>
+          <a class="facebook" aria-label="Share on Facebook" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fa-modular-analytics-layer-in-swift">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="-100 -100 1224 1224"><path class="cls-1" d="M967.5 0h-911A56.5 56.5 0 0 0 0 56.5v911A56.5 56.5 0 0 0 56.5 1024H547V628H414V473H547V359c0-132.3 80.8-204.3 198.8-204.3 56.5 0 105.1 4.2 119.2 6.1V299l-81.6 0c-64 0-76.4 30.5-76.4 75.2V473H860.5l-20 155H707v396H967.5A56.5 56.5 0 0 0 1024 967.5v-911A56.5 56.5 0 0 0 967.5 0Z"></path></svg>
+
+          </a>
+          <a class="reddit" aria-label="Share on Reddit" target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/submit?url=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fa-modular-analytics-layer-in-swift&amp;title=A+modular+analytics+layer+in+Swift">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.533 1.811 1.317 2.271-.052.282-.086.567-.086.857 0 3.911 4.808 7.093 10.719 7.093s10.72-3.182 10.72-7.093c0-.274-.029-.544-.075-.81.832-.447 1.405-1.312 1.405-2.318zm-17.224 1.816c0-.868.71-1.575 1.582-1.575.872 0 1.581.707 1.581 1.575s-.709 1.574-1.581 1.574-1.582-.706-1.582-1.574zm9.061 4.669c-.797.793-2.048 1.179-3.824 1.179l-.013-.003-.013.003c-1.777 0-3.028-.386-3.824-1.179-.145-.144-.145-.379 0-.523.145-.145.381-.145.526 0 .65.647 1.729.961 3.298.961l.013.003.013-.003c1.569 0 2.648-.315 3.298-.962.145-.145.381-.144.526 0 .145.145.145.379 0 .524zm-.189-3.095c-.872 0-1.581-.706-1.581-1.574 0-.868.709-1.575 1.581-1.575s1.581.707 1.581 1.575-.709 1.574-1.581 1.574z"></path></svg>
+
+          </a>
+          <a class="linkedin" aria-label="Share on LinkedIn" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.lordcodes.com%2Fposts%2Fa-modular-analytics-layer-in-swift&amp;title=A+modular+analytics+layer+in+Swift&amp;source=Lord+Codes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="430" height="430" viewbox="-50 -50 520 520"><path d="M430.1 261.5V420.6h-92.2V272.2c0-37.3-13.3-62.7-46.7-62.7 -25.5 0-40.6 17.1-47.3 33.7 -2.4 5.9-3.1 14.2-3.1 22.5V420.6h-92.2c0 0 1.2-251.3 0-277.3h92.2v39.3c-0.2 0.3-0.4 0.6-0.6 0.9h0.6v-0.9c12.3-18.9 34.1-45.8 83.1-45.8C384.6 136.7 430.1 176.4 430.1 261.5zM52.2 9.6C20.6 9.6 0 30.3 0 57.5c0 26.6 20 47.9 51 47.9h0.6c32.2 0 52.2-21.3 52.2-47.9C103.1 30.3 83.7 9.6 52.2 9.6zM5.5 420.6h92.2v-277.3H5.5V420.6z"></path></svg>
+
+          </a>
+        </nav>
+      </section>
+    
+    
+      <section class="post-section post__author-profile">
+        <figure class="about-profile__avatar">
+  <img src="https://www.gravatar.com/avatar/ada9ea9ad076f866aad4d1f432d2c40d?s=150" alt="Andrew Lord avatar">
+</figure>
+<p>Hi, I hope you enjoyed the article. I am Andrew - a builder of Android and iOS apps, games and developer tools. Articles on this blog focus on all aspects of Android and iOS development using Kotlin and Swift. When it comes to coding, my particular focus is on code quality and automated testing. Aside from development I am an avid gamer and music fan.</p>
+
+      </section>
+    
+    
+      <section class="post-section post__more-links">
+        <nav class="more-links-nav">
+  <h3>More from Lord Codes</h3>
+
+  <ul>
+    
+
+      
+        <li>💬 <a target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/lordcodes">Reach out to me on Twitter</a>
+</li>
+      
+
+    
+
+      
+        <li>📕 <a href="/topics/">Check out articles grouped by topic</a>
+</li>
+      
+
+    
+
+      
+        <li>✍️ <a href="/subscribe">Subscribe to my feed</a>
+</li>
+      
+
+    
+
+      
+        <li>😎 <a href="/about">Find out about me</a>
+</li>
+      
+
+    
+
+      
+        <li>💻 <a href="/">Browse the full blog</a>
+</li>
+      
+
+    
+  </ul>
+</nav>
+
+      </section>
+    
+    <section class="post-section controls__inner">
+      <div class="controls__item next">
+        
+          <span>Newer</span>
+          <a href="/posts/testing-on-android-using-junit-5">
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewbox="0 0 6 11"><path d="M5.647 1.718c.37-.434.323-1.09-.106-1.465A1.016 1.016 0 0 0 4.095.36L.25 4.875a1.05 1.05 0 0 0 .017 1.378l3.95 4.407c.38.424 1.03.456 1.448.07a1.05 1.05 0 0 0 .07-1.468l-3.34-3.725 3.253-3.819z"></path></svg>
+</span> Testing on Android using JUnit 5
+          </a>
+        
+      </div>
+
+      <div class="controls__item prev">
+        
+          <span>Older</span>
+          <a href="/posts/gradle-dependencies-using-kotlin">
+            Manage your Gradle dependencies in Kotlin, even from Groovy scripts <span><svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewbox="0 0 6 11"><path d="M.353 9.282c-.37.434-.323 1.09.106 1.465a1.016 1.016 0 0 0 1.446-.107L5.75 6.125a1.05 1.05 0 0 0-.017-1.378L1.784.34A1.015 1.015 0 0 0 .336.27a1.05 1.05 0 0 0-.07 1.468l3.34 3.725L.353 9.282z"></path></svg>
+</span>
+          </a>
+        
+      </div>
+    </section>
+  </div>
+</main>
+
+  <section class="related-posts">
+    <div class="container">
+      <div class="post-section">
+        <h3 class="related-posts__heading">Want to read more?</h3>
+        <p>Here are some other articles you may enjoy.</p>
+        <div class="post-list">
+          
+
+
+
+
+
+
+
+
+  
+
+  
+    <a class="post-card" href="/posts/clear-and-searchable-logging-in-swift-with-oslog" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-card__header">
+    
+      <span class="post-card__label" itemprop="articleSection">
+        
+        
+        
+        <span class="label"> iOS | Swift </span>
+        
+      </span>
+    
+  </header>
+    <section class="post-card__content">
+      <h2 class="post-card__title" itemprop="headline">Clear and searchable logging in Swift with OSLog</h2>
+      <span class="post-card__meta">
+        <time itemprop="datePublished">Jan 14, 2019</time>
+        
+           ·  
+
+
+
+
+  7 minute read
+
+
+        
+      </span>
+      <div class="post-card__summary" itemprop="description">
+        
+          <p>Logging is a useful tool for diagnosing issues and working out what an app is doing. We will explore Apple's currently recommended way of logging via OSLog, covering how to use it and managing its differences when compared to other logging approaches.
+</p>
+        
+      </div>
+    </section>
+</a>
+
+    
+    
+    
+  
+
+  
+    <a class="post-card" href="/posts/managing-secrets-within-an-ios-app" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-card__header">
+    
+      <span class="post-card__label" itemprop="articleSection">
+        
+        
+        
+        <span class="label"> iOS | Swift </span>
+        
+      </span>
+    
+  </header>
+    <section class="post-card__content">
+      <h2 class="post-card__title" itemprop="headline">Managing secrets within an iOS app</h2>
+      <span class="post-card__meta">
+        <time itemprop="datePublished">Nov 20, 2018</time>
+        
+           ·  
+
+
+
+
+  9 minute read
+
+
+        
+      </span>
+      <div class="post-card__summary" itemprop="description">
+        
+          <p>Almost all iOS apps have API keys and other secrets, but simple approaches for managing them can be insecure. We will look at some different options for keeping secrets out of source control and accessing them securely from your code.
+</p>
+        
+      </div>
+    </section>
+</a>
+
+    
+    
+    
+  
+
+  
+    <a class="post-card" href="/posts/create-xcode-file-templates" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-card__header">
+    
+      <span class="post-card__label" itemprop="articleSection">
+        
+        
+        
+        <span class="label"> iOS | Swift </span>
+        
+      </span>
+    
+  </header>
+    <section class="post-card__content">
+      <h2 class="post-card__title" itemprop="headline">Create Xcode file templates and share them with your team</h2>
+      <span class="post-card__meta">
+        <time itemprop="datePublished">Dec 14, 2018</time>
+        
+           ·  
+
+
+
+
+  4 minute read
+
+
+        
+      </span>
+      <div class="post-card__summary" itemprop="description">
+        
+          <p>When creating new files in Xcode the built-in templates often contain code we immediately delete or need to alter. We will explore the process of creating our own templates and how to go about sharing them with the rest of our team members.
+</p>
+        
+      </div>
+    </section>
+</a>
+
+    
+    
+    
+      
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+    <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+  <div class="container">
+    <div class="theme-selector">
+      <strong class="theme-marker">Theme:</strong>
+      <button type="button" class="label select-theme-day theme-active" disabled>☀️ Day</button>
+      <button type="button" class="label select-theme-night">🌙 Night</button>
+    </div>
+    <nav class="social">
+      
+        <a class="social__link github" target="_blank" rel="noopener noreferrer" href="https://github.com/lordcodes" aria-label="GitHub profile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-0.5 -0.5 17 17" width="20" height="20"><path d="M8 0.4c-4.3 0-7.8 3.5-7.8 7.8 0 3.4 2.2 6.3 5.3 7.4 0.4 0.1 0.5-0.2 0.5-0.4 0-0.2 0-0.7 0-1.3 -2.2 0.5-2.6-1-2.6-1 -0.4-0.9-0.9-1.1-0.9-1.1 -0.7-0.5 0.1-0.5 0.1-0.5 0.8 0.1 1.2 0.8 1.2 0.8 0.7 1.2 1.8 0.8 2.3 0.6 0.1-0.5 0.3-0.8 0.5-1C4.9 11.4 3 10.8 3 7.8c0-0.8 0.3-1.5 0.8-2.1C3.8 5.5 3.5 4.7 3.9 3.7c0 0 0.7-0.2 2.1 0.8C6.7 4.3 7.3 4.2 8 4.2c0.7 0 1.3 0.1 1.9 0.3 1.5-1 2.1-0.8 2.1-0.8 0.4 1.1 0.2 1.9 0.1 2.1 0.5 0.5 0.8 1.2 0.8 2.1 0 3-1.8 3.6-3.5 3.8 0.3 0.2 0.5 0.7 0.5 1.4 0 1 0 1.9 0 2.1 0 0.2 0.1 0.4 0.5 0.4 3.1-1 5.3-3.9 5.3-7.4C15.8 3.9 12.3 0.4 8 0.4z"></path></svg>
+
+        </a>
+      
+      
+        <a class="social__link twitter" target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/lordcodes" aria-label="Twitter profile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-1 -2 18 18" width="20" height="20"><path d="M16 3.1c-0.6 0.3-1.2 0.4-1.9 0.5 0.7-0.4 1.2-1 1.4-1.8 -0.6 0.4-1.3 0.6-2.1 0.8 -0.6-0.6-1.4-1-2.4-1 -1.8 0-3.3 1.5-3.3 3.3 0 0.3 0 0.5 0.1 0.7C5.2 5.4 2.8 4.1 1.1 2.1 0.9 2.6 0.7 3.2 0.7 3.8c0 1.1 0.6 2.1 1.5 2.7C1.6 6.5 1.1 6.3 0.7 6.1c0 0 0 0 0 0 0 1.6 1.1 2.9 2.6 3.2C3 9.4 2.7 9.4 2.4 9.4c-0.2 0-0.4 0-0.6-0.1 0.4 1.3 1.6 2.2 3.1 2.3 -1.1 0.9-2.5 1.4-4.1 1.4 -0.3 0-0.5 0-0.8 0 1.4 0.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3 0-0.1 0-0.3 0-0.4C15 4.3 15.5 3.7 16 3.1z"></path></svg>
+
+        </a>
+      
+      
+        <a class="social__link medium" target="_blank" rel="noopener noreferrer" href="https://medium.com/@lordcodes" aria-label="Medium profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="148" height="148" viewbox="18 18 156 156"><path d="M46.5 65.2C46.7 63.6 46.1 62 44.9 60.9L32.7 46.2 32.7 44 70.6 44 100 108.4 125.8 44 162 44 162 46.2 151.5 56.2C150.6 56.9 150.2 58 150.4 59.2L150.4 132.8C150.2 134 150.6 135.1 151.5 135.8L161.8 145.8 161.8 148 110.4 148 110.4 145.8 121 135.5C122 134.5 122 134.2 122 132.6L122 73 92.6 147.8 88.6 147.8 54.4 73 54.4 123.1C54.1 125.2 54.8 127.3 56.3 128.9L70 145.6 70 147.8 31 147.8 31 145.6 44.8 128.9C46.2 127.3 46.9 125.2 46.5 123.1L46.5 65.2Z"></path></svg>
+
+        </a>
+      
+      
+        <a class="social__link linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/lordcodes" aria-label="LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="430" height="430" viewbox="-50 -50 520 520"><path d="M430.1 261.5V420.6h-92.2V272.2c0-37.3-13.3-62.7-46.7-62.7 -25.5 0-40.6 17.1-47.3 33.7 -2.4 5.9-3.1 14.2-3.1 22.5V420.6h-92.2c0 0 1.2-251.3 0-277.3h92.2v39.3c-0.2 0.3-0.4 0.6-0.6 0.9h0.6v-0.9c12.3-18.9 34.1-45.8 83.1-45.8C384.6 136.7 430.1 176.4 430.1 261.5zM52.2 9.6C20.6 9.6 0 30.3 0 57.5c0 26.6 20 47.9 51 47.9h0.6c32.2 0 52.2-21.3 52.2-47.9C103.1 30.3 83.7 9.6 52.2 9.6zM5.5 420.6h92.2v-277.3H5.5V420.6z"></path></svg>
+
+        </a>
+      
+    </nav>
+    <a class="footer-nav__link" href="/about">
+      <span>© 2019 Lord Codes</span>
+    </a>
+    
+       · 
+      <a class="footer-nav__link" href="/terms/">
+        <span>Terms of Use</span>
+      </a>
+    
+       · 
+      <a class="footer-nav__link" href="/privacy/">
+        <span>Privacy Policy</span>
+      </a>
+    
+  </div>
+</footer>
+
+
+    
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127834743-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-127834743-1');
+</script>
+
+
+
+<script async src="/assets/js/main.js?v=1"></script>
+
+  </body>
+</html>

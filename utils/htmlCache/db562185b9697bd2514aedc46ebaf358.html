@@ -1,0 +1,1143 @@
+<!DOCTYPE html><html lang="en">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>分析实现-倒计时设计 - sindrilin的小巢</title>
+<meta name="description" content="计算机是不存在倒计时这个概念的，所有的倒计时设计来源于对定时器的运用：给予一个deadline，以秒为时间间隔，在每次回调时刷新屏幕上的数字。倒计时的实现几乎没有门槛，无论NSTimer也好，GCD也罢，甚至使用CADisplayLink都能用来制作一个倒计时方案。但同样的，低门槛也意味着方案的上下限差也很大，本...">
+<link rel="canonical" href="www.sindrilin.com/2018/01/06/count_down_design.html"><link rel="alternate" type="application/rss+xml" title="sindrilin的小巢" href="www.sindrilin.com/feed.xml">
+<!-- for Safari on iOS https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/app-icon/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/images/logo/icon-180x180.png"><link rel="apple-touch-icon" sizes="167x167" href="/assets/images/logo/icon-167x167.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/images/logo/icon-152x152.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/images/logo/icon-120x120.png"><link rel="shortcut icon" href="/assets/images/logo/icon-120x120.png">
+<!-- for Chrome on Android https://developer.chrome.com/multidevice/android/installtohomescreen -->
+<meta name="mobile-web-app-capable" content="yes"><link rel="icon" sizes="192x192" href="/assets/images/logo/icon-192x192.png">
+<!-- for Edge on Windows 10 https://msdn.microsoft.com/en-us/library/dn255024(v=vs.85).aspx --><meta name="msapplication-TileImage" content="/assets/images/logo/icon-144x144.png"><meta name="msapplication-square310x310logo" content="/assets/images/logo/icon-310x310.png"><meta name="msapplication-wide310x150logo" content="/assets/images/logo/icon-310x150.png"><meta name="msapplication-square150x150logo" content="/assets/images/logo/icon-150x150.png"><meta name="msapplication-square70x70logo" content="/assets/images/logo/icon-70x70.png">
+<meta name="msapplication-TileColor" content="#eeeeee">
+<link rel="stylesheet" href="/assets/css/blog.css">
+    <script>(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+
+  window.decodeUrl = function(str) {
+    return str ? decodeURIComponent(str.replace(/\+/g, '%20')) : '';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i, cb; loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cb = cbs[i]; cb();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();</script>
+  </head>
+  <body>
+    <div class="m-page-stage js-page-stage">
+      <div class="m-page-content"><header class="m-page-header">
+  <div class="main clearfix">
+    <div class='site-logo'><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#666666;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg><a title="本站记录我在学习之旅的沿途风景" href="/">sindrilin的小巢</a></div>
+    <nav>
+      <ul><li><a href="/">Home</a></li><li><a href="/all.html">Archive</a></li><li><a href="/about.html">About</a></li><li><a type="application/rss+xml" href="/feed.xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="m-page-main"><div class="m-post">
+	<div class="main clearfix js-main">
+		<div class="col-2 js-col-2">
+			<aside class="js-article-aside"><div class="m-toc js-toc"></div></aside>
+		</div>
+		<div class="col-1">
+			<article class="js-article" itemscope itemtype="http://schema.org/BlogPosting">
+				<meta itemprop="mainEntityOfPage" itemscope itemType="https://schema.org/WebPage"/>
+				<header class="main-header"><h1 itemprop="headline" itemprop="name headline">分析实现-倒计时设计</h1><div class="m-article-info clearfix"><meta itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="sindrilin"/></meta><ul class="tag-wrapper"><li>
+          <a class="pill-button" href="/all.html?tag=%E5%88%86%E6%9E%90%E5%AE%9E%E7%8E%B0">分析实现</a>
+        </li></ul><div class="other-wrapper"><div class="view-wrapper">
+        <span class="article-view" data-page-key="">0
+        </span> views
+      </div><div class="date-wrapper"><time class="article-meta" datetime="2018-01-06T16:00:00+08:00"
+          itemprop="datePublished">Jan 06, 2018
+        </time></div>
+  </div>
+</div>
+</header>
+				<div class="m-article-content js-article-content" itemprop="articleBody"><p>计算机是不存在倒计时这个概念的，所有的倒计时设计来源于对定时器的运用：给予一个<code class="highlighter-rouge">deadline</code>，以秒为时间间隔，在每次回调时刷新屏幕上的数字。倒计时的实现几乎没有门槛，无论<code class="highlighter-rouge">NSTimer</code>也好，<code class="highlighter-rouge">GCD</code>也罢，甚至使用<code class="highlighter-rouge">CADisplayLink</code>都能用来制作一个倒计时方案。但同样的，低门槛也意味着方案的上下限差也很大，本文打算谈谈如何设计一个倒计时方案</p>
+
+<h3 id="为什么要写这篇文章">为什么要写这篇文章</h3>
+<p>事实上，倒计时和我目前开发的方向八竿子打不着，我也确实没有必要和想过写这么一套方案。只是这几天有朋友分享了别人设计的倒计时功能：</p>
+
+<blockquote>
+  <p>采用一个全局计时管理对象针对每一个倒计时按钮分配计时器，计时器会生成一个<code class="highlighter-rouge">NSOperation</code>对象来执行回调，完成倒计时功能</p>
+</blockquote>
+
+<p>在抛开代码不谈的情况下，这套设计思路我也是存疑的。如果倒计时要使用<code class="highlighter-rouge">operation</code>，那就需要使用<code class="highlighter-rouge">queue</code>来完成任务。根据<code class="highlighter-rouge">queue</code>的串行并行属性，要考虑这两点：</p>
+
+<ul>
+  <li>
+    <p>如果<code class="highlighter-rouge">queue</code>是并行的，一个界面上存在多个倒计时按钮时，可能会新建线程来处理同一个<code class="highlighter-rouge">queue</code>的任务，这部分的开销并不是必需的</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">operation</code>需要投放到<code class="highlighter-rouge">queue</code>里面启动执行。假如每秒的回调包装成<code class="highlighter-rouge">operation</code>处理，那么需要一个定时机制来投放这些<code class="highlighter-rouge">operation</code>。如果是这么，为什么不直接使用定时器，而要用<code class="highlighter-rouge">operation</code></p>
+  </li>
+</ul>
+
+<p>但在看完设计者的文章和代码之后，我发现对方根本没有考虑过上面的问题。他<code class="highlighter-rouge">operation</code>的任务思路很奇怪：</p>
+
+<blockquote>
+  <p>在每一个<code class="highlighter-rouge">operation</code>里面，采用<code class="highlighter-rouge">while + sleep</code>的方式，每次回调后让线程睡眠一秒，直至倒计时结束</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)main {
+    ......
+    do {
+        callback(self.leftTime);
+        [NSThread sleepForTimeInterval: 1];
+    } while (--self.leftTime &gt; 0);
+    ......
+}
+</code></pre></div></div>
+
+<p>这种实现有三个坑爹的地方：</p>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">while</code>循环结束之前，内部的临时变量不会被释放，存在内存占用过大的风险</p>
+  </li>
+  <li>
+    <p>如果<code class="highlighter-rouge">queue</code>是串行属性，多个<code class="highlighter-rouge">operation</code>将无法保证回调时间的正确</p>
+  </li>
+  <li>
+    <p>不应该采用<code class="highlighter-rouge">sleep</code>方式计时，这很浪费线程的执行效率</p>
+  </li>
+</ol>
+
+<p>另外，应用进入后台时，所有的子线程会被停止执行任务，这个会导致了应用切换前后台后，倒计时剩余时间不准。对于这种情况一般也有三种方式来做时间校正：</p>
+
+<ol>
+  <li>
+    <p>保存一个倒计时<code class="highlighter-rouge">deadline</code>，在进入<code class="highlighter-rouge">active</code>后重新计算剩余倒计时</p>
+  </li>
+  <li>
+    <p>注册通知，在切换前后台时计算时长，减去这个时间更新剩余时间</p>
+  </li>
+  <li>
+    <p>创建应用后台任务，继续进行倒计时</p>
+  </li>
+</ol>
+
+<p>而上面的设计采用了<code class="highlighter-rouge">3</code>的解决方案，鉴于应用在后台时，用户对应用毫无感知的特点，这几乎是最差的一种方案。于是基于这一个个槽点，我决定按照自己的想法，做一个相对高效的倒计时方案</p>
+
+<h3 id="存储结构">存储结构</h3>
+<p>一套功能方案设计的目的是为了<code class="highlighter-rouge">简化逻辑流程，隐藏实现细节，尽可能少的暴露接口</code>。普通的倒计时是调用方直接使用定时器实现规律性回调，定时器需要持有调用方的信息。而倒计时设计隐藏了定时器的实现细节，只需调用方提供回调，其余的耦合关联由管理类来完成，类似的设计有<code class="highlighter-rouge">Notification</code>和<code class="highlighter-rouge">Observer</code>等</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/8/160d53f68c1f2f74?w=1544&amp;h=1404&amp;f=jpeg&amp;s=495873" alt="" /></p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/8/160d52ee62123d89?w=1844&amp;h=1364&amp;f=jpeg&amp;s=577491" alt="" /></p>
+
+<p>即便是系统使用的两种类似的监听设计，在内部实现时，所用到的存储结构也是不同的。<code class="highlighter-rouge">Notification</code>不持有对象本身，采用保存对象地址的实现，但这样存在野指针风险。<code class="highlighter-rouge">Observer</code>会持有对象，但会造成循环引用的风险。可以说：</p>
+
+<blockquote>
+  <p>不同的考量标准和业务场景决定了不同的结构设计</p>
+</blockquote>
+
+<h4 id="回调设计">回调设计</h4>
+<p>在<code class="highlighter-rouge">iOS</code>中常用的回调方式包括<code class="highlighter-rouge">delegate</code>和<code class="highlighter-rouge">block</code>两种，这两种方式都能很好的处理倒计时的需求。但出于以下理由我选择了<code class="highlighter-rouge">block</code>：</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">delegate</code>的耦合关系强于<code class="highlighter-rouge">block</code></p>
+
+    <p><code class="highlighter-rouge">delegate</code>在委托方和代理方中间添加了一层中间层，解除了双方的直接耦合关系，但同样的委托方和代理方需要依赖于<code class="highlighter-rouge">protocol</code>，这是这种模式必然存在的耦合关系。相比之下，<code class="highlighter-rouge">block</code>并不存在这种烦恼</p>
+
+    <p><img src="https://user-gold-cdn.xitu.io/2018/1/8/160d52ee64ece81b?w=814&amp;h=1024&amp;f=jpeg&amp;s=183904" alt="" /></p>
+  </li>
+  <li>
+    <p>更少的代码</p>
+
+    <p>同样的回调处理下，<code class="highlighter-rouge">delegate</code>的代码量要多于<code class="highlighter-rouge">block</code>。并不是说更多的代码一定不好，只是同样符合实现需求，逻辑清晰同样清晰的情况下，后者优于前者：</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  #pragma mark - delegate type
+  - (void)doSomething {
+      /// do something
+      if ([_delegate respondsToSelector: @selector(countDownWithLeftTime:)]) {
+          [_delegate countDownWithLeftTime: leftTime];
+      }
+  }
+    
+  #pragma mark - block type
+  - (void)doSomething: (void(^)(NSInteger leftTime))countDown {
+      /// do something
+      if (countDown) { countDown(leftTime); }
+  }
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="任务中止">任务中止</h4>
+<p>倒计时设计应当满足最基本的停止条件：<code class="highlighter-rouge">倒计时归零</code>，但除了正常中止之外，总是有提前结束任务的可能性。对外界提供<code class="highlighter-rouge">removeXXX</code>格式的接口是一种好的思路，这让代码成对匹配，赏心悦目。但在实际开发中，我们应当重视一个设计原则：</p>
+
+<blockquote>
+  <p>接口隔离原则：一个类与另一个类之间的依赖性，应该依赖于尽可能小的接口</p>
+</blockquote>
+
+<p>对外暴露接口需要再三思考，因为一旦提供了额外的接口，这意味着实现方要多处理一个逻辑，调用方需要多调用一次代码。决定是否提供<code class="highlighter-rouge">remove</code>接口应该取决于对象依赖，<code class="highlighter-rouge">Notification</code>和<code class="highlighter-rouge">Observer</code>都会因为保存对象的关键信息导致额外的风险，因此必须提供移除策略</p>
+
+<p>由于我们已经采用<code class="highlighter-rouge">block</code>设计，无需直接依赖对象的某些信息，可以忽略<code class="highlighter-rouge">remove</code>接口的选项。而实际上，想要提供中止任务的功能，系统的<code class="highlighter-rouge">enum</code>为我们提供了很好的思路：在回调中提供标记位，一旦标记位被修改，回调完成后中止任务。结合回调设计采用的方案，得到<code class="highlighter-rouge">block</code>的结构：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef void(^LXDReceiverCallback)(long leftTime, bool *isStop);
+</code></pre></div></div>
+
+<h4 id="重复任务">重复任务</h4>
+<p>通知中心是去重实现中很典型的<code class="highlighter-rouge">bad case</code>：同一次通知的回调次数取决于注册该通知的次数。如果将这种设计放到倒计时中，具体表现为剩余时长以正常倒计时数倍的速率减少。正常场景下很难出现这种问题，但如果在限时抢购的列表界面，多个<code class="highlighter-rouge">cell</code>被复用的情况下，很容易出现这种情况</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct hash_entry_t {
+    void *entry;
+} hash_entry_t;
+
+class LXDBaseHashmap {
+public:
+    LXDBaseHashmap();
+    virtual ~LXDBaseHashmap();
+    unsigned int entries_count;
+    hash_entry_t *hash_entries;
+    
+protected:
+    unsigned int obj_hash_code(void *obj);
+};
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">hash表</code>是一种常用的去重算法：一个输入只对应一个输出。为了避免对象重复创建倒计时任务，我们需要找到对象所拥有的一个唯一值作为输入——对象地址，并且以此作为<code class="highlighter-rouge">key</code>检测是否存在冲突：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define hash_bucket_count 7
+
+unsigned int LXDBaseHashmap::obj_hash_code(void *obj) {
+    uint64_t *val1 = (uint64_t *)obj;
+    uint64_t *val2 = val1 + 1;
+    return (unsigned int)(*val1 + *val2) % hash_bucket_count;
+}
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">hash表</code>需要考量的另一个因素是表的长度。同样情况下，表长度越大，越难发生计算冲突，但同样也占用了更多的内存。出于以下原因，最终桶的长度设定为<code class="highlighter-rouge">7</code>：</p>
+
+<ol>
+  <li>倒计时场景下出现大量倒计时的可能性低</li>
+  <li>由于地址都是双数，桶的个数必须为单数，否则无法计算出单数结果</li>
+</ol>
+
+<p>另一方面，由于<code class="highlighter-rouge">hash表</code>的长度仅为<code class="highlighter-rouge">7</code>，出现计算冲突的并不小，我们还要考虑出现冲突时的处理方案，可以借鉴<code class="highlighter-rouge">@synchronized</code>的实现方式来解决这个问题。<code class="highlighter-rouge">@synchronized</code>同样基于对象地址进行<code class="highlighter-rouge">hash</code>计算，每个桶存储一张可用锁链表，链表的节点保存对象，用于执行冲突后的再匹配工作：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct SyncData {
+    id object;
+    recursive_mutex_t mutex;
+    struct SyncData* nextData;
+    int threadCount;
+} SyncData;
+
+typedef struct SyncList {
+    SyncData *data;
+    spinlock_t lock;
+} SyncList;
+
+#define COUNT 16
+#define HASH(obj) ((((uintptr_t)(obj)) &gt;&gt; 5) &amp; (COUNT - 1))
+#define LOCK_FOR_OBJ(obj) sDataLists[HASH(obj)].lock
+#define LIST_FOR_OBJ(obj) sDataLists[HASH(obj)].data
+static SyncList sDataLists[COUNT];
+</code></pre></div></div>
+
+<p>因此，仿照这种设计，我们存储的链表节点除了保存回调<code class="highlighter-rouge">block</code>和倒计时长之外，还需要保存调用对象的地址信息，得到结构体：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct LXDReceiver {
+    long lefttime;
+    uintptr_t objaddr;
+    LXDReceiverCallback callback;
+} LXDReceiver;
+</code></pre></div></div>
+
+<h4 id="链表性能">链表性能</h4>
+<p>由于链表的查找需要遍历链表，效率较低。在倒计时完毕或者任务中止时，移除任务会有不必要的损耗。采用<code class="highlighter-rouge">双向链表</code>的设计，可以获取到删除任务的前后节点，快速的完成删除。另外预留一个链表长度变量，每个链表提供一个表头来提供长度属性，方便后续扩充：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct LXDReceiverNode {
+    unsigned int count;
+    LXDReceiver *receiver;
+    LXDReceiverNode *next;
+    LXDReceiverNode *previous;
+    
+    LXDReceiverNode(LXDReceiver *receiver = NULL, LXDReceiverNode *previous = NULL) {
+        this-&gt;count = 0;
+        this-&gt;next = NULL;
+        this-&gt;previous = previous;
+        this-&gt;receiver = receiver;
+    }
+} LXDReceiverNode;
+</code></pre></div></div>
+
+<p>至此为止，方案的数据结构已经确定，剩下的就是对倒计时逻辑的封装设计</p>
+
+<h3 id="逻辑封装">逻辑封装</h3>
+
+<h4 id="定时器方案">定时器方案</h4>
+<p>常用于实现倒计时的定时器有<code class="highlighter-rouge">NSTimer</code>和<code class="highlighter-rouge">GCD</code>两种，处于两点考虑，我选择了后者：</p>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">NSTimer</code>需要启动子线程的<code class="highlighter-rouge">runloop</code>，另外<code class="highlighter-rouge">iOS10+</code>系统必须手动启用一次<code class="highlighter-rouge">runloop</code>才能完成定时器的移除</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">GCD</code>具有更高的效率和精确度</p>
+  </li>
+</ol>
+
+<p>除此之外，定时器的设计一般被分为<code class="highlighter-rouge">多定时器设计</code>和<code class="highlighter-rouge">单定时器设计</code>，两种各有优劣</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">多定时器设计</code></p>
+
+    <p><img src="https://user-gold-cdn.xitu.io/2018/1/6/160cc16fc1f86cd9?w=1894&amp;h=1032&amp;f=jpeg&amp;s=431829" alt="" /></p>
+
+    <p>多定时器的设计下，每个倒计时任务拥有自己的计时器。优点在于可以单独控制每个任务的回调间隔。缺点是由于多个定时器的屏幕刷新不一定会同步，导致<code class="highlighter-rouge">UI</code>更新不同步等</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">单定时器设计</code></p>
+
+    <p><img src="https://user-gold-cdn.xitu.io/2018/1/6/160cbfcd66386381?w=1916&amp;h=958&amp;f=jpeg&amp;s=386221" alt="" /></p>
+
+    <p>单定时器的设计下，所有倒计时任务使用同一个计时器。优点在于减少了额外的性能损耗，设计结构更清晰。缺点在定时器已经启动的情况下，新任务的首次倒计时可能会有明显的提前以及多个倒计时任务强制使用同一种计时间隔。</p>
+  </li>
+</ul>
+
+<p>考虑到倒计时的的<code class="highlighter-rouge">UI</code>同步效果以及更好的性能，我选择<code class="highlighter-rouge">单定时器设计</code>方案。另外如果确实存在多个不同计时间隔的需求，<code class="highlighter-rouge">单定时器设计</code>也可以很好的扩充接口提供支持</p>
+
+<h4 id="注册任务">注册任务</h4>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/8/160d52ee6340a06a?w=1394&amp;h=1362&amp;f=jpeg&amp;s=397256" alt="" /></p>
+
+<p>对象在注册倒计时任务时，取对象的地址进行<code class="highlighter-rouge">hash计算</code>，根据结果找到存储的对象链表。链表节点存储的<code class="highlighter-rouge">objcaddr</code>用来匹配对象，如果匹配失败，那么新建一个任务回调节点。完成插入后，启动定时器：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)registerCountDown: (LXDTimerCallback)countDown
+               forSeconds: (NSUInteger)seconds
+             withReceiver: (id)receiver {
+    if (countDown == nil || seconds &lt;= 0 || receiver == nil) { return; }
+    
+    lxd_wait(self.lock);
+    self.receives-&gt;insertReceiver((__bridge void *)receiver, countDown, seconds);
+    [self _startupTimer];
+    lxd_signal(self.lock);
+}
+
+bool LXDReceiverHashmap::insertReceiver(void *obj, LXDReceiverCallback callback, unsigned long lefttime) {
+    unsigned int offset = obj_hash_code(obj);
+    hash_entry_t *entry = hash_entries + offset;
+    LXDReceiverNode *header = (LXDReceiverNode *)entry-&gt;entry;
+    LXDReceiverNode *node = header-&gt;next;
+    
+    if (node == NULL) {
+        LXDReceiver *receiver = create_receiver(obj, callback, lefttime);
+        node = new LXDReceiverNode(receiver, header);
+        header-&gt;next = node;
+        header-&gt;count++;
+        return true;
+    }
+    
+    do {
+        if (compare(node, obj) == true) {
+            node-&gt;receiver-&gt;callback = callback;
+            node-&gt;receiver-&gt;lefttime = lefttime;
+            return false;
+        }
+    } while (node-&gt;next != NULL &amp;&amp; (node = node-&gt;next));
+    
+    if (compare(node, obj) == true) {
+        node-&gt;receiver-&gt;callback = callback;
+        node-&gt;receiver-&gt;lefttime = lefttime;
+        return false;
+    }
+    
+    LXDReceiver *receiver = create_receiver(obj, callback, lefttime);
+    node-&gt;next = new LXDReceiverNode(receiver, node);
+    header-&gt;count++;
+    return true;
+}
+</code></pre></div></div>
+
+<h4 id="倒计时回调">倒计时回调</h4>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/8/160d52ee5798c78f?w=1176&amp;h=1322&amp;f=jpeg&amp;s=335382" alt="" /></p>
+
+<p>定时器启动后，会遍历所有的回调链表，并且调起回调处理。如果在本次遍历中发生已经不存在任何倒计时任务，那么定时器将被释放：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)_countDown {
+    NSMutableArray *removeNodes = @[].mutableCopy;
+    
+    for (unsigned int offset = 0; offset &lt; _receives-&gt;entries_count; offset++) {
+        hash_entry_t *entry = _receives-&gt;hash_entries + offset;
+        LXDReceiverNode *header = (LXDReceiverNode *)entry-&gt;entry;
+        LXDReceiverNode *node = header-&gt;next;
+        
+        while (node != NULL) {
+            [removeNodes addObject: [NSValue valueWithPointer: (void *)node]];
+            node = node-&gt;next;
+        }
+    }
+    
+    if (removeNodes == 0 &amp;&amp; self.timer != nil) {
+        lxd_wait(self.lock);
+        dispatch_cancel(self.timer);
+        self.timer = nil;
+        lxd_signal(self.lock);
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [removeNodes enumerateObjectsWithOptions: NSEnumerationReverse usingBlock: ^(NSValue *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            LXDReceiverNode *node = (LXDReceiverNode *)[obj pointerValue];
+            node-&gt;receiver-&gt;lefttime--;
+            BOOL isStop = NO;
+            
+            node-&gt;receiver-&gt;callback(node-&gt;receiver-&gt;lefttime, &amp;isStop);
+            if (node-&gt;receiver-&gt;lefttime &gt; 0 &amp;&amp; !isStop) {
+                [removeNodes removeObjectAtIndex: idx];
+            }
+        }];
+        
+        dispatch_async(_timerQueue, ^{
+            lxd_wait(self.lock);
+            for (id obj in removeNodes) {
+                LXDReceiverNode *node = (LXDReceiverNode *)[obj pointerValue];
+                _receives-&gt;destoryNode(node);
+            }
+            lxd_signal(self.lock);
+        });
+    });
+}
+</code></pre></div></div>
+
+<p>倒计时任务会因为<code class="highlighter-rouge">倒计时归零</code>或者<code class="highlighter-rouge">标记位被修改</code>这两个原因结束，假如本次回调中正好所有的倒计时任务都处理完毕了，所有的注册者都被清除。此时并不会立刻停止定时器，而是等待到下次回调再停止。主要出于两个条件考虑：</p>
+
+<ol>
+  <li>回调属于异步执行，如果要本次处理完成后检测注册队列状态，需要额外的同步机制开销</li>
+  <li>假如在下次回调前又注册了新的倒计时任务，可以避免销毁重建定时器的开销</li>
+</ol>
+
+<h4 id="前后台切换">前后台切换</h4>
+<p>应用在前后台切换的过程中，会在<code class="highlighter-rouge">非后台线程</code>执行完当前任务后挂起线程。一般来说，我们的倒计时会因为前后台切换而中止，除非我们<code class="highlighter-rouge">将倒计时放在主线程</code>或<code class="highlighter-rouge">创建后台线程继续执行</code>。此外，应用重新回到<code class="highlighter-rouge">ative</code>状态时，只要在后台停留的时长超出了定时器的回调间隔，那么倒计时会立刻被回调，破坏了原有的回调时间和倒计时长</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/6/160cbfcd58ef3116?w=1816&amp;h=406&amp;f=jpeg&amp;s=151533" alt="" /></p>
+
+<p>文章开头提到有三种方案解决这种前后台切换对定时器的方案。<code class="highlighter-rouge">后台线程倒计时</code>可以最大程度的保证倒计时的回调时间依旧正确，但是基于应用后台无感知的特性，这种消耗资源的方案不在我们的考虑范围。由于在设计上，我已经采用了保留<code class="highlighter-rouge">lefttime</code>的方式，因此<code class="highlighter-rouge">保存deadline</code>重新计算剩余时长也不是最佳选择。采用方案<code class="highlighter-rouge">2</code>计算后台停留时间并且更新剩余时间是最合适的做法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)applicationDidBecameActive: (NSNotification *)notif {
+    if (self.enterBackgroundTime &amp;&amp; self.timer) {
+        long delay = [[NSDate date] timeIntervalSinceDate: self.enterBackgroundTime];
+        
+        dispatch_suspend(self.timer);
+        for (unsigned int offset = 0; offset &lt; _receives-&gt;entries_count; offset++) {
+            hash_entry_t *entry = _receives-&gt;hash_entries + offset;
+            LXDReceiverNode *header = (LXDReceiverNode *)entry-&gt;entry;
+            LXDReceiverNode *node = header-&gt;next;
+            
+            while (node != NULL) {
+                if (node-&gt;receiver-&gt;lefttime &lt; delay) {
+                    node-&gt;receiver-&gt;lefttime = 0;
+                } else {
+                    node-&gt;receiver-&gt;lefttime -= delay;
+                }
+                
+                bool isStop = false;
+                node-&gt;receiver-&gt;callback(node-&gt;receiver-&gt;lefttime, &amp;isStop);
+                if (node-&gt;receiver-&gt;lefttime &lt;= 0 || isStop) {
+                    lxd_wait(self.lock);
+                    _receives-&gt;destoryNode(node);
+                    lxd_signal(self.lock);
+                }
+            }
+        }
+        dispatch_resume(self.timer);
+    }
+}
+
+- (void)applicationDidEnterBackground: (NSNotification *)notif {
+    self.enterBackgroundTime = [NSDate date];
+}
+</code></pre></div></div>
+
+<p>由于通知的回调线程和定时器的处理线程可能存在多线程的竞争，为了排除这一干扰，我采用了<code class="highlighter-rouge">sema</code>加锁，以及在遍历期间挂起定时器，减少不必要的麻烦</p>
+
+<h4 id="对外接口">对外接口</h4>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/8/160d52ee55ea7d7c?w=588&amp;h=1318&amp;f=jpeg&amp;s=168584" alt="" /></p>
+
+<p>前文说过，在不影响功能性的情况下，应当尽量减少对外接口的数量。因此，倒计时管理类只需要提供一个接口即可：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*!
+ *  @class  LXDTimerManager
+ *  定时器管理
+ */</span>
+<span class="k">@interface</span> <span class="nc">LXDTimerManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="cm">/*!
+ *  @method timerManager
+ *  获取定时器管理对象
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">timerManager</span><span class="p">;</span>
+
+<span class="cm">/*!
+ *  @method registerCountDown:forSeconds:withReceiver:
+ *  注册倒计时回调
+ *
+ *  @params countDown   回调block
+ *  @params seconds     倒计时长
+ *  @params receiver    注册的对象
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerCountDown</span><span class="p">:</span> <span class="p">(</span><span class="n">LXDTimerCallback</span><span class="p">)</span><span class="nv">countDown</span>
+               <span class="nf">forSeconds</span><span class="p">:</span> <span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">seconds</span>
+             <span class="nf">withReceiver</span><span class="p">:</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nv">receiver</span><span class="p">;</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<h4 id="操作安全">操作安全</h4>
+<p>为了倒计时任务的可靠性，我们应该在子线程启动定时器，一方面提高了精准度，另一方面避免造成主线程的卡顿。但由于涉及到<code class="highlighter-rouge">UI更新</code>和<code class="highlighter-rouge">前后台切换</code>两个情况，必须要考虑到多线程可能对数据的破坏力。从设计上来说，底层设计只提供实现接口，不考虑任何业务场景。因此应该在上层调用处做安全处理</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/6/160cbfcd5b8b5026?w=872&amp;h=1048&amp;f=jpeg&amp;s=179874" alt="" /></p>
+
+<p>管理类使用<code class="highlighter-rouge">DISPATCH_QUEUE_SERIAL</code>属性创建的任务队列，确保定时器的回调之间是互不干扰的。对外提供的<code class="highlighter-rouge">register</code>接口无法保证调用方所处的线程环境，因此应当对操作进行加锁。此外涉及到<code class="highlighter-rouge">hashmap</code>的改动的代码都应当加锁保护：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    - (instancetype)init {
+    if (self = [super init]) {
+        self.receives = new LXDReceiverHashmap();
+        self.lock = dispatch_semaphore_create(1);
+        self.timerQueue = dispatch_queue_create("com.sindrilin.timer.queue", DISPATCH_QUEUE_SERIAL);
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(applicationDidBecameActive:) name: UIApplicationDidBecomeActiveNotification object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(applicationDidEnterBackground:) name: UIApplicationDidEnterBackgroundNotification object: nil];
+    }
+    return self;
+}
+
+- (void)registerCountDown: (LXDTimerCallback)countDown
+           forSeconds: (NSUInteger)seconds
+         withReceiver: (id)receiver {
+    if (countDown == nil || seconds &lt;= 0 || receiver == nil) { return; }
+    
+    lxd_wait(self.lock);
+    self.receives-&gt;insertReceiver((__bridge void *)receiver, countDown, seconds);
+    [self _startupTimer];
+    lxd_signal(self.lock);
+}
+</code></pre></div></div>
+
+<p>除了加锁，避免线程竞争的产生环境也是可行的。一个明显的竞争时机在于<code class="highlighter-rouge">应用切换前后台</code>和<code class="highlighter-rouge">倒计时回调</code>可能会同时被执行，因此在通知回调的遍历操作过程前后，将定时器<code class="highlighter-rouge">suspend</code>，避免恰好发生冲突的可能。</p>
+
+<h4 id="循环引用">循环引用</h4>
+<p>不同于大多数的倒计时方案，本方案通过扩充<code class="highlighter-rouge">NSObject</code>的方法来保证所有的类对象都可以注册倒计时任务。在<code class="highlighter-rouge">iOS</code>中，<code class="highlighter-rouge">block</code>是最容易引起循环引用的机制之一。为了尽量减少可能存在的引用问题，在接口的设计上，我让<code class="highlighter-rouge">block</code>接受一个<code class="highlighter-rouge">id</code>类型的调用对象，在接口层内部进行了一次<code class="highlighter-rouge">__weak</code>声明，并且在对象被释放后中止定时器任务：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">NSObject</span> <span class="p">(</span><span class="nl">PerformTimer</span><span class="p">)</span>
+
+<span class="n">__weak</span> <span class="n">typeof</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="n">weakself</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">[[</span><span class="n">LXDTimerManager</span> <span class="nf">timerManager</span><span class="p">]</span> <span class="nf">registerCountDown</span><span class="p">:</span> <span class="o">^</span><span class="p">(</span><span class="kt">long</span> <span class="n">leftTime</span><span class="p">,</span> <span class="n">bool</span> <span class="o">*</span><span class="n">isStop</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">weakself</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">countDown</span><span class="p">(</span><span class="n">weakself</span><span class="p">,</span> <span class="n">leftTime</span><span class="p">,</span> <span class="p">(</span><span class="n">BOOL</span> <span class="o">*</span><span class="p">)</span><span class="n">isStop</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="o">*</span><span class="n">isStop</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="nf">forSeconds</span><span class="p">:</span> <span class="n">seconds</span> <span class="n">withReceiver</span><span class="o">:</span> <span class="n">self</span><span class="p">];</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>当然，我也做好了调用者完全不用<code class="highlighter-rouge">receiver</code>的准备了~</p>
+
+<h3 id="其他">其他</h3>
+<p>最后再次声明这个观点：</p>
+
+<blockquote>
+  <p>倒计时方案几乎没有门槛，但也不仅限于倒计时方案</p>
+</blockquote>
+
+<p>设计一个功能需要经过仔细考虑多个因素，包括<code class="highlighter-rouge">逻辑</code>、<code class="highlighter-rouge">性能</code>、<code class="highlighter-rouge">质量</code>多个方面。洋洋洒洒写完之后，发现设计倒计时也不是那么的容易，而且<code class="highlighter-rouge">hash + linked list</code>的设计上我采用了<code class="highlighter-rouge">struct + C++</code>的数据结构实现。虽然这套设计直接采用<code class="highlighter-rouge">NSDictionary + NSArray</code>来实现也是完全没有问题的，但是看了那么多源码，那么多算法，不去实践下实在太可惜了。基于<code class="highlighter-rouge">吐槽 + 实践</code>两层原因，最终完成了这么一个东西</p>
+
+<p><strong><em>本篇文章基于这段时间学习的收获总结而成，如果您觉得有不足之处，还万请指出。项目已同步至<code class="highlighter-rouge">cocoapods</code>，可通过<code class="highlighter-rouge">pod 'LXDTimerManager'</code>导入</em></strong></p>
+
+<blockquote>
+  <p><a href="https://github.com/sindrilin/LXDTimerManager">demo</a></p>
+</blockquote>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/8/21/1655b3a6f7d188a8?w=430&amp;h=430&amp;f=jpeg&amp;s=23750" alt="关注我的公众号获取更新信息" /></p>
+
+</div>
+				<footer><meta itemprop="dateModified" content="2018-01-06T16:00:00+08:00"><div class="article-license"><div class="m-license"><div class="clearfix"><p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> license.</p><a class="license" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+      <img alt="Creative Commons License" src="/assets/images/license-cc4.png" />
+    </a><p></p>
+  </div>
+</div></div>
+				</footer>
+			</article>
+			<div class="article-previous-next clearfix"><div class="article-previous"><span>PREVIOUS</span><a href="/2018/01/21/key_value.html">分析实现-一对一设计</a></div><div class="article-next"><span>NEXT</span><a href="/2017/12/14/2017%E5%9B%9E%E9%A1%BE.html">2017回顾</a></div></div><section></section></div>
+	</div>
+</div>
+<script src="https://s95.cnzz.com/z_stat.php?id=1256664455&web_id=1256664455" language="JavaScript"></script>
+</div>
+      </div>
+    </div><div class="m-page-footer js-page-footer">
+  <div class="main">
+    <aside><div class="follow-me"><ul itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="sindrilin">
+    <link itemprop="url" href="www.sindrilin.com/"><li title="Follow me on Github.">
+        <a class="floating-action-round-button github" itemprop="sameAs" href="https://github.com/sindrilin" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li><li title="Follow me on Linkedin.">
+        <a class="floating-action-round-button linkedin" itemprop="sameAs" href="https://www.linkedin.com/in/林同学" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M260.096 155.648c0 27.307008-9.899008 50.516992-29.696 69.632-19.796992 19.115008-45.396992 28.672-76.8 28.672-30.036992 0-54.612992-9.556992-73.728-28.672-19.115008-19.115008-28.672-42.324992-28.672-69.632 0-28.672 9.556992-52.224 28.672-70.656 19.115008-18.432 44.372992-27.648 75.776-27.648 31.403008 0 56.32 9.216 74.752 27.648 18.432 18.432 28.331008 41.984 29.696 70.656 0 0 0 0 0 0m-202.752 808.96c0 0 0-632.832 0-632.832 0 0 196.608 0 196.608 0 0 0 0 632.832 0 632.832 0 0-196.608 0-196.608 0 0 0 0 0 0 0m313.344-430.08c0-58.708992-1.364992-126.292992-4.096-202.752 0 0 169.984 0 169.984 0 0 0 10.24 88.064 10.24 88.064 0 0 4.096 0 4.096 0 40.96-68.267008 105.812992-102.4 194.56-102.4 68.267008 0 123.220992 22.868992 164.864 68.608 41.643008 45.739008 62.464 113.664 62.464 203.776 0 0 0 374.784 0 374.784 0 0-196.608 0-196.608 0 0 0 0-350.208 0-350.208 0-91.476992-33.451008-137.216-100.352-137.216-47.787008 0-81.236992 24.576-100.352 73.728-4.096 8.192-6.144 24.576-6.144 49.152 0 0 0 364.544 0 364.544 0 0-198.656 0-198.656 0 0 0 0-430.08 0-430.08 0 0 0 0 0 0" />
+</svg></div>
+        </a>
+      </li></ul><p class="email">
+      <a title="Send me Email." href="mailto:sindrilin@foxmail.com" target="_self">sindrilin@foxmail.com</a>
+    </p></div>
+</aside>
+    <footer class="site-info">
+      <p>© sindrilin的小巢 2018</p>
+      <p>Powered by <a title="Jekyll is a simple, blog-aware, static site generator." href="http://jekyllrb.com/">Jekyll</a> & <a
+        title="TeXt is a succinct theme for blogging." href="https://github.com/kitian616/jekyll-TeXt-theme">TeXt Theme</a>.</p>
+    </footer>
+  </div>
+</div><script>(function () {
+  var $body = document.body;
+  function classnames(classes) {
+    var i, cur, _classes = '';
+    if (window.isString(classes)) {
+      _classes =  classes;
+    } else if (window.isArray(classes)) {
+      for (i = 0; i < classes.length; i++) {
+        cur = classes[i];
+        if (window.isString(cur)) {
+          _classes = _classes.concat(_classes ? ' ' + cur : cur);
+        }
+      }
+    } else {
+      return '';
+    }
+    return _classes;
+  }
+  function addClass(dom, classname) {
+    dom.setAttribute('class', classnames([dom.getAttribute('class'), classname]));
+  }
+  if (window.hasEvent('touchstart')) {
+    addClass($body, 'is-touch');
+    document.addEventListener('touchstart', function(){}, false);
+  } else {
+    addClass($body, 'not-touch');
+  }
+})();</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      sources: {
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/7.1.2/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  function scrollAnimateTo(destination, duration, callback) {
+    var $body = $('html, body'), bodyScrollTop = $body.scrollTop();
+    if(bodyScrollTop === destination) { return; }
+    $body.animate({ scrollTop: destination }, duration, callback);
+  }
+  window.scrollTopAnchor = function(anchor, callback) {
+    scrollAnimateTo($(anchor).offset().top, 400, function() {
+      window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+      callback && callback();
+    });
+  };
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $articleContent = $('.m-post, .m-page').find('.m-article-content'), $this;
+    $articleContent.children('.highlight').each(function() {
+      $this = $(this);
+      $this.attr('data-lang', $this.find('code').attr('data-lang'));
+    });
+
+    $articleContent.children('h1, h2, h3, h4, h5, h6').each(function() {
+      $this = $(this);
+      $this.append($('<a class="anchor" aria-hidden="true"></a>').html('<svg fill="#000000" width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg>'));
+    });
+    $articleContent.on('click', '.anchor', function() {
+      window.scrollTopAnchor('#' + $(this).parent().attr('id'));
+    });
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $document = $(window.document), $root;
+    var rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop, lastScrollTop;
+    var offsetBottom = 0, disabled = false, hasInit = false;
+
+    function setOptions(options) {
+      var _options = options || {};
+      _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+      _options.disabled !== undefined && (disabled = _options.disabled);
+      calc(true);
+    }
+    function initData() {
+      top();
+      var rootOffset = $root.offset();
+      rootHeight = $root.outerHeight();
+      rootTop = rootOffset.top;
+      rootLeft = rootOffset.left;
+    }
+    function calc(needInitData) {
+      needInitData && initData();
+      scrollBottom = $document.outerHeight() - offsetBottom - rootHeight;
+      rootBottomTop = scrollBottom - rootTop;
+    }
+    function top() {
+      $root.removeClass('fixed').css({
+        left: 0,
+        top: 0
+      });
+    }
+    function fixed() {
+      $root.addClass('fixed').css({
+        left: rootLeft + 'px',
+        top: 0
+      });
+    }
+    function bottom() {
+      $root.removeClass('fixed').css({
+        left: 0,
+        top: rootBottomTop + 'px'
+      });
+    }
+    function setState(force) {
+      force !== true && (force = false);
+      var scrollTop = $window.scrollTop();
+      if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+        (!force && lastScrollTop >= rootTop && lastScrollTop <= scrollBottom) || fixed();
+      } else if (scrollTop < rootTop) {
+        (!force && lastScrollTop < rootTop) || top();
+      } else {
+        (!force && lastScrollTop > scrollBottom) || bottom();
+      }
+      lastScrollTop = scrollTop;
+    }
+    function init() {
+      if(!hasInit) {
+        var interval, timeout;
+        calc(true); setState();
+        // run calc every 1.5 seconds
+        interval = setInterval(function() {
+          calc();
+        }, 1500);
+        timeout = setTimeout(function() {
+          clearInterval(interval);
+        }, 50000);
+        window.pageLoad.then(function() {
+          clearInterval(interval);
+          clearTimeout(timeout);
+        });
+        $window.on('scroll', function() {
+          disabled || setState();
+        });
+        $window.on('resize', window.throttle(function() {
+          disabled || (calc(true), setState(true));
+        }, 100));
+        hasInit = true;
+      }
+    }
+
+    function affix(options) {
+      $root = this;
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $root, $tocUl = $('<ul></ul>'), $tocLi, $headings, $activeLast, $activeCur;
+    var selectors = 'h1,h2,h3', container = 'body', disabled = false;
+    var headingsPos, scrolling = false, rendered = false, hasInit = false;
+    function setOptions(options) {
+      var _options = options || {};
+      _options.selectors && (selectors = _options.selectors);
+      _options.container && (container = _options.container);
+      _options.disabled !== undefined && (disabled = _options.disabled);
+      $headings = $(container).find(selectors);
+      calc();
+    }
+    function calc() {
+      headingsPos = [];
+      $headings.each(function() {
+        headingsPos.push(Math.floor($(this).offset().top));
+      });
+    }
+    function setState(element, disabled) {
+      var scrollTop = $window.scrollTop(), i;
+      if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+      if (element) {
+        $activeCur = element;
+      } else {
+        for (i = 0; i < headingsPos.length; i++) {
+          if (scrollTop >= headingsPos[i]) {
+            $activeCur = $tocLi.eq(i);
+          } else {
+            $activeCur || ($activeCur = $tocLi.eq(i));
+            break;
+          }
+        }
+      }
+      $activeLast && $activeLast.removeClass('toc-active');
+      ($activeLast = $activeCur).addClass('toc-active');
+    }
+    function render() {
+      if(!rendered) {
+        $root.append($tocUl);
+        $headings.each(function() {
+          var $this = $(this);
+          $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+            .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+        });
+        $tocLi = $tocUl.children('li');
+        $tocUl.on('click', 'a', function(e) {
+          e.preventDefault();
+          var $this = $(this);
+          scrolling = true;
+          setState($this.parent());
+          window.scrollTopAnchor($this.attr('href'), function() {
+            scrolling = false;
+          });
+        });
+      }
+      rendered = true;
+    }
+    function init() {
+      var interval, timeout;
+      if(!hasInit) {
+        render(); calc(); setState(null, scrolling);
+        // run calc every 1.5 seconds
+        interval = setInterval(function() {
+          calc();
+        }, 1500);
+        timeout = setTimeout(function() {
+          clearInterval(interval);
+        }, 50000);
+        window.pageLoad.then(function() {
+          clearInterval(interval);
+          clearTimeout(timeout);
+        });
+        $window.on('scroll', function() {
+          disabled || setState(null, scrolling);
+        });
+        $window.on('resize', window.throttle(function() {
+          if (!disabled) {
+            render(); calc(); setState(null, scrolling);
+          }
+        }, 100));
+      }
+      hasInit = true;
+    }
+    function toc(options) {
+      $root = this;
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    toc.setOptions = setOptions;
+    $.fn.toc = toc;
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $pageStage = $('.js-page-stage');
+    var $pageFooter = $('.js-page-footer');
+    var $articleContent = $('.js-article-content');
+    var $articleAside = $('.js-article-aside');
+    var $toc = $('.js-toc');
+    var $col2 = $('.js-col-2');
+    var toc, affix;
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+    var tocDisabled = false;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    if (hasToc) {
+      !$pageStage.hasClass('has-toc') && $pageStage.addClass('has-toc');
+    }
+    tocDisabled = disabled();
+
+    setTimeout(function() {
+      toc = $toc.toc({
+        selectors: TOC_SELECTOR,
+        container: $articleContent,
+        disabled: tocDisabled
+      });
+      affix = $articleAside.affix({
+        offsetBottom: $pageFooter.outerHeight(),
+        disabled: tocDisabled
+      });
+    }, 1000);
+  });
+})();</script><script>
+  window.Lazyload.js(['https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js', 'https://cdn.bootcss.com/Chart.js/2.7.1/Chart.bundle.min.js'], function() {
+    var $canvas = null, $this = null, _ctx = null, _text = '';
+    $('.language-chart').each(function(){
+      $this = $(this);
+      $canvas = $('<canvas></canvas>');
+      _text = $this.text();
+      $this.text('').append($canvas);
+      _ctx = $canvas.get(0).getContext('2d');
+      (_ctx && _text) && (new Chart(_ctx, JSON.parse(_text)) && $this.attr('data-processed', true));
+    });
+  });
+</script><script type="text/x-mathjax-config">
+	var _config = { tex2jax: {
+		inlineMath: [['$','$'], ['\\(','\\)']]
+	}};_config.TeX = { equationNumbers: { autoNumber: "all" } };MathJax.Hub.Config(_config);
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script>
+  window.Lazyload.js('https://cdn.bootcss.com/mermaid/7.1.2/mermaid.min.js', function() {
+    mermaid.init(undefined, '.language-mermaid');
+    mermaid.initialize({ startOnLoad: true });
+  });
+</script><script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-118054194-1', 'auto');
+		ga('send', 'pageview');
+	</script></body>
+</html>

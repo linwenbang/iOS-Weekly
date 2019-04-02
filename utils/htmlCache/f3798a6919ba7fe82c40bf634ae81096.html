@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+ 
+<title>Dealing with a Swift toolchain</title>
+<link rel="shortcut icon" href="/favicon.png">
+<meta name="description" content="Design a project that uses different versions of swift for different parts of the project. Combine multiple toolchains together and use it." />
+    
+<meta name="twitter:site" content="@krzyzanowskim">
+
+<meta name="twitter:creator" content="@krzyzanowskim">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content=""> 
+<link href='//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic,700italic|Open+Sans:300,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=0bca57d218" />
+<link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css?v=0bca57d218" />
+<link rel="stylesheet" type="text/css" href="/assets/css/prism.css?v=0bca57d218" />
+
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />     
+<meta name="description" content="Design a project that uses different versions of swift for different parts of the project. Combine multiple toolchains together and use it." />
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/amp/" />
+    
+    <meta property="og:site_name" content="Marcin Krzyżanowski" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Dealing with a Swift toolchain" />
+    <meta property="og:description" content="Design a project that uses different versions of swift for different parts of the project. Combine multiple toolchains together and use it." />
+    <meta property="og:url" content="https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/" />
+    <meta property="og:image" content="https://blog.krzyzanowskim.com/content/images/2018/10/Untitled-2.jpg" />
+    <meta property="article:published_time" content="2018-10-11T15:17:00.000Z" />
+    <meta property="article:modified_time" content="2018-10-11T15:16:59.000Z" />
+    <meta property="article:tag" content="Swift" />
+    <meta property="article:tag" content="Linux" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dealing with a Swift toolchain" />
+    <meta name="twitter:description" content="Design a project that uses different versions of swift for different parts of the project. Combine multiple toolchains together and use it." />
+    <meta name="twitter:url" content="https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/" />
+    <meta name="twitter:image" content="https://blog.krzyzanowskim.com/content/images/2018/10/Untitled-2.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Marcin Krzyżanowski" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Swift, Linux" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="423" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Marcin Krzyżanowski",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://blog.krzyzanowskim.com/favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Marcin Krzyżanowski",
+        "url": "https://blog.krzyzanowskim.com/author/krzyzanowskim/",
+        "sameAs": [
+            "http://krzyzanowskim.com"
+        ]
+    },
+    "headline": "Dealing with a Swift toolchain",
+    "url": "https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/",
+    "datePublished": "2018-10-11T15:17:00.000Z",
+    "dateModified": "2018-10-11T15:16:59.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://blog.krzyzanowskim.com/content/images/2018/10/Untitled-2.jpg",
+        "width": 1024,
+        "height": 423
+    },
+    "keywords": "Swift, Linux",
+    "description": "Design a project that uses different versions of swift for different parts of the project. Combine multiple toolchains together and use it.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://blog.krzyzanowskim.com/"
+    }
+}
+    </script>
+
+    <script src="/public/ghost-sdk.min.js?v=0bca57d218"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "35cab2396371"
+});
+</script>
+    <meta name="generator" content="Ghost 1.25" />
+    <link rel="alternate" type="application/rss+xml" title="Marcin Krzyżanowski" href="https://blog.krzyzanowskim.com/rss/" />
+    <!-- Analytics -->
+<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101156239);</script>
+<script async src="//static.getclicky.com/js"></script>
+
+<!-- Cookies consent -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#edeff5",
+      "text": "#838391"
+    },
+    "button": {
+      "background": "#4b81e8"
+    }
+  },
+  "theme": "classic"
+})});
+</script>    
+</head>
+
+<body class="post-template tag-swift tag-linux">
+     
+<header id="site-head" style="background-image: url(/content/images/2018/10/Untitled-2.jpg)" class="site-head post-2">
+	<div class="vertical">
+		<div role='banner' class="header_typesome">
+			
+			<h1 class="blogtitle_typesome">
+			<a title="Marcin Krzyżanowski" href='https://blog.krzyzanowskim.com'>
+			<!-- Marcin Krzyżanowski -->
+			</a>
+			</h1>
+		</div>
+        
+	</div>
+    
+</header>
+
+
+<main class="main_typesome" role="main">
+<hr class="pause remove" />
+
+	<article class="article_typesome">
+	
+	<div class="back_typesome">
+		<p class="go-back"><a class="fa fa-long-arrow-left" href="https://blog.krzyzanowskim.com"><span>Back</span></a></p>
+	</div>
+
+		<header class="postheader_typesome">
+			<ul>
+				<li><time class="date_typesome">Thursday 11 Oct 2018</time></li>
+				<li class="posttags_typesome"><a href="/tag/swift/">Swift</a> | <a href="/tag/linux/">Linux</a></li>
+
+			</ul>
+		
+			<h1 class="posttitle_typesome">Dealing with Swift toolchain</h1>
+	
+		</header>
+	
+		<div class="postcontent_typesome">
+			<div class="kg-card-markdown"><p>For the Swift toolchain, the most important, and the only that matter is a path to a <strong>swift</strong> binary. Everything is deducted based on that path.</p>
+<h2 id="structure">Structure</h2>
+<p>The Swift toolchain simplified structure is this:</p>
+<pre><code>└── swift-4.2-RELEASE.xctoolchain
+  ├── usr
+  │ ├── bin
+  │ │ ├── lldb
+  │ │ ├── lldb-mi
+  │ │ ├── swift
+  │ │ ├── swift-autolink-extract -&gt; swift
+  │ │ ├── swift-build
+  │ │ ├── swift-build-tool
+  │ │ ├── swift-demangle
+  │ │ ├── swift-format -&gt; swift
+  │ │ ├── swift-package
+  │ │ ├── swift-run
+  │ │ ├── swift-stdlib-tool
+  │ │ ├── swift-test
+  │ │ └── swiftc -&gt; swift
+  │ ├── include
+  │ └── ...
+  │ ├── lib
+  │ └── ...
+  │ ├── libexec
+  │ └── ...
+  │ ├── local
+  │ └── ...
+  │ ├── share
+  │ └── ...
+</code></pre>
+<p>One binary that stands out of the crowd, it's <strong>usr/bin/swift</strong>. Some other tools happen to be just a link to the <strong>swift</strong> executable. For example <strong>swiftc</strong> is a symbolic link to <strong>swift</strong>. Swift binary uses the concept of drivers - depends on the executable name, a driver is used, or another binary is executed. The most common are:</p>
+<ul>
+<li>swiftc</li>
+<li>swift build</li>
+<li>swift package</li>
+<li>swift run</li>
+<li>swift demangle</li>
+</ul>
+<h2 id="swifttools">Swift Tools</h2>
+<p>I know that <strong>swiftc</strong> and <strong>swift</strong> are not the same tools. One is a compiler; the latter is an <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">interactive</a> shell. The name of the executable is checked in the runtime, and either REPL or compilation branch code is executed.</p>
+<p>The <strong>swift-build</strong>, <strong>swift-package</strong> and <strong>swift-run</strong> binaries are actually part of <a href="https://swift.org/package-manager/">Swift Package Manager</a> subproject.</p>
+<p>A general pattern is that swift binary will act as a proxy for other binary. For example, when executing <code>swift somename</code> command, it will be passed to <code>swift-somename</code> executable, eg.:</p>
+<pre><code>$ swift somename
+&gt; error: unable to invoke subcommand: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-somename (No such file or directory)
+</code></pre>
+<p>Based on the <strong>swift</strong> binary location, every other path can be built. The path to standard library for the toolchain, the path for the swift libraries and all needed resources. That makes the swift toolchain portable - in the sense in can be installed anywhere.</p>
+<p>I may install multiple toolchains, one next to another, and by simply executing right <strong>swift</strong> binary (using full path). Here I have two swifts installed one next to another:</p>
+<pre><code>$ Toolchains/swift-4.2-RELEASE.xctoolchain/usr/bin/swift --version
+&gt; Apple Swift version 4.2 (swift-4.2-RELEASE)
+&gt; Target: x86_64-apple-darwin18.0.0
+</code></pre>
+<pre><code>$ Toolchains/swift-4.1.2-RELEASE.xctoolchain/usr/bin/swift --version
+&gt; Apple Swift version 4.1.2 (swift-4.1.2-RELEASE)
+&gt; Target: x86_64-apple-darwin18.0.0
+</code></pre>
+<h2 id="installation">Installation</h2>
+<p>Installation of the toolchain is as simple as downloading the archive and unzip it locally.</p>
+<h3 id="macos">macOS</h3>
+<p>The macOS version is distributed as a <strong>pkg</strong> archive, that can be extracted using <strong>xar</strong> tool eg.:</p>
+<pre><code>$ curl -O https://swift.org/builds/swift-4.2-release/xcode/swift-4.2-RELEASE/swift-4.2-RELEASE-osx.pkg
+$ xar -xf swift-4.2-RELEASE-osx.pkg -C Toolchains/
+$ tar -xzf Toolchains/swift-4.2-RELEASE-osx-package.pkg/Payload -C Toolchains/swift-4.2-RELEASE.xctoolchain
+</code></pre>
+<h3 id="linux">Linux</h3>
+<p>Linux archive is a simple tar.gz archive that I need to uncompress and extract, eg.:</p>
+<pre><code>$ curl -O https://swift.org/builds/swift-4.2-release/ubuntu1804/swift-4.2-RELEASE/swift-4.2-RELEASE-ubuntu18.04.tar.gz
+$ tar -xvzf swift-4.2-RELEASE-ubuntu18.04.tar.gz -C Toolchains/swift-4.2-RELEASE-ubuntu18.04.xctoolchain --strip-components=1
+</code></pre>
+<p>that was easy, wasn't it?</p>
+<h2 id="selectcurrenttoolchain">Select current toolchain</h2>
+<p>On Linux, it's best to use the path to the swift binary, or add the path to the <strong>PATH</strong> environment.</p>
+<p>On macOS <code>/usr/bin/swift</code> is just a stub that forwards invocations to the active toolchain.</p>
+<p>This technique can be used with Xcode as well, although the toolchain installation for Xcode requires it to extract to a <code>/Library/Developer/Toolchains/</code> directory.</p>
+<p>Once installed, I can query for the toolchain tool path using xcrun:</p>
+<pre><code>$ xcrun --toolchain &quot;Swift Development Snapshot&quot; --find swift
+&gt; /Library/Developer/Toolchains/swift-DEVELOPMENT-SNAPSHOT-2018-10-03-a.xctoolchain/usr/bin/swift
+</code></pre>
+<p>or run it right away</p>
+<pre><code>$ xcrun --toolchain &quot;Swift Development Snapshot&quot; --run swift
+Welcome to Apple Swift version 4.2-dev (LLVM aeaaca98ed, Clang 1ddef2249a, Swift 20bb815b62).
+Type :help for assistance.
+  1&gt;
+</code></pre>
+<p>it is also possible to set the current toolchain for the current execution, byt modifying <code>TOOLCHAINS</code> environmental variable.</p>
+<pre><code>$ export TOOLCHAINS=&quot;Swift Development Snapshot&quot;
+$ xcrun --find swift
+&gt; /Library/Developer/Toolchains/swift-DEVELOPMENT-SNAPSHOT-2018-10-03-a.xctoolchain/usr/bin/swift
+</code></pre>
+<p>this affects <code>xcodebuild</code> too.</p>
+<p>however, the toolchain name is less explicit than the full path (here, name is &quot;Swift Development Snapshot&quot;) I found it less usable.</p>
+<h2 id="bringyourownswift">Bring Your Own Swift</h2>
+<p>Bootstrapping usually refers to a self-starting process that is supposed to proceed without external input. It is possible to design a project that uses different versions of swift for different parts of the project. By combining multiple toolchains together and by calling the <strong>swift</strong> binary from the different locations, I can bootstrap the entire project on a machine without any swift installed in the first place.</p>
+<p>I did that for the <a href="http://online.swiftplayground.run">online.swiftplayground.run</a> the project that is an online Swift Playground that utilizes a few versions of Swift at the same time - to compile a code with a different version of the Swift it's enough to select it from the list. Internally it executes different toolchain using the techniques described above.</p>
+<p><img src="/content/images/2018/10/Screenshot-2018-10-11-at-12.41.27.png" alt="Screenshot-2018-10-11-at-12.41.27"></p>
+<p>In particular: the server is built and run with Swift 4.1.2, while other dependencies use either Swift 4.0.3, 4.1.2 or 4.2.</p>
+<p>To build an environment, I've created a <a href="https://github.com/krzyzanowskim/OnlineSwiftPlayground/blob/85c6c2a91c4c5a3dc328232bfa191bee6417538a/bootstrap.sh#L14">bootstrap.sh</a> script that downloads and extracts the toolchains, that later are used by the <a href="https://github.com/krzyzanowskim/OnlineSwiftPlayground/blob/master/run.sh">run.sh</a> script.</p>
+<p>Thanks to this approach, it's enough to clone the repo and run it, to have the runtime and development environment ready to use.</p>
+<p>PS. If you think now: this is great for a Docker - I agree. This is great for a Docker installation.</p>
+</div>
+		</div>
+	
+		<div class="back_typesome">
+			<p class="go-back"><a class="fa fa-long-arrow-left" href="https://blog.krzyzanowskim.com"><span>Back</span></a></p>
+			<p class="nav"><a class="fa fa-long-arrow-up" href=""><span>Back to top</span></a></p>
+		</div>
+
+   		
+     <footer class="postfooter_typesome">
+	 
+				<div class="author_typesome">
+					<ul>
+						<li><h4 class="authorname_typesome"><a href="https://blog.krzyzanowskim.com/author/krzyzanowskim">Marcin Krzyżanowski</a></h4></li>
+						<li><h5 class="authordata_typesome"><a href="http://krzyzanowskim.com">http://krzyzanowskim.com</a></h5></li>
+					</ul>
+						<p class="authorbio_typesome"><a href="https://twitter.com/krzyzanowskim" class="twitter-follow-button" data-show-count="false" data-size="large" data-dnt="true">Follow @krzyzanowskim</a></p>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+						<p class="authorbio_typesome"></p>
+				</div>
+				
+		
+			
+		<section class="sharepost_typesome">
+				<h4>Share this:</h4>
+				<a class="fa fa-twitter-square" target="_blank" href="https://twitter.com/share?text=Dealing with Swift toolchain&url=https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/"><span class="hidden_typesome">Twitter</span></a>
+				<a class="fa fa-facebook-square" target="_blank" href="https://www.facebook.com/sharer.php?u=https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/"><span class="hidden_typesome">Facebook</span></a>
+				<a class="fa fa-google-plus-square" target="_blank" href="https://plus.google.com/share?url=https://blog.krzyzanowskim.com/2018/10/11/dealing-with-a-swift-toolchain/"><span class="hidden_typesome">Google+</span></a>
+				
+				
+    	</section>
+       
+		</footer>
+	
+	</article>
+</main>
+
+<footer class="footer_typesome">
+	<div class="main_typesome">
+	<ul>
+		<li><span class="tooltip">Subscribe!</span><a class="fa fa-rss" target="_blank" href="https://blog.krzyzanowskim.com/rss/"></a></li>
+		<li><span class="tooltip">Twitter</span><a class="fa fa-twitter" href="https://twitter.com/krzyzanowskim"></a></li>
+		<li><span class="tooltip">Github</span><a class="fa fa-github" href="https://github.com/krzyzanowskim"></a></li>
+		<li><span class="tooltip">LinkedIn</span><a class="fa fa-linkedin" href="https://pl.linkedin.com/in/marcinkrzyzanowski"></a></li>
+		<!-- <li><span class="tooltip">Facebook</span><a class="fa fa-facebook" href="#"></a></li> -->
+		<!-- <li><span class="tooltip">Google</span><a class="fa fa-google-plus" href="#"></a></li>	 -->
+	</ul>
+		<hr />
+		<p>All content copyright <a href="/">Marcin Krzyżanowski</a> &copy; 2014-2016 &bull; All rights reserved.</p>
+	</div>
+</footer>
+	
+<!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js?v=0bca57d218"></script>
+<script type="text/javascript" src="/assets/js/prism.js?v=0bca57d218"></script>
+<script type="text/javascript" src="/assets/js/index.js?v=0bca57d218"></script>
+    
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="application/atom+xml" rel="alternate" href="https://felginep.github.io/feed.xml" title="Pierre Felgines" />
+  <title>
+    
+      UIView styling with functions &middot; Pierre Felgines
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+  <meta name="google-site-verification" content="6yNjtGCim19WpLoHtD7M-E5jTuRFXP8TVdHj88dzbQ0" />
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>UIView styling with functions | Pierre Felgines</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="UIView styling with functions" />
+<meta name="author" content="Pierre Felgines" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Today I want to talk about UIView styling. The common approach when we want to customize the display of native UI controls (for instance UIButton or UILabel) is to create a subclass that overrides a bunch of properties. That works well most of the time, but some problems may arise." />
+<meta property="og:description" content="Today I want to talk about UIView styling. The common approach when we want to customize the display of native UI controls (for instance UIButton or UILabel) is to create a subclass that overrides a bunch of properties. That works well most of the time, but some problems may arise." />
+<link rel="canonical" href="https://felginep.github.io/2019-02-19/uiview-styling-with-functions" />
+<meta property="og:url" content="https://felginep.github.io/2019-02-19/uiview-styling-with-functions" />
+<meta property="og:site_name" content="Pierre Felgines" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-02-19T00:00:00+00:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"https://felginep.github.io/2019-02-19/uiview-styling-with-functions","headline":"UIView styling with functions","dateModified":"2019-02-19T00:00:00+00:00","datePublished":"2019-02-19T00:00:00+00:00","author":{"@type":"Person","name":"Pierre Felgines"},"description":"Today I want to talk about UIView styling. The common approach when we want to customize the display of native UI controls (for instance UIButton or UILabel) is to create a subclass that overrides a bunch of properties. That works well most of the time, but some problems may arise.","mainEntityOfPage":{"@type":"WebPage","@id":"https://felginep.github.io/2019-02-19/uiview-styling-with-functions"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="/">
+          <h2 class="nav-title">Pierre Felgines</h2>
+        </a>
+        <ul>
+          <li><a href="https://felginep.github.io/about">About</a></li>
+          <li><a href="/">Posts</a></li>
+        </ul>
+    </div>
+  </nav>
+
+    <main>
+      <div class="post">
+  <div class="post-info">
+    <span>Written by&nbsp;</span>Pierre Felgines
+
+    
+      <br>
+      <span>on&nbsp;</span><time datetime="2019-02-19 00:00:00 +0000">February 19, 2019</time>
+    
+  </div>
+
+  <h1 class="post-title">UIView styling with functions</h1>
+  <div class="post-line"></div>
+
+  <p>Today I want to talk about <code class="highlighter-rouge">UIView</code> styling. The common approach when we want to customize the display of native UI controls (for instance <code class="highlighter-rouge">UIButton</code> or <code class="highlighter-rouge">UILabel</code>) is to create a subclass that overrides a bunch of properties. That works well most of the time, but some problems may arise.</p>
+
+<h1 id="the-filled-and-rounded-button">The filled and rounded button</h1>
+
+<p>We you use subclasses in Swift to style your views, you loose composition. For example, if you create two <code class="highlighter-rouge">UIButton</code> subclasses, <code class="highlighter-rouge">FilledButton</code> and <code class="highlighter-rouge">RoundedButton</code>, how do you create a button that is both filled and rounded ?</p>
+
+<p>One solution of this problem is to stop using subclasses, but to leverage Swift functions and type system.</p>
+
+<p>We can think about a view style, as a function that consumes a view, and set some properties on it.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">filledButtonStyle</span><span class="p">:</span> <span class="p">(</span><span class="kt">UIButton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="nf">setTitleColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">red</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">button</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">()</span>
+<span class="n">button</span><span class="o">.</span><span class="nf">setTitle</span><span class="p">(</span><span class="s">"My Button"</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+<span class="nf">filledButtonStyle</span><span class="p">(</span><span class="n">button</span><span class="p">)</span></code></pre></figure>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+	
+	
+	<img src="https://felginep.github.io/assets/style_filled_button.png" alt="Image 1. Filled button" />
+	
+	
+	
+	<p class="image-caption">Image 1. Filled button</p>
+	
+</div>
+
+<p>We can wrap this function into an object, for more control on it.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">style</span><span class="p">:</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We can now create some styles for our filled and rounded button.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">filled</span> <span class="o">=</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="nf">setTitleColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">red</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">rounded</span> <span class="o">=</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">button</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">()</span>
+<span class="n">filled</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="n">button</span><span class="p">)</span></code></pre></figure>
+
+<p>Now that we have our two styles for both filled and rounded buttons, we can create a new style for a rounded and filled button very easily.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">extension</span> <span class="kt">ViewStyle</span> <span class="p">{</span>
+
+    <span class="kd">func</span> <span class="nf">compose</span><span class="p">(</span><span class="n">with</span> <span class="nv">style</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span>
+            <span class="n">style</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">roundedAndFilled</span> <span class="o">=</span> <span class="n">filled</span><span class="o">.</span><span class="nf">compose</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">rounded</span><span class="p">)</span></code></pre></figure>
+
+<p>What was previously impossible with <code class="highlighter-rouge">UIButton</code> subclasses is now very straightforward using simple functions.</p>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+	
+	
+	<img src="https://felginep.github.io/assets/style_rounded_button.png" alt="Image 2. Filled and rounded button" />
+	
+	
+	
+	<p class="image-caption">Image 2. Filled and rounded button</p>
+	
+</div>
+
+<h1 id="improvements">Improvements</h1>
+
+<p>Now that we get the general idea, it’s time for syntactic sugar!</p>
+
+<p>First of all, for now our styles live in the global namespace. That’s not very scalable.</p>
+
+<p>The solution here is to extend <code class="highlighter-rouge">ViewStyle</code> and to constrain the generic type.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">extension</span> <span class="kt">ViewStyle</span> <span class="k">where</span> <span class="kt">T</span><span class="p">:</span> <span class="kt">UIButton</span> <span class="p">{</span>
+
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">filled</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+            <span class="nv">$0</span><span class="o">.</span><span class="nf">setTitleColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">,</span> <span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+            <span class="nv">$0</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">red</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">rounded</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+            <span class="nv">$0</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mf">4.0</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">roundedAndFilled</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">filled</span><span class="o">.</span><span class="nf">compose</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">rounded</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>That’s nice, we have a namespace to list all our styles. But it’s not very handy to style a button yet.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UIButton</span><span class="o">&gt;.</span><span class="n">roundedAndFilled</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="n">button</span><span class="p">)</span> <span class="c1">// 🙈</span></code></pre></figure>
+
+<p>To improve this, we can define a function that is responsible to apply a style to an object, inferring the type of the style based on the type of the object.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="n">style</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="n">with</span> <span class="nv">style</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">style</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">style</span><span class="p">(</span><span class="n">button</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="o">.</span><span class="n">roundedAndFilled</span><span class="p">)</span></code></pre></figure>
+
+<h1 id="protocols-to-the-rescue">Protocols to the rescue</h1>
+
+<p>The code looks good and is readable. But we can go one step further! I want to get rid of the global <code class="highlighter-rouge">style(_:with:)</code> function, and to use an instance method of <code class="highlighter-rouge">UIButton</code> instead. For this, let’s define an empty protocol <code class="highlighter-rouge">Stylable</code>, and make <code class="highlighter-rouge">UIView</code> conform to it. That way we will be able to add methods to <code class="highlighter-rouge">Stylable</code> and all the <code class="highlighter-rouge">UIView</code> subclasses will get them for free.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">protocol</span> <span class="kt">Stylable</span> <span class="p">{}</span>
+
+<span class="kd">extension</span> <span class="kt">UIView</span><span class="p">:</span> <span class="kt">Stylable</span> <span class="p">{}</span></code></pre></figure>
+
+<p>That may seem a little odd, but we can now extend <code class="highlighter-rouge">Stylable</code> to add a method to apply a style to any <code class="highlighter-rouge">Stylable</code> instance.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">extension</span> <span class="kt">Stylable</span> <span class="p">{</span>
+
+    <span class="kd">func</span> <span class="nf">apply</span><span class="p">(</span><span class="n">_</span> <span class="nv">style</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">style</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>All the <code class="highlighter-rouge">UIView</code> subclasses gain this <code class="highlighter-rouge">apply(_:)</code> method for free! The code becomes compact and readable.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">button</span><span class="o">.</span><span class="nf">apply</span><span class="p">(</span><span class="o">.</span><span class="n">roundedAndFilled</span><span class="p">)</span></code></pre></figure>
+
+<p>What’s more, we can’t misuse our styles because of the Swift type system!</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">labelStyle</span> <span class="o">=</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="kt">UILabel</span><span class="o">&gt;</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="o">.</span><span class="n">center</span> <span class="p">}</span>
+<span class="n">button</span><span class="o">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">labelStyle</span><span class="p">)</span> <span class="c1">// 💣</span>
+
+<span class="c1">// error: cannot convert value of type 'ViewStyle&lt;UILabel&gt;' to expected argument type 'ViewStyle&lt;UIButton&gt;'</span></code></pre></figure>
+
+<h1 id="init-with-style">Init with style</h1>
+
+<p>With the previous <code class="highlighter-rouge">apply(_:)</code> method you will often find yourself writing these two lines:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">button</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">()</span>
+<span class="n">button</span><span class="o">.</span><span class="nf">apply</span><span class="p">(</span><span class="o">.</span><span class="n">rounded</span><span class="p">)</span></code></pre></figure>
+
+<p>What if we could initialize our button (or any other <code class="highlighter-rouge">UIView</code>) with a predefined style? It would save us one line of code each time.</p>
+
+<p>That is possible, modifying slightly our <code class="highlighter-rouge">Stylable</code> protocol.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">protocol</span> <span class="kt">Stylable</span> <span class="p">{</span>
+    <span class="nf">init</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">UIView</span><span class="p">:</span> <span class="kt">Stylable</span> <span class="p">{}</span>
+
+<span class="kd">extension</span> <span class="kt">Stylable</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+        <span class="nf">apply</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">apply</span><span class="p">(</span><span class="n">_</span> <span class="nv">style</span><span class="p">:</span> <span class="kt">ViewStyle</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">style</span><span class="o">.</span><span class="nf">style</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We can now use the following syntax:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">button</span> <span class="o">=</span> <span class="kt">UIButton</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="n">roundedAndFilled</span><span class="p">)</span> <span class="c1">// 👌</span></code></pre></figure>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>With view styles as plain Swift functions, we achieved two things:</p>
+<ul>
+  <li>first, a technical improvement on view subclasses: the composition of two <code class="highlighter-rouge">UIView</code> subclasses was impossible, whereas it becomes very easy using Swift functions.</li>
+  <li>second, an easier communication between developers and designers. Indeed, designers often work with styles, in order to reuse components and keep a consistent look and feel all around the app. If you can extract their styles and map them in a Swift file, it will become much simpler to develop your UI, and to update these styles in the future.</li>
+</ul>
+
+<p>You can find the full gist <a href="https://gist.github.com/felginep/0148b40e26b19d07e81c2e1e4f2ff3d2">here</a>.</p>
+
+
+
+</div>
+
+<div class="pagination">
+  
+    <a href="https://felginep.github.io/2019-03-20/property-based-testing" class="left arrow">&#8592;</a>
+  
+  
+    <a href="https://felginep.github.io/2019-02-05/swinject-in-practice" class="right arrow">&#8594;</a>
+  
+
+  <a href="#" class="top">Top</a>
+</div>
+
+    </main>
+
+    <footer>
+      <span>
+        &copy; <time datetime="2019-03-20 15:55:12 +0000">2019</time> Pierre Felgines. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme.
+      </span>
+    </footer>
+  </body>
+</html>

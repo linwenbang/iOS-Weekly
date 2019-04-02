@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js no-svg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+
+<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Xcode 10 Storyboard Changes &#8211; Making App Pie</title>
+<script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Roboto+Slab:b:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s0.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5, .wf-active h6{font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active h1{font-size:31.2px;font-weight:700;font-style:normal}.wf-active h2{font-size:26px;font-weight:700;font-style:normal}.wf-active h3{font-size:23.4px;font-weight:700;font-style:normal}.wf-active h4{font-size:20.8px;font-weight:700;font-style:normal}.wf-active h5{font-size:16.9px;font-weight:700;font-style:normal}.wf-active h6{font-size:19.5px;font-weight:700;font-style:normal}.wf-active html[lang^="zh-"] h1, .wf-active html[lang^="zh-"] h2, .wf-active html[lang^="zh-"] h3, .wf-active html[lang^="zh-"] h4, .wf-active html[lang^="zh-"] h5, .wf-active html[lang^="zh-"] h6{font-weight:700;font-style:normal}.wf-active html[lang="bg-BG"] h1, .wf-active html[lang="bg-BG"] h2, .wf-active html[lang="bg-BG"] h3, .wf-active html[lang="bg-BG"] h4, .wf-active html[lang="bg-BG"] h5, .wf-active html[lang="bg-BG"] h6, .wf-active html[lang="ru-RU"] h1, .wf-active html[lang="ru-RU"] h2, .wf-active html[lang="ru-RU"] h3, .wf-active html[lang="ru-RU"] h4, .wf-active html[lang="ru-RU"] h5, .wf-active html[lang="ru-RU"] h6, .wf-active html[lang="uk"] h1, .wf-active html[lang="uk"] h2, .wf-active html[lang="uk"] h3, .wf-active html[lang="uk"] h4, .wf-active html[lang="uk"] h5, .wf-active html[lang="uk"] h6{font-weight:700;font-style:normal}.wf-active html[lang="bn-BD"] h1, .wf-active html[lang="bn-BD"] h2, .wf-active html[lang="bn-BD"] h3, .wf-active html[lang="bn-BD"] h4, .wf-active html[lang="bn-BD"] h5, .wf-active html[lang="bn-BD"] h6, .wf-active html[lang="hi-IN"] h1, .wf-active html[lang="hi-IN"] h2, .wf-active html[lang="hi-IN"] h3, .wf-active html[lang="hi-IN"] h4, .wf-active html[lang="hi-IN"] h5, .wf-active html[lang="hi-IN"] h6, .wf-active html[lang="mr-IN"] h1, .wf-active html[lang="mr-IN"] h2, .wf-active html[lang="mr-IN"] h3, .wf-active html[lang="mr-IN"] h4, .wf-active html[lang="mr-IN"] h5, .wf-active html[lang="mr-IN"] h6{font-weight:700;font-style:normal}.wf-active html[lang="el"] h1, .wf-active html[lang="el"] h2, .wf-active html[lang="el"] h3, .wf-active html[lang="el"] h4, .wf-active html[lang="el"] h5, .wf-active html[lang="el"] h6{font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active html[lang="gu-IN"] h1, .wf-active html[lang="gu-IN"] h2, .wf-active html[lang="gu-IN"] h3, .wf-active html[lang="gu-IN"] h4, .wf-active html[lang="gu-IN"] h5, .wf-active html[lang="gu-IN"] h6{font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active html[lang="he-IL"] h1, .wf-active html[lang="he-IL"] h2, .wf-active html[lang="he-IL"] h3, .wf-active html[lang="he-IL"] h4, .wf-active html[lang="he-IL"] h5, .wf-active html[lang="he-IL"] h6{font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active html[lang="ja"] h1, .wf-active html[lang="ja"] h2, .wf-active html[lang="ja"] h3, .wf-active html[lang="ja"] h4, .wf-active html[lang="ja"] h5, .wf-active html[lang="ja"] h6{font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active html[lang="ko-KR"] h1, .wf-active html[lang="ko-KR"] h2, .wf-active html[lang="ko-KR"] h3, .wf-active html[lang="ko-KR"] h4, .wf-active html[lang="ko-KR"] h5, .wf-active html[lang="ko-KR"] h6{font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active html[lang="th"] h1, .wf-active html[lang="th"] h2, .wf-active html[lang="th"] h3, .wf-active html[lang="th"] h4, .wf-active html[lang="th"] h5, .wf-active html[lang="th"] h6{font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active .site-title{font-size:31.2px;font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active .site-description{font-size:16.9px;font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active .page .panel-content .recent-posts .entry-title{font-size:26px;font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active .page .panel-content .entry-title, .wf-active .page-title, .wf-active body.page:not(.twentyseventeen-front-page) .entry-title{font-size:18.2px;font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active .nav-subtitle{font-size:14.3px;font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active .nav-title{font-size:19.5px;font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active .comments-title{font-size:26px;font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active h2.widget-title{font-size:16.9px;font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}.wf-active .widget-grofile h4{font-size:20.8px;font-family:"Roboto Slab",serif;font-style:normal;font-weight:700}.wf-active .site-content .wp-playlist-current-item .wp-playlist-item-title{font-weight:700;font-family:"Roboto Slab",serif;font-style:normal}@media screen and (min-width: 480px){.wf-active h1{font-size:39px;font-style:normal;font-weight:700}}@media screen and (min-width: 480px){.wf-active h2, .wf-active .page .panel-content .recent-posts .entry-title{font-size:33.8px;font-style:normal;font-weight:700}}@media screen and (min-width: 480px){.wf-active h3{font-size:28.6px;font-style:normal;font-weight:700}}@media screen and (min-width: 480px){.wf-active h4{font-size:23.4px;font-style:normal;font-weight:700}}@media screen and (min-width: 480px){.wf-active h5{font-size:16.9px;font-style:normal;font-weight:700}}@media screen and (min-width: 480px){.wf-active h6{font-size:20.8px;font-style:normal;font-weight:700}}@media screen and (min-width: 768px){.wf-active .site-title{font-size:46.8px;font-style:normal;font-weight:700}}@media screen and (min-width: 768px){.wf-active .site-description{font-size:20.8px;font-style:normal;font-weight:700}}@media screen and (min-width: 768px){.wf-active .page .panel-content .recent-posts .entry-title, .wf-active .single-post .entry-title, .wf-active .page .entry-title{font-size:33.8px;font-style:normal;font-weight:700}}@media screen and (min-width: 768px){.wf-active #secondary{font-size:14.3px;font-style:normal;font-weight:700}}@media screen and (min-width: 1072px){.wf-active .sticky .icon-thumb-tack{font-size:41.6px;font-style:normal;font-weight:700}}</style>
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.remove(); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[i].remove();
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.id )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&id=' + data.id
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&id=' + encodeURIComponent( data.id );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9tYWtlYXBwcGllLmNvbQ%3D%3D"
+		+ "&id=34365044"
+		+ "&time=1554224603";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//apppie.wordpress.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="Making App Pie &raquo; Feed" href="https://makeapppie.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Making App Pie &raquo; Comments Feed" href="https://makeapppie.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Making App Pie &raquo; Xcode 10 Storyboard&nbsp;Changes Comments Feed" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1550249335h&ver=5.2-beta1-45048"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJyNkNsKgzAMhl9otWw48WbsWXoIWm1qaVKcb79a2cVgyG5CDv/Hn0SuUZglMASWmEX0eXCBpHczkJyAozKzqFVjiC6yyF0wPtsyLg1pHbHUfqkqnVTaJPHmoUEX/iZ4BPwmfqxklgSlj1HxrkCwToEvYOAzbHV2AD6sj1wwvE4RjN3HaE/H8gI6tYhFLbSOCYhEiegyinpU5Z74uN7bru/7trtNb+H/iaM=?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyseventeen-fonts-css'  href='https://fonts.googleapis.com/css?family=Libre+Franklin%3A300%2C300i%2C400%2C400i%2C600%2C600i%2C800%2C800i&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s0.wp.com/_static/??-eJyNy90KQEAUReEXwqZMxoU8C9MpMX+1D/L2xhu4WrXqw51rl6JKVOgmQYh8rtC7jIdylYhEUB8vjSMr/AMLKUoUgdUnd/DDc5g601vbjsYM+wuIAy3p?cssminify=yes' type='text/css' media='all' />
+<style id='twentyseventeen-style-inline-css' type='text/css'>
+.site-content-contain {background-color: #ffffff; background-image: url(""); background-position: left top; background-size: auto; background-repeat: repeat; background-attachment: scroll; }
+</style>
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyseventeen-ie8-css'  href='https://s2.wp.com/wp-content/themes/pub/twentyseventeen/assets/css/ie8.css?m=1488830721h&#038;ver=1.0' type='text/css' media='all' />
+<![endif]-->
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??-eJx9UNEOwiAM/CGxWeLMXozfAqQyDFBCO5f9vcwtzsVkT72jd9dSGLOylASTgPQYkSEPBmSsDxPjqxbEBJoZhcEyA8sUUI3ZUjxXfgIPicTXEP6CpfETHQeVw+B81TgkFchq8ZR2RD2C9uXIWtAEchW6zyYbPTJpO4cbXTZ0JM/EsmwC3Osyz1rrkYvJeh3qVxztyZ9pPXJ/ARfI6DAL7vHWtG3TNd21bZ9vZgKXPw==?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFj80KwjAQhF/INGrNwYP4LGkd28Tmx+ympT69UfQgFoWFgd1vmRk5RWF8O+QTSNoy14w0v6SytJK/AOFMlzSjcsa/4TZ4hucHGwOxA5HusHB1oTEDRCakAnguNuewwH1GMn40mP5iFhx1exEJZG5f7tyj5JIxN5KnspgJYxHAS00Efjbt2Q2qfB7dYaPUervb17WydwZecf0='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://apppie.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Animate With a Map&nbsp;Camera' href='https://makeapppie.com/2018/08/22/animate-with-a-map-camera/' />
+<link rel='next' title='Use Code Snippets' href='https://makeapppie.com/2018/09/05/use-code-snippets/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/" />
+<link rel='shortlink' href='https://wp.me/p2kbUU-7FV' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fmakeapppie.com%2F2018%2F08%2F29%2Fxcode-10-storyboard-changes%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fmakeapppie.com%2F2018%2F08%2F29%2Fxcode-10-storyboard-changes%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Xcode 10 Storyboard Changes" />
+<meta property="og:url" content="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/" />
+<meta property="og:description" content="Note: You can also watch a video of this lesson at Lynda. com and LinkedInLearning.  There&#8217;s been a few changes  to the storyboard in Xcode 10, some might just drive you crazy if you don&amp;#821…" />
+<meta property="article:published_time" content="2018-08-29T13:15:48+00:00" />
+<meta property="article:modified_time" content="2018-09-05T11:28:56+00:00" />
+<meta property="og:site_name" content="Making App Pie" />
+<meta property="og:image" content="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=1200" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="752" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@Steve_Lipton" />
+<meta name="twitter:site" content="@Steve_Lipton" />
+<meta name="twitter:text:title" content="Xcode 10 Storyboard&nbsp;Changes" />
+<meta name="twitter:image" content="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/29c71bcd2a196d395c5831612467adf5?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/29c71bcd2a196d395c5831612467adf5?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/29c71bcd2a196d395c5831612467adf5?s=114" />
+<link rel='openid.server' href='https://apppie.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://apppie.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://makeapppie.com/osd.xml" title="Making App Pie" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<link rel="pingback" href="https://makeapppie.com/xmlrpc.php">
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Making App Pie" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Adventures in Swift and iOS App Development" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://makeapppie.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/29c71bcd2a196d395c5831612467adf5?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Note: You can also watch a video of this lesson at Lynda. com and LinkedInLearning.  There&#039;s been a few changes  to the storyboard in Xcode 10, some might just drive you crazy if you don&#039;t know how to use them. Some are really cool and will speed up your workflow. Let me show you the&hellip;" />
+<link rel="amphtml" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="post-template-default single single-post postid-29507 single-format-standard wp-custom-logo wp-embed-responsive mp6 customizer-styles-applied has-header-image has-sidebar colors-light cannot-edit highlander-enabled highlander-light">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header" role="banner">
+
+		<div class="custom-header">
+
+		<div class="custom-header-media">
+			<div id="wp-custom-header" class="wp-custom-header"><img src="https://apppie.files.wordpress.com/2017/08/cropped-webheader_pizzaprogramming.jpg" width="2000" height="1199" alt="Making App Pie" srcset="https://apppie.files.wordpress.com/2017/08/cropped-webheader_pizzaprogramming.jpg 2000w, https://apppie.files.wordpress.com/2017/08/cropped-webheader_pizzaprogramming.jpg?w=150&amp;h=90 150w, https://apppie.files.wordpress.com/2017/08/cropped-webheader_pizzaprogramming.jpg?w=300&amp;h=180 300w, https://apppie.files.wordpress.com/2017/08/cropped-webheader_pizzaprogramming.jpg?w=768&amp;h=460 768w, https://apppie.files.wordpress.com/2017/08/cropped-webheader_pizzaprogramming.jpg?w=1024&amp;h=614 1024w" sizes="100vw" /></div>		</div>
+
+	<div class="site-branding">
+	<div class="wrap">
+
+		<a href="https://makeapppie.com/" class="custom-logo-link" rel="home" itemprop="url"><img width="279" height="250" src="https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg" class="custom-logo" alt="Making App Pie" itemprop="logo" srcset="https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg 279w, https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg?w=150&amp;h=134 150w" sizes="100vw" data-attachment-id="29064" data-permalink="https://makeapppie.com/cropped-itunes-logo-slice-of-app-pie-jpg/" data-orig-file="https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg" data-orig-size="279,250" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="cropped-itunes-logo-slice-of-app-pie.jpg" data-image-description="&lt;p&gt;https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg&lt;/p&gt;
+" data-medium-file="https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg?w=279" data-large-file="https://apppie.files.wordpress.com/2016/03/cropped-itunes-logo-slice-of-app-pie.jpg?w=279" /></a>
+		<div class="site-branding-text">
+							<p class="site-title"><a href="https://makeapppie.com/" rel="home">Making App Pie</a></p>
+			
+							<p class="site-description">Adventures in Swift and iOS App Development</p>
+					</div><!-- .site-branding-text -->
+
+		
+	</div><!-- .wrap -->
+</div><!-- .site-branding -->
+
+</div><!-- .custom-header -->
+
+					<div class="navigation-top">
+				<div class="wrap">
+					<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Top Menu">
+	<button class="menu-toggle" aria-controls="top-menu" aria-expanded="false">
+		<svg class="icon icon-bars" aria-hidden="true" role="img"> <use href="#icon-bars" xlink:href="#icon-bars"></use> </svg><svg class="icon icon-close" aria-hidden="true" role="img"> <use href="#icon-close" xlink:href="#icon-close"></use> </svg>Menu	</button>
+
+	<div class="menu-website-menu-container"><ul id="top-menu" class="menu"><li id="menu-item-29090" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-29090"><a href="https://makeapppie.com/swift-playgrounds/">Swift Playgrounds</a></li>
+<li id="menu-item-1932" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1932"><a href="https://makeapppie.com/about/">About Making App Pie<svg class="icon icon-angle-down" aria-hidden="true" role="img"> <use href="#icon-angle-down" xlink:href="#icon-angle-down"></use> </svg></a>
+<ul class="sub-menu">
+	<li id="menu-item-1931" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1931"><a href="https://makeapppie.com/raspberry-pi/">Raspberry Pi</a></li>
+	<li id="menu-item-1927" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1927"><a href="https://makeapppie.com/kinderswift/">KinderSwift</a></li>
+	<li id="menu-item-1930" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1930"><a href="https://makeapppie.com/slippyflippypenguin/">SlippyFlippy Penguin</a></li>
+</ul>
+</li>
+<li id="menu-item-25700" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25700"><a href="https://makeapppie.com/contact-us/">Contact Us</a></li>
+<li id="menu-item-1928" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1928"><a href="https://makeapppie.com/sliceofapppie/">A Slice of App Pie<svg class="icon icon-angle-down" aria-hidden="true" role="img"> <use href="#icon-angle-down" xlink:href="#icon-angle-down"></use> </svg></a>
+<ul class="sub-menu">
+	<li id="menu-item-1929" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1929"><a href="https://makeapppie.com/sliceofapppie/downloads/">Newsletter Downloads</a></li>
+</ul>
+</li>
+<li id="menu-item-25907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-25907"><a href="https://makeapppie.com/published-works/">Published Works<svg class="icon icon-angle-down" aria-hidden="true" role="img"> <use href="#icon-angle-down" xlink:href="#icon-angle-down"></use> </svg></a>
+<ul class="sub-menu">
+	<li id="menu-item-28653" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-28653"><a href="https://makeapppie.com/pabook/">Practical Autolayout Xcode 8</a></li>
+	<li id="menu-item-25908" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25908"><a href="https://makeapppie.com/palbook/">Practical Auto Layout</a></li>
+	<li id="menu-item-25228" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25228"><a href="https://makeapppie.com/swift-swift-ui-view-controllers/">Swift Swift: UI View Controllers</a></li>
+</ul>
+</li>
+</ul></div>
+	</nav><!-- #site-navigation -->
+				</div><!-- .wrap -->
+			</div><!-- .navigation-top -->
+		
+	</header><!-- #masthead -->
+
+	<div class="single-featured-image-header"><img width="1400" height="877" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=1400&amp;h=877&amp;crop=1" class="attachment-twentyseventeen-featured-image size-twentyseventeen-featured-image wp-post-image" alt="" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg 1400w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=150&amp;h=94&amp;crop=1 150w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=300&amp;h=188&amp;crop=1 300w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=768&amp;h=481&amp;crop=1 768w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=1024&amp;h=641&amp;crop=1 1024w" sizes="100vw" data-attachment-id="29513" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-52-32/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg" data-orig-size="1400,877" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-52-32" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=300" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=525" /></div><!-- .single-featured-image-header -->
+	<div class="site-content-contain">
+		<div id="content" class="site-content">
+
+<div class="wrap">
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+			
+<article id="post-29507" class="post-29507 post type-post status-publish format-standard has-post-thumbnail hentry category-auto-layout-and-size-classes category-gui category-improvements-and-bugs category-ios-development-weekly-tips category-linkedin-learning-lynda-com category-xcode-10 tag-embed tag-scroll-view tag-stack-view tag-storyboards tag-uiscrollview tag-uistackview tag-xcde-10">
+		<header class="entry-header">
+		<div class="entry-meta"><span class="posted-on"><span class="screen-reader-text">Posted on</span> <a href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/" rel="bookmark"><time class="entry-date published" datetime="2018-08-29T08:15:48-05:00">August 29, 2018</time><time class="updated" datetime="2018-09-05T06:28:56-05:00">September 5, 2018</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://makeapppie.com/author/makeapppie/">Steven Lipton</a></span></span></div><!-- .entry-meta --><h1 class="entry-title">Xcode 10 Storyboard&nbsp;Changes</h1>	</header><!-- .entry-header -->
+
+	
+	<div class="entry-content">
+		<p><em>Note: You can also watch a video of this lesson at <a href="https://www.lynda.com/iOS-tutorials/Xcode-10-storyboard-changes/633856/786203-4.html">Lynda. com</a> and <a href="http://bit.ly/Xcode10StoryboardLinkedIn">LinkedInLearning.</a> </em></p>
+<p>There&#8217;s been a few changes  to the storyboard in Xcode 10, some might just drive you crazy if you don&#8217;t know how to use them. Some are really cool and will speed up your workflow. Let me show you the two major changes and what they can do.</p>
+<p>I wrote this using the Beta 6 version  of Xcode 10. As I&#8217;m using betas, be aware changes from what I&#8217;m telling you might happen, but this will give you the basic idea, and I haven&#8217;t seen any changes in the app I developed in beta 6. <a href="http://bit.ly/Xcode10StoryboardBegin">Download the starter file</a>, which is a blank project with a few media files and colors in the assets folder. Check a previous tip to learn more about the assets folder.</p>
+<h2 class="null">A Freed Library to Roam</h2>
+<p>When you look at the storyboard you&#8217;ll see the library missing from the bottom left where it has always been. There&#8217;s now a libraries button at the top right.</p>
+<p><img data-attachment-id="29508" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-43-08/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-43-08.jpeg?w=525" data-orig-size="190,98" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-43-08" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-43-08.jpeg?w=525?w=190" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-43-08.jpeg?w=525?w=190" class="alignnone size-full wp-image-29508 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-43-08.jpeg?w=525" alt="" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-43-08.jpeg 190w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-43-08.jpeg?w=150 150w" sizes="(max-width: 190px) 100vw, 190px"   /></p>
+<p>Hold it down and you can select between the Object Library and the Media Library.</p>
+<p><img data-attachment-id="29509" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-44-32/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-44-32.jpeg?w=525" data-orig-size="203,77" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-44-32" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-44-32.jpeg?w=525?w=203" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-44-32.jpeg?w=525?w=203" class="alignnone size-full wp-image-29509 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-44-32.jpeg?w=525" alt="" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-44-32.jpeg 203w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-44-32.jpeg?w=150 150w" sizes="(max-width: 203px) 100vw, 203px"   /></p>
+<p>I&#8217;ll select the <strong>Show Media Library</strong>, and you&#8217;ll see the assets I have added to this project.</p>
+<p>&nbsp;</p>
+<p><img data-attachment-id="29510" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-45-16/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg" data-orig-size="454,456" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-45-16" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg?w=300&#038;h=300" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg?w=454" class="alignnone size-medium wp-image-29510 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg?w=300&#038;h=300" alt="" width="300" height="300" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg?w=300&amp;h=300 300w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg?w=150&amp;h=150 150w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-45-16.jpeg 454w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>At the top is a larger search box, which I&#8217;ll type <strong>brie</strong>.</p>
+<p><img data-attachment-id="29511" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-46-23/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg" data-orig-size="454,118" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-46-23" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg?w=300&#038;h=78" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg?w=454" class="alignnone size-medium wp-image-29511 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg?w=300&#038;h=78" alt="" width="300" height="78" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg?w=300&amp;h=78 300w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg?w=150&amp;h=39 150w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-46-23.jpeg 454w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>You can clear the choice by pressing the <strong>X</strong>.  There&#8217;s also an icon view, if you want to see only the icon and not the name. Click the icon at the upper right corner to toggle between list and icon view.</p>
+<p><img data-attachment-id="29512" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-47-34/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg" data-orig-size="454,177" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-47-34" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg?w=300&#038;h=117" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg?w=454" class="alignnone size-medium wp-image-29512 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg?w=300&#038;h=117" alt="" width="300" height="117" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg?w=300&amp;h=117 300w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg?w=150&amp;h=58 150w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-47-34.jpeg 454w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>I can just drag an asset directly to the storyboard, so I&#8217;ll drag the pizza. Once you use the library it disappears. Click it once and it will give you the object library. If you want to keep it around, press the key while clicking.</p>
+<p>I&#8217;ll drag a label out. Click the properties icon and you&#8217;ll see the joy of this new library. You have a lot more room for attributes. I&#8217;ll change the background color and the text color of the label. Not so much scrolling.  I&#8217;ll say &#8220;I Love Pizza&#8221; On the label, and set the font to <strong>Marker Felt</strong><strong>84 points</strong>.  That goes off the iPhone 8 here, but I&#8217;ll come back to that.</p>
+<p><img data-attachment-id="29513" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-52-32/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg" data-orig-size="1400,877" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-52-32" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=300" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=525&#038;h=329" class="aligncenter wp-image-29513 size-large" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=525&#038;h=329" alt="" width="525" height="329" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=525&amp;h=329 525w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=1050&amp;h=658 1050w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=150&amp;h=94 150w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=300&amp;h=188 300w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=768&amp;h=481 768w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-52-32.jpeg?w=1024&amp;h=641 1024w" sizes="(max-width: 525px) 100vw, 525px" /></p>
+<p>I&#8217;ll also add a button here. I&#8217;ll do that in list view, I&#8217;ll click the list view icon, and type <strong>butto </strong>in the search. There the button and I&#8217;ll drag it in, change a few colors and make a <strong>72 point</strong>font.</p>
+<p><img data-attachment-id="29514" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-55-19/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg" data-orig-size="1400,877" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-55-19" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg?w=300&#038;h=188" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg?w=525" class="alignnone size-medium wp-image-29514 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg?w=300&#038;h=188" alt="" width="300" height="188" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg?w=300&amp;h=188 300w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg?w=600&amp;h=376 600w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-55-19.jpeg?w=150&amp;h=94 150w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>You&#8217;ll see there are layout errors, and if you click on the icon, it complains that there are no constraints. Xcode 10 asks you to always add constraints. I&#8217;ll do this the easy way and make a stack view.</p>
+<h2><img data-attachment-id="29515" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-56-10/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-56-10.jpeg?w=525" data-orig-size="269,173" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-56-10" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-56-10.jpeg?w=525?w=269" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-56-10.jpeg?w=525?w=269" class="aligncenter wp-image-29515 size-full" style="color:#333333;font-size:16px;" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-56-10.jpeg?w=525" alt="" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-56-10.jpeg 269w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-56-10.jpeg?w=150 150w" sizes="(max-width: 269px) 100vw, 269px"   /></h2>
+<h2 class="null">One Button to Embed them All</h2>
+<p>Stack views bring us to the other button change. The stackview button of earlier versions of Xcode has been replaced with an <strong>Embed </strong>button. I&#8217;ll marquee select the three objects I have and click the <strong>Embed </strong>button. You&#8217;ll see several choices.</p>
+<p><img data-attachment-id="29516" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-57-33/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-57-33.jpeg?w=525" data-orig-size="225,238" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-57-33" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-57-33.jpeg?w=525?w=225" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-57-33.jpeg?w=525?w=225" class="alignnone size-full wp-image-29516 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-57-33.jpeg?w=525" alt="" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-57-33.jpeg 225w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-57-33.jpeg?w=142 142w" sizes="(max-width: 225px) 100vw, 225px"   /></p>
+<p>All types of embedding of views and view controllers are here. No more searching through menus to find the one you want. This button is contextual and will activate the ones that work for the situation.</p>
+<h3 class="null">Simple Scroll Views in a few clicks</h3>
+<p>This time,  I&#8217;ll pick the <strong>StackView</strong>. A vertical stack view appears. This goes off the screen so, I&#8217;ll embed it in a scroll view by selecting  the scroll view.</p>
+<p>Autolayout starts complaining we are missing constraints.</p>
+<p><img data-attachment-id="29517" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_07-59-18/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-59-18.jpeg?w=525" data-orig-size="269,298" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_07-59-18" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-59-18.jpeg?w=525?w=269" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-59-18.jpeg?w=525?w=269" class="alignnone size-full wp-image-29517 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-59-18.jpeg?w=525" alt="" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_07-59-18.jpeg 269w, https://apppie.files.wordpress.com/2018/08/2018-08-29_07-59-18.jpeg?w=135 135w" sizes="(max-width: 269px) 100vw, 269px"   /></p>
+<p>The important one for scroll views is the <strong>Scrollable Content Size Ambiguity</strong>. If you embed to scroll views, make sure you embed a single view into the scroll view and set its size. I used the single stack view here, but if you had some buttons you&#8217;s make a <code>UIView</code>, set the size of that, and then add the buttons to the <code>UIVIew</code>. I&#8217;ll use some quick auto layout to resolve the error.  Click the Scroll view and pin it 10 points from each edge.</p>
+<p>&nbsp;</p>
+<p>Now here&#8217;s the important point for a scroll view: click the container view, in this case the stack view. I&#8217;ll pin to 0,0 in the upper left, but leave extra space below and to the right with a negative value for the pin. Say -5 and -5.</p>
+<p><img data-attachment-id="29518" data-permalink="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/2018-08-29_08-04-07/" data-orig-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg" data-orig-size="266,356" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2018-08-29_08-04-07" data-image-description="" data-medium-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg?w=224&#038;h=300" data-large-file="https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg?w=266" class="alignnone size-medium wp-image-29518 aligncenter" src="https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg?w=224&#038;h=300" alt="" width="224" height="300" srcset="https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg?w=224&amp;h=300 224w, https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg?w=112&amp;h=150 112w, https://apppie.files.wordpress.com/2018/08/2018-08-29_08-04-07.jpeg 266w" sizes="(max-width: 224px) 100vw, 224px" /></p>
+<p>That gives you a fast scroll view.</p>
+<h3 class="null">Embed ViewControllers</h3>
+<p>You can also embed navigation controllers and tab bar controllers right here. Click on the view controller icon,  and in the embed button, select Navigation controller. Zoom out a little and you&#8217;ll se our navigation controller. I can also add  a Navigation controller from the library by dragging out.  I&#8217;ll change the background color.  I&#8217;ll connect the controllers via  the <strong>pizza </strong>button with a control drag. Build and Run.</p>
+<p>When the simulator shows, you can drag the scroll view. Click the <strong>pizza </strong>button and the view controller transitions. Click <strong>back</strong>.</p>
+<p>Your workflow will change with these two buttons in Xcode 10 Storyboard. You can get quick scroll views for static content and reach everything a lot easier.</p>
+<p><em>Note: You can also watch a video of this lesson at <a href="https://www.lynda.com/iOS-tutorials/Xcode-10-storyboard-changes/633856/786203-4.html">Lynda. com</a> and <a href="http://bit.ly/Xcode10StoryboardLinkedIn">LinkedInLearning.</a> </em></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-29507" class="share-twitter sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-29507" class="share-facebook sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-email"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/?share=email" target="_blank" title="Click to email this to a friend"><span>Email</span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-29507" class="share-linkedin sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/?share=reddit" target="_blank" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-pinterest"><a rel="nofollow noopener noreferrer" data-shared="sharing-pinterest-29507" class="share-pinterest sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/?share=pinterest" target="_blank" title="Click to share on Pinterest"><span>Pinterest</span></a></li><li class="share-print"><a rel="nofollow noopener noreferrer" data-shared="" class="share-print sd-button share-icon" href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/#print" target="_blank" title="Click to print"><span>Print</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-34365044-29507-5ca395db4ca10' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=34365044&amp;post_id=29507&amp;origin=apppie.wordpress.com&amp;obj_id=34365044-29507-5ca395db4ca10&amp;domain=makeapppie.com' data-name='like-post-frame-34365044-29507-5ca395db4ca10'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>	</div><!-- .entry-content -->
+
+	<footer class="entry-footer"><span class="cat-tags-links"><span class="cat-links"><svg class="icon icon-folder-open" aria-hidden="true" role="img"> <use href="#icon-folder-open" xlink:href="#icon-folder-open"></use> </svg><span class="screen-reader-text">Categories</span><a href="https://makeapppie.com/category/auto-layout-and-size-classes/" rel="category tag">Auto Layout and Size Classes</a>, <a href="https://makeapppie.com/category/gui/" rel="category tag">GUI</a>, <a href="https://makeapppie.com/category/improvements-and-bugs/" rel="category tag">Improvements and bugs</a>, <a href="https://makeapppie.com/category/ios-development-weekly-tips/" rel="category tag">iOS Development Weekly Tips</a>, <a href="https://makeapppie.com/category/linkedin-learning-lynda-com/" rel="category tag">LinkedIn Learning / Lynda.com</a>, <a href="https://makeapppie.com/category/xcode-10/" rel="category tag">Xcode 10</a></span><span class="tags-links"><svg class="icon icon-hashtag" aria-hidden="true" role="img"> <use href="#icon-hashtag" xlink:href="#icon-hashtag"></use> </svg><span class="screen-reader-text">Tags</span><a href="https://makeapppie.com/tag/embed/" rel="tag">embed</a>, <a href="https://makeapppie.com/tag/scroll-view/" rel="tag">scroll view</a>, <a href="https://makeapppie.com/tag/stack-view/" rel="tag">stack view</a>, <a href="https://makeapppie.com/tag/storyboards/" rel="tag">Storyboards</a>, <a href="https://makeapppie.com/tag/uiscrollview/" rel="tag">UIScrollView</a>, <a href="https://makeapppie.com/tag/uistackview/" rel="tag">UIStackView</a>, <a href="https://makeapppie.com/tag/xcde-10/" rel="tag">Xcde 10</a></span></span></footer> <!-- .entry-footer -->
+</article><!-- #post-## -->
+
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			3 Replies to &ldquo;Xcode 10 Storyboard&nbsp;Changes&rdquo;		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-20232" class="comment byuser comment-author-kanishkawilliamson even thread-even depth-1 highlander-comment">
+			<article id="div-comment-20232" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://1.gravatar.com/avatar/71c811de551997f24b1abc672a0fbd4a?s=100&#038;d=identicon&#038;r=G' class='avatar avatar-100' height='100' width='100' />						<b class="fn"><a href='http://kanishkawilliamson.wordpress.com' rel='external nofollow' class='url'>kanishkawilliamson</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/#comment-20232">
+							<time datetime="2018-09-01T06:53:29-05:00">
+								September 1, 2018 at 6:53 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Mac Mojave Beta 🤩!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2018/08/29/xcode-10-storyboard-changes/?replytocom=20232#respond' data-commentid="20232" data-postid="29507" data-belowelement="div-comment-20232" data-respondelement="respond" aria-label='Reply to kanishkawilliamson'><svg class="icon icon-mail-reply" aria-hidden="true" role="img"> <use href="#icon-mail-reply" xlink:href="#icon-mail-reply"></use> </svg>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-20284" class="pingback odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href='http://mailsgun.ru/%d0%b4%d0%b0%d0%b9%d0%b4%d0%b6%d0%b5%d1%81%d1%82-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d0%bd%d1%8b%d1%85-%d0%bc%d0%b0%d1%82%d0%b5%d1%80%d0%b8%d0%b0-%d0%bb%d0%be%d0%b2-%d0%b4%d0' rel='external nofollow' class='url'>Дайджест интересных материа лов для мобильного разработчика #269 (3 — 9 сентября) &#8212; MAILSGUN.RU</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-21243" class="comment even thread-even depth-1 highlander-comment">
+			<article id="div-comment-21243" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://0.gravatar.com/avatar/00ba551f740535cd151ce3ad98fc98a6?s=100&#038;d=identicon&#038;r=G' class='avatar avatar-100' height='100' width='100' />						<b class="fn">Raghib Arshi</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://makeapppie.com/2018/08/29/xcode-10-storyboard-changes/#comment-21243">
+							<time datetime="2018-12-15T02:19:07-05:00">
+								December 15, 2018 at 2:19 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Add missing constraints is not working :( &#8230;.need help</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='/2018/08/29/xcode-10-storyboard-changes/?replytocom=21243#respond' data-commentid="21243" data-postid="29507" data-belowelement="div-comment-21243" data-respondelement="respond" aria-label='Reply to Raghib Arshi'><svg class="icon icon-mail-reply" aria-hidden="true" role="img"> <use href="#icon-mail-reply" xlink:href="#icon-mail-reply"></use> </svg>Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		</ol>
+
+			<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2018/08/29/xcode-10-storyboard-changes/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://makeapppie.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="a913002a16" /><input type="hidden" name="_wp_http_referer" value="/2018/08/29/xcode-10-storyboard-changes/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" class="nascar-signin-link"
+                   title="Login via Guest">
+									</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" class="nascar-signin-link"
+                   title="Login via WordPress.com">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></g></svg>				</a>
+			</li>
+			<li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" class="nascar-signin-link"
+                   title="Login via Twitter">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"/></g></svg>				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" class="nascar-signin-link"
+                   title="Login via Facebook">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"/></g></svg>				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+						<p class="comment-form-posting-as pa-wordpress">
+			<strong></strong>
+			You are commenting using your WordPress.com account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+						<p class="comment-form-posting-as pa-googleplus">
+			<strong></strong>
+			You are commenting using your Google account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" x="0px" y="0px" viewBox="0 0 60 60" ><path fill="#519bf7" d="M56.3,30c0,-1.6 -0.2,-3.4 -0.6,-5h-3.1H42.2H30v10.6h14.8C44,39.3 42,42 39.1,43.9l8.8,6.8C53,46 56.3,39 56.3,30z" /><path fill="#3db366" d="M30,57.5c6.7,0 13.1,-2.4 17.9,-6.8l-8.8,-6.8c-2.5,1.6 -5.6,2.4 -9.1,2.4c-7.2,0 -13.3,-4.7 -15.4,-11.2l-9.3,7.1C9.8,51.3 19.1,57.5 30,57.5z" /><path fill="#fdc600" d="M5.3,42.2l9.3,-7.1c-0.5,-1.6 -0.8,-3.3 -0.8,-5.1s0.3,-3.5 0.8,-5.1l-9.3,-7.1C3.5,21.5 2.5,25.6 2.5,30S3.5,38.5 5.3,42.2z" /><path fill="#f15b44" d="M40.1,17.4l8,-8C43.3,5.1 37,2.5 30,2.5C19.1,2.5 9.8,8.7 5.3,17.8l9.3,7.1c2.1,-6.5 8.2,-11.1 15.4,-11.1C33.9,13.7 37.4,15.1 40.1,17.4z" /></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+						<p class="comment-form-posting-as pa-twitter">
+			<strong></strong>
+			You are commenting using your Twitter account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+						<p class="comment-form-posting-as pa-facebook">
+			<strong></strong>
+			You are commenting using your Facebook account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='29507' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f68039e09d" /></p>
+<input type="hidden" name="genseq" value="1554224603" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="58"/></p>			</form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div><p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p>
+</div><!-- #comments -->
+
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://makeapppie.com/2018/08/22/animate-with-a-map-camera/" rel="prev"><span class="screen-reader-text">Previous Post</span><span aria-hidden="true" class="nav-subtitle">Previous</span> <span class="nav-title"><span class="nav-title-icon-wrapper"><svg class="icon icon-arrow-left" aria-hidden="true" role="img"> <use href="#icon-arrow-left" xlink:href="#icon-arrow-left"></use> </svg></span>Animate With a Map&nbsp;Camera</span></a></div><div class="nav-next"><a href="https://makeapppie.com/2018/09/05/use-code-snippets/" rel="next"><span class="screen-reader-text">Next Post</span><span aria-hidden="true" class="nav-subtitle">Next</span> <span class="nav-title">Use Code Snippets<span class="nav-title-icon-wrapper"><svg class="icon icon-arrow-right" aria-hidden="true" role="img"> <use href="#icon-arrow-right" xlink:href="#icon-arrow-right"></use> </svg></span></span></a></div></div>
+	</nav>
+		</main><!-- #main -->
+	</div><!-- #primary -->
+	
+<aside id="secondary" class="widget-area" role="complementary" aria-label="Blog Sidebar">
+	<section id="search-2" class="widget widget_search">
+
+<form role="search" method="get" class="search-form" action="https://makeapppie.com/">
+	<label for="search-form-1">
+		<span class="screen-reader-text">Search for:</span>
+	</label>
+	<input type="search" id="search-form-1" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+	<button type="submit" class="search-submit"><svg class="icon icon-search" aria-hidden="true" role="img"> <use href="#icon-search" xlink:href="#icon-search"></use> </svg><span class="screen-reader-text">Search</span></button>
+</form>
+</section><section id="text-3" class="widget widget_text"><h2 class="widget-title">Subscribe to A Slice of App Pie Newsletter</h2>			<div class="textwidget"><a href="http://eepurl.com/ciIa_v"><img src="https://apppie.files.wordpress.com/2016/10/newsletter-banner-square1.jpg" alt="newsletter-banner-square" width="150" height="150" /></a>
+
+<p>If you are making your own stuff, doing your own work and trying to sell it in the market, most advice isn't enough. You want it to work. You want to sell your works  to those who most are touched by them. This newsletter is for you. I am one of those people like you, creative, independent and maybe a little bit crazy to the outside world. I'll talk about writing good apps for Apple platforms, the tools and API's to get there. Along the way I will show you how to become you best creative self.  I will show you how to build and create, and make some money at it too.</p>
+
+<p>Get exclusive content, new post notifications, tips and more in A Slice of App Pie.</p>
+
+<p><a href="http://eepurl.com/ciIa_v">Sign up today. </a></p></div>
+		</section>		<section id="recent-posts-2" class="widget widget_recent_entries">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+											<li>
+					<a href="https://makeapppie.com/2019/03/27/unicode-characters-in-strings/">Unicode Characters in&nbsp;Strings</a>
+											<span class="post-date">March 27, 2019</span>
+									</li>
+											<li>
+					<a href="https://makeapppie.com/2019/03/20/ranges-in-swift/">Ranges in Swift</a>
+											<span class="post-date">March 20, 2019</span>
+									</li>
+											<li>
+					<a href="https://makeapppie.com/2019/03/13/replace-segmented-controls-with-button-arrays/">Replace Segmented Controls with Button&nbsp;Arrays</a>
+											<span class="post-date">March 13, 2019</span>
+									</li>
+											<li>
+					<a href="https://makeapppie.com/2019/03/06/use-test-flight/">Use Test Flight</a>
+											<span class="post-date">March 6, 2019</span>
+									</li>
+											<li>
+					<a href="https://makeapppie.com/2019/02/27/using-haptics/">Using Haptics</a>
+											<span class="post-date">February 27, 2019</span>
+									</li>
+					</ul>
+		</section><section id="archives-2" class="widget widget_archive"><h2 class="widget-title">Archives</h2>		<label class="screen-reader-text" for="archives-dropdown-2">Archives</label>
+		<select id="archives-dropdown-2" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='https://makeapppie.com/2019/03/'> March 2019 </option>
+	<option value='https://makeapppie.com/2019/02/'> February 2019 </option>
+	<option value='https://makeapppie.com/2019/01/'> January 2019 </option>
+	<option value='https://makeapppie.com/2018/12/'> December 2018 </option>
+	<option value='https://makeapppie.com/2018/11/'> November 2018 </option>
+	<option value='https://makeapppie.com/2018/10/'> October 2018 </option>
+	<option value='https://makeapppie.com/2018/09/'> September 2018 </option>
+	<option value='https://makeapppie.com/2018/08/'> August 2018 </option>
+	<option value='https://makeapppie.com/2018/07/'> July 2018 </option>
+	<option value='https://makeapppie.com/2018/06/'> June 2018 </option>
+	<option value='https://makeapppie.com/2018/05/'> May 2018 </option>
+	<option value='https://makeapppie.com/2018/04/'> April 2018 </option>
+	<option value='https://makeapppie.com/2018/03/'> March 2018 </option>
+	<option value='https://makeapppie.com/2018/02/'> February 2018 </option>
+	<option value='https://makeapppie.com/2017/09/'> September 2017 </option>
+	<option value='https://makeapppie.com/2017/08/'> August 2017 </option>
+	<option value='https://makeapppie.com/2017/07/'> July 2017 </option>
+	<option value='https://makeapppie.com/2017/06/'> June 2017 </option>
+	<option value='https://makeapppie.com/2017/05/'> May 2017 </option>
+	<option value='https://makeapppie.com/2017/04/'> April 2017 </option>
+	<option value='https://makeapppie.com/2017/03/'> March 2017 </option>
+	<option value='https://makeapppie.com/2017/02/'> February 2017 </option>
+	<option value='https://makeapppie.com/2017/01/'> January 2017 </option>
+	<option value='https://makeapppie.com/2016/12/'> December 2016 </option>
+	<option value='https://makeapppie.com/2016/11/'> November 2016 </option>
+	<option value='https://makeapppie.com/2016/10/'> October 2016 </option>
+	<option value='https://makeapppie.com/2016/09/'> September 2016 </option>
+	<option value='https://makeapppie.com/2016/08/'> August 2016 </option>
+	<option value='https://makeapppie.com/2016/07/'> July 2016 </option>
+	<option value='https://makeapppie.com/2016/06/'> June 2016 </option>
+	<option value='https://makeapppie.com/2016/05/'> May 2016 </option>
+	<option value='https://makeapppie.com/2016/04/'> April 2016 </option>
+	<option value='https://makeapppie.com/2016/03/'> March 2016 </option>
+	<option value='https://makeapppie.com/2016/02/'> February 2016 </option>
+	<option value='https://makeapppie.com/2016/01/'> January 2016 </option>
+	<option value='https://makeapppie.com/2015/12/'> December 2015 </option>
+	<option value='https://makeapppie.com/2015/11/'> November 2015 </option>
+	<option value='https://makeapppie.com/2015/10/'> October 2015 </option>
+	<option value='https://makeapppie.com/2015/09/'> September 2015 </option>
+	<option value='https://makeapppie.com/2015/08/'> August 2015 </option>
+	<option value='https://makeapppie.com/2015/07/'> July 2015 </option>
+	<option value='https://makeapppie.com/2015/06/'> June 2015 </option>
+	<option value='https://makeapppie.com/2015/05/'> May 2015 </option>
+	<option value='https://makeapppie.com/2015/04/'> April 2015 </option>
+	<option value='https://makeapppie.com/2015/03/'> March 2015 </option>
+	<option value='https://makeapppie.com/2015/02/'> February 2015 </option>
+	<option value='https://makeapppie.com/2015/01/'> January 2015 </option>
+	<option value='https://makeapppie.com/2014/12/'> December 2014 </option>
+	<option value='https://makeapppie.com/2014/11/'> November 2014 </option>
+	<option value='https://makeapppie.com/2014/10/'> October 2014 </option>
+	<option value='https://makeapppie.com/2014/09/'> September 2014 </option>
+	<option value='https://makeapppie.com/2014/08/'> August 2014 </option>
+	<option value='https://makeapppie.com/2014/07/'> July 2014 </option>
+	<option value='https://makeapppie.com/2014/06/'> June 2014 </option>
+	<option value='https://makeapppie.com/2014/05/'> May 2014 </option>
+	<option value='https://makeapppie.com/2014/04/'> April 2014 </option>
+	<option value='https://makeapppie.com/2014/03/'> March 2014 </option>
+	<option value='https://makeapppie.com/2013/04/'> April 2013 </option>
+	<option value='https://makeapppie.com/2012/03/'> March 2012 </option>
+
+		</select>
+		</section></aside><!-- #secondary -->
+</div><!-- .wrap -->
+
+
+		</div><!-- #content -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			<div class="wrap">
+				
+
+	<aside class="widget-area" role="complementary" aria-label="Footer">
+					<div class="widget-column footer-widget-1">
+				<section id="text-4" class="widget widget_text"><h2 class="widget-title">Current Published Works</h2>			<div class="textwidget"><h2 style="text-align:right;">Pratical Autolayout <br>for Xcode 8</h2>
+<p><a href="https://makeapppie.com/palbook/"><img class=" size-medium wp-image-28505 alignleft" src="https://apppie.files.wordpress.com/2015/06/practical-autolayout-x8-newsletter.png?w=188" alt="practical-autolayout-x8-newsletter" width="94" height="150" /></a></p>
+<p>
+In Practical Auto Layout for Xcode 8, using simple, practical, easy to follow examples, you will learn how to master auto layout, size classes and stack views on the Xcode 8 storyboard. Using easy to follow examples, you will learn how to make universal apps quickly easily and in far less time than ever before. </p>
+<p style="text-align:right;"><a href="http://itunes.apple.com/us/book/id1172274617"><img class="alignnone size-full wp-image-25193" src="https://apppie.files.wordpress.com/2015/02/download_on_ibooks_badge_us-uk_110x40_090513.png" alt="Download_on_iBooks_Badge_US-UK_110x40_090513" width="110" height="40" /></a></p><p style="text-align:right;"><a href="https://www.amazon.com/dp/B01M7Y1YE6"><img class="alignnone wp-image-25903 size-thumbnail" src="https://apppie.files.wordpress.com/2015/06/scr2557-proj697-a-kindle-logo-w-rgb-lg.jpg?w=150" alt="" width="150" height="40" /></a></p>
+<h2 style="text-align:right;">Swift Swift: <br>View Controllers</h2>
+<p style="text-align:right;"><a href="https://apppie.files.wordpress.com/2015/02/screenshot-2015-04-01-07-53-14.png"><img class="alignnone wp-image-25192" src="https://apppie.files.wordpress.com/2015/02/screenshot-2015-04-01-07-53-14.png" alt="Screenshot 2015-04-01 07.53.14" width="150" height="196" /></a></p>
+<p>You will learn to use auto layout, size classes and new Swift implementations of view controllers. With plenty of color illustrations and code snippets,<a href="https://itunes.apple.com/us/book/swift-swift-view-controllers/id983247343?ls=1&amp;mt=11"> Swift Swift View Controllers</a> will take you step by step through many easy demonstrations, teaching you the stuff you really need to know to implement any of these view controllers. </p>
+</p>
+<p style="text-align:right;">Available on <a href="https://itunes.apple.com/us/book/swift-swift-view-controllers/id983247343?ls=1&amp;mt=11"><img class="alignnone size-full wp-image-25193" src="https://apppie.files.wordpress.com/2015/02/download_on_ibooks_badge_us-uk_110x40_090513.png" alt="Download_on_iBooks_Badge_US-UK_110x40_090513" width="110" height="40" /></a></p></div>
+		</section>			</div>
+				</aside><!-- .widget-area -->
+
+<div class="site-info">
+		<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+</div><!-- .site-info -->
+			</div><!-- .wrap -->
+		</footer><!-- #colophon -->
+	</div><!-- .site-content-contain -->
+</div><!-- #page -->
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201914y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-71c811de551997f24b1abc672a0fbd4a">
+	</div>
+	<div class="grofile-hash-map-00ba551f740535cd151ce3ad98fc98a6">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/apppie.wordpress.com\/public.api\/connect\/?action=request&domain=makeapppie.com","logoutURL":"https:\/\/apppie.wordpress.com\/wp-login.php?action=logout&_wpnonce=5e13b3bb88","homeURL":"https:\/\/makeapppie.com\/","postID":"29507","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="34365044" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://makeapppie.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Making App Pie" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5315e08b8a" /><input type="hidden" name="_wp_http_referer" value="/2018/08/29/xcode-10-storyboard-changes/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/makeapppie.com\/2018\/08\/29\/xcode-10-storyboard-changes\/":29507};
+	</script>
+					<div id="sharing_email" style="display: none;">
+		<form action="/2018/08/29/xcode-10-storyboard-changes/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed" />
+			
+			<div
+				class="g-recaptcha"
+				data-sitekey="6LcmyE0UAAAAALID28yVNg7pFCodGaArJzHitez_"
+				data-theme="light"
+				data-type="image"
+				data-tabindex="0"></div>
+			<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en" async></script>
+			
+			<img style="float: right; display: none" class="loading" src="https://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel" role="button">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+		<link rel='stylesheet' id='all-css-0-3' href='https://s0.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1524699534h&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var twentyseventeenScreenReaderText = {"quote":"<svg class=\"icon icon-quote-right\" aria-hidden=\"true\" role=\"img\"> <use href=\"#icon-quote-right\" xlink:href=\"#icon-quote-right\"><\/use> <\/svg>","expand":"Expand child menu","collapse":"Collapse child menu","icon":"<svg class=\"icon icon-angle-down\" aria-hidden=\"true\" role=\"img\"> <use href=\"#icon-angle-down\" xlink:href=\"#icon-angle-down\"><\/use> <span class=\"svg-fallback icon-angle-down\"><\/span><\/svg>"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"34365044","siteName":"Making App Pie","siteURL":"https:\/\/makeapppie.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/29c71bcd2a196d395c5831612467adf5?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/twentyseventeen","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fmakeapppie.com%2F2018%2F08%2F29%2Fxcode-10-storyboard-changes%2F&signup_flow=account&domain=makeapppie.com","themeURL":"https:\/\/wordpress.com\/theme\/twentyseventeen\/","xhrURL":"https:\/\/makeapppie.com\/wp-admin\/admin-ajax.php","nonce":"f31b928143","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"c81690b428\" \/>","referer":"https:\/\/makeapppie.com\/2018\/08\/29\/xcode-10-storyboard-changes\/","canFollow":"1","feedID":"19334762","statusMessage":"","customizeLink":"https:\/\/apppie.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fapppie.wordpress.com%2F2018%2F08%2F29%2Fxcode-10-storyboard-changes%2F","postID":"29507","shortlink":"https:\/\/wp.me\/p2kbUU-7FV","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/makeapppie.com\/29507","statsLink":"https:\/\/wordpress.com\/stats\/post\/29507\/makeapppie.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Twenty Seventeen","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 227 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fmakeapppie.com%2F2018%2F08%2F29%2Fxcode-10-storyboard-changes%2F&signup_flow=account&domain=makeapppie.com\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/makeapppie.com\/wp-admin\/admin-ajax.php","nonce":"51f2a34866","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/apppie.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmakeapppie.com%2F2018%2F08%2F29%2Fxcode-10-storyboard-changes%2F","blog_id":"34365044","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=34365044&v=wpcom&tz=-5&user_id=0&subd=apppie","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJydUMtOw0AM/CE2Dq0qxAHxE9zRduMkTvaFvZuSv2cDaqgoiqAnW/bMeDxwisoEn9AnGAQanMhgfK8GuYOLlcsq2tyRF7A0osBbxoy99o1F/glOPboCifkI6VQGs+BUCqIHLYJJlksyUlSW/KjaYLKolq6O/knH64k6nSj4m+idDUdtb6IOJQOeKzEcrH0JZw3yxuYGPyEmOFd4ijHauXJ05fEiV92UvTpqBqclIZdOhQmZaRFbZ/9USKzNKFsks2S3kNbut08kfpu/nH+FsGYRN180mkMWtDBgisWXOg+2/I0kDpPaVzW8lsvQBnYb+BgkqdZqYpBeM/nuXAvp2T3dHw77+mH3uKuHD78yIFY='></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20190321#ver=20190321' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?59" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'34365044','blog_tz':'-5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'34365044','v':'wpcom','tz':'-5','user_id':'0','post':'29507','subd':'apppie'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dzK3YrWW0zb11jcmtddDBXYyVLP3dSMFlPREhyXS90UVUmXUl8WTdHJTQ4QytMLEVQUTA9dXM0THIvMkhFanJmSHFHN1FYWDVqM3omOW8wakkxajUvQ213Sk9tajQ3fmNSeGVuLkV0WjQtQThMcT11VUhKZiZyb11pS0Z5TmJVQzZTRT1hY2RXdml5VV0xUDdwJXM9MVNTZXAtPSxkUUVrX2RTLFhqZi9da09VUCtaTmVKYlQmJS9wPzd+SVlMRGJPYlNmWw=='}]);
+_stq.push([ 'clickTrackerInit', '34365044', '29507' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script><svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<symbol id="icon-behance" viewBox="0 0 37 32">
+<path class="path1" d="M33 6.054h-9.125v2.214h9.125v-2.214zM28.5 13.661q-1.607 0-2.607 0.938t-1.107 2.545h7.286q-0.321-3.482-3.571-3.482zM28.786 24.107q1.125 0 2.179-0.571t1.357-1.554h3.946q-1.786 5.482-7.625 5.482-3.821 0-6.080-2.357t-2.259-6.196q0-3.714 2.33-6.17t6.009-2.455q2.464 0 4.295 1.214t2.732 3.196 0.902 4.429q0 0.304-0.036 0.839h-11.75q0 1.982 1.027 3.063t2.973 1.080zM4.946 23.214h5.286q3.661 0 3.661-2.982 0-3.214-3.554-3.214h-5.393v6.196zM4.946 13.625h5.018q1.393 0 2.205-0.652t0.813-2.027q0-2.571-3.393-2.571h-4.643v5.25zM0 4.536h10.607q1.554 0 2.768 0.25t2.259 0.848 1.607 1.723 0.563 2.75q0 3.232-3.071 4.696 2.036 0.571 3.071 2.054t1.036 3.643q0 1.339-0.438 2.438t-1.179 1.848-1.759 1.268-2.161 0.75-2.393 0.232h-10.911v-22.5z"></path>
+</symbol>
+<symbol id="icon-deviantart" viewBox="0 0 18 32">
+<path class="path1" d="M18.286 5.411l-5.411 10.393 0.429 0.554h4.982v7.411h-9.054l-0.786 0.536-2.536 4.875-0.536 0.536h-5.375v-5.411l5.411-10.411-0.429-0.536h-4.982v-7.411h9.054l0.786-0.536 2.536-4.875 0.536-0.536h5.375v5.411z"></path>
+</symbol>
+<symbol id="icon-medium" viewBox="0 0 32 32">
+<path class="path1" d="M10.661 7.518v20.946q0 0.446-0.223 0.759t-0.652 0.313q-0.304 0-0.589-0.143l-8.304-4.161q-0.375-0.179-0.634-0.598t-0.259-0.83v-20.357q0-0.357 0.179-0.607t0.518-0.25q0.25 0 0.786 0.268l9.125 4.571q0.054 0.054 0.054 0.089zM11.804 9.321l9.536 15.464-9.536-4.75v-10.714zM32 9.643v18.821q0 0.446-0.25 0.723t-0.679 0.277-0.839-0.232l-7.875-3.929zM31.946 7.5q0 0.054-4.58 7.491t-5.366 8.705l-6.964-11.321 5.786-9.411q0.304-0.5 0.929-0.5 0.25 0 0.464 0.107l9.661 4.821q0.071 0.036 0.071 0.107z"></path>
+</symbol>
+<symbol id="icon-slideshare" viewBox="0 0 32 32">
+<path class="path1" d="M15.589 13.214q0 1.482-1.134 2.545t-2.723 1.063-2.723-1.063-1.134-2.545q0-1.5 1.134-2.554t2.723-1.054 2.723 1.054 1.134 2.554zM24.554 13.214q0 1.482-1.125 2.545t-2.732 1.063q-1.589 0-2.723-1.063t-1.134-2.545q0-1.5 1.134-2.554t2.723-1.054q1.607 0 2.732 1.054t1.125 2.554zM28.571 16.429v-11.911q0-1.554-0.571-2.205t-1.982-0.652h-19.857q-1.482 0-2.009 0.607t-0.527 2.25v12.018q0.768 0.411 1.58 0.714t1.446 0.5 1.446 0.33 1.268 0.196 1.25 0.071 1.045 0.009 1.009-0.036 0.795-0.036q1.214-0.018 1.696 0.482 0.107 0.107 0.179 0.161 0.464 0.446 1.089 0.911 0.125-1.625 2.107-1.554 0.089 0 0.652 0.027t0.768 0.036 0.813 0.018 0.946-0.018 0.973-0.080 1.089-0.152 1.107-0.241 1.196-0.348 1.205-0.482 1.286-0.616zM31.482 16.339q-2.161 2.661-6.643 4.5 1.5 5.089-0.411 8.304-1.179 2.018-3.268 2.643-1.857 0.571-3.25-0.268-1.536-0.911-1.464-2.929l-0.018-5.821v-0.018q-0.143-0.036-0.438-0.107t-0.42-0.089l-0.018 6.036q0.071 2.036-1.482 2.929-1.411 0.839-3.268 0.268-2.089-0.643-3.25-2.679-1.875-3.214-0.393-8.268-4.482-1.839-6.643-4.5-0.446-0.661-0.071-1.125t1.071 0.018q0.054 0.036 0.196 0.125t0.196 0.143v-12.393q0-1.286 0.839-2.196t2.036-0.911h22.446q1.196 0 2.036 0.911t0.839 2.196v12.393l0.375-0.268q0.696-0.482 1.071-0.018t-0.071 1.125z"></path>
+</symbol>
+<symbol id="icon-snapchat-ghost" viewBox="0 0 30 32">
+<path class="path1" d="M15.143 2.286q2.393-0.018 4.295 1.223t2.92 3.438q0.482 1.036 0.482 3.196 0 0.839-0.161 3.411 0.25 0.125 0.5 0.125 0.321 0 0.911-0.241t0.911-0.241q0.518 0 1 0.321t0.482 0.821q0 0.571-0.563 0.964t-1.232 0.563-1.232 0.518-0.563 0.848q0 0.268 0.214 0.768 0.661 1.464 1.83 2.679t2.58 1.804q0.5 0.214 1.429 0.411 0.5 0.107 0.5 0.625 0 1.25-3.911 1.839-0.125 0.196-0.196 0.696t-0.25 0.83-0.589 0.33q-0.357 0-1.107-0.116t-1.143-0.116q-0.661 0-1.107 0.089-0.571 0.089-1.125 0.402t-1.036 0.679-1.036 0.723-1.357 0.598-1.768 0.241q-0.929 0-1.723-0.241t-1.339-0.598-1.027-0.723-1.036-0.679-1.107-0.402q-0.464-0.089-1.125-0.089-0.429 0-1.17 0.134t-1.045 0.134q-0.446 0-0.625-0.33t-0.25-0.848-0.196-0.714q-3.911-0.589-3.911-1.839 0-0.518 0.5-0.625 0.929-0.196 1.429-0.411 1.393-0.571 2.58-1.804t1.83-2.679q0.214-0.5 0.214-0.768 0-0.5-0.563-0.848t-1.241-0.527-1.241-0.563-0.563-0.938q0-0.482 0.464-0.813t0.982-0.33q0.268 0 0.857 0.232t0.946 0.232q0.321 0 0.571-0.125-0.161-2.536-0.161-3.393 0-2.179 0.482-3.214 1.143-2.446 3.071-3.536t4.714-1.125z"></path>
+</symbol>
+<symbol id="icon-yelp" viewBox="0 0 27 32">
+<path class="path1" d="M13.804 23.554v2.268q-0.018 5.214-0.107 5.446-0.214 0.571-0.911 0.714-0.964 0.161-3.241-0.679t-2.902-1.589q-0.232-0.268-0.304-0.643-0.018-0.214 0.071-0.464 0.071-0.179 0.607-0.839t3.232-3.857q0.018 0 1.071-1.25 0.268-0.339 0.705-0.438t0.884 0.063q0.429 0.179 0.67 0.518t0.223 0.75zM11.143 19.071q-0.054 0.982-0.929 1.25l-2.143 0.696q-4.911 1.571-5.214 1.571-0.625-0.036-0.964-0.643-0.214-0.446-0.304-1.339-0.143-1.357 0.018-2.973t0.536-2.223 1-0.571q0.232 0 3.607 1.375 1.25 0.518 2.054 0.839l1.5 0.607q0.411 0.161 0.634 0.545t0.205 0.866zM25.893 24.375q-0.125 0.964-1.634 2.875t-2.42 2.268q-0.661 0.25-1.125-0.125-0.25-0.179-3.286-5.125l-0.839-1.375q-0.25-0.375-0.205-0.821t0.348-0.821q0.625-0.768 1.482-0.464 0.018 0.018 2.125 0.714 3.625 1.179 4.321 1.42t0.839 0.366q0.5 0.393 0.393 1.089zM13.893 13.089q0.089 1.821-0.964 2.179-1.036 0.304-2.036-1.268l-6.75-10.679q-0.143-0.625 0.339-1.107 0.732-0.768 3.705-1.598t4.009-0.563q0.714 0.179 0.875 0.804 0.054 0.321 0.393 5.455t0.429 6.777zM25.714 15.018q0.054 0.696-0.464 1.054-0.268 0.179-5.875 1.536-1.196 0.268-1.625 0.411l0.018-0.036q-0.411 0.107-0.821-0.071t-0.661-0.571q-0.536-0.839 0-1.554 0.018-0.018 1.339-1.821 2.232-3.054 2.679-3.643t0.607-0.696q0.5-0.339 1.161-0.036 0.857 0.411 2.196 2.384t1.446 2.991v0.054z"></path>
+</symbol>
+<symbol id="icon-vine" viewBox="0 0 27 32">
+<path class="path1" d="M26.732 14.768v3.536q-1.804 0.411-3.536 0.411-1.161 2.429-2.955 4.839t-3.241 3.848-2.286 1.902q-1.429 0.804-2.893-0.054-0.5-0.304-1.080-0.777t-1.518-1.491-1.83-2.295-1.92-3.286-1.884-4.357-1.634-5.616-1.259-6.964h5.054q0.464 3.893 1.25 7.116t1.866 5.661 2.17 4.205 2.5 3.482q3.018-3.018 5.125-7.25-2.536-1.286-3.982-3.929t-1.446-5.946q0-3.429 1.857-5.616t5.071-2.188q3.179 0 4.875 1.884t1.696 5.313q0 2.839-1.036 5.107-0.125 0.018-0.348 0.054t-0.821 0.036-1.125-0.107-1.107-0.455-0.902-0.92q0.554-1.839 0.554-3.286 0-1.554-0.518-2.357t-1.411-0.804q-0.946 0-1.518 0.884t-0.571 2.509q0 3.321 1.875 5.241t4.768 1.92q1.107 0 2.161-0.25z"></path>
+</symbol>
+<symbol id="icon-vk" viewBox="0 0 35 32">
+<path class="path1" d="M34.232 9.286q0.411 1.143-2.679 5.25-0.429 0.571-1.161 1.518-1.393 1.786-1.607 2.339-0.304 0.732 0.25 1.446 0.304 0.375 1.446 1.464h0.018l0.071 0.071q2.518 2.339 3.411 3.946 0.054 0.089 0.116 0.223t0.125 0.473-0.009 0.607-0.446 0.491-1.054 0.223l-4.571 0.071q-0.429 0.089-1-0.089t-0.929-0.393l-0.357-0.214q-0.536-0.375-1.25-1.143t-1.223-1.384-1.089-1.036-1.009-0.277q-0.054 0.018-0.143 0.063t-0.304 0.259-0.384 0.527-0.304 0.929-0.116 1.384q0 0.268-0.063 0.491t-0.134 0.33l-0.071 0.089q-0.321 0.339-0.946 0.393h-2.054q-1.268 0.071-2.607-0.295t-2.348-0.946-1.839-1.179-1.259-1.027l-0.446-0.429q-0.179-0.179-0.491-0.536t-1.277-1.625-1.893-2.696-2.188-3.768-2.33-4.857q-0.107-0.286-0.107-0.482t0.054-0.286l0.071-0.107q0.268-0.339 1.018-0.339l4.893-0.036q0.214 0.036 0.411 0.116t0.286 0.152l0.089 0.054q0.286 0.196 0.429 0.571 0.357 0.893 0.821 1.848t0.732 1.455l0.286 0.518q0.518 1.071 1 1.857t0.866 1.223 0.741 0.688 0.607 0.25 0.482-0.089q0.036-0.018 0.089-0.089t0.214-0.393 0.241-0.839 0.17-1.446 0-2.232q-0.036-0.714-0.161-1.304t-0.25-0.821l-0.107-0.214q-0.446-0.607-1.518-0.768-0.232-0.036 0.089-0.429 0.304-0.339 0.679-0.536 0.946-0.464 4.268-0.429 1.464 0.018 2.411 0.232 0.357 0.089 0.598 0.241t0.366 0.429 0.188 0.571 0.063 0.813-0.018 0.982-0.045 1.259-0.027 1.473q0 0.196-0.018 0.75t-0.009 0.857 0.063 0.723 0.205 0.696 0.402 0.438q0.143 0.036 0.304 0.071t0.464-0.196 0.679-0.616 0.929-1.196 1.214-1.92q1.071-1.857 1.911-4.018 0.071-0.179 0.179-0.313t0.196-0.188l0.071-0.054 0.089-0.045t0.232-0.054 0.357-0.009l5.143-0.036q0.696-0.089 1.143 0.045t0.554 0.295z"></path>
+</symbol>
+<symbol id="icon-search" viewBox="0 0 30 32">
+<path class="path1" d="M20.571 14.857q0-3.304-2.348-5.652t-5.652-2.348-5.652 2.348-2.348 5.652 2.348 5.652 5.652 2.348 5.652-2.348 2.348-5.652zM29.714 29.714q0 0.929-0.679 1.607t-1.607 0.679q-0.964 0-1.607-0.679l-6.125-6.107q-3.196 2.214-7.125 2.214-2.554 0-4.884-0.991t-4.018-2.679-2.679-4.018-0.991-4.884 0.991-4.884 2.679-4.018 4.018-2.679 4.884-0.991 4.884 0.991 4.018 2.679 2.679 4.018 0.991 4.884q0 3.929-2.214 7.125l6.125 6.125q0.661 0.661 0.661 1.607z"></path>
+</symbol>
+<symbol id="icon-envelope-o" viewBox="0 0 32 32">
+<path class="path1" d="M29.714 26.857v-13.714q-0.571 0.643-1.232 1.179-4.786 3.679-7.607 6.036-0.911 0.768-1.482 1.196t-1.545 0.866-1.83 0.438h-0.036q-0.857 0-1.83-0.438t-1.545-0.866-1.482-1.196q-2.821-2.357-7.607-6.036-0.661-0.536-1.232-1.179v13.714q0 0.232 0.17 0.402t0.402 0.17h26.286q0.232 0 0.402-0.17t0.17-0.402zM29.714 8.089v-0.438t-0.009-0.232-0.054-0.223-0.098-0.161-0.161-0.134-0.25-0.045h-26.286q-0.232 0-0.402 0.17t-0.17 0.402q0 3 2.625 5.071 3.446 2.714 7.161 5.661 0.107 0.089 0.625 0.527t0.821 0.67 0.795 0.563 0.902 0.491 0.768 0.161h0.036q0.357 0 0.768-0.161t0.902-0.491 0.795-0.563 0.821-0.67 0.625-0.527q3.714-2.946 7.161-5.661 0.964-0.768 1.795-2.063t0.83-2.348zM32 7.429v19.429q0 1.179-0.839 2.018t-2.018 0.839h-26.286q-1.179 0-2.018-0.839t-0.839-2.018v-19.429q0-1.179 0.839-2.018t2.018-0.839h26.286q1.179 0 2.018 0.839t0.839 2.018z"></path>
+</symbol>
+<symbol id="icon-close" viewBox="0 0 25 32">
+<path class="path1" d="M23.179 23.607q0 0.714-0.5 1.214l-2.429 2.429q-0.5 0.5-1.214 0.5t-1.214-0.5l-5.25-5.25-5.25 5.25q-0.5 0.5-1.214 0.5t-1.214-0.5l-2.429-2.429q-0.5-0.5-0.5-1.214t0.5-1.214l5.25-5.25-5.25-5.25q-0.5-0.5-0.5-1.214t0.5-1.214l2.429-2.429q0.5-0.5 1.214-0.5t1.214 0.5l5.25 5.25 5.25-5.25q0.5-0.5 1.214-0.5t1.214 0.5l2.429 2.429q0.5 0.5 0.5 1.214t-0.5 1.214l-5.25 5.25 5.25 5.25q0.5 0.5 0.5 1.214z"></path>
+</symbol>
+<symbol id="icon-angle-down" viewBox="0 0 21 32">
+<path class="path1" d="M19.196 13.143q0 0.232-0.179 0.411l-8.321 8.321q-0.179 0.179-0.411 0.179t-0.411-0.179l-8.321-8.321q-0.179-0.179-0.179-0.411t0.179-0.411l0.893-0.893q0.179-0.179 0.411-0.179t0.411 0.179l7.018 7.018 7.018-7.018q0.179-0.179 0.411-0.179t0.411 0.179l0.893 0.893q0.179 0.179 0.179 0.411z"></path>
+</symbol>
+<symbol id="icon-folder-open" viewBox="0 0 34 32">
+<path class="path1" d="M33.554 17q0 0.554-0.554 1.179l-6 7.071q-0.768 0.911-2.152 1.545t-2.563 0.634h-19.429q-0.607 0-1.080-0.232t-0.473-0.768q0-0.554 0.554-1.179l6-7.071q0.768-0.911 2.152-1.545t2.563-0.634h19.429q0.607 0 1.080 0.232t0.473 0.768zM27.429 10.857v2.857h-14.857q-1.679 0-3.518 0.848t-2.929 2.134l-6.107 7.179q0-0.071-0.009-0.223t-0.009-0.223v-17.143q0-1.643 1.179-2.821t2.821-1.179h5.714q1.643 0 2.821 1.179t1.179 2.821v0.571h9.714q1.643 0 2.821 1.179t1.179 2.821z"></path>
+</symbol>
+<symbol id="icon-twitter" viewBox="0 0 30 32">
+<path class="path1" d="M28.929 7.286q-1.196 1.75-2.893 2.982 0.018 0.25 0.018 0.75 0 2.321-0.679 4.634t-2.063 4.437-3.295 3.759-4.607 2.607-5.768 0.973q-4.839 0-8.857-2.589 0.625 0.071 1.393 0.071 4.018 0 7.161-2.464-1.875-0.036-3.357-1.152t-2.036-2.848q0.589 0.089 1.089 0.089 0.768 0 1.518-0.196-2-0.411-3.313-1.991t-1.313-3.67v-0.071q1.214 0.679 2.607 0.732-1.179-0.786-1.875-2.054t-0.696-2.75q0-1.571 0.786-2.911 2.161 2.661 5.259 4.259t6.634 1.777q-0.143-0.679-0.143-1.321 0-2.393 1.688-4.080t4.080-1.688q2.5 0 4.214 1.821 1.946-0.375 3.661-1.393-0.661 2.054-2.536 3.179 1.661-0.179 3.321-0.893z"></path>
+</symbol>
+<symbol id="icon-facebook" viewBox="0 0 19 32">
+<path class="path1" d="M17.125 0.214v4.714h-2.804q-1.536 0-2.071 0.643t-0.536 1.929v3.375h5.232l-0.696 5.286h-4.536v13.554h-5.464v-13.554h-4.554v-5.286h4.554v-3.893q0-3.321 1.857-5.152t4.946-1.83q2.625 0 4.071 0.214z"></path>
+</symbol>
+<symbol id="icon-github" viewBox="0 0 27 32">
+<path class="path1" d="M13.714 2.286q3.732 0 6.884 1.839t4.991 4.991 1.839 6.884q0 4.482-2.616 8.063t-6.759 4.955q-0.482 0.089-0.714-0.125t-0.232-0.536q0-0.054 0.009-1.366t0.009-2.402q0-1.732-0.929-2.536 1.018-0.107 1.83-0.321t1.679-0.696 1.446-1.188 0.946-1.875 0.366-2.688q0-2.125-1.411-3.679 0.661-1.625-0.143-3.643-0.5-0.161-1.446 0.196t-1.643 0.786l-0.679 0.429q-1.661-0.464-3.429-0.464t-3.429 0.464q-0.286-0.196-0.759-0.482t-1.491-0.688-1.518-0.241q-0.804 2.018-0.143 3.643-1.411 1.554-1.411 3.679 0 1.518 0.366 2.679t0.938 1.875 1.438 1.196 1.679 0.696 1.83 0.321q-0.696 0.643-0.875 1.839-0.375 0.179-0.804 0.268t-1.018 0.089-1.17-0.384-0.991-1.116q-0.339-0.571-0.866-0.929t-0.884-0.429l-0.357-0.054q-0.375 0-0.518 0.080t-0.089 0.205 0.161 0.25 0.232 0.214l0.125 0.089q0.393 0.179 0.777 0.679t0.563 0.911l0.179 0.411q0.232 0.679 0.786 1.098t1.196 0.536 1.241 0.125 0.991-0.063l0.411-0.071q0 0.679 0.009 1.58t0.009 0.973q0 0.321-0.232 0.536t-0.714 0.125q-4.143-1.375-6.759-4.955t-2.616-8.063q0-3.732 1.839-6.884t4.991-4.991 6.884-1.839zM5.196 21.982q0.054-0.125-0.125-0.214-0.179-0.054-0.232 0.036-0.054 0.125 0.125 0.214 0.161 0.107 0.232-0.036zM5.75 22.589q0.125-0.089-0.036-0.286-0.179-0.161-0.286-0.054-0.125 0.089 0.036 0.286 0.179 0.179 0.286 0.054zM6.286 23.393q0.161-0.125 0-0.339-0.143-0.232-0.304-0.107-0.161 0.089 0 0.321t0.304 0.125zM7.036 24.143q0.143-0.143-0.071-0.339-0.214-0.214-0.357-0.054-0.161 0.143 0.071 0.339 0.214 0.214 0.357 0.054zM8.054 24.589q0.054-0.196-0.232-0.286-0.268-0.071-0.339 0.125t0.232 0.268q0.268 0.107 0.339-0.107zM9.179 24.679q0-0.232-0.304-0.196-0.286 0-0.286 0.196 0 0.232 0.304 0.196 0.286 0 0.286-0.196zM10.214 24.5q-0.036-0.196-0.321-0.161-0.286 0.054-0.25 0.268t0.321 0.143 0.25-0.25z"></path>
+</symbol>
+<symbol id="icon-bars" viewBox="0 0 27 32">
+<path class="path1" d="M27.429 24v2.286q0 0.464-0.339 0.804t-0.804 0.339h-25.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h25.143q0.464 0 0.804 0.339t0.339 0.804zM27.429 14.857v2.286q0 0.464-0.339 0.804t-0.804 0.339h-25.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h25.143q0.464 0 0.804 0.339t0.339 0.804zM27.429 5.714v2.286q0 0.464-0.339 0.804t-0.804 0.339h-25.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h25.143q0.464 0 0.804 0.339t0.339 0.804z"></path>
+</symbol>
+<symbol id="icon-google-plus" viewBox="0 0 41 32">
+<path class="path1" d="M25.661 16.304q0 3.714-1.554 6.616t-4.429 4.536-6.589 1.634q-2.661 0-5.089-1.036t-4.179-2.786-2.786-4.179-1.036-5.089 1.036-5.089 2.786-4.179 4.179-2.786 5.089-1.036q5.107 0 8.768 3.429l-3.554 3.411q-2.089-2.018-5.214-2.018-2.196 0-4.063 1.107t-2.955 3.009-1.089 4.152 1.089 4.152 2.955 3.009 4.063 1.107q1.482 0 2.723-0.411t2.045-1.027 1.402-1.402 0.875-1.482 0.384-1.321h-7.429v-4.5h12.357q0.214 1.125 0.214 2.179zM41.143 14.125v3.75h-3.732v3.732h-3.75v-3.732h-3.732v-3.75h3.732v-3.732h3.75v3.732h3.732z"></path>
+</symbol>
+<symbol id="icon-linkedin" viewBox="0 0 27 32">
+<path class="path1" d="M6.232 11.161v17.696h-5.893v-17.696h5.893zM6.607 5.696q0.018 1.304-0.902 2.179t-2.42 0.875h-0.036q-1.464 0-2.357-0.875t-0.893-2.179q0-1.321 0.92-2.188t2.402-0.866 2.375 0.866 0.911 2.188zM27.429 18.714v10.143h-5.875v-9.464q0-1.875-0.723-2.938t-2.259-1.063q-1.125 0-1.884 0.616t-1.134 1.527q-0.196 0.536-0.196 1.446v9.875h-5.875q0.036-7.125 0.036-11.554t-0.018-5.286l-0.018-0.857h5.875v2.571h-0.036q0.357-0.571 0.732-1t1.009-0.929 1.554-0.777 2.045-0.277q3.054 0 4.911 2.027t1.857 5.938z"></path>
+</symbol>
+<symbol id="icon-quote-right" viewBox="0 0 30 32">
+<path class="path1" d="M13.714 5.714v12.571q0 1.857-0.723 3.545t-1.955 2.92-2.92 1.955-3.545 0.723h-1.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h1.143q1.893 0 3.232-1.339t1.339-3.232v-0.571q0-0.714-0.5-1.214t-1.214-0.5h-4q-1.429 0-2.429-1t-1-2.429v-6.857q0-1.429 1-2.429t2.429-1h6.857q1.429 0 2.429 1t1 2.429zM29.714 5.714v12.571q0 1.857-0.723 3.545t-1.955 2.92-2.92 1.955-3.545 0.723h-1.143q-0.464 0-0.804-0.339t-0.339-0.804v-2.286q0-0.464 0.339-0.804t0.804-0.339h1.143q1.893 0 3.232-1.339t1.339-3.232v-0.571q0-0.714-0.5-1.214t-1.214-0.5h-4q-1.429 0-2.429-1t-1-2.429v-6.857q0-1.429 1-2.429t2.429-1h6.857q1.429 0 2.429 1t1 2.429z"></path>
+</symbol>
+<symbol id="icon-mail-reply" viewBox="0 0 32 32">
+<path class="path1" d="M32 20q0 2.964-2.268 8.054-0.054 0.125-0.188 0.429t-0.241 0.536-0.232 0.393q-0.214 0.304-0.5 0.304-0.268 0-0.42-0.179t-0.152-0.446q0-0.161 0.045-0.473t0.045-0.42q0.089-1.214 0.089-2.196 0-1.804-0.313-3.232t-0.866-2.473-1.429-1.804-1.884-1.241-2.375-0.759-2.75-0.384-3.134-0.107h-4v4.571q0 0.464-0.339 0.804t-0.804 0.339-0.804-0.339l-9.143-9.143q-0.339-0.339-0.339-0.804t0.339-0.804l9.143-9.143q0.339-0.339 0.804-0.339t0.804 0.339 0.339 0.804v4.571h4q12.732 0 15.625 7.196 0.946 2.393 0.946 5.946z"></path>
+</symbol>
+<symbol id="icon-youtube" viewBox="0 0 27 32">
+<path class="path1" d="M17.339 22.214v3.768q0 1.196-0.696 1.196-0.411 0-0.804-0.393v-5.375q0.393-0.393 0.804-0.393 0.696 0 0.696 1.196zM23.375 22.232v0.821h-1.607v-0.821q0-1.214 0.804-1.214t0.804 1.214zM6.125 18.339h1.911v-1.679h-5.571v1.679h1.875v10.161h1.786v-10.161zM11.268 28.5h1.589v-8.821h-1.589v6.75q-0.536 0.75-1.018 0.75-0.321 0-0.375-0.375-0.018-0.054-0.018-0.625v-6.5h-1.589v6.982q0 0.875 0.143 1.304 0.214 0.661 1.036 0.661 0.857 0 1.821-1.089v0.964zM18.929 25.857v-3.518q0-1.304-0.161-1.768-0.304-1-1.268-1-0.893 0-1.661 0.964v-3.875h-1.589v11.839h1.589v-0.857q0.804 0.982 1.661 0.982 0.964 0 1.268-0.982 0.161-0.482 0.161-1.786zM24.964 25.679v-0.232h-1.625q0 0.911-0.036 1.089-0.125 0.643-0.714 0.643-0.821 0-0.821-1.232v-1.554h3.196v-1.839q0-1.411-0.482-2.071-0.696-0.911-1.893-0.911-1.214 0-1.911 0.911-0.5 0.661-0.5 2.071v3.089q0 1.411 0.518 2.071 0.696 0.911 1.929 0.911 1.286 0 1.929-0.946 0.321-0.482 0.375-0.964 0.036-0.161 0.036-1.036zM14.107 9.375v-3.75q0-1.232-0.768-1.232t-0.768 1.232v3.75q0 1.25 0.768 1.25t0.768-1.25zM26.946 22.786q0 4.179-0.464 6.25-0.25 1.054-1.036 1.768t-1.821 0.821q-3.286 0.375-9.911 0.375t-9.911-0.375q-1.036-0.107-1.83-0.821t-1.027-1.768q-0.464-2-0.464-6.25 0-4.179 0.464-6.25 0.25-1.054 1.036-1.768t1.839-0.839q3.268-0.357 9.893-0.357t9.911 0.357q1.036 0.125 1.83 0.839t1.027 1.768q0.464 2 0.464 6.25zM9.125 0h1.821l-2.161 7.125v4.839h-1.786v-4.839q-0.25-1.321-1.089-3.786-0.661-1.839-1.161-3.339h1.893l1.268 4.696zM15.732 5.946v3.125q0 1.446-0.5 2.107-0.661 0.911-1.893 0.911-1.196 0-1.875-0.911-0.5-0.679-0.5-2.107v-3.125q0-1.429 0.5-2.089 0.679-0.911 1.875-0.911 1.232 0 1.893 0.911 0.5 0.661 0.5 2.089zM21.714 3.054v8.911h-1.625v-0.982q-0.946 1.107-1.839 1.107-0.821 0-1.054-0.661-0.143-0.429-0.143-1.339v-7.036h1.625v6.554q0 0.589 0.018 0.625 0.054 0.393 0.375 0.393 0.482 0 1.018-0.768v-6.804h1.625z"></path>
+</symbol>
+<symbol id="icon-dropbox" viewBox="0 0 32 32">
+<path class="path1" d="M7.179 12.625l8.821 5.446-6.107 5.089-8.75-5.696zM24.786 22.536v1.929l-8.75 5.232v0.018l-0.018-0.018-0.018 0.018v-0.018l-8.732-5.232v-1.929l2.625 1.714 6.107-5.071v-0.036l0.018 0.018 0.018-0.018v0.036l6.125 5.071zM9.893 2.107l6.107 5.089-8.821 5.429-6.036-4.821zM24.821 12.625l6.036 4.839-8.732 5.696-6.125-5.089zM22.125 2.107l8.732 5.696-6.036 4.821-8.821-5.429z"></path>
+</symbol>
+<symbol id="icon-instagram" viewBox="0 0 27 32">
+<path class="path1" d="M18.286 16q0-1.893-1.339-3.232t-3.232-1.339-3.232 1.339-1.339 3.232 1.339 3.232 3.232 1.339 3.232-1.339 1.339-3.232zM20.75 16q0 2.929-2.054 4.982t-4.982 2.054-4.982-2.054-2.054-4.982 2.054-4.982 4.982-2.054 4.982 2.054 2.054 4.982zM22.679 8.679q0 0.679-0.482 1.161t-1.161 0.482-1.161-0.482-0.482-1.161 0.482-1.161 1.161-0.482 1.161 0.482 0.482 1.161zM13.714 4.75q-0.125 0-1.366-0.009t-1.884 0-1.723 0.054-1.839 0.179-1.277 0.33q-0.893 0.357-1.571 1.036t-1.036 1.571q-0.196 0.518-0.33 1.277t-0.179 1.839-0.054 1.723 0 1.884 0.009 1.366-0.009 1.366 0 1.884 0.054 1.723 0.179 1.839 0.33 1.277q0.357 0.893 1.036 1.571t1.571 1.036q0.518 0.196 1.277 0.33t1.839 0.179 1.723 0.054 1.884 0 1.366-0.009 1.366 0.009 1.884 0 1.723-0.054 1.839-0.179 1.277-0.33q0.893-0.357 1.571-1.036t1.036-1.571q0.196-0.518 0.33-1.277t0.179-1.839 0.054-1.723 0-1.884-0.009-1.366 0.009-1.366 0-1.884-0.054-1.723-0.179-1.839-0.33-1.277q-0.357-0.893-1.036-1.571t-1.571-1.036q-0.518-0.196-1.277-0.33t-1.839-0.179-1.723-0.054-1.884 0-1.366 0.009zM27.429 16q0 4.089-0.089 5.661-0.179 3.714-2.214 5.75t-5.75 2.214q-1.571 0.089-5.661 0.089t-5.661-0.089q-3.714-0.179-5.75-2.214t-2.214-5.75q-0.089-1.571-0.089-5.661t0.089-5.661q0.179-3.714 2.214-5.75t5.75-2.214q1.571-0.089 5.661-0.089t5.661 0.089q3.714 0.179 5.75 2.214t2.214 5.75q0.089 1.571 0.089 5.661z"></path>
+</symbol>
+<symbol id="icon-flickr" viewBox="0 0 27 32">
+<path class="path1" d="M22.286 2.286q2.125 0 3.634 1.509t1.509 3.634v17.143q0 2.125-1.509 3.634t-3.634 1.509h-17.143q-2.125 0-3.634-1.509t-1.509-3.634v-17.143q0-2.125 1.509-3.634t3.634-1.509h17.143zM12.464 16q0-1.571-1.107-2.679t-2.679-1.107-2.679 1.107-1.107 2.679 1.107 2.679 2.679 1.107 2.679-1.107 1.107-2.679zM22.536 16q0-1.571-1.107-2.679t-2.679-1.107-2.679 1.107-1.107 2.679 1.107 2.679 2.679 1.107 2.679-1.107 1.107-2.679z"></path>
+</symbol>
+<symbol id="icon-tumblr" viewBox="0 0 19 32">
+<path class="path1" d="M16.857 23.732l1.429 4.232q-0.411 0.625-1.982 1.179t-3.161 0.571q-1.857 0.036-3.402-0.464t-2.545-1.321-1.696-1.893-0.991-2.143-0.295-2.107v-9.714h-3v-3.839q1.286-0.464 2.304-1.241t1.625-1.607 1.036-1.821 0.607-1.768 0.268-1.58q0.018-0.089 0.080-0.152t0.134-0.063h4.357v7.571h5.946v4.5h-5.964v9.25q0 0.536 0.116 1t0.402 0.938 0.884 0.741 1.455 0.25q1.393-0.036 2.393-0.518z"></path>
+</symbol>
+<symbol id="icon-dockerhub" viewBox="0 0 24 28">
+<path class="path1" d="M1.597 10.257h2.911v2.83H1.597v-2.83zm3.573 0h2.91v2.83H5.17v-2.83zm0-3.627h2.91v2.829H5.17V6.63zm3.57 3.627h2.912v2.83H8.74v-2.83zm0-3.627h2.912v2.829H8.74V6.63zm3.573 3.627h2.911v2.83h-2.911v-2.83zm0-3.627h2.911v2.829h-2.911V6.63zm3.572 3.627h2.911v2.83h-2.911v-2.83zM12.313 3h2.911v2.83h-2.911V3zm-6.65 14.173c-.449 0-.812.354-.812.788 0 .435.364.788.812.788.447 0 .811-.353.811-.788 0-.434-.363-.788-.811-.788"></path>
+<path class="path2" d="M28.172 11.721c-.978-.549-2.278-.624-3.388-.306-.136-1.146-.91-2.149-1.83-2.869l-.366-.286-.307.345c-.618.692-.8 1.845-.718 2.73.063.651.273 1.312.685 1.834-.313.183-.668.328-.985.434-.646.212-1.347.33-2.028.33H.083l-.042.429c-.137 1.432.065 2.866.674 4.173l.262.519.03.048c1.8 2.973 4.963 4.225 8.41 4.225 6.672 0 12.174-2.896 14.702-9.015 1.689.085 3.417-.4 4.243-1.968l.211-.4-.401-.223zM5.664 19.458c-.85 0-1.542-.671-1.542-1.497 0-.825.691-1.498 1.541-1.498.849 0 1.54.672 1.54 1.497s-.69 1.498-1.539 1.498z"></path>
+</symbol>
+<symbol id="icon-dribbble" viewBox="0 0 27 32">
+<path class="path1" d="M18.286 26.786q-0.75-4.304-2.5-8.893h-0.036l-0.036 0.018q-0.286 0.107-0.768 0.295t-1.804 0.875-2.446 1.464-2.339 2.045-1.839 2.643l-0.268-0.196q3.286 2.679 7.464 2.679 2.357 0 4.571-0.929zM14.982 15.946q-0.375-0.875-0.946-1.982-5.554 1.661-12.018 1.661-0.018 0.125-0.018 0.375 0 2.214 0.786 4.223t2.214 3.598q0.893-1.589 2.205-2.973t2.545-2.223 2.33-1.446 1.777-0.857l0.661-0.232q0.071-0.018 0.232-0.063t0.232-0.080zM13.071 12.161q-2.143-3.804-4.357-6.75-2.464 1.161-4.179 3.321t-2.286 4.857q5.393 0 10.821-1.429zM25.286 17.857q-3.75-1.071-7.304-0.518 1.554 4.268 2.286 8.375 1.982-1.339 3.304-3.384t1.714-4.473zM10.911 4.625q-0.018 0-0.036 0.018 0.018-0.018 0.036-0.018zM21.446 7.214q-3.304-2.929-7.732-2.929-1.357 0-2.768 0.339 2.339 3.036 4.393 6.821 1.232-0.464 2.321-1.080t1.723-1.098 1.17-1.018 0.67-0.723zM25.429 15.875q-0.054-4.143-2.661-7.321l-0.018 0.018q-0.161 0.214-0.339 0.438t-0.777 0.795-1.268 1.080-1.786 1.161-2.348 1.152q0.446 0.946 0.786 1.696 0.036 0.107 0.116 0.313t0.134 0.295q0.643-0.089 1.33-0.125t1.313-0.036 1.232 0.027 1.143 0.071 1.009 0.098 0.857 0.116 0.652 0.107 0.446 0.080zM27.429 16q0 3.732-1.839 6.884t-4.991 4.991-6.884 1.839-6.884-1.839-4.991-4.991-1.839-6.884 1.839-6.884 4.991-4.991 6.884-1.839 6.884 1.839 4.991 4.991 1.839 6.884z"></path>
+</symbol>
+<symbol id="icon-skype" viewBox="0 0 27 32">
+<path class="path1" d="M20.946 18.982q0-0.893-0.348-1.634t-0.866-1.223-1.304-0.875-1.473-0.607-1.563-0.411l-1.857-0.429q-0.536-0.125-0.786-0.188t-0.625-0.205-0.536-0.286-0.295-0.375-0.134-0.536q0-1.375 2.571-1.375 0.768 0 1.375 0.214t0.964 0.509 0.679 0.598 0.714 0.518 0.857 0.214q0.839 0 1.348-0.571t0.509-1.375q0-0.982-1-1.777t-2.536-1.205-3.25-0.411q-1.214 0-2.357 0.277t-2.134 0.839-1.589 1.554-0.598 2.295q0 1.089 0.339 1.902t1 1.348 1.429 0.866 1.839 0.58l2.607 0.643q1.607 0.393 2 0.643 0.571 0.357 0.571 1.071 0 0.696-0.714 1.152t-1.875 0.455q-0.911 0-1.634-0.286t-1.161-0.688-0.813-0.804-0.821-0.688-0.964-0.286q-0.893 0-1.348 0.536t-0.455 1.339q0 1.643 2.179 2.813t5.196 1.17q1.304 0 2.5-0.33t2.188-0.955 1.58-1.67 0.589-2.348zM27.429 22.857q0 2.839-2.009 4.848t-4.848 2.009q-2.321 0-4.179-1.429-1.375 0.286-2.679 0.286-2.554 0-4.884-0.991t-4.018-2.679-2.679-4.018-0.991-4.884q0-1.304 0.286-2.679-1.429-1.857-1.429-4.179 0-2.839 2.009-4.848t4.848-2.009q2.321 0 4.179 1.429 1.375-0.286 2.679-0.286 2.554 0 4.884 0.991t4.018 2.679 2.679 4.018 0.991 4.884q0 1.304-0.286 2.679 1.429 1.857 1.429 4.179z"></path>
+</symbol>
+<symbol id="icon-foursquare" viewBox="0 0 23 32">
+<path class="path1" d="M17.857 7.75l0.661-3.464q0.089-0.411-0.161-0.714t-0.625-0.304h-12.714q-0.411 0-0.688 0.304t-0.277 0.661v19.661q0 0.125 0.107 0.018l5.196-6.286q0.411-0.464 0.679-0.598t0.857-0.134h4.268q0.393 0 0.661-0.259t0.321-0.527q0.429-2.321 0.661-3.411 0.071-0.375-0.205-0.714t-0.652-0.339h-5.25q-0.518 0-0.857-0.339t-0.339-0.857v-0.75q0-0.518 0.339-0.848t0.857-0.33h6.179q0.321 0 0.625-0.241t0.357-0.527zM21.911 3.786q-0.268 1.304-0.955 4.759t-1.241 6.25-0.625 3.098q-0.107 0.393-0.161 0.58t-0.25 0.58-0.438 0.589-0.688 0.375-1.036 0.179h-4.839q-0.232 0-0.393 0.179-0.143 0.161-7.607 8.821-0.393 0.446-1.045 0.509t-0.866-0.098q-0.982-0.393-0.982-1.75v-25.179q0-0.982 0.679-1.83t2.143-0.848h15.857q1.696 0 2.268 0.946t0.179 2.839zM21.911 3.786l-2.821 14.107q0.071-0.304 0.625-3.098t1.241-6.25 0.955-4.759z"></path>
+</symbol>
+<symbol id="icon-wordpress" viewBox="0 0 32 32">
+<path class="path1" d="M2.268 16q0-2.911 1.196-5.589l6.554 17.946q-3.5-1.696-5.625-5.018t-2.125-7.339zM25.268 15.304q0 0.339-0.045 0.688t-0.179 0.884-0.205 0.786-0.313 1.054-0.313 1.036l-1.357 4.571-4.964-14.75q0.821-0.054 1.571-0.143 0.339-0.036 0.464-0.33t-0.045-0.554-0.509-0.241l-3.661 0.179q-1.339-0.018-3.607-0.179-0.214-0.018-0.366 0.089t-0.205 0.268-0.027 0.33 0.161 0.295 0.348 0.143l1.429 0.143 2.143 5.857-3 9-5-14.857q0.821-0.054 1.571-0.143 0.339-0.036 0.464-0.33t-0.045-0.554-0.509-0.241l-3.661 0.179q-0.125 0-0.411-0.009t-0.464-0.009q1.875-2.857 4.902-4.527t6.563-1.67q2.625 0 5.009 0.946t4.259 2.661h-0.179q-0.982 0-1.643 0.723t-0.661 1.705q0 0.214 0.036 0.429t0.071 0.384 0.143 0.411 0.161 0.375 0.214 0.402 0.223 0.375 0.259 0.429 0.25 0.411q1.125 1.911 1.125 3.786zM16.232 17.196l4.232 11.554q0.018 0.107 0.089 0.196-2.25 0.786-4.554 0.786-2 0-3.875-0.571zM28.036 9.411q1.696 3.107 1.696 6.589 0 3.732-1.857 6.884t-4.982 4.973l4.196-12.107q1.054-3.018 1.054-4.929 0-0.75-0.107-1.411zM16 0q3.25 0 6.214 1.268t5.107 3.411 3.411 5.107 1.268 6.214-1.268 6.214-3.411 5.107-5.107 3.411-6.214 1.268-6.214-1.268-5.107-3.411-3.411-5.107-1.268-6.214 1.268-6.214 3.411-5.107 5.107-3.411 6.214-1.268zM16 31.268q3.089 0 5.92-1.214t4.875-3.259 3.259-4.875 1.214-5.92-1.214-5.92-3.259-4.875-4.875-3.259-5.92-1.214-5.92 1.214-4.875 3.259-3.259 4.875-1.214 5.92 1.214 5.92 3.259 4.875 4.875 3.259 5.92 1.214z"></path>
+</symbol>
+<symbol id="icon-stumbleupon" viewBox="0 0 34 32">
+<path class="path1" d="M18.964 12.714v-2.107q0-0.75-0.536-1.286t-1.286-0.536-1.286 0.536-0.536 1.286v10.929q0 3.125-2.25 5.339t-5.411 2.214q-3.179 0-5.42-2.241t-2.241-5.42v-4.75h5.857v4.679q0 0.768 0.536 1.295t1.286 0.527 1.286-0.527 0.536-1.295v-11.071q0-3.054 2.259-5.214t5.384-2.161q3.143 0 5.393 2.179t2.25 5.25v2.429l-3.482 1.036zM28.429 16.679h5.857v4.75q0 3.179-2.241 5.42t-5.42 2.241q-3.161 0-5.411-2.223t-2.25-5.366v-4.786l2.339 1.089 3.482-1.036v4.821q0 0.75 0.536 1.277t1.286 0.527 1.286-0.527 0.536-1.277v-4.911z"></path>
+</symbol>
+<symbol id="icon-digg" viewBox="0 0 37 32">
+<path class="path1" d="M5.857 5.036h3.643v17.554h-9.5v-12.446h5.857v-5.107zM5.857 19.661v-6.589h-2.196v6.589h2.196zM10.964 10.143v12.446h3.661v-12.446h-3.661zM10.964 5.036v3.643h3.661v-3.643h-3.661zM16.089 10.143h9.518v16.821h-9.518v-2.911h5.857v-1.464h-5.857v-12.446zM21.946 19.661v-6.589h-2.196v6.589h2.196zM27.071 10.143h9.5v16.821h-9.5v-2.911h5.839v-1.464h-5.839v-12.446zM32.911 19.661v-6.589h-2.196v6.589h2.196z"></path>
+</symbol>
+<symbol id="icon-spotify" viewBox="0 0 27 32">
+<path class="path1" d="M20.125 21.607q0-0.571-0.536-0.911-3.446-2.054-7.982-2.054-2.375 0-5.125 0.607-0.75 0.161-0.75 0.929 0 0.357 0.241 0.616t0.634 0.259q0.089 0 0.661-0.143 2.357-0.482 4.339-0.482 4.036 0 7.089 1.839 0.339 0.196 0.589 0.196 0.339 0 0.589-0.241t0.25-0.616zM21.839 17.768q0-0.714-0.625-1.089-4.232-2.518-9.786-2.518-2.732 0-5.411 0.75-0.857 0.232-0.857 1.143 0 0.446 0.313 0.759t0.759 0.313q0.125 0 0.661-0.143 2.179-0.589 4.482-0.589 4.982 0 8.714 2.214 0.429 0.232 0.679 0.232 0.446 0 0.759-0.313t0.313-0.759zM23.768 13.339q0-0.839-0.714-1.25-2.25-1.304-5.232-1.973t-6.125-0.67q-3.643 0-6.5 0.839-0.411 0.125-0.688 0.455t-0.277 0.866q0 0.554 0.366 0.929t0.92 0.375q0.196 0 0.714-0.143 2.375-0.661 5.482-0.661 2.839 0 5.527 0.607t4.527 1.696q0.375 0.214 0.714 0.214 0.518 0 0.902-0.366t0.384-0.92zM27.429 16q0 3.732-1.839 6.884t-4.991 4.991-6.884 1.839-6.884-1.839-4.991-4.991-1.839-6.884 1.839-6.884 4.991-4.991 6.884-1.839 6.884 1.839 4.991 4.991 1.839 6.884z"></path>
+</symbol>
+<symbol id="icon-soundcloud" viewBox="0 0 41 32">
+<path class="path1" d="M14 24.5l0.286-4.304-0.286-9.339q-0.018-0.179-0.134-0.304t-0.295-0.125q-0.161 0-0.286 0.125t-0.125 0.304l-0.25 9.339 0.25 4.304q0.018 0.179 0.134 0.295t0.277 0.116q0.393 0 0.429-0.411zM19.286 23.982l0.196-3.768-0.214-10.464q0-0.286-0.232-0.429-0.143-0.089-0.286-0.089t-0.286 0.089q-0.232 0.143-0.232 0.429l-0.018 0.107-0.179 10.339q0 0.018 0.196 4.214v0.018q0 0.179 0.107 0.304 0.161 0.196 0.411 0.196 0.196 0 0.357-0.161 0.161-0.125 0.161-0.357zM0.625 17.911l0.357 2.286-0.357 2.25q-0.036 0.161-0.161 0.161t-0.161-0.161l-0.304-2.25 0.304-2.286q0.036-0.161 0.161-0.161t0.161 0.161zM2.161 16.5l0.464 3.696-0.464 3.625q-0.036 0.161-0.179 0.161-0.161 0-0.161-0.179l-0.411-3.607 0.411-3.696q0-0.161 0.161-0.161 0.143 0 0.179 0.161zM3.804 15.821l0.446 4.375-0.446 4.232q0 0.196-0.196 0.196-0.179 0-0.214-0.196l-0.375-4.232 0.375-4.375q0.036-0.214 0.214-0.214 0.196 0 0.196 0.214zM5.482 15.696l0.411 4.5-0.411 4.357q-0.036 0.232-0.25 0.232-0.232 0-0.232-0.232l-0.375-4.357 0.375-4.5q0-0.232 0.232-0.232 0.214 0 0.25 0.232zM7.161 16.018l0.375 4.179-0.375 4.393q-0.036 0.286-0.286 0.286-0.107 0-0.188-0.080t-0.080-0.205l-0.357-4.393 0.357-4.179q0-0.107 0.080-0.188t0.188-0.080q0.25 0 0.286 0.268zM8.839 13.411l0.375 6.786-0.375 4.393q0 0.125-0.089 0.223t-0.214 0.098q-0.286 0-0.321-0.321l-0.321-4.393 0.321-6.786q0.036-0.321 0.321-0.321 0.125 0 0.214 0.098t0.089 0.223zM10.518 11.875l0.339 8.357-0.339 4.357q0 0.143-0.098 0.241t-0.241 0.098q-0.321 0-0.357-0.339l-0.286-4.357 0.286-8.357q0.036-0.339 0.357-0.339 0.143 0 0.241 0.098t0.098 0.241zM12.268 11.161l0.321 9.036-0.321 4.321q-0.036 0.375-0.393 0.375-0.339 0-0.375-0.375l-0.286-4.321 0.286-9.036q0-0.161 0.116-0.277t0.259-0.116q0.161 0 0.268 0.116t0.125 0.277zM19.268 24.411v0 0zM15.732 11.089l0.268 9.107-0.268 4.268q0 0.179-0.134 0.313t-0.313 0.134-0.304-0.125-0.143-0.321l-0.25-4.268 0.25-9.107q0-0.196 0.134-0.321t0.313-0.125 0.313 0.125 0.134 0.321zM17.5 11.429l0.25 8.786-0.25 4.214q0 0.196-0.143 0.339t-0.339 0.143-0.339-0.143-0.161-0.339l-0.214-4.214 0.214-8.786q0.018-0.214 0.161-0.357t0.339-0.143 0.33 0.143 0.152 0.357zM21.286 20.214l-0.25 4.125q0 0.232-0.161 0.393t-0.393 0.161-0.393-0.161-0.179-0.393l-0.107-2.036-0.107-2.089 0.214-11.357v-0.054q0.036-0.268 0.214-0.429 0.161-0.125 0.357-0.125 0.143 0 0.268 0.089 0.25 0.143 0.286 0.464zM41.143 19.875q0 2.089-1.482 3.563t-3.571 1.473h-14.036q-0.232-0.036-0.393-0.196t-0.161-0.393v-16.054q0-0.411 0.5-0.589 1.518-0.607 3.232-0.607 3.482 0 6.036 2.348t2.857 5.777q0.946-0.393 1.964-0.393 2.089 0 3.571 1.482t1.482 3.589z"></path>
+</symbol>
+<symbol id="icon-codepen" viewBox="0 0 32 32">
+<path class="path1" d="M3.857 20.875l10.768 7.179v-6.411l-5.964-3.982zM2.75 18.304l3.446-2.304-3.446-2.304v4.607zM17.375 28.054l10.768-7.179-4.804-3.214-5.964 3.982v6.411zM16 19.25l4.857-3.25-4.857-3.25-4.857 3.25zM8.661 14.339l5.964-3.982v-6.411l-10.768 7.179zM25.804 16l3.446 2.304v-4.607zM23.339 14.339l4.804-3.214-10.768-7.179v6.411zM32 11.125v9.75q0 0.732-0.607 1.143l-14.625 9.75q-0.375 0.232-0.768 0.232t-0.768-0.232l-14.625-9.75q-0.607-0.411-0.607-1.143v-9.75q0-0.732 0.607-1.143l14.625-9.75q0.375-0.232 0.768-0.232t0.768 0.232l14.625 9.75q0.607 0.411 0.607 1.143z"></path>
+</symbol>
+<symbol id="icon-twitch" viewBox="0 0 32 32">
+<path class="path1" d="M16 7.75v7.75h-2.589v-7.75h2.589zM23.107 7.75v7.75h-2.589v-7.75h2.589zM23.107 21.321l4.518-4.536v-14.196h-21.321v18.732h5.821v3.875l3.875-3.875h7.107zM30.214 0v18.089l-7.75 7.75h-5.821l-3.875 3.875h-3.875v-3.875h-7.107v-20.679l1.946-5.161h26.482z"></path>
+</symbol>
+<symbol id="icon-meanpath" viewBox="0 0 27 32">
+<path class="path1" d="M23.411 15.036v2.036q0 0.429-0.241 0.679t-0.67 0.25h-3.607q-0.429 0-0.679-0.25t-0.25-0.679v-2.036q0-0.429 0.25-0.679t0.679-0.25h3.607q0.429 0 0.67 0.25t0.241 0.679zM14.661 19.143v-4.464q0-0.946-0.58-1.527t-1.527-0.58h-2.375q-1.214 0-1.714 0.929-0.5-0.929-1.714-0.929h-2.321q-0.946 0-1.527 0.58t-0.58 1.527v4.464q0 0.393 0.375 0.393h0.982q0.393 0 0.393-0.393v-4.107q0-0.429 0.241-0.679t0.688-0.25h1.679q0.429 0 0.679 0.25t0.25 0.679v4.107q0 0.393 0.375 0.393h0.964q0.393 0 0.393-0.393v-4.107q0-0.429 0.25-0.679t0.679-0.25h1.732q0.429 0 0.67 0.25t0.241 0.679v4.107q0 0.393 0.393 0.393h0.982q0.375 0 0.375-0.393zM25.179 17.429v-2.75q0-0.946-0.589-1.527t-1.536-0.58h-4.714q-0.946 0-1.536 0.58t-0.589 1.527v7.321q0 0.375 0.393 0.375h0.982q0.375 0 0.375-0.375v-3.214q0.554 0.75 1.679 0.75h3.411q0.946 0 1.536-0.58t0.589-1.527zM27.429 6.429v19.143q0 1.714-1.214 2.929t-2.929 1.214h-19.143q-1.714 0-2.929-1.214t-1.214-2.929v-19.143q0-1.714 1.214-2.929t2.929-1.214h19.143q1.714 0 2.929 1.214t1.214 2.929z"></path>
+</symbol>
+<symbol id="icon-pinterest-p" viewBox="0 0 23 32">
+<path class="path1" d="M0 10.661q0-1.929 0.67-3.634t1.848-2.973 2.714-2.196 3.304-1.393 3.607-0.464q2.821 0 5.25 1.188t3.946 3.455 1.518 5.125q0 1.714-0.339 3.357t-1.071 3.161-1.786 2.67-2.589 1.839-3.375 0.688q-1.214 0-2.411-0.571t-1.714-1.571q-0.179 0.696-0.5 2.009t-0.42 1.696-0.366 1.268-0.464 1.268-0.571 1.116-0.821 1.384-1.107 1.545l-0.25 0.089-0.161-0.179q-0.268-2.804-0.268-3.357 0-1.643 0.384-3.688t1.188-5.134 0.929-3.625q-0.571-1.161-0.571-3.018 0-1.482 0.929-2.786t2.357-1.304q1.089 0 1.696 0.723t0.607 1.83q0 1.179-0.786 3.411t-0.786 3.339q0 1.125 0.804 1.866t1.946 0.741q0.982 0 1.821-0.446t1.402-1.214 1-1.696 0.679-1.973 0.357-1.982 0.116-1.777q0-3.089-1.955-4.813t-5.098-1.723q-3.571 0-5.964 2.313t-2.393 5.866q0 0.786 0.223 1.518t0.482 1.161 0.482 0.813 0.223 0.545q0 0.5-0.268 1.304t-0.661 0.804q-0.036 0-0.304-0.054-0.911-0.268-1.616-1t-1.089-1.688-0.58-1.929-0.196-1.902z"></path>
+</symbol>
+<symbol id="icon-periscope" viewBox="0 0 24 28">
+<path class="path1" d="M12.285,1C6.696,1,2.277,5.643,2.277,11.243c0,5.851,7.77,14.578,10.007,14.578c1.959,0,9.729-8.728,9.729-14.578 C22.015,5.643,17.596,1,12.285,1z M12.317,16.551c-3.473,0-6.152-2.611-6.152-5.664c0-1.292,0.39-2.472,1.065-3.438 c0.206,1.084,1.18,1.906,2.352,1.906c1.322,0,2.393-1.043,2.393-2.333c0-0.832-0.447-1.561-1.119-1.975 c0.467-0.105,0.955-0.161,1.46-0.161c3.133,0,5.81,2.611,5.81,5.998C18.126,13.94,15.449,16.551,12.317,16.551z"></path>
+</symbol>
+<symbol id="icon-get-pocket" viewBox="0 0 31 32">
+<path class="path1" d="M27.946 2.286q1.161 0 1.964 0.813t0.804 1.973v9.268q0 3.143-1.214 6t-3.259 4.911-4.893 3.259-5.973 1.205q-3.143 0-5.991-1.205t-4.902-3.259-3.268-4.911-1.214-6v-9.268q0-1.143 0.821-1.964t1.964-0.821h25.161zM15.375 21.286q0.839 0 1.464-0.589l7.214-6.929q0.661-0.625 0.661-1.518 0-0.875-0.616-1.491t-1.491-0.616q-0.839 0-1.464 0.589l-5.768 5.536-5.768-5.536q-0.625-0.589-1.446-0.589-0.875 0-1.491 0.616t-0.616 1.491q0 0.911 0.643 1.518l7.232 6.929q0.589 0.589 1.446 0.589z"></path>
+</symbol>
+<symbol id="icon-vimeo" viewBox="0 0 32 32">
+<path class="path1" d="M30.518 9.25q-0.179 4.214-5.929 11.625-5.946 7.696-10.036 7.696-2.536 0-4.286-4.696-0.786-2.857-2.357-8.607-1.286-4.679-2.804-4.679-0.321 0-2.268 1.357l-1.375-1.75q0.429-0.375 1.929-1.723t2.321-2.063q2.786-2.464 4.304-2.607 1.696-0.161 2.732 0.991t1.446 3.634q0.786 5.125 1.179 6.661 0.982 4.446 2.143 4.446 0.911 0 2.75-2.875 1.804-2.875 1.946-4.393 0.232-2.482-1.946-2.482-1.018 0-2.161 0.464 2.143-7.018 8.196-6.821 4.482 0.143 4.214 5.821z"></path>
+</symbol>
+<symbol id="icon-reddit-alien" viewBox="0 0 32 32">
+<path class="path1" d="M32 15.107q0 1.036-0.527 1.884t-1.42 1.295q0.214 0.821 0.214 1.714 0 2.768-1.902 5.125t-5.188 3.723-7.143 1.366-7.134-1.366-5.179-3.723-1.902-5.125q0-0.839 0.196-1.679-0.911-0.446-1.464-1.313t-0.554-1.902q0-1.464 1.036-2.509t2.518-1.045q1.518 0 2.589 1.125 3.893-2.714 9.196-2.893l2.071-9.304q0.054-0.232 0.268-0.375t0.464-0.089l6.589 1.446q0.321-0.661 0.964-1.063t1.411-0.402q1.107 0 1.893 0.777t0.786 1.884-0.786 1.893-1.893 0.786-1.884-0.777-0.777-1.884l-5.964-1.321-1.857 8.429q5.357 0.161 9.268 2.857 1.036-1.089 2.554-1.089 1.482 0 2.518 1.045t1.036 2.509zM7.464 18.661q0 1.107 0.777 1.893t1.884 0.786 1.893-0.786 0.786-1.893-0.786-1.884-1.893-0.777q-1.089 0-1.875 0.786t-0.786 1.875zM21.929 25q0.196-0.196 0.196-0.464t-0.196-0.464q-0.179-0.179-0.446-0.179t-0.464 0.179q-0.732 0.75-2.161 1.107t-2.857 0.357-2.857-0.357-2.161-1.107q-0.196-0.179-0.464-0.179t-0.446 0.179q-0.196 0.179-0.196 0.455t0.196 0.473q0.768 0.768 2.116 1.214t2.188 0.527 1.625 0.080 1.625-0.080 2.188-0.527 2.116-1.214zM21.875 21.339q1.107 0 1.884-0.786t0.777-1.893q0-1.089-0.786-1.875t-1.875-0.786q-1.107 0-1.893 0.777t-0.786 1.884 0.786 1.893 1.893 0.786z"></path>
+</symbol>
+<symbol id="icon-hashtag" viewBox="0 0 32 32">
+<path class="path1" d="M17.696 18.286l1.143-4.571h-4.536l-1.143 4.571h4.536zM31.411 9.286l-1 4q-0.125 0.429-0.554 0.429h-5.839l-1.143 4.571h5.554q0.268 0 0.446 0.214 0.179 0.25 0.107 0.5l-1 4q-0.089 0.429-0.554 0.429h-5.839l-1.446 5.857q-0.125 0.429-0.554 0.429h-4q-0.286 0-0.464-0.214-0.161-0.214-0.107-0.5l1.393-5.571h-4.536l-1.446 5.857q-0.125 0.429-0.554 0.429h-4.018q-0.268 0-0.446-0.214-0.161-0.214-0.107-0.5l1.393-5.571h-5.554q-0.268 0-0.446-0.214-0.161-0.214-0.107-0.5l1-4q0.125-0.429 0.554-0.429h5.839l1.143-4.571h-5.554q-0.268 0-0.446-0.214-0.179-0.25-0.107-0.5l1-4q0.089-0.429 0.554-0.429h5.839l1.446-5.857q0.125-0.429 0.571-0.429h4q0.268 0 0.446 0.214 0.161 0.214 0.107 0.5l-1.393 5.571h4.536l1.446-5.857q0.125-0.429 0.571-0.429h4q0.268 0 0.446 0.214 0.161 0.214 0.107 0.5l-1.393 5.571h5.554q0.268 0 0.446 0.214 0.161 0.214 0.107 0.5z"></path>
+</symbol>
+<symbol id="icon-chain" viewBox="0 0 30 32">
+<path class="path1" d="M26 21.714q0-0.714-0.5-1.214l-3.714-3.714q-0.5-0.5-1.214-0.5-0.75 0-1.286 0.571 0.054 0.054 0.339 0.33t0.384 0.384 0.268 0.339 0.232 0.455 0.063 0.491q0 0.714-0.5 1.214t-1.214 0.5q-0.268 0-0.491-0.063t-0.455-0.232-0.339-0.268-0.384-0.384-0.33-0.339q-0.589 0.554-0.589 1.304 0 0.714 0.5 1.214l3.679 3.696q0.482 0.482 1.214 0.482 0.714 0 1.214-0.464l2.625-2.607q0.5-0.5 0.5-1.196zM13.446 9.125q0-0.714-0.5-1.214l-3.679-3.696q-0.5-0.5-1.214-0.5-0.696 0-1.214 0.482l-2.625 2.607q-0.5 0.5-0.5 1.196 0 0.714 0.5 1.214l3.714 3.714q0.482 0.482 1.214 0.482 0.75 0 1.286-0.554-0.054-0.054-0.339-0.33t-0.384-0.384-0.268-0.339-0.232-0.455-0.063-0.491q0-0.714 0.5-1.214t1.214-0.5q0.268 0 0.491 0.063t0.455 0.232 0.339 0.268 0.384 0.384 0.33 0.339q0.589-0.554 0.589-1.304zM29.429 21.714q0 2.143-1.518 3.625l-2.625 2.607q-1.482 1.482-3.625 1.482-2.161 0-3.643-1.518l-3.679-3.696q-1.482-1.482-1.482-3.625 0-2.196 1.571-3.732l-1.571-1.571q-1.536 1.571-3.714 1.571-2.143 0-3.643-1.5l-3.714-3.714q-1.5-1.5-1.5-3.643t1.518-3.625l2.625-2.607q1.482-1.482 3.625-1.482 2.161 0 3.643 1.518l3.679 3.696q1.482 1.482 1.482 3.625 0 2.196-1.571 3.732l1.571 1.571q1.536-1.571 3.714-1.571 2.143 0 3.643 1.5l3.714 3.714q1.5 1.5 1.5 3.643z"></path>
+</symbol>
+<symbol id="icon-thumb-tack" viewBox="0 0 21 32">
+<path class="path1" d="M8.571 15.429v-8q0-0.25-0.161-0.411t-0.411-0.161-0.411 0.161-0.161 0.411v8q0 0.25 0.161 0.411t0.411 0.161 0.411-0.161 0.161-0.411zM20.571 21.714q0 0.464-0.339 0.804t-0.804 0.339h-7.661l-0.911 8.625q-0.036 0.214-0.188 0.366t-0.366 0.152h-0.018q-0.482 0-0.571-0.482l-1.357-8.661h-7.214q-0.464 0-0.804-0.339t-0.339-0.804q0-2.196 1.402-3.955t3.17-1.759v-9.143q-0.929 0-1.607-0.679t-0.679-1.607 0.679-1.607 1.607-0.679h11.429q0.929 0 1.607 0.679t0.679 1.607-0.679 1.607-1.607 0.679v9.143q1.768 0 3.17 1.759t1.402 3.955z"></path>
+</symbol>
+<symbol id="icon-arrow-left" viewBox="0 0 43 32">
+<path class="path1" d="M42.311 14.044c-0.178-0.178-0.533-0.356-0.711-0.356h-33.778l10.311-10.489c0.178-0.178 0.356-0.533 0.356-0.711 0-0.356-0.178-0.533-0.356-0.711l-1.6-1.422c-0.356-0.178-0.533-0.356-0.889-0.356s-0.533 0.178-0.711 0.356l-14.578 14.933c-0.178 0.178-0.356 0.533-0.356 0.711s0.178 0.533 0.356 0.711l14.756 14.933c0 0.178 0.356 0.356 0.533 0.356s0.533-0.178 0.711-0.356l1.6-1.6c0.178-0.178 0.356-0.533 0.356-0.711s-0.178-0.533-0.356-0.711l-10.311-10.489h33.778c0.178 0 0.533-0.178 0.711-0.356 0.356-0.178 0.533-0.356 0.533-0.711v-2.133c0-0.356-0.178-0.711-0.356-0.889z"></path>
+</symbol>
+<symbol id="icon-arrow-right" viewBox="0 0 43 32">
+<path class="path1" d="M0.356 17.956c0.178 0.178 0.533 0.356 0.711 0.356h33.778l-10.311 10.489c-0.178 0.178-0.356 0.533-0.356 0.711 0 0.356 0.178 0.533 0.356 0.711l1.6 1.6c0.178 0.178 0.533 0.356 0.711 0.356s0.533-0.178 0.711-0.356l14.756-14.933c0.178-0.356 0.356-0.711 0.356-0.889s-0.178-0.533-0.356-0.711l-14.756-14.933c0-0.178-0.356-0.356-0.533-0.356s-0.533 0.178-0.711 0.356l-1.6 1.6c-0.178 0.178-0.356 0.533-0.356 0.711s0.178 0.533 0.356 0.711l10.311 10.489h-33.778c-0.178 0-0.533 0.178-0.711 0.356-0.356 0.178-0.533 0.356-0.533 0.711v2.311c0 0.178 0.178 0.533 0.356 0.711z"></path>
+</symbol>
+<symbol id="icon-play" viewBox="0 0 22 28">
+<path d="M21.625 14.484l-20.75 11.531c-0.484 0.266-0.875 0.031-0.875-0.516v-23c0-0.547 0.391-0.781 0.875-0.516l20.75 11.531c0.484 0.266 0.484 0.703 0 0.969z"></path>
+</symbol>
+<symbol id="icon-pause" viewBox="0 0 24 28">
+<path d="M24 3v22c0 0.547-0.453 1-1 1h-8c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h8c0.547 0 1 0.453 1 1zM10 3v22c0 0.547-0.453 1-1 1h-8c-0.547 0-1-0.453-1-1v-22c0-0.547 0.453-1 1-1h8c0.547 0 1 0.453 1 1z"></path>
+</symbol>
+</defs>
+</svg>
+
+</body>
+</html>

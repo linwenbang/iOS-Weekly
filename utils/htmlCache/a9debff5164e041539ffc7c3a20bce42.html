@@ -1,0 +1,1085 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-7uoDIEGQ8zTwUS9KjTP+/2I13FQPHvJ9EKoeUThfin5R1+27bcUC08VQzUo4CIjCdhvJM4zxuI+3HcSycAUTCg==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-abba74d6e28a6842788159fec056bf26.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-nZcL+1Szltbs1e7IMsmzRupcqmH76PIz0/h4jLIAVX74TKAU11YfzKPWpkO/H9OmtVyKnkpjDXItEWBdT3BPtQ==" rel="stylesheet" href="https://github.githubassets.com/assets/site-16d020fbc43a8c23c1f051eac510157b.css" />
+    <link crossorigin="anonymous" media="all" integrity="sha512-zJhcknrxyIzhrqtgRGSI47MM2SImxaoy+1U3Ep5EXcLgYosdQql2dFisotkR9JRZt0S272DRZFeuOUXpCUKE/Q==" rel="stylesheet" href="https://github.githubassets.com/assets/github-bec8e694264d7aa9b66ea24cb5a7b5d0.css" />
+    
+    
+    
+    
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>swift/ABIStabilityManifesto.md at master · apple/swift · GitHub</title>
+    <meta name="description" content="The Swift Programming Language. Contribute to apple/swift development by creating an account on GitHub.">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
+  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    
+    <meta property="og:image" content="https://avatars2.githubusercontent.com/u/10639145?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="apple/swift" /><meta property="og:url" content="https://github.com/apple/swift" /><meta property="og:description" content="The Swift Programming Language. Contribute to apple/swift development by creating an account on GitHub." />
+
+  <link rel="assets" href="https://github.githubassets.com/">
+  
+  <meta name="pjax-timeout" content="1000">
+  
+  <meta name="request-id" content="E7E6:5721:429050:5D57F3:5CA395D1" data-pjax-transient>
+
+
+  
+
+  <meta name="selected-link" value="repo_source" data-pjax-transient>
+
+      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="E7E6:5721:429050:5D57F3:5CA395D1" /><meta name="octolytics-dimension-region_edge" content="ap-southeast-1" /><meta name="octolytics-dimension-region_render" content="iad" />
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
+
+
+
+    <meta name="google-analytics" content="UA-3769691-2">
+
+
+<meta class="js-ga-set" name="dimension1" content="Logged Out">
+
+
+
+  
+
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="">
+
+      <meta name="expected-hostname" content="github.com">
+    <meta name="js-proxy-site-detection-payload" content="MzI3NjZjMDZjNjNlZTI5Y2JlMTcxNmE1ZTkyZGUwOGI0MDk1YTM4YjQ4ZWM1ZGJiOWI2ZTNkZGE1MTRjN2NmNnx7InJlbW90ZV9hZGRyZXNzIjoiMTEzLjEwOS41OC4yNDAiLCJyZXF1ZXN0X2lkIjoiRTdFNjo1NzIxOjQyOTA1MDo1RDU3RjM6NUNBMzk1RDEiLCJ0aW1lc3RhbXAiOjE1NTQyMjQ1OTQsImhvc3QiOiJnaXRodWIuY29tIn0=">
+
+    <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_UNVERIFIED_LISTINGS,MARKETPLACE_PLAN_RESTRICTION_EDITOR">
+
+  <meta name="html-safe-nonce" content="949b63796ae866eca83738610285aa3814853676">
+
+  <meta http-equiv="x-pjax-version" content="a96060a99f8980b9674e00cfc3a8f5d0">
+  
+
+      <link href="https://github.com/apple/swift/commits/master.atom" rel="alternate" title="Recent Commits to swift:master" type="application/atom+xml">
+
+  <meta name="go-import" content="github.com/apple/swift git https://github.com/apple/swift.git">
+
+  <meta name="octolytics-dimension-user_id" content="10639145" /><meta name="octolytics-dimension-user_login" content="apple" /><meta name="octolytics-dimension-repository_id" content="44838949" /><meta name="octolytics-dimension-repository_nwo" content="apple/swift" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="false" /><meta name="octolytics-dimension-repository_network_root_id" content="44838949" /><meta name="octolytics-dimension-repository_network_root_nwo" content="apple/swift" /><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false" />
+
+
+    <link rel="canonical" href="https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md" data-pjax-transient>
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+
+  <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials">
+
+  </head>
+
+  <body class="logged-out env-production page-blob">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+
+    
+    
+    
+
+
+        
+<header class="Header-old header-logged-out  position-relative f4 py-2" role="banner">
+  <div class="container-lg d-flex px-3">
+    <div class="d-flex flex-justify-between flex-items-center">
+        <a class="mr-4" href="https://github.com/" aria-label="Homepage" data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
+          <svg height="32" class="octicon octicon-mark-github text-white" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+    </div>
+
+    <div class="HeaderMenu HeaderMenu--logged-out d-flex flex-justify-between flex-items-center flex-auto">
+      <div class="d-none">
+        <button class="btn-link js-details-target" type="button" aria-label="Toggle navigation" aria-expanded="false">
+          <svg height="24" class="octicon octicon-x text-gray" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+        </button>
+      </div>
+
+        <nav class="mt-0" aria-label="Global">
+          <ul class="d-flex list-style-none">
+              <li class=" mr-3 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap  d-inline-block">
+                    Why GitHub?
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-relative">
+                      <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 mt-0  p-4 left-n4 position-absolute">
+                    <a href="/features" class="py-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Features">Features <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a>
+                    <ul class="list-style-none f5 pb-3">
+                      <li class="edge-item-fix"><a href="/features/code-review/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Code review">Code review</a></li>
+                      <li class="edge-item-fix"><a href="/features/project-management/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Project management">Project management</a></li>
+                      <li class="edge-item-fix"><a href="/features/integrations" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Integrations">Integrations</a></li>
+                      <li class="edge-item-fix"><a href="/features/actions" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Actions">Actions</a>
+                      <li class="edge-item-fix"><a href="/features#team-management" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Team management">Team management</a></li>
+                      <li class="edge-item-fix"><a href="/features#social-coding" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Social coding">Social coding</a></li>
+                      <li class="edge-item-fix"><a href="/features#documentation" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Documentation">Documentation</a></li>
+                      <li class="edge-item-fix"><a href="/features#code-hosting" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Code hosting">Code hosting</a></li>
+                    </ul>
+
+                    <ul class="list-style-none mb-0 border-lg-top pt-lg-3">
+                      <li class="edge-item-fix"><a href="/customer-stories" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Customer stories">Customer stories <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                      <li class="edge-item-fix"><a href="/security" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Security">Security <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+              <li class=" mr-3 mr-lg-3">
+                <a href="/enterprise" class="HeaderMenu-link no-underline py-3 d-block d-lg-inline-block" data-ga-click="(Logged out) Header, go to Enterprise">Enterprise</a>
+              </li>
+
+              <li class=" mr-3 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap  d-inline-block">
+                    Explore
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-relative">
+                      <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 pt-2 pb-0 mt-0  p-4 left-n4 position-absolute">
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="/explore" class="py-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Explore">Explore GitHub <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                    </ul>
+
+                    <h4 class="text-gray-light text-normal text-mono f5 mb-2  border-top pt-3">Learn &amp; contribute</h4>
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="/topics" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Topics">Topics</a></li>
+                        <li class="edge-item-fix"><a href="/collections" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Collections">Collections</a></li>
+                      <li class="edge-item-fix"><a href="/trending" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Trending">Trending</a></li>
+                      <li class="edge-item-fix"><a href="https://lab.github.com/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Learning lab">Learning Lab</a></li>
+                      <li class="edge-item-fix"><a href="https://opensource.guide" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Open source guides">Open source guides</a></li>
+                    </ul>
+
+                    <h4 class="text-gray-light text-normal text-mono f5 mb-2  border-top pt-3">Connect with others</h4>
+                    <ul class="list-style-none mb-0">
+                      <li class="edge-item-fix"><a href="https://github.com/events" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Events">Events</a></li>
+                      <li class="edge-item-fix"><a href="https://github.community" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Community forum">Community forum</a></li>
+                      <li class="edge-item-fix"><a href="https://education.github.com" class="py-2 pb-0 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to GitHub Education">GitHub Education</a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+
+              <li class=" mr-3 mr-lg-3">
+                <a href="/marketplace" class="HeaderMenu-link no-underline py-3 d-block d-lg-inline-block" data-ga-click="(Logged out) Header, go to Marketplace">Marketplace</a>
+              </li>
+
+              <li class=" mr-3 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap  d-inline-block">
+                    Pricing
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-relative">
+                       <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 pt-2 pb-4 mt-0  p-4 left-n4 position-absolute">
+                    <a href="/pricing" class="pb-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Pricing">Plans <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a>
+
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="/pricing#feature-comparison" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Compare plans">Compare plans</a></li>
+                      <li class="edge-item-fix"><a href="https://enterprise.github.com/contact" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Contact Sales">Contact Sales</a></li>
+                    </ul>
+
+                    <ul class="list-style-none mb-0  border-top pt-3">
+                      <li class="edge-item-fix"><a href="/nonprofit" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Nonprofits">Nonprofit <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                      <li class="edge-item-fix"><a href="https://education.github.com" class="py-2 pb-0 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover"  data-ga-click="(Logged out) Header, go to Education">Education <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+          </ul>
+        </nav>
+
+      <div class="d-flex flex-items-center px-0 text-center text-left">
+          <div class="d-lg-flex ">
+            <div class="header-search mr-3 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+  role="combobox"
+  aria-owns="jump-to-results"
+  aria-label="Search or jump to"
+  aria-haspopup="listbox"
+  aria-expanded="false"
+>
+  <div class="position-relative">
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-site-search-form" role="search" aria-label="Site" data-scope-type="Repository" data-scope-id="44838949" data-scoped-search-url="/apple/swift/search" data-unscoped-search-url="/search" action="/apple/swift/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+      <label class="form-control input-sm header-search-wrapper p-0 header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
+        <input type="text"
+          class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+          data-hotkey="s,/"
+          name="q"
+          value=""
+          placeholder="Search"
+          data-unscoped-placeholder="Search GitHub"
+          data-scoped-placeholder="Search"
+          autocapitalize="off"
+          aria-autocomplete="list"
+          aria-controls="jump-to-results"
+          aria-label="Search"
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=qISZwnj9l5puW9VXNTyDwld7RGjQDIlz2HM79OPBj3wv1m/yYZMqKXrxV2eMxTB6Sg+YU9rNEYCFdGks6FDUsw=="
+          spellcheck="false"
+          autocomplete="off"
+          >
+          <input type="hidden" class="js-site-search-type-field" name="type" >
+            <img src="https://github.githubassets.com/images/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
+
+            <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container">
+              
+<ul class="d-none js-jump-to-suggestions-template-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-suggestion" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+</ul>
+
+<ul class="d-none js-jump-to-no-results-template-container">
+  <li class="d-flex flex-justify-center flex-items-center f5 d-none js-jump-to-suggestion p-2">
+    <span class="text-gray">No suggested jump to results</span>
+  </li>
+</ul>
+
+<ul id="jump-to-results" role="listbox" class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-scoped-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-global-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+
+</ul>
+
+            </div>
+      </label>
+</form>  </div>
+</div>
+
+          </div>
+
+        <a class="HeaderMenu-link no-underline mr-3" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E7E6:5721:429050:5D57F3:5CA395D1&quot;,&quot;originating_url&quot;:&quot;https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="5b8cb974f6f08d8d51a9c74e726fc36a6357794fec198926db9c7f42be6f1247" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in" href="/login?return_to=%2Fapple%2Fswift%2Fblob%2Fmaster%2Fdocs%2FABIStabilityManifesto.md">
+          Sign&nbsp;in
+</a>          <a class="HeaderMenu-link d-inline-block no-underline border border-gray-dark rounded-1 px-2 py-1" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E7E6:5721:429050:5D57F3:5CA395D1&quot;,&quot;originating_url&quot;:&quot;https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="b61cc7cee5890c7699f2522249c3297a210aa03f7d9d89579b34042508ada32e" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up" href="/join">
+            Sign&nbsp;up
+</a>      </div>
+    </div>
+  </div>
+</header>
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+    <div id="js-flash-container">
+
+</div>
+
+
+
+  <div class="application-main " data-commit-hovercards-enabled>
+        <div itemscope itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <main id="js-repo-pjax-container" data-pjax-container >
+      
+
+
+  
+
+
+
+  
+
+
+
+
+  <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav  ">
+    <div class="repohead-details-container clearfix container">
+
+      <ul class="pagehead-actions">
+
+
+
+  <li>
+    
+  <a class="tooltipped tooltipped-s btn btn-sm btn-with-count" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E7E6:5721:429050:5D57F3:5CA395D1&quot;,&quot;originating_url&quot;:&quot;https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="09233c549438d717c7a8169ed3c6806b67efa15a4c67ef27df119bb2987b06bb" href="/login?return_to=%2Fapple%2Fswift">
+    <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
+    Watch
+</a>    <a class="social-count" href="/apple/swift/watchers"
+       aria-label="2577 users are watching this repository">
+      2,577
+    </a>
+
+  </li>
+
+  <li>
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:44838949,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E7E6:5721:429050:5D57F3:5CA395D1&quot;,&quot;originating_url&quot;:&quot;https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="b1e0166bde35a0e0af205436978743f45dd245171a8250eb170ff9af2c49c38d" href="/login?return_to=%2Fapple%2Fswift">
+      <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      Star
+</a>
+    <a class="social-count js-social-count" href="/apple/swift/stargazers"
+      aria-label="47227 users starred this repository">
+      47,227
+    </a>
+
+  </li>
+
+  <li>
+      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:44838949,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E7E6:5721:429050:5D57F3:5CA395D1&quot;,&quot;originating_url&quot;:&quot;https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4742667174e45185197739e83b7dccfec067d7080a81564fab92e66a496d2e35" href="/login?return_to=%2Fapple%2Fswift">
+        <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+        Fork
+</a>
+    <a href="/apple/swift/network/members" class="social-count"
+       aria-label="7481 users forked this repository">
+      7,481
+    </a>
+  </li>
+</ul>
+
+      <h1 class="public ">
+  <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+  <span class="author" itemprop="author"><a class="url fn" rel="author" data-hovercard-type="organization" data-hovercard-url="/orgs/apple/hovercard" href="/apple">apple</a></span><!--
+--><span class="path-divider">/</span><!--
+--><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="/apple/swift">swift</a></strong>
+
+</h1>
+
+    </div>
+    
+<nav class="reponav js-repo-nav js-sidenav-container-pjax container"
+     itemscope
+     itemtype="http://schema.org/BreadcrumbList"
+    aria-label="Repository"
+     data-pjax="#js-repo-pjax-container">
+
+  <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /apple/swift" href="/apple/swift">
+      <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>
+      <span itemprop="name">Code</span>
+      <meta itemprop="position" content="1">
+</a>  </span>
+
+
+  <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a data-hotkey="g p" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /apple/swift/pulls" href="/apple/swift/pulls">
+      <svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+      <span itemprop="name">Pull requests</span>
+      <span class="Counter">527</span>
+      <meta itemprop="position" content="3">
+</a>  </span>
+
+
+
+
+
+
+    <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse people alerts /apple/swift/pulse" href="/apple/swift/pulse">
+      <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"/></svg>
+      Insights
+</a>
+
+</nav>
+
+
+  </div>
+<div class="container new-discussion-timeline experiment-repo-nav  ">
+  <div class="repository-content ">
+
+    
+    
+
+
+
+  
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/apple/swift/blob/4dcea1cad18035109ec602da27e5285d7c1b2f2f/docs/ABIStabilityManifesto.md">Permalink</a>
+
+    <!-- blob contrib key: blob_contributors:v21:ed1b1297fd64bf7973ad87d89710c914 -->
+
+        <div class="signup-prompt-bg rounded-1">
+      <div class="signup-prompt p-4 text-center mb-4 rounded-1">
+        <div class="position-relative">
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/site/dismiss_signup_prompt" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="6iGTToKFmV8AxBI9716Va4C4mityewyyA+MFhc5+ghEFzIbw27Zl+4jttPscbQvDqlAldjV1twgke/tqIa84XA==" />
+            <button type="submit" class="position-absolute top-0 right-0 btn-link link-gray" data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss">
+              Dismiss
+            </button>
+</form>          <h3 class="pt-2">Join GitHub today</h3>
+          <p class="col-6 mx-auto">GitHub is home to over 31 million developers working together to host and review code, manage projects, and build software together.</p>
+          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;E7E6:5721:429050:5D57F3:5CA395D1&quot;,&quot;originating_url&quot;:&quot;https://github.com/apple/swift/blob/master/docs/ABIStabilityManifesto.md&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="e86d87d93c9d7a04d7b67f39521bd2e36dbc61872abe0e28d724ed5e9f9f6b7f" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="/join?source=prompt-blob-show">Sign up</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-flex flex-shrink-0 flex-items-center mb-3">
+      
+<details class="details-reset details-overlay select-menu branch-select-menu">
+  <summary class="btn btn-sm select-menu-button css-truncate"
+           data-hotkey="w"
+           
+           title="Switch branches or tags">
+    <i>Branch:</i>
+    <span class="css-truncate-target">master</span>
+  </summary>
+
+  <details-menu class="select-menu-modal position-absolute" style="z-index: 99;" src="/apple/swift/ref-list/master/docs/ABIStabilityManifesto.md?source_action=show&amp;source_controller=blob" preload>
+    <include-fragment class="select-menu-loading-overlay anim-pulse">
+      <svg height="32" class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"/></svg>
+    </include-fragment>
+  </details-menu>
+</details>
+
+      <div id="blob-path" class="breadcrumb flex-auto ml-2">
+        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="/apple/swift"><span>swift</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/apple/swift/tree/master/docs"><span>docs</span></a></span><span class="separator">/</span><strong class="final-path">ABIStabilityManifesto.md</strong>
+      </div>
+      <div class="BtnGroup">
+        <a href="/apple/swift/find/master"
+              class="js-pjax-capture-input btn btn-sm BtnGroup-item"
+              data-pjax
+              data-hotkey="t">
+          Find file
+        </a>
+        <clipboard-copy for="blob-path" class="btn btn-sm BtnGroup-item">
+          Copy path
+        </clipboard-copy>
+      </div>
+    </div>
+
+
+
+    
+  <div class="Box Box--condensed d-flex flex-column flex-shrink-0">
+      <div class="Box-body d-flex flex-justify-between bg-blue-light flex-items-center">
+        <span class="pr-md-4 f6">
+          <a rel="contributor" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=227442" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/rex4539"><img class="avatar" src="https://avatars3.githubusercontent.com/u/227442?s=40&amp;v=4" width="20" height="20" alt="@rex4539" /></a>
+          <a class="text-bold link-gray-dark lh-default v-align-middle" rel="contributor" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=227442" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/rex4539">rex4539</a>
+            <span class="lh-default v-align-middle">
+              <a data-pjax="true" title="Fix typos" class="link-gray" href="/apple/swift/commit/d84048e5556ad1f01c55f7ad7aca05b29a0085c3">Fix typos</a>
+            </span>
+        </span>
+        <span class="d-inline-block flex-shrink-0 v-align-bottom f6">
+          <a class="pr-2 text-mono link-gray" href="/apple/swift/commit/d84048e5556ad1f01c55f7ad7aca05b29a0085c3" data-pjax>
+            d84048e
+          </a>
+          <relative-time datetime="2019-02-11T06:33:47Z">Feb 11, 2019</relative-time>
+        </span>
+      </div>
+
+    <div class="Box-body d-flex flex-items-center flex-auto f6 border-bottom-0" >
+      <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark float-left mr-2" id="blob_contributors_box" >
+        <summary class="btn-link" aria-haspopup="dialog">
+          <span><strong>8</strong> contributors</span>
+        </summary>
+        <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast" aria-label="Users who have contributed to this file">
+          <div class="Box-header">
+            <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog>
+              <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+            </button>
+            <h3 class="Box-title">
+              Users who have contributed to this file
+            </h3>
+          </div>
+              <ul class="list-style-none overflow-auto">
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/practicalswift">
+        <img class="avatar mr-1" alt="" src="https://avatars1.githubusercontent.com/u/7826565?s=40&amp;v=4" width="20" height="20" />
+        practicalswift
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/milseman">
+        <img class="avatar mr-1" alt="" src="https://avatars1.githubusercontent.com/u/235334?s=40&amp;v=4" width="20" height="20" />
+        milseman
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/MaxDesiatov">
+        <img class="avatar mr-1" alt="" src="https://avatars2.githubusercontent.com/u/112310?s=40&amp;v=4" width="20" height="20" />
+        MaxDesiatov
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/kant">
+        <img class="avatar mr-1" alt="" src="https://avatars3.githubusercontent.com/u/32717?s=40&amp;v=4" width="20" height="20" />
+        kant
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/tkremenek">
+        <img class="avatar mr-1" alt="" src="https://avatars2.githubusercontent.com/u/3087023?s=40&amp;v=4" width="20" height="20" />
+        tkremenek
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/ethankay">
+        <img class="avatar mr-1" alt="" src="https://avatars2.githubusercontent.com/u/15613563?s=40&amp;v=4" width="20" height="20" />
+        ethankay
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/rex4539">
+        <img class="avatar mr-1" alt="" src="https://avatars3.githubusercontent.com/u/227442?s=40&amp;v=4" width="20" height="20" />
+        rex4539
+</a>    </li>
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/bob-wilson">
+        <img class="avatar mr-1" alt="" src="https://avatars1.githubusercontent.com/u/15724724?s=40&amp;v=4" width="20" height="20" />
+        bob-wilson
+</a>    </li>
+</ul>
+
+        </details-dialog>
+      </details>
+        <span class="">
+    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=7826565" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=practicalswift">
+      <img class="avatar mr-1" src="https://avatars1.githubusercontent.com/u/7826565?s=40&amp;v=4" width="20" height="20" alt="@practicalswift" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=235334" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=milseman">
+      <img class="avatar mr-1" src="https://avatars1.githubusercontent.com/u/235334?s=40&amp;v=4" width="20" height="20" alt="@milseman" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=112310" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=MaxDesiatov">
+      <img class="avatar mr-1" src="https://avatars2.githubusercontent.com/u/112310?s=40&amp;v=4" width="20" height="20" alt="@MaxDesiatov" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=32717" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=kant">
+      <img class="avatar mr-1" src="https://avatars3.githubusercontent.com/u/32717?s=40&amp;v=4" width="20" height="20" alt="@kant" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=3087023" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=tkremenek">
+      <img class="avatar mr-1" src="https://avatars2.githubusercontent.com/u/3087023?s=40&amp;v=4" width="20" height="20" alt="@tkremenek" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=15613563" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=ethankay">
+      <img class="avatar mr-1" src="https://avatars2.githubusercontent.com/u/15613563?s=40&amp;v=4" width="20" height="20" alt="@ethankay" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=227442" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=rex4539">
+      <img class="avatar mr-1" src="https://avatars3.githubusercontent.com/u/227442?s=40&amp;v=4" width="20" height="20" alt="@rex4539" /> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=15724724" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md?author=bob-wilson">
+      <img class="avatar mr-1" src="https://avatars1.githubusercontent.com/u/15724724?s=40&amp;v=4" width="20" height="20" alt="@bob-wilson" /> 
+</a>
+</span>
+
+    </div>
+  </div>
+
+
+
+
+
+    <div class="Box mt-3 position-relative">
+      
+<div class="Box-header py-2 d-flex flex-justify-between flex-items-center">
+
+  <div class="text-mono f6">
+      438 lines (229 sloc)
+      <span class="file-info-divider"></span>
+    55.7 KB
+  </div>
+
+  <div class="d-flex">
+
+    <div class="BtnGroup">
+      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/apple/swift/raw/master/docs/ABIStabilityManifesto.md">Raw</a>
+        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/apple/swift/blame/master/docs/ABIStabilityManifesto.md">Blame</a>
+      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/apple/swift/commits/master/docs/ABIStabilityManifesto.md">History</a>
+    </div>
+
+
+    <div>
+
+          <button type="button" class="btn-octicon disabled tooltipped tooltipped-nw"
+            aria-label="You must be signed in to make or propose changes">
+            <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/></svg>
+          </button>
+          <button type="button" class="btn-octicon btn-octicon-danger disabled tooltipped tooltipped-nw"
+            aria-label="You must be signed in to make or propose changes">
+            <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
+          </button>
+    </div>
+  </div>
+</div>
+
+      
+  <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+    <article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-swift-abi-stability-manifesto" class="anchor" aria-hidden="true" href="#swift-abi-stability-manifesto"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Swift ABI Stability Manifesto</h1>
+<ul>
+<li>Authors: <a href="https://github.com/milseman">Michael Ilseman</a> (compiled through conversations with many others)</li>
+</ul>
+<h2><a id="user-content-introduction" class="anchor" aria-hidden="true" href="#introduction"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h2>
+<h3><a id="user-content-the-big-picture" class="anchor" aria-hidden="true" href="#the-big-picture"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Big Picture</h3>
+<p>One of the top priorities for Swift right now is compatibility across future Swift versions. Compatibility aims at accomplishing two goals:</p>
+<ol>
+<li>
+<p><strong>Source compatibility</strong> means that newer compilers can compile code written in an older version of Swift. This aims to reduce the migration pain that Swift developers face when migrating to a newer Swift version. Without source compatibility, projects face version-lock where all source code in a project and its packages must be written in the same version of Swift. With source compatibility, package authors will be able to maintain a single code base across multiple Swift versions while allowing their users to use a newer version of Swift.</p>
+</li>
+<li>
+<p><strong>Binary framework &amp; runtime compatibility</strong> enables the distribution of frameworks in a binary form that works across multiple Swift versions. Binary frameworks include both a <em>Swift module file</em>, which communicates source-level information of the framework's API, and a <em>shared library</em>, which provides the compiled implementation that is loaded at runtime. Thus, there are two necessary goals for binary framework compatibility:</p>
+<ul>
+<li>
+<p><strong>Module format stability</strong> stabilizes the module file, which is the compiler's representation of the public interfaces of a framework. This includes API declarations and inlineable code. The module file is used by the compiler for necessary tasks such as type checking and code generation when compiling client code using a framework.</p>
+</li>
+<li>
+<p><strong>ABI stability</strong> enables binary compatibility between applications and libraries compiled with different Swift versions. It is the focus of the rest of this document.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>This document is an exploration and explanation of Swift's ABI alongside the goals and investigations needed before declaring Swift's ABI stable. It is meant to be a resource to the community as well as a declaration of the direction of Swift's ABI.</p>
+<p>Throughout this document there will be references to issues in Swift's <a href="https://bugs.swift.org" rel="nofollow">issue tracking system</a> denoted by "SR-xxxx". These references track open engineering and design tasks for Swift's ABI.</p>
+<h3><a id="user-content-what-is-abi" class="anchor" aria-hidden="true" href="#what-is-abi"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What Is ABI?</h3>
+<p>At runtime, Swift program binaries interact with other libraries and components through an ABI. ABI is Application Binary Interface, or the specification to which independently compiled binary entities must conform to be linked together and executed. These binary entities must agree on many low level details: how to call functions, how their data is represented in memory, and even where their metadata is and how to access it.</p>
+<p>ABI is per-platform, as it is a low level concern influenced by both the architecture and the OS. Most platform vendors define a "standard ABI" which is used for C code and built on by C-family languages. Swift, however, is a very different language from C and has its own per-platform ABI. While most of this document is platform-agnostic, platform-specific concerns have influenced details of the design and implementation of Swift's ABI. For details on each platform's standard ABI, refer to the <a href="#platform-abis">Appendix</a>.</p>
+<h3><a id="user-content-what-is-abi-stability" class="anchor" aria-hidden="true" href="#what-is-abi-stability"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What Is ABI Stability?</h3>
+<p>ABI stability means locking down the ABI to the point that future compiler versions can produce binaries conforming to the stable ABI. Once an ABI is stable, it tends to persist for the rest of the platform's lifetime due to ever-increasing mutual dependencies.</p>
+<p>ABI stability only affects invariants of externally visible public interfaces and symbols. Internal symbols, conventions, and layout can continue to change without breaking the ABI. For example, future compilers are free to change the calling conventions for internal function calls so long as the public interfaces are preserved.</p>
+<p>Decisions about the ABI will have long-term ramifications and may limit the ways in which the language can grow and evolve in the future. Future Swift versions can add new, orthogonal aspects to the ABI, but any inefficiencies or inflexibilities present when stability is declared will (effectively) persist forever for that platform.</p>
+<p>ABI changes that are new and orthogonal are called <em>ABI-additive</em> changes. ABI-additive changes may be taken advantage of when the minimum targeted Swift version supports them. This allows us to extend or progressively lock down more of the ABI. These may be ABI additions to support new features or that allow for more efficient data access. Examples appear throughout this document.</p>
+<h3><a id="user-content-what-does-abi-stability-enable" class="anchor" aria-hidden="true" href="#what-does-abi-stability-enable"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What Does ABI Stability Enable?</h3>
+<p>ABI stability enables OS vendors to embed a Swift standard library and runtime that is compatible with applications built with older or newer versions of Swift. This would remove the need for apps to distribute their own copy of these libraries on those platforms. It also allows for better decoupling of tools and better integration into the OS.</p>
+<p>As noted earlier, ABI stability is necessary, though not sufficient, for binary frameworks. Module format stability is also required and is beyond the scope of this document.</p>
+<h3><a id="user-content-library-evolution" class="anchor" aria-hidden="true" href="#library-evolution"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Library Evolution</h3>
+<p>Expressive and performance-focused languages which have binary interfaces tend to exhibit the <a href="https://en.wikipedia.org/wiki/Fragile_binary_interface_problem" rel="nofollow">fragile binary interface problem</a>, which makes it difficult for any library or component to change over time without requiring every user to recompile with new versions of that library. A major push in Swift currently is the plan for <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst">Library Evolution</a>, which aims to grant flexibility for library authors to maintain backwards and forwards binary compatibility. Many implementation concerns therein could have an impact on ABI.</p>
+<p>One of the goals of rolling out ABI stability is to remain flexible enough to accommodate library evolution changes without limiting the design space. Library evolution concerns will be addressed in each individual section, though a common refrain will be that the details are still undecided.</p>
+<h2><a id="user-content-components-of-the-swift-abi" class="anchor" aria-hidden="true" href="#components-of-the-swift-abi"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Components of the Swift ABI</h2>
+<p>In practice, ABI concerns can be tightly coupled. But, as a conceptual model, I'd like to break them out into 6 separate classifications:</p>
+<ol>
+<li>
+<p>Types, such as structs and classes, must have a defined in-memory layout for instances of that type. For binary entities to interoperate, they must share the same layout conventions. This layout is discussed in the <a href="#data-layout">Data Layout</a> section.</p>
+</li>
+<li>
+<p>Type metadata is used extensively by Swift programs, the Swift runtime, reflection, and tools such as debuggers and visualizers. This metadata must either have a defined memory layout, or have a set of defined APIs for querying the metadata of a type. Type metadata is discussed in the <a href="#metadata">Type Metadata</a> section.</p>
+</li>
+<li>
+<p>Every exported or external symbol in a library needs a unique name upon which binary entities can agree. Swift provides function overloading and contextual name spaces (such as modules and types), which means that any name in source code might not be globally unique. A unique name is produced through a technique called <em>name mangling</em>. Swift's name mangling scheme is discussed in the <a href="#mangling">Mangling</a> section.</p>
+</li>
+<li>
+<p>Functions must know how to call each other, which entails such things as the layout of the call stack, what registers are preserved, and ownership conventions. Calling conventions are discussed in the <a href="#calling-convention">Calling Convention</a> section.</p>
+</li>
+<li>
+<p>Swift ships with a runtime library which handles such things as dynamic casting, reference counting, reflection, etc. Compiled Swift programs make external calls out to this runtime. Thus, Swift runtime API is Swift ABI. Runtime API stability is discussed in the <a href="#runtime">Runtime</a> section.</p>
+</li>
+<li>
+<p>Swift ships with a standard library that defines many common types, structures, and operations on these. For a shipped standard library to work with applications written in different versions of Swift, it must expose a stable API. Thus, Swift Standard Library API is Swift ABI, as well as the layout of many of the types it defines. Swift standard library ABI stability concerns are discussed in the <a href="#standard-library">Standard Library</a> section.</p>
+</li>
+</ol>
+<h2><a id="user-content-data-layout" class="anchor" aria-hidden="true" href="#data-layout"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-type-layout"></a>Data Layout</h2>
+<h3><a id="user-content-background" class="anchor" aria-hidden="true" href="#background"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Background</h3>
+<p>First, let's define some common terminology.</p>
+<ul>
+<li>An <em>object</em> is a stored entity of some type, meaning it has a location in memory or in registers. Objects can be values of struct/enum type, class instances, references to class instances, values of protocol type, or even closures. This is <a href="https://en.wikipedia.org/wiki/Object_(computer_science)" rel="nofollow">in contrast to</a> the class-based-OO definition of object as being an instance of a class.</li>
+<li>A <em>data member</em> of an object is any value that requires layout within the object itself. Data members include an object's stored properties and associated values.</li>
+<li>A <em>spare bit</em> is a bit that is unused by objects of a given type. These often arise due to things such as alignment, padding, and address spaces, further described below.</li>
+<li>An <em>extra inhabitant</em> is a bit pattern that does not represent a valid value for objects of a given type. For example, a simple C-like enum with 3 cases can fit in 2 bits, where it will have one extra inhabitant: the fourth unused bit pattern.</li>
+</ul>
+<p><em>Data layout</em>, also known as type layout, specifies the in-memory layout of an object's data. This includes the size of an object in memory, the alignment of an object (defined later), and how to find each data member within an object.</p>
+<p>An object has a statically known layout if the compiler is able to determine its layout at compilation time. Objects whose layout is not determinable until runtime have <em>opaque layout</em>. Such objects are further discussed in the <a href="#opaque-layout">opaque layout section</a></p>
+<h4><a id="user-content-layout-and-properties-of-types" class="anchor" aria-hidden="true" href="#layout-and-properties-of-types"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Layout and Properties of Types</h4>
+<p>For every type <code>T</code> in Swift with statically known layout, the ABI specifies a means to determine:</p>
+<ul>
+<li>The <em>alignment</em> for that type: for <code>x : T</code>, the address of <code>x</code> modulo alignment is always zero.</li>
+<li>The <em>size</em> for that type: the byte size (possibly 0) without padding at the end.</li>
+<li>The <em>offset</em> for each data member (if applicable): the address at which every member resides, relative to the object's base address.</li>
+</ul>
+<p>Derived from alignment and size is the <em>stride</em> of the type, which is the size of objects of that type rounded up to alignment (minimum 1). The stride is mostly useful for objects laid out contiguously in memory, such as in arrays.</p>
+<p><a name="user-content-type-properties"></a>Some types have interesting properties:</p>
+<ul>
+<li>A type is <em>trivial</em>, also known as POD ("plain ol' data"), if it merely stores data and has no extra copy, move, or destruction semantics. Trivial objects can be copied by replicating their bits, and are destroyed through deallocation. A type is trivial only if all data members are also trivial.</li>
+<li>A type is <em>bitwise movable</em> if there are no side table references dependent on its address. A <a href="https://doc.rust-lang.org/book/ownership.html#move-semantics" rel="nofollow">move</a> operation can occur when an object is copied from one location into another and the original location is no longer used. Bitwise movable objects are moved by performing a bitwise copy and then invalidating the original location. A type is bitwise movable only if all its data members are also bitwise movable. All trivial types are bitwise movable.</li>
+</ul>
+<p>An example of a trivial type is a Point struct that contains two Double fields: an x coordinate and a y coordinate. This struct is trivial, as it can be copied merely by copying its bits and its destruction performs no extra operations.</p>
+<p>An example of a bitwise movable, but non-trivial, type is a struct that contains a reference to a class instance. Objects of that type cannot be copied merely by copying their bits, because a retain operation must be performed on the reference. Upon destruction, such objects must perform a release. However, the object can be moved from one address to another by copying its bits provided the original location is invalidated, keeping the overall retain count unchanged.</p>
+<p>An example of a type that is neither trivial nor bitwise movable is a struct containing a weak reference. Weak references are tracked in a side table so that they can be nil-ed out when the referenced object is destroyed. When moving an object of such type from one address to another, the side table must be updated to refer to the weak reference's new address.</p>
+<h4><a id="user-content-opaque-layout" class="anchor" aria-hidden="true" href="#opaque-layout"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-opaque-layout"></a>Opaque Layout</h4>
+<p>Opaque layout occurs whenever the layout is not known until runtime. This can come up for unspecialized generics, which do not have a known layout at compilation time. It can also come up for resilient types, which are described in the <a href="#layout-library-evolution">next section</a>.</p>
+<p>The size and alignment of an object of opaque layout, as well as whether it is trivial or bitwise movable, is determined by querying its value witness table, which is described further in the <a href="#value-witness-table">value witness table section</a>. The offsets for data members are determined by querying the type's metadata, which is described further in the <a href="#value-metadata">value metadata section</a>. Objects of opaque layout must typically be passed indirectly, described further in the <a href="#function-signature-lowering">function signature lowering section</a>. The Swift runtime interacts with objects of opaque layout through pointers, and thus they must be addressable, described further in the <a href="#abstraction-levels">abstraction levels section</a>.</p>
+<p>In practice, layout might be partially-known at compilation time. An example is a generic struct over type <code>T</code> that stores an integer as well as an object of type <code>T</code>. In this case, the layout of the integer itself is known and its location within the generic struct might be as well, depending on the specifics of the layout algorithm. However, the generic stored property has opaque layout, and thus the struct overall has an unknown size and alignment. We are investigating how to most efficiently lay out partially-opaque aggregates [<a href="https://bugs.swift.org/browse/SR-3722" rel="nofollow">SR-3722</a>]. This will likely entail placing the opaque members at the end in order to guarantee known offsets of non-opaque data members.</p>
+<h4><a id="user-content-library-evolution-1" class="anchor" aria-hidden="true" href="#library-evolution-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-layout-library-evolution"></a>Library Evolution</h4>
+<p>Library evolution introduces <em>resilient</em> layouts of public types by default and provides new annotations that freeze the layout for performance. A resilient layout avoids many of the pitfalls of the fragile binary problem by making the layout opaque. Resilient types have far more freedom to change and evolve without breaking binary compatibility: public data members can be rearranged, added, and even removed (by providing a computed getter/setter instead). The new annotations provide the ability to relinquish these freedoms by making stricter guarantees about their layout in order to be more efficiently compiled and accessed.</p>
+<p>In order to allow for cross-module optimizations for modules that are distributed together, there is the concept of a <em>resilience domain</em>. A resilience domain is a grouping of modules which are version-locked with each other and thus do not have binary compatibility across multiple version requirements with each other. See <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst#resilience-domains">Resilience Domains</a> for more details.</p>
+<p>Resilient types are required to have opaque layout when exposed outside their resilience domain. Inside a resilience domain, this requirement is lifted and their layout may be statically known or opaque as determined by their type (see <a href="#opaque-layout">previous section</a>).</p>
+<p>Annotations may be applied to a library's types in future versions of that library, in which case the annotations are versioned, yet the library remains binary compatible. How this will impact the ABI is still under investigation [<a href="https://bugs.swift.org/browse/SR-3911" rel="nofollow">SR-3911</a>].</p>
+<h4><a id="user-content-abstraction-levels" class="anchor" aria-hidden="true" href="#abstraction-levels"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-abstraction-levels"></a>Abstraction Levels</h4>
+<p>All types in Swift conceptually exist at multiple levels of abstraction. For example, an <code>Int</code> value is of a concrete type and can be passed to functions in registers. But, that same value might be passed to a function expecting a generic type <code>T</code>, which has opaque layout. Since the function is expecting its argument to be passed indirectly, the integer value must be promoted to the stack. When that value has type <code>T</code>, it is said to be at a higher abstraction level than when it was an integer. Moving between abstraction levels is done through a process called <em>reabstraction</em>.</p>
+<p>For many types in Swift, reabstraction involves directly copying the value to memory so that it is addressable. Reabstraction may be more complicated for tuples and higher-order functions, explained later in the <a href="#tuples">tuples layout section</a> and the <a href="#lowering-higher-order-functions">function signature lowering section</a>.</p>
+<h3><a id="user-content-a-tour-of-types" class="anchor" aria-hidden="true" href="#a-tour-of-types"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>A Tour of Types</h3>
+<p>What follows is a breakdown of the different kinds of types in Swift and what needs to be specified.</p>
+<h4><a id="user-content-structs" class="anchor" aria-hidden="true" href="#structs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Structs</h4>
+<p>The layout algorithm for structs should result in an efficient use of space, possibly by laying out fields in a different order than declared [<a href="https://bugs.swift.org/browse/SR-3723" rel="nofollow">SR-3723</a>]. We may want a fully declaration-order-agnostic algorithm to allow data members to be reordered in source without breaking binary compatibility [<a href="https://bugs.swift.org/browse/SR-3724" rel="nofollow">SR-3724</a>]. We also need to consider whether, by default, we want to ensure struct data members are addressable (i.e. byte-aligned) or if we'd rather do bit-packing to save space [<a href="https://bugs.swift.org/browse/SR-3725" rel="nofollow">SR-3725</a>].</p>
+<p>Zero sized structs do not take up any space as data members and struct members may be laid out in the padding of sub-structs. We may want to explore whether there are implementation benefits to capping alignment at some number, e.g. 16 on many platforms [<a href="https://bugs.swift.org/browse/SR-3912" rel="nofollow">SR-3912</a>].</p>
+<h4><a id="user-content-tuples" class="anchor" aria-hidden="true" href="#tuples"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-tuples"></a>Tuples</h4>
+<p>Tuples are similar to anonymous structs, but they differ in that they exhibit structural subtyping: a tuple of type e.g. <code>(Bool, Bool)</code> can be passed anywhere expecting generic types <code>(T, U)</code>. But, the type <code>(T, U)</code> exists at a higher abstraction level than <code>(Bool, Bool)</code>. Due to this, tuples may face more expensive reabstraction costs if their layout is aggressively packed. Reabstracting such a tuple would involve splitting and promoting each element into their own addresses.</p>
+<p>This may be an argument for a simple, declaration-order, non bit-packed layout algorithm for tuples. Tuples are often used for small local values and rarely persisted across ABI boundaries in a way that aggressive packing is performance-critical. This would also be more consistent with how fixed-size C arrays are presented in Swift, which are imported as tuples.</p>
+<p>We should investigate whether to aggressively bit-pack tuple elements similarly to structs, paying the reabstraction costs, or if the benefits are not worth the costs [<a href="https://bugs.swift.org/browse/SR-3726" rel="nofollow">SR-3726</a>].</p>
+<p>Tuples should be binary compatible between labeled and unlabeled tuples of the same type and structure.</p>
+<h4><a id="user-content-enums" class="anchor" aria-hidden="true" href="#enums"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enums</h4>
+<p>A value of enum type exists as one of many variants or cases. Determining which is the job of the <em>discriminator</em>, also known as a tag, which is an integer value denoting which case is presently stored. To save space, discriminators can be put in spare bits or be represented by extra inhabitants.</p>
+<p><code>@closed</code> enums, that is enums that can't have cases added to them later, can be classified into the following:</p>
+<ul>
+<li>Degenerate - zero cased, or single cased without an associated value</li>
+<li>Trivial - no associated values</li>
+<li>Single payload - an enum where only one case has associated values</li>
+<li>Multi-payload - an enum that has multiple cases with associated values</li>
+</ul>
+<p>Degenerate enums take zero space. Trivial enums are just their discriminator.</p>
+<p>Single payload enums try to fit their discriminator in the payload's extra inhabitants for the non-payload cases, otherwise they will store the discriminator after the payload. When the discriminator is stored after the payload, the bits are not set for the payload case. The payload is guaranteed to be layout compatible with the enum as the payload case does not use any extra inhabitants. Storing the discriminator after the payload may also result in more efficient layout of aggregates containing the enum, due to alignment.</p>
+<p>The layout algorithm for multi-payload enums is more complicated and still needs to be developed [<a href="https://bugs.swift.org/browse/SR-3727" rel="nofollow">SR-3727</a>]. The algorithm should try to rearrange payloads so as to coalesce cases and save space. This rearrangement can also improve performance and code size. For example, if ARC-ed payload components reside in the same location, operations like copy can be done directly on the values without extensive switching.</p>
+<p>Enum raw values are not ABI, as they are implemented as code present in the computed property getter and setter. <code>@objc</code> enums are C-compatible, which means they must be trivial.</p>
+<p>Library evolution adds the notion of <code>@open</code> enums (which will also be resilient), which allow library owners to add new cases and reorder existing cases without breaking binary compatibility. How this is accomplished is still to be determined.</p>
+<h4><a id="user-content-classes" class="anchor" aria-hidden="true" href="#classes"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Classes</h4>
+<p>There are two constructs present when discussing about class layout: <em>class instances</em>, which reside on the heap, and <em>references</em> to class instances, which are reference-counted pointers.</p>
+<h5><a id="user-content-class-instances" class="anchor" aria-hidden="true" href="#class-instances"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Class Instances</h5>
+<p>The layout of class instances is mostly opaque. This is to avoid the vexing problem of <a href="https://en.wikipedia.org/wiki/Fragile_binary_interface_problem" rel="nofollow">fragile binary interfaces</a>, also known as the "fragile base class problem", in which seemingly minor changes to a base class break binary compatibility with subclasses.</p>
+<p>The run-time type of a non-final class instance or a class existential is not known statically. To facilitate dynamic casts, the object must store a pointer to its type, called the <em>isa</em> pointer. The <em>isa</em> pointer is always stored at offset 0 within the object. How that type is represented and what information it provides is part of the class's metadata and is covered in the <a href="#class-metadata">class metadata section</a>. Similarly, the function for a non-final method call is also not known statically and is dispatched based on the run-time type. Method dispatch is covered in the <a href="#method-dispatch">method dispatch section</a>.</p>
+<p>Class instances will, as part of ABI-stability, guarantee a word-sized field of opaque data following the isa field that may be used for reference counting by the runtime [<a href="https://bugs.swift.org/browse/SR-4353" rel="nofollow">SR-4353</a>]. But, the format and conventions of this opaque data will not be ABI at first in order to have more flexibility for language or implementation changes. Instead, runtime functions provide the means to interact with reference counts. This opaque data and its conventions may be locked down for more efficient access in the future, which will be an ABI-additive change.</p>
+<h5><a id="user-content-references" class="anchor" aria-hidden="true" href="#references"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>References</h5>
+<p>Classes are reference types. This means that Swift code dealing with class instances does so through references, which are pointers at the binary level. These references participate in <a href="https://en.wikipedia.org/wiki/Automatic_Reference_Counting" rel="nofollow">automatic reference counting</a> (ARC).</p>
+<p>References to Objective-C-compatible class instances (i.e. those that inherit from an Objective-C class or are imported from Objective-C) must provide the same bit-level guarantees to the Objective-C runtime as Objective-C references. Thus, such references are opaque: they have no guarantees other than that nil is 0 and provide no extra inhabitants.</p>
+<p>References to native, non-Objective-C-compatible Swift class instances do not have this constraint. The alignment of native Swift class instances is part of ABI, providing spare bits in the lower bits of references. Platforms may also provide spare bits (typically upper bits) and extra inhabitants (typically lower addresses) for references due to limited address spaces.</p>
+<p>We may want to explore using spare bits in references to store local reference counts in order to perform some ARC operations more efficiently [<a href="https://bugs.swift.org/browse/SR-3728" rel="nofollow">SR-3728</a>]. These would need to be flushed to the object whenever a reference may escape or the local reference count reaches zero. If these local reference counts can cross ABI boundaries, then such a change will have to be implemented in an ABI-additive way with deployment target checking.</p>
+<h4><a id="user-content-existential-containers" class="anchor" aria-hidden="true" href="#existential-containers"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-existential-containers"></a>Existential Containers</h4>
+<p>Any discussion of existentials quickly becomes bogged down in obscure terminology, so let's first establish some background surrounding the terms <em>existential values</em>, <em>existential containers</em>, and <em>witness tables</em>.</p>
+<p>In type theory, an <a href="https://en.wikipedia.org/wiki/Type_system#Existential_types" rel="nofollow">existential type</a> describes an interface of an abstract type. Values of an existential type are <em>existential values</em>. These arise in Swift when an object's type is a protocol: storing or passing an object of protocol type means that the actual run-time type is opaque (not known at compile time, and thus neither is its layout). But, that opaque type has known interfaces because that type conforms to the protocol.</p>
+<p>A type's conformance to a protocol consists of functions (whether methods or getters and setters), but the specific addresses of those functions are not known at compilation time for existential values as their actual type is not known until run time. This is a similar situation as with references to non-final class instances, and is solved using a <a href="#method-dispatch">similar technique</a>. <em>Witness tables</em> are tables of function pointers implementing a protocol conformance and are further discussed in the <a href="#witness-tables">witness table section</a>.</p>
+<p><em>Existential containers</em> store values of protocol or protocol composition type alongside corresponding witness tables for each protocol conformance. For existentials that are not class-constrained (may be value types or classes), the container needs to store:</p>
+<ul>
+<li>the value itself: either in an inline buffer or as a pointer to out-of-line storage</li>
+<li>a pointer to the type metadata</li>
+<li>a witness table pointer for every conformance.</li>
+</ul>
+<p>Class-constrained existentials omit the metadata pointer (as the object itself contains a pointer to its type), as well as any excess inline buffer space. <code>Any</code>, which is an existential value without any conformances, has no witness table pointer.</p>
+<p>We are re-evaluating the inline buffer size for existential containers prior to ABI stability [<a href="https://bugs.swift.org/browse/SR-3340" rel="nofollow">SR-3340</a>]. We are also considering making the out-of-line allocation be copy-on-write (COW) [<a href="https://bugs.swift.org/browse/SR-4330" rel="nofollow">SR-4330</a>]. We should also explore "exploding" existential parameters, i.e. converting an existential parameter into a protocol-constrained generic parameter [<a href="https://bugs.swift.org/browse/SR-4331" rel="nofollow">SR-4331</a>].</p>
+<h3><a id="user-content-declaring-stability" class="anchor" aria-hidden="true" href="#declaring-stability"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declaring Stability</h3>
+<p>ABI stability means nailing down type layout and making decisions about how to handle the concerns of Library Evolution. The end result will be a technical specification of the layout algorithms that future compilers must adhere to in order to ensure binary compatibility [<a href="https://bugs.swift.org/browse/SR-3730" rel="nofollow">SR-3730</a>].</p>
+<p>For all of the areas discussed above, more aggressive layout improvements may be invented in the post-ABI stability future. For example, we may want to explore rearranging and packing nested type data members with outer type data members. Such improvements would have to be done in an ABI-additive fashion through deployment target and/or min-version checking. This may mean that the module file will need to track per-type ABI versioning information.</p>
+<p>A potentially out of date description of Swift's current type layout can be found in the <a href="https://github.com/apple/swift/blob/master/docs/ABI/TypeLayout.rst">Type Layout docs</a>.</p>
+<h2><a id="user-content-type-metadata" class="anchor" aria-hidden="true" href="#type-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-metadata"></a>Type Metadata</h2>
+<p>While data layout specifies the layout of objects of a given type, <em>type metadata</em> holds information about the types themselves. The information available and how to access this information is part of Swift ABI.</p>
+<p>Swift keeps metadata records for every <em>concrete type</em>. Concrete types include all non-generic types as well as generic types with concrete type parameters. These records are created by the compiler as well as lazily created at run time (e.g. for generic type instantiations). This metadata stores information about its type, discussed in each section below.</p>
+<p>A potential approach to stability mechanism is to provide metadata read/write functions alongside the runtime to interact with metadata, giving some freedom to the underlying structures to grow and change. This effectively makes large portions of metadata opaque. But, certain fields require access to be as efficient as possible (e.g. dynamic casts, calling into witness tables) and the performance hit from going through an intermediary function would be unacceptable. Thus, we will probably freeze the performance-critical parts and use accessor functions for the rest [<a href="https://bugs.swift.org/browse/SR-3923" rel="nofollow">SR-3923</a>].</p>
+<p>Metadata has many historical artifacts in its representation that we want to clean up [<a href="https://bugs.swift.org/browse/SR-3924" rel="nofollow">SR-3924</a>]. We also want to make small tweaks to present more semantic information in the metadata, to enable better future tooling and features such as reflection [<a href="https://bugs.swift.org/browse/SR-3925" rel="nofollow">SR-3925</a>]. Some of these need to be done before declaring ABI stability and some may be additive.</p>
+<h4><a id="user-content-declaring-stability-1" class="anchor" aria-hidden="true" href="#declaring-stability-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declaring Stability</h4>
+<p>Stabilizing the ABI means producing a precise technical specification for the fixed part of the metadata layout of all language constructs so that future compilers and tools can continue to read and write them. A prose description is not necessarily needed, though explanations are useful. We will also want to carve out extra space for areas where it is likely to be needed for future functionality [<a href="https://bugs.swift.org/browse/SR-3731" rel="nofollow">SR-3731</a>].</p>
+<p>For more, but potentially out of date, details see the <a href="https://github.com/apple/swift/blob/master/docs/ABI/TypeMetadata.rst">Type Metadata docs</a>.</p>
+<h3><a id="user-content-generic-parameters" class="anchor" aria-hidden="true" href="#generic-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Generic Parameters</h3>
+<p>Swift has a powerful generics system, which shows up both at compilation time (through specialization optimizations) and at run time when the type is unknown. Swift types may be parameterized over generic types, and thus every type's metadata describes whether generic type parameters are present and if so provides information about them.</p>
+<p>At run time, objects only have concrete types. If the type in source code is generic, the concrete type is an instantiation of that generic type. Generic instantiation metadata provide type metadata for each generic type parameter. If the generic type is constrained, corresponding <a href="#witness-tables">witness tables</a> for each protocol conformance are also provided in the metadata.</p>
+<h3><a id="user-content-value-metadata" class="anchor" aria-hidden="true" href="#value-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-value-metadata"></a>Value Metadata</h3>
+<p>Named value types store the type name (currently mangled but we are investigating un-mangled [<a href="https://bugs.swift.org/browse/SR-3926" rel="nofollow">SR-3926</a>]) and a pointer to the type's parent for nested types.</p>
+<p>Value type metadata also has kind-specific entries. Struct metadata stores information about its fields, field offsets, field names, and field metadata. Enum metadata stores information about its cases, payload sizes, and payload metadata. Tuple metadata stores information about its elements and labels.</p>
+<h5><a id="user-content-value-witness-tables" class="anchor" aria-hidden="true" href="#value-witness-tables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-value-witness-table"></a>Value Witness Tables</h5>
+<p>Every concrete type has a <em>value witness table</em> that provides information about how to lay out and manipulate values of that type. When a value type has <a href="#opaque-layout">opaque layout</a>, the actual layout and properties of that value type are not known at compilation time, so the value witness table is consulted.</p>
+<p>The value witness table stores whether a type is trivial and/or bitwise movable, whether there are extra inhabitants and if so how to store and retrieve them, etc. For enums, the value witness table will also provide functionality for interacting with the discriminator. There may be more efficient ways of representing enums that simplify this functionality (or provide a fast path), and that's under investigation [<a href="https://bugs.swift.org/browse/SR-4332" rel="nofollow">SR-4332</a>].</p>
+<p>These value witness tables may be constructed statically for known values or dynamically for some generic values. While every unique type in Swift has a unique metadata pointer, value witness tables can be shared by types so long as the information provided is identical (i.e. same layout). Value witness tables always represent a type at its highest <a href="#abstraction-levels">abstraction level</a>. The value witness table entries and structure need to be locked down for ABI stability [<a href="https://bugs.swift.org/browse/SR-3927" rel="nofollow">SR-3927</a>].</p>
+<h3><a id="user-content-class-metadata" class="anchor" aria-hidden="true" href="#class-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-class-metadata"></a>Class Metadata</h3>
+<p>Swift class metadata is layout-compatible with Objective-C class objects on Apple's platforms, which places requirements on the contents of the first section of class metadata. In this first section, entries such as super class pointers, instance size, instance alignment, flags, and opaque data for the Objective-C runtime are stored.</p>
+<p>Following that are superclass members, parent type metadata, generic parameter metadata, class members, and <em>vtables</em>, described below. Library evolution may present many changes to what exactly is present and will likely make many of the contents opaque to accommodate changes [<a href="https://bugs.swift.org/browse/SR-4343" rel="nofollow">SR-4343</a>].</p>
+<h5><a id="user-content-method-dispatch" class="anchor" aria-hidden="true" href="#method-dispatch"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-method-dispatch"></a>Method Dispatch</h5>
+<p>Invoking a non-final instance method involves calling a function that is not known at compile time: it must be resolved at run time. This is solved through the use of a <em>vtable</em>, or virtual method table (so called because overridable methods are also known as "virtual" methods). A <em>vtable</em> is a table of function pointers to a class or subclass's implementation of overridable methods. If the vtable is determined to be part of ABI, it needs a layout algorithm that also provides flexibility for library evolution.</p>
+<p>Alternatively, we may decide to perform inter-module calls through opaque <em>thunks</em>, or compiler-created intermediary functions, which then perform either direct or vtable dispatch as needed [<a href="https://bugs.swift.org/browse/SR-3928" rel="nofollow">SR-3928</a>]. This enables greater library evolution without breaking binary compatibility by allowing internal class hierarchies to change. This would also unify non-final method dispatch between open and non-open classes while still allowing for aggressive compiler optimizations like de-virtualization for non-open classes. This approach would make vtables not be ABI, as that part of the type metadata would effectively be opaque to another module.</p>
+<h3><a id="user-content-protocol-and-existential-metadata" class="anchor" aria-hidden="true" href="#protocol-and-existential-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Protocol and Existential Metadata</h3>
+<h5><a id="user-content-protocol-witness-tables" class="anchor" aria-hidden="true" href="#protocol-witness-tables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-witness-tables"></a>Protocol Witness Tables</h5>
+<p>The protocol witness table is a function table of a type's conformance to the protocol's interfaces. If the protocol also has an associated type requirement, then the witness table will store the metadata for the associated type. Protocol witness tables are used with <a href="#existential-containers">existential containers</a> where the run time type is not known.</p>
+<p>Protocol witness tables may be created dynamically by the runtime or statically by the compiler. The layout of a protocol witness table is ABI and we need to determine a layout algorithm that also accommodates library evolution concerns, where additional protocol requirements may be added with default fall-backs [<a href="https://bugs.swift.org/browse/SR-3732" rel="nofollow">SR-3732</a>].</p>
+<h5><a id="user-content-existential-metadata" class="anchor" aria-hidden="true" href="#existential-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Existential Metadata</h5>
+<p>Existential type metadata contains the number of witness tables present, whether the type is class-constrained, and a <em>protocol descriptor</em> for each protocol constraint. A protocol descriptor describes an individual protocol constraint, such as whether it is class-constrained, the size of conforming witness tables, and protocol descriptors for any protocols it refines. Protocol descriptors are layout compatible with the Objective-C runtime's protocol records on Apple platforms. The format of the existential type metadata needs to be reviewed as part of the ABI definition [<a href="https://bugs.swift.org/browse/SR-4341" rel="nofollow">SR-4341</a>].</p>
+<h3><a id="user-content-function-metadata" class="anchor" aria-hidden="true" href="#function-metadata"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Function Metadata</h3>
+<p>In addition to common metadata entries, function type metadata stores information about the function signature: parameter and result type metadata, calling convention, per-parameter ownership conventions, and whether the function throws. Function type metadata always represents the function at its highest abstraction level, which is explained later in the <a href="#lowering-higher-order-functions">function signature lowering section</a>. Function parameters are currently modeled with a tuple-based design, but this should be updated to match modern Swift [<a href="https://bugs.swift.org/browse/SR-4333" rel="nofollow">SR-4333</a>]. As more ownership semantics are modeled, more information may be stored about each parameter.</p>
+<h2><a id="user-content-mangling" class="anchor" aria-hidden="true" href="#mangling"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-mangling"></a>Mangling</h2>
+<p>Mangling is used to produce unique symbols. It applies to both external (public) symbols as well as internal or hidden symbols. Only the mangling scheme for external symbols is part of ABI.</p>
+<p>ABI stability means a stable mangling scheme, fully specified so that future compilers and tools can honor it. For a potentially out-of-date specification of what the mangling currently looks like, see the <a href="https://github.com/apple/swift/blob/master/docs/ABI/Mangling.rst">Name Mangling docs</a>.</p>
+<p>There are some corner cases currently in the mangling scheme that should be fixed before declaring ABI stability. We need to come up with a canonicalization of generic and protocol requirements to allow for order-agnostic mangling [<a href="https://bugs.swift.org/browse/SR-3733" rel="nofollow">SR-3733</a>]. We also may decide to more carefully mangle variadicity of function parameters, etc [<a href="https://bugs.swift.org/browse/SR-3734" rel="nofollow">SR-3734</a>]. Most often, though, mangling improvements focus on reducing symbol size.</p>
+<p>Mangling design centers around coming up with short and efficient manglings that still retain important properties such as uniqueness and integration with existing tools and formats. Given the prevalence of public symbols in libraries and frameworks, and debugging symbols in applications, the symbol names themselves can make up a significant portion of binary size. Reducing this impact is a major focus of stabilizing the mangling. Post-ABI-stability, any new manglings or techniques must be additive and must support the existing manglings.</p>
+<p>There are many ways to improve the existing mangling without major impact on existing tools. Throughout these endeavors, we will be empirically measuring and tracking symbol size and its impact on binary size. ABI work on mangling focuses on producing <em>compact manglings</em> and using <em>suffix differentiation</em>.</p>
+<h3><a id="user-content-compact-manglings" class="anchor" aria-hidden="true" href="#compact-manglings"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Compact Manglings</h3>
+<p>Minor tweaks to shorten the mangling can have a beneficial impact on all Swift program binary sizes. These tweaks should compact existing manglings while preserving a simple unique mapping. One example is not distinguishing between struct/enum in mangling structures, which would also provide more library evolution freedom [<a href="https://bugs.swift.org/browse/SR-3930" rel="nofollow">SR-3930</a>]. We are considering dropping some internal witness table symbols when they don't provide any meaningful information conducive to debugging [<a href="https://bugs.swift.org/browse/SR-3931" rel="nofollow">SR-3931</a>]. We recently overhauled word substitutions in mangling, with the goal of reducing as much redundancy in names as possible [<a href="https://bugs.swift.org/browse/SR-4344" rel="nofollow">SR-4344</a>].</p>
+<p>There are other aggressive directions to investigate as well, such as mangling based on a known overload set for non-resilient functions. This does have the downside of making manglings unstable when new overloads are added, so its benefits would have to be carefully weighed [<a href="https://bugs.swift.org/browse/SR-3933" rel="nofollow">SR-3933</a>].</p>
+<p>Any more ambitious reimagining of how to store symbols such as aggressive whole-library symbol name compression would have to be done in tight coupling with existing low level tools. Unfortunately, this might make some of the more ambitious options infeasible in time for ABI stability. They could be rolled out as ABI-additive using deployment target checking in the future.</p>
+<h3><a id="user-content-suffix-differentiation" class="anchor" aria-hidden="true" href="#suffix-differentiation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Suffix Differentiation</h3>
+<p>There are many existing low level tools and formats that store and consume the symbol information, and some of them use efficient storage techniques such as tries. Suffix differentiation is about adjusting the mangling in ways that take advantage of them: by distinguishing manglings through suffixes, i.e. having common shared prefixes. This is currently underway and is resulting in binary size reductions for platforms that use these techniques [<a href="https://bugs.swift.org/browse/SR-3932" rel="nofollow">SR-3932</a>].</p>
+<h2><a id="user-content-calling-convention" class="anchor" aria-hidden="true" href="#calling-convention"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-calling-convention"></a>Calling Convention</h2>
+<p>For the purposes of this document, "standard calling convention" refers to the C calling convention for a given platform (see <a href="#platform-abis">appendix</a>), and "Swift calling convention" refers to the calling convention used by Swift code when calling other Swift code. One of the first steps toward ABI stability is for Swift to adopt the Swift calling convention [<a href="https://bugs.swift.org/browse/SR-4346" rel="nofollow">SR-4346</a>]. The Swift runtime uses the standard calling convention, though it may make alterations (see section <a href="#runtime-calling-convention">Runtime calling convention</a>).</p>
+<p>Calling convention stability pertains to public interfaces. The Swift compiler is free to choose any convention for internal (intra-module) functions and calls.</p>
+<p>For rationale and potentially-out-of-date details, see the <a href="https://github.com/apple/swift/blob/master/docs/CallingConvention.rst">Swift Calling Convention Whitepaper</a>. As part of nailing down the calling conventions, that document will either be updated with the final specifications of the calling conventions or else moved to a rationale document and a more succinct and rigorous specification put in its place.</p>
+<h3><a id="user-content-register-convention" class="anchor" aria-hidden="true" href="#register-convention"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Register convention</h3>
+<p>This section will be using the terms <em>callee-saved</em> and <em>scratch</em> to classify registers as part of a register convention.</p>
+<ul>
+<li>A <em>callee-saved register</em> must be preserved over the duration of a function call. If a called function (the <em>callee</em>) wishes to change the value stored in the register, it must restore it before returning.</li>
+<li>A <em>scratch</em> register, also known as caller-saved or callee-clobbered, is not preserved over the duration of a function call. If the register's value must be preserved, code surrounding a function call must save and restore the value.</li>
+</ul>
+<p>Swift uses roughly the same categorization of registers as the standard calling convention. But, for some platforms, the Swift calling convention adds additional situational uses of some callee-saved registers: the <em>call context</em> register and the <em>error</em> register.</p>
+<h4><a id="user-content-call-context-register" class="anchor" aria-hidden="true" href="#call-context-register"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Call Context Register</h4>
+<p>The value held in the <em>call context</em> register depends on the kind of function called:</p>
+<ul>
+<li>Instance methods on class types: pointer to self</li>
+<li>Class methods: pointer to type metadata (which may be subclass metadata)</li>
+<li>Mutating method on value types: pointer to the value (i.e. value is passed indirectly)</li>
+<li>Non-mutating methods on value types: self may fit in one or more registers, else passed indirectly</li>
+<li><em>Thick closures</em>, i.e. closures requiring a context: the closure context</li>
+</ul>
+<p>Having the call context register be callee-saved is advantageous. It keeps the register stable across calls, where the context is very likely to be used and reused in subsequent or nested calls. Additionally, this makes partial application free as well as converting thin closures to thick.</p>
+<h4><a id="user-content-error-register" class="anchor" aria-hidden="true" href="#error-register"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Register</h4>
+<p>Throwing functions communicate error values to their callers through the <em>error</em> register on some platforms. The error register holds a pointer to the error value if an error occurred, otherwise 0. The caller of a throwing function is expected to quickly check for 0 before continuing on with non-error code, otherwise branching to code to handle or propagate the error. Using a callee-saved register for the error register enables free conversion from non-throwing to throwing functions, which is required to honor the subtyping relationship.</p>
+<h3><a id="user-content-function-signature-lowering" class="anchor" aria-hidden="true" href="#function-signature-lowering"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-function-signature-lowering"></a>Function Signature Lowering</h3>
+<p>Function signature lowering is the mapping of a function's source-language type, which includes formal parameters and results, all the way down to a physical convention, which dictates what values are stored in what registers and what values to pass on the stack.</p>
+<p>ABI stability requires nailing down and fully specifying this algorithm so that future Swift versions can lower Swift types to the same physical call signature as prior Swift versions [<a href="https://bugs.swift.org/browse/SR-4349" rel="nofollow">SR-4349</a>]. More in-depth descriptions and rationale of function signature lowering can be found in the <a href="https://github.com/apple/swift/blob/master/docs/CallingConvention.rst#function-signature-lowering">function signature lowering docs</a>.</p>
+<p>Lowering the result value is usually done first, with a certain number of registers designated to hold the result value if it fits, otherwise the result value is passed on the stack. A good heuristic is needed for the limit and is architecture specific (e.g. 4 registers on modern 64-bit architectures) [<a href="https://bugs.swift.org/browse/SR-3946" rel="nofollow">SR-3946</a>].</p>
+<p>Next comes lowering parameters, which proceeds greedily by trying to fit values into registers from left-to-right, though some parameters may be re-ordered. For example, closures are best placed at the end to take advantage of ABI compatibility between thick closures and thin ones without a context.</p>
+<p>Some values must be passed and returned indirectly as they are <em>address only</em>. Address only values include <a href="#type-properties">non-bitwise-copyable</a> values, values with <a href="#opaque-layout">opaque layout</a>, and non-class-constrained <a href="#existential-containers">existential values</a>. Even if the runtime type would normally be passed in a register, or even if the type is statically known at the call-site, if the callee receives or returns values with opaque layout, they must be passed or returned indirectly.</p>
+<p>We should investigate whether it makes sense to split values with partially opaque layout by passing the non-opaque parts in registers [<a href="https://bugs.swift.org/browse/SR-3947" rel="nofollow">SR-3947</a>].</p>
+<p>Parameter ownership is not reflected in the physical calling convention, though it will be noted in the mangling of the function name. Default argument expressions will not be ABI, as they will be emitted into the caller. This means that a library can add, modify, or remove default argument expressions without breaking binary compatibility (though modifying/removing may break source compatibility).</p>
+<h4><a id="user-content-lowering-higher-order-functions" class="anchor" aria-hidden="true" href="#lowering-higher-order-functions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-lowering-higher-order-functions"></a>Lowering Higher-Order Functions</h4>
+<p>Passing or returning higher-order functions may involve undergoing <a href="#abstraction-levels">reabstraction</a>, which requires that the compiler creates a thunk mapping between the actual calling convention and the expected calling convention.</p>
+<p>For example, let's say there are two functions:</p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">func</span> <span class="pl-en">add1</span>(<span class="pl-en">_</span> <span class="pl-smi">i</span>: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> { <span class="pl-k">return</span> i<span class="pl-k">+</span><span class="pl-c1">1</span> }
+<span class="pl-k">func</span> <span class="pl-en">apply</span>&lt;<span class="pl-c1">T</span>,<span class="pl-c1">U</span>&gt;(<span class="pl-en">_</span> <span class="pl-smi">f</span>: (T) <span class="pl-k">-&gt;</span> U, <span class="pl-en">_</span> <span class="pl-smi">x</span>: T) <span class="pl-k">-&gt;</span> U { <span class="pl-k">return</span> <span class="pl-c1">f</span>(x) }</pre></div>
+<p><code>apply</code>'s function parameter <code>f</code> must take and return its values indirectly, as <code>T</code> and <code>U</code> have opaque layout. If <code>add1</code> is passed to <code>apply</code>, the compiler will create a thunk for <code>apply</code> to call that takes a parameter indirectly and calls <code>add1</code> by passing it in register. The thunk will then receive the result in register and return it indirectly back to <code>apply</code>.</p>
+<h3><a id="user-content-stack-invariants" class="anchor" aria-hidden="true" href="#stack-invariants"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Stack Invariants</h3>
+<p>Calling conventions include invariants about the call stack, such as stack alignment. Unless there is a very compelling reason to deviate, Swift should just honor the stack invariants of the standard calling convention. This is because Swift functions may share their call stack with non-Swift code. For example a Swift function that calls an Objective-C function, which in turn calls another Swift function, would want to maintain the proper stack alignment (and any other stack invariants) for all calls. This is far simpler if they both honor the same invariants.</p>
+<h3><a id="user-content-runtime-calling-convention" class="anchor" aria-hidden="true" href="#runtime-calling-convention"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-runtime-calling-convention"></a>Runtime Calling Convention</h3>
+<p>The Swift runtime uses the standard calling convention, though it may evolve to preserve more invariants. It's likely beneficial to introduce one or a number of tweaks to the scratch register sets of some runtime functions. Swift code that makes a call into the runtime assumes some registers are scratch, i.e. clobbered by the runtime function. But, some runtime functions may not need as many scratch registers and can guarantee more registers as callee-saved. Every formerly-scratch register that is denoted callee-saved (i.e. runtime function saved) relieves the register pressure of the surrounding Swift code making the runtime call.</p>
+<p>Such changes to runtime functions can be rolled out incrementally in the future, and they are backwards compatible so long as no version of that function ever clobbers the now-saved registers. But, such a change is ratcheting, that is every register that is changed to be runtime-saved can no longer go back to being scratch without breaking binary compatibility. If the reduced scratch register set causes the runtime function to spill, then the whole exercise was pointless and actively harmful. Great care should be taken and testing applied for any change to ensure that the runtime function never spills in the future.</p>
+<h2><a id="user-content-runtime" class="anchor" aria-hidden="true" href="#runtime"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-runtime"></a>Runtime</h2>
+<p>Swift exposes a runtime that provides APIs for compiled code. Calls into the Swift runtime are produced by the compiler for concerns such as memory management and run-time type information. Additionally, the runtime exposes low-level reflection APIs that are useful to the standard library and some users.</p>
+<p>Every existing runtime function will need to be audited for its desirability and behavior [<a href="https://bugs.swift.org/browse/SR-3735" rel="nofollow">SR-3735</a>]. For every function, we need to evaluate whether we want the API as is:</p>
+<ul>
+<li>If yes, then we need to precisely specify the semantics and guarantees of the API.</li>
+<li>If not, we need to either change, remove, or replace the API, and precisely specify the new semantics.</li>
+</ul>
+<p>The runtime is also responsible for lazily creating new type metadata entries at run time, either for generic type instantiations or for resilient constructs. Library evolution in general introduces a whole new category of needs from the runtime by making data and metadata more opaque, requiring interaction to be done through runtime APIs. Additionally, ownership semantics may require new runtime APIs or modifications to existing APIs. These new runtime needs are still under investigation [<a href="https://bugs.swift.org/browse/SR-4352" rel="nofollow">SR-4352</a>].</p>
+<p>There are many potential future directions to open up the ABI and operate on less-opaque data directly, as well as techniques such as call-site caching. These are ABI-additive, and will be interesting to explore in the future.</p>
+<p>For a potentially-out-of-date listing of runtime symbols and some details, see the <a href="https://github.com/apple/swift/blob/master/docs/Runtime.md">Runtime docs</a>.</p>
+<h2><a id="user-content-standard-library" class="anchor" aria-hidden="true" href="#standard-library"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-standard-library"></a>Standard Library</h2>
+<p>Any standard library API shipped post-ABI-stability must be supported into the future to ensure binary compatibility. The standard library will also be utilizing resilience annotations and <em>inlineable</em> code. Inlineable code is code that is bundled with the client's code, and is available for inlining to the optimizer if it decides to do so. The standard library faces the following (non-exhaustive) list of challenges for ensuring binary compatibility:</p>
+<ul>
+<li>Published public functions and types cannot be removed or changed in ways that break binary compatibility.</li>
+<li>Choosing what code to make inlineable will affect performance and flexibility.</li>
+<li>Internal functions called by inlineable code become ABI, and are subject to the same binary compatibility concerns as public functions.</li>
+<li>Non-resilient types cannot change their layout.</li>
+<li>Protocols cannot add new requirements.</li>
+</ul>
+<h3><a id="user-content-inlineability" class="anchor" aria-hidden="true" href="#inlineability"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inlineability</h3>
+<p>Inlineable code that calls internal functions makes those internal functions ABI, as the client code will be making external calls to them. Thus, many internal interfaces in the standard library will need to be locked down if called from inlineable code. Whether to mark code inlineable will have to carefully weigh performance requirements against keeping flexibility for future changes.</p>
+<p>This tradeoff between performance and flexibility also affects the ability to deploy bug fixes and performance improvements to users. Users that have inlined code from the standard library will not be able to get bug fixes and performance improvements in an OS update without performing a recompilation with the new library. For more information on this topic, see <a href="https://github.com/apple/swift/blob/master/docs/LibraryEvolution.rst#inlineable-functions">Inlineable Functions</a>.</p>
+<h3><a id="user-content-upcoming-changes" class="anchor" aria-hidden="true" href="#upcoming-changes"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upcoming Changes</h3>
+<p>While the standard library is already ensuring source stability, it will be changing many of its fundamental underlying representations this year. When ABI stability lands, the standard library will be severely limited in the kinds of changes it can make to existing APIs and non-resilient types. Getting the standard library in the right place is of critical importance.</p>
+<p>The programming model for String is still being redesigned [<a href="https://bugs.swift.org/browse/SR-4354" rel="nofollow">SR-4354</a>], and many types such as Int are undergoing implementation changes [<a href="https://bugs.swift.org/browse/SR-3196" rel="nofollow">SR-3196</a>]. At the same time, the standard library is simultaneously switching to new compiler features such as conditional conformances to clean up and deliver the best APIs [<a href="https://bugs.swift.org/browse/SR-3458" rel="nofollow">SR-3458</a>].</p>
+<p>Another goal of Swift is to improve the applicability of Swift to systems programming. Ownership semantics may make a large impact, including things such as improved <code>inout</code> semantics that allow for efficient and safe array slicing. Providing the right abstractions for efficient use of contiguous memory is still under investigation [<a href="https://bugs.swift.org/browse/SR-4355" rel="nofollow">SR-4355</a>].</p>
+<h2><a id="user-content-next-steps" class="anchor" aria-hidden="true" href="#next-steps"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Next Steps</h2>
+<p>All progress and issue tracking will be done through JIRA on <a href="https://bugs.swift.org" rel="nofollow">bugs.swift.org</a>, using the "AffectsABI" label. We will make an ABI stability dashboard to more easily monitor specifics and progress. The next step is to start making issues for everything that needs fixing and issues for the directions we want to explore.</p>
+<p>This document will be a living document until ABI stability is reached, updated with new findings and JIRA issues as they come up. After ABI stability is achieved, this document should be succeeded by technical specifications of Swift's ABI.</p>
+<p>Issue tracking alone doesn't effectively communicate the overall progress and when ABI stability can be expected to land. Some issues take longer than others and there isn't a good indication of how long the known tasks will take, nor of how many unknown issues are yet to be filed. For that, a higher level view of the overall status will be provided, possibly on <a href="https://swift.org" rel="nofollow">swift.org</a>.</p>
+<h2><a id="user-content-appendix" class="anchor" aria-hidden="true" href="#appendix"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Appendix</h2>
+<h3><a id="user-content-standard-abis" class="anchor" aria-hidden="true" href="#standard-abis"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a name="user-content-platform-abis"></a>Standard ABIs</h3>
+<p><a href="https://developer.apple.com/library/content/documentation/Xcode/Conceptual/iPhoneOSABIReference/Articles/ARM64FunctionCallingConventions.html" rel="nofollow">Apple ARM64 iOS platform ABI</a> is a vendor-specific variant of <a href="http://infocenter.arm.com/help/topic/com.arm.doc.ihi0055b/IHI0055B_aapcs64.pdf" rel="nofollow">ARM's AAPCS64</a>.</p>
+<p><a href="https://developer.apple.com/library/content/documentation/Xcode/Conceptual/iPhoneOSABIReference/Articles/ARMv7FunctionCallingConventions.html" rel="nofollow">Apple ARM32 iOS platform ABI</a> is similarly a variant of <a href="http://infocenter.arm.com/help/topic/com.arm.doc.ihi0042f/IHI0042F_aapcs.pdf" rel="nofollow">ARM's AAPCS</a>.</p>
+<p><a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/LowLevelABI/140-x86-64_Function_Calling_Conventions/x86_64.html" rel="nofollow">Apple x86-64 MacOS platform ABI</a> is based off of the generic <a href="http://people.freebsd.org/~obrien/amd64-elf-abi.pdf" rel="nofollow">System V ABI</a> also used by BSD and Linux.</p>
+<p><a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/LowLevelABI/130-IA-32_Function_Calling_Conventions/IA32.html#//apple_ref/doc/uid/TP40002492-SW4" rel="nofollow">Apple i386 MacOS platform ABI</a> is similarly based off of the generic <a href="http://www.sco.com/developers/devspecs/abi386-4.pdf" rel="nofollow">i386 System V ABI</a>.</p>
+</article>
+  </div>
+
+    </div>
+
+  
+
+  <details class="details-reset details-overlay details-overlay-dark">
+    <summary data-hotkey="l" aria-label="Jump to line"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast linejump" aria-label="Jump to line">
+      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-jump-to-line-form Box-body d-flex" action="" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+        <input class="form-control flex-auto mr-3 linejump-input js-jump-to-line-field" type="text" placeholder="Jump to line&hellip;" aria-label="Jump to line" autofocus>
+        <button type="submit" class="btn" data-close-dialog>Go</button>
+</form>    </details-dialog>
+  </details>
+
+
+
+  </div>
+  <div class="modal-backdrop js-touch-events"></div>
+</div>
+
+    </main>
+  </div>
+  
+
+  </div>
+
+        
+<div class="footer container-lg width-full px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">&copy; 2019 <span title="0.25561s from unicorn-6fdcfc955b-jfplm">GitHub</span>, Inc.</li>
+        <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
+        <li class="mr-3"><a href="https://githubstatus.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon mx-lg-4" href="https://github.com">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3"><a href="https://github.com/pricing" data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+      <li class="mr-3"><a href="https://developer.github.com" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com" data-ga-click="Footer, go to training, text:training">Training</a></li>
+        <li class="mr-3"><a href="https://github.blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-jFuNBkwlIX73xJbI2nTCs01W/xjwP+Ccc0gEdkD4d/tQBv4xIZx4dZLnkYhzawWhnxjJbvkHsxSXQffNs0Ce4Q==" type="application/javascript" src="https://github.githubassets.com/assets/compat-bootstrap-8102d067.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-m1DeH+jLA0IS/zzy50Kv0yBpZJDQlBkcACJzTGJUq30SG1eo5vztaQg1x1KV1L3XGePC1HOdKU1fu7Ktr+5nsg==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-3c669c6d.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-S3uWT+ihEJ/o18x8I+RtQhbQEG4yPhTIbQ1k8ebIRsGKsp+PlYcA/0OvsIV0P0kMPH5NpxvhOnTHQ/dtismatA==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-1a336c8b.js"></script>
+    
+    
+    
+  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner" hidden
+    >
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark" open>
+    <summary aria-haspopup="dialog" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog>
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+  <div aria-live="polite" class="js-global-screen-reader-notice sr-only"></div>
+
+  </body>
+</html>
+

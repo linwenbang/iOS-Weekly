@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Mattt - NSHipster</title>
+    <meta name="description" content="Mattt (@mattt)
+is a writer and developer in Portland, Oregon.
+He is the founder of NSHipster and Flight School,
+and the creator of several open source libraries,
+including AFNetworking
+and Alamofire.
+"/>
+    <link rel="canonical" href="https://nshipster.com/authors/mattt/"/>
+    <meta name="revisit-after" content="7 days"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="alternate" type="application/atom+xml" title="NSHipster Atom Feed" href="/feed.xml"/>
+    <link rel="preload" as="font" href="/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2" type="font/woff2" crossorigin="anonymous" />
+    <style rel="stylesheet" type="text/css" integrity="sha256-GB6zv4eY5LHAXnwka4XIuiynYq1dPsuvZJezWwfWZdQ=" crossorigin="anonymous">
+      ﻿html{border-top:3px #ff8000 solid}html body{background-color:#fefefe;color:#282a36}#logo #ns{fill:#ff8000}a,a:visited{color:#ff8000}a:hover,a:visited:hover{text-decoration:none}@keyframes twirl{0%{transform:scale(1) rotate(0)}10%,20%{transform:scale(0.9) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.1) rotate(3deg)}40%,60%,80%{transform:scale(1.1) rotate(-3deg)}100%{transform:scale(1) rotate(0)}}@font-face{font-family:"Merriweather";src:local("Merriweather Regular"),local("Merriweather-Regular"),url(/assets/Merriweather-Regular-e50fe78e902ad7649d2a9ec69a67c9a941657604540b0b077b720a0562072915.woff2) format("woff2"),url(/assets/Merriweather-Regular-4549033d084e479d2c53500851ca2e5fd43fd83ac4ae26445e0974ae73cd3d05.woff) format("woff");font-weight:normal;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light"),local("Merriweather-Light"),url(/assets/Merriweather-Light-c2ef5188a3d41db369bfec98586cacc22c1aefa23a02333101c05b6c7e35ed59.woff2) format("woff2"),url(/assets/Merriweather-Light-5d5f2b4aac0254b3ef80c3e04bcbbd021ab468e6205dade23a9943277ed2f15b.woff) format("woff");font-weight:300;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black"),local("Merriweather-Black"),url(/assets/Merriweather-Black-fd0c4da3e1b331a0f3c05ca30ef2f73d3248c19377f0e347bbd27f5ca3ace049.woff2) format("woff2"),url(/assets/Merriweather-Black-0abb3a596dcef7e60a0ce4000352ae834fa7e6f49f48f1f568dd1b16db037faa.woff) format("woff");font-weight:900;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold"),local("Merriweather-Bold"),url(/assets/Merriweather-Bold-66b60fab0c23051945cad3a206665130e9a8742ad25afc03675df8e30f9bd1f1.woff2) format("woff2"),url(/assets/Merriweather-Bold-91e91f3c9d8e79d7f50076508c711118d17335ad0d8adaaed9e82e7e0c88f2a3.woff) format("woff");font-weight:bold;font-style:normal;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Black Italic"),local("Merriweather-BlackItalic"),url(/assets/Merriweather-BlackItalic-78fadd58be94cb66b7b96e9368a431cb7ba39853c24dfbac96af11b2566cc80a.woff2) format("woff2"),url(/assets/Merriweather-BlackItalic-25d34bcb442b873300a27a1fda06b53db76b343b21b1d2967ebf8d50fc98820c.woff) format("woff");font-weight:900;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Italic"),local("Merriweather-Italic"),url(/assets/Merriweather-Italic-c8cb2c6ad2cb79fd515ac3eef6b70c481f0641f344e3e7154324eab0d9b442e7.woff2) format("woff2"),url(/assets/Merriweather-Italic-2ff5301c0bc5e6bb36aa90461a2778925615296b30cb68de03adfbe30f3ba034.woff) format("woff");font-weight:normal;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Bold Italic"),local("Merriweather-BoldItalic"),url(/assets/Merriweather-BoldItalic-6555d0e597bb610c9885788f6ea9fcc1bdc2cdb1a27d6fa789b26286f0236d96.woff2) format("woff2"),url(/assets/Merriweather-BoldItalic-c5af58f9b3ca849796e320463efb479012c8da669fade00fb76169e37ec6b408.woff) format("woff");font-weight:bold;font-style:italic;font-display:optional}@font-face{font-family:"Merriweather";src:local("Merriweather Light Italic"),local("Merriweather-LightItalic"),url(/assets/Merriweather-LightItalic-83b26b2f59b0bbd312f3f4b8551f5295a64cbc9645711d6b006faaa79c7753d3.woff2) format("woff2"),url(/assets/Merriweather-LightItalic-1f79f78c181a7a35d38ed8a5bee789c2680726e3b74ddaebc3486af3af749235.woff) format("woff");font-weight:300;font-style:italic;font-display:optional}@font-face{font-family:'Batang';src:url(/assets/Batang-bbbbbe277f4e2bd33819a38b51e599824aed97db7b51b0aa6bf683bf40b171ce.woff2) format("woff2"),url(/assets/Batang-d1c9b135751404713e2fdc6fcd9f6d9d534d2a8bfc11e57fe05a7aa13e883838.woff) format("woff");font-weight:normal;font-style:normal;font-display:auto;unicode-range:U+AC00-D7A3, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF}html,body{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-size:15pt;line-height:1.5;font-weight:300;font-kerning:normal;-webkit-font-kerning:normal;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}html[lang="ko-KR"] body{font-family:"Batang", "Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:lighter}html[lang="ko-KR"] a.readmore,html[lang="ko-KR"] section>h1,html[lang="ko-KR"] article p em,html[lang="ko-KR"] article p dfn,html[lang="ko-KR"] cite,html[lang="zh-Hans"] a.readmore,html[lang="zh-Hans"] section>h1,html[lang="zh-Hans"] article p em,html[lang="zh-Hans"] article p dfn,html[lang="zh-Hans"] cite{font-style:normal;font-weight:bold}html[lang="ko-KR"] [role="article"] header .byline,html[lang="zh-Hans"] [role="article"] header .byline{font-style:normal}html[lang="ko-KR"] .archive ol li time,html[lang="ko-KR"] .archive ul li time,html[lang="zh-Hans"] .archive ol li time,html[lang="zh-Hans"] .archive ul li time{font-style:normal;font-weight:bold}html[lang="ko-KR"] #promotion h4,html[lang="zh-Hans"] #promotion h4{font-style:normal;font-weight:bold}html[lang="ko-KR"] .highlight span,html[lang="zh-Hans"] .highlight span{font-style:normal !important}h1,h2,h3,h4,h5,h6{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";line-height:1.1em;margin:0 0 1rem 0}h1{font-size:2.5em}h2{font-size:2em}h3{font-size:1.5em}h4{font-size:1.25em}h5{font-size:1.125em}h6{font-size:1em}p{margin:0 0 1rem 0}a{-webkit-transition:color 0.1s linear;-moz-transition:color 0.1s linear;transition:color 0.1s linear;text-decoration:none}a:hover{text-decoration:underline}a:active,a:focus{outline:none}a code{white-space:nowrap}p>small{font-size:inherit;font-variant:small-caps;text-transform:lowercase}:not(pre)>code{user-select:all}a code,p code,li code,dd code,td code{background:#f8f8f2;padding:.25em;font-size:smaller;border-radius:3px}p code,li code,dd code,td code{color:#49178f}ol li,ul li{margin-bottom:0.5em}pre{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}code,samp{font-family:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace}pre code,samp{font-size:smaller;line-height:1.1em}samp{white-space:pre;overflow:scroll;-webkit-overflow-scrolling:touch;display:block;padding:0.5em 0}section>h1{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:300;font-size:1.5em;text-align:center;margin-bottom:2rem;margin-top:2rem}article.excerpt h1{font-size:1.5em}a.readmore{font-style:italic}a:hover{text-decoration:underline}kbd{color:#282a36;background-color:#f8f8f2;border-radius:3px;border:1px solid #747683;box-shadow:0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin:0 .1em;padding:.1em .6em;text-transform:lowercase}.placeholder{background:#f8f8f2;display:inline-block;padding:0 0.25em;border:1px #282a36 solid;border-radius:5px;font-style:normal}.highlight .placeholder{background:transparent;border-color:#f8f8f2}h1:hover .anchor::before,h2:hover .anchor::before,h3:hover .anchor::before,h4:hover .anchor::before,h5:hover .anchor::before,h6:hover .anchor::before{opacity:1}.title{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700}.anchor::before{content:"#";opacity:0;transition:300ms opacity;position:absolute;float:left;margin-left:-1.5em;padding:0 0.5em;color:#747683 !important;text-decoration:none}.anchor::before :focus{outline:none}.tagline{font-size:1.5em}#latest small,#announcement small{font-style:italic}[role="article"] header h1{font-size:3.5em;line-height:1;margin-bottom:0.5rem;padding:0.5rem 0}#archive dd{font-size:smaller;display:list-item;list-style:circle}.admonition{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";border-left-width:4px;border-left-style:solid;padding:5px 40px;margin:1.5em 0;display:block;clear:both;overflow:visible}.admonition p{margin:0.5em 0;font-size:smaller}.admonition pre code{font-size:small}.admonition.info{background:#edf5fa;border-color:#4DAAFC}.admonition.info a{color:#0088ff}.admonition.info:before{content:" ";background-image:url(/assets/info-f73d3a68c0c3bfa07e64909be26a8d512c2d50bf2729bf30f76d8b63250d0671.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.warning{background:#fcfaf6;border-color:#F9D780}.admonition.warning a{color:#f0b112}.admonition.warning:before{content:" ";background-image:url(/assets/warning-47e47a5723ab3badf6c9352852c0acbe46a94b493175685797a01b7a2c832fc4.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}.admonition.error{background:#fcf2f6;border-color:#f5569d}.admonition.error a{color:#e62279}.admonition.error:before{content:" ";background-image:url(/assets/error-0950677a2585decd810c2737096155b036dee719e35feb1c0c6ade04202daafc.svg);background-size:24px 24px;width:24px;height:24px;position:absolute;display:block;margin-left:-54px;margin-top:10px;z-index:100}@font-face{font-family:"NSHipster Icons";font-style:normal;font-weight:700;font-display:block;src:url(/assets/nshipster-e474c0004ccdeca4e27e7ae1320e0e04a943b0ea5348b336356b7ac223497fda.woff2) format("woff2"),url(/assets/nshipster-743868430209628f9d7933ea65c7e31cdf597e9a27d01d372c33fc501f4c6722.woff) format("woff")}[class^="icon-"],[class*=" icon-"]{font-family:"NSHipster Icons" !important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-warning:before{content:"\e900"}.icon-error:before{content:"\e901"}.icon-info:before{content:"\e902"}.icon-podcasts:before{content:"\e903"}.icon-wechat:before{content:"\e904"}.icon-sinaweibo:before{content:"\e905"}.icon-feed:before{content:"\e906"}.icon-youtube:before{content:"\e908"}.icon-apple:before{content:"\f8ff"}.icon-facebook:before{content:"\e90a"}.icon-github:before{content:"\e90b"}.icon-twitter:before{content:"\e90c"}.icon-googleplus:before{content:"\e90d"}.icon-swift:before{content:"\e90e"}.icon-nc:before{content:"\e90f"}.icon-cc:before{content:"\e907"}.icon-by:before{content:"\e911"}.icon-command:before{content:"\2318"}.icon-shift:before{content:"\21e7"}.icon-ctrl:before{content:"\2303"}.icon-opt:before{content:"\2325"}html,body{margin:0}body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);border-top:3px #ff8000 solid}hr{border:none;margin:1em 0;padding:1em 0;display:block}img{margin:0;max-width:100%}video{margin:0 auto;max-width:100%;display:block}blockquote{border-left:2px solid #ddd;color:#595959;margin:1.5em 0;padding-left:0.75em}cite{color:#737373;font-style:italic}cite:before{content:"— "}table{border-collapse:collapse;margin:0.75em 0;table-layout:fixed;width:100%}th{border-bottom:1px solid #b7b7b7;font-weight:bold;padding:0.75em 0;text-align:left}td{border-bottom:1px solid #ddd;padding:0.75em 0}tr,td,th{vertical-align:middle}ul,ol{margin:0;padding:0;list-style-type:none}dl{margin-bottom:0.75em}dl dt{font-weight:bold;margin:1em 0}dl dd{margin:0 0 0.25rem 1em}.container{max-width:100%;margin-left:auto;margin-right:auto;max-width:960px;margin:0 auto;padding:2em}.container:after{content:"";display:table;clear:both}.container section{display:block;max-width:100%;margin-left:auto;margin-right:auto;margin-bottom:2em;padding-bottom:1em}.container section:after{content:"";display:table;clear:both;content:"";display:table;clear:both}html[lang="fr-FR"] [role="banner"] #logo{margin-right:5.5em}html[lang="fr-FR"] [role="banner"] .tagline{font-size:1.33em}html[lang="zh-Hans"] [role="banner"] #logo{margin-right:9.5em}html[lang="zh-Hans"] [role="banner"] .tagline{font-size:1.75em;padding-bottom:1em}html[lang="ko-KR"] [role="banner"] .tagline{font-size:1.4em}[role="banner"]{display:flex;margin-bottom:1.5em;padding-bottom:1.5em}[role="banner"] #logo{display:block;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:1em;height:6em;margin:0.25em 6em 0 0}[role="banner"] #logo a{display:block}[role="banner"] #logo svg{width:146px;height:84px;overflow:visible;margin-left:-3px}[role="banner"] #logo svg #mustache{position:absolute;transform:rotate(0) scale(1);transform-origin:50% 70% 0;transition:transform 1s}[role="banner"] #logo svg:hover,[role="banner"] #logo svg.animated{position:relative;z-index:2}[role="banner"] #logo svg:hover #mustache,[role="banner"] #logo svg.animated #mustache{animation:twirl 1s ease-in-out}[role="banner"] .tagline{flex:1}#latest h1,#announcement h1{margin-bottom:0.5rem}#announcement{background-color:rgba(255,128,0,0.2);margin-left:-1em;margin-right:-1em;padding:1em}#recent ul{display:grid;grid-template-columns:repeat(3, 1fr);gap:1em 2em}#recent ul li{min-height:15em}#recent ul li .title{height:4em;font-size:1.75em;display:table-cell;line-height:1;vertical-align:bottom;padding-bottom:1em}#recent ul li p{font-size:smaller;display:-webkit-box;overflow:hidden;max-lines:5;-webkit-line-clamp:5;-webkit-box-orient:vertical;text-overflow:ellipsis}#merchandise{margin-top:-30px}#merchandise h1{margin-bottom:15px}#follow ul{float:left;display:block;margin-right:2.35765%;width:31.76157%}#follow ul:last-child{margin-right:0}#follow ul li{float:left;display:block;margin-right:7.42297%;width:19.43277%;font-size:2em}#follow ul li:last-child,#follow ul li:nth-of-type(4n){margin-right:0}#follow ul li a:hover{text-decoration:none}#follow form{float:left;display:block;margin-right:2.35765%;width:57.35098%;margin-left:8.5298%;margin-right:0}#follow form:last-child{margin-right:0}#follow form input[type="email"]{float:left;display:block;margin-right:3.57866%;width:61.158%}#follow form input[type="email"]:last-child{margin-right:0}#follow form input[type="submit"]{float:left;display:block;margin-right:3.57866%;width:35.26334%;border-radius:10px;background:#ff8000;font-size:0.75em;padding:15px 0}#follow form input[type="submit"]:last-child{margin-right:0}article.author,article.translator{padding-top:2em}article.author header,article.translator header{display:grid;grid-template:"avatar . title" "avatar . description";grid-template-columns:1fr 1em 3fr;grid-template-rows:1fr 2fr;gap:1em 1em;margin-bottom:1em;padding-bottom:1em}article.author header .avatar,article.translator header .avatar{grid-area:avatar}article.author header h1,article.translator header h1{grid-area:title}article.author header p,article.translator header p{grid-area:description}[role="article"]{margin-bottom:1em;overflow-x:hidden}[role="article"] table{overflow:scroll;-webkit-overflow-scrolling:touch;margin:2em 0}[role="article"] table caption{margin:2em 0 1em 0}[role="article"] header{display:block;text-align:center;margin-bottom:3em}[role="article"] header .byline{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;color:#a3a39e}[role="article"] header .byline a,[role="article"] header .byline span,[role="article"] header .byline time{white-space:nowrap}[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" — "}[role="article"] .content{margin-bottom:4em}[role="article"] .content h1,[role="article"] .content h2,[role="article"] .content h3,[role="article"] .content h4,[role="article"] .content h5{margin-top:2.5rem}[role="article"] .content object,[role="article"] .content embed,[role="article"] .content figure,[role="article"] .content svg{margin:1em auto;display:block;width:auto}[role="article"] .content img{margin:1em auto;display:block}[role="article"] .content ul,[role="article"] .content ol{margin:1.5em 0;padding:0 3em}[role="article"] .content ul ul,[role="article"] .content ul ol,[role="article"] .content ol ul,[role="article"] .content ol ol{margin-top:0.5em}[role="article"] .content ul li,[role="article"] .content ol li{list-style:disc}[role="article"] .content figure{text-align:center}[role="article"] .content ins{background-color:rgba(255,128,0,0.2);text-decoration:none}[role="article"] .content dl{padding:1em 0}[role="article"] .content blockquote{margin:2em;margin-right:4em;border-left:3px #ff8000 solid}[role="article"] .content blockquote cite{margin-top:1em;display:block}[role="article"] .content table thead th{text-align:center}[role="article"] .content table td{padding:1em}[role="article"] sup{font-size:50%;margin-right:-0.5em}[role="article"] footer .contributor{float:left;display:block;margin-right:2.35765%;width:48.82117%;padding:1em 0}[role="article"] footer .contributor:last-child,[role="article"] footer .contributor:nth-child(2n){margin-right:0}[role="article"] footer .contributor:nth-child(2n+1){clear:left}[role="article"] footer .contributor:only-child{width:100%}[role="article"] footer .contributor:only-child .avatar{padding:0 1em}[role="article"] footer .contributor .avatar{float:left;display:block;margin-right:4.82916%;width:30.11389%}[role="article"] footer .contributor .avatar:last-child{margin-right:0}[role="article"] footer .contributor .details{float:left;display:block;margin-right:4.82916%;width:65.05695%;margin-right:0;margin-top:1em}[role="article"] footer .contributor .details:last-child{margin-right:0}[role="article"] footer .contributor .details span{font-weight:700}[role="article"] footer .contributor .details p{font-size:0.75em;margin-top:1em}[role="article"] footer small{display:block;font-size:1em;font-weight:700;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps;margin-bottom:1em}[role="complementary"]{border-top:1px #ddd solid;padding-top:2em}[role="contentinfo"]{text-align:center;margin-top:2em;padding:1em}[role="contentinfo"] section{margin-bottom:0;padding-bottom:0}.avatar{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;max-width:200px;max-height:200px;border-radius:50%;pointer-events:none;user-select:none}#contributors ul{display:flex;justify-content:center;align-content:space-between;flex-flow:row wrap}#contributors ul li{flex:0;display:block;margin-bottom:1em;flex-basis:20%}#contributors ul li .avatar{display:block;margin:0 auto 1em auto;width:70%}#contributors ul li a{text-align:center;display:block}.archive dl{float:left;display:block;margin-right:2.5%;width:30%}.archive dl:last-child,.archive dl:nth-of-type(3),.archive dl:nth-of-type(4),.archive dl:nth-of-type(6){margin-right:0}.archive ol,.archive ul{list-style:none}.archive ol li,.archive ul li{margin:2em 0}.archive ol span,.archive ol time,.archive ul span,.archive ul time{display:block}.archive ol time,.archive ul time{white-space:nowrap;font-style:italic;font-weight:300;margin-bottom:1em}#sharing ul{display:block;float:right}#sharing ul:after{content:"";display:table;clear:both}#sharing li{font-size:1.5em;display:block;margin:0.5em;float:left}#sharing li a:hover{text-decoration:none;color:#4c3150 !important}#publications .books{display:flex}#publications .book{flex:1}#publications .book img{display:block;margin:0 auto;width:200px;border:4px transparent solid;transition:0.25s ease-in-out border-color;filter:none !important}#publications .book img:hover{padding:0;border:4px #ff8000 solid}.tagline{clear:both;font-weight:300}.highlight-group{margin-top:1em}[role="tablist"]{display:flex;flex-direction:row;justify-content:flex-end;padding-right:3px}[role="tablist"] button{cursor:pointer;flex:0;padding-left:0.5em;color:#282a36 !important;text-decoration:none;transition:opacity 0.5s;background:transparent !important;padding:0;margin:0 0 0 0.5em}[role="tablist"] button:not([aria-selected="true"]){opacity:0.25}[role="tablist"] button:not([aria-selected="true"]):hover{opacity:0.5}[role="tablist"] button.active{opacity:1}[role="tablist"] button:focus{outline:thin dotted;outline-offset:2px}[role="tabpanel"]{margin-top:0.25em}[role="tabpanel"]:focus{outline:0}#promotion .book img{margin:0}#promotion h3{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}#promotion h4{font-family:"Merriweather", Georgia, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-style:italic;font-weight:300;margin-bottom:1em}#promotion p{font-size:0.75em}#promotion a.buy{background:#ff8000;border-radius:10px;color:#fff !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-weight:700;margin-top:1em;padding:15px;text-align:center;display:inline-block}#promotion a.buy:hover{text-decoration:none !important}#promotion.home{margin-top:-15px;padding:35px 44px;background:#eee;border-radius:20px}#promotion.home p{font-size:1em}#promotion.home small{display:block;font-size:1.2em;font-weight:700;margin-left:5px;color:#777;text-transform:lowercase;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";font-variant:small-caps}table#status{table-layout:fixed;margin-top:2em}table#status caption{padding:1em 0;color:#777}table#status .version{text-align:center}table#status .version em{color:#777}table#customplaygrounddisplayconvertible-categories{table-layout:auto}table#customplaygrounddisplayconvertible-categories tbody th{padding-left:10px;text-align:center}table#customplaygrounddisplayconvertible-categories ul{padding:0 0 0 20px}table#customplaygrounddisplayconvertible-categories ul li{margin:0}table#customplaygrounddisplayconvertible-categories td img{margin:0}@media screen and (max-width: 600px){table#customplaygrounddisplayconvertible-categories thead tr th:last-child,table#customplaygrounddisplayconvertible-categories tbody tr td:last-child{display:none}}.conversation{margin:1em auto;max-width:650px}.conversation:after{content:" ";display:block;clear:both}.conversation ruby{ruby-align:start;ruby-position:over;display:block;clear:both;max-width:550px}.conversation ruby.boke{float:left;text-align:left;margin-bottom:0.5em}.conversation ruby.tsukkomi{float:right;color:#ff8000;text-align:right;margin-bottom:1.5em}.highlight{background:#282a36;border:1px transparent solid;border-radius:5px;overflow:auto;padding:0.5em 1em;margin-bottom:1em}.highlight code{color:#f8f8f2;background:transparent !important}.highlight ::selection{color:inherit}.highlight ::-moz-selection{color:inherit}.highlight .hll,.highlight .s,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .dl,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx,.highlight .sr,.highlight .s1,.highlight .ss{color:#f1fa8c}.highlight .go{color:#747683}.highlight .err,.highlight .g,.highlight .l,.highlight .n,.highlight .x,.highlight .p,.highlight .ge,.highlight .gr,.highlight .gh,.highlight .gi,.highlight .gp,.highlight .gs,.highlight .gu,.highlight .gt,.highlight .ld,.highlight .no,.highlight .nd,.highlight .ni,.highlight .ne,.highlight .nn,.highlight .nx,.highlight .py,.highlight .w,.highlight .bp{color:#f8f8f2}.highlight .gh,.highlight .gi,.highlight .gu{font-weight:bold}.highlight .ge{text-decoration:underline}.highlight .c,.highlight .ch,.highlight .cm,.highlight .cpf,.highlight .c1,.highlight .cs{color:#bfc6d8}.highlight .kd,.highlight .kt,.highlight .nb,.highlight .nl,.highlight .nv,.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#8be9fd}.highlight .na,.highlight .nc,.highlight .nf,.highlight .fm{color:#ff8000}.highlight .k,.highlight .o,.highlight .cp,.highlight .kc,.highlight .kn,.highlight .kp,.highlight .kr,.highlight .nt,.highlight .ow{color:#ff79c6}.highlight .m,.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo,.highlight .il{color:#bd93f9}.highlight .gd{color:#ff5555}.highlight[data-lang="JWT"]{white-space:pre-wrap}button,input[type="submit"]{-moz-appearance:none;-ms-appearance:none;-o-appearance:none;-webkit-appearance:none;-webkit-font-smoothing:antialiased;appearance:none;background-color:#ff8000;border-radius:5px;border:none;color:white;cursor:pointer;display:inline-block;font-size:1em;font-weight:bold;line-height:1;padding:0.75em 1em;text-decoration:none;transition:background-color 0.25s;user-select:none;vertical-align:middle;white-space:nowrap}button:hover,input[type="submit"]:hover{background-color:#cc6600;color:white}@media screen and (max-width: 768px){[role="article"] header .byline .authors:after,[role="article"] header .byline .translators:after{content:" ";display:block}.container{padding:1em}#recent ul{display:block}#recent ul li{min-height:auto;margin-bottom:2em}#recent ul li .title{display:block;height:auto;padding-bottom:0.5rem}#follow ul{width:100%}#follow form{width:100%;margin-left:0;margin-top:2em}[role="article"]{font-size:smaller}[role="article"] .content{overflow:hidden}[role="article"] .content blockquote{margin:1em 0}[role="article"] footer .contributor{width:100%;margin-bottom:1em}[role="article"] footer .contributor:not(:first-child){border-top:none}[role="article"] footer .contributor .avatar{padding:0}[role="article"] footer .contributor .details{margin-top:0}[role="complementary"] #continue,[role="complementary"] #related{width:100%}[role="complementary"] #related{margin-top:1em}[role="complementary"] #related li{font-size:1em}#sharing ul{width:100%}#sharing li{display:none !important;margin:0;float:left;display:block;margin-right:2.35765%;width:23.23176%}#sharing li:last-child,#sharing li:nth-child(4){margin-right:0}#sharing li:nth-child(5){clear:left}#sharing li a,#sharing li i{display:block;margin:0 auto;font-size:1.25em}#promotion .book img{margin:0 auto}#contributors ul li{flex-basis:33%}#recent article{float:none;display:block;width:100%}#recent article:last-child,#recent article:nth-of-type(2n){margin-right:0}.archive dl{width:100%;margin:0;float:none}.archive dl dt{margin:2em 0 0.5em 0}}@media screen and (max-width: 960px){[role="banner"]{display:block;margin-bottom:0;padding-bottom:0}[role="banner"] #logo{margin:0 !important;height:auto;padding-bottom:0.5em}[role="banner"] #logo svg{width:25vw;display:block;margin:0 auto 1.5em auto}[role="banner"] .tagline{font-size:4.4vw;padding-bottom:2em}#recent ul{grid-template-columns:repeat(2, 1fr)}.anchor{font-size:smaller}#announcement{margin-left:0;margin-right:0}article.author header,article.translator header{display:block}article.author header .avatar,article.translator header .avatar{margin:0 auto 1em auto;display:block}article.author header h1,article.translator header h1{text-align:center}}@media (hover: none){#logo #mustache{animation-iteration-count:1}}@media (inverted-colors){*{text-shadow:none !important;box-shadow:none !important}img{filter:invert(100%)}}@media (monochrome) and (false), print and (false), (prefers-contrast: high), screen and (-ms-high-contrast: active){html{border-top-color:black}html body{background:white}html body #logo a:hover{background:transparent !important}html body #logo #ns{fill:white;stroke:black;stroke-width:10px}html body #logo #mustache{fill:black}html body a{transition:none}html body a,html body a:visited{text-decoration:underline;color:black !important}html body a:hover{text-decoration:none}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6,html body p,html body li,html body dt,html body dd,html body span{color:black !important}html body div.highlight{color:black;background:#fff !important;border:2px black solid}html body div.highlight code,html body div.highlight code span{color:black !important}html body div.highlight .c,html body div.highlight .ch,html body div.highlight .cm,html body div.highlight .cpf,html body div.highlight .c1,html body div.highlight .cs,html body div.highlight .ge,html body div.highlight .s,html body div.highlight .sa,html body div.highlight .sb,html body div.highlight .sc,html body div.highlight .dl,html body div.highlight .sd,html body div.highlight .s2,html body div.highlight .sh,html body div.highlight .sx,html body div.highlight .sr,html body div.highlight .s1,html body div.highlight .ss{font-style:italic}html body div.highlight .k,html body div.highlight .gh,html body div.highlight .gp,html body div.highlight .gs,html body div.highlight .gu,html body div.highlight .kc,html body div.highlight .kd,html body div.highlight .kn,html body div.highlight .kr,html body div.highlight .nc,html body div.highlight .ni,html body div.highlight .ne,html body div.highlight .nn,html body div.highlight .nt,html body div.highlight .ow{font-weight:bold}html body div.highlight .se,html body div.highlight .si{font-weight:bold;font-style:italic}html body .admonition{background:white !important;border:2px black solid !important;border-radius:5px}html body .admonition:before{visibility:hidden}html body blockquote{border-left-color:black !important;color:black}}@media (prefers-color-scheme: dark){body{background:#2c2a28 !important;color:#f8f8f2 !important}body blockquote{color:#f8f8f2 !important}body div.highlight{border:1px #f8f8f2 solid !important}body .language-toggle a{color:#f8f8f2 !important}body .info{background:#333c44 !important}body .warning{background:#484131 !important}body .error{background:#592e41 !important}article img[src$=".svg"],i img[src$=".svg"]{filter:invert(100%)}kbd{color:#f8f8f2;background-color:#282a36;box-shadow:0 1px 0 rgba(255,255,255,0.2),0 0 0 2px #222 inset}.placeholder{color:#f8f8f2;background-color:#282a36;border-color:#f8f8f2}a>code,p>code,li>code,dd>code,td>code{background:#282a36}p code,li code,dd code,td code{color:#bd93f9}}@media (prefers-contrast: high), screen and (-ms-high-contrast: active){a{transition:none}a,a:visited{text-decoration:underline;color:black !important}h1,h2,h3,h4,h5,h6,p,li,dt,dd,span{color:black !important}h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,p a:hover,li a:hover,dt a:hover,dd a:hover,span a:hover{text-decoration:none;background:black;color:white !important}}@media (prefers-reduced-motion: reduce){#logo #mustache{animation:none !important}}@media print{@page{margin:0.5in}@page{@bottom-center{content:"Page " counter(page) " of " counter(pages);font-size:small}@footnote{border-top:1pt black solid;padding-top:1em;font-size:smaller;padding-left:1.5em}}html{border-top:none}html body{font-size:12pt !important}#logo{height:3em !important}#logo svg{transform:scale(0.5);transform-origin:top left}img,p,blockquote,aside,ul,ol,table,figure,.highlight-group{page-break-inside:avoid}.highlight-group{page-break-before:avoid}h1,h2,h3,h4,h5,h6{page-break-before:avoid;page-break-after:avoid}img{max-width:100% !important}p a{word-wrap:break-word}p a[href^="#"]:after{display:none}p a[href^="http://"]:after,p a[href^="https://"]:after{content:attr(href);float:footnote;color:#333;text-decoration:none;text-align:left;page-break-inside:avoid;page-break-before:avoid}article [title]::after{content:" (" attr(title) ") ";float:footnote}.highlight-group a{font-size:50%}div.highlight{border-radius:5px;border:2px black solid}[role="article"] .content{margin-bottom:1em !important}[role="complementary"]{display:none}[role="contentinfo"]{page-break-inside:avoid;font-size:small}.admonition{padding:0 0 0 1em}.admonition::before{visibility:hidden}}@media print and (color){*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}::selection{background:rgba(76,49,80,0.5);color:#ffffff}::-moz-selection{background:rgba(76,49,80,0.5);color:#ffffff}#type-encodings tr>td:first-child,#method-encodings tr>td:first-child{width:12em;padding-left:3em}@media screen and (max-width: 480px){#gpuimage table{font-size:50%}}#gpuimage #gpuimage-benchmarks td{text-align:center}#gpuimage #gpuimage-benchmarks td:first-child{text-align:left}#gpuimage #gpuimage-benchmarks td:last-child{text-align:right}#gpuimage #gpuimage-filters td{vertical-align:top;font-size:75%}#gpuimage blockquote{font-size:75%}table.core-data-versus-nskeyedarchiver td{text-align:center}table.core-data-versus-nskeyedarchiver td:first-child{text-align:left;font-weight:bold}table#xcode-key-bindings-modifiers{width:100%}table#xcode-key-bindings-modifiers td,table#xcode-key-bindings-modifiers th{width:20%;text-align:center}#cfstringtransform table{display:block}#cfstringtransform table td:first-child{width:60%}#icloud header time{background-color:rgba(255,128,0,0.2)}
+      /*# sourceMappingURL=/assets/source-maps/screen.scss.map */
+      /*# sourceURL=assets/css/screen.scss */
+    </style>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#292724"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="NSHipster"/>
+    <meta name="application-name" content="NSHipster"/>
+    <meta name="msapplication-TileColor" content="#f8f7f5"/>
+    <meta name="theme-color" content="#f8f7f5"/>
+    <link rel="author" type="text/plain" href="/humans.txt"/>
+    <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@NSHipster"/>
+    <meta name="twitter:title" content="Mattt"/>
+    <meta name="twitter:description" content="Mattt (@mattt)
+is a writer and developer in Portland, Oregon.
+He is the founder of NSHipster and Flight School,
+and the creator of several open source libraries,
+including AFNetworking
+and Alamofire.
+"/>
+    <meta name="twitter:label1" value="Category" />
+    <meta name="twitter:data1" value="" />
+    <meta name="twitter:account_id" content="629523445"/>
+    <meta property="og:site_name" content="NSHipster"/>
+    <meta property="og:image" content="https://nshipster.com/logo.png"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Mattt"/>
+    <meta property="og:url" content="https://nshipster.com/authors/mattt/"/>
+    <meta property="og:description" content="Mattt (@mattt)
+is a writer and developer in Portland, Oregon.
+He is the founder of NSHipster and Flight School,
+and the creator of several open source libraries,
+including AFNetworking
+and Alamofire.
+"/>
+    <meta property="article:published_time" content="2019-04-02T08:39:53-07:00"/>
+    <meta property="article:modified_time" content="2019-04-02T08:39:53-07:00"/>
+    <meta property="article:tag" content=""/>
+    <meta property="article:publisher" content="https://www.facebook.com/NSHipster">
+    <link rel="next" href="https://nshipster.com/authors/mike-lazer-walker/" />
+    <link rel="prev" href="https://nshipster.com/authors/jordan-morgan/" />
+  </head>
+  <body>
+    <div class="container">
+      <header role="banner">
+        <h1 id="logo">
+          <a href="/" title="NSHipster">
+            <?xml version="1.0"?>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.4 266.34">
+                <g id="ns">
+                  <path d="M16.05 5.37h68.38l88.78 157.52h.72V5.37h62.64V261H168.2L79.42 101.67h-.72V261H16.05z"/>
+                  <path d="M294.78 175.06c1.43 30.07 20 39.73 48.33 39.73 20 0 40.81-7.16 40.81-26.13 0-22.55-36.52-26.85-73.39-37.23-36.52-10.38-74.82-26.85-74.82-73.75C235.71 21.84 291.91 0 339.88 0c50.84 0 102 24.7 102.39 82.34h-66.59c1.08-23.27-20.76-30.79-41.17-30.79-14.32 0-32.21 5-32.21 21.84 0 19.69 36.87 23.27 74.1 33.65 36.87 10.38 74.1 27.56 74.1 73.74 0 64.8-55.13 85.56-111.33 85.56-58.71 0-110.62-25.77-111-91.28z"/>
+                </g>
+                <g id="mustache">
+                  <path d="M168.07 104.61c-59.6 3-113.84 79.27-168.07 12.52 0 90 141.25 181.77 237.2 97.14 95.36 84 237.2-7.75 237.2-97.14-74.5 91.78-149-85.83-237.2 26.81-23.84-31.58-47.08-40.52-69.13-39.33z"/>
+                </g>
+              </svg>
+            </a>
+          </h1>
+        </header>
+        <main>
+          <article class="author" itemscope itemtype="https://schema.org/Person">
+            <header role="heading">
+              <img class="avatar" alt="Mattt" itemprop="image" src="/assets/mattt-93904827ef54896bb67f3a0d4abf548b9ecc93a51536bbc3326f24630512727d.jpg" draggable="false"/>
+              <h1 itemprop="name">Mattt</h1>
+              <p><a href="https://github.com/mattt" rel="noopener noreferrer">Mattt</a> (<a href="https://twitter.com/mattt" rel="noopener noreferrer">@mattt</a>)
+                is a writer and developer in Portland, Oregon.
+                He is the founder of NSHipster and <a href="https://flight.school" rel="noopener noreferrer">Flight School</a>,
+                and the creator of several open source libraries,
+                including <a href="https://github.com/afnetworking/afnetworking" rel="noopener noreferrer">AFNetworking</a>
+                and <a href="https://github.com/alamofire/alamofire" rel="noopener noreferrer">Alamofire</a>.</p>
+            </header>
+            <section class="archive">
+              <h1>Articles</h1>
+              <ol>
+                <li>
+                  <a href="/swift-foundation-error-protocols/" title="LocalizedError, RecoverableError, CustomNSError" class="title">LocalizedError, RecoverableError, CustomNSError</a>
+                  <time datetime="2019-03-18T00:00:00-07:00" itemprop="datePublished">March 18<sup>th</sup>, 2019</time>
+                  <p>We’re all familiar with the <code>Error</code> type,  but have you met these related Swift Foundation error protocols?</p>
+                </li>
+                <li>
+                  <a href="/mapkit-js/" title="MapKit JS" class="title">MapKit JS</a>
+                  <time datetime="2019-03-11T00:00:00-07:00" itemprop="datePublished">March 11<sup>th</sup>, 2019</time>
+                  <p>Announced in 2018, MapKit JS takes the convenient cartographic capabilities of the MapKit framework on iOS and macOS, and brings them to the web. Join us as we provide turn-by-turn directions for how to start your journey with MapKit JS.</p>
+                </li>
+                <li>
+                  <a href="/swift-format/" title="Swift Code Formatters" class="title">Swift Code Formatters</a>
+                  <time datetime="2019-03-04T00:00:00-08:00" itemprop="datePublished">March 4<sup>th</sup>, 2019</time>
+                  <p>Over the past few days, the Swift community has been buzzing about the latest pitch to adopt an an official style guide and formatting tool for the language. Let’s take a look at where we’re at today, how the proposed <code>swift-format</code> tool stacks up, and what we might expect in the future.</p>
+                </li>
+                <li>
+                  <a href="/javascriptcore/" title="JavaScriptCore" class="title">JavaScriptCore</a>
+                  <time datetime="2019-02-25T00:00:00-08:00" itemprop="datePublished">February 25<sup>th</sup>, 2019</time>
+                  <p>Whether you love it or hate it,  JavaScript has become the most important language for developers today. Despite any efforts we may take to change or replace it we’d be hard-pressed to deny its usefulness.</p>
+                </li>
+                <li>
+                  <a href="/swift-api-pollution/" title="API Pollution in Swift Modules" class="title">API Pollution in Swift Modules</a>
+                  <time datetime="2019-02-18T00:00:00-08:00" itemprop="datePublished">February 18<sup>th</sup>, 2019</time>
+                  <p>When you import a module into Swift code, you expect the result to be entirely additive. But as we’ll see, this isn’t always the case.</p>
+                </li>
+                <li>
+                  <a href="/swift-regular-expressions/" title="Regular Expressions in Swift" class="title">Regular Expressions in Swift</a>
+                  <time datetime="2019-02-11T00:00:00-08:00" itemprop="datePublished">February 11<sup>th</sup>, 2019</time>
+                  <p>Regular expressions are a powerful tool for working with text, but it’s often a mystery how to use them in Swift.</p>
+                </li>
+                <li>
+                  <a href="/expressiblebystringinterpolation/" title="ExpressibleByStringInterpolation" class="title">ExpressibleByStringInterpolation</a>
+                  <time datetime="2019-02-04T00:00:00-08:00" itemprop="datePublished">February 4<sup>th</sup>, 2019</time>
+                  <p>Swift 5 overhauls how values in string literals are interpolated, and incidentally overturned several decades’ worth  of problematic programming conventions.</p>
+                </li>
+                <li>
+                  <a href="/textoutputstream/" title="TextOutputStream" class="title">TextOutputStream</a>
+                  <time datetime="2019-01-21T00:00:00-08:00" itemprop="datePublished">January 21<sup>st</sup>, 2019</time>
+                  <p><code>print</code> is among the most-used functions in the Swift standard library. Indeed, it’s the first function a programmer learns  when writing “Hello, world!”. So it’s surprising how few of us are familiar with its other forms.</p>
+                </li>
+                <li>
+                  <a href="/swift-sh/" title="swift-sh" class="title">swift-sh</a>
+                  <time datetime="2019-01-14T00:00:00-08:00" itemprop="datePublished">January 14<sup>th</sup>, 2019</time>
+                  <p>Swift is a fast, safe, modern programming language. And with <code>swift-sh</code>, it’s never been easier to use it for scripting.</p>
+                </li>
+                <li>
+                  <a href="/import/" title="Swift Import Declarations" class="title">Swift Import Declarations</a>
+                  <time datetime="2019-01-07T00:00:00-08:00" itemprop="datePublished">January 7<sup>th</sup>, 2019</time>
+                  <p>One of the first lessons we learn as software developers is how to organize concepts and functionality into discrete units. But what happens when namespaces collide and declarations lurk in the shadows?</p>
+                </li>
+                <li>
+                  <a href="/bundles-and-packages/" title="Bundles and Packages" class="title">Bundles and Packages</a>
+                  <time datetime="2018-12-17T00:00:00-08:00" itemprop="datePublished">December 17<sup>th</sup>, 2018</time>
+                  <p>In this season of giving, let’s stop to consider one of the greatest gifts given to us by modern computer systems: the gift of abstraction.</p>
+                </li>
+                <li>
+                  <a href="/character-viewer/" title="macOS Character Viewer" class="title">macOS Character Viewer</a>
+                  <time datetime="2018-12-10T00:00:00-08:00" itemprop="datePublished">December 10<sup>th</sup>, 2018</time>
+                  <p>Ever see a character and wonder what it was? Ever want to insert a character but couldn’t figure out how to type it? You can find the answer to these questions and many more  at the bottom of the Edit menu in macOS.</p>
+                </li>
+                <li>
+                  <a href="/homebrew/" title="Swift Program Distribution with Homebrew" class="title">Swift Program Distribution with Homebrew</a>
+                  <time datetime="2018-12-03T00:00:00-08:00" itemprop="datePublished">December 3<sup>rd</sup>, 2018</time>
+                  <p>If you want your software to reach the largest audience on macOS, write and publish a Homebrew formula for it.</p>
+                </li>
+                <li>
+                  <a href="/simctl/" title="simctl" class="title">simctl</a>
+                  <time datetime="2018-11-26T00:00:00-08:00" itemprop="datePublished">November 26<sup>th</sup>, 2018</time>
+                  <p>With a mouse, anyone can use a computer, even if they aren’t a “computer person”.  …though, if you <em>are</em> a “computer person”, you use keyboard shortcuts for most operations, and automate the rest from the Terminal.</p>
+                </li>
+                <li>
+                  <a href="/vscode/" title="Swift Development with Visual Studio Code" class="title">Swift Development with Visual Studio Code</a>
+                  <time datetime="2018-11-19T00:00:00-08:00" itemprop="datePublished">November 19<sup>th</sup>, 2018</time>
+                  <p>VSCode is a cross-platform text and source code editor from Microsoft, and among the first tools to support Language Server Protocol. With the previously announced support for LSP for Swift  now available in early development,  it’s a great time to see how this integration works for yourself.</p>
+                </li>
+                <li>
+                  <a href="/customplaygrounddisplayconvertible/" title="CustomPlaygroundDisplayConvertible" class="title">CustomPlaygroundDisplayConvertible</a>
+                  <time datetime="2018-11-12T00:00:00-08:00" itemprop="datePublished">November 12<sup>th</sup>, 2018</time>
+                  <p>Playgrounds use a combination of language features and tooling to provide a real-time, interactive development environment. With the <code>Custom<wbr></wbr>Playground<wbr></wbr>Display<wbr></wbr>Convertible</code> protocol, you can leverage this introspection for your own types.</p>
+          </li>
+          <li>
+            <a href="/language-server-protocol/" title="Language Server Protocol" class="title">Language Server Protocol</a>
+            <time datetime="2018-11-05T00:00:00-08:00" itemprop="datePublished">November 5<sup>th</sup>, 2018</time>
+            <p>Apple’s adoption of LSP is arguably the most important decision they’ve made for Swift since releasing the language as open source in 2014. It’s a big deal for app developers, and it’s an even bigger deal for Swift developers on other platforms.</p>
+          </li>
+          <li>
+            <a href="/void/" title="Void" class="title">Void</a>
+            <time datetime="2018-10-31T00:00:00-07:00" itemprop="datePublished">October 31<sup>st</sup>, 2018</time>
+            <p>Void has no members: no methods, no values, not even a name. It’s a something more nothing than <code>nil</code>.</p>
+          </li>
+          <li>
+            <a href="/swiftsyntax/" title="SwiftSyntax" class="title">SwiftSyntax</a>
+            <time datetime="2018-10-22T00:00:00-07:00" itemprop="datePublished">October 22<sup>nd</sup>, 2018</time>
+            <p>SwiftSyntax is a Swift library that lets you parse, analyze, generate, and transform Swift source code. Let’s see how you can use it to build a code formatter and syntax highlighter.</p>
+          </li>
+          <li>
+            <a href="/numericcast/" title="numericCast(_:)" class="title">numericCast(_:)</a>
+            <time datetime="2018-10-15T00:00:00-07:00" itemprop="datePublished">October 15<sup>th</sup>, 2018</time>
+            <p>Getting code to compile is different than doing things correctly. But sometimes it takes the former to ultimately get to the latter.</p>
+          </li>
+          <li>
+            <a href="/timeinterval-date-dateinterval/" title="TimeInterval, Date, and DateInterval" class="title">TimeInterval, Date, and DateInterval</a>
+            <time datetime="2018-10-08T00:00:00-07:00" itemprop="datePublished">October 8<sup>th</sup>, 2018</time>
+            <p>Our limited understanding of time is reflected in — or perhaps exacerbated by — the naming of the Foundation date and time APIs. It’s about time we got them straight.</p>
+          </li>
+          <li>
+            <a href="/macos-dynamic-desktop/" title="macOS Dynamic Desktop" class="title">macOS Dynamic Desktop</a>
+            <time datetime="2018-10-01T00:00:00-07:00" itemprop="datePublished">October 1<sup>st</sup>, 2018</time>
+            <p>Dark Mode is one of the most popular additions to macOS — especially among us developer types. If you triangulate between that and Night Shift,  introduced a couple of years prior, you get the Dynamic Desktop feature, new in Mojave.</p>
+          </li>
+          <li>
+            <a href="/ios-12/" title="iOS 12" class="title">iOS 12</a>
+            <time datetime="2018-09-17T00:00:00-07:00" itemprop="datePublished">September 17<sup>th</sup>, 2018</time>
+            <p>Here at NSHipster, we’re interested in the nitty-gritty: the small (dare we say, <em>obscure</em>?) changes that add up to make a big impact to our day-to-day. In celebration of this week’s release of iOS 12, we’re sharing a few gems we found by trawling through API diffs.</p>
+          </li>
+          <li>
+            <a href="/cmmotionactivity/" title="CMMotionActivity" class="title">CMMotionActivity</a>
+            <time datetime="2018-09-10T00:00:00-07:00" itemprop="datePublished">September 10<sup>th</sup>, 2018</time>
+            <p>Today’s iPhones are packed with a full complement of sensors that includes cameras, barometers, gyroscopes, magnetometers, and accelerometers. Like humans, they use permutations of different sensory information to make determinations about their position and orientation, often by means quite similar to our own biomechanical processes.</p>
+          </li>
+          <li>
+            <a href="/nsdataasset/" title="NSDataAsset" class="title">NSDataAsset</a>
+            <time datetime="2018-08-26T00:00:00-07:00" itemprop="datePublished">August 26<sup>th</sup>, 2018</time>
+            <p>There are many ways to speed up a network request: compressing and streaming, caching and prefetching, reducing and inlining, connection pooling and multiplexing, deferring and backgrounding. And yet there’s one optimization strategy that both predates and outperforms them all: <em>not making the request in the first place</em>.</p>
+          </li>
+          <li>
+            <a href="/swift-property-observers/" title="Swift Property Observers" class="title">Swift Property Observers</a>
+            <time datetime="2018-08-20T00:00:00-07:00" itemprop="datePublished">August 20<sup>th</sup>, 2018</time>
+            <p>Modern software development has become what might be seen as the quintessence of Goldbergian contraption. Yet there are occasions when action-at-a-distance  may do more to clarify rather than confound.</p>
+          </li>
+          <li>
+            <a href="/hashable/" title="Hashable / Hasher" class="title">Hashable / Hasher</a>
+            <time datetime="2018-08-13T00:00:00-07:00" itemprop="datePublished">August 13<sup>th</sup>, 2018</time>
+            <p>Our topic this week is <code>Hashable</code> and its new related type, <code>Hasher</code>. Together, they comprise the functionality underlying two of Swift’s most beloved collection classes: <code>Dictionary</code> and <code>Set</code></p>
+          </li>
+          <li>
+            <a href="/nllanguagerecognizer/" title="NLLanguageRecognizer" class="title">NLLanguageRecognizer</a>
+            <time datetime="2018-08-06T00:00:00-07:00" itemprop="datePublished">August 6<sup>th</sup>, 2018</time>
+            <p>Machine learning has been at the heart of natural language processing in Apple platforms for many years, but it’s only recently that external developers have been able to harness it directly.</p>
+          </li>
+          <li>
+            <a href="/never/" title="Never" class="title">Never</a>
+            <time datetime="2018-07-30T00:00:00-07:00" itemprop="datePublished">July 30<sup>th</sup>, 2018</time>
+            <p>Making a claim that something will never be the case can feel like an invitation for the universe to prove otherwise. Fortunately for us, Swift lives up to this higher standard thanks to the unlikeliest of types.</p>
+          </li>
+          <li>
+            <a href="/uitextinputpasswordrules/" title="Password Rules / UITextInputPasswordRules" class="title">Password Rules / UITextInputPasswordRules</a>
+            <time datetime="2018-07-23T00:00:00-07:00" itemprop="datePublished">July 23<sup>rd</sup>, 2018</time>
+            <p>Unless it’s the title of a hacker movie from the 90’s or the solution to an escape room puzzle, a password should be utterly devoid of meaning.</p>
+          </li>
+          <li>
+            <a href="/bug-reporting/" title="Bug Reporting" class="title">Bug Reporting</a>
+            <time datetime="2018-07-16T00:00:00-07:00" itemprop="datePublished">July 16<sup>th</sup>, 2018</time>
+            <p>If you’ve ever been told to “file a Radar” and wondered what that meant, this week’s article has just the fix.</p>
+          </li>
+          <li>
+            <a href="/swift-gyb/" title="Swift GYB" class="title">Swift GYB</a>
+            <time datetime="2018-07-09T00:00:00-07:00" itemprop="datePublished">July 9<sup>th</sup>, 2018</time>
+            <p>Not all code can be glamorous. In fact, a lot of the low-level infrastructure that makes everything work is a slog of boilerplate.</p>
+          </li>
+          <li>
+            <a href="/guard-and-defer/" title="guard & defer" class="title">guard & defer</a>
+            <time datetime="2015-10-05T00:00:00-07:00" itemprop="datePublished">October 5<sup>th</sup>, 2015</time>
+            <p>Swift 2.0 introduced two new control statements that aimed to simplify and streamline the programs we write. While the former by its nature makes our code more linear, the latter does the opposite by delaying execution of its contents.</p>
+          </li>
+          <li>
+            <a href="/mirror/" title="Mirror / CustomReflectable / CustomLeafReflectable" class="title">Mirror / CustomReflectable / CustomLeafReflectable</a>
+            <time datetime="2015-06-01T00:00:00-07:00" itemprop="datePublished">June 1<sup>st</sup>, 2015</time>
+            <p>Reflection in Swift is a limited affair, providing read-only access to information about objects. In fact, this functionality might be better described as introspection rather than reflection. But can you really blame them for going with that terminology?</p>
+          </li>
+          <li>
+            <a href="/swift-documentation/" title="Swift Documentation" class="title">Swift Documentation</a>
+            <time datetime="2015-05-05T00:00:00-07:00" itemprop="datePublished">May 5<sup>th</sup>, 2015</time>
+            <p>Code structure and organization is a matter of pride for developers. Clear and consistent code signifies clear and consistent thought.</p>
+          </li>
+          <li>
+            <a href="/new-years-2015/" title="Reader Submissions -<br/> New Year's 2015" class="title">Reader Submissions -<br/>
+             New Year's 2015</a>
+          <time datetime="2015-01-01T00:00:00-08:00" itemprop="datePublished">January 1<sup>st</sup>, 2015</time>
+          <p>2014 was an incredible year professionally for Apple developers. With a deluge of new developments—both from Cupertino and the community at large—there were no shortage of interesting tidbits for readers to share.</p>
+        </li>
+        <li>
+          <a href="/the-death-of-cocoa/" title="The Death of Cocoa" class="title">The Death of Cocoa</a>
+          <time datetime="2014-12-29T00:00:00-08:00" itemprop="datePublished">December 29<sup>th</sup>, 2014</time>
+          <p>For many of us, the simplicity, elegance, and performance of Apple’s hardware and software working together are the reason why we build on their platforms. And yet, after just a few months of working with Swift, Cocoa has begun to lose its luster.</p>
+        </li>
+        <li>
+          <a href="/watchkit/" title="WatchKit" class="title">WatchKit</a>
+          <time datetime="2014-12-01T00:00:00-08:00" itemprop="datePublished">December 1<sup>st</sup>, 2014</time>
+          <p>After taking a look at WatchKit, there were a few things that jumped out coming from UIKit. They’re the kind of subjective, opinionated things that don’t make for good documentation, but might be interesting or useful to anyone else as they’re getting started.</p>
+        </li>
+        <li>
+          <a href="/inter-process-communication/" title="Inter-Process Communication" class="title">Inter-Process Communication</a>
+          <time datetime="2014-10-17T00:00:00-07:00" itemprop="datePublished">October 17<sup>th</sup>, 2014</time>
+          <p>In many ways, the story of Apple has been about fusing together technologies through happy accidents of history to create something better than before: OS X as a hybrid of MacOS &amp; NeXTSTEP. Objective-C as the combination of Smalltalk’s OOP paradigm and C. iCloud as the byproduct of MobileMe and actual clouds (presumably).</p>
+        </li>
+        <li>
+          <a href="/swift-system-version-checking/" title="Swift System Version Checking" class="title">Swift System Version Checking</a>
+          <time datetime="2014-10-06T00:00:00-07:00" itemprop="datePublished">October 6<sup>th</sup>, 2014</time>
+          <p>C uses preprocessor directives capable of unspeakable evil. Swift has a safe subset of preprocessor directives. So how do we check system version for API compatibility?</p>
+        </li>
+        <li>
+          <a href="/uialertcontroller/" title="UIAlertController" class="title">UIAlertController</a>
+          <time datetime="2014-09-30T00:00:00-07:00" itemprop="datePublished">September 30<sup>th</sup>, 2014</time>
+          <p>Did you know that <code>UIAlert<wbr></wbr>View</code> and <code>UIAction<wbr></wbr>Sheet</code> (as well as their respective delegate protocols) are deprecated in iOS 8? It’s true.</p>
+    </li>
+    <li>
+      <a href="/equatable-and-comparable/" title="Equatable and Comparable" class="title">Equatable and Comparable</a>
+      <time datetime="2014-09-22T00:00:00-07:00" itemprop="datePublished">September 22<sup>nd</sup>, 2014</time>
+      <p>Objective-C required us to wax philosophic  about the nature of equality and identity.  To the relief of any developer less inclined towards discursive treatises,  this is not as much the case for Swift.</p>
+    </li>
+    <li>
+      <a href="/phimagemanager/" title="PHImageManager" class="title">PHImageManager</a>
+      <time datetime="2014-09-16T00:00:00-07:00" itemprop="datePublished">September 16<sup>th</sup>, 2014</time>
+      <p>Yesterday’s article described various techniques for resizing images using APIs from the UIKit, Core Graphics, Core Image, and Image I/O frameworks. However, that article failed to mention some rather extraordinary functionality baked into the new Photos framework which takes care of all of this for you.</p>
+    </li>
+    <li>
+      <a href="/image-resizing/" title="Image Resizing Techniques" class="title">Image Resizing Techniques</a>
+      <time datetime="2014-09-15T00:00:00-07:00" itemprop="datePublished">September 15<sup>th</sup>, 2014</time>
+      <p>Since time immemorial, iOS developers have been perplexed by a singular question: ‘How do you resize an image?’. This article endeavors to provide a clear answer to this eternal question.</p>
+    </li>
+    <li>
+      <a href="/optionset/" title="OptionSet" class="title">OptionSet</a>
+      <time datetime="2014-09-08T00:00:00-07:00" itemprop="datePublished">September 8<sup>th</sup>, 2014</time>
+      <p>Objective-C uses the <code>NS_OPTIONS</code> macro to define set of values that may be combined together. Swift imports those types as structures  conforming to the <code>Option<wbr></wbr>Set</code> protocol. But could new language features in Swift provide a better option?</p>
+  </li>
+  <li>
+    <a href="/swift-default-protocol-implementations/" title="Swift Default Protocol Implementations" class="title">Swift Default Protocol Implementations</a>
+    <time datetime="2014-09-02T00:00:00-07:00" itemprop="datePublished">September 2<sup>nd</sup>, 2014</time>
+    <p>Protocols are the foundation of generics in Swift, but suffer from the lack of a built-in way to provide default implementations for methods. However, there is an interesting workaround in Swift that you probably haven’t noticed.</p>
+  </li>
+  <li>
+    <a href="/wkwebview/" title="WKWebView" class="title">WKWebView</a>
+    <time datetime="2014-08-24T00:00:00-07:00" itemprop="datePublished">August 24<sup>th</sup>, 2014</time>
+    <p>iOS has a complicated relationship with the web. And it goes back to the very inception of the platform over a decade ago.</p>
+  </li>
+  <li>
+    <a href="/swift-literals/" title="Swift Literals" class="title">Swift Literals</a>
+    <time datetime="2014-08-18T00:00:00-07:00" itemprop="datePublished">August 18<sup>th</sup>, 2014</time>
+    <p>Literals are representations of values in source code. The different kinds of literals that Swift provides — and how it makes them available — has a profound impact on how we write and think about code.</p>
+  </li>
+  <li>
+    <a href="/swift-operators/" title="Swift Operators" class="title">Swift Operators</a>
+    <time datetime="2014-08-11T00:00:00-07:00" itemprop="datePublished">August 11<sup>th</sup>, 2014</time>
+    <p>Operators are what do the work of a program. They are the very execution of an executable; the teleological driver of every process.</p>
+  </li>
+  <li>
+    <a href="/alamofire/" title="Alamofire" class="title">Alamofire</a>
+    <time datetime="2014-08-04T00:00:00-07:00" itemprop="datePublished">August 4<sup>th</sup>, 2014</time>
+    <p>Although we still have a few months to wait before we can ship apps in Swift, there is already a proliferation of open source projects built with this new language. One such project is Alamofire.</p>
+  </li>
+  <li>
+    <a href="/xctestcase/" title="XCTestCase /<br/>XCTestExpectation /<br/>
+     measureBlock()" class="title">XCTestCase /<br/>
+    XCTestExpectation /<br/>
+     measureBlock()</a>
+  <time datetime="2014-07-21T00:00:00-07:00" itemprop="datePublished">July 21<sup>st</sup>, 2014</time>
+  <p>This week, we’ll take a look at <code>XCTest</code>, the testing framework built into Xcode, as well as the exciting new additions in Xcode 6: <code>XCTest<wbr></wbr>Expectation</code> and performance tests.</p>
+</li>
+<li>
+  <a href="/nsoperation/" title="NSOperation" class="title">NSOperation</a>
+  <time datetime="2014-07-14T00:00:00-07:00" itemprop="datePublished">July 14<sup>th</sup>, 2014</time>
+  <p>In life, there’s always work to be done. Every day brings with it a steady stream of tasks and chores to fill the working hours of our existence. Productivity is, as in life as it is in programming, a matter of scheduling and prioritizing and multi-tasking work in order to keep up appearances.</p>
+</li>
+<li>
+  <a href="/nscalendarunityear/" title="NSCalendarUnitYear" class="title">NSCalendarUnitYear</a>
+  <time datetime="2014-07-07T00:00:00-07:00" itemprop="datePublished">July 7<sup>th</sup>, 2014</time>
+  <p>NSHipster.com was launched 2 years ago to the day. Each week since has featured a new article on some obscure topic in Objective-C or Cocoa (with only a couple gaps). Let’s celebrate with some cake.</p>
+</li>
+<li>
+  <a href="/clang-diagnostics/" title="Clang Diagnostics" class="title">Clang Diagnostics</a>
+  <time datetime="2014-06-16T00:00:00-07:00" itemprop="datePublished">June 16<sup>th</sup>, 2014</time>
+  <p>Diagnostics combine logic with analytics to arrive at a conclusion. It’s science and engineering at their purest. It’s human reasoning at its most potent. For us developers, our medium of code informs the production of subsequent code, creating a positive feedback loop that has catapulted the development of technology exponentially over the last half century. For us Objective-C developers specifically, the most effective diagnostics come from Clang.</p>
+</li>
+<li>
+  <a href="/ios8/" title="iOS 8" class="title">iOS 8</a>
+  <time datetime="2014-06-09T00:00:00-07:00" itemprop="datePublished">June 9<sup>th</sup>, 2014</time>
+  <p>Ask anyone, and they’ll tell you: WWDC 2014 was the one of the most exciting in recent memory. This week, we’ll take a look beneath the headline features, and share some of the more obscure APIs that everyone should know about.</p>
+</li>
+<li>
+  <a href="/nshipster-quiz-6/" title="NSHipster Quiz #6" class="title">NSHipster Quiz #6</a>
+  <time datetime="2014-06-03T00:00:00-07:00" itemprop="datePublished">June 3<sup>rd</sup>, 2014</time>
+  <p>Our second annual WWDC Pub Quiz! With dozens of teams, comprised of developers from all around the world, the competition was fierce. How will you stack up?</p>
+</li>
+<li>
+  <a href="/cocoapods/" title="CocoaPods" class="title">CocoaPods</a>
+  <time datetime="2014-05-26T00:00:00-07:00" itemprop="datePublished">May 26<sup>th</sup>, 2014</time>
+  <p>When well thought-out and implemented, infrastructure is a multiplying force that drives growth and development. In the case of Objective-C, CocoaPods has provided a much-needed tool for channeling and organizing open source participation.</p>
+</li>
+<li>
+  <a href="/benchmarking/" title="Benchmarking" class="title">Benchmarking</a>
+  <time datetime="2014-05-19T00:00:00-07:00" itemprop="datePublished">May 19<sup>th</sup>, 2014</time>
+  <p>Abstractions are necessary for doing meaningful work, but they come at a cost. By benchmarking, a programmer can uncover the hidden performance characteristics of their code, and use this information to optimize accordingly.</p>
+</li>
+<li>
+  <a href="/nshipster-quiz-5/" title="NSHipster Quiz #5" class="title">NSHipster Quiz #5</a>
+  <time datetime="2014-05-12T00:00:00-07:00" itemprop="datePublished">May 12<sup>th</sup>, 2014</time>
+  <p>This fifth incarnation of the NSHipster Quiz took on a distinct North-of-the-Border flavor, as part of the NSNorth conference in Ottawa, Ontario. Think you’re up to the challenge, eh?</p>
+</li>
+<li>
+  <a href="/ibaction-iboutlet-iboutletcollection/" title="IBAction / IBOutlet / IBOutletCollection" class="title">IBAction / IBOutlet / IBOutletCollection</a>
+  <time datetime="2014-05-05T00:00:00-07:00" itemprop="datePublished">May 5<sup>th</sup>, 2014</time>
+  <p>In programming, what often begins as a necessary instruction eventually becomes a vestigial cue for humans. For developers just starting with Cocoa &amp; Cocoa Touch, the IBAction, IBOutlet, and IBOutletCollection macros are particularly bewildering examples of this phenomenon</p>
+</li>
+<li>
+  <a href="/mkgeodesicpolyline/" title="MKGeodesicPolyline" class="title">MKGeodesicPolyline</a>
+  <time datetime="2014-04-28T00:00:00-07:00" itemprop="datePublished">April 28<sup>th</sup>, 2014</time>
+  <p>We knew that the Earth was not flat long before 1492. Early navigators observed the way ships would dip out of view over the horizon many centuries before the Age of Discovery. For many iOS developers, though, a flat MKMapView was a necessary conceit until recently.</p>
+</li>
+<li>
+  <a href="/uiactivityviewcontroller/" title="UIActivityViewController" class="title">UIActivityViewController</a>
+  <time datetime="2014-04-21T00:00:00-07:00" itemprop="datePublished">April 21<sup>st</sup>, 2014</time>
+  <p>iOS provides a unified interface for users to share and perform actions on strings, images, URLs, and other items within an app.</p>
+</li>
+<li>
+  <a href="/xcode-plugins/" title="Xcode Plugins" class="title">Xcode Plugins</a>
+  <time datetime="2014-04-14T00:00:00-07:00" itemprop="datePublished">April 14<sup>th</sup>, 2014</time>
+  <p>This week on NSHipster: a roundup of some of the most useful and exciting plugins for Xcode—ready for you to try out yourself today!</p>
+</li>
+<li>
+  <a href="/configuration-profiles/" title="Configuration Profiles" class="title">Configuration Profiles</a>
+  <time datetime="2014-04-07T00:00:00-07:00" itemprop="datePublished">April 7<sup>th</sup>, 2014</time>
+  <p>One of the major criticisms of iOS as a platform is how locked down it is. iOS Configuration Profiles offer an interesting mechanism to work around these restrictions.</p>
+</li>
+<li>
+  <a href="/avspeechsynthesizer/" title="AVSpeechSynthesizer" class="title">AVSpeechSynthesizer</a>
+  <time datetime="2014-03-31T00:00:00-07:00" itemprop="datePublished">March 31<sup>st</sup>, 2014</time>
+  <p>Though we’re a long way off from Hal or Her, we shouldn’t forget about the billions of people out there for us to talk to.</p>
+</li>
+<li>
+  <a href="/nsurl/" title="NSURL /<br/>NSURLComponents" class="title">NSURL /<br/>
+  NSURLComponents</a>
+<time datetime="2014-03-24T00:00:00-07:00" itemprop="datePublished">March 24<sup>th</sup>, 2014</time>
+<p>Of all the one-dimensional data types out there, URIs reign supreme. Here, in a single, human-parsable string, is every conceivable piece of information necessary to encode the location of any piece of information that has, does, and will ever exist on a computer.</p>
+</li>
+<li>
+  <a href="/empathy/" title="Empathy" class="title">Empathy</a>
+  <time datetime="2014-03-17T00:00:00-07:00" itemprop="datePublished">March 17<sup>th</sup>, 2014</time>
+  <p>We naturally want to help one another, to explain ideas, to be generous and patient. However, on the Internet, human nature seems to drop a few packets.</p>
+</li>
+<li>
+  <a href="/dictionary-services/" title="Dictionary Services" class="title">Dictionary Services</a>
+  <time datetime="2014-03-10T00:00:00-07:00" itemprop="datePublished">March 10<sup>th</sup>, 2014</time>
+  <p>Though widely usurped of their ‘go-to reference’ status by the Internet,  dictionaries and word lists serve an important role  behind the scenes for features ranging from  spell check, grammar check, and auto-correct to  auto-summarization and semantic analysis.</p>
+</li>
+<li>
+  <a href="/temporary-files/" title="Temporary Files" class="title">Temporary Files</a>
+  <time datetime="2014-03-03T00:00:00-08:00" itemprop="datePublished">March 3<sup>rd</sup>, 2014</time>
+  <p>Volumes have been written about persisting data,  but when it comes to short-lived, temporary files,  there is very little to go on for Cocoa.  (Or if there has, perhaps it was poetically ephemeral itself).</p>
+</li>
+<li>
+  <a href="/namespacing/" title="Namespacing" class="title">Namespacing</a>
+  <time datetime="2014-02-24T00:00:00-08:00" itemprop="datePublished">February 24<sup>th</sup>, 2014</time>
+  <p>Namespacing is the preeminent bugbear of Objective-C. A cosmetic quirk with global implications, the language’s lack of identifier containers remains a source of prodigious quantities of caremad for armchair language critics.</p>
+</li>
+<li>
+  <a href="/method-swizzling/" title="Method Swizzling" class="title">Method Swizzling</a>
+  <time datetime="2014-02-17T00:00:00-08:00" itemprop="datePublished">February 17<sup>th</sup>, 2014</time>
+  <p>Method swizzling is the process of changing the implementation of an existing selector. It’s a technique made possible by the fact that method invocations in Objective-C can be changed at runtime, by changing how selectors are mapped to underlying functions in a class’s dispatch table.</p>
+</li>
+<li>
+  <a href="/associated-objects/" title="Associated Objects" class="title">Associated Objects</a>
+  <time datetime="2014-02-10T00:00:00-08:00" itemprop="datePublished">February 10<sup>th</sup>, 2014</time>
+  <p>Associated Objects is a feature of the Objective-C 2.0 runtime, which allows objects to associate arbitrary values for keys at runtime. It’s dark juju, to be handled with as much caution as any other function from objc/runtime.h</p>
+</li>
+<li>
+  <a href="/mktileoverlay-mkmapsnapshotter-mkdirections/" title="MKTileOverlay,<br/>MKMapSnapshotter &<br/>
+  MKDirections" class="title">MKTileOverlay,<br/>
+  MKMapSnapshotter &<br/>
+  MKDirections</a>
+<time datetime="2014-02-03T00:00:00-08:00" itemprop="datePublished">February 3<sup>rd</sup>, 2014</time>
+<p>Unless you work with MKMapView. on a regular basis, the last you may have heard about the current state of cartography on iOS may not have been under the cheeriest of circumstances. Therefore, it may come as a surprise maps on iOS have gotten quite a bit better in the intervening releases. Quite good, in fact.</p>
+</li>
+<li>
+  <a href="/stewardship/" title="Stewardship" class="title">Stewardship</a>
+  <time datetime="2014-01-27T00:00:00-08:00" itemprop="datePublished">January 27<sup>th</sup>, 2014</time>
+  <p>Stewardship is an old word. It evokes the ethic of public service and duty. To be a steward is to embody the responsibilities that come with ownership. It is an act that justifies authority through continued accountability; both the greatest challenge and reward of creating and maintaining a project.</p>
+</li>
+<li>
+  <a href="/extended-file-attributes/" title="Extended File Attributes" class="title">Extended File Attributes</a>
+  <time datetime="2014-01-20T00:00:00-08:00" itemprop="datePublished">January 20<sup>th</sup>, 2014</time>
+  <p>Amidst revelations of widespread spying by the NSA, the concept of metadata has taken an unexpected role in the national conversation about government surveillance. What is it? And how much does it reveal about us and our daily habits? These are questions that the American people are asking, and they deserve an answer.</p>
+</li>
+<li>
+  <a href="/nsrange/" title="NSRange" class="title">NSRange</a>
+  <time datetime="2014-01-13T00:00:00-08:00" itemprop="datePublished">January 13<sup>th</sup>, 2014</time>
+  <p>NSRange is one of the essential types of Foundation. Passed around and returned in methods throughout the framework, being well-versed in this struct has a range of benefits.</p>
+</li>
+<li>
+  <a href="/new-years-2014/" title="Reader Submissions -<br/> New Year's 2014" class="title">Reader Submissions -<br/>
+   New Year's 2014</a>
+<time datetime="2014-01-01T00:00:00-08:00" itemprop="datePublished">January 1<sup>st</sup>, 2014</time>
+<p>As we prepare to increment our NSDateComponents -year by 1, it’s time once again for NSHipster end-of-the-year Reader Submissions!</p>
+</li>
+<li>
+  <a href="/launch-options/" title="UIApplicationDelegate launchOptions" class="title">UIApplicationDelegate launchOptions</a>
+  <time datetime="2013-12-16T00:00:00-08:00" itemprop="datePublished">December 16<sup>th</sup>, 2013</time>
+  <p>AppDelegate is the dumping ground for functionality in iOS.</p>
+</li>
+<li>
+  <a href="/multipeer-connectivity/" title="Multipeer Connectivity" class="title">Multipeer Connectivity</a>
+  <time datetime="2013-12-09T00:00:00-08:00" itemprop="datePublished">December 9<sup>th</sup>, 2013</time>
+  <p>As consumer web technologies and enterprises race towards cloud infrastructure, there is a curious and significant counter-movement towards connected devices. The Multipeer Connectivity APIs, introduced in iOS 7, therefore may well be the most significant for the platform.</p>
+</li>
+<li>
+  <a href="/nsnotification-and-nsnotificationcenter/" title="NSNotification &<br/>NSNotificationCenter" class="title">NSNotification &<br/>
+  NSNotificationCenter</a>
+<time datetime="2013-12-02T00:00:00-08:00" itemprop="datePublished">December 2<sup>nd</sup>, 2013</time>
+<p>Any idea is inextricably linked to how its communicated. A medium defines the form and scale of significance in such a way to shape the very meaning of an idea. Very truly, the medium is the message.</p>
+</li>
+<li>
+  <a href="/filemanager/" title="FileManager" class="title">FileManager</a>
+  <time datetime="2013-11-18T00:00:00-08:00" itemprop="datePublished">November 18<sup>th</sup>, 2013</time>
+  <p><code>File<wbr></wbr>Manager</code> offers a convenient way to create, read, move, copy, and delete both files and directories, whether they’re on local or networked drives or iCloud ubiquitous containers.</p>
+</li>
+<li>
+  <a href="/nsformatter/" title="NSFormatter" class="title">NSFormatter</a>
+  <time datetime="2013-11-11T00:00:00-08:00" itemprop="datePublished">November 11<sup>th</sup>, 2013</time>
+  <p>Conversion is the tireless errand of software development. Most programming tasks boil down to some variation of transforming data into something more useful.</p>
+</li>
+<li>
+  <a href="/xctool/" title="xctool" class="title">xctool</a>
+  <time datetime="2013-11-04T00:00:00-08:00" itemprop="datePublished">November 4<sup>th</sup>, 2013</time>
+  <p>Control the build system, and you control the destiny of the language, its ecosystem, and community.</p>
+</li>
+<li>
+  <a href="/nshipster-quiz-4/" title="NSHipster Quiz #4" class="title">NSHipster Quiz #4</a>
+  <time datetime="2013-10-28T00:00:00-07:00" itemprop="datePublished">October 28<sup>th</sup>, 2013</time>
+  <p>The fourth and final quiz of the year. Do you have what it takes to be the <code>NSArray -first<wbr></wbr>Object</code> among your peers?</p>
+</li>
+<li>
+  <a href="/launch-arguments-and-environment-variables/" title="Launch Arguments & <br/>Environment Variables" class="title">Launch Arguments & <br/>
+  Environment Variables</a>
+<time datetime="2013-10-21T00:00:00-07:00" itemprop="datePublished">October 21<sup>st</sup>, 2013</time>
+<p>There are a number of options that can be passed into a target’s scheme to enable useful debugging behavior, but like a fast food secret menu, they’re obscure and widely unknown.</p>
+</li>
+<li>
+  <a href="/nserror/" title="NSError" class="title">NSError</a>
+  <time datetime="2013-10-14T00:00:00-07:00" itemprop="datePublished">October 14<sup>th</sup>, 2013</time>
+  <p>NSError is the unsung hero of the Foundation framework. Passed gallantly in and out of perilous method calls, it is the messenger by which we are able to contextualize our failures.</p>
+</li>
+<li>
+  <a href="/key-value-observing/" title="Key-Value Observing" class="title">Key-Value Observing</a>
+  <time datetime="2013-10-07T00:00:00-07:00" itemprop="datePublished">October 7<sup>th</sup>, 2013</time>
+  <p>Ask anyone who’s been around the NSBlock a few times: Key-Value Observing has the <em>worst</em> API in all of Cocoa. It’s awkward, verbose, and confusing. And worst of all, its terrible API belies one of the most compelling features of the framework.</p>
+</li>
+<li>
+  <a href="/xcode-key-bindings-and-gestures/" title="Xcode Key Bindings & Gestures" class="title">Xcode Key Bindings & Gestures</a>
+  <time datetime="2013-09-30T00:00:00-07:00" itemprop="datePublished">September 30<sup>th</sup>, 2013</time>
+  <p>Xcode key bindings and gestures not only shave off seconds of precious work, but make you look more confident, competent, and cromulent in the process.</p>
+</li>
+<li>
+  <a href="/ios7/" title="iOS 7" class="title">iOS 7</a>
+  <time datetime="2013-09-23T00:00:00-07:00" itemprop="datePublished">September 23<sup>rd</sup>, 2013</time>
+  <p>With the NDA finally lifted, we can finally talk about all of the amazing new APIs in iOS 7.</p>
+</li>
+<li>
+  <a href="/afnetworking-2/" title="AFNetworking 2.0" class="title">AFNetworking 2.0</a>
+  <time datetime="2013-09-16T00:00:00-07:00" itemprop="datePublished">September 16<sup>th</sup>, 2013</time>
+  <p>AFNetworking is one of the most widely used open source projects for iOS and OS X development. It’s about as mainstream as it gets. But have you heard about the sequel?</p>
+</li>
+<li>
+  <a href="/network-link-conditioner/" title="Network Link Conditioner" class="title">Network Link Conditioner</a>
+  <time datetime="2013-09-09T00:00:00-07:00" itemprop="datePublished">September 9<sup>th</sup>, 2013</time>
+  <p>App developers often forget to test how their apps perform under less-than-ideal networking environments. Learn how you can use the Network Link conditioner  to simulate a spotty Internet connection on your device.</p>
+</li>
+<li>
+  <a href="/xcode-snippets/" title="Xcode Snippets" class="title">Xcode Snippets</a>
+  <time datetime="2013-09-02T00:00:00-07:00" itemprop="datePublished">September 2<sup>nd</sup>, 2013</time>
+  <p>iOS development all but requires the use of Xcode. And if we’re resigned to use an IDE in our development workflow, we might as well make the most of it, right? So this week on NSHipster, we’re going to talk about one of the more powerful yet underused features of Xcode: Code Snippets</p>
+</li>
+<li>
+  <a href="/equality/" title="Equality" class="title">Equality</a>
+  <time datetime="2013-08-26T00:00:00-07:00" itemprop="datePublished">August 26<sup>th</sup>, 2013</time>
+  <p>The concept of equality is a central topic in philosophy and mathematics,  with far-reaching implications for matters of  ethics, justice, and public policy.  Our task as programmers is to reconcile  our logical and physical understanding of equality  with the domains we model.</p>
+</li>
+<li>
+  <a href="/nshashtable-and-nsmaptable/" title="NSHashTable & NSMapTable" class="title">NSHashTable & NSMapTable</a>
+  <time datetime="2013-08-19T00:00:00-07:00" itemprop="datePublished">August 19<sup>th</sup>, 2013</time>
+  <p>NSSet and NSDictionary, along with NSArray are the workhorse collection classes of Foundation. Unlike other standard libraries, implementation details are hidden from developers, allowing them to write simple code and trust that it will be (reasonably) performant.</p>
+</li>
+<li>
+  <a href="/random/" title="rand(3) / random(3) / arc4random(3) / et al." class="title">rand(3) / random(3) / arc4random(3) / et al.</a>
+  <time datetime="2013-08-12T00:00:00-07:00" itemprop="datePublished">August 12<sup>th</sup>, 2013</time>
+  <p>What passes for randomness is merely a hidden chain of causality. Of course, app developers could care less about philosophy—what they want is code. Thus, our goal this week: to clear up all of the lingering questions and misunderstandings about doing random things in Objective-C</p>
+</li>
+<li>
+  <a href="/objective-c-documentation/" title="Objective-C Documentation" class="title">Objective-C Documentation</a>
+  <time datetime="2013-08-05T00:00:00-07:00" itemprop="datePublished">August 5<sup>th</sup>, 2013</time>
+  <p>There’s an adage among Cocoa developers that Objective-C’s verbosity lends its code to being effectively self-documenting. Between longMethodNamesWithNamedParameters: and the explicit typing of those parameters, Objective-C methods don’t leave much to the imagination.</p>
+</li>
+<li>
+  <a href="/nshipster-quiz-3/" title="NSHipster Quiz #3" class="title">NSHipster Quiz #3</a>
+  <time datetime="2013-07-31T00:00:00-07:00" itemprop="datePublished">July 31<sup>st</sup>, 2013</time>
+  <p>Test your mettle as NSHipster Pub Quiz goes on the road, to New York City!</p>
+</li>
+<li>
+  <a href="/uimenucontroller/" title="UIMenuController" class="title">UIMenuController</a>
+  <time datetime="2013-07-22T00:00:00-07:00" itemprop="datePublished">July 22<sup>nd</sup>, 2013</time>
+  <p>Mobile usability today is truly quite remarkable—especially considering how far it’s come in just the last decade. What was once a clumsy technology relegated to the tech elite has now become the primary mode of computation for a significant portion of the general population.</p>
+</li>
+<li>
+  <a href="/nspredicate/" title="NSPredicate" class="title">NSPredicate</a>
+  <time datetime="2013-07-15T00:00:00-07:00" itemprop="datePublished">July 15<sup>th</sup>, 2013</time>
+  <p>NSPredicate is a Foundation class that specifies how data should be fetched or filtered. Its query language, which is like a cross between a SQL WHERE clause and a regular expression, provides an expressive, natural language interface to define logical conditions on which a collection is searched.</p>
+</li>
+<li>
+  <a href="/nsexpression/" title="NSExpression" class="title">NSExpression</a>
+  <time datetime="2013-07-08T00:00:00-07:00" itemprop="datePublished">July 8<sup>th</sup>, 2013</time>
+  <p>Cocoa is the envy of other standard libraries when it comes to querying and arranging information. With NSPredicate, NSSortDescriptor, and an occasional NSFetchRequest, even the most complex data tasks can be reduced into just a few, extremely-understandable lines of code.</p>
+</li>
+<li>
+  <a href="/enumerators/" title="NSFastEnumeration / NSEnumerator" class="title">NSFastEnumeration / NSEnumerator</a>
+  <time datetime="2013-07-01T00:00:00-07:00" itemprop="datePublished">July 1<sup>st</sup>, 2013</time>
+  <p>Enumeration is where computation gets interesting. It’s one thing to encode logic that’s executed once, but applying it across a collection—that’s what makes programming so powerful.</p>
+</li>
+<li>
+  <a href="/uuid-udid-unique-identifier/" title="NSUUID /<br/>CFUUIDRef /<br/>
+  UIDevice -uniqueIdentifier /<br/>
+  -identifierForVendor" class="title">NSUUID /<br/>
+  CFUUIDRef /<br/>
+  UIDevice -uniqueIdentifier /<br/>
+  -identifierForVendor</a>
+<time datetime="2013-06-24T00:00:00-07:00" itemprop="datePublished">June 24<sup>th</sup>, 2013</time>
+<p>Until recently, it was trivial to uniquely identify devices between application launches, and even across applications: a simple call to UIDevice -uniqueIdentifier, and you were all set.</p>
+</li>
+<li>
+  <a href="/object-subscripting/" title="Object Subscripting" class="title">Object Subscripting</a>
+  <time datetime="2013-06-17T00:00:00-07:00" itemprop="datePublished">June 17<sup>th</sup>, 2013</time>
+  <p>Xcode 4.4 quietly introduced a syntactic revolution to Objective-C. Like all revolutions, however, its origins and agitators require some effort to trace.</p>
+</li>
+<li>
+  <a href="/nshipster-quiz-2/" title="NSHipster Quiz #2" class="title">NSHipster Quiz #2</a>
+  <time datetime="2013-06-12T00:00:00-07:00" itemprop="datePublished">June 12<sup>th</sup>, 2013</time>
+  <p>Go up against some of the brightest minds in all things Apple at this special WWDC edition of NSHipster Quiz. Sure, you conform to the NSHipster protocol, but do you have what it takes to implement all of the @optional methods? Take the quiz and see for yourself!</p>
+</li>
+<li>
+  <a href="/nsdatadetector/" title="NSDataDetector" class="title">NSDataDetector</a>
+  <time datetime="2013-06-02T00:00:00-07:00" itemprop="datePublished">June 2<sup>nd</sup>, 2013</time>
+  <p>Until humanity embraces RDF for our daily interactions,  computers will have to work overtime  to figure out what the heck we’re all talking about.</p>
+</li>
+<li>
+  <a href="/unit-testing/" title="Unit Testing" class="title">Unit Testing</a>
+  <time datetime="2013-05-27T00:00:00-07:00" itemprop="datePublished">May 27<sup>th</sup>, 2013</time>
+  <p>Unit Testing is an emotional topic for developers. It inspires a sense of superiority to its most zealous adherents, and evokes a feeling of inadequacy to non-practitioners. Cargo Cults like TDD stake their reputation on unit testing to the point of co-opting and conflating utility with morality.</p>
+</li>
+<li>
+  <a href="/core-data-libraries-and-utilities/" title="Core Data Libraries & Utilities" class="title">Core Data Libraries & Utilities</a>
+  <time datetime="2013-05-20T00:00:00-07:00" itemprop="datePublished">May 20<sup>th</sup>, 2013</time>
+  <p>We were a bit hard on Core Data last week, so for this issue of NSHipster, we bring you a guided tour of the best open source libraries for working with Core Data. Read on to see how you might make the most from your Core Data experience.</p>
+</li>
+<li>
+  <a href="/nscoding/" title="NSCoding / NSKeyedArchiver" class="title">NSCoding / NSKeyedArchiver</a>
+  <time datetime="2013-05-13T00:00:00-07:00" itemprop="datePublished">May 13<sup>th</sup>, 2013</time>
+  <p>Among the most important architectural decisions made when building an app is how to persist data between launches. The question of how, exactly, to re-create the state of the app from the time it was last opened; of how to describe the object graph in such a way that it can be flawlessly reconstructed next time.</p>
+</li>
+<li>
+  <a href="/gpuimage/" title="GPUImage" class="title">GPUImage</a>
+  <time datetime="2013-05-06T00:00:00-07:00" itemprop="datePublished">May 6<sup>th</sup>, 2013</time>
+  <p>GPUImage is a BSD-licensed iOS library  that lets you apply GPU-accelerated filters and other effects to images, live camera video, and movies. If you’re not careful, you may well end up creating a camera app by the end of the article.</p>
+</li>
+<li>
+  <a href="/mklocalsearch/" title="MKLocalSearch" class="title">MKLocalSearch</a>
+  <time datetime="2013-04-29T00:00:00-07:00" itemprop="datePublished">April 29<sup>th</sup>, 2013</time>
+  <p>In all of the hubbub of torch burning and pitchfork raising, you may have completely missed a slew of additions to MapKit in iOS 6.1.</p>
+</li>
+<li>
+  <a href="/nshipster-quiz-1/" title="NSHipster Quiz #1" class="title">NSHipster Quiz #1</a>
+  <time datetime="2013-04-22T00:00:00-07:00" itemprop="datePublished">April 22<sup>nd</sup>, 2013</time>
+  <p>Test your knowledge of general programming knowledge, Cocoa APIs, and Apple trivia in this first-ever NSHipster Quiz. How NSHip are you?</p>
+</li>
+<li>
+  <a href="/nssecurecoding/" title="NSSecureCoding" class="title">NSSecureCoding</a>
+  <time datetime="2013-04-15T00:00:00-07:00" itemprop="datePublished">April 15<sup>th</sup>, 2013</time>
+  <p>A short post for this week: everything you need to know about NSSecureCoding.</p>
+</li>
+<li>
+  <a href="/bool/" title="BOOL / bool / Boolean / NSCFBoolean" class="title">BOOL / bool / Boolean / NSCFBoolean</a>
+  <time datetime="2013-04-08T00:00:00-07:00" itemprop="datePublished">April 8<sup>th</sup>, 2013</time>
+  <p>Once again, encoding our logical universe into the cold, calculating bytecode of computers forces us to deal with these questions one way or another. And as you’ll see from our discussion of boolean types in Objective-C and its kin, truth is indeed stranger than fiction.</p>
+</li>
+<li>
+  <a href="/icloud/" title="iCloud" class="title">iCloud</a>
+  <time datetime="2013-04-01T00:00:00-07:00" itemprop="datePublished">April 1<sup>st</sup>, 2013</time>
+  <p>Perhaps what Apple is most renowned for is its consistent track record for creating great webservices. From consumer products like MobileMe and Ping to developer tools including the Provisioning Portal and iTunes Connect, Apple has continued to set new standards for convenience, robustness, and extensibility.</p>
+</li>
+<li>
+  <a href="/search-kit/" title="Search Kit" class="title">Search Kit</a>
+  <time datetime="2013-03-25T00:00:00-07:00" itemprop="datePublished">March 25<sup>th</sup>, 2013</time>
+  <p>Search Kit is a C framework for searching and indexing content in human languages. It supports matching on phrase or partial word, including logical &amp; wildcard operators, and can rank results by relevance. Search Kit also provides document summarization, which is useful for generating representative excerpts. And best of all: it’s thread-safe.</p>
+</li>
+<li>
+  <a href="/c-storage-classes/" title="C Storage Classes" class="title">C Storage Classes</a>
+  <time datetime="2013-03-18T00:00:00-07:00" itemprop="datePublished">March 18<sup>th</sup>, 2013</time>
+  <p>In C, the scope and lifetime of a variable or function within a program is determined by its storage class. Understanding these storage classes allows us to decipher common incantations found throughout Objective-C</p>
+</li>
+<li>
+  <a href="/uiappearance/" title="UIAppearance" class="title">UIAppearance</a>
+  <time datetime="2013-03-11T00:00:00-07:00" itemprop="datePublished">March 11<sup>th</sup>, 2013</time>
+  <p>UIAppearance allows the appearance of views and controls to be consistently defined across the entire application.</p>
+</li>
+<li>
+  <a href="/backrow/" title="Back Row" class="title">Back Row</a>
+  <time datetime="2013-03-04T00:00:00-08:00" itemprop="datePublished">March 4<sup>th</sup>, 2013</time>
+  <p>Back Row is a private framework used in the Apple TV user experience. Rather than waiting for Apple to open up the Apple TV SDK, one can take matters into their own hands.</p>
+</li>
+<li>
+  <a href="/nsassertionhandler/" title="NSAssertionHandler" class="title">NSAssertionHandler</a>
+  <time datetime="2013-02-25T00:00:00-08:00" itemprop="datePublished">February 25<sup>th</sup>, 2013</time>
+  <p>Programming incorporates numerous disciplines of human reasoning, from high-level discourse and semantics—the story we tell each other to explain how a system works—to the mathematical and philosophical machinery that underpins everything.</p>
+</li>
+<li>
+  <a href="/reactivecocoa/" title="ReactiveCocoa" class="title">ReactiveCocoa</a>
+  <time datetime="2013-02-18T00:00:00-08:00" itemprop="datePublished">February 18<sup>th</sup>, 2013</time>
+  <p>Breaking from a tradition of covering Apple APIs exclusively, this edition of NSHipster will look at an open source project that exemplifies a brave new era of open source contribution to Objective-C: ReactiveCocoa.</p>
+</li>
+<li>
+  <a href="/nsurlcache/" title="NSURLCache" class="title">NSURLCache</a>
+  <time datetime="2013-02-11T00:00:00-08:00" itemprop="datePublished">February 11<sup>th</sup>, 2013</time>
+  <p>NSURLCache provides a composite in-memory and on-disk caching mechanism for URL requests to your application. As part of Foundation’s URL Loading System, any request loaded through NSURLConnection will be handled by NSURLCache.</p>
+</li>
+<li>
+  <a href="/type-encodings/" title="Type Encodings" class="title">Type Encodings</a>
+  <time datetime="2013-02-04T00:00:00-08:00" itemprop="datePublished">February 4<sup>th</sup>, 2013</time>
+  <p>From number stations and numerology to hieroglyphics and hobo codes, there is something truly fascinating about finding meaning that hides in plain sight. Though hidden messages in and of themselves are rarely useful or particularly interesting, it’s the thrill of the hunt that piques our deepest curiosities.</p>
+</li>
+<li>
+  <a href="/nsvalue/" title="NSValue" class="title">NSValue</a>
+  <time datetime="2013-01-28T00:00:00-08:00" itemprop="datePublished">January 28<sup>th</sup>, 2013</time>
+  <p>Boxing is the process of encapsulating scalars and value types with an object container, and is primarily used to store those values in collection objects—namely arrays and dictionaries. In Foundation, the reigning featherweight champion of boxing is NSValue.</p>
+</li>
+<li>
+  <a href="/nslocalizedstring/" title="NSLocalizedString" class="title">NSLocalizedString</a>
+  <time datetime="2013-01-21T00:00:00-08:00" itemprop="datePublished">January 21<sup>st</sup>, 2013</time>
+  <p>Strings are perhaps the most versatile data type in computing. They’re passed around as symbols, used to encode numeric values, associate values to keys, represent resource paths, store linguistic content, and format information. Having a strong handle on user-facing strings is essential to making a great user experience.</p>
+</li>
+<li>
+  <a href="/__attribute__/" title="__attribute__" class="title">__attribute__</a>
+  <time datetime="2013-01-14T00:00:00-08:00" itemprop="datePublished">January 14<sup>th</sup>, 2013</time>
+  <p>A recurring theme of this publication has been the importance of a healthy relationship with the compiler. Like any craft, one’s effectiveness as a practitioner is contingent on how they treat their tools. Take good care of them, and they’ll take good care of you.</p>
+</li>
+<li>
+  <a href="/nil/" title="nil / Nil / NULL / NSNull" class="title">nil / Nil / NULL / NSNull</a>
+  <time datetime="2013-01-07T00:00:00-08:00" itemprop="datePublished">January 7<sup>th</sup>, 2013</time>
+  <p>Understanding the concept of nothingness is as much a philosophical issue as it is a pragmatic one. We are inhabitants of a universe of somethings, yet reason in a logical universe of existential uncertainties. As a physical manifestation of a logical system, computers are faced with the intractable problem of how to represent nothing with something.</p>
+</li>
+<li>
+  <a href="/new-years-2013/" title="Reader Submissions -<br/> New Year's 2013" class="title">Reader Submissions -<br/>
+   New Year's 2013</a>
+<time datetime="2013-01-01T00:00:00-08:00" itemprop="datePublished">January 1<sup>st</sup>, 2013</time>
+<p>In celebration of the forthcoming <code>year++</code>, I thought it’d be fun to compile a list of some of your favorite tips and tricks of the trade. Readers were asked to submit their favorite piece of Objective-C trivia, framework arcana, hidden Xcode feature, or anything else they thought is cool.</p>
+</li>
+<li>
+  <a href="/cggeometry/" title="CGGeometry" class="title">CGGeometry</a>
+  <time datetime="2012-12-17T00:00:00-08:00" itemprop="datePublished">December 17<sup>th</sup>, 2012</time>
+  <p>Unless you were a Math Geek or an Ancient Greek, Geometry was probably not your favorite subject in high school. No, chances are that you were that kid in class who dutifully programmed all of the necessary formulae into your TI-8X calculator. Keeping in the tradition of doing the least amount of math possible, here are some semi-obscure CoreGraphics functions to make your job easier.</p>
+</li>
+<li>
+  <a href="/instancetype/" title="instancetype" class="title">instancetype</a>
+  <time datetime="2012-12-10T00:00:00-08:00" itemprop="datePublished">December 10<sup>th</sup>, 2012</time>
+  <p>Objective-C is a rapidly evolving language, in a way that you just don’t see in established programming languages. Developments range from the mundane to paradigm-changing, but telling the difference takes practice. Because we’re talking about low-level language features, it’s difficult to understand what implications they may have higher up with API design.</p>
+</li>
+<li>
+  <a href="/kvc-collection-operators/" title="KVC Collection Operators" class="title">KVC Collection Operators</a>
+  <time datetime="2012-12-03T00:00:00-08:00" itemprop="datePublished">December 3<sup>rd</sup>, 2012</time>
+  <p>Rubyists laugh at Objective-C’s bloated syntax. Although we lost a few pounds over the summer with our sleek new object literals, those Red-headed bullies still taunt us with their map one-liners and their fancy Symbol#to_proc. Fortunately, Key-Value Coding has an ace up its sleeves.</p>
+</li>
+<li>
+  <a href="/nsorderedset/" title="NSOrderedSet" class="title">NSOrderedSet</a>
+  <time datetime="2012-11-26T00:00:00-08:00" itemprop="datePublished">November 26<sup>th</sup>, 2012</time>
+  <p>Why isn’t NSOrderedSet a subclass of NSSet? The answer may surprise you.</p>
+</li>
+<li>
+  <a href="/ns_enum-ns_options/" title="NS_ENUM & NS_OPTIONS" class="title">NS_ENUM & NS_OPTIONS</a>
+  <time datetime="2012-11-19T00:00:00-08:00" itemprop="datePublished">November 19<sup>th</sup>, 2012</time>
+  <p>A skilled Objective-C developer is able to gracefully switch between Objective and Procedural paradigms, and use each to their own advantage.</p>
+</li>
+<li>
+  <a href="/valuetransformer/" title="ValueTransformer" class="title">ValueTransformer</a>
+  <time datetime="2012-11-12T00:00:00-08:00" itemprop="datePublished">November 12<sup>th</sup>, 2012</time>
+  <p><code>Value<wbr></wbr>Transformer</code> is perhaps the one that fared the worst in the shift from macOS to iOS. But you know what? It’s ripe for a comeback.  With a little bit of re-tooling and some recontextualization, this blast from the past could be the next big thing in your application.</p>
+</li>
+<li>
+  <a href="/nsurlprotocol/" title="NSURLProtocol" class="title">NSURLProtocol</a>
+  <time datetime="2012-11-05T00:00:00-08:00" itemprop="datePublished">November 5<sup>th</sup>, 2012</time>
+  <p>Foundation’s URL Loading System is something that every iOS developer would do well to buddy up with. And of all of networking classes and protocols of Foundation, NSURLProtocol is perhaps the most obscure and powerful.</p>
+</li>
+<li>
+  <a href="/uilocalizedindexedcollation/" title="UILocalizedIndexedCollation" class="title">UILocalizedIndexedCollation</a>
+  <time datetime="2012-10-29T00:00:00-07:00" itemprop="datePublished">October 29<sup>th</sup>, 2012</time>
+  <p>UITableView starts to become unwieldy once it gets to a few hundred rows. If users are reduced to frantically scratching at the screen like a cat playing Fruit Ninja in order to get at what they want… you may want to rethink your UI approach.</p>
+</li>
+<li>
+  <a href="/nslinguistictagger/" title="NSLinguisticTagger" class="title">NSLinguisticTagger</a>
+  <time datetime="2012-10-22T00:00:00-07:00" itemprop="datePublished">October 22<sup>nd</sup>, 2012</time>
+  <p>NSLinguisticTagger is a veritable Swiss Army Knife of linguistic functionality, with the ability to tokenize natural language strings into words, determine their part-of-speech &amp; stem, extract names of people, places, &amp; organizations, and tell you the languages &amp; respective writing system used in the string.</p>
+</li>
+<li>
+  <a href="/addressbookui/" title="AddressBookUI" class="title">AddressBookUI</a>
+  <time datetime="2012-10-15T00:00:00-07:00" itemprop="datePublished">October 15<sup>th</sup>, 2012</time>
+  <p>Address Book UI is an iOS framework for displaying, selecting, editing, and creating contacts in a user’s Address Book. Similar to the Message UI framework, Address Book UI contains a number of controllers that can be presented modally, to provide common system functionality in a uniform interface.</p>
+</li>
+<li>
+  <a href="/at-compiler-directives/" title="@" class="title">@</a>
+  <time datetime="2012-10-08T00:00:00-07:00" itemprop="datePublished">October 8<sup>th</sup>, 2012</time>
+  <p>If we were to go code-watching for Objective-C, what would we look for? Square brackets, ridiculously-long method names, and <code>@</code>’s. “at” sign compiler directives are as central to understanding Objective-C’s gestalt as its ancestry and underlying mechanisms. It’s the sugary glue that allows Objective-C to be such a powerful, expressive language, and yet still compile all the way down to C.</p>
+</li>
+<li>
+  <a href="/pragma/" title="#pragma" class="title">#pragma</a>
+  <time datetime="2012-10-01T00:00:00-07:00" itemprop="datePublished">October 1<sup>st</sup>, 2012</time>
+  <p><code>#pragma</code> declarations are a mark of craftsmanship in Objective-C. Although originally purposed for compiling source code across many different compilers, the modern Xcode-savvy programmer uses #pragma declarations to very different ends.</p>
+</li>
+<li>
+  <a href="/uicollectionview/" title="UICollectionView" class="title">UICollectionView</a>
+  <time datetime="2012-09-24T00:00:00-07:00" itemprop="datePublished">September 24<sup>th</sup>, 2012</time>
+  <p>UICollectionView single-handedly changes the way we will design and develop iOS apps from here on out. This is not to say that collection views are in any way unknown or obscure. But being an NSHipster isn’t just about knowing obscure gems in the rough. Sometimes, it’s about knowing about up-and-comers before they become popular and sell out.</p>
+</li>
+<li>
+  <a href="/characterset/" title="CharacterSet" class="title">CharacterSet</a>
+  <time datetime="2012-09-17T00:00:00-07:00" itemprop="datePublished">September 17<sup>th</sup>, 2012</time>
+  <p><code>Character<wbr></wbr>Set</code> isn’t a set and it doesn’t contain <code>Character</code> values. Before we use it to trim, filter, and search through text, we should take a closer look to see what’s actually going on.</p>
+</li>
+<li>
+  <a href="/uiaccessibility/" title="UIAccessibility" class="title">UIAccessibility</a>
+  <time datetime="2012-09-10T00:00:00-07:00" itemprop="datePublished">September 10<sup>th</sup>, 2012</time>
+  <p>Accessibility, like internationalization, is one of those topics that’s difficult to get developers excited about. But as you know, NSHipster is all about getting developers excited about this kind of stuff.</p>
+</li>
+<li>
+  <a href="/locale/" title="Locale" class="title">Locale</a>
+  <time datetime="2012-09-03T00:00:00-07:00" itemprop="datePublished">September 3<sup>rd</sup>, 2012</time>
+  <p>The hardest thing about internationalization  <em>(aside from saying the word itself)</em> is learning how to think outside of your cultural context. Unless you’ve had the privelage to travel  or to meet people from other places, you may not even be aware that things could <em>be</em> any other way.</p>
+</li>
+<li>
+  <a href="/cfbag/" title="CFBag" class="title">CFBag</a>
+  <time datetime="2012-08-27T00:00:00-07:00" itemprop="datePublished">August 27<sup>th</sup>, 2012</time>
+  <p>In the pantheon of collection data types in computer science, bag doesn’t really have the same clout as lists, sets, associative arrays, trees, graphs, or priority queues. In fact, it’s pretty obscure. You’ve probably never heard of it.</p>
+</li>
+<li>
+  <a href="/nsincrementalstore/" title="NSIncrementalStore" class="title">NSIncrementalStore</a>
+  <time datetime="2012-08-13T00:00:00-07:00" itemprop="datePublished">August 13<sup>th</sup>, 2012</time>
+  <p>Even for a blog dedicated to obscure APIs, <code>NSIncremental<wbr></wbr>Store</code> sets a new standard. It was introduced in iOS 5, with no more fanfare than the requisite entry in the SDK changelog. Ironically, it is arguably the most important thing to come out of iOS 5, which will completely change the way we build apps from here on out.</p>
+</li>
+<li>
+  <a href="/cfstringtransform/" title="CFStringTransform" class="title">CFStringTransform</a>
+  <time datetime="2012-08-06T00:00:00-07:00" itemprop="datePublished">August 6<sup>th</sup>, 2012</time>
+  <p>NSString is the crown jewel of Foundation. But as powerful as it is, one would be remiss not to mention its toll-free bridged cousin, CFMutableString—or more specifically, CFStringTransform.</p>
+</li>
+<li>
+  <a href="/datecomponents/" title="DateComponents" class="title">DateComponents</a>
+  <time datetime="2012-07-31T00:00:00-07:00" itemprop="datePublished">July 31<sup>st</sup>, 2012</time>
+  <p><code>Date<wbr></wbr>Components</code> is a useful, but ambiguous type. Taken in one context, date components can be used to represent a specific calendar date. But in another context, the same object might instead be used as a duration of time.</p>
+</li>
+<li>
+  <a href="/nssortdescriptor/" title="NSSortDescriptor" class="title">NSSortDescriptor</a>
+  <time datetime="2012-07-24T00:00:00-07:00" itemprop="datePublished">July 24<sup>th</sup>, 2012</time>
+  <p>Sorting: it’s the mainstay of Computer Science 101 exams and whiteboarding interview questions. But when was the last time you actually needed to know how to implement Quicksort yourself?</p>
+</li>
+<li>
+  <a href="/nscache/" title="NSCache" class="title">NSCache</a>
+  <time datetime="2012-07-14T00:00:00-07:00" itemprop="datePublished">July 14<sup>th</sup>, 2012</time>
+  <p>Poor NSCache, always being overshadowed by NSMutableDictionary. It’s as if no one knew how it provides all of that garbage collection behavior that developers take great pains to re-implement themselves.</p>
+</li>
+<li>
+  <a href="/nsindexset/" title="NSIndexSet" class="title">NSIndexSet</a>
+  <time datetime="2012-07-07T00:00:00-07:00" itemprop="datePublished">July 7<sup>th</sup>, 2012</time>
+  <p>NSIndexSet (like its mutable counterpart, NSMutableIndexSet) is a sorted collection of unique unsigned integers. Think of it like an NSRange that supports non-contiguous series. It has wicked fast operations for finding indexes in ranges or set intersections, and comes with all of the convenience methods you’d expect in a Foundation collection class.</p>
+</li>
+</ol>
+</section>
+</article>
+</main>
+<footer role="contentinfo">
+  <section class="credits colophon">
+    <p>
+      <i aria-hidden="true" class="icon-cc" title="Creative Commons"></i>
+      <i aria-hidden="true" class="icon-by" title="Attribution"></i>
+      <i aria-hidden="true" class="icon-nc" title="Non-Commercial"></i>
+      NSHipster.com is released under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">Creative Commons BY-NC License</a>.
+    </p>
+    <p>
+      NSHipster is also available in
+      <a href="https://nshipster.cn" hreflang="zh-Hans">Chinese (Simplified)</a>,
+      <a href="https://nshipster.co.kr" hreflang="ko">Korean</a>,
+      <a href="https://nshipster.fr" hreflang="fr">French</a>, and
+      <a href="https://nshipster.es" hreflang="es">Spanish</a>
+      .
+    </p>
+    <a href="https://plus.google.com/105091289906267717942" rel="publisher" hidden aria-hidden="true"></a>
+  </section>
+</footer>
+</div>
+<script async="async" src="/assets/application-7c59b22d22e826c0d17fc358aa9a2008daa8b396741ab2ef1a854e4780b0c624.js" integrity="sha256-fFmyLSLoJsDRf8NYqpogCNqos5Z0GrLvGoVOR4CwxiQ=" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NSHipster",
+    "legalName": "NSHipster, LLC",
+    "url": "https://nshipster.com",
+    "logo": "https://nshipster.com/logo.png",
+    "foundingDate": "2012",
+    "founders": [{
+      "@type": "Person",
+      "name": "Mattt"
+    }],
+    "sameAs": [
+      "https://twitter.com/nshipster",
+      "https://github.com/nshipster",
+      "https://plus.google.com/+NSHipster",
+      "https://www.facebook.com/NSHipster"
+    ]
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://nshipster.com",
+    "name": "NSHipster",
+    "author": {
+      "@type": "Person",
+      "name": "Mattt"
+    },
+    "description": "NSHipster is a journal of the overlooked bits in Objective-C, Swift, and Cocoa. Updated weekly.
+  ",
+    "publisher": "Read Evaluate Press, LLC"
+  }
+</script>
+<script type="application/cereal+json">
+    {
+        "endpoint": "https://analytics.nshipster.com/",
+        "property": 1
+    }
+</script>
+<script async defer src="https://analytics.nshipster.com/tracker.js"></script></body>
+</html>

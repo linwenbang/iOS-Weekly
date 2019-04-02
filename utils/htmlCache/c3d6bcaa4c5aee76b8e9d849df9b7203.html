@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="hexed bits, apps, iOS, objective-c, swift, cocoa, apple, xcode, app store, software, programming, engineering, design patterns, ethics, ethics of tech">
+    <meta name="description" content="Turing complete with a stack of 0xdeadbeef">
+    <meta name="author" content="Jesse Squires">
+    <title>
+        
+            Debugging a subtle Swift bug that will make you facepalm &middot; Jesse Squires
+        
+    </title>
+
+    <meta itemprop="canonical" href="https://www.jessesquires.com/blog/debugging-subtle-swift-bug-facepalm/" />
+    <meta itemprop="url" content="https://www.jessesquires.com/blog/debugging-subtle-swift-bug-facepalm/" />
+    <meta itemprop="about" content="Turing complete with a stack of 0xdeadbeef" />
+
+    
+    <meta itemprop="name" content="Debugging a subtle Swift bug that will make you facepalm" />
+    <meta itemprop="description" content="The other day I was debugging a crash in a UI test for an open pull request at work. The bug turned out to be extremely subtle and difficult to notice. I spent way too much time staring at the..." />
+    
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Jesse Squires" />
+    <meta property="og:url" content="https://www.jessesquires.com/blog/debugging-subtle-swift-bug-facepalm/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    
+    <meta property="og:image" content="https://www.jessesquires.com/img/swift-function-ref.jpg" />
+    
+
+    
+    <meta property="og:title" content="Debugging a subtle Swift bug that will make you facepalm" />
+    <meta property="og:description" content="The other day I was debugging a crash in a UI test for an open pull request at work. The bug turned out to be extremely subtle and difficult to notice. I spent way too much time staring at the..."/>
+    
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@jesse_squires" />
+    <meta name="twitter:creator" content="@jesse_squires" />
+
+    
+    <meta name="twitter:image" content="https://www.jessesquires.com/img/swift-function-ref.jpg" />
+    
+
+    
+    <meta name="twitter:title" content="Debugging a subtle Swift bug that will make you facepalm" />
+    <meta name="twitter:description" content="The other day I was debugging a crash in a UI test for an open pull request at work. The bug turned out to be extremely subtle and difficult to notice. I spent way too much time staring at the..." />
+    
+
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/font/ubuntuMono/ubuntuMono.css" rel="stylesheet">
+    <link href="/css/syntax.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/ico/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/ico/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="/ico/apple-touch-icon.png">
+
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Jesse Squires" />
+    <link type="application/json" rel="alternate" href="/feed.json" title="Jesse Squires" />
+</head>
+
+   <body>
+      
+<header class="container container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1><a href="/">Jesse Squires</a></h1>
+        </div> <!-- col -->
+   </div> <!-- row -->
+
+    <div class="row">
+        <div class="col">
+            <h2>&mdash; Turing complete with a stack of <code>0xdeadbeef</code> &mdash;</h2>
+        </div> <!-- col -->
+     </div> <!-- row -->
+
+    <div class="row justify-content-md-center">
+        <div class="col"></div>
+        <div class="col-12 col-md-8">
+            <ul class="nav nav-tabs justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link " href="/">Writing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/speaking/">Speaking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/about/">About</a>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="col"></div>
+    </div>
+   <br/>
+</header>
+
+
+      <div class="container">
+         <div class="row justify-content-md-center">
+            <div class="col"></div>
+            <div class="col-12 col-md-8">
+               
+
+
+
+
+
+
+
+
+<article>
+    
+
+<h1 class="post-title"><a href="/blog/debugging-subtle-swift-bug-facepalm/">Debugging a subtle Swift bug that will make you facepalm</a></h1>
+
+
+    <h2 class="post-date-subtitle post-date">07 Nov 2018</h2>
+
+
+
+
+
+
+
+    <div class="post-content">
+        <p>The other day I was debugging a crash in a UI test for an open pull request at work. The bug turned out to be extremely subtle and difficult to notice. I spent way too much time staring at the changes, trying to understand what was wrong. Let’s see if you can spot the error.</p>
+
+<!--excerpt-->
+
+<p>Here’s the problematic line:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">toDictionary</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">dict</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:]</span>
+
+    <span class="c1">// code setting other keys and values...</span>
+
+    <span class="n">dict</span><span class="p">[</span><span class="kt">JSONKeys</span><span class="o">.</span><span class="n">dateClosed</span><span class="p">]</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">dateClosed</span><span class="p">?</span><span class="o">.</span><span class="n">toMongoDate</span>
+
+    <span class="k">return</span> <span class="n">dict</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The details here don’t matter. This is some legacy JSON serialization code, predating the introduction of <code class="highlighter-rouge">Codable</code> (<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0166-swift-archival-serialization.md">SE-0166</a> and <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0167-swift-encoders.md">SE-0167</a>). This function serializes the object to a JSON dictionary, <code class="highlighter-rouge">self.dateClosed</code> is a <code class="highlighter-rouge">Date</code> type, and <code class="highlighter-rouge">JSONKeys.dateClosed</code> is a <code class="highlighter-rouge">String</code> constant.</p>
+
+<p>But what’s the bug? Let’s look at the definition of <code class="highlighter-rouge">toMongoDate</code> (also some legacy code).</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">extension</span> <span class="kt">Date</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">toMongoDate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span>
+        <span class="c1">// return date in expected mongo date format</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Seems fine, right? Everything compiles. There’s no issue with putting a <code class="highlighter-rouge">[String: Any]</code> dictionary as the value in another <code class="highlighter-rouge">[String: Any]</code> dictionary. <code class="highlighter-rouge">Any</code> can be <em>any</em> type. But that’s what the problem turned out to be.</p>
+
+<p>Let’s look at that line again: <code class="highlighter-rouge">self.dateClosed?.toMongoDate</code>. This returns <em>the function</em> <code class="highlighter-rouge">toMongoDate</code>. That is, the reference type <code class="highlighter-rouge">() -&gt; [String: Any]</code> — <strong>not</strong> the <em>result</em> of calling the function. I forgot the parentheses <code class="highlighter-rouge">()</code>. That line should read <code class="highlighter-rouge">self.dateClosed?.toMongoDate()</code>. However, this worked and the compiler did not complain because functions are first class types, and setting a function as the value of a <code class="highlighter-rouge">[String: Any]</code> dictionary is valid. This is clearly an argument for adopting <a href="https://developer.apple.com/documentation/swift/codable"><code class="highlighter-rouge">Codable</code></a>, which would have prevented this mistake.</p>
+
+<p>What’s worse: this exact error has happened in our code base in at least one other scenario. It’s so easy to overlook.</p>
+
+<p>Much faceplam.</p>
+
+<div class="row">
+    <div class="col"></div>
+    <div class="d-flex justify-content-center col-12 ">
+        <figure>
+            <img class="img-thumbnail img-fluid" src="/img/swift-function-ref.jpg" title="" alt="" />
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                
+                </div>
+            </div>
+        </figure>
+    </div>
+    <div class="col"></div>
+</div>
+
+
+    </div> <!-- post-content -->
+</article>
+
+
+
+
+
+
+
+
+
+<div class="post-share-subscribe">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <div class="btn-group" role="group">
+
+            <div class="btn-group dropup" role="group">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Share <i class="fa fa-share-alt" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Share this post</h6>
+                    <a class="dropdown-item btn-sm" href="https://twitter.com/intent/tweet?text=Debugging%20a%20subtle%20Swift%20bug%20that%20will%20make%20you%20facepalm%20https://www.jessesquires.com/blog/debugging-subtle-swift-bug-facepalm/%20via%20@jesse_squires" title="Tweet" target="_blank">
+                        Twitter &nbsp;<i class="fa fa-twitter" aria-hidden="true"></i>
+                    </a>
+                    <a class="dropdown-item btn-sm" href="https://www.facebook.com/sharer.php?u=https://www.jessesquires.com/blog/debugging-subtle-swift-bug-facepalm/" title="Post" target="_blank">
+                        Facebook &nbsp;<i class="fa fa-facebook" aria-hidden="true"></i>
+                    </a>
+                </div>  <!-- dropdown-menu -->
+            </div> <!-- btn-group dropup -->
+
+            <div class="btn-group dropup" role="group">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Subscribe <i class="fa fa-rss" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Subscribe</h6>
+                    <a class="dropdown-item btn-sm" href="/feed.xml" title="Subscribe via RSS/Atom">
+                        RSS/Atom &nbsp;<i class="fa fa-rss" aria-hidden="true"></i>
+                    </a>
+                    <a class="dropdown-item btn-sm" href="/feed.json" title="Subscribe via JSON Feed">
+                        JSON Feed &nbsp;<i class="fa fa-code" aria-hidden="true"></i>
+                    </a>
+                    <a class="dropdown-item btn-sm" href="https://apple.news/Td_gVU2BDSS2oPbz_sD150w" title="Add to Apple News">
+                        Apple News &nbsp;<i class="fa fa-apple" aria-hidden="true"></i>
+                    </a>
+                </div>  <!-- dropdown-menu -->
+            </div> <!-- btn-group dropup -->
+
+            <div class="btn-group dropup" role="group">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Support <i class="fa fa-star" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Donate to support</h6>
+                    <a class="dropdown-item btn-sm" href="https://www.paypal.me/jessesquires" title="Donate via PayPal" target="_blank">
+                        PayPal &nbsp;<i class="fa fa-paypal" aria-hidden="true"></i>
+                    </a>
+                    <a class="dropdown-item btn-sm" href="https://cash.me/$jsq" title="Donate via Square Cash" target="_blank">
+                        Square &nbsp;<i class="fa fa-dollar" aria-hidden="true"></i>
+                    </a>
+                </div>  <!-- dropdown-menu -->
+            </div> <!-- btn-group dropup -->
+
+            </div> <!-- btn-group -->
+        </div> <!-- col -->
+    </div> <!-- row -->
+
+    <div class="row">
+        <div class="col">
+            <p class="text-muted text-center"><small><b>Questions? Feedback? Corrections?</b></small></p>
+            <p class="text-muted text-center">
+                <small>
+                    Open an <a href="https://github.com/jessesquires/jessesquires.com/issues/new?title=Debugging a subtle Swift bug that will make you facepalm&body=Comments, Questions, Feedback: https://www.jessesquires.com/blog/debugging-subtle-swift-bug-facepalm/&labels=blog%20comments%20%26%20questions" target="_blank"><b>issue</b></a>,
+                    submit a <a href="https://github.com/jessesquires/jessesquires.com/compare" target="_blank"><b>pull request</b></a>,
+                    or <a href="https://github.com/jessesquires/jessesquires.com/edit/master/_posts/2018-11-07-debugging-subtle-swift-bug-facepalm.md" target="_blank"><b>edit</b></a> this post.
+                </small>
+            </p>
+        </div> <!-- col -->
+    </div> <!-- row -->
+
+</div> <!-- post-share-subscribe -->
+
+
+            </div>
+            <div class="col"></div>
+         </div> <!-- row -->
+      </div> <!-- container -->
+
+      
+<footer class="container container-fluid">
+   <hr>
+
+   
+<div class="container text-center contact-follow">
+    <div class="row">
+        <div class="col">
+            <ul class="list-inline list-unstyled">
+                <li class="list-inline-item">
+                    <a href="https://github.com/jessesquires/" title="Follow me on Github"><i class="fa fa-lg fa-github" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://stackoverflow.com/users/2195632/jessesquires" title="StackOverflow"><i class="fa fa-lg fa-stack-overflow" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://twitter.com/jesse_squires" title="Follow me on Twitter"><i class="fa fa-lg fa-twitter" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://www.linkedin.com/in/jessesquires" title="Connect with me on LinkedIn"><i class="fa fa-lg fa-linkedin" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://keybase.io/jsq" title="Message me on Keybase"><i class="fa fa-lg fa-key" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="/feed.xml" title="Subscribe via RSS/atom"><i class="fa fa-lg fa-rss-square" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://apple.news/Td_gVU2BDSS2oPbz_sD150w" title="Add to Apple News"><i class="fa fa-lg fa-apple" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="/pay" title="Send money"><i class="fa fa-lg fa-money" aria-hidden="true"></i></a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="/search" title="Search"><i class="fa fa-lg fa-search" aria-hidden="true"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+   <p class="text-muted text-center"><small>
+   &copy; 2014-2019 Jesse Squires.
+   This site is <a href="https://github.com/jessesquires/jessesquires.com">open source</a>.
+   </small></p>
+</footer>
+
+
+      
+<script src="/node_modules/jquery/dist/jquery.slim.min.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+   </body>
+</html>
