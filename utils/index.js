@@ -2,12 +2,30 @@ const express = require('express');
 const app = express();
 
 // ...
+let isURL = (str) => {
+  return !!str.match(/(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g);
+}
+
+let isNoURLOrInWhiteList = (urlstring) => {
+  
+  if (!isURL(urlstring)) {
+    console.log(`it is not url format - ${urlstring}`)
+    return true;
+  }
+
+  let list = ['weibo.com','www.baidu.com','baidu.com']
+  var url = require('url');
+
+  let hostname = url.parse(urlstring).hostname
+  console.log(hostname)
+
+  return list.indexOf(hostname) >= 0
+}
 
 let parseCotent = (tag, url, html) => {
 
   
   var fs = require("fs")
-  console.log("准备写入文件");
   var md5 = require('md5');
   let dirname = './htmlCache/' + tag
   let filename = dirname + '/' + md5(url)+'.html'
@@ -16,27 +34,35 @@ let parseCotent = (tag, url, html) => {
     fs.mkdirSync(dirname);
   }
 
-  fs.writeFile(filename, html,  function(err) {
+  const cheerio = require('cheerio');
+  let $ = cheerio.load(html);
+
+  var maxDivContent = ""
+  $('body div').each(function(i, ele) {
+    var temp = $(this).html()
+    if (maxDivContent.length < temp.length) {
+      maxDivContent = temp
+    } 
+  })
+
+  if (!maxDivContent) {
+    console.log(`get html body error ${url}`)
+    return;
+  }
+
+  var TurndownService = require('turndown')
+
+  var turndownService = new TurndownService()
+  var markdown = turndownService.turndown(maxDivContent)
+
+  console.log(`will wirte ${filename} - ${url}`);
+  fs.writeFile(filename, markdown,  function(err) {
     if (err) {
         return console.error(err);
     }
-    console.log(`write ${url} successfully`)
+    console.log(`write ${filename} - ${url} successfully`)
   });
 
-  // // 引入所需要的第三方包
-  // const cheerio = require('cheerio');
-  // let $ = cheerio.load(content);
-
-  // // 找到目标数据所在的页面元素，获取数据
-  // $('div#pane-news ul li a').each((idx, ele) => {
-  //   // cherrio中$('selector').each()用来遍历所有匹配到的DOM元素
-  //   // 参数idx是当前遍历的元素的索引，ele就是当前便利的DOM元素
-  //   let news = {
-  //     title: $(ele).text(),        // 获取新闻标题
-  //     href: $(ele).attr('href')    // 获取新闻网页链接
-  //   };
-  //   hotNews.push(news)              // 存入最终结果数组
-  // });
 }
 
 let fetchContent = (tag, item) => {
@@ -44,15 +70,17 @@ let fetchContent = (tag, item) => {
   console.log(`tag ${tag}`)
 
   let url = item.match(/\((.+)\)/)[1]
+  if (isNoURLOrInWhiteList(url)) {
+    console.log(`whilte list ${url}`)
+    return;
+  }
+
   console.log("will load url: " + url)
+  
 
   // 引入所需要的第三方包
   const superagent= require('superagent');
 
-  /**
-   * index.js
-   * [description] - 使用superagent.get()方法来访问百度新闻首页
-   */
   superagent.get(encodeURI(url)).end((err, res) => {
     if (err) {
       // 如果访问失败或者出错，会这行这里
@@ -87,58 +115,23 @@ let loadReleaseList = () => {
     if (error) throw new Error(error);
     // console.log(response)
     // console.log();
-    for (let item of JSON.parse(body)) {
+    var model = JSON.parse(body)
+    if (model.message) {
+      console.log(model.message)
+      return 
+    }
+
+    for (let item of model) {
       handleItem(item)
     }
   });
 
 
 }
+// https://9to5mac.com/2018/10/06/ios-12-now-installed-on-50-of-devices-outpacing-ios-11/
+fetchContent("16465370", "[Swift](https://swift.gg/2019/01/21/streaming-multipart-requests/)")
 
+// fetchContent("16465370", "[Swift](https://9to5mac.com/2018/10/06/ios-12-now-installed-on-50-of-devices-outpacing-ios-11/)")
+// fetchContent("16465370", "[Swift](https://mp.weixin.qq.com/s/-fLVdoTz3lT5Kxnea0-Avg)")
 
-loadReleaseList();
-// fetchContent("[url](https://www.macstories.net/ios/shortcuts-2-2-brings-new-apple-notes-actions-travel-time-enhancements/)")
-
-
-// let server = app.listen(3000, function () {
-//   let host = server.address().address;
-//   let port = server.address().port;
-//   console.log('Your App is running at http://%s:%s', host, port);
-// });
-
-
-// app.get('/', function (req, res) {
-//   res.send(hotNews);
-// });
-
-
-
-
-// /**
-//  * index.js
-//  * [description] - 抓取热点新闻页面
-//  */
-// // 引入所需要的第三方包
-// const cheerio = require('cheerio');
-
-// let getHotNews = (res) => {
-//   let hotNews = [];
-//   // 访问成功，请求http://news.baidu.com/页面所返回的数据会包含在res.text中。
-  
-//   /* 使用cheerio模块的cherrio.load()方法，将HTMLdocument作为参数传入函数
-//      以后就可以使用类似jQuery的$(selectior)的方式来获取页面元素
-//    */
-//   let $ = cheerio.load(res.text);
-
-//   // 找到目标数据所在的页面元素，获取数据
-//   $('div#pane-news ul li a').each((idx, ele) => {
-//     // cherrio中$('selector').each()用来遍历所有匹配到的DOM元素
-//     // 参数idx是当前遍历的元素的索引，ele就是当前便利的DOM元素
-//     let news = {
-//       title: $(ele).text(),        // 获取新闻标题
-//       href: $(ele).attr('href')    // 获取新闻网页链接
-//     };
-//     hotNews.push(news)              // 存入最终结果数组
-//   });
-//   return hotNews
-// };
+// loadReleaseList();
